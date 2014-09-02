@@ -1,0 +1,34 @@
+/ How to make errors show on this page?
+/ -if @project.errors.any?
+/   ul
+/   - @project.errors.full_messages.each do |error|
+/     li = error
+
+h1 Creator Tool
+=render 'templates_form'
+
+ul.nav.nav-tabs role="tablist" 
+  li.active
+    a data-toggle="tab" href="#monster_template" role="tab"  Monster Template
+  li
+    a data-toggle="tab" href="#effect" role="tab"  Effects
+  li
+    a data-toggle="tab" href="#ability" role="tab"  Abilities
+  li
+    a data-toggle="tab" href="#monster_skin" role="tab"  Monster Skins
+
+.tab-content
+  #monster_template.tab-pane.active
+    =render 'monster_template_form'
+    =render 'monster_template_show'
+
+  #effect.tab-pane
+    =render 'effect_form'
+    =render 'effect_show'
+
+  #ability.tab-pane
+    =render 'ability_form'
+    =render 'ability_show'
+  
+  #monster_skin.tab-pane
+    p Coming Soon.... Maybe One Day

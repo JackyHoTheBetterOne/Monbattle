@@ -1,0 +1,55 @@
+button.btn.btn-primary data-target="#classModal" data-toggle="modal" 
+  | Create New Class
+/! Modal
+#classModal.modal.fade aria-hidden="true" aria-labelledby="classModalLabel" role="dialog" tabindex="-1" 
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" type="button" 
+          span aria-hidden="true"  &times;
+          span.sr-only Close
+        h4#classModalLabel.modal-title New Class
+      .modal-body
+        =form_for @class_template do |f|
+          .form-group
+            =f.label :name
+            =f.text_field :name, class: 'form-control'
+            = f.submit class: 'btn btn-primary'
+        hr
+        -if @class_templates.empty?
+        -else
+          h4 Current Classes:
+          -@class_templates.each do |class_t|
+            =link_to " #{class_t.name} ", class_t, method: :delete, data: {confirm: "Delete?"}, class: "btn btn-sm btn-danger"
+      .modal-footer
+        button.btn.btn-default data-dismiss="modal" type="button"  Close
+
+button.btn.btn-primary data-target="#elementModal" data-toggle="modal" 
+  | Create New Element
+/! Modal
+#elementModal.modal.fade aria-hidden="true" aria-labelledby="elementModalLabel" role="dialog" tabindex="-1" 
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" type="button" 
+          span aria-hidden="true"  &times;
+          span.sr-only Close
+        h4#elementModalLabel.modal-title New Element
+      .modal-body
+        =form_for ElementTemplate.new do |f|
+          .form-group
+            =f.label :name
+            =f.text_field :name, class: 'form-control'
+            = f.submit class: 'btn btn-primary'
+        hr
+        -if @element_templates.empty?
+        -else
+          h4 Current Classes:
+          -@element_templates.each do |element|
+            =link_to " #{element.name} ", element, method: :delete, data: {confirm: "Delete?"}, class: "btn btn-sm btn-danger"
+      .modal-footer
+        button.btn.btn-default data-dismiss="modal" type="button"  Close
+hr                
+
+
+

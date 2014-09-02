@@ -1,0 +1,2 @@
+module MonsterSkinPurchasesHelper
+end

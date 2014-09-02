@@ -1,0 +1,55 @@
+br
+button.btn.btn-primary data-target="#monsterTemplateModal" data-toggle="modal" 
+  | Create A New Monster Template
+/! Modal
+#monsterTemplateModal.modal.fade aria-hidden="true" aria-labelledby="monsterTemplateModalLabel" role="dialog" tabindex="-1" 
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" type="button" 
+          span aria-hidden="true"  &times;
+          span.sr-only Close
+        h4#monsterTemplateModalLabel.modal-title New Class
+      .modal-body
+        =form_for @monster_template do |f|
+          div class='form-group'
+            .form-group
+              h4
+                =f.label "The class of the monsters that are created by this template "
+              -if @class_templates.empty?
+                h1
+                  ="You need to make some Class Templates before creating a Monster Template Fool!"
+                  br
+              -else 
+                select name="class_template_id"
+                  -@class_templates.each do |t_class|
+                    option value="#{t_class.id}" #{t_class.name}
+                    br
+              h4      
+                =f.label "The element of the monsters that are created by this template "
+              -if @element_templates.empty?
+                h1
+                  ="You need to make some Element Templates before creating a Monster Template Fool!"
+                br
+              -else 
+                select name="element_template_id"
+                  -@element_templates.each do |t_element|
+                    option value="#{t_element.id}" #{t_element.name}
+                br
+              =f.label :name
+              =f.text_field :name, class: 'form-control'
+              =f.label :max_hp
+              =f.text_field :max_hp, class: 'form-control'
+              =f.label :max_sp
+              =f.text_field :max_sp, class: 'form-control'
+              =f.label :max_lvl
+              =f.text_field :max_lvl, class: 'form-control'
+              =f.label "Type which is currently unassigned"
+              =f.text_field :type, class: 'form-control'     
+              =f.submit class: 'btn btn-primary'
+      .modal-footer
+        button.btn.btn-default data-dismiss="modal" type="button"  Close
+hr
+  
+
+

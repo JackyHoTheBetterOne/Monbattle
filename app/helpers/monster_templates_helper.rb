@@ -1,0 +1,2 @@
+module MonsterTemplatesHelper
+end

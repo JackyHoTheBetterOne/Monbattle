@@ -1,0 +1,52 @@
+br
+button.btn.btn-primary data-target="#abilityModal" data-toggle="modal" 
+  | Create New Ability
+#abilityModal.modal.fade aria-hidden="true" aria-labelledby="abilityModalLabel" role="dialog" tabindex="-1" 
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" type="button" 
+          span aria-hidden="true"  &times;
+          span.sr-only Close
+        h4#abilityModalLabel.modal-title New Class
+      .modal-body
+        =form_for @ability do |f|
+          div class="form-group"
+            .form-group
+              h4
+                =f.label "Classes that can use this ability"
+              -if @class_templates.empty?
+                h1
+                  ="You need to make some Class Templates before creating an Ability Fool!"
+                br
+              -else 
+                select name="class_template_id"
+                  -@class_templates.each do |t_class|
+                    option value="#{t_class.id}" #{t_class.name}
+                br          
+              =f.label :name
+              =f.text_field :name, class: 'form-control'
+              =f.label :ap_cost
+              =f.text_field :ap_cost, class: 'form-control'
+              =f.label :description
+              =f.text_field :description, class: 'form-control'          
+              =f.label "Min level to use this ability"
+              =f.text_field :min_level, class: 'form-control'
+              =f.label :power_level
+              =f.text_field :power_level, class: 'form-control'
+              =f.label :store_price
+              =f.text_field :store_price, class: 'form-control'
+              =f.label "Type which is currently unassigned?"
+              =f.text_field :type, class: 'form-control'
+              =f.label "Image animation location that will be used for this ability"
+              =f.text_field :image_url, class: 'form-control'
+              =f.label :price
+              =f.text_field :price, class: 'form-control'
+              =f.label "*** Select at least 1 effect for this ability ****"
+              br
+              = f.collection_check_boxes :effects,  Effect.all, :id, :name
+              hr
+              =f.submit class: 'btn btn-primary'  
+      .modal-footer
+        button.btn.btn-default data-dismiss="modal" type="button"  Close    
+hr

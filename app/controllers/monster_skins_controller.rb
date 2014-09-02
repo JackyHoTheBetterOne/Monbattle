@@ -1,0 +1,2 @@
+class MonsterSkinsController < ApplicationController
+end

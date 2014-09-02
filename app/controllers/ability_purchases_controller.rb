@@ -1,0 +1,2 @@
+class AbilityPurchasesController < ApplicationController
+end

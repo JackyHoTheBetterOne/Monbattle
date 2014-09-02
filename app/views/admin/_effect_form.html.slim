@@ -1,0 +1,42 @@
+br
+button.btn.btn-primary data-target="#effectModal" data-toggle="modal" 
+  | Create New Class
+/! Modal
+#effectModal.modal.fade aria-hidden="true" aria-labelledby="effectModalLabel" role="dialog" tabindex="-1" 
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" type="button" 
+          span aria-hidden="true"  &times;
+          span.sr-only Close
+        h4#effectModalLabel.modal-title New Class
+      .modal-body
+        =form_for Effect.new do |f|
+          div class='form-group'
+            .form-group
+              h4
+                =f.label "Select an Element for this effect"
+              -if @element_templates.empty?
+                h1
+                  ="You need to make some Element Templates before creating an Effect Fool!"
+                br
+              -else 
+                select name="element_template_id"
+                  -@element_templates.each do |t_element|
+                    option value="#{t_element.id}" #{t_element.name}
+                br
+              =f.label :name
+              =f.text_field :name, class: 'form-control'
+              =f.label "(Target of effect), can be self, targeted, aoe enemy, aoe allies, ally hero (Maybe create model for this)"
+              =f.text_field :target, class: 'form-control'
+              =f.label :damage
+              =f.text_field :damage, class: 'form-control'
+              =f.label "Modifier which is currently unassigned"
+              =f.text_field :modifier, class: 'form-control'
+              =f.label "Type which is currently unassigned"
+              =f.text_field :type, class: 'form-control'     
+              =f.submit class: 'btn btn-primary'
+
+      .modal-footer
+        button.btn.btn-default data-dismiss="modal" type="button"  Close
+hr

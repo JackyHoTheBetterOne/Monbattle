@@ -1,5 +1,28 @@
 Rails.application.routes.draw do
-  devise_for :users
+
+
+root 'admin#index'
+resources :main
+resources :admin
+
+resources :monster_templates do
+  resources :monsters, only: [:create]
+end
+
+resources :monsters
+resources :abilities
+resources :effects
+resources :monster_skin_purchases
+resources :class_templates
+resources :element_templates
+
+# resources :monster_skins
+# resources :ability_effects 
+# resources :ability_equippings 
+# resources :ability_purchases
+# resources :battles
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

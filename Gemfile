@@ -18,6 +18,9 @@ gem "quiet_assets"
 gem "devise"
 gem "font-awesome-rails"
 gem "slim"
+gem "rails-erd"
+gem 'safe_attributes'
+# gem "jquery-ui-rails"
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

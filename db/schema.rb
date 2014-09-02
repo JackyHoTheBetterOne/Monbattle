@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140830043557) do
+ActiveRecord::Schema.define(version: 20140902051918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,11 +24,14 @@ ActiveRecord::Schema.define(version: 20140830043557) do
     t.text     "image_url"
     t.integer  "power_level"
     t.integer  "min_level"
-    t.string   "class"
     t.integer  "price"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "description"
+    t.integer  "class_template_id"
   end
+
+  add_index "abilities", ["class_template_id"], name: "index_abilities_on_class_template_id", using: :btree
 
   create_table "ability_effects", force: true do |t|
     t.integer  "ability_id"
@@ -70,13 +73,27 @@ ActiveRecord::Schema.define(version: 20140830043557) do
 
   add_index "battles", ["user_id"], name: "index_battles_on_user_id", using: :btree
 
+  create_table "class_templates", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "effects", force: true do |t|
     t.string   "name"
-    t.string   "attribute"
     t.string   "target"
     t.string   "modifier"
-    t.string   "element"
     t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "damage"
+    t.integer  "element_template_id"
+  end
+
+  add_index "effects", ["element_template_id"], name: "index_effects_on_element_template_id", using: :btree
+
+  create_table "element_templates", force: true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -95,21 +112,25 @@ ActiveRecord::Schema.define(version: 20140830043557) do
     t.text     "skin_url"
     t.string   "name"
     t.string   "type"
-    t.string   "class"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "job"
   end
 
   create_table "monster_templates", force: true do |t|
-    t.string   "class"
     t.string   "type"
     t.integer  "max_hp"
     t.integer  "max_sp"
     t.integer  "max_lvl"
-    t.string   "element"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "class_template_id"
+    t.integer  "element_template_id"
+    t.string   "name"
   end
+
+  add_index "monster_templates", ["class_template_id"], name: "index_monster_templates_on_class_template_id", using: :btree
+  add_index "monster_templates", ["element_template_id"], name: "index_monster_templates_on_element_template_id", using: :btree
 
   create_table "monsters", force: true do |t|
     t.string   "name"
@@ -117,16 +138,18 @@ ActiveRecord::Schema.define(version: 20140830043557) do
     t.integer  "max_ap"
     t.integer  "user_id"
     t.string   "type"
-    t.string   "class"
-    t.string   "element"
     t.integer  "exp"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "max_lvl"
     t.integer  "monster_skin_id"
     t.integer  "monster_template_id"
+    t.integer  "class_template_id"
+    t.integer  "element_template_id"
   end
 
+  add_index "monsters", ["class_template_id"], name: "index_monsters_on_class_template_id", using: :btree
+  add_index "monsters", ["element_template_id"], name: "index_monsters_on_element_template_id", using: :btree
   add_index "monsters", ["monster_skin_id"], name: "index_monsters_on_monster_skin_id", using: :btree
   add_index "monsters", ["monster_template_id"], name: "index_monsters_on_monster_template_id", using: :btree
   add_index "monsters", ["user_id"], name: "index_monsters_on_user_id", using: :btree
