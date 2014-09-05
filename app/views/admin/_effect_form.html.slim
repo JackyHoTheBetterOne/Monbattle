@@ -1,6 +1,6 @@
 br
 button.btn.btn-primary data-target="#effectModal" data-toggle="modal" 
-  | Create New Class
+  | Create New Effect
 /! Modal
 #effectModal.modal.fade aria-hidden="true" aria-labelledby="effectModalLabel" role="dialog" tabindex="-1" 
   .modal-dialog
@@ -9,32 +9,35 @@ button.btn.btn-primary data-target="#effectModal" data-toggle="modal"
         button.close data-dismiss="modal" type="button" 
           span aria-hidden="true"  &times;
           span.sr-only Close
-        h4#effectModalLabel.modal-title New Class
+        h4#effectModalLabel.modal-title Element
       .modal-body
         =form_for Effect.new do |f|
           div class='form-group'
             .form-group
               h4
-                =f.label "Select an Element for this effect"
-              -if @element_templates.empty?
+                =f.label "Select an Element for this Effect"
+              -if @elements.empty?
                 h1
-                  ="You need to make some Element Templates before creating an Effect Fool!"
+                  ="You need to make some Elements before creating an Effect Fool!"
                 br
               -else 
-                select name="element_template_id"
-                  -@element_templates.each do |t_element|
-                    option value="#{t_element.id}" #{t_element.name}
+                =f.collection_select :element_id, Element.all, :id, :name
+                br
+              h4
+                =f.label "Select a Target for this Effect"
+              -if @targets.empty?
+                h1
+                  ="You need to make some target classes First!"
+                br
+              -else 
+                =f.collection_select :target_id, Target.all, :id, :name, class: 'form-control'
                 br
               =f.label :name
               =f.text_field :name, class: 'form-control'
-              =f.label "(Target of effect), can be self, targeted, aoe enemy, aoe allies, ally hero (Maybe create model for this)"
-              =f.text_field :target, class: 'form-control'
               =f.label :damage
               =f.text_field :damage, class: 'form-control'
-              =f.label "Modifier which is currently unassigned"
-              =f.text_field :modifier, class: 'form-control'
-              =f.label "Type which is currently unassigned"
-              =f.text_field :type, class: 'form-control'     
+              =f.label "Modifier to what"
+              =f.text_field :modifier, class: 'form-control'   
               =f.submit class: 'btn btn-primary'
 
       .modal-footer

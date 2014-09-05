@@ -9,14 +9,17 @@ h1 Creator Tool
 
 ul.nav.nav-tabs role="tablist" 
   li.active
-    a data-toggle="tab" href="#monster_template" role="tab"  Monster Template
+    a data-toggle="tab" href="#monster_template" role="tab"  Monster Templates
   li
     a data-toggle="tab" href="#effect" role="tab"  Effects
   li
     a data-toggle="tab" href="#ability" role="tab"  Abilities
   li
     a data-toggle="tab" href="#monster_skin" role="tab"  Monster Skins
-
+  li
+    a data-toggle="tab" href="#create_monster" role="tab"  Create a Monster
+  li
+    a data-toggle="tab" href="#equip_ability" role="tab"  Equip Ability
 .tab-content
   #monster_template.tab-pane.active
     =render 'monster_template_form'
@@ -32,3 +35,9 @@ ul.nav.nav-tabs role="tablist"
   
   #monster_skin.tab-pane
     p Coming Soon.... Maybe One Day
+
+  #create_monster.tab-pane
+    =render 'monster_form'
+    =render 'monster_show'
+
+  #equip_ability.tab-pane

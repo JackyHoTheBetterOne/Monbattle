@@ -1,0 +1,39 @@
+br
+button.btn.btn-primary data-target="#monsterModal" data-toggle="modal" 
+  | Create New Monster
+#monsterModal.modal.fade aria-hidden="true" aria-labelledby="monsterModalLabel" role="dialog" tabindex="-1" 
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" type="button" 
+          span aria-hidden="true"  &times;
+          span.sr-only Close
+        h4#monsterModalLabel.modal-title Monster
+      .modal-body
+        =form_for @monster do |f|
+          div class='form-group'
+            .form-group
+              =f.label "Create a slider for monster_templates that shows all monster_template fields"
+              =f.label "Needs to grab element, and class from Monster_template"
+              h4
+              -if @monster_templates.empty?
+                h1
+                  ="You need to make some Monsters Templates before creating a Monster!"
+                  br
+              -else 
+                =f.collection_select :monster_template_id, MonsterTemplate.all, :id, :name
+                / :class_template, :element_template, :max_hp, :max_sp, :max_lvl
+                br
+              h4  
+              =f.label :name
+              =f.text_field :name, class: 'form-control'
+              =f.label "Create a carousel for Monster skins you can select from"
+              =f.label "Set default exp to 0"
+                 
+              =f.submit class: 'btn btn-primary'
+
+          
+
+      .modal-footer
+        button.btn.btn-default data-dismiss="modal" type="button"  Close    
+hr

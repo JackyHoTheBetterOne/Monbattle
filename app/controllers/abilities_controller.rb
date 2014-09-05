@@ -22,12 +22,12 @@ class AbilitiesController < ApplicationController
   private
 
   def find_ability
-    @ability = ability.find params[:id]
+    @ability = Ability.find params[:id]
   end
 
   def ability_params
-    params.require(:ability).permit(
-    :class_template_id, :name, :ap_cost, :description, :min_level, :power_level, :store_price, :type, :image_url, :price, {effect_ids: []})
+    params.require(:ability).permit(:job, :name, :ap_cost,
+    :description, :min_level, :store_price, :image_url, :price, {effect_ids: []})
   end
 
 end

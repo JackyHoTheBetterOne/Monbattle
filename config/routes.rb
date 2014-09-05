@@ -1,26 +1,27 @@
 Rails.application.routes.draw do
 
-
 root 'admin#index'
-resources :main
 resources :admin
 
-resources :monster_templates do
-  resources :monsters, only: [:create]
+resources :monsters, only: [:destroy, :create, :edit] do
+  resources :evolved_states, only: [:destroy, :create, :edit]
 end
-
-resources :monsters
-resources :abilities
-resources :effects
-resources :monster_skin_purchases
-resources :class_templates
-resources :element_templates
-
-# resources :monster_skins
-# resources :ability_effects 
-# resources :ability_equippings 
-# resources :ability_purchases
+resources :abilities, only: [:destroy, :create, :edit]
+resources :effects, only: [:destroy, :create, :edit]
+resources :monster_skins, only: [:destroy, :create, :edit]
+resources :jobs, only: [:destroy, :create]
+resources :elements, only: [:destroy, :create]
+resources :targets, only: [:destroy, :create]
+# resources :summoners
+# resources :summoner_levels
 # resources :battles
+
+# resources :monster_skin_purchases
+# resources :ability_effects 
+# resources :ability_equippings
+# resources :evolved_ability_equippings
+# resources :ability_purchases
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -8,21 +8,40 @@ button.btn.btn-primary data-target="#abilityModal" data-toggle="modal"
         button.close data-dismiss="modal" type="button" 
           span aria-hidden="true"  &times;
           span.sr-only Close
-        h4#abilityModalLabel.modal-title New Class
+        h4#abilityModalLabel.modal-title Ability
       .modal-body
         =form_for @ability do |f|
           div class="form-group"
             .form-group
               h4
+                =f.label "*** Select at least 1 effect for this ability, click the effect to see a description ****"
+              br
+              -if @effects.empty?
+              -else
+                = f.collection_check_boxes :effects,  Effect.all, :id, :name, {}, { name: "ability[effect_ids][]"}
+              h4
+                =f.label "Click on an effect button if you need a reminder on what it does"
+              -if @effects.empty?
+              -else
+                -@effects.each do |ability|
+                  .panel-group id="ability_accordion_#{dom_id(ability)}"
+                    .panel.panel-default
+                      .panel-heading
+                        h3.panel-title
+                          a data-parent="#ability_accordion_#{dom_id(ability)}" data-toggle="collapse" href="#ability_#{dom_id(ability)}"
+                            | Effects Tied To Ability
+                      .panel-collapse.collapse id="ability_#{dom_id(ability)}"
+                        .panel-body
+                          p
+                  
+              h4
                 =f.label "Classes that can use this ability"
-              -if @class_templates.empty?
+              -if @jobs.empty?
                 h1
                   ="You need to make some Class Templates before creating an Ability Fool!"
                 br
               -else 
-                select name="class_template_id"
-                  -@class_templates.each do |t_class|
-                    option value="#{t_class.id}" #{t_class.name}
+                =f.collection_select :job_id, ClassTemplate.all, :id, "#{:name :evolve_lvl}"
                 br          
               =f.label :name
               =f.text_field :name, class: 'form-control'
@@ -32,19 +51,12 @@ button.btn.btn-primary data-target="#abilityModal" data-toggle="modal"
               =f.text_field :description, class: 'form-control'          
               =f.label "Min level to use this ability"
               =f.text_field :min_level, class: 'form-control'
-              =f.label :power_level
-              =f.text_field :power_level, class: 'form-control'
               =f.label :store_price
               =f.text_field :store_price, class: 'form-control'
-              =f.label "Type which is currently unassigned?"
-              =f.text_field :type, class: 'form-control'
               =f.label "Image animation location that will be used for this ability"
               =f.text_field :image_url, class: 'form-control'
               =f.label :price
               =f.text_field :price, class: 'form-control'
-              =f.label "*** Select at least 1 effect for this ability ****"
-              br
-              = f.collection_check_boxes :effects,  Effect.all, :id, :name
               hr
               =f.submit class: 'btn btn-primary'  
       .modal-footer

@@ -1,0 +1,36 @@
+table.table.table-striped border="1" 
+  thead
+    tr
+      th colspan="7"  Effects
+    tr
+      th Effect Name
+      th Element
+      th Target of Effect
+      th Damage
+      th Modifier
+      th
+  tbody
+    -if @effects.empty?
+    -else
+      -@effects.each do |effect|
+        tr
+          td
+            =effect.name
+            /Create a drop down of all abilities using this effect
+          td
+            -if @elements.empty?
+            -else
+              =effect.element.name
+          td
+            -if @targets.empty?
+            -else
+              =effect.target.name
+          td
+            =effect.damage
+          td
+            =effect.modifier
+          td  
+            =link_to "Delete", effect, method: :delete, class: "btn btn-sm btn-danger", data: {confirm: "This will remove this effect from all assigned abilities. Are you sure???"}
+  
+
+

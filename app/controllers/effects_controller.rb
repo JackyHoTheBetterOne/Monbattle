@@ -19,7 +19,7 @@ class EffectsController < ApplicationController
 private
 
   def effect_template_params
-    params.require(:effect).permit(:name, :target, :element_template_id, :damage, :modifier, :type)
+    params.require(:effect).permit(:name, :target_id, :element, :damage, :modifier)
   end
 
   def find_effect

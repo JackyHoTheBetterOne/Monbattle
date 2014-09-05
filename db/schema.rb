@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140902051918) do
+ActiveRecord::Schema.define(version: 20140905162142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,18 +20,16 @@ ActiveRecord::Schema.define(version: 20140902051918) do
     t.string   "name"
     t.integer  "ap_cost"
     t.integer  "store_price"
-    t.string   "type"
     t.text     "image_url"
-    t.integer  "power_level"
     t.integer  "min_level"
     t.integer  "price"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "description"
-    t.integer  "class_template_id"
+    t.integer  "job_id"
   end
 
-  add_index "abilities", ["class_template_id"], name: "index_abilities_on_class_template_id", using: :btree
+  add_index "abilities", ["job_id"], name: "index_abilities_on_job_id", using: :btree
 
   create_table "ability_effects", force: true do |t|
     t.integer  "ability_id"
@@ -73,27 +71,55 @@ ActiveRecord::Schema.define(version: 20140902051918) do
 
   add_index "battles", ["user_id"], name: "index_battles_on_user_id", using: :btree
 
-  create_table "class_templates", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "effects", force: true do |t|
     t.string   "name"
-    t.string   "target"
     t.string   "modifier"
-    t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "damage"
-    t.integer  "element_template_id"
+    t.integer  "target_id"
+    t.integer  "element_id"
   end
 
-  add_index "effects", ["element_template_id"], name: "index_effects_on_element_template_id", using: :btree
+  add_index "effects", ["element_id"], name: "index_effects_on_element_id", using: :btree
+  add_index "effects", ["target_id"], name: "index_effects_on_target_id", using: :btree
 
-  create_table "element_templates", force: true do |t|
+  create_table "elements", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "evolved_ability_equippings", force: true do |t|
+    t.integer  "evolved_state_id"
+    t.integer  "abilities_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "evolved_ability_equippings", ["abilities_id"], name: "index_evolved_ability_equippings_on_abilities_id", using: :btree
+  add_index "evolved_ability_equippings", ["evolved_state_id"], name: "index_evolved_ability_equippings_on_evolved_state_id", using: :btree
+
+  create_table "evolved_states", force: true do |t|
+    t.string   "name"
+    t.integer  "job_id"
+    t.integer  "element_id"
+    t.integer  "monster_skin_id_id"
+    t.integer  "evolve_lvl"
+    t.integer  "created_from_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "monster_id"
+  end
+
+  add_index "evolved_states", ["element_id"], name: "index_evolved_states_on_element_id", using: :btree
+  add_index "evolved_states", ["job_id"], name: "index_evolved_states_on_job_id", using: :btree
+  add_index "evolved_states", ["monster_id"], name: "index_evolved_states_on_monster_id", using: :btree
+  add_index "evolved_states", ["monster_skin_id_id"], name: "index_evolved_states_on_monster_skin_id_id", using: :btree
+
+  create_table "jobs", force: true do |t|
+    t.string   "name"
+    t.string   "evolve_lvl"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -111,48 +137,54 @@ ActiveRecord::Schema.define(version: 20140902051918) do
   create_table "monster_skins", force: true do |t|
     t.text     "skin_url"
     t.string   "name"
-    t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "job"
   end
-
-  create_table "monster_templates", force: true do |t|
-    t.string   "type"
-    t.integer  "max_hp"
-    t.integer  "max_sp"
-    t.integer  "max_lvl"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "class_template_id"
-    t.integer  "element_template_id"
-    t.string   "name"
-  end
-
-  add_index "monster_templates", ["class_template_id"], name: "index_monster_templates_on_class_template_id", using: :btree
-  add_index "monster_templates", ["element_template_id"], name: "index_monster_templates_on_element_template_id", using: :btree
 
   create_table "monsters", force: true do |t|
     t.string   "name"
     t.integer  "max_hp"
-    t.integer  "max_ap"
     t.integer  "user_id"
-    t.string   "type"
-    t.integer  "exp"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "max_lvl"
     t.integer  "monster_skin_id"
-    t.integer  "monster_template_id"
-    t.integer  "class_template_id"
-    t.integer  "element_template_id"
+    t.integer  "job_id"
+    t.integer  "element_id"
+    t.integer  "created_from_id"
   end
 
-  add_index "monsters", ["class_template_id"], name: "index_monsters_on_class_template_id", using: :btree
-  add_index "monsters", ["element_template_id"], name: "index_monsters_on_element_template_id", using: :btree
+  add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
+  add_index "monsters", ["job_id"], name: "index_monsters_on_job_id", using: :btree
   add_index "monsters", ["monster_skin_id"], name: "index_monsters_on_monster_skin_id", using: :btree
-  add_index "monsters", ["monster_template_id"], name: "index_monsters_on_monster_template_id", using: :btree
   add_index "monsters", ["user_id"], name: "index_monsters_on_user_id", using: :btree
+
+  create_table "summoner_levels", force: true do |t|
+    t.integer  "lvl"
+    t.integer  "exp_to_nxt_lvl"
+    t.integer  "ap"
+    t.integer  "monsters_allowed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "summoners", force: true do |t|
+    t.string   "name"
+    t.integer  "current_lvl"
+    t.integer  "current_exp"
+    t.integer  "user_id"
+    t.integer  "summoner_level_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree
+  add_index "summoners", ["user_id"], name: "index_summoners_on_user_id", using: :btree
+
+  create_table "targets", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

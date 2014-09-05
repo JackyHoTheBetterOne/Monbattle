@@ -9,7 +9,7 @@ button.btn.btn-primary data-target="#monsterTemplateModal" data-toggle="modal"
         button.close data-dismiss="modal" type="button" 
           span aria-hidden="true"  &times;
           span.sr-only Close
-        h4#monsterTemplateModalLabel.modal-title New Class
+        h4#monsterTemplateModalLabel.modal-title Monster Template
       .modal-body
         =form_for @monster_template do |f|
           div class='form-group'
@@ -21,10 +21,8 @@ button.btn.btn-primary data-target="#monsterTemplateModal" data-toggle="modal"
                   ="You need to make some Class Templates before creating a Monster Template Fool!"
                   br
               -else 
-                select name="class_template_id"
-                  -@class_templates.each do |t_class|
-                    option value="#{t_class.id}" #{t_class.name}
-                    br
+                =f.collection_select :class_template_id, ClassTemplate.all, :id, :name
+                br
               h4      
                 =f.label "The element of the monsters that are created by this template "
               -if @element_templates.empty?
@@ -32,9 +30,7 @@ button.btn.btn-primary data-target="#monsterTemplateModal" data-toggle="modal"
                   ="You need to make some Element Templates before creating a Monster Template Fool!"
                 br
               -else 
-                select name="element_template_id"
-                  -@element_templates.each do |t_element|
-                    option value="#{t_element.id}" #{t_element.name}
+                =f.collection_select :element_template_id, ElementTemplate.all, :id, :name
                 br
               =f.label :name
               =f.text_field :name, class: 'form-control'
@@ -43,9 +39,7 @@ button.btn.btn-primary data-target="#monsterTemplateModal" data-toggle="modal"
               =f.label :max_sp
               =f.text_field :max_sp, class: 'form-control'
               =f.label :max_lvl
-              =f.text_field :max_lvl, class: 'form-control'
-              =f.label "Type which is currently unassigned"
-              =f.text_field :type, class: 'form-control'     
+              =f.text_field :max_lvl, class: 'form-control'   
               =f.submit class: 'btn btn-primary'
       .modal-footer
         button.btn.btn-default data-dismiss="modal" type="button"  Close
