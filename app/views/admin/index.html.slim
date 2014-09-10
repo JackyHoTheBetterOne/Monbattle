@@ -7,9 +7,9 @@
     - else
       = link_to "sign in", new_user_session_path, class: "btn btn-default"
 
-= render partial: "modal_button", locals: {modal_label: "jobLabel", modal_id: "jobModal", form_is_for: "job_form", button_name: "Create New Job", form_title: "New Job" }
-= render partial: "modal_button", locals: {modal_label: "elementLabel", modal_id: "elementModal", form_is_for: "element_form", button_name: "Create New Element", form_title: "New Element"}
-= render partial: "modal_button", locals: {modal_label: "targetLabel", modal_id: "targetModal", form_is_for: "target_form", button_name: "Create New Target", form_title: "New Target"}
+= render partial: "modal_button", locals: {modal_label: "jobLabel", modal_id: "jobModal", form_is_for: "jobs/form", button_name: "Create New Job", form_title: "New Job" }
+= render partial: "modal_button", locals: {modal_label: "elementLabel", modal_id: "elementModal", form_is_for: "elements/form", button_name: "Create New Element", form_title: "New Element"}
+= render partial: "modal_button", locals: {modal_label: "targetLabel", modal_id: "targetModal", form_is_for: "targets/form", button_name: "Create New Target", form_title: "New Target"}
 
 hr  
 ul.nav.nav-tabs role="tablist" 
@@ -24,7 +24,7 @@ ul.nav.nav-tabs role="tablist"
     br
       .monsterForm
         =render partial: "modal_button", locals: {modal_label: "monsterTemplateLabel", modal_id: "monsterTemplateModal", form_is_for: "monsters/form", button_name: "Create New Monster", form_title: "New Monster"}
-    =render partial: "modal_button", locals: {modal_label: "evolvedStateTemplateLabel", modal_id: "evolvedStateTemplateModal", form_is_for: "evolved_state_template_form", button_name: "Create New Evolved State", form_title: "New Evolved State"}
+    =render partial: "modal_button", locals: {modal_label: "evolvedStateTemplateLabel", modal_id: "evolvedStateTemplateModal", form_is_for: "monsters/evolved_form", button_name: "Create New Evolved State", form_title: "New Evolved State"}
     hr
     table.table.table-striped border="1" 
       thead
@@ -37,14 +37,26 @@ ul.nav.nav-tabs role="tablist"
           th Max_hp
           th Hp modifier
           th Dmg modifier
-          th Unlock Monster
-          th Lock Monster
+          th Unlock/Lock Monsters
       tbody
         .monsters=render @monsters
 
   #effect.tab-pane
-    br=render partial: "modal_button", locals: {modal_label: "effectLabel", modal_id: "effectModal", form_is_for: "effect_form", button_name: "Create New Effect", form_title: "New Effect"}
-    hr=render 'effect_show' 
+    br=render partial: "modal_button", locals: {modal_label: "effectLabel", modal_id: "effectModal", form_is_for: "effects/form", button_name: "Create New Effect", form_title: "New Effect"}
+    hr
+    table.table.table-striped border="1" 
+      thead
+        tr
+          th Effect Name
+          th Element
+          th Target of Effect
+          th Damage
+          th Modifier
+          th Delete/Edit
+      tbody
+        -if @effects.empty?
+        -else
+          =render @effects
 
   #ability.tab-pane
     br=render partial: "modal_button", locals: {modal_label: "abilityLabel", modal_id: "abilityModal", form_is_for: "abilities/form", button_name: "Create New Ability", form_title: "New Ability"}
@@ -55,4 +67,6 @@ ul.nav.nav-tabs role="tablist"
     p Coming Soon.... Maybe One Day
 
   #monster_info.tab-pane
+    br= render partial: "modal_button", locals: {modal_label: "partyLabel", modal_id: "partyModal", form_is_for: "parties/form", button_name: "Create New Party", form_title: "New Party" }
     hr=render 'monster_info_show'
+

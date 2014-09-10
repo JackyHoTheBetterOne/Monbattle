@@ -1,6 +1,6 @@
 class AbilitiesController < ApplicationController
   # before_action :authenticate!
-  before_action :find_ability, only: [:destroy, :edit]
+  before_action :find_ability, except: [:create]
 
   def create
     @ability = Ability.new ability_params
@@ -16,6 +16,18 @@ class AbilitiesController < ApplicationController
       redirect_to admin_index_path, notice: "Ability Removed"
     else
       redirect_to admin_index_path, notice: "Failure"
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    @ability_equipping_destroy = @ability.id
+    @ability.update_attributes(ability_params)
+    if @ability.save
+      AbilityEquipping.where(ability_id: @ability.id).destroy_all
+      redirect_to admin_index_path, notice: "Updated"
     end
   end
 

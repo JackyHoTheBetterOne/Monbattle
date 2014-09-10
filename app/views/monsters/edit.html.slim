@@ -1,0 +1,4 @@
+-if Monster.find(params[:id]).evolved_from.blank?
+  =render "form"
+-else
+  =render "evolved_form"

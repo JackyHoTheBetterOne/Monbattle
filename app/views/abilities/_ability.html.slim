@@ -1,5 +1,5 @@
 .panel-group id="accordian#{dom_id(ability)}"
-  .panel.panel-default
+  .panel.panel-info
     .panel-heading
       h3.panel-title
         a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseOne#{dom_id(ability)}" 
@@ -28,15 +28,25 @@
               td=ability.price
               td
                 =link_to "Delete", ability, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm btn-danger"
-                =link_to "Edit", ability, method: :patch, class: "btn btn-sm btn-info"
+                =link_to "Edit", edit_ability_path(ability), class: "btn btn-sm btn-warning"
 
-  .panel.panel-default
-    .panel-heading
-      h3.panel-title
-        a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseTwo#{dom_id(ability)}" 
-          | Effects Attached to this ability
-    .panel-collapse.collapse id="collapseTwo#{dom_id(ability)}"
-      .panel-body
-        p 2
-
-        tr
+  -if ability.effects.empty?
+  -else
+    .panel.panel-primary
+      .panel-heading
+        h3.panel-title
+          a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseTwo#{dom_id(ability)}" 
+            | #{ability.name} Effects
+      .panel-collapse.collapse id="collapseTwo#{dom_id(ability)}"
+        .panel-body
+          table.table.table-striped border="1" 
+            thead
+              tr
+                th Effect Name
+                th Element
+                th Target of Effect
+                th Damage
+                th Modifier
+                th Delete/Edit
+            tbody
+              =render ability.effects

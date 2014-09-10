@@ -1,25 +1,36 @@
-/ # =link_to "create a team or delete your team", monster, class: "btn btn-sm"
+h3 Your team is #{@parties.first.name} and consists of:
+h6 Also add logic to show only unlocked abilities at later time
+h6 Add logic to unequip all monsters affected if someone edits a monster or ability
+h4 Your current team consists of ........ can't join battle unless you have 4 monsters
 hr
 -if user_signed_in?
--if current_user.unlocked_monsters.empty?
--else
-  table.table.table-striped border="1" 
-    thead
-      tr
-        th Monster Name
-        th Equipped Ability
-        th Add/Remove from Team
-    tbody
-      -current_user.unlocked_monsters.each do |monster|
+  -if current_user.unlocked_monsters.empty?
+  -else
+    table.table.table-striped border="1"
+      thead
         tr
-          td= monster.name
-          td
-            -if monster.ability_equippings.empty?
-              h4 Nothing equipped
-            -else
-            ="Equipped with: #{monster.monster_equipped_abilities.collect(&:name)[0]}"
-            = render partial: "/ability_equippings/form", locals: {mon: "#{monster.id}", ability_equipping: monster.ability_equipping_for(current_user) || AbilityEquipping.new}
-          td
-            / =link_to "Add to team", admin_index_path
-            / =link_to "Remove from team", admin_index_path  
+          th Monster Name
+          th Equipped Ability
+          th Add/Remove from Team
+      tbody
+        -current_user.unlocked_monsters.each do |monster|
+          tr
+            td= monster.name
+            td
+              -if monster.ability_equippings.empty?
+                h4 Nothing equipped
+              -else
+              h3 ="Currently Equipped: #{monster.monster_equipped_abilities.collect(&:name)[0]}"
+              =render partial: "/ability_equippings/form", locals: {mon: "#{monster.id}", ability_equipping: monster.ability_equipping_for(current_user) || AbilityEquipping.new}
+            td
+              -if current_user.parties.empty?
+              -else
+                -if User.where(id: current_user.id).first.parties.first.members.count == 0 || User.where(id: current_user.id).first.parties.first.members.count < 4
+                  =link_to "Add", "/monsters/#{monster.id}/members", class: "btn btn-large btn-primary", method: :post
+                -if User.where(id: current_user.id).first.parties.first.members.count >= 1 || User.where(id: current_user.id).first.parties.first.members.count == 4
+                  =link_to "Remove", [monster, monster.party_member_id(current_user)], class: "btn btn-large btn-danger", method: :delete
+                  / =link_to "Remove", [monster, monster.members.find_by_party_id(User.find(current_user.id).parties.first.id)], class: "btn btn-danger"
+
+
+
 

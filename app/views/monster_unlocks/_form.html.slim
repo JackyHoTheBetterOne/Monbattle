@@ -7,3 +7,5 @@
         .form-control =f.collection_select :user_id, User.where("users.id NOT IN (?)", MonsterUnlock.pluck(:user_id)), :id, :user_name
     hr=f.submit class: 'btn btn-primary'
 
+
+

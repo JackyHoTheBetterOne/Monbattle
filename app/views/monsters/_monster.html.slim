@@ -1,16 +1,17 @@
 tr id=dom_id(monster)
   td
     =monster.name
+    br
     -case false
       -when Monster.where(evolved_from_id: "#{monster.id}").empty?
-        =link_to "Edit Template", monster, method: :patch, data: {confirm: "Deleted Evolved Forms associated with this monster if you want to delete"}, class: "btn btn-sm btn-info"
+        =link_to "Edit Template", edit_monster_path(monster), data: {confirm: "Deleted Evolved Forms associated with this monster if you want to delete"}, class: "btn btn-sm btn-info"
       -when MonsterUnlock.where(monster_id: "#{monster.id}").empty?
-        =link_to "Edit Template", monster, method: :patch, data: {confirm: "Users are using this monster, can edit only!"}, class: "btn btn-sm btn-info"
+        =link_to "Edit Template", edit_monster_path(monster), data: {confirm: "Users are using this monster, can edit only!"}, class: "btn btn-sm btn-info"
       -else
         =link_to "Delete Template", monster, method: :delete, data: {confirm: "Delete"}, class: "btn btn-sm btn-danger", remote: true
   td=monster.job.name + "/" + monster.job.evolve_lvl
   td=monster.element.name
-  td 
+  td
     -if monster.evolved_from_id == 0
       ="Base Monster"
     -else
@@ -19,49 +20,26 @@ tr id=dom_id(monster)
   td=monster.max_hp
   td=monster.hp_modifier
   td=monster.dmg_modifier
-  td
-    =form_for @monster_unlock do |f|
-      div class='form-group'
-        h5 Select User
-        -if monster.monster_unlocked_users.empty?
-          .form-control =f.collection_select :user_id, User.all, :id, :user_name
-        -else
-          .form-control =f.collection_select :user_id, User.where("users.id NOT IN (?)", monster.monster_unlocked_users.collect(&:id)), :id, :user_name
-        =f.hidden_field :monster_id, value: "#{monster.id}"
-        =f.submit class: 'btn btn-sm btn-primary'  
-  td
-    -if monster.monster_unlocked_users.empty?
-      h5 Already Locked Out For All Users
-    -else
-      / =form_tag monster_unlock_path("#{monster.monster_unlocks.where(user_id: current_user.id)}"), method: :delete do
-        / # =collection_select :user_id, User.all, :id, :user_name
-      .btn-group
-        button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button" 
-          | Action
-          span.caret
-        ul.dropdown-menu role="menu"
-          -monster.monster_unlocked_users.each do |user|
-            li= link_to "#{user.user_name}", monster_unlock_path(monster.monster_unlocks.where(user_id: current_user.id)), method: :delete
-            li.divider
-        
-
-/   =submit_tag 'Louser_name
-/ =select_tag
-
-/ select.unlock-select
-/   - monster.unlocks.each do |unlock|
-/     option[value=unlock.id]= unlock.user.name
-
-/ a.delete-unlock[href='#'] Delete Unlock
-
-/ $('.delete-unlock').click(function() {
-/   var unlockId = $('.unlock-select').val();
-
-/   // Delete the unlock.
-/   $.delete('/monster_unlocks/' + unlockId);
-
-/   // Remove the unlock option.
-/   $('.unlock-select option[value=' + unlockId + ']').remove();
-/ });
-
+  -if user_signed_in?
+    td
+      =form_for @monster_unlock do |f|
+        div class='form-group'
+          h5 Select User
+          -if monster.monster_unlocked_users.empty?
+            .form-control =f.collection_select :user_id, User.all, :id, :user_name
+          -else
+            .form-control =f.collection_select :user_id, User.where("users.id NOT IN (?)", monster.monster_unlocked_users.collect(&:id)), :id, :user_name
+          =f.hidden_field :monster_id, value: "#{monster.id}"
+          =f.submit "Unlock Monster", class: 'btn btn-sm btn-primary'
+      -if monster.monster_unlocked_users.empty?
+        h5 Already Locked Out For All Users
+      -else
+        .btn-group
+          button.btn.btn-danger.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
+            | Lock Monster
+            span.caret
+          ul.dropdown-menu role="menu"
+            -monster.monster_unlocked_users.each do |user|
+              li= link_to "#{user.user_name}", monster_unlock_path(monster.monster_unlocks.where(user_id: user.id).map(&:id)[0]), method: :delete
+              li.divider
 

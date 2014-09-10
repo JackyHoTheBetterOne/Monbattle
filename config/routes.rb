@@ -5,17 +5,21 @@ devise_for :users
 root 'admin#index'
 resources :admin
 
-resources :monsters, only: [:destroy, :create, :edit]
+resources :monsters do
+  resources :members, only: [:destroy, :create]
+end
+resources :members, only: [:create, :destroy]
+resources :effects
+resources :abilities
+resources :monster_skins
+resources :parties
 # get 'monsters/clone' => 'monsters#clone', as: :monster_clone
 patch 'monsters/evolve/edit/:id' => 'monsters#evolve_edit', as: :evolve_edit
-resources :abilities, only: [:destroy, :create, :edit]
-resources :effects, only: [:destroy, :create, :edit]
-resources :monster_skins, only: [:destroy, :create, :edit]
 resources :jobs, only: [:destroy, :create]
 resources :elements, only: [:destroy, :create]
 resources :targets, only: [:destroy, :create]
 resources :ability_equippings, only: [:create, :destroy, :update]
-resources :monster_unlocks, only: [:create, :destroy]     
+resources :monster_unlocks, only: [:create, :destroy]
 # resources :summoners
 # resources :summoner_levels
 # resources :battles

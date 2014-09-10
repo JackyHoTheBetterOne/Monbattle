@@ -1,0 +1,25 @@
+=form_for @monster do |f|
+  div class='form-group'
+    -case true
+      -when Job.where(evolve_lvl: "1").where("jobs.id NOT IN (?)", Monster.pluck(:job_id)).empty?
+        h1 Make some more Jobs with evolve lvl 1 First!
+      -else
+        .form-group
+          h4=f.label "Monster that this will evolve from"   
+          .form-control = f.select "evolved_from_id", options_for_select(Monster.where(evolved_from_id: "0").collect{|m| [m.name, m.id]}, :selected => @monster.id)
+          h4=f.label "The job of this evolved state, and the evolution level"   
+          .form-control = f.select "job_id", options_for_select(Job.where(evolve_lvl: "1").where("jobs.id NOT IN (?)", Monster.pluck(:job_id)).collect{|job| [job.name + " Elvl: " + job.evolve_lvl, job.id]}, :selected => @monster.job)
+          h4=f.label "The element of this evolved state"
+          .form-control =f.collection_select :element_id, Element.all, :id, :name
+          =f.label "Click to see existing monsters -- (Feature coming Soon)"
+          =f.label "This monster name is universal, so name it well!"
+          =f.text_field :name, class: 'form-control'
+          =f.label "The description of this evolved state"
+          =f.text_area :description, class: 'form-control', row: 2
+          =f.label :max_hp
+          =f.text_field :max_hp, class: 'form-control'
+          =f.label :hp_modifier
+          =f.text_field :hp_modifier, class: 'form-control'
+          =f.label :dmg_modifier
+          =f.text_field :dmg_modifier, class: 'form-control'
+          hr=f.submit class: 'btn btn-primary'

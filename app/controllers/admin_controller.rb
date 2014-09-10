@@ -1,6 +1,10 @@
 class AdminController < ApplicationController
 
   def index
+    @party = Party.new
+    @parties = Party.all
+    @member = Member.new
+    @members = Members.all
     @monster_unlock = MonsterUnlock.new
     @monster_unlocks = MonsterUnlock.all
     @users = User.all

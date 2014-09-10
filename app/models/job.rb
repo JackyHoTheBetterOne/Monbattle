@@ -8,6 +8,7 @@ class Job < ActiveRecord::Base
 
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :evolve_lvl, presence: {message: 'Must be entered'}
+  validates :evolve_lvl, numericality: true
   
   private
 

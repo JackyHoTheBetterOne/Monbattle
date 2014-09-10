@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   has_many :monster_unlocks, dependent: :destroy
   has_many :unlocked_monsters, through: :monster_unlocks, source: :monster
-  has_many :ability_purchases, dependent: :destroy  
+  has_many :ability_purchases, dependent: :destroy
   has_many :purchased_abilities, through: :ability_purchases, source: :ability
 
   has_many :ability_equippings, dependent: :destroy
@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
 
   has_many :monster_skin_purchases, dependent: :destroy
   has_many :monster_skins, through: :monster_skin_purchases
+
+  def party_member_count(current_user_id)
+    User.where(id: current_user_id).first.parties.first.members.count
+  end
 
   # validates :user_name, presence: {message: 'Must be entered'}, uniqueness: true
   # validates :email, presence: {message: 'Must be entered'}
