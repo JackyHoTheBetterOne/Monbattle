@@ -33,12 +33,19 @@ tr id=dom_id(monster)
     -if monster.monster_unlocked_users.empty?
       h5 Already Locked Out For All Users
     -else
-      =form_tag monster_unlock_path("#{monster.monster_unlocks.where(user_id: current_user.id)}"), method: :delete do
+      / =form_tag monster_unlock_path("#{monster.monster_unlocks.where(user_id: current_user.id)}"), method: :delete do
         / # =collection_select :user_id, User.all, :id, :user_name
+      .btn-group
+        button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button" 
+          | Action
+          span.caret
+        ul.dropdown-menu role="menu"
+          -monster.monster_unlocked_users.each do |user|
+            li= link_to "#{user.user_name}", monster_unlock_path(monster.monster_unlocks.where(user_id: current_user.id)), method: :delete
+            li.divider
         
 
-/   =submit_tag 'Lock'
-
+/   =submit_tag 'Louser_name
 / =select_tag
 
 / select.unlock-select
