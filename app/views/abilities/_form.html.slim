@@ -1,0 +1,28 @@
+=form_for @ability do |f|
+  div class="form-group"
+    -case true
+      -when Job.all.empty?
+        h1 Make some Elements First!
+      -when Effect.all.empty?
+        h1 Make some Effects first!
+      -else
+        .form-group
+          h4=f.label "*** Select at least 1 effect for this ability, click the effect to see a description (Need to add this)****"
+          .form-control= f.collection_check_boxes :effects,  Effect.all, :id, :name, {}, { name: "ability[effect_ids][]"}
+          h4=f.label "Job restriction for this ability"
+          .form-control = f.select "job_id", options_for_select(Job.all.collect{|job| [job.name + " Elvl" + job.evolve_lvl, job.id]}, :selected => @ability.job)    
+          =f.label :name
+          =f.text_field :name, class: 'form-control'
+          =f.label :ap_cost
+          =f.text_field :ap_cost, class: 'form-control'
+          =f.label :description
+          =f.text_field :description, class: 'form-control', row: 2          
+          =f.label "Summoner Level required to use this ability"
+          =f.text_field :min_level, class: 'form-control'
+          =f.label "Image animation location that will be used for this ability"
+          =f.text_field :image_url, class: 'form-control'
+          =f.label :store_price
+          =f.text_field :store_price, class: 'form-control'
+          =f.label :price
+          =f.text_field :price, class: 'form-control'
+          hr=f.submit class: 'btn btn-primary'  

@@ -1,0 +1,8 @@
+-if @monster.errors.any?
+
+-else
+| $(".monsters").prepend("#{j render partial: "/monsters/monster", locals: {monster: @monster}}");
+| $("##{dom_id(@monster)}").effect("highlight");
+-monster = Monster.new
+
+/ | $(".monsterForm-form").html("#{j render "/monsters/form"}")

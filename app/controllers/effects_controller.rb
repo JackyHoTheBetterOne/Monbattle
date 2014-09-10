@@ -1,6 +1,6 @@
 class EffectsController < ApplicationController
   # before_action :authenticate!
-  before_action :find_effect, only: [:destroy]
+  before_action :find_effect, only: [:destroy, :edit]
 
   def create
     @effect = Effect.new effect_template_params
@@ -16,10 +16,13 @@ class EffectsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
 private
 
   def effect_template_params
-    params.require(:effect).permit(:name, :target_id, :element, :damage, :modifier)
+    params.require(:effect).permit(:name, :target_id, :element_id, :damage, :modifier)
   end
 
   def find_effect

@@ -1,0 +1,2 @@
+module MonsterUnlocksHelper
+end

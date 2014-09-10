@@ -1,43 +1,58 @@
-/ How to make errors show on this page?
-/ -if @project.errors.any?
-/   ul
-/   - @project.errors.full_messages.each do |error|
-/     li = error
+.row 
+  h4 Creator Tool
+  .pull-right
+    - if user_signed_in?
+      = current_user.user_name
+      = link_to "sign out", destroy_user_session_path, method: :delete, class: "btn btn-default"
+    - else
+      = link_to "sign in", new_user_session_path, class: "btn btn-default"
 
-h1 Creator Tool
-=render 'templates_form'
+= render partial: "modal_button", locals: {modal_label: "jobLabel", modal_id: "jobModal", form_is_for: "job_form", button_name: "Create New Job", form_title: "New Job" }
+= render partial: "modal_button", locals: {modal_label: "elementLabel", modal_id: "elementModal", form_is_for: "element_form", button_name: "Create New Element", form_title: "New Element"}
+= render partial: "modal_button", locals: {modal_label: "targetLabel", modal_id: "targetModal", form_is_for: "target_form", button_name: "Create New Target", form_title: "New Target"}
 
+hr  
 ul.nav.nav-tabs role="tablist" 
-  li.active
-    a data-toggle="tab" href="#monster_template" role="tab"  Monster Templates
-  li
-    a data-toggle="tab" href="#effect" role="tab"  Effects
-  li
-    a data-toggle="tab" href="#ability" role="tab"  Abilities
-  li
-    a data-toggle="tab" href="#monster_skin" role="tab"  Monster Skins
-  li
-    a data-toggle="tab" href="#create_monster" role="tab"  Create a Monster
-  li
-    a data-toggle="tab" href="#equip_ability" role="tab"  Equip Ability
+  li.active: a data-toggle="tab" href="#monster_template" role="tab"  Monster Admin
+  li: a data-toggle="tab" href="#effect" role="tab"  Effects
+  li: a data-toggle="tab" href="#ability" role="tab"  Abilities
+  li: a data-toggle="tab" href="#monster_skin" role="tab"  Skins
+  li: a data-toggle="tab" href="#monster_info" role="tab"  Monsters You Own
+
 .tab-content
   #monster_template.tab-pane.active
-    =render 'monster_template_form'
-    =render 'monster_template_show'
+    br
+      .monsterForm
+        =render partial: "modal_button", locals: {modal_label: "monsterTemplateLabel", modal_id: "monsterTemplateModal", form_is_for: "monsters/form", button_name: "Create New Monster", form_title: "New Monster"}
+    =render partial: "modal_button", locals: {modal_label: "evolvedStateTemplateLabel", modal_id: "evolvedStateTemplateModal", form_is_for: "evolved_state_template_form", button_name: "Create New Evolved State", form_title: "New Evolved State"}
+    hr
+    table.table.table-striped border="1" 
+      thead
+        tr
+          th Template Name
+          th Job/Elvl
+          th Element
+          th Evolved From
+          th Description
+          th Max_hp
+          th Hp modifier
+          th Dmg modifier
+          th Unlock Monster
+          th Lock Monster
+      tbody
+        .monsters=render @monsters
 
   #effect.tab-pane
-    =render 'effect_form'
-    =render 'effect_show'
+    br=render partial: "modal_button", locals: {modal_label: "effectLabel", modal_id: "effectModal", form_is_for: "effect_form", button_name: "Create New Effect", form_title: "New Effect"}
+    hr=render 'effect_show' 
 
   #ability.tab-pane
-    =render 'ability_form'
-    =render 'ability_show'
+    br=render partial: "modal_button", locals: {modal_label: "abilityLabel", modal_id: "abilityModal", form_is_for: "abilities/form", button_name: "Create New Ability", form_title: "New Ability"}
+
+    hr=render @abilities
   
   #monster_skin.tab-pane
     p Coming Soon.... Maybe One Day
 
-  #create_monster.tab-pane
-    =render 'monster_form'
-    =render 'monster_show'
-
-  #equip_ability.tab-pane
+  #monster_info.tab-pane
+    hr=render 'monster_info_show'

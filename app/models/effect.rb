@@ -7,7 +7,8 @@ class Effect < ActiveRecord::Base
 
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :damage, presence: {message: 'Must be entered'}
-  validates :target, presence: {message: 'Must be entered'}
+  validates :target_id, presence: {message: 'Must be entered'}
   validates :modifier, presence: {message: 'Must be entered'}
+  validates :element_id, presence: {message: 'Must be entered'}
 
 end

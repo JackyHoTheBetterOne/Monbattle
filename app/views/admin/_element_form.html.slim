@@ -1,0 +1,14 @@
+=form_for @element do |f|
+  .form-group
+    =f.label :name
+    =f.text_field :name, class: 'form-control'
+    hr=f.submit class: 'btn btn-primary'
+hr
+-if @elements.empty?
+-else
+  h4 Current Elements:
+  -@elements.each do |element|
+    -if element.effects.empty? && element.monsters.empty?
+      =link_to " #{element.name} ", element, method: :delete, data: {confirm: "Delete?"}, class: "btn btn-sm btn-danger"
+    -else
+      =link_to " #{element.name} ", element, method: :patch, data: {confirm: "Edit only, because linked to at least one effect or monster"}, class: "btn btn-sm btn-info"

@@ -1,31 +1,17 @@
-button.btn.btn-primary data-target="##{class_modal_id}" data-toggle="modal" 
-  | Create New Class
-/! Modal
-.modal.fade aria-hidden="true" aria-labelledby=class_modal_label role="dialog" tabindex="-1" id=class_modal_id
+button.btn.btn-primary data-target="##{modal_id}" data-toggle="modal" 
+  | #{button_name}
+.modal.fade aria-hidden="true" aria-labelledby=modal_label role="dialog" tabindex="-1" id=modal_id
   .modal-dialog
     .modal-content
       .modal-header
         button.close data-dismiss="modal" type="button" 
           span aria-hidden="true"  &times;
           span.sr-only Close
-        h4.modal-title id=class_modal_label
-          | New Class
+        h4.modal-title id=modal_label
+          | #{form_title}
       .modal-body
-        /render @class, then create this in class_template views, _class? or _form
-        /render form_variable
-        =form_for @job do |f|
-          .form-group
-            =f.label :name
-            =f.text_field :name, class: 'form-control'
-            =f.label :evolve_lvl
-            =f.text_field :evolve_lvl, class: 'form-control'
-            = f.submit class: 'btn btn-primary'
-        hr
-        -if @jobs.empty?
-        -else
-          h4 Current Classes:
-          -@jobs.each do |job|
-            =link_to " #{job.name} ", class_t, method: :delete, data: {confirm: "Delete?"}, class: "btn btn-sm btn-danger"
-            =job.evolve_lvl
+
+        =render partial: "#{form_is_for}"
+
       .modal-footer
         button.btn.btn-default data-dismiss="modal" type="button"  Close

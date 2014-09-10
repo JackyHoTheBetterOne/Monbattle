@@ -1,0 +1,9 @@
+=form_for [monster, @monster_unlock] do |f|
+  div class='form-group'
+    h4 Unlock this monster for which user?
+      -if @monster_unlocks.empty?
+        .form-control =f.collection_select :user_id, User.all, :id, :user_name
+      -else
+        .form-control =f.collection_select :user_id, User.where("users.id NOT IN (?)", MonsterUnlock.pluck(:user_id)), :id, :user_name
+    hr=f.submit class: 'btn btn-primary'
+

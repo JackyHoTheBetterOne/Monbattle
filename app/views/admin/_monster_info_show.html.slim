@@ -1,0 +1,25 @@
+/ # =link_to "create a team or delete your team", monster, class: "btn btn-sm"
+hr
+-if user_signed_in?
+-if current_user.unlocked_monsters.empty?
+-else
+  table.table.table-striped border="1" 
+    thead
+      tr
+        th Monster Name
+        th Equipped Ability
+        th Add/Remove from Team
+    tbody
+      -current_user.unlocked_monsters.each do |monster|
+        tr
+          td= monster.name
+          td
+            -if monster.ability_equippings.empty?
+              h4 Nothing equipped
+            -else
+            ="Equipped with: #{monster.monster_equipped_abilities.collect(&:name)[0]}"
+            = render partial: "/ability_equippings/form", locals: {mon: "#{monster.id}", ability_equipping: monster.ability_equipping_for(current_user) || AbilityEquipping.new}
+          td
+            / =link_to "Add to team", admin_index_path
+            / =link_to "Remove from team", admin_index_path  
+

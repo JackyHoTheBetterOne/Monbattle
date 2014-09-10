@@ -1,6 +1,11 @@
 class AdminController < ApplicationController
 
   def index
+    @monster_unlock = MonsterUnlock.new
+    @monster_unlocks = MonsterUnlock.all
+    @users = User.all
+    @ability_equipping = AbilityEquipping.new
+    @ability_equippings = AbilityEquipping.all
     @evolved_state = EvolvedState.new
     @evolved_states = EvolvedState.all
     @monster = Monster.new

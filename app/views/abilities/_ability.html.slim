@@ -1,0 +1,42 @@
+.panel-group id="accordian#{dom_id(ability)}"
+  .panel.panel-default
+    .panel-heading
+      h3.panel-title
+        a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseOne#{dom_id(ability)}" 
+          | #{ability.name}
+    .panel-collapse.collapse.in id="collapseOne#{dom_id(ability)}"
+      .panel-body
+        table.table border="1" 
+          thead
+            tr
+              th Job Limitation/E-lvl required
+              th Ap Cost
+              th Description
+              th Summoner lvl required
+              th Ability Image
+              th Store Price
+              th Price
+              th Delete/Edit
+          tbody
+            tr
+              td=ability.job.name + "/" + ability.job.evolve_lvl
+              td=ability.ap_cost
+              td=ability.description
+              td=ability.min_level
+              td="Link to Image"
+              td=ability.store_price
+              td=ability.price
+              td
+                =link_to "Delete", ability, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm btn-danger"
+                =link_to "Edit", ability, method: :patch, class: "btn btn-sm btn-info"
+
+  .panel.panel-default
+    .panel-heading
+      h3.panel-title
+        a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseTwo#{dom_id(ability)}" 
+          | Effects Attached to this ability
+    .panel-collapse.collapse id="collapseTwo#{dom_id(ability)}"
+      .panel-body
+        p 2
+
+        tr

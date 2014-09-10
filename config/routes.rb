@@ -1,27 +1,24 @@
 Rails.application.routes.draw do
 
+devise_for :users
+
 root 'admin#index'
 resources :admin
 
-resources :monsters, only: [:destroy, :create, :edit] do
-  resources :evolved_states, only: [:destroy, :create, :edit]
-end
+resources :monsters, only: [:destroy, :create, :edit]
+# get 'monsters/clone' => 'monsters#clone', as: :monster_clone
+patch 'monsters/evolve/edit/:id' => 'monsters#evolve_edit', as: :evolve_edit
 resources :abilities, only: [:destroy, :create, :edit]
 resources :effects, only: [:destroy, :create, :edit]
 resources :monster_skins, only: [:destroy, :create, :edit]
 resources :jobs, only: [:destroy, :create]
 resources :elements, only: [:destroy, :create]
 resources :targets, only: [:destroy, :create]
+resources :ability_equippings, only: [:create, :destroy, :update]
+resources :monster_unlocks, only: [:create, :destroy]     
 # resources :summoners
 # resources :summoner_levels
 # resources :battles
-
-# resources :monster_skin_purchases
-# resources :ability_effects 
-# resources :ability_equippings
-# resources :evolved_ability_equippings
-# resources :ability_purchases
-
 
 
   # The priority is based upon order of creation: first created -> highest priority.

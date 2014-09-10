@@ -1,0 +1,55 @@
+=form_for @monster do |f|
+  div class='form-group'
+    -case true
+      -when Job.where(evolve_lvl: "1").empty?
+        h1 Make some Jobs with evolve lvl 0 First!
+      -else
+        .form-group
+          h4=f.label "Monster that this will evolve from"   
+          .form-control = f.select "evolved_from_id", options_for_select(Monster.where(evolved_from_id: "0").collect{|m| [m.name, m.id]}, :selected => @monster.id)
+          h4=f.label "The job of this evolved state, and the evolution level"   
+          .form-control = f.select "job_id", options_for_select(Job.where(evolve_lvl: "1").collect{|job| [job.name + " Elvl: " + job.evolve_lvl, job.id]}, :selected => @monster.job)
+          h4=f.label "The element of this evolved state"
+          .form-control =f.collection_select :element_id, Element.all, :id, :name
+          =f.label "Click to see existing monsters -- (Feature coming Soon)"
+          =f.label "This monster name is universal, so name it well!"
+          =f.text_field :name, class: 'form-control'
+          =f.label "The description of this evolved state"
+          =f.text_area :description, class: 'form-control', row: 2
+          =f.label :max_hp
+          =f.text_field :max_hp, class: 'form-control'
+          =f.label :hp_modifier
+          =f.text_field :hp_modifier, class: 'form-control'
+          =f.label :dmg_modifier
+          =f.text_field :dmg_modifier, class: 'form-control'
+          hr=f.submit class: 'btn btn-primary'
+
+
+  / =form_for @evolved_state do |f|
+  / div class='form-group'
+  /   -case true
+  /     -when Monster.where(is_template: true).empty?
+  /       h1 Make some Monster Templates First!
+  /     -when Element.all.empty?
+  /       h1 Make some Elements First!
+  /     -when Job.where(evolve_lvl: "1").empty?
+  /       h1 Make some Jobs with Evolve level 1 first!
+  /     -else
+  /       .form-group
+  /         h4=f.label "Select the Monster Template that this Evolved state is derived from"   
+  /         .form-control = f.select "monster_id", options_for_select(Monster.where(is_template: true).collect{|m_temp| ["Template: " + m_temp.name + ", Max hp: " + m_temp.max_hp.to_s + " , Job: " + m_temp.job.name + " , Element: " + m_temp.element.name, m_temp.id]}, :selected => @evolved_state.monster_id)
+  /         h4=f.label "The class that this evolved state is"
+  /         .form-control = f.select "job_id", options_for_select(Job.where(evolve_lvl: "1").collect{|job| [job.name + " Elvl" + job.evolve_lvl, job.id]}, :selected => @evolved_state.job), {:size => 10}
+  /         h4=f.label "The element type of this evolved state"
+  /         .form-control =f.collection_select :element_id, Element.all, :id, :name
+  /         / =f.label "Click to see existing templates -- (Feature coming Soon)"
+  /         =f.label "Remember this name will be used for all evolved_states cloned from this template!"
+  /         =f.text_field :name, class: 'form-control'
+  /         =f.label :hp_modifier
+  /         =f.text_field :hp_modifier, class: 'form-control' 
+  /         =f.label :dmg_modifier
+  /         =f.text_field :dmg_modifier, class: 'form-control'
+  /         =f.hidden_field :is_template, :value => true
+  /         =f.hidden_field :created_from_id, :value => 0
+  /         =f.hidden_field :monster_skin_id, :value => 0
+  /         hr=f.submit class: 'btn btn-primary'

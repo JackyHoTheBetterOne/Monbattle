@@ -1,6 +1,6 @@
 class AbilitiesController < ApplicationController
   # before_action :authenticate!
-  before_action :find_ability, only: [:destroy]
+  before_action :find_ability, only: [:destroy, :edit]
 
   def create
     @ability = Ability.new ability_params
@@ -26,8 +26,8 @@ class AbilitiesController < ApplicationController
   end
 
   def ability_params
-    params.require(:ability).permit(:job, :name, :ap_cost,
-    :description, :min_level, :store_price, :image_url, :price, {effect_ids: []})
+    params.require(:ability).permit(:name,:ap_cost, :store_price, :image_url, :min_level, :price, 
+      :description, :job_id, {effect_ids: []})
   end
 
 end

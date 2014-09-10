@@ -1,8 +1,8 @@
 class Job < ActiveRecord::Base
   
-  has_many :evolved_states
   has_many :monsters
-  has_many :abilities 
+  has_many :abilities
+  has_many :monster_skins
 
   before_save :capitalize_name
 
