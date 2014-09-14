@@ -36,11 +36,11 @@ class MonstersController < ApplicationController
   end
 
   def update
-    @ability_equipping_destroy = @monster.id
     @monster.update_attributes(monster_params)
     if @monster.save
-      AbilityEquipping.where(monster_id: @ability_equipping_destroy).destroy_all
-      redirect_to admin_index_path, notice: "Also Destroyed all Ability Equipping Associations"
+      @monster.ability_equippings.destroy_all
+      @monster.members.destroy_all
+      redirect_to admin_index_path, notice: "Also Destroyed all Ability Equipping Associations and Party Associations!"
     end
   end
 

@@ -1,5 +1,5 @@
 class Effect < ActiveRecord::Base
-  
+
   belongs_to :element
   belongs_to :target
   has_many :ability_effects, dependent: :destroy

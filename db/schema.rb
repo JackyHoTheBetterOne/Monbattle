@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140908213246) do
+ActiveRecord::Schema.define(version: 20140913234635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,15 +63,29 @@ ActiveRecord::Schema.define(version: 20140908213246) do
   add_index "ability_purchases", ["ability_id"], name: "index_ability_purchases_on_ability_id", using: :btree
   add_index "ability_purchases", ["user_id"], name: "index_ability_purchases_on_user_id", using: :btree
 
-  create_table "battles", force: true do |t|
-    t.string   "outcome"
-    t.integer  "user_id"
-    t.integer  "reward"
+  create_table "backgrounds", force: true do |t|
+    t.string   "name"
+    t.string   "image"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "battles", ["user_id"], name: "index_battles_on_user_id", using: :btree
+  create_table "battle_levels", force: true do |t|
+    t.string   "item_given"
+    t.integer  "exp_given"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+  end
+
+  create_table "battles", force: true do |t|
+    t.string   "outcome"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "battle_level_id"
+  end
+
+  add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
 
   create_table "effects", force: true do |t|
     t.string   "name"
@@ -111,6 +125,16 @@ ActiveRecord::Schema.define(version: 20140908213246) do
   add_index "evolved_states", ["monster_id"], name: "index_evolved_states_on_monster_id", using: :btree
   add_index "evolved_states", ["monster_skin_id"], name: "index_evolved_states_on_monster_skin_id", using: :btree
 
+  create_table "fights", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "battle_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "fights", ["battle_id"], name: "index_fights_on_battle_id", using: :btree
+  add_index "fights", ["user_id"], name: "index_fights_on_user_id", using: :btree
+
   create_table "jobs", force: true do |t|
     t.string   "name"
     t.string   "evolve_lvl"
@@ -133,10 +157,12 @@ ActiveRecord::Schema.define(version: 20140908213246) do
     t.integer  "monster_skin_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   add_index "monster_skin_equippings", ["monster_id"], name: "index_monster_skin_equippings_on_monster_id", using: :btree
   add_index "monster_skin_equippings", ["monster_skin_id"], name: "index_monster_skin_equippings_on_monster_skin_id", using: :btree
+  add_index "monster_skin_equippings", ["user_id"], name: "index_monster_skin_equippings_on_user_id", using: :btree
 
   create_table "monster_skin_purchases", force: true do |t|
     t.integer  "user_id"
@@ -149,14 +175,14 @@ ActiveRecord::Schema.define(version: 20140908213246) do
   add_index "monster_skin_purchases", ["user_id"], name: "index_monster_skin_purchases_on_user_id", using: :btree
 
   create_table "monster_skins", force: true do |t|
-    t.text     "skin_url"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "job_id"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
-
-  add_index "monster_skins", ["job_id"], name: "index_monster_skins_on_job_id", using: :btree
 
   create_table "monster_unlocks", force: true do |t|
     t.integer  "user_id"
@@ -193,6 +219,16 @@ ActiveRecord::Schema.define(version: 20140908213246) do
   end
 
   add_index "parties", ["user_id"], name: "index_parties_on_user_id", using: :btree
+
+  create_table "skin_restrictions", force: true do |t|
+    t.integer  "monster_skin_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "job_id"
+  end
+
+  add_index "skin_restrictions", ["job_id"], name: "index_skin_restrictions_on_job_id", using: :btree
+  add_index "skin_restrictions", ["monster_skin_id"], name: "index_skin_restrictions_on_monster_skin_id", using: :btree
 
   create_table "summoner_levels", force: true do |t|
     t.integer  "lvl"
@@ -242,6 +278,7 @@ ActiveRecord::Schema.define(version: 20140908213246) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "admin",                  default: false
+    t.boolean  "is_npc",                 default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

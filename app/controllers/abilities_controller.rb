@@ -3,11 +3,12 @@ class AbilitiesController < ApplicationController
   before_action :find_ability, except: [:create]
 
   def create
+    # render text: params.to_s
     @ability = Ability.new ability_params
     if @ability.save
       redirect_to admin_index_path, notice: "Ability Created"
     else
-      redirect_to admin_index_path, notice: "Failed to create"      
+      redirect_to admin_index_path, notice: "Failed to create"
     end
   end
 
@@ -23,10 +24,9 @@ class AbilitiesController < ApplicationController
   end
 
   def update
-    @ability_equipping_destroy = @ability.id
     @ability.update_attributes(ability_params)
     if @ability.save
-      AbilityEquipping.where(ability_id: @ability.id).destroy_all
+      @ability.ability_equippings.destroy_all
       redirect_to admin_index_path, notice: "Updated"
     end
   end
@@ -38,9 +38,8 @@ class AbilitiesController < ApplicationController
   end
 
   def ability_params
-    params.require(:ability).permit(:name,:ap_cost, :store_price, :image_url, :min_level, :price, 
+    params.require(:ability).permit(:name,:ap_cost, :store_price, :image_url, :min_level, :price,
       :description, :job_id, {effect_ids: []})
   end
-
 end
 

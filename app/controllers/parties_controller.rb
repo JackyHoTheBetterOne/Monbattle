@@ -17,6 +17,10 @@ class PartiesController < ApplicationController
   end
 
   def update
+    @party.update_attributes(party_params)
+    if @party.save
+      redirect_to admin_index_path, notice: "Changed"
+    end
   end
 
   def destroy
@@ -29,7 +33,7 @@ class PartiesController < ApplicationController
   end
 
   def party_params
-    params.require(:party).permit(:user_id, :name)  
+    params.require(:party).permit(:user_id, :name)
   end
 
 end

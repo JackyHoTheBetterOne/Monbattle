@@ -4,8 +4,11 @@ class EffectsController < ApplicationController
 
   def create
     @effect = Effect.new effect_params
-    @effect.save
-    redirect_to admin_index_path
+    if @effect.save
+      redirect_to admin_index_path, notice: "Effect Removed"
+    else
+      redirect_to admin_index_path, notice: "Failure"
+    end
   end
 
   def destroy

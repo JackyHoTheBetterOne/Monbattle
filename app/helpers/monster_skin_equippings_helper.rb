@@ -1,0 +1,2 @@
+module MonsterSkinEquippingsHelper
+end

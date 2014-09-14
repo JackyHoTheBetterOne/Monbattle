@@ -1,12 +1,12 @@
 .panel-group id="accordian#{dom_id(ability)}"
-  .panel.panel-info
+  .panel.panel-primary
     .panel-heading
       h3.panel-title
-        a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseOne#{dom_id(ability)}" 
+        a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseOne#{dom_id(ability)}"
           | #{ability.name}
     .panel-collapse.collapse.in id="collapseOne#{dom_id(ability)}"
       .panel-body
-        table.table border="1" 
+        table.table border="1"
           thead
             tr
               th Job Limitation/E-lvl required
@@ -28,18 +28,18 @@
               td=ability.price
               td
                 =link_to "Delete", ability, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm btn-danger"
-                =link_to "Edit", edit_ability_path(ability), class: "btn btn-sm btn-warning"
+                =link_to "Edit", edit_ability_path(ability), data: {confirm: "This will unequip this ability from all monsters using it!"}, class: "btn btn-sm btn-warning"
 
   -if ability.effects.empty?
   -else
-    .panel.panel-primary
+    .panel.panel-danger
       .panel-heading
         h3.panel-title
-          a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseTwo#{dom_id(ability)}" 
+          a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseTwo#{dom_id(ability)}"
             | #{ability.name} Effects
-      .panel-collapse.collapse id="collapseTwo#{dom_id(ability)}"
+      .panel-collapse.collapse.in id="collapseTwo#{dom_id(ability)}"
         .panel-body
-          table.table.table-striped border="1" 
+          table.table.table-striped border="1"
             thead
               tr
                 th Effect Name

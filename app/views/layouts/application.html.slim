@@ -7,13 +7,12 @@ html
     = csrf_meta_tags
   body
 
-    .container-fluid
+    - if flash[:notice]
+      div class='alert alert-success'
+        = flash[:notice]
+    - elsif flash[:alert]
+      div class='alert alert-danger'
+        = flash[:alert]
 
-      - if flash[:notice]
-        div class='alert alert-success'
-          = flash[:notice]
-      - elsif flash[:alert]
-        div class='alert alert-danger'
-          = flash[:alert]
-          
+    .container-fluid
       = yield

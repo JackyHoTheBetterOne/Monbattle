@@ -1,6 +1,14 @@
 class AdminController < ApplicationController
 
   def index
+    @monster_skin_purchase = MonsterSkinPurchase.new
+    @monster_skin_purchases = MonsterSkinPurchase.all
+    @battle = Battle.new
+    @battles = Battle.all
+    @battle_level = BattleLevel.new
+    @battle_levels = BattleLevel.all
+    @monster_skin = MonsterSkin.new
+    @monster_skins = MonsterSkin.all
     @party = Party.new
     @parties = Party.all
     @member = Member.new

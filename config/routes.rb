@@ -5,24 +5,31 @@ devise_for :users
 root 'admin#index'
 resources :admin
 
-resources :monsters do
-  resources :members, only: [:destroy, :create]
+resources :monsters, only: [:create, :edit, :update, :destroy] do
+  resources :members, only: [:create, :destroy]
+  resources :monster_unlocks, only: [:destroy]
 end
-resources :members, only: [:create, :destroy]
-resources :effects
-resources :abilities
-resources :monster_skins
-resources :parties
+resources :monster_skins, only: [:create, :edit, :update, :destroy] do
+  resources :monster_skin_purchases, only: [:create, :destroy]
+end
+
+resources :effects, only: [:create, :edit, :update, :destroy]
+resources :abilities, only: [:create, :edit, :update, :destroy]
+resources :parties, only: [:create, :edit, :update, :destroy]
+resources :battle_levels, only: [:create, :edit, :update, :destroy]
+resources :battles
 # get 'monsters/clone' => 'monsters#clone', as: :monster_clone
 patch 'monsters/evolve/edit/:id' => 'monsters#evolve_edit', as: :evolve_edit
-resources :jobs, only: [:destroy, :create]
-resources :elements, only: [:destroy, :create]
-resources :targets, only: [:destroy, :create]
+resources :jobs, only: [:create, :destroy]
+resources :elements, only: [:create, :destroy]
+resources :targets, only: [:create, :destroy]
+
+resources :monster_skin_equippings, only: [:create, :destroy, :update]
 resources :ability_equippings, only: [:create, :destroy, :update]
-resources :monster_unlocks, only: [:create, :destroy]
+resources :monster_skin_equippings, only: [:create, :destroy, :update]
+resources :monster_unlocks, only: [:create]
 # resources :summoners
 # resources :summoner_levels
-# resources :battles
 
 
   # The priority is based upon order of creation: first created -> highest priority.

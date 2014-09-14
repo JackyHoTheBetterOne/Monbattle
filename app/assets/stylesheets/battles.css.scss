@@ -1,3 +1,284 @@
 // Place all the styles related to the battles controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+/* Battlefield Info */
+
+#battlefield {
+ width:960px;
+}
+
+.innerBattlefield {
+ padding:0px;
+ width:958px;
+}
+
+.target {
+  border-style: solid;
+  border-width: 20px;
+  border-color: red;
+}
+
+/* Shared Enemy Info Bar */
+
+#enemyInfo{
+ position:absolute;
+ top:530px;
+ right:610px;
+ height:80px;
+ width:300px;
+}
+
+
+/* Enemy in slot 1 */
+
+#enemy-slot-1-hp {
+  position: absolute;
+  top: 588px;
+  left: 152px;
+  height:14px;
+  width: 50px;
+}
+
+#enemy-slot-1-avatar {
+  position:absolute;
+  top:535px;
+  right: 825px;
+  height:70px;
+  width:70px;
+}
+
+#enemy-slot-1-name {
+  position:absolute;
+  top: 530px;
+  left: 150px;
+}
+
+.enemy-slot-1-current-hp {
+  position:absolute;
+  top: 556px;
+  left: 210px;
+
+}
+
+.enemy-slot-1-max-hp {
+  position:absolute;
+  top: 556px;
+  left: 280px;
+
+}
+
+#enemy-slot-1 {
+ position:absolute;
+ top:200px;
+ right:525px;
+ width:140px;
+}
+
+/* Enemy in slot 2*/
+
+#enemy-slot-2-hp {
+  position: absolute;
+  top: 588px;
+  left: 152px;
+  height:14px;
+  width: 50px;
+}
+
+#enemy-slot-2-avatar {
+  position:absolute;
+  top:535px;
+  right: 825px;
+  height:70px;
+  width:70px;
+}
+
+#enemy-slot-2-name {
+  position:absolute;
+  top: 540px;
+  left: 150px;
+}
+
+#enemy-slot-2 {
+ position:absolute;
+ top:200px;
+ right:720px;
+ width:140px;
+}
+
+/* Enemy in slot 3*/
+
+#enemy-slot-3 {
+ position:absolute;
+ top:350px;
+ right:550px;
+ width:140px;
+}
+
+/* Enemy in slot 4*/
+
+#enemy-slot-4 {
+ position:absolute;
+ top:350px;
+ right:720px;
+ width:140px;
+}
+
+/* Player Monster Slot 1 */
+
+#monSlot1Info{
+  position:absolute;
+  top:50px;
+  right:740px;
+  width:176px;
+}
+
+#mon-slot-1 {
+ position: absolute;
+ top: 200px;
+ left: 550px;
+ width: 140px;
+}
+
+#mon-slot-1-avatar {
+ position: absolute;
+ top: 65px;
+ left: 50px;
+ height: 50px;
+ width: 50px;
+}
+
+#mon-slot-1-name {
+ position: absolute;
+ top: 60px;
+ left: 105px;
+
+}
+
+#mon-slot-1-hp {
+ position: absolute;
+ top: 106px;
+ left: 104px;
+ height:13px;
+ width: 40px;
+}
+
+.mon-1-button-1{
+  position:absolute;
+  top:170px;
+  right:420px;
+  height:9%;
+
+}
+
+
+/* Player Monster Slot 2 */
+
+.mon-1-button-2 {
+  display: none;
+  position:absolute;
+  top:240px;
+  right:420px;
+  height:9%;
+}
+
+.mon-1-button-3{
+  display: none;
+  position:absolute;
+  top:310px;
+  right:420px;
+  height:9%;
+}
+
+#monslot2 {
+ position:absolute;
+ top:200px;
+ right:50px;
+ width:15%;
+}
+
+#monSlot2Info{
+  position:absolute;
+  top:50px;
+  right:500px;
+  width:176px;
+}
+
+
+/* Player Monster Slot 3 */
+
+#monSlot3Info{
+  position:absolute;
+  top:50px;
+  right:250px;
+  width:176px;
+}
+
+#mon-slot-3 {
+ position:absolute;
+ top:350px;
+ left:550px;
+ width:15%;
+}
+
+
+.mon-3-button-1{
+  position:absolute;
+  top:320px;
+  right:420px;
+  height:9%;
+}
+
+.mon-3-button-2{
+  position:absolute;
+  top:390px;
+  right:420px;
+  height:9%;
+}
+
+.mon-3-button-3{
+  position:absolute;
+  top:460px;
+  right:420px;
+  height:9%;
+}
+
+/* Player Monster Slot 4 */
+
+#monSlot4Info{
+  position:absolute;
+  top:50px;
+  right:10px;
+  width:176px;
+
+}
+#monslot4 {
+ position:absolute;
+ top:350px;
+ right:50px;
+ width:15%;
+}
+
+/* End Turn and AP Meter  */
+
+#attack {
+  display: none;
+}
+
+#endTurnButton {
+ position:absolute;
+ top:547px;
+ right:20px;
+ height:65px;
+ width: 175px;
+ // width:15%;
+}
+
+#apMeter{
+ position:absolute;
+ top:547px;
+ right:200px;
+ width:25%;
+}
+

@@ -1,6 +1,7 @@
 class MonsterUnlocksController < ApplicationController
   # before_action :authenticate_user!
   before_action :find_monster_unlock, only: [:destroy]
+
   def create
     # render text: params.to_s
     @monster_unlock = MonsterUnlock.new monster_unlock_params
@@ -13,8 +14,11 @@ class MonsterUnlocksController < ApplicationController
 
   def destroy
     # render text: params.to_s
-    @monster_unlock.destroy
-    redirect_to admin_index_path, notice: "Monster Locked for User!"
+    if @monster_unlock.destroy
+      MonsterUnlock.where(monster_id: params[:monster_id]).destroy_all
+      AbilityEquipping.where(monster_id: params[:monster_id]).destroy_all
+      redirect_to admin_index_path, notice: "Monster Locked for User!"
+    end
   end
 
   private

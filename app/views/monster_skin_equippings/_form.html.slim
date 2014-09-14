@@ -1,0 +1,11 @@
+-monster = current_user.unlocked_monsters.find "#{mon}"
+
+= form_for monster_skin_equipping do |f|
+  div class='form-group'
+    .form-control
+      select name="monster_skin_equipping[monster_skin_id]" id="monster_skin_equipping_id"
+        =monster.job.monster_skins.where(id: current_user.monster_skin_purchases.map(&:monster_skin_id)).each do |monster_skin|
+          option value="#{monster_skin.id}" #{monster_skin.name}
+    =f.hidden_field :monster_id, value: monster.id
+    =f.hidden_field :user_id, value: current_user.id
+    hr=f.submit "Equip Monster Skin", class: 'btn btn-primary'

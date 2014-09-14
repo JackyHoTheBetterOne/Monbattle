@@ -1,0 +1,27 @@
+tr
+  td
+    h4 Skin Name: #{monster_skin.name}
+    br=link_to "Edit Skin Settings", edit_monster_skin_path(monster_skin), data: {confirm: "Will unequip this skin from all monsters and remake all class restrictions on this skin!!"}, class: "btn btn-sm btn-info"
+    =link_to "Delete Skin", monster_skin, method: :delete, data: {confirm: "Will delete this skin for all users!!"}, class: "btn btn-sm btn-danger"
+
+  td=image_tag monster_skin.avatar.url(:medium)
+  td
+    =form_for [monster_skin, @monster_skin_purchase] do |f|
+      div class='form-group'
+        h5 Select User
+        -if monster_skin.skin_purchased_users.empty?
+          .form-control =f.collection_select :user_id, User.all, :id, :user_name
+        -else
+          .form-control =f.collection_select :user_id, User.where("users.id NOT IN (?)", monster_skin.skin_purchased_users.collect(&:id)), :id, :user_name
+        =f.submit "Unlock Skin", class: 'btn btn-sm btn-primary'
+    -if monster_skin.skin_purchased_users.empty?
+      h5 Already Locked Out For All Users
+    -else
+      .btn-group
+        button.btn.btn-danger.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
+          | Lock Skin
+          span.caret
+        ul.dropdown-menu role="menu"
+          -monster_skin.skin_purchased_users.each do |user|
+            li= link_to "#{user.user_name}", [monster_skin, (monster_skin.monster_skin_purchases.where(user_id: user.id).first)], method: :delete, data: {confirm: "This will also unequip any monsters from parties using this skin"}
+            li.divider

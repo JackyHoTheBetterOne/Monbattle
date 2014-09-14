@@ -1,4 +1,4 @@
-.row 
+.row
   h4 Creator Tool
   .pull-right
     - if user_signed_in?
@@ -11,13 +11,17 @@
 = render partial: "modal_button", locals: {modal_label: "elementLabel", modal_id: "elementModal", form_is_for: "elements/form", button_name: "Create New Element", form_title: "New Element"}
 = render partial: "modal_button", locals: {modal_label: "targetLabel", modal_id: "targetModal", form_is_for: "targets/form", button_name: "Create New Target", form_title: "New Target"}
 
-hr  
-ul.nav.nav-tabs role="tablist" 
+hr
+ul.nav.nav-tabs role="tablist"
   li.active: a data-toggle="tab" href="#monster_template" role="tab"  Monster Admin
   li: a data-toggle="tab" href="#effect" role="tab"  Effects
   li: a data-toggle="tab" href="#ability" role="tab"  Abilities
   li: a data-toggle="tab" href="#monster_skin" role="tab"  Skins
+  li: a data-toggle="tab" href="#battle_level" role="tab"  Create a Battle Level
+  li: a data-toggle="tab" href="#npc_party" role="tab"  Create NPC Party
+  li: a data-toggle="tab" href="#show_battles" role="tab"  Show all Battles
   li: a data-toggle="tab" href="#monster_info" role="tab"  Monsters You Own
+  li: a data-toggle="tab" href="#enter_battle" role="tab"  Enter a Battle
 
 .tab-content
   #monster_template.tab-pane.active
@@ -26,7 +30,7 @@ ul.nav.nav-tabs role="tablist"
         =render partial: "modal_button", locals: {modal_label: "monsterTemplateLabel", modal_id: "monsterTemplateModal", form_is_for: "monsters/form", button_name: "Create New Monster", form_title: "New Monster"}
     =render partial: "modal_button", locals: {modal_label: "evolvedStateTemplateLabel", modal_id: "evolvedStateTemplateModal", form_is_for: "monsters/evolved_form", button_name: "Create New Evolved State", form_title: "New Evolved State"}
     hr
-    table.table.table-striped border="1" 
+    table.table.table-striped border="1"
       thead
         tr
           th Template Name
@@ -44,7 +48,7 @@ ul.nav.nav-tabs role="tablist"
   #effect.tab-pane
     br=render partial: "modal_button", locals: {modal_label: "effectLabel", modal_id: "effectModal", form_is_for: "effects/form", button_name: "Create New Effect", form_title: "New Effect"}
     hr
-    table.table.table-striped border="1" 
+    table.table.table-striped border="1"
       thead
         tr
           th Effect Name
@@ -60,13 +64,111 @@ ul.nav.nav-tabs role="tablist"
 
   #ability.tab-pane
     br=render partial: "modal_button", locals: {modal_label: "abilityLabel", modal_id: "abilityModal", form_is_for: "abilities/form", button_name: "Create New Ability", form_title: "New Ability"}
-
     hr=render @abilities
-  
+
   #monster_skin.tab-pane
-    p Coming Soon.... Maybe One Day
+    br=render partial: "modal_button", locals: {modal_label: "skinLabel", modal_id: "skinModal", form_is_for: "monster_skins/form", button_name: "Upload a Monster Skin", form_title: "Upload Monster Skin" }
+    -if user_signed_in?
+      -if @monster_skins.empty?
+      -else
+        hr
+        table.table.table-striped border="1"
+          thead
+            tr
+              th Name
+              th Image
+              th Lock/Unlock
+          tbody
+            =render @monster_skins
 
   #monster_info.tab-pane
-    br= render partial: "modal_button", locals: {modal_label: "partyLabel", modal_id: "partyModal", form_is_for: "parties/form", button_name: "Create New Party", form_title: "New Party" }
+    -if user_signed_in?
+      -if current_user.parties.empty?
+        br=render partial: "modal_button", locals: {modal_label: "partyLabel", modal_id: "partyModal", form_is_for: "parties/form", button_name: "Create New Party", form_title: "New Party"}
+      -else
+        / br=link_to "Edit Party",
     hr=render 'monster_info_show'
 
+  #show_battles.tab-pane
+    -if @battle.errors.any?
+    -else
+      hr
+      -if @battles.empty?
+      -else
+        -if Fight.all.empty?
+        -else
+          table.table.table-striped border="1"
+            thead
+              tr
+                th Battle ID
+                th Player name
+                th Opponent
+                th Name of Stage (If vs NPC)
+                th Destory this record
+            tbody
+              -@battles.each do |battle|
+                tr
+                  td=link_to "#{battle.id}", battle
+                  td=battle.users.first.user_name
+                  td=battle.users.last.user_name
+                  td=battle.battle_level.name
+                  td=link_to "Destroy", battle_path(battle), class: "btn btn-danger", method: :delete
+
+
+
+  #npc_party.tab-pane
+    br=render partial: "modal_button", locals: {modal_label: "npc_partyLabel", modal_id: "npc_partyModal", form_is_for: "parties/npc_form", button_name: "Create NPC Party", form_title: "NPC Party" }
+    hr
+    -if User.find_by_is_npc(true).blank? || User.find_by_user_name("NPC").blank?
+      h1 There is no user named NPC, or there is no User with username NPC
+    -else
+      table.table.table-striped border="1"
+        thead
+          tr
+            th Party Name
+            th Mon 1
+            th Mon 2
+            th Mon 3
+            th Mon 4
+        tbody
+          -@battles.each do |battle|
+            tr
+              td
+              td
+              td
+              td
+              td
+      =render "/parties/npc_party"
+
+  #battle_level.tab-pane
+    br=render partial: "modal_button", locals: {modal_label: "battle_levelLabel", modal_id: "battle_levelModal", form_is_for: "battle_levels/form", button_name: "Create Stage", form_title: "Stage Creation" }
+    hr
+    -if @battle_levels.empty?
+    -else
+      table.table.table-striped border="1"
+        thead
+          tr
+            th Stage Name
+            th Item Given
+            th Exp Given
+            th Background Image
+        tbody
+          =render @battle_levels
+
+  #enter_battle.tab-pane
+    hr
+    -if user_signed_in?
+      -if @battle.errors.any?
+        ul
+        -@battle.errors.full_messages.each do |msg|
+          li= msg
+      -else
+        -if current_user.parties.empty?
+        -else
+          -if Party.members_count_for(current_user) == 0
+            h1 Add more members to your team first.
+          -else
+            h5 add logic to check if monsters in party are equipped
+            h5 Make a select box for each party that exists for npc called (select a level)
+            hr
+            = render "/battles/form"

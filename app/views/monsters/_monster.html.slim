@@ -1,26 +1,24 @@
-tr id=dom_id(monster)
-  td
-    =monster.name
-    br
-    -case false
-      -when Monster.where(evolved_from_id: "#{monster.id}").empty?
-        =link_to "Edit Template", edit_monster_path(monster), data: {confirm: "Deleted Evolved Forms associated with this monster if you want to delete"}, class: "btn btn-sm btn-info"
-      -when MonsterUnlock.where(monster_id: "#{monster.id}").empty?
-        =link_to "Edit Template", edit_monster_path(monster), data: {confirm: "Users are using this monster, can edit only!"}, class: "btn btn-sm btn-info"
+-if user_signed_in?
+  tr id=dom_id(monster)
+    td
+      =monster.name
+      br
+        -if monster.evolutions.empty? == false
+          h4 An evolved Monster references this monster, can not edit or delete
+        -else
+          br=link_to "Edit Template", edit_monster_path(monster), data: {confirm: "Will remove this monster from all parties using it and unequip its abilities!!"}, class: "btn btn-sm btn-info"
+          =link_to "Delete Template", monster, method: :delete, data: {confirm: "Will delete this monster from all users"}, class: "btn btn-sm btn-danger", remote: true
+    td=monster.job.name + "/" + monster.job.evolve_lvl
+    td=monster.element.name
+    td
+      -if monster.evolved_from_id == 0
+        ="Base Monster"
       -else
-        =link_to "Delete Template", monster, method: :delete, data: {confirm: "Delete"}, class: "btn btn-sm btn-danger", remote: true
-  td=monster.job.name + "/" + monster.job.evolve_lvl
-  td=monster.element.name
-  td
-    -if monster.evolved_from_id == 0
-      ="Base Monster"
-    -else
-      =monster.evolved_from.name
-  td=monster.description
-  td=monster.max_hp
-  td=monster.hp_modifier
-  td=monster.dmg_modifier
-  -if user_signed_in?
+        =monster.evolved_from.name
+    td=monster.description
+    td=monster.max_hp
+    td=monster.hp_modifier
+    td=monster.dmg_modifier
     td
       =form_for @monster_unlock do |f|
         div class='form-group'
@@ -40,6 +38,6 @@ tr id=dom_id(monster)
             span.caret
           ul.dropdown-menu role="menu"
             -monster.monster_unlocked_users.each do |user|
-              li= link_to "#{user.user_name}", monster_unlock_path(monster.monster_unlocks.where(user_id: user.id).map(&:id)[0]), method: :delete
+              li= link_to "#{user.user_name}", [monster, (monster.monster_unlocks.where(user_id: user.id).first)], method: :delete, data: {confirm: "This will remove this monster from all user parties and unequip them"}
               li.divider
 

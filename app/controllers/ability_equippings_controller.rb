@@ -3,7 +3,6 @@ class AbilityEquippingsController < ApplicationController
   before_action :find_ability_equipping, only: [:update]
 
   def create
-    # render text: params.to_s
     @ability_equipping = AbilityEquipping.new ability_equipping_params
     if @ability_equipping.save
       redirect_to admin_index_path, notice: "hurrah"

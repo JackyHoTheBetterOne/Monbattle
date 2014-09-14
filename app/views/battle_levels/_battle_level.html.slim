@@ -1,0 +1,6 @@
+tr
+  td =link_to "#{battle_level.name}", edit_battle_level_path(battle_level), data: {confirm: "Edit only, no delete available for Battle Levels"}
+  td #{battle_level.item_given}
+  td #{battle_level.exp_given}
+  td
+    / =battle_level.background.blank? ? "No background Set" : "#{battle_level.background.name}"

@@ -1,0 +1,18 @@
+tr
+  td
+    h3 #{monster.name}
+    h4 HP: #{monster.max_hp}
+    h4 Element: #{monster.element.name}
+    =image_tag monster.monster_skin_equippings.where(user_id: battle_user.id).first.monster_skin.avatar.url(:medium)
+  td
+    h4 #{monster.ability_equippings.first.ability.name}
+    h5 AP Cost: #{monster.ability_equippings.first.ability.ap_cost}
+  td
+    -if monster.ability_equippings.first.ability.effects.empty?
+      ="Got some empty abilities, fix that"
+    -else
+      -monster.ability_equippings.first.ability.effects.each do |effect|
+        h4 #{effect.name}
+        h5 Target: #{effect.target.name}
+        h5 Damage: #{effect.damage}
+        hr

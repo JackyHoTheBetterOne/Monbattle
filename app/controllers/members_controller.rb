@@ -1,10 +1,10 @@
 class MembersController < ApplicationController
   # before action :authenticate_user!
-  before_action :find_member, except: [:create]
+  before_action :find_monster, only: [:create]
+  before_action :find_member, only: [:destroy]
 
   def create
-    # render text: params.to_s
-    @member = Member.new member_params
+    @member = @monster.members.new member_params
     if @member.save
       redirect_to admin_index_path, notice: "Monster Added to Team!"
     else
@@ -21,6 +21,10 @@ class MembersController < ApplicationController
   end
 
   private
+
+  def find_monster
+    @monster = Monster.find params[:monster_id]
+  end
 
   def find_member
     @member = Member.find params[:id]

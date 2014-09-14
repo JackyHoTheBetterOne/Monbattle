@@ -10,7 +10,7 @@ hr
 -else
   h4 Current Classes:
   -@jobs.each do |job|
-    -if (job.abilities.empty? && job.monsters.empty? && job.monster_skins.empty?)== true
+    -if (job.abilities.empty? && job.monsters.empty?)== true
       =link_to " #{job.name}, Elvl: #{job.evolve_lvl} ", job, method: :delete, data: {confirm: "Delete?"}, class: "btn btn-sm btn-danger"
     -else
-      =link_to " #{job.name}, Elvl: #{job.evolve_lvl} ", job, method: :patch, data: {confirm: "Edit only, because linked to at least one ability, monster or monster skin"}, class: "btn btn-sm btn-info"
+      =link_to " #{job.name}, Elvl: #{job.evolve_lvl} ", job, method: :patch, data: {confirm: "Edit only, because linked to at least one ability, monster"}, class: "btn btn-sm btn-info"
