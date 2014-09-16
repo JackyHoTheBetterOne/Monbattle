@@ -12,7 +12,7 @@ class Monster < ActiveRecord::Base
   has_many :monster_skin_equipped_users, through: :monster_skin_equippings, source: :user
 
   has_many :ability_equippings, dependent: :destroy
-  has_many :monster_equipped_abilities, through: :ability_equippings, source: :ability
+  has_many :abilities, through: :ability_equippings
   has_many :monster_equipped_users, through: :ability_equippings, source: :user
 
   has_many :monster_unlocks, dependent: :destroy
@@ -43,6 +43,10 @@ class Monster < ActiveRecord::Base
 
   def count_party_members(user_id)
     find_by_user_id(user_id).members.count
+  end
+
+  def hp 
+    self.max_hp
   end
 
 
