@@ -1,6 +1,8 @@
 class AdminController < ApplicationController
 
   def index
+    @stat_target = StatTarget.new
+    @stat_targets = StatTarget.all
     @monster_skin_purchase = MonsterSkinPurchase.new
     @monster_skin_purchases = MonsterSkinPurchase.all
     @battle = Battle.new

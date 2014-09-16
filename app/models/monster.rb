@@ -45,4 +45,5 @@ class Monster < ActiveRecord::Base
     find_by_user_id(user_id).members.count
   end
 
+
 end

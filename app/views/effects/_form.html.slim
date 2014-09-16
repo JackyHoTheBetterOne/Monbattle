@@ -1,20 +1,20 @@
-=form_for @effect do |f|
+=simple_form_for @effect do |f|
   div class='form-group'
     -case true
       -when Element.all.empty?
         h1 Make some Elements First!
       -when Target.all.empty?
         h1 Make some Targets First!
+      -when StatTarget.all.empty?
+        h1 Make some Stat Targets First!
       -else
         .form-group
           h4=f.label "Select an Element for this Effect"
           .form-control=f.collection_select :element_id, Element.all, :id, :name
           h4=f.label "Select a Target for this Effect"
           .form-control=f.collection_select :target_id, Target.all, :id, :name
-          =f.label :name
-          =f.text_field :name, class: 'form-control'
-          =f.label :damage
-          =f.text_field :damage, class: 'form-control'
-          =f.label "Modifier"
-          =f.text_field :modifier, class: 'form-control'   
+          h4=f.label "Select the Stat Targeted for this Effect"
+          .form-control=f.collection_select :stat_target_id, StatTarget.all, :id, :name
+          =f.input :name
+          =f.input :stat_change
           hr=f.submit class: 'btn btn-primary'

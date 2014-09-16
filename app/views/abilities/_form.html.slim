@@ -5,19 +5,32 @@
         h1 Make some Elements First!
       -when Effect.all.empty?
         h1 Make some Effects first!
+      -when Target.all.empty?
+        h1 Make some Targets First!
+      -when StatTarget.all.empty?
+        h1 Make some Stat Targets First!
       -else
         .form-group
-          h4=f.label "*** Select at least 1 effect for this ability, click the effect to see a description (Need to add this)****"
-          .form-control= f.collection_check_boxes :effects,  Effect.all, :id, :name, {}, { name: "ability[effect_ids][]"}
-          h4=f.label "Job restriction for this ability"
+          h4=f.label "Here you can select Secondary effects"
+          .form-control =f.collection_check_boxes :effects,  Effect.all, :id, :name, {}, { name: "ability[effect_ids][]"}
+          h4=f.label "Job restriction for this Ability"
           .form-control = f.select "job_id", options_for_select(Job.all.collect{|job| [job.name + " Elvl" + job.evolve_lvl, job.id]}, :selected => @ability.job)
+          h4=f.label "Select a Target for this Ability"
+          .form-control =f.collection_select :target_id, Target.all, :id, :name
+          h4=f.label "Select the Element for this Ability"
+          .form-control =f.collection_select :element_id, Element.all, :id, :name
+          h4=f.label "Select Stat targeted by this ability"
+          .form-control =f.collection_select :stat_target_id, StatTarget.all, :id, :name
+          =f.label "How much the stat is Changed"
+          .form-control =f.text_field :stat_change
           =f.input :name
           =f.input :ap_cost
           =f.input :description
-          =f.label "Summoner Level required to use this ability"
+          =f.label "Summoner Level required to use this ability (Required)"
           =f.text_field :min_level, class: 'form-control'
           =f.label "Image animation location that will be used for this ability"
           =f.text_field :image_url, class: 'form-control'
           =f.input :store_price
           =f.input :price
+          =f.hidden_field :user_id, value: current_user.id
           hr=f.submit class: 'btn btn-primary'

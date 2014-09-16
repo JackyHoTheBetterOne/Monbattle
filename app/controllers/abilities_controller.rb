@@ -8,7 +8,7 @@ class AbilitiesController < ApplicationController
     if @ability.save
       redirect_to admin_index_path, notice: "Ability Created"
     else
-      redirect_to admin_index_path, notice: "Failed to create"
+      render :new
     end
   end
 
@@ -28,7 +28,10 @@ class AbilitiesController < ApplicationController
     if @ability.save
       @ability.ability_equippings.destroy_all
       redirect_to admin_index_path, notice: "Updated"
+    else
+      render :new
     end
+
   end
 
   private
@@ -38,8 +41,8 @@ class AbilitiesController < ApplicationController
   end
 
   def ability_params
-    params.require(:ability).permit(:name,:ap_cost, :store_price, :image_url, :min_level, :price,
-      :description, :job_id, {effect_ids: []})
+    params.require(:ability).permit(:name, :ap_cost, :store_price, :image_url, :min_level, :price,
+      :description, :job_id, :target_id, :stat_target_id, :element_id, :stat_change, {effect_ids: []})
   end
 end
 

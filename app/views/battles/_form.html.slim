@@ -6,6 +6,6 @@
       select name="battle[battle_level_id]" id="battle_level_id"
         =BattleLevel.all.each do |level|
           option value="#{level.id}" #{level.name}
-    =f.hidden_field :user_ids, multiple: true, value: User.find_by_user_name("NPC").id
-    =f.hidden_field :user_ids, multiple: true, value: current_user.id
+    / =f.hidden_field :user_ids, multiple: true, value: User.find_by_user_name("NPC").id
+    / =f.hidden_field :user_ids, multiple: true, value: current_user.id
     hr=f.submit "Start a battle!", class: 'btn btn-primary'

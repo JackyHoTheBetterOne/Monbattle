@@ -8,7 +8,7 @@ hr
 -else
   h4 Current Elements:
   -@elements.each do |element|
-    -if element.effects.empty? && element.monsters.empty?
+    -if element.effects.empty? && element.monsters.empty? && element.abilities.empty?
       =link_to " #{element.name} ", element, method: :delete, data: {confirm: "Delete?"}, class: "btn btn-sm btn-danger"
     -else
       =link_to " #{element.name} ", element, method: :patch, data: {confirm: "Edit only, because linked to at least one effect or monster"}, class: "btn btn-sm btn-info"

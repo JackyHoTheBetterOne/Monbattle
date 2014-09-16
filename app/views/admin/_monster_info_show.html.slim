@@ -36,22 +36,32 @@
                   h4 Nothing equipped
                   hr
                 -else
-                  h3
-                    / ="Currently Equipped: #{monster.ability_equippings.where(user_id: current_user.id).first.ability.name}"
-                    -monster.ability_equippings.where(user_id: current_user.id).each do |ability_equipped|
-                      h4 Equipped: #{ability_equipped.ability.name}
-                      -ability_equipped.ability.effects.each do |effect|
-                        ul type="square"
+                  -monster.monster_equipped_abilities.each do |ability|
+                    h4
+                      Ability Equipped: #{ability.name}
+                    ul
+                      li
+                        | Target: #{ability.target.name}
                           li
-                            h5
-                              | Effect: #{effect.name}
-                            ul
+                            | Element: #{ability.element.name}
                               li
-                                | Target: #{effect.target.name}
-                                li
-                                  |  Element: #{effect.element.name}
+                                | Stat Effected: #{ability.stat_target.name}
                                   li
-                                    | Damage: #{effect.damage}
+                                    | How much Stat is Changed: #{ability.stat_change}
+                    -ability.effects.each do |effect|
+                      ul type="square"
+                        li
+                          h5
+                            | Effect: #{effect.name}
+                          ul
+                            li
+                              | Target: #{effect.target.name}
+                              li
+                                |  Element: #{effect.element.name}
+                                li
+                                  | Stat Effected: #{effect.stat_target.name}
+                                  li
+                                    | How much the Stat is Changed: #{effect.stat_change}
                   hr
 
                 =render partial: "/ability_equippings/form", locals: {mon: "#{monster.id}", ability_equipping: monster.ability_equipping_for(current_user) || AbilityEquipping.new}

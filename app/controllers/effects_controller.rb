@@ -5,7 +5,7 @@ class EffectsController < ApplicationController
   def create
     @effect = Effect.new effect_params
     if @effect.save
-      redirect_to admin_index_path, notice: "Effect Removed"
+      redirect_to admin_index_path, notice: "Effect Added"
     else
       redirect_to admin_index_path, notice: "Failure"
     end
@@ -32,7 +32,7 @@ class EffectsController < ApplicationController
 private
 
   def effect_params
-    params.require(:effect).permit(:name, :target_id, :element_id, :damage, :modifier)
+    params.require(:effect).permit(:name, :target_id, :element_id, :stat_target_id, :stat_change)
   end
 
   def find_effect

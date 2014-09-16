@@ -3,8 +3,8 @@ class PartiesController < ApplicationController
   before_action :find_party, except: [:create]
 
   def create
+    # render text: params.to_s
     @party = Party.new party_params
-    @party.user = current_user
     if @party.save
       redirect_to admin_index_path, notice: "Created Party"
     else

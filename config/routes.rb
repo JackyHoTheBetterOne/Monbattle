@@ -23,6 +23,7 @@ patch 'monsters/evolve/edit/:id' => 'monsters#evolve_edit', as: :evolve_edit
 resources :jobs, only: [:create, :destroy]
 resources :elements, only: [:create, :destroy]
 resources :targets, only: [:create, :destroy]
+resources :stat_targets, only: [:create, :destroy]
 
 resources :monster_skin_equippings, only: [:create, :destroy, :update]
 resources :ability_equippings, only: [:create, :destroy, :update]

@@ -13,6 +13,10 @@
               th Ap Cost
               th Description
               th Summoner lvl required
+              th Element
+              th Target
+              th Stat Effected
+              th How much Stat is Changed
               th Ability Image
               th Store Price
               th Price
@@ -23,6 +27,10 @@
               td=ability.ap_cost
               td=ability.description
               td=ability.min_level
+              td=ability.element.name
+              td=ability.target.name
+              td=ability.stat_target.name
+              td=ability.stat_change
               td="Link to Image"
               td=ability.store_price
               td=ability.price
@@ -45,8 +53,8 @@
                 th Effect Name
                 th Element
                 th Target of Effect
-                th Damage
-                th Modifier
+                th Stat Effected
+                th How much the Stat is Changed
                 th Delete/Edit
             tbody
               =render ability.effects

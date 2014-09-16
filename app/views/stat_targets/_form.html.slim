@@ -1,0 +1,14 @@
+=form_for @stat_target do |f|
+  .form-group
+    =f.label :name
+    =f.text_field :name, class: 'form-control'
+    hr=f.submit class: 'btn btn-primary'
+hr
+-if @stat_targets.empty?
+-else
+  h4 Stat Targets Created:
+  -@stat_targets.each do |stat_target|
+    -if stat_target.effects.empty? && stat_target.abilities.empty?
+      =link_to " #{stat_target.name} ", stat_target, method: :delete, data: {confirm: "Delete?"}, class: "btn btn-sm btn-danger"
+    -else
+      =link_to " #{stat_target.name} ", stat_target, method: :patch, data: {confirm: "Edit only, because linked to at least one effect"}, class: "btn btn-sm btn-info"

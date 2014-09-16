@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140913234635) do
+ActiveRecord::Schema.define(version: 20140915221546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,9 +27,16 @@ ActiveRecord::Schema.define(version: 20140913234635) do
     t.datetime "updated_at"
     t.string   "description"
     t.integer  "job_id"
+    t.string   "stat_change"
+    t.integer  "target_id"
+    t.integer  "element_id"
+    t.integer  "stat_target_id"
   end
 
+  add_index "abilities", ["element_id"], name: "index_abilities_on_element_id", using: :btree
   add_index "abilities", ["job_id"], name: "index_abilities_on_job_id", using: :btree
+  add_index "abilities", ["stat_target_id"], name: "index_abilities_on_stat_target_id", using: :btree
+  add_index "abilities", ["target_id"], name: "index_abilities_on_target_id", using: :btree
 
   create_table "ability_effects", force: true do |t|
     t.integer  "ability_id"
@@ -89,15 +96,16 @@ ActiveRecord::Schema.define(version: 20140913234635) do
 
   create_table "effects", force: true do |t|
     t.string   "name"
-    t.string   "modifier"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "damage"
     t.integer  "target_id"
     t.integer  "element_id"
+    t.string   "stat_change"
+    t.integer  "stat_target_id"
   end
 
   add_index "effects", ["element_id"], name: "index_effects_on_element_id", using: :btree
+  add_index "effects", ["stat_target_id"], name: "index_effects_on_stat_target_id", using: :btree
   add_index "effects", ["target_id"], name: "index_effects_on_target_id", using: :btree
 
   create_table "elements", force: true do |t|
@@ -229,6 +237,12 @@ ActiveRecord::Schema.define(version: 20140913234635) do
 
   add_index "skin_restrictions", ["job_id"], name: "index_skin_restrictions_on_job_id", using: :btree
   add_index "skin_restrictions", ["monster_skin_id"], name: "index_skin_restrictions_on_monster_skin_id", using: :btree
+
+  create_table "stat_targets", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "summoner_levels", force: true do |t|
     t.integer  "lvl"

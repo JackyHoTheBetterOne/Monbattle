@@ -6,23 +6,29 @@ class BattlesController < ApplicationController
   end
 
   def create
-    render text: params.to_s
-    # @battle = Battle.new battle_params
-    # if @battle.save
-    #   redirect_to @battle, notice: "Battle Starting!"
-    # else
-    #   render :new
-    # end
+    # render text: params.to_s
+    @battle = Battle.new battle_params
+    # @battle.users.push(current_user, User.find_by_user_name("NPC"))
+    if @battle.save
+      @battle.users.push(current_user, User.find_by_user_name("NPC"))
+      redirect_to @battle, notice: "Battle Starting!"
+    else
+      render :new
+    end
   end
 
   def show
+    respond_to do |format|
+      format.html
+      format.json { render json: @battle.as_json }
+    end
   end
 
   def edit
   end
 
   def update
-    #Make this update the victory status, then delete all associated fight records!!!
+    #update victory status at end of battle
   end
 
   def destroy
@@ -34,7 +40,7 @@ class BattlesController < ApplicationController
   private
 
   def battle_params
-    params.require(:battle).permit(:outcome, :battle_level_id, {user_ids: []})
+    params.require(:battle).permit(:outcome, :battle_level_id)#{user_ids: []}
   end
 
   def find_battle

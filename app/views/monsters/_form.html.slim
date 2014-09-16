@@ -3,12 +3,17 @@
     -case true
       -when Element.all.empty?
         h1 Make some Elements First!
-      -when Job.where(evolve_lvl: "0").where("jobs.id NOT IN (?)", Monster.pluck(:job_id)).empty?
+      -when Monster.all.empty? && Job.where(evolve_lvl: "0").empty?
+        h1 Make some Jobs with evolve lvl 0 First!
+      -when Monster.all.exists? && Job.where(evolve_lvl: "0").where("jobs.id NOT IN (?)", Monster.all.map(&:job_id)).empty?
         h1 Make some more Jobs with evolve lvl 0 First!
       -else
-        .form-group   
+        .form-group
           h4=f.label "The job of this monster, and the evolution level"
-          .form-control = f.select "job_id", options_for_select(Job.where(evolve_lvl: "0").where("jobs.id NOT IN (?)", Monster.pluck(:job_id)).collect{|job| [job.name + " Elvl: " + job.evolve_lvl, job.id]}, :selected => @monster.job)
+          -if Monster.all.empty?
+            .form-control =f.collection_select :job_id, Job.all.where(evolve_lvl: "0"), :id, :name
+          -else
+            .form-control = f.select "job_id", options_for_select(Job.where(evolve_lvl: "0").where("jobs.id NOT IN (?)", Monster.pluck(:job_id)).collect{|job| [job.name + " Elvl: " + job.evolve_lvl, job.id]}, :selected => @monster.job)
           / .form-control = f.select "job_id", options_for_select(Job.where(evolve_lvl: "0").collect{|job| [job.name + " Elvl: " + job.evolve_lvl, job.id]}, :selected => @monster.job)
           h4=f.label "The element of this monster"
           .form-control =f.collection_select :element_id, Element.all, :id, :name

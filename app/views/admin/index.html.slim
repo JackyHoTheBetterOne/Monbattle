@@ -10,6 +10,7 @@
 = render partial: "modal_button", locals: {modal_label: "jobLabel", modal_id: "jobModal", form_is_for: "jobs/form", button_name: "Create New Job", form_title: "New Job" }
 = render partial: "modal_button", locals: {modal_label: "elementLabel", modal_id: "elementModal", form_is_for: "elements/form", button_name: "Create New Element", form_title: "New Element"}
 = render partial: "modal_button", locals: {modal_label: "targetLabel", modal_id: "targetModal", form_is_for: "targets/form", button_name: "Create New Target", form_title: "New Target"}
+= render partial: "modal_button", locals: {modal_label: "stat_targetLabel", modal_id: "stat_targetModal", form_is_for: "stat_targets/form", button_name: "Create New Stat Target", form_title: "New Stat Target"}
 
 hr
 ul.nav.nav-tabs role="tablist"
@@ -54,8 +55,8 @@ ul.nav.nav-tabs role="tablist"
           th Effect Name
           th Element
           th Target of Effect
-          th Damage
-          th Modifier
+          th Stat Targeted
+          th Amount Stat Changed
           th Delete/Edit
       tbody
         -if @effects.empty?
@@ -63,7 +64,8 @@ ul.nav.nav-tabs role="tablist"
           =render @effects
 
   #ability.tab-pane
-    br=render partial: "modal_button", locals: {modal_label: "abilityLabel", modal_id: "abilityModal", form_is_for: "abilities/form", button_name: "Create New Ability", form_title: "New Ability"}
+    -if user_signed_in?
+      br=render partial: "modal_button", locals: {modal_label: "abilityLabel", modal_id: "abilityModal", form_is_for: "abilities/form", button_name: "Create New Ability", form_title: "New Ability"}
     hr=render @abilities
 
   #monster_skin.tab-pane
@@ -119,8 +121,8 @@ ul.nav.nav-tabs role="tablist"
   #npc_party.tab-pane
     br=render partial: "modal_button", locals: {modal_label: "npc_partyLabel", modal_id: "npc_partyModal", form_is_for: "parties/npc_form", button_name: "Create NPC Party", form_title: "NPC Party" }
     hr
-    -if User.find_by_is_npc(true).blank? || User.find_by_user_name("NPC").blank?
-      h1 There is no user named NPC, or there is no User with username NPC
+    -if User.find_by_user_name("NPC").blank?
+      h1 There is no user named NPC, make one
     -else
       table.table.table-striped border="1"
         thead
@@ -131,14 +133,7 @@ ul.nav.nav-tabs role="tablist"
             th Mon 3
             th Mon 4
         tbody
-          -@battles.each do |battle|
-            tr
-              td
-              td
-              td
-              td
-              td
-      =render "/parties/npc_party"
+          =render "/parties/npc_party"
 
   #battle_level.tab-pane
     br=render partial: "modal_button", locals: {modal_label: "battle_levelLabel", modal_id: "battle_levelModal", form_is_for: "battle_levels/form", button_name: "Create Stage", form_title: "Stage Creation" }
