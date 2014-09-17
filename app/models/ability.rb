@@ -11,8 +11,8 @@ class Ability < ActiveRecord::Base
   has_many :effects, through: :ability_effects
 
   has_many :ability_equippings, dependent: :destroy
-  has_many :ability_equipped_monsters, through: :ability_equippings, source: :monster
-  has_many :ability_equipped_users, through: :ability_equippings, source: :user
+  has_many :equipped_monsters, through: :ability_equippings, source: :monster
+  has_many :equipped_users, through: :ability_equippings, source: :user
 
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :ap_cost, presence: {message: 'Must be entered'}

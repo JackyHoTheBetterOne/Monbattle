@@ -36,7 +36,7 @@
                   h4 Nothing equipped
                   hr
                 -else
-                  -monster.monster_equipped_abilities.each do |ability|
+                  -monster.equipped_abilities.each do |ability|
                     h4
                       Ability Equipped: #{ability.name}
                     ul

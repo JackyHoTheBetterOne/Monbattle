@@ -1,29 +1,49 @@
--if user_signed_in?
-  -if @battle.users.first.parties.empty?
-    h4 User Party Empty!
-  -else
-    -if User.find_by_user_name("NPC").parties.where(name: @battle.battle_level.name).empty?
-      h4 Battle level name must equal NPC party name or You get this ERROR!!!!
+-if user_signed_in?  != true
+-else
+  -@battle.parties.each do |party|
+    h3 Player: #{party.user.user_name}
+    hr
+    h3 Team Name: #{party.name}
+    hr
+    -if party.monsters.empty?
+      h1 Error one of the members parties is empty!
     -else
-      -@battle.users.each do |battle_user|
-        h3 Player: #{battle_user.user_name}
-        hr
-        h3
-          = "Team name: #{(battle_user == User.find_by_user_name("NPC")) ? battle_user.parties.find_by_name(@battle.battle_level.name).name : battle_user.parties.first.name}"
-        hr
-        table.table.table-striped border="1"
-          thead
+      table.table.table-striped border="1"
+        thead
+          tr
+            th Monster
+            th Ability Equipped
+            th Secondary Effects
+        tbody
+          -party.monsters.each do |monster|
             tr
-              th Monster
-              th Ability Equipped
-              th Effects
-          tbody
-            -if battle_user == User.find_by_user_name("NPC")
-              -battle_user.parties.find_by_name(@battle.battle_level.name).monsters.each do |monster|
-                =render partial: "battle_monsters", locals: {monster: monster, battle_user: battle_user}
-            -else
-              -battle_user.parties.first.monsters.each do |monster|
-                =render partial: "battle_monsters", locals: {monster: monster, battle_user: battle_user}
-        br
-        hr
-        br
+              td
+                h3 #{monster.name}
+                h4 HP: #{monster.max_hp}
+                h4 Element: #{monster.element.name}
+                =image_tag monster.monster_skin_equippings.where(user_id: party.user).first.monster_skin.avatar.url(:medium)
+                -if monster.equipped_abilities.empty?
+                  h4 Monsters are not equipped
+                -else
+                  -monster.equipped_abilities.each do |ability|
+                    td
+                      h4 #{ability.name}
+                      h5 AP Cost: #{ability.ap_cost}
+                      h5 Element: #{ability.element.name}
+                      h5 Target: #{ability.target.name}
+                      h5 Stat Effected: #{ability.stat_target.name}
+                      h5 Amount Stat is Effected: #{ability.stat_change}
+                    td
+                      -if monster.ability_equippings.first.ability.effects.empty?
+                        h4 No secondary Effect
+                      -else
+                        -monster.ability_equippings.first.ability.effects.each do |effect|
+                          h4 #{effect.name}
+                          h5 Element: #{effect.element.name}
+                          h5 Target: #{effect.target.name}
+                          h5 Stat Effected: #{effect.stat_target.name}
+                          h5 Amount Stat is Effected: #{effect.stat_change}
+                          hr
+    br
+    hr
+    br

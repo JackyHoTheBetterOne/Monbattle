@@ -8,9 +8,11 @@ class BattlesController < ApplicationController
   def create
     # render text: params.to_s
     @battle = Battle.new battle_params
-    # @battle.users.push(current_user, User.find_by_user_name("NPC"))
     if @battle.save
-      @battle.users.push(current_user, User.find_by_user_name("NPC"))
+      @battle.parties.push(
+        Party.find_by_user_id(current_user.id),
+        Party.where(user: User.find_by_user_name("NPC")).find_by_name(@battle.battle_level.name)
+        )
       redirect_to @battle, notice: "Battle Starting!"
     else
       render :new
@@ -40,7 +42,7 @@ class BattlesController < ApplicationController
   private
 
   def battle_params
-    params.require(:battle).permit(:outcome, :battle_level_id)#{user_ids: []}
+    params.require(:battle).permit(:outcome, :battle_level_id)
   end
 
   def find_battle

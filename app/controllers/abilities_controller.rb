@@ -5,10 +5,13 @@ class AbilitiesController < ApplicationController
   def create
     # render text: params.to_s
     @ability = Ability.new ability_params
-    if @ability.save
-      redirect_to admin_index_path, notice: "Ability Created"
-    else
-      render :new
+    respond_to do |format|
+      if @ability.save
+       format.html { redirect_to admin_index_path, notice: "Ability Created" }
+       format.js { render }
+      else
+        render :new
+      end
     end
   end
 

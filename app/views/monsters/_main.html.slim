@@ -1,0 +1,20 @@
+
+.monsterForm
+  =render partial: "admin/modal_button", locals: {modal_label: "monsterTemplateLabel", modal_id: "monsterTemplateModal", form_is_for: "monsters/form", button_name: "Create New Monster", form_title: "New Monster"}
+br
+=render partial: "admin/modal_button", locals: {modal_label: "evolvedStateTemplateLabel", modal_id: "evolvedStateTemplateModal", form_is_for: "monsters/evolved_form", button_name: "Create New Evolved State", form_title: "New Evolved State"}
+hr
+table.table.table-striped border="1"
+  thead
+    tr
+      th Template Name
+      th Job/Elvl
+      th Element
+      th Evolved From
+      th Description
+      th Max_hp
+      th Hp modifier
+      th Dmg modifier
+      th Unlock/Lock Monsters
+  tbody class="monsters"
+    =render @monsters

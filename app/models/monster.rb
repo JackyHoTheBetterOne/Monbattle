@@ -12,8 +12,8 @@ class Monster < ActiveRecord::Base
   has_many :monster_skin_equipped_users, through: :monster_skin_equippings, source: :user
 
   has_many :ability_equippings, dependent: :destroy
-  has_many :monster_equipped_abilities, through: :ability_equippings, source: :ability
-  has_many :monster_equipped_users, through: :ability_equippings, source: :user
+  has_many :equipped_abilities, through: :ability_equippings, source: :ability
+  has_many :equipped_users, through: :ability_equippings, source: :user
 
   has_many :monster_unlocks, dependent: :destroy
   has_many :monster_unlocked_users, through: :monster_unlocks, source: :user

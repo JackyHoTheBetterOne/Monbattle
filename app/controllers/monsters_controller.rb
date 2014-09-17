@@ -10,6 +10,7 @@ class MonstersController < ApplicationController
         format.js { render }
       else
         format.html {redirect_to admin_index_path, notice: "Failed!"}
+        format.js { render}
       end
     end
   end

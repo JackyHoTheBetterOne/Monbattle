@@ -1,4 +1,4 @@
-=simple_form_for(@ability) do |f|
+=form_for @ability, remote: true do |f|
   div class="form-group"
     -case true
       -when Job.all.empty?
@@ -22,15 +22,19 @@
           h4=f.label "Select Stat targeted by this ability"
           .form-control =f.collection_select :stat_target_id, StatTarget.all, :id, :name
           =f.label "How much the stat is Changed"
-          .form-control =f.text_field :stat_change
-          =f.input :name
-          =f.input :ap_cost
-          =f.input :description
+          =f.text_field :stat_change, class: 'form-control'
+          =f.label :name
+          =f.text_field :name, class: 'form-control'
+          =f.label :ap_cost
+          =f.text_field :ap_cost, class: 'form-control'
+          =f.label :description
+          =f.text_area :description, class: 'form-control', rows: 2
           =f.label "Summoner Level required to use this ability (Required)"
           =f.text_field :min_level, class: 'form-control'
           =f.label "Image animation location that will be used for this ability"
           =f.text_field :image_url, class: 'form-control'
-          =f.input :store_price
-          =f.input :price
-          =f.hidden_field :user_id, value: current_user.id
+          =f.label :store_price
+          =f.text_field :store_price, class: 'form-control'
+          =f.label :price
+          =f.text_field :price, class: 'form-control'
           hr=f.submit class: 'btn btn-primary'

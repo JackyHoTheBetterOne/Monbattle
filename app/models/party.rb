@@ -1,6 +1,8 @@
 class Party < ActiveRecord::Base
   belongs_to :user
 
+  has_many :fights, dependent: :destroy
+  has_many :battles, through: :fights
   has_many :members, dependent: :destroy
   has_many :monsters, through: :members
 

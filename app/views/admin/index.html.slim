@@ -27,24 +27,7 @@ ul.nav.nav-tabs role="tablist"
 .tab-content
   #monster_template.tab-pane.active
     br
-      .monsterForm
-        =render partial: "modal_button", locals: {modal_label: "monsterTemplateLabel", modal_id: "monsterTemplateModal", form_is_for: "monsters/form", button_name: "Create New Monster", form_title: "New Monster"}
-    =render partial: "modal_button", locals: {modal_label: "evolvedStateTemplateLabel", modal_id: "evolvedStateTemplateModal", form_is_for: "monsters/evolved_form", button_name: "Create New Evolved State", form_title: "New Evolved State"}
-    hr
-    table.table.table-striped border="1"
-      thead
-        tr
-          th Template Name
-          th Job/Elvl
-          th Element
-          th Evolved From
-          th Description
-          th Max_hp
-          th Hp modifier
-          th Dmg modifier
-          th Unlock/Lock Monsters
-      tbody
-        .monsters=render @monsters
+    =render "monsters/main"
 
   #effect.tab-pane
     br=render partial: "modal_button", locals: {modal_label: "effectLabel", modal_id: "effectModal", form_is_for: "effects/form", button_name: "Create New Effect", form_title: "New Effect"}
@@ -66,7 +49,8 @@ ul.nav.nav-tabs role="tablist"
   #ability.tab-pane
     -if user_signed_in?
       br=render partial: "modal_button", locals: {modal_label: "abilityLabel", modal_id: "abilityModal", form_is_for: "abilities/form", button_name: "Create New Ability", form_title: "New Ability"}
-    hr=render @abilities
+      .abilities
+        hr=render @abilities
 
   #monster_skin.tab-pane
     br=render partial: "modal_button", locals: {modal_label: "skinLabel", modal_id: "skinModal", form_is_for: "monster_skins/form", button_name: "Upload a Monster Skin", form_title: "Upload Monster Skin" }
@@ -92,29 +76,28 @@ ul.nav.nav-tabs role="tablist"
     hr=render 'monster_info_show'
 
   #show_battles.tab-pane
-    -if @battle.errors.any?
+    hr
+    -if @battles.empty?
     -else
-      hr
-      -if @battles.empty?
+      -if Fight.all.empty?
+        h1 Error: Fight table empty but Battle table is not empty.
       -else
-        -if Fight.all.empty?
-        -else
-          table.table.table-striped border="1"
-            thead
+        table.table.table-striped border="1"
+          thead
+            tr
+              th Battle ID
+              th Player name
+              th Opponent
+              th Name of Stage (If vs NPC)
+              th Destory this record
+          tbody
+            -@battles.each do |battle|
               tr
-                th Battle ID
-                th Player name
-                th Opponent
-                th Name of Stage (If vs NPC)
-                th Destory this record
-            tbody
-              -@battles.each do |battle|
-                tr
-                  td=link_to "#{battle.id}", battle
-                  td=battle.users.first.user_name
-                  td=battle.users.last.user_name
-                  td=battle.battle_level.name
-                  td=link_to "Destroy", battle_path(battle), class: "btn btn-danger", method: :delete
+                td=link_to "#{battle.id}", battle
+                -battle.parties.each do |party|
+                  td=party.user.user_name
+                td=battle.battle_level.name
+                td=link_to "Destroy", battle_path(battle), class: "btn btn-danger", method: :delete
 
 
 

@@ -20,7 +20,7 @@
     td=monster.hp_modifier
     td=monster.dmg_modifier
     td
-      =form_for @monster_unlock do |f|
+      =form_for MonsterUnlock.new do |f|
         div class='form-group'
           h5 Select User
           -if monster.monster_unlocked_users.empty?
@@ -40,4 +40,3 @@
             -monster.monster_unlocked_users.each do |user|
               li= link_to "#{user.user_name}", [monster, (monster.monster_unlocks.where(user_id: user.id).first)], method: :delete, data: {confirm: "This will remove this monster from all user parties and unequip them"}
               li.divider
-

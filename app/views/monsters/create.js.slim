@@ -1,8 +1,9 @@
 -if @monster.errors.any?
+  | $(".monster-form").html("#{j render (@monster.evolved_from.blank? ? "/monsters/form" : "monsters/evolved_form") }")
 
 -else
-| $(".monsters").prepend("#{j render partial: "/monsters/monster", locals: {monster: @monster}}");
-| $("##{dom_id(@monster)}").effect("highlight");
--monster = Monster.new
+  | $(".monsters").prepend("#{j render partial: "/monsters/monster", locals: {monster: @monster}}");
+  | $("##{dom_id(@monster)}").effect("highlight");
+   / -@monster = Monster.new
 
-/ | $(".monsterForm-form").html("#{j render "/monsters/form"}")
+  / | $(".monsterForm-form").html("#{j render "/monsters/form"}")
