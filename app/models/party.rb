@@ -18,4 +18,31 @@ class Party < ActiveRecord::Base
     find_by_user_id(user).members.count
   end
 
+  def username
+    self.user.user_name
+  end
+
+  def as_json(options={})
+
+    super(
+      :only => [:user_id, :name],
+      :methods => :username,
+      :include => { :monsters => {
+        :only => [:id, :name, :max_hp, :hp => :max_hp],
+        :methods => :hp,
+        :include => { :abilities => {
+          :only => [:id, :name, :ap_cost, :state_change],
+          :methods => [:stat_targeta, :targeta, :elementa],
+          :include => { 
+            :effects => {
+              :only => [:id, :name, :stat_change],
+              :methods => [],
+            }
+          }
+        }}
+      }}
+    )
+
+  end
+
 end

@@ -15,6 +15,7 @@ class Monster < ActiveRecord::Base
   has_many :equipped_abilities, through: :ability_equippings, source: :ability
   has_many :equipped_users, through: :ability_equippings, source: :user
 
+
   has_many :monster_unlocks, dependent: :destroy
   has_many :monster_unlocked_users, through: :monster_unlocks, source: :user
   has_many :members, dependent: :destroy
@@ -43,6 +44,10 @@ class Monster < ActiveRecord::Base
 
   def count_party_members(user_id)
     find_by_user_id(user_id).members.count
+  end
+
+  def hp
+    self.max_hp
   end
 
 

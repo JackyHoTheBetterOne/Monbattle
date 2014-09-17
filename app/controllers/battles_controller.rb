@@ -22,7 +22,7 @@ class BattlesController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.json { render json: @battle.as_json }
+      format.json { render json: @battle.build_json  }
     end
   end
 

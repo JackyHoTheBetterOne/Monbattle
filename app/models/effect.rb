@@ -12,4 +12,18 @@ class Effect < ActiveRecord::Base
   validates :stat_target_id, presence: {message: 'Must be entered'}
   validates :element_id, presence: {message: 'Must be entered'}
 
+
+  def stat_targeta
+    self.stat_target.name.downcase
+  end
+
+  def targeta
+    self.target.name.downcase
+  end
+
+  def elementa
+    self.element.name.downcase
+  end
+
+
 end

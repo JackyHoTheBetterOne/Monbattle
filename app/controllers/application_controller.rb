@@ -4,11 +4,19 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameteres, if: :devise_controller?
+  after_action :set_access_control_headers
 
   protected
 
   def configure_permitted_parameteres
     devise_parameter_sanitizer.for(:sign_up) << [:first_name, :last_name, :user_name]
     devise_parameter_sanitizer.for(:account_update) << [:first_name, :last_name]
+  end
+
+  private
+
+  def set_access_control_headers
+    headers['Access-Control-Allow-Origin']   = '*'
+    headers['Access-Control-Request-Method'] = '*'
   end
 end

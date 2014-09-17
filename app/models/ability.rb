@@ -24,9 +24,23 @@ class Ability < ActiveRecord::Base
   validates :element_id, presence: {message: 'Must be entered'}
   validates :stat_change, presence: {message: 'Must be entered'}
 
+  def stat_targeta
+    self.stat_target.name.downcase
+  end
+
+  def targeta
+    self.target.name.downcase
+  end
+
+  def elementa
+    self.element.name.downcase
+  end
+
+
   private
 
   def capitalize_name
     self.name.capitalize!
   end
+
 end

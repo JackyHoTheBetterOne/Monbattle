@@ -6,18 +6,16 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
 
-
-  def as_json(options={})
-    super(
-      :include => {:users =>{
-        :include => { :parties => {
-          :include => { :monsters => {
-            :include => { :monster_equipped_abilities => {
-              :include => { :effects => {}}
-            }}
-          }}
-        }}
-      }}
-    )
+  def build_json
+    battle_json = {}
+    battle_json[:battle_id] = self.id
+    battle_json[:players] = []
+    # self.users.each do |user|
+    #   battle_json[:"#{user.user_name}"] = user.as_json
+    # end
+    self.users.each do |user|
+      battle_json[:players] << user.parties[0].as_json
+    end
+    return battle_json
   end
 end
