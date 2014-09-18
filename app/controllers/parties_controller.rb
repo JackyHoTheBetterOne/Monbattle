@@ -1,6 +1,7 @@
 class PartiesController < ApplicationController
   # before_action authenticate_user!
   before_action :find_party, except: [:create]
+  before_action :find_user
 
   def create
     # render text: params.to_s
@@ -13,6 +14,9 @@ class PartiesController < ApplicationController
   end
 
   def edit
+  end
+
+  def show
   end
 
   def update
@@ -32,6 +36,10 @@ class PartiesController < ApplicationController
   end
 
   private
+
+  def find_user
+    @user = User.find params[:user_id]
+  end
 
   def find_party
     @party = Party.find params[:id]

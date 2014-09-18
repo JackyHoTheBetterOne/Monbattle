@@ -1,9 +1,4 @@
--if current_user.unlocked_monsters.empty?
--else
-  -if current_user.parties.empty?
-    h1 Create a team first!
-  -else
-    h2 Your party #{current_user.parties.first.name} consists of #{Party.members_count_for(current_user)} members
+
 
     table.table.table-striped border="1"
       thead

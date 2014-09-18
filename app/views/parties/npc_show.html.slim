@@ -1,7 +1,6 @@
--if npc.unlocked_monsters.empty?
-  h1 Unlock some monsters for NPC First
--else
-  h2 NPC #{@party.name} consists of #{@party.members.count} members
+
+
+  h2 #{@party.name} consists of #{@party.members.count} members
   table.table.table-striped border="1"
     thead
       tr
@@ -9,8 +8,7 @@
         th Equipped Ability
         th Monster Skin
     tbody
-      h4 maybe make this a drop down instead
-      -npc.unlocked_monsters.each do |monster|
+      -@user.unlocked_monsters.each do |monster|
         tr
           td
             h3 #{monster.name}

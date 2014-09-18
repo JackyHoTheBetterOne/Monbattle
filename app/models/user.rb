@@ -29,8 +29,8 @@ class User < ActiveRecord::Base
     User.where(id: current_user_id).first.parties.first.members.count
   end
 
-  def is_npc(user)
-    User.where(id: user).exists?
+  def party_user(user_id)
+    User.find(user_id)
   end
 
 end

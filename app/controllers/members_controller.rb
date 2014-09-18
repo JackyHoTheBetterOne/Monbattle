@@ -6,7 +6,6 @@ class MembersController < ApplicationController
   before_action :find_member, only: [:destroy]
 
   def create
-    # render text: params.to_s
     @member = @monster.members.new member_params
     if @member.save
       if @user.user_name == "NPC"
