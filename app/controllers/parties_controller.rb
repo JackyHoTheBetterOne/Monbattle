@@ -8,10 +8,9 @@ class PartiesController < ApplicationController
     if @party.save
       redirect_to admin_index_path, notice: "Created Party"
     else
-      redirect_to admin_index_path, notice: "Failed"
+      render :new
     end
   end
-
 
   def edit
   end
@@ -19,8 +18,14 @@ class PartiesController < ApplicationController
   def update
     @party.update_attributes(party_params)
     if @party.save
+      # @party.user.find_by_user_name(npc).blank? ? redirect_to @party, notice: "Changed" :
       redirect_to admin_index_path, notice: "Changed"
     end
+  end
+
+  def npc_show
+    @member = Member.new
+    render :npc_show
   end
 
   def destroy

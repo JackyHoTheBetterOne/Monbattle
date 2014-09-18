@@ -15,7 +15,8 @@ end
 
 resources :effects, only: [:create, :edit, :update, :destroy]
 resources :abilities, only: [:create, :edit, :update, :destroy]
-resources :parties, only: [:create, :edit, :update, :destroy]
+resources :parties
+get 'npc_show/:id' => 'parties#npc_show', as: :npc_show
 resources :battle_levels, only: [:create, :edit, :update, :destroy]
 resources :battles
 # get 'monsters/clone' => 'monsters#clone', as: :monster_clone

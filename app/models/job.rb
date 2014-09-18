@@ -1,7 +1,8 @@
 class Job < ActiveRecord::Base
 
   has_many :monsters
-  has_many :abilities
+  has_many :ability_restrictions
+  has_many :abilities, through: :ability_restrictions
   has_many :skin_restrictions, dependent: :destroy
   has_many :monster_skins, through: :skin_restrictions
 

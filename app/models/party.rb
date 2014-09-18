@@ -6,9 +6,11 @@ class Party < ActiveRecord::Base
   has_many :members, dependent: :destroy
   has_many :monsters, through: :members
 
-  validates :user_id, presence: {message: 'Must be entered'}, uniqueness: true
+  validates :user_id, presence: {message: 'Must be entered'}
+                                 # uniqueness: true unless: :{ |c| !c.logged_in? }
+
   validates :name, presence: {message: "Must be entered"},
-                  uniqueness: {scope: :user_id}
+                              uniqueness: {scope: :user_id}
 
   # def count_party_members(user_id)
   #   find_by_user_id(user_id).members.count
@@ -33,7 +35,7 @@ class Party < ActiveRecord::Base
         :include => { :abilities => {
           :only => [:id, :name, :ap_cost, :state_change],
           :methods => [:stat_targeta, :targeta, :elementa],
-          :include => { 
+          :include => {
             :effects => {
               :only => [:id, :name, :stat_change],
               :methods => [],

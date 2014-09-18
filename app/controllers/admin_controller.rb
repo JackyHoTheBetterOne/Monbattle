@@ -1,6 +1,7 @@
 class AdminController < ApplicationController
 
   def index
+    @fights = Fight.all
     @stat_target = StatTarget.new
     @stat_targets = StatTarget.all
     @monster_skin_purchase = MonsterSkinPurchase.new
@@ -35,7 +36,4 @@ class AdminController < ApplicationController
     @ability = Ability.new
     @abilities = Ability.all
   end
-
-
-
 end

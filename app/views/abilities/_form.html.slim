@@ -1,8 +1,8 @@
-=form_for @ability, remote: true do |f|
+=form_for @ability do |f|
   div class="form-group"
     -case true
       -when Job.all.empty?
-        h1 Make some Elements First!
+        h1 Make some Jobs First
       -when Effect.all.empty?
         h1 Make some Effects first!
       -when Target.all.empty?
@@ -12,9 +12,9 @@
       -else
         .form-group
           h4=f.label "Here you can select Secondary effects"
-          .form-control =f.collection_check_boxes :effects,  Effect.all, :id, :name, {}, { name: "ability[effect_ids][]"}
-          h4=f.label "Job restriction for this Ability"
-          .form-control = f.select "job_id", options_for_select(Job.all.collect{|job| [job.name + " Elvl" + job.evolve_lvl, job.id]}, :selected => @ability.job)
+          .form-control =f.collection_check_boxes :effects, Effect.all, :id, :name, {}, { name: "ability[effect_ids][]"}
+          h4=f.label "Job restrictions for this Ability"
+          .form-control =f.collection_check_boxes :jobs, Job.all, :id, :name, {}, { name: "ability[job_ids][]"}
           h4=f.label "Select a Target for this Ability"
           .form-control =f.collection_select :target_id, Target.all, :id, :name
           h4=f.label "Select the Element for this Ability"

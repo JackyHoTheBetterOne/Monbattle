@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140916213828) do
+ActiveRecord::Schema.define(version: 20140918011735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(version: 20140916213828) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "description"
-    t.integer  "job_id"
     t.string   "stat_change"
     t.integer  "target_id"
     t.integer  "element_id"
@@ -34,7 +33,6 @@ ActiveRecord::Schema.define(version: 20140916213828) do
   end
 
   add_index "abilities", ["element_id"], name: "index_abilities_on_element_id", using: :btree
-  add_index "abilities", ["job_id"], name: "index_abilities_on_job_id", using: :btree
   add_index "abilities", ["stat_target_id"], name: "index_abilities_on_stat_target_id", using: :btree
   add_index "abilities", ["target_id"], name: "index_abilities_on_target_id", using: :btree
 
@@ -69,6 +67,16 @@ ActiveRecord::Schema.define(version: 20140916213828) do
 
   add_index "ability_purchases", ["ability_id"], name: "index_ability_purchases_on_ability_id", using: :btree
   add_index "ability_purchases", ["user_id"], name: "index_ability_purchases_on_user_id", using: :btree
+
+  create_table "ability_restrictions", force: true do |t|
+    t.integer  "job_id"
+    t.integer  "ability_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ability_restrictions", ["ability_id"], name: "index_ability_restrictions_on_ability_id", using: :btree
+  add_index "ability_restrictions", ["job_id"], name: "index_ability_restrictions_on_job_id", using: :btree
 
   create_table "backgrounds", force: true do |t|
     t.string   "name"

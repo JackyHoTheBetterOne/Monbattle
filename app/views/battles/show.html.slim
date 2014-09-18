@@ -21,29 +21,32 @@
                 h3 #{monster.name}
                 h4 HP: #{monster.max_hp}
                 h4 Element: #{monster.element.name}
-                =image_tag monster.monster_skin_equippings.where(user_id: party.user).first.monster_skin.avatar.url(:medium)
-                -if monster.equipped_abilities.empty?
-                  h4 Monsters are not equipped
+                -if monster.monster_skin_equippings.where(user_id: party.user).empty?
+                  h3 No Skin Equipped for This Monster
                 -else
-                  -monster.equipped_abilities.each do |ability|
-                    td
-                      h4 #{ability.name}
-                      h5 AP Cost: #{ability.ap_cost}
-                      h5 Element: #{ability.element.name}
-                      h5 Target: #{ability.target.name}
-                      h5 Stat Effected: #{ability.stat_target.name}
-                      h5 Amount Stat is Effected: #{ability.stat_change}
-                    td
-                      -if monster.ability_equippings.first.ability.effects.empty?
-                        h4 No secondary Effect
-                      -else
-                        -monster.ability_equippings.first.ability.effects.each do |effect|
-                          h4 #{effect.name}
-                          h5 Element: #{effect.element.name}
-                          h5 Target: #{effect.target.name}
-                          h5 Stat Effected: #{effect.stat_target.name}
-                          h5 Amount Stat is Effected: #{effect.stat_change}
-                          hr
+                  =image_tag monster.monster_skin_equippings.where(user_id: party.user).first.monster_skin.avatar.url(:medium)
+                  -if monster.equipped_abilities.empty?
+                    h4 Monsters are not equipped
+                  -else
+                    -monster.equipped_abilities.each do |ability|
+                      td
+                        h4 #{ability.name}
+                        h5 AP Cost: #{ability.ap_cost}
+                        h5 Element: #{ability.element.name}
+                        h5 Target: #{ability.target.name}
+                        h5 Stat Effected: #{ability.stat_target.name}
+                        h5 Amount Stat is Effected: #{ability.stat_change}
+                      td
+                        -if monster.ability_equippings.first.ability.effects.empty?
+                          h4 No secondary Effect
+                        -else
+                          -monster.ability_equippings.first.ability.effects.each do |effect|
+                            h4 #{effect.name}
+                            h5 Element: #{effect.element.name}
+                            h5 Target: #{effect.target.name}
+                            h5 Stat Effected: #{effect.stat_target.name}
+                            h5 Amount Stat is Effected: #{effect.stat_change}
+                            hr
     br
     hr
     br

@@ -1,8 +1,9 @@
--User.find_by_user_name("NPC").parties.each do |party|
-  tr
-    td =party.name
-    td
-      -if party.monsters.empty?
-      -else
-        -party.monsters.each do |monster|
+-if user_signed_in?
+  -User.find_by_user_name("NPC").parties.each do |party|
+    tr
+      td =link_to "#{party.name}", npc_show_path(party)
+      td
+        -if party.monsters.empty?
+        -else
+          -party.monsters.each do |monster|
 

@@ -1,9 +1,11 @@
 class Ability < ActiveRecord::Base
 
-  belongs_to :job
   belongs_to :target
   belongs_to :stat_target
   belongs_to :element
+
+  has_many :ability_restrictions, dependent: :destroy
+  has_many :jobs, through: :ability_restrictions
 
   has_many :ability_purchases, dependent: :destroy
   has_many :ability_purchased_users, through: :ability_purchases, source: :user
@@ -18,7 +20,6 @@ class Ability < ActiveRecord::Base
   validates :ap_cost, presence: {message: 'Must be entered'}
   validates :description, presence: {message: 'Must be entered'}
   validates :min_level, presence: {message: 'Must be entered'}
-  validates :job_id, presence: {message: 'Must be entered'}
   validates :target_id, presence: {message: 'Must be entered'}
   validates :stat_target_id, presence: {message: 'Must be entered'}
   validates :element_id, presence: {message: 'Must be entered'}

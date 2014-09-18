@@ -79,7 +79,7 @@ ul.nav.nav-tabs role="tablist"
     hr
     -if @battles.empty?
     -else
-      -if Fight.all.empty?
+      -if @fights.empty?
         h1 Error: Fight table empty but Battle table is not empty.
       -else
         table.table.table-striped border="1"
@@ -97,14 +97,13 @@ ul.nav.nav-tabs role="tablist"
                 -battle.parties.each do |party|
                   td=party.user.user_name
                 td=battle.battle_level.name
-                td=link_to "Destroy", battle_path(battle), class: "btn btn-danger", method: :delete
-
-
+                td
+                  =link_to "Destroy", battle_path(battle), class: "btn btn-danger", method: :delete
 
   #npc_party.tab-pane
     br=render partial: "modal_button", locals: {modal_label: "npc_partyLabel", modal_id: "npc_partyModal", form_is_for: "parties/npc_form", button_name: "Create NPC Party", form_title: "NPC Party" }
     hr
-    -if User.find_by_user_name("NPC").blank?
+    -if npc.blank?
       h1 There is no user named NPC, make one
     -else
       table.table.table-striped border="1"

@@ -1,11 +1,11 @@
--monster = current_user.unlocked_monsters.find "#{mon}"
+-monster = User.find(user_id).unlocked_monsters.find "#{mon}"
 
-= form_for ability_equipping do |f|   
+= form_for ability_equipping do |f|
   div class='form-group'
-    -if Ability.where(job_id: monster.job_id).empty?
+    -if monster.job.abilities.empty?
       No abilities to equip for this monster, have your admin create some!
     -else
-      .form-control = f.select "ability_id", options_for_select(Ability.where(job_id: monster.job_id).collect{|a| ["Abil name: " + a.name + ", Description: " + a.description + ", AP cost: " + a.ap_cost.to_s, a.id]}, :selected => @ability_equipping.ability_id)
+      .form-control = f.select "ability_id", options_for_select(Ability.where(id: monster.job.abilities).collect{|a| ["Abil name: " + a.name + ", Description: " + a.description + ", AP cost: " + a.ap_cost.to_s, a.id]}, :selected => ability_equipping.ability_id)
     =f.hidden_field :monster_id, value: monster.id
-    =f.hidden_field :user_id, value: current_user.id
+    =f.hidden_field :user_id, value: user_id
     hr=f.submit "Equip Ability", class: 'btn btn-primary'

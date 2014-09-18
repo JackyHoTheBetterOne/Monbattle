@@ -9,7 +9,7 @@
         table.table border="1"
           thead
             tr
-              th Job Limitation/E-lvl required
+              th Jobs Ability is available to
               th Ap Cost
               th Description
               th Summoner lvl required
@@ -23,7 +23,9 @@
               th Delete/Edit
           tbody
             tr
-              td=ability.job.name + "/" + ability.job.evolve_lvl
+              td
+                -ability.jobs.each do |job|
+                  h5 #{job.name + " / Elvl " + job.evolve_lvl}
               td=ability.ap_cost
               td=ability.description
               td=ability.min_level
