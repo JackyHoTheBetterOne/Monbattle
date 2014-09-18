@@ -1,69 +1,69 @@
 
 
-    table.table.table-striped border="1"
-      thead
-        tr
-          th Monster Name
-          th Equipped Ability
-          th Monster Skin
-      tbody
-        -current_user.unlocked_monsters.each do |monster|
-          tr
-            td
-              h3 #{monster.name}
-              h4 HP: #{monster.max_hp}
-              h5 Element: #{monster.element.name}
-              h5 Class: #{monster.job.name}
-              br
-              -if current_user.parties.empty?
-              -else
-                -if Party.members_count_for(current_user) == 0 || (Party.members_count_for(current_user) < 4 && monster.members.where(party_id: current_user.parties.first.id).empty?)
-                  =link_to "Add to Party", [monster, @member, {member: {party_id: current_user.parties.first}}], class: "btn btn-large btn-primary", method: :post
-                  br
-                -if (Party.members_count_for(current_user) >= 1 && monster.members.where(party_id: current_user.parties.first.id).exists?)
-                  hr
-                  h4 Member of team #{current_user.parties.first.name}
-                  hr
-                  =link_to "Remove from Party", [monster, monster.party_member_id(current_user)], class: "btn btn-large btn-danger", method: :delete
-            td
-              -if monster.ability_equippings.where(user_id: current_user.id).empty?
-                h4 Nothing equipped
-                hr
-              -else
-                -Ability.where(id: monster.ability_equippings.where(user_id: current_user.id).pluck(:ability_id)).each do |ability|
-                  h4
-                    Ability Equipped: #{ability.name}
-                  ul
-                    li
-                      | Target: #{ability.target.name}
-                        li
-                          | Element: #{ability.element.name}
-                            li
-                              | Stat Effected: #{ability.stat_target.name}
-                                li
-                                  | How much Stat is Changed: #{ability.stat_change}
-                  -ability.effects.each do |effect|
-                    ul type="square"
-                      li
-                        h5
-                          | Secondary Effect: #{effect.name}
-                        ul
-                          li
-                            | Target: #{effect.target.name}
-                            li
-                              |  Element: #{effect.element.name}
-                              li
-                                | Stat Effected: #{effect.stat_target.name}
-                                li
-                                  | How much the Stat is Changed: #{effect.stat_change}
-                hr
+    / table.table.table-striped border="1"
+    /   thead
+    /     tr
+    /       th Monster Name
+    /       th Equipped Ability
+    /       th Monster Skin
+    /   tbody
+    /     -current_user.unlocked_monsters.each do |monster|
+    /       tr
+    /         td
+    /           h3 #{monster.name}
+    /           h4 HP: #{monster.max_hp}
+    /           h5 Element: #{monster.element.name}
+    /           h5 Class: #{monster.job.name}
+    /           br
+    /           -if current_user.parties.empty?
+    /           -else
+    /             -if Party.members_count_for(current_user) == 0 || (Party.members_count_for(current_user) < 4 && monster.members.where(party_id: current_user.parties.first.id).empty?)
+    /               =link_to "Add to Party", [monster, @member, {member: {party_id: current_user.parties.first}}], class: "btn btn-large btn-primary", method: :post
+    /               br
+    /             -if (Party.members_count_for(current_user) >= 1 && monster.members.where(party_id: current_user.parties.first.id).exists?)
+    /               hr
+    /               h4 Member of team #{current_user.parties.first.name}
+    /               hr
+    /               =link_to "Remove from Party", [monster, monster.party_member_id(current_user)], class: "btn btn-large btn-danger", method: :delete
+    /         td
+    /           -if monster.ability_equippings.where(user_id: current_user.id).empty?
+    /             h4 Nothing equipped
+    /             hr
+    /           -else
+    /             -Ability.where(id: monster.ability_equippings.where(user_id: current_user.id).pluck(:ability_id)).each do |ability|
+    /               h4
+    /                 Ability Equipped: #{ability.name}
+    /               ul
+    /                 li
+    /                   | Target: #{ability.target.name}
+    /                     li
+    /                       | Element: #{ability.element.name}
+    /                         li
+    /                           | Stat Effected: #{ability.stat_target.name}
+    /                             li
+    /                               | How much Stat is Changed: #{ability.stat_change}
+    /               -ability.effects.each do |effect|
+    /                 ul type="square"
+    /                   li
+    /                     h5
+    /                       | Secondary Effect: #{effect.name}
+    /                     ul
+    /                       li
+    /                         | Target: #{effect.target.name}
+    /                         li
+    /                           |  Element: #{effect.element.name}
+    /                           li
+    /                             | Stat Effected: #{effect.stat_target.name}
+    /                             li
+    /                               | How much the Stat is Changed: #{effect.stat_change}
+    /             hr
 
-              =render partial: "/ability_equippings/form", locals: {mon: "#{monster.id}", user_id: current_user.id, ability_equipping: monster.ability_equipping_for(current_user) || AbilityEquipping.new}
-            td
-              -if monster.monster_skin_equippings.where(user_id: current_user.id).empty?
-                h4 Equip a skin!
-              -else
-                =image_tag monster.monster_skin_equippings.where(user_id: current_user.id).first.monster_skin.avatar.url(:medium)
-              =render partial: "monster_skin_equippings/form", locals: {mon: "#{monster.id}", user_id: current_user.id, monster_skin_equipping: monster.monster_skin_equipping_for(current_user) || MonsterSkinEquipping.new}
+    /           =render partial: "/ability_equippings/form", locals: {mon: "#{monster.id}", user_id: current_user.id, ability_equipping: monster.ability_equipping_for(current_user) || AbilityEquipping.new}
+    /         td
+    /           -if monster.monster_skin_equippings.where(user_id: current_user.id).empty?
+    /             h4 Equip a skin!
+    /           -else
+    /             =image_tag monster.monster_skin_equippings.where(user_id: current_user.id).first.monster_skin.avatar.url(:medium)
+    /           =render partial: "monster_skin_equippings/form", locals: {mon: "#{monster.id}", user_id: current_user.id, monster_skin_equipping: monster.monster_skin_equipping_for(current_user) || MonsterSkinEquipping.new}
 
 

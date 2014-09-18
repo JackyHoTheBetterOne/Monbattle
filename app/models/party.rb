@@ -24,27 +24,30 @@ class Party < ActiveRecord::Base
     self.user.user_name
   end
 
+  def isNPC
+    self.user.user_name && "NPC"
+  end
+
   def as_json(options={})
 
     super(
       :only => [:user_id, :name],
-      :methods => :username,
+      :methods => [:username, :isNPC],
       :include => { :monsters => {
         :only => [:id, :name, :max_hp, :hp => :max_hp],
         :methods => :hp,
         :include => { :abilities => {
-          :only => [:id, :name, :ap_cost, :state_change],
-          :methods => [:stat_targeta, :targeta, :elementa],
+          :only => [:id, :name, :ap_cost, :stat_change],
+          :methods => [:stat, :targeta, :elementa, :change, :modifier],
           :include => {
             :effects => {
               :only => [:id, :name, :stat_change],
-              :methods => [],
+              :methods => [:stat, :targeta, :change, :modifier],
             }
           }
         }}
       }}
     )
-
   end
 
 end

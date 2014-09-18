@@ -24,11 +24,11 @@
                 -if monster.monster_skin_equippings.where(user_id: party.user).empty?
                   h3 No Skin Equipped for This Monster
                 -else
-                  =image_tag monster.monster_skin_equippings.where(user_id: party.user).first.monster_skin.avatar.url(:medium)
-                  -if monster.equipped_abilities.empty?
+                  =image_tag monster.monster_skin_equippings.where(user_id: party.user).first.monster_skin.avatar.url(:small)
+                  -if monster.abilities.empty?
                     h4 Monsters are not equipped
                   -else
-                    -monster.equipped_abilities.each do |ability|
+                    -Ability.where(id: monster.ability_equippings.where(user_id: party.user.id).pluck(:ability_id)).each do |ability|
                       td
                         h4 #{ability.name}
                         h5 AP Cost: #{ability.ap_cost}
@@ -37,10 +37,10 @@
                         h5 Stat Effected: #{ability.stat_target.name}
                         h5 Amount Stat is Effected: #{ability.stat_change}
                       td
-                        -if monster.ability_equippings.first.ability.effects.empty?
+                        -if ability.effects.empty?
                           h4 No secondary Effect
                         -else
-                          -monster.ability_equippings.first.ability.effects.each do |effect|
+                          -ability.effects.each do |effect|
                             h4 #{effect.name}
                             h5 Element: #{effect.element.name}
                             h5 Target: #{effect.target.name}

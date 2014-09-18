@@ -17,6 +17,7 @@ class PartiesController < ApplicationController
   end
 
   def show
+    @member = Member.new
   end
 
   def update

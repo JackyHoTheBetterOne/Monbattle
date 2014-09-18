@@ -72,18 +72,13 @@
               =render @monster_skins
 
     #monster_info.tab-pane
-      //bring to another page
-
       h4 Make A drop down for selecting other parties
       h3 User show form
       h4 Make the user parties work differently
       -if user_signed_in?
         -if current_user.parties.empty?
-
           br=render partial: "admin/modal_button", locals: {modal_label: "partyLabel", modal_id: "partyModal", form_is_for: "parties/form", button_name: "Create New Party", form_title: "New Party"}
         -else
-          / br=link_to "Edit Party
-
       -if current_user.unlocked_monsters.empty?
         h1 You have no monsters unlocked
       -else
@@ -91,6 +86,7 @@
           h1 Create a team first!
         -else
           p Make this render the show party page and make sure to send in the user id of current user
+          =link_to "#{current_user.parties.first}", [current_user.parties.first, {user_id: current_user.id}]
 
     #show_battles.tab-pane
       hr

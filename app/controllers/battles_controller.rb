@@ -20,6 +20,8 @@ class BattlesController < ApplicationController
   end
 
   def show
+    @user = @battle.parties[0]
+    @pc   = @battle.parties[1]
     respond_to do |format|
       format.html
       format.json { render json: @battle.build_json  }

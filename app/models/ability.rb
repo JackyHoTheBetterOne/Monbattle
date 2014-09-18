@@ -25,7 +25,7 @@ class Ability < ActiveRecord::Base
   validates :element_id, presence: {message: 'Must be entered'}
   validates :stat_change, presence: {message: 'Must be entered'}
 
-  def stat_targeta
+  def stat
     self.stat_target.name.downcase
   end
 
@@ -37,6 +37,13 @@ class Ability < ActiveRecord::Base
     self.element.name.downcase
   end
 
+  def modifier
+    self.stat_change[0,1]
+  end
+
+  def change
+    self.stat_change.split("").drop(1).join("")
+  end
 
   private
 

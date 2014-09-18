@@ -13,7 +13,7 @@ class Effect < ActiveRecord::Base
   validates :element_id, presence: {message: 'Must be entered'}
 
 
-  def stat_targeta
+  def stat
     self.stat_target.name.downcase
   end
 
@@ -23,6 +23,14 @@ class Effect < ActiveRecord::Base
 
   def elementa
     self.element.name.downcase
+  end
+
+  def modifier
+    self.stat_change[0,1]
+  end
+
+  def change
+    self.stat_change.split("").drop(1).join("")
   end
 
 

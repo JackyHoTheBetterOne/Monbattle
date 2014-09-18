@@ -9,7 +9,7 @@ class MembersController < ApplicationController
     @member = @monster.members.new member_params
     if @member.save
       if @user.user_name == "NPC"
-        redirect_to npc_show_path(@party), notice: "Monster Added to Stage"
+        redirect_to @party, notice: "Monster Added to Stage"
       else
         redirect_to admin_index_path, notice: "Monster Added to Team!"
       end
@@ -21,7 +21,7 @@ class MembersController < ApplicationController
   def destroy
     if @member.destroy
       if @user.user_name == "NPC"
-        redirect_to npc_show_path(@party), notice: "Monster Removed from Party!"
+        redirect_to @party, notice: "Monster Removed from Party!"
       else
         redirect_to admin_index_path, notice: "Monster Removed From Team"
       end

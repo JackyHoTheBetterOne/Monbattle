@@ -2,7 +2,7 @@ class MonsterSkin < ActiveRecord::Base
 
   has_attached_file :avatar,
                     styles: { medium: "300 x 300",
-                              small: "200 x 200",
+                              small: "150x150>",
                               thumb: "100 x 100",
                               tiny: "50 x 50>"}
 
