@@ -12,6 +12,8 @@ class Party < ActiveRecord::Base
   validates :name, presence: {message: "Must be entered"},
                               uniqueness: {scope: :user_id}
 
+  before_save :npcCheck
+
   # def count_party_members(user_id)
   #   find_by_user_id(user_id).members.count
   # end
@@ -26,6 +28,10 @@ class Party < ActiveRecord::Base
 
   def isNPC
     self.user.user_name && "NPC"
+  end
+
+  def mon_dex(mon)
+    self.monsters.index(mon)
   end
 
   def as_json(options={})
@@ -49,5 +55,15 @@ class Party < ActiveRecord::Base
       }}
     )
   end
+
+  protected
+  def npcCheck
+    if self.username == "NPC"
+      self.npc = true
+    else
+      self.npc = false
+    end
+  end
+
 
 end

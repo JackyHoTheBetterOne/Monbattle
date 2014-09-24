@@ -1,5 +1,14 @@
-h3
-  =link_to "Back to Admin Page", admin_index_path
+h3 =link_to "Back to Admin Page", admin_index_path
+-if @user == npc
+  .btn-group
+    button.btn.btn-primary.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
+      | Select NPC Stage to Modify
+      span.caret
+    ul.dropdown-menu role="menu"
+      -@user.parties.each do |party|
+        li= link_to "#{party.name}", party
+        li.divider
+-else
 br
 br
 hr
@@ -27,11 +36,31 @@ table.table.table-striped border="1"
             h4 Member of team #{@party.name}
             hr
             =link_to "Remove from Party", [monster, @party.members.find_by_monster_id(monster.id), {member: {party_id: @party.id}}], class: "btn btn-large btn-danger", method: :delete
+
         td
-          -if monster.ability_equippings.where(user_id: @user.id).empty?
-            h4 Nothing equipped
-            hr
+          -if monster.ability_equippings.where(user_id: @user.id).empty? #Remove this line
           -else
+          /For new Ability Equipping
+          / -Ability.where().where().each do |ability|
+            h4 Slot One
+            /Check to see if a base ability is equipped, if it is show it.
+            -if ability.socket == first && ability.ability_equippings.where(unlocked_monster_id: ()).first.value?
+              h4 Base Slot Equipped with: ability.name
+              h4 Target: ability.target.name
+              h4 Element: ability.element.name
+              / Then call effects.each
+              hr
+              / Have form to do edit to abilityEquipping Controller, might need 2 controllers one for base one for secondary
+            -else
+              h4 Nothing Equipped in Base Slot
+              / Have form to do new to controller
+              A repeat of part 1
+            -if ability.socket == first && ability.ability_equippings.where(unlocked_monster_id: ()).first.value?
+
+
+
+
+
             -Ability.where(id: monster.ability_equippings.where(user_id: @user.id).pluck(:ability_id)).each do |ability|
               h4 Ability Equipped: #{ability.name}
               ul
@@ -58,10 +87,10 @@ table.table.table-striped border="1"
                             li
                               | How much the Stat is Changed: #{effect.stat_change}
             hr
-          =render partial: "/ability_equippings/form", locals: {mon: "#{monster.id}", user_id: @user.id, ability_equipping: monster.ability_equippings.find_by_user_id(@user.id) || AbilityEquipping.new}
+          =render partial: "/ability_equippings/form", locals: {mon: "#{monster.id}", user_id: @user.id, party_id: @party.id, ability_equipping: monster.ability_equippings.find_by_user_id(@user.id) || AbilityEquipping.new}
         td
           -if monster.monster_skin_equippings.where(user_id: @user.id).empty?
             h4 Equip a skin!
           -else
             =image_tag monster.monster_skin_equippings.where(user_id: @user.id).first.monster_skin.avatar.url(:medium)
-          =render partial: "monster_skin_equippings/form", locals: {mon: "#{monster.id}", user_id: @user.id, monster_skin_equipping: monster.monster_skin_equipping_for(@user) || MonsterSkinEquipping.new}
+          =render partial: "monster_skin_equippings/form", locals: {mon: "#{monster.id}", party_id: @party.id, user_id: @user.id, monster_skin_equipping: monster.monster_skin_equipping_for(@user) || MonsterSkinEquipping.new}

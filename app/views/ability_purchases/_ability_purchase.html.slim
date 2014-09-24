@@ -1,0 +1,20 @@
+=form_for [ ability, ability_purchase ], remote: true do |f|
+  div class='form-group'
+    h5 Select User
+    -if ability.ability_purchased_users.empty?
+      .form-control =f.collection_select :user_id, User.all, :id, :user_name
+    -else
+      .form-control =f.collection_select :user_id, User.where("users.id NOT IN (?)", ability.ability_purchased_users.collect(&:id)), :id, :user_name
+    =f.submit "Unlock Ability", class: 'btn btn-sm btn-primary'
+-if ability.ability_purchased_users.empty?
+  h5 Already Locked Out For All Users
+-else
+  .btn-group
+    button.btn.btn-danger.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
+      | Lock Ability
+      span.caret
+    ul.dropdown-menu role="menu"
+      -ability.ability_purchased_users.each do |user|
+        li
+          = link_to "#{user.user_name}", [ability, (ability.ability_purchases.where(user_id: user.id).first)], method: :delete, remote: true
+        li.divider

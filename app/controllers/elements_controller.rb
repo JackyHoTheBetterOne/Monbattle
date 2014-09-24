@@ -4,13 +4,13 @@ class ElementsController < ApplicationController
   def create
     @element = Element.new element_params
     @element.save
-    redirect_to admin_index_path
+    redirect_to monsters_path
   end
 
   def destroy
     @element = Element.find params[:id]
     @element.destroy
-    redirect_to admin_index_path
+    redirect_to monsters_path
   end
 
 private

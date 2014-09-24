@@ -1,4 +1,4 @@
-=form_for @ability do |f|
+=simple_form_for(@ability) do |f|
   div class="form-group"
     -case true
       -when Job.all.empty?
@@ -23,6 +23,7 @@
           .form-control =f.collection_select :stat_target_id, StatTarget.all, :id, :name
           =f.label "How much the stat is Changed"
           =f.text_field :stat_change, class: 'form-control'
+          =f.input :image
           =f.label :name
           =f.text_field :name, class: 'form-control'
           =f.label :ap_cost
@@ -31,8 +32,6 @@
           =f.text_area :description, class: 'form-control', rows: 2
           =f.label "Summoner Level required to use this ability (Required)"
           =f.text_field :min_level, class: 'form-control'
-          =f.label "Image animation location that will be used for this ability"
-          =f.text_field :image_url, class: 'form-control'
           =f.label :store_price
           =f.text_field :store_price, class: 'form-control'
           =f.label :price

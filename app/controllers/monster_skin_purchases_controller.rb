@@ -7,16 +7,16 @@ class MonsterSkinPurchasesController < ApplicationController
     # render text: params.to_s
     @monster_skin_purchase = @monster_skin.monster_skin_purchases.new monster_skin_purchase_params
     if @monster_skin_purchase.save
-      redirect_to admin_index_path, notice: "Unlocked!"
+      redirect_to monster_skins_path, notice: "Unlocked!"
     else
-      redirect_to admin_index_path, notice: "You fail"
+      redirect_to monster_skins_path, notice: "You fail"
     end
   end
 
   def destroy
     # render text: params.to_s
     if @monster_skin_purchase.destroy
-      redirect_to admin_index_path, notice: "Monster Locked for User!"
+      redirect_to monster_skins_path, notice: "Monster Locked for User!"
     end
   end
 

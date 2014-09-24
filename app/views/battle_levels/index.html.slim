@@ -1,0 +1,16 @@
+- if user_signed_in? == false
+  h1 Sign in First
+-else
+  br=render partial: "modal_button", locals: {modal_label: "battle_levelLabel", modal_id: "battle_levelModal", form_is_for: "battle_levels/form", button_name: "Create Stage", form_title: "Stage Creation" }
+  hr
+  -if @battle_levels.empty?
+  -else
+    table.table.table-striped border="1"
+      thead
+        tr
+          th Stage Name
+          th Item Given
+          th Exp Given
+          th Background Image
+      tbody
+        =render @battle_levels

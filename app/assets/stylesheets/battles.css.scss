@@ -1,284 +1,357 @@
-// Place all the styles related to the battles controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import url("http://fonts.googleapis.com/css?family=Montserrat");
+@import url("http://fonts.googleapis.com/css?family=Erica+One");
+
+$theme-background-color: rgba(10, 170, 230, 0.80);
 
 
-/* Battlefield Info */
 
-#battlefield {
- width:960px;
-}
-
-.innerBattlefield {
- padding:0px;
- width:958px;
-}
-
-.target {
-  border-style: solid;
-  border-width: 20px;
-  border-color: red;
-}
-
-/* Shared Enemy Info Bar */
-
-#enemyInfo{
- position:absolute;
- top:530px;
- right:610px;
- height:80px;
- width:300px;
-}
-
-
-/* Enemy in slot 1 */
-
-#enemy-slot-1-hp {
+///////////////////////////////////////////////////////////////////////////////////// Mix-in for monster icons
+@mixin monIcon() {
   position: absolute;
-  top: 588px;
-  left: 152px;
-  height:14px;
-  width: 50px;
-}
+  width: 420px; 
+  height: 300px;
+  .mon {
+    display: inline-block;
+    margin-left: 10%;
+    height: 130px;
+    width: 130px;
+    p.dam {
+      display: none;
+      font-style: 'Erica One', cursive;
+      color: red;
+      font-size: 120%;
+    }
+    .img {
+      width: 130px;
+      height: 130px; 
+    };
+  };
+};
 
-#enemy-slot-1-avatar {
-  position:absolute;
-  top:535px;
-  right: 825px;
-  height:70px;
-  width:70px;
-}
 
-#enemy-slot-1-name {
-  position:absolute;
-  top: 530px;
-  left: 150px;
-}
 
-.enemy-slot-1-current-hp {
-  position:absolute;
-  top: 556px;
-  left: 210px;
-
-}
-
-.enemy-slot-1-max-hp {
-  position:absolute;
-  top: 556px;
-  left: 280px;
-
-}
-
-#enemy-slot-1 {
- position:absolute;
- top:200px;
- right:525px;
- width:140px;
-}
-
-/* Enemy in slot 2*/
-
-#enemy-slot-2-hp {
+/////////////////////////////////////////////////////////////////////////////////// Mix-in for monster info boxes
+@mixin info() {
   position: absolute;
-  top: 588px;
-  left: 152px;
-  height:14px;
-  width: 50px;
-}
+  height: 100px;
+  width: 420px;
+  color: black;
 
-#enemy-slot-2-avatar {
-  position:absolute;
-  top:535px;
-  right: 825px;
-  height:70px;
-  width:70px;
-}
+  .mon {
+    display: inline-block;
+    width: 153px;
+    height: 40px;
+    margin-top: 4px;
+    margin-left: 4px;
+    background: $theme-background-color;
+    border-radius: 5px;
 
-#enemy-slot-2-name {
-  position:absolute;
-  top: 540px;
-  left: 150px;
-}
-
-#enemy-slot-2 {
- position:absolute;
- top:200px;
- right:720px;
- width:140px;
-}
-
-/* Enemy in slot 3*/
-
-#enemy-slot-3 {
- position:absolute;
- top:350px;
- right:550px;
- width:140px;
-}
-
-/* Enemy in slot 4*/
-
-#enemy-slot-4 {
- position:absolute;
- top:350px;
- right:720px;
- width:140px;
-}
-
-/* Player Monster Slot 1 */
-
-#monSlot1Info{
-  position:absolute;
-  top:50px;
-  right:740px;
-  width:176px;
-}
-
-#mon-slot-1 {
- position: absolute;
- top: 200px;
- left: 550px;
- width: 140px;
-}
-
-#mon-slot-1-avatar {
- position: absolute;
- top: 65px;
- left: 50px;
- height: 50px;
- width: 50px;
-}
-
-#mon-slot-1-name {
- position: absolute;
- top: 60px;
- left: 105px;
-
-}
-
-#mon-slot-1-hp {
- position: absolute;
- top: 106px;
- left: 104px;
- height:13px;
- width: 40px;
-}
-
-.mon-1-button-1{
-  position:absolute;
-  top:170px;
-  right:420px;
-  height:9%;
-
-}
+    .num {
+      position: relative;
+      top: -36px;
+      right: 7px;
+      text-align: right;
+    };
 
 
-/* Player Monster Slot 2 */
-
-.mon-1-button-2 {
-  display: none;
-  position:absolute;
-  top:240px;
-  right:420px;
-  height:9%;
-}
-
-.mon-1-button-3{
-  display: none;
-  position:absolute;
-  top:310px;
-  right:420px;
-  height:9%;
-}
-
-#monslot2 {
- position:absolute;
- top:200px;
- right:50px;
- width:15%;
-}
-
-#monSlot2Info{
-  position:absolute;
-  top:50px;
-  right:500px;
-  width:176px;
-}
+    p {
+      position: relative;
+      display: inline-block;
+      font-weight: bold;
+      font-size: 75%;
+    };
 
 
-/* Player Monster Slot 3 */
+    p.max-hp {
+      margin-left: 12px;
+    };
 
-#monSlot3Info{
-  position:absolute;
-  top:50px;
-  right:250px;
-  width:176px;
-}
+    p.current-hp {
+      margin-right: -10px;
+    };
 
-#mon-slot-3 {
- position:absolute;
- top:350px;
- left:550px;
- width:15%;
-}
+    .avatar {
+      position: relative;
+      top: -1px;
+      display: inline-block;
+      margin-top: 3px;
+      margin-left: 3px;
+      height: 35px;
+      width: 35px;
+    };
+
+    .hp {
+      display: inline-block;
+      height: 15px;
+      width: 110px;
+      float: left;
+      margin-top: 21px;
+      background-color: black;
+      position: absolute;
+      .bar {
+        width: 100%;
+        border: 1px solid black;
+        height: 100%;
+        position: absolute;
+      };
+    };
+
+  };
+};
 
 
-.mon-3-button-1{
-  position:absolute;
-  top:320px;
-  right:420px;
-  height:9%;
-}
 
-.mon-3-button-2{
-  position:absolute;
-  top:390px;
-  right:420px;
-  height:9%;
-}
+/////////////////////////////////////////////////////////////////////////////////////////// Battle
+html {
+  
+  height: 100%;
+  width: 100%;
+};
 
-.mon-3-button-3{
-  position:absolute;
-  top:460px;
-  right:420px;
-  height:9%;
-}
+body {
+  
+  height: 100%;
+  width: 100%;
+};
 
-/* Player Monster Slot 4 */
 
-#monSlot4Info{
-  position:absolute;
-  top:50px;
-  right:10px;
-  width:176px;
+.battle {
+  background: url(battlefield2.gif); 
+  position: relative;
+  // background: #00BFFF;  
+  background-size: contain;
+  z-index: 0;
+  width: 960px;
+  height: 500px;
+  background-repeat: no-repeat;
+  margin-top: 5px;
+  font-family: 'Montserrat', sans-serif;
+  .end-turn {
+    position: absolute;
+    background: $theme-background-color;
+    height: 50px;
+    width: 115px;
+    top: 87%;
+    right: 16%;
+    font-size: 120%;
+    font-weight: bold;
+    border-color: $theme-background-color;
+    color: black;
+    border-radius: 5px;
+  };
 
-}
-#monslot4 {
- position:absolute;
- top:350px;
- right:50px;
- width:15%;
-}
+  .platform {
+    position: absolute;
+    z-index: 1;
+    top: 202px;
+    width: 819px;
+    opacity: 0.35;
+  };
 
-/* End Turn and AP Meter  */
+  .ap {
+    position: absolute;
+    color: black;
+    background: $theme-background-color;
+    height: 50px;
+    width: 155px;
+    top: 87%;
+    left: 53%;
+    text-align: center;
+    font-size: 120%;
+    border-radius: 5px;
+    .ap-number {
+      position: relative;
+      top: 5px;
+    };
+    .ap-meter {
+      background: black;
+      width: 140px;
+      height: 17px;
+      margin-top: -5px;
+      margin-left: 7px;
+      .bar {
+        position: relative;
+        height: 100%;
+        width:  100%;
+        float: left;
+        border: 1px solid black;
+      };
+    };
+  };
+};
 
-#attack {
-  display: none;
-}
 
-#endTurnButton {
- position:absolute;
- top:547px;
- right:20px;
- height:65px;
- width: 175px;
- // width:15%;
-}
 
-#apMeter{
- position:absolute;
- top:547px;
- right:200px;
- width:25%;
-}
+/////////////////////////////////////////////////////////////////////////////////////////////////// Info boxes
+.user.info {
+  @include info();
+  right: 4%;
+  top: 0.5%;
+};
 
+.enemy.info {
+  @include info();
+  top: 76.7%;
+  width: 400px;
+  .mon {
+    width: 130px;
+    height: 53px;
+    .hp {
+      display: inline-block;
+      height: 12px;
+      width: 120px;
+      margin-left: -33px;
+      float: left;
+      margin-top: 36px;
+      background-color: black;
+      position: absolute;
+    };
+    .num {
+      position: relative;
+      text-align: right;
+      margin-top: -1px;
+      .name {
+        position: absolute;
+        right: 2%;
+        bottom: 16px;
+      };
+    };
+  };
+};
+
+.info .mon2, .info .mon3 {
+  position: relative;
+  margin-left: 3px;
+  top: -20px;
+  float: left;
+};
+
+.info .mon.mon1 {
+  margin-left: -1px;
+};
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////// Enemy Monster icons
+.enemy.mon-slot {
+  @include monIcon();
+  position: absolute;
+  top: 94px;
+  left: -30px;
+
+  .mon {
+    position: relative;
+
+    p.dam{
+      position: absolute;
+      top: 60px;
+      left: 35px;
+      z-index: 0;
+    }
+
+    .img {
+      -moz-transform: scaleX(-1);
+      -o-transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      filter: FlipH;
+      -ms-filter: "FlipH";
+      position: absolute;
+      top: 1px;
+      left: 1px;
+    };
+  };
+};
+
+.enemy.mon-slot {
+  .mon {
+    margin-top: 2%; 
+  };
+  .monBut {
+    display: none;
+  };
+};
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////// User Monster icon general
+.user.mon-slot {
+  @include monIcon();
+  display: inline-block;
+  top: 112px;
+  right: 66px;
+  width: 477px; 
+  height: 800px;
+
+  .mon {
+    position: relative;
+    height: 200px;
+    width: 400px;
+    margin: -30px -110px -30px;
+
+    p.dam{
+      position: absolute;
+      top: 70px;
+      left: 236px;
+      z-index: 0;
+    };
+  }
+
+  .monBut {
+    display: inline-block;
+    width: 80px;
+    height: 130px;
+    visibility: hidden;
+    z-index: 1000;
+    button {
+      width: 80px;
+      height: 40px;
+      background: $theme-background-color;
+      border-color: $theme-background-color;
+      border-radius: 5px;
+    };
+  };
+
+  .abilityDesc {
+    visibility: hidden;
+    opacity: 0.8;
+    width: 260px;
+    z-index: 1111;
+    border-color: black;
+    .pan {
+      background-color: $theme-background-color;
+      border-color: $theme-background-color;
+      color: black;
+      padding: 3px 4px 6px;
+    };
+    .panel-body {
+      font-size: 90%;
+    };
+  };
+};
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////// User monster icon positions
+.mon {
+  .abilityDesc {
+    position: absolute;
+    top: 32px;
+    left: -130px;
+  };
+
+  .monBut {
+    position: absolute;
+    top: 42px;
+    left: 132px;
+  };
+
+  .img {
+    position: absolute;
+    top: 20px;
+    left: 200px;
+    z-index: 1000;
+    border-color: transparent;
+    outline: 0;
+  };
+};

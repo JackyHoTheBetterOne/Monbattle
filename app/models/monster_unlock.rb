@@ -2,6 +2,7 @@ class MonsterUnlock < ActiveRecord::Base
   belongs_to :user
   belongs_to :monster
 
-  validates :monster_id, presence: {message: 'Must be entered'}
+  validates :monster_id, presence: {message: 'Must be entered'},
+                                    uniqueness: {scope: :user_id}
   validates :user_id, presence: {message: 'Must be entered'}
 end

@@ -1,5 +1,4 @@
 class MembersController < ApplicationController
-  # before action :authenticate_user!
   before_action :find_party
   before_action :find_user
   before_action :find_monster, only: [:create]
@@ -11,10 +10,10 @@ class MembersController < ApplicationController
       if @user.user_name == "NPC"
         redirect_to @party, notice: "Monster Added to Stage"
       else
-        redirect_to admin_index_path, notice: "Monster Added to Team!"
+        redirect_to @party, notice: "Monster Added to Team!"
       end
     else
-      redirect_to admin_index_path, notice: "You fail!"
+      redirect_to @party, notice: "You fail!"
     end
   end
 
@@ -23,17 +22,17 @@ class MembersController < ApplicationController
       if @user.user_name == "NPC"
         redirect_to @party, notice: "Monster Removed from Party!"
       else
-        redirect_to admin_index_path, notice: "Monster Removed From Team"
+        redirect_to @party, notice: "Monster Removed From Team"
       end
     else
-      redirect_to admin_index_path, notice: "You fail!"
+      redirect_to @party, notice: "You fail!"
     end
   end
 
   private
 
   def find_party
-    @party = Party.find(params["member"]["party_id"])
+    @party = Party.find params[:member][:party_id]
   end
 
   def find_user

@@ -4,13 +4,13 @@ class StatTargetsController < ApplicationController
   def create
     @stat_target = StatTarget.new stat_target_params
     @stat_target.save
-    redirect_to admin_index_path
+    redirect_to abilities_path
   end
 
   def destroy
     @stat_target = StatTarget.find params[:id]
     @stat_target.destroy
-    redirect_to admin_index_path
+    redirect_to abilities_path
   end
 
 private

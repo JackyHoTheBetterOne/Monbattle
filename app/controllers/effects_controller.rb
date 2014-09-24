@@ -1,21 +1,25 @@
 class EffectsController < ApplicationController
-  # before_action :authenticate!
-  before_action :find_effect, except: [:create]
+  before_action :find_effect, except: [:create, :index]
+
+  def index
+    @effect = Effect.new
+    @effects = Effect.all
+  end
 
   def create
     @effect = Effect.new effect_params
     if @effect.save
-      redirect_to admin_index_path, notice: "Effect Added"
+      redirect_to effects_path, notice: "Effect Added"
     else
-      redirect_to admin_index_path, notice: "Failure"
+      redirect_to effects_path, notice: "Failure"
     end
   end
 
   def destroy
     if @effect.destroy
-      redirect_to admin_index_path, notice: "Effect Removed"
+      redirect_to effects_path, notice: "Effect Removed"
     else
-      redirect_to admin_index_path, notice: "Failure"
+      redirect_to effects_path, notice: "Failure"
     end
   end
 
@@ -25,7 +29,7 @@ class EffectsController < ApplicationController
   def update
     @effect.update_attributes(effect_params)
     if @effect.save
-      redirect_to admin_index_path, notice: "Success!"
+      redirect_to effects_path, notice: "Success!"
     end
   end
 

@@ -4,13 +4,13 @@ class JobsController < ApplicationController
   def create
     @job = Job.new job_params
     @job.save
-    redirect_to admin_index_path
+    redirect_to monsters_path
   end
 
   def destroy
     @job = Job.find params[:id]
     @job.destroy
-    redirect_to admin_index_path
+    redirect_to monsters_path
   end
 
 private
@@ -21,4 +21,4 @@ private
 
 end
 
-  
+

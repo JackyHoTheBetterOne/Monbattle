@@ -1,0 +1,18 @@
+- if user_signed_in? == false
+  h1 Sign in First
+- else
+  =render partial: "admin/modal_button", locals: {modal_label: "effectLabel", modal_id: "effectModal", form_is_for: "effects/form", button_name: "Create New Effect", form_title: "New Effect"}
+  hr
+  table.table.table-striped border="1"
+    thead
+      tr
+        th Effect Name
+        th Element
+        th Target of Effect
+        th Stat Targeted
+        th Amount Stat Changed
+        th Delete/Edit
+    tbody
+      -if @effects.empty?
+      -else
+        =render @effects

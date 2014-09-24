@@ -1,0 +1,64 @@
+-if user_signed_in?  != true
+-else
+  -@battle.parties.each do |party|
+    h3 Player: #{party.user.user_name}
+    hr
+    h3 Team Name: #{party.name}
+    hr
+    -if party.monsters.empty?
+      h1 Error one of the members parties is empty!
+    -else
+      table.table.table-striped border="1"
+        thead
+          tr
+            th Monster
+            th Ability Equipped
+            th Secondary Effects
+        tbody
+          -party.monsters.each do |monster|
+            tr
+              td
+                h3 #{monster.name}
+                h4 HP: #{monster.max_hp}
+                h4 Element: #{monster.element.name}
+                -if monster.monster_skin_equippings.where(user_id: party.user).empty?
+                  h3 No Skin Equipped for This Monster
+                -else
+                  =image_tag monster.monster_skin_equippings.where(user_id: party.user).first.monster_skin.avatar.url(:small)
+                  -if monster.abilities.empty?
+                    h4 Monsters are not equipped
+                  -else
+                    -Ability.where(id: monster.ability_equippings.where(user_id: party.user.id).pluck(:ability_id)).each do |ability|
+                      td
+                        h4 #{ability.name}
+                        h5 AP Cost: #{ability.ap_cost}
+                        h5 Element: #{ability.element.name}
+                        h5 Target: #{ability.target.name}
+                        h5 Stat Effected: #{ability.stat_target.name}
+                        h5 Amount Stat is Effected: #{ability.stat_change}
+                      td
+                        -if ability.effects.empty?
+                          h4 No secondary Effect
+                        -else
+                          -ability.effects.each do |effect|
+                            h4 #{effect.name}
+                            h5 Element: #{effect.element.name}
+                            h5 Target: #{effect.target.name}
+                            h5 Stat Effected: #{effect.stat_target.name}
+                            h5 Amount Stat is Effected: #{effect.stat_change}
+                            hr
+    br
+    hr
+    br
+
+
+
+
+
+
+
+
+
+
+
+<button class="ability" data-index="1" data-apCost = "<%= mon.cost(1) %>" data-target= "<%= mon.target(1) %>">Ability</button>

@@ -2,22 +2,24 @@ Rails.application.routes.draw do
 
 devise_for :users
 
-root 'admin#index'
-resources :admin
-
-resources :monsters, only: [:create, :edit, :update, :destroy] do
+resources :monsters do
   resources :members, only: [:create, :destroy]
-  resources :monster_unlocks, only: [:destroy]
+  resources :monster_unlocks, only: [:create, :destroy]
 end
-resources :monster_skins, only: [:create, :edit, :update, :destroy] do
+
+resources :monster_skins do
   resources :monster_skin_purchases, only: [:create, :destroy]
 end
 
-resources :effects, only: [:create, :edit, :update, :destroy]
-resources :abilities, only: [:create, :edit, :update, :destroy]
+resources :abilities do
+  resources :ability_purchases, only: [:create, :destroy]
+end
+
+root 'admin#index'
+resources :admin
+resources :effects
 resources :parties
-get 'npc_show/:id' => 'parties#npc_show', as: :npc_show
-resources :battle_levels, only: [:create, :edit, :update, :destroy]
+resources :battle_levels
 resources :battles
 # get 'monsters/clone' => 'monsters#clone', as: :monster_clone
 patch 'monsters/evolve/edit/:id' => 'monsters#evolve_edit', as: :evolve_edit

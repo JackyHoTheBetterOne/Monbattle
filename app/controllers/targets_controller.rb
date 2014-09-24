@@ -4,13 +4,13 @@ class TargetsController < ApplicationController
   def create
     @target = Target.new target_params
     @target.save
-    redirect_to admin_index_path
+    redirect_to abilities_path
   end
 
   def destroy
     @target = Target.find params[:id]
     @target.destroy
-    redirect_to admin_index_path
+    redirect_to abilities_path
   end
 
 private

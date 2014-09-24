@@ -21,6 +21,7 @@
               th Store Price
               th Price
               th Delete/Edit
+              th Lock/Unlock
           tbody
             tr
               td
@@ -33,12 +34,14 @@
               td=ability.target.name
               td=ability.stat_target.name
               td=ability.stat_change
-              td="Link to Image"
+              td=image_tag ability.image.url(:thumb)
               td=ability.store_price
               td=ability.price
               td
                 =link_to "Delete", ability, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm btn-danger"
                 =link_to "Edit", edit_ability_path(ability), data: {confirm: "This will unequip this ability from all monsters using it!"}, class: "btn btn-sm btn-warning"
+              td id="unlock_#{dom_id(ability)}"
+                =render partial: "ability_purchases/ability_purchase", locals: {ability: ability, ability_purchase: @ability_purchase}
 
   -if ability.effects.empty?
   -else

@@ -1,19 +1,27 @@
-=form_for @monster do |f|
+=form_for @monster, remote: true do |f|
   div class='form-group' id="monsterForm"
     -case true
       -when Element.all.empty?
         h1 Make some Elements First!
       -when Monster.all.empty? && Job.where(evolve_lvl: "0").empty?
         h1 Make some Jobs with evolve lvl 0 First!
-      -when Monster.all.exists? && Job.where(evolve_lvl: "0").where("jobs.id NOT IN (?)", Monster.all.map(&:job_id)).empty?
+      -when Monster.all.exists? && Job.where(evolve_lvl: "0").where("jobs.id NOT IN (?)", Monster.all.map(&:job_id)).empty? && Monster.where(id: @monster).empty?
         h1 Make some more Jobs with evolve lvl 0 First!
       -else
         .form-group
           h4=f.label "The job of this monster, and the evolution level"
-          -if Monster.all.empty?
-            .form-control =f.collection_select :job_id, Job.all.where(evolve_lvl: "0"), :id, :name
-          -else
-            .form-control = f.select "job_id", options_for_select(Job.where(evolve_lvl: "0").where("jobs.id NOT IN (?)", Monster.pluck(:job_id)).collect{|job| [job.name + " Elvl: " + job.evolve_lvl, job.id]}, :selected => @monster.job)
+          -case true
+            -when Monster.all.empty?
+              .form-control =f.collection_select :job_id, Job.all.where(evolve_lvl: "0"), :id, :name
+            -when @monster.evolutions.exists?
+              h3  ="***Can not Change Job, evolved states are using this!***"
+              =f.hidden_field :job_id, value: @monster.job_id
+            -else
+              -if Job.where(evolve_lvl: "0").where("jobs.id NOT IN (?)", Monster.all.map(&:job_id)).empty?
+                h3 ="***No Other jobs available, keeping current Job***"
+                =f.hidden_field :job_id, value: @monster.job_id
+              -else
+                .form-control = f.select "job_id", options_for_select(Job.where(evolve_lvl: "0").where("jobs.id NOT IN (?)", Monster.pluck(:job_id)).collect{|job| [job.name + " Elvl: " + job.evolve_lvl, job.id]}, :selected => @monster.job)
           h4=f.label "The element of this monster"
           .form-control =f.collection_select :element_id, Element.all, :id, :name
           =f.label "Click to see existing monsters -- (Feature coming Soon)"
@@ -27,5 +35,7 @@
           =f.text_field :hp_modifier, class: 'form-control'
           =f.label :dmg_modifier
           =f.text_field :dmg_modifier, class: 'form-control'
+          =f.label :summon_cost
+          =f.text_field :summon_cost, class: 'form-control'
           =f.hidden_field :evolved_from_id, value: "0"
           hr=f.submit class: 'btn btn-primary'

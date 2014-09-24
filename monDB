@@ -1,0 +1,2341 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: abilities; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE abilities (
+    id integer NOT NULL,
+    name character varying(255),
+    ap_cost integer,
+    store_price integer,
+    image_url text,
+    min_level integer,
+    price integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    description character varying(255),
+    stat_change character varying(255),
+    target_id integer,
+    element_id integer,
+    stat_target_id integer
+);
+
+
+ALTER TABLE public.abilities OWNER TO alanmaule;
+
+--
+-- Name: abilities_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE abilities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.abilities_id_seq OWNER TO alanmaule;
+
+--
+-- Name: abilities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE abilities_id_seq OWNED BY abilities.id;
+
+
+--
+-- Name: ability_effects; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE ability_effects (
+    id integer NOT NULL,
+    ability_id integer,
+    effect_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.ability_effects OWNER TO alanmaule;
+
+--
+-- Name: ability_effects_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE ability_effects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ability_effects_id_seq OWNER TO alanmaule;
+
+--
+-- Name: ability_effects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE ability_effects_id_seq OWNED BY ability_effects.id;
+
+
+--
+-- Name: ability_equippings; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE ability_equippings (
+    id integer NOT NULL,
+    ability_id integer,
+    monster_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    user_id integer
+);
+
+
+ALTER TABLE public.ability_equippings OWNER TO alanmaule;
+
+--
+-- Name: ability_equippings_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE ability_equippings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ability_equippings_id_seq OWNER TO alanmaule;
+
+--
+-- Name: ability_equippings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE ability_equippings_id_seq OWNED BY ability_equippings.id;
+
+
+--
+-- Name: ability_purchases; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE ability_purchases (
+    id integer NOT NULL,
+    ability_id integer,
+    user_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.ability_purchases OWNER TO alanmaule;
+
+--
+-- Name: ability_purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE ability_purchases_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ability_purchases_id_seq OWNER TO alanmaule;
+
+--
+-- Name: ability_purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE ability_purchases_id_seq OWNED BY ability_purchases.id;
+
+
+--
+-- Name: ability_restrictions; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE ability_restrictions (
+    id integer NOT NULL,
+    job_id integer,
+    ability_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.ability_restrictions OWNER TO alanmaule;
+
+--
+-- Name: ability_restrictions_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE ability_restrictions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ability_restrictions_id_seq OWNER TO alanmaule;
+
+--
+-- Name: ability_restrictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE ability_restrictions_id_seq OWNED BY ability_restrictions.id;
+
+
+--
+-- Name: backgrounds; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE backgrounds (
+    id integer NOT NULL,
+    name character varying(255),
+    image character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.backgrounds OWNER TO alanmaule;
+
+--
+-- Name: backgrounds_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE backgrounds_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.backgrounds_id_seq OWNER TO alanmaule;
+
+--
+-- Name: backgrounds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE backgrounds_id_seq OWNED BY backgrounds.id;
+
+
+--
+-- Name: battle_levels; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE battle_levels (
+    id integer NOT NULL,
+    item_given character varying(255),
+    exp_given integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.battle_levels OWNER TO alanmaule;
+
+--
+-- Name: battle_levels_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE battle_levels_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.battle_levels_id_seq OWNER TO alanmaule;
+
+--
+-- Name: battle_levels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE battle_levels_id_seq OWNED BY battle_levels.id;
+
+
+--
+-- Name: battles; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE battles (
+    id integer NOT NULL,
+    outcome character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    battle_level_id integer
+);
+
+
+ALTER TABLE public.battles OWNER TO alanmaule;
+
+--
+-- Name: battles_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE battles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.battles_id_seq OWNER TO alanmaule;
+
+--
+-- Name: battles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE battles_id_seq OWNED BY battles.id;
+
+
+--
+-- Name: effects; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE effects (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    target_id integer,
+    element_id integer,
+    stat_change character varying(255),
+    stat_target_id integer
+);
+
+
+ALTER TABLE public.effects OWNER TO alanmaule;
+
+--
+-- Name: effects_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE effects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.effects_id_seq OWNER TO alanmaule;
+
+--
+-- Name: effects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE effects_id_seq OWNED BY effects.id;
+
+
+--
+-- Name: elements; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE elements (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.elements OWNER TO alanmaule;
+
+--
+-- Name: elements_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE elements_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.elements_id_seq OWNER TO alanmaule;
+
+--
+-- Name: elements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE elements_id_seq OWNED BY elements.id;
+
+
+--
+-- Name: evolved_states; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE evolved_states (
+    id integer NOT NULL,
+    name character varying(255),
+    job_id integer,
+    element_id integer,
+    created_from_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    monster_id integer,
+    is_template boolean DEFAULT false,
+    monster_skin_id integer,
+    hp_modifier integer,
+    dmg_modifier integer
+);
+
+
+ALTER TABLE public.evolved_states OWNER TO alanmaule;
+
+--
+-- Name: evolved_states_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE evolved_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.evolved_states_id_seq OWNER TO alanmaule;
+
+--
+-- Name: evolved_states_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE evolved_states_id_seq OWNED BY evolved_states.id;
+
+
+--
+-- Name: fights; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE fights (
+    id integer NOT NULL,
+    battle_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    party_id integer
+);
+
+
+ALTER TABLE public.fights OWNER TO alanmaule;
+
+--
+-- Name: fights_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE fights_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.fights_id_seq OWNER TO alanmaule;
+
+--
+-- Name: fights_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE fights_id_seq OWNED BY fights.id;
+
+
+--
+-- Name: jobs; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE jobs (
+    id integer NOT NULL,
+    name character varying(255),
+    evolve_lvl character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.jobs OWNER TO alanmaule;
+
+--
+-- Name: jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE jobs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.jobs_id_seq OWNER TO alanmaule;
+
+--
+-- Name: jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE jobs_id_seq OWNED BY jobs.id;
+
+
+--
+-- Name: members; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE members (
+    id integer NOT NULL,
+    monster_id integer,
+    party_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.members OWNER TO alanmaule;
+
+--
+-- Name: members_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE members_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.members_id_seq OWNER TO alanmaule;
+
+--
+-- Name: members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE members_id_seq OWNED BY members.id;
+
+
+--
+-- Name: monster_skin_equippings; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE monster_skin_equippings (
+    id integer NOT NULL,
+    monster_id integer,
+    monster_skin_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    user_id integer
+);
+
+
+ALTER TABLE public.monster_skin_equippings OWNER TO alanmaule;
+
+--
+-- Name: monster_skin_equippings_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE monster_skin_equippings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.monster_skin_equippings_id_seq OWNER TO alanmaule;
+
+--
+-- Name: monster_skin_equippings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE monster_skin_equippings_id_seq OWNED BY monster_skin_equippings.id;
+
+
+--
+-- Name: monster_skin_purchases; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE monster_skin_purchases (
+    id integer NOT NULL,
+    user_id integer,
+    monster_skin_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.monster_skin_purchases OWNER TO alanmaule;
+
+--
+-- Name: monster_skin_purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE monster_skin_purchases_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.monster_skin_purchases_id_seq OWNER TO alanmaule;
+
+--
+-- Name: monster_skin_purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE monster_skin_purchases_id_seq OWNED BY monster_skin_purchases.id;
+
+
+--
+-- Name: monster_skins; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE monster_skins (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    avatar_file_name character varying(255),
+    avatar_content_type character varying(255),
+    avatar_file_size integer,
+    avatar_updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.monster_skins OWNER TO alanmaule;
+
+--
+-- Name: monster_skins_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE monster_skins_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.monster_skins_id_seq OWNER TO alanmaule;
+
+--
+-- Name: monster_skins_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE monster_skins_id_seq OWNED BY monster_skins.id;
+
+
+--
+-- Name: monster_unlocks; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE monster_unlocks (
+    id integer NOT NULL,
+    user_id integer,
+    monster_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.monster_unlocks OWNER TO alanmaule;
+
+--
+-- Name: monster_unlocks_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE monster_unlocks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.monster_unlocks_id_seq OWNER TO alanmaule;
+
+--
+-- Name: monster_unlocks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE monster_unlocks_id_seq OWNED BY monster_unlocks.id;
+
+
+--
+-- Name: monsters; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE monsters (
+    id integer NOT NULL,
+    name character varying(255),
+    max_hp integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    job_id integer,
+    element_id integer,
+    hp_modifier integer,
+    dmg_modifier integer,
+    evolved_from_id integer,
+    description text
+);
+
+
+ALTER TABLE public.monsters OWNER TO alanmaule;
+
+--
+-- Name: monsters_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE monsters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.monsters_id_seq OWNER TO alanmaule;
+
+--
+-- Name: monsters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE monsters_id_seq OWNED BY monsters.id;
+
+
+--
+-- Name: parties; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE parties (
+    id integer NOT NULL,
+    user_id integer,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.parties OWNER TO alanmaule;
+
+--
+-- Name: parties_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE parties_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.parties_id_seq OWNER TO alanmaule;
+
+--
+-- Name: parties_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE parties_id_seq OWNED BY parties.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE schema_migrations (
+    version character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.schema_migrations OWNER TO alanmaule;
+
+--
+-- Name: skin_restrictions; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE skin_restrictions (
+    id integer NOT NULL,
+    monster_skin_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    job_id integer
+);
+
+
+ALTER TABLE public.skin_restrictions OWNER TO alanmaule;
+
+--
+-- Name: skin_restrictions_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE skin_restrictions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.skin_restrictions_id_seq OWNER TO alanmaule;
+
+--
+-- Name: skin_restrictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE skin_restrictions_id_seq OWNED BY skin_restrictions.id;
+
+
+--
+-- Name: stat_targets; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE stat_targets (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.stat_targets OWNER TO alanmaule;
+
+--
+-- Name: stat_targets_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE stat_targets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.stat_targets_id_seq OWNER TO alanmaule;
+
+--
+-- Name: stat_targets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE stat_targets_id_seq OWNED BY stat_targets.id;
+
+
+--
+-- Name: summoner_levels; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE summoner_levels (
+    id integer NOT NULL,
+    lvl integer,
+    exp_to_nxt_lvl integer,
+    ap integer,
+    monsters_allowed integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.summoner_levels OWNER TO alanmaule;
+
+--
+-- Name: summoner_levels_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE summoner_levels_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.summoner_levels_id_seq OWNER TO alanmaule;
+
+--
+-- Name: summoner_levels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE summoner_levels_id_seq OWNED BY summoner_levels.id;
+
+
+--
+-- Name: summoners; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE summoners (
+    id integer NOT NULL,
+    name character varying(255),
+    current_lvl integer,
+    current_exp integer,
+    user_id integer,
+    summoner_level_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.summoners OWNER TO alanmaule;
+
+--
+-- Name: summoners_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE summoners_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.summoners_id_seq OWNER TO alanmaule;
+
+--
+-- Name: summoners_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE summoners_id_seq OWNED BY summoners.id;
+
+
+--
+-- Name: targets; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE targets (
+    id integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.targets OWNER TO alanmaule;
+
+--
+-- Name: targets_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE targets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.targets_id_seq OWNER TO alanmaule;
+
+--
+-- Name: targets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE targets_id_seq OWNED BY targets.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying(255),
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    first_name character varying(255),
+    last_name character varying(255),
+    user_name character varying(255),
+    currency integer,
+    paid_currency integer,
+    rank integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    admin boolean DEFAULT false
+);
+
+
+ALTER TABLE public.users OWNER TO alanmaule;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO alanmaule;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY abilities ALTER COLUMN id SET DEFAULT nextval('abilities_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY ability_effects ALTER COLUMN id SET DEFAULT nextval('ability_effects_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY ability_equippings ALTER COLUMN id SET DEFAULT nextval('ability_equippings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY ability_purchases ALTER COLUMN id SET DEFAULT nextval('ability_purchases_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY ability_restrictions ALTER COLUMN id SET DEFAULT nextval('ability_restrictions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY backgrounds ALTER COLUMN id SET DEFAULT nextval('backgrounds_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY battle_levels ALTER COLUMN id SET DEFAULT nextval('battle_levels_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY battles ALTER COLUMN id SET DEFAULT nextval('battles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY effects ALTER COLUMN id SET DEFAULT nextval('effects_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY elements ALTER COLUMN id SET DEFAULT nextval('elements_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY evolved_states ALTER COLUMN id SET DEFAULT nextval('evolved_states_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY fights ALTER COLUMN id SET DEFAULT nextval('fights_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY jobs ALTER COLUMN id SET DEFAULT nextval('jobs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY members ALTER COLUMN id SET DEFAULT nextval('members_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY monster_skin_equippings ALTER COLUMN id SET DEFAULT nextval('monster_skin_equippings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY monster_skin_purchases ALTER COLUMN id SET DEFAULT nextval('monster_skin_purchases_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY monster_skins ALTER COLUMN id SET DEFAULT nextval('monster_skins_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY monster_unlocks ALTER COLUMN id SET DEFAULT nextval('monster_unlocks_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY monsters ALTER COLUMN id SET DEFAULT nextval('monsters_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY parties ALTER COLUMN id SET DEFAULT nextval('parties_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY skin_restrictions ALTER COLUMN id SET DEFAULT nextval('skin_restrictions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY stat_targets ALTER COLUMN id SET DEFAULT nextval('stat_targets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY summoner_levels ALTER COLUMN id SET DEFAULT nextval('summoner_levels_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY summoners ALTER COLUMN id SET DEFAULT nextval('summoners_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY targets ALTER COLUMN id SET DEFAULT nextval('targets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Data for Name: abilities; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY abilities (id, name, ap_cost, store_price, image_url, min_level, price, created_at, updated_at, description, stat_change, target_id, element_id, stat_target_id) FROM stdin;
+11	Ice Bolt	2	\N		1	\N	2014-09-19 00:17:46.340854	2014-09-19 00:17:46.340854	Ice Bolt	-400	9	1	3
+12	Recover	2	\N		1	\N	2014-09-19 00:18:28.568211	2014-09-19 00:18:28.568211	heals 400	+400	8	1	3
+13	Aggression	2	\N		1	\N	2014-09-19 00:20:32.332818	2014-09-19 00:20:32.332818	-600 to enemy, -300 to self	-600	9	1	3
+14	backlash	3	\N		1	\N	2014-09-19 00:21:37.550891	2014-09-19 00:21:37.550891	-300 to all enemies and yourself	-300	7	1	3
+15	Heaven's Might	3	\N		1	\N	2014-09-19 00:22:25.920864	2014-09-19 00:22:25.920864	Heals your team for 400	+400	6	1	3
+\.
+
+
+--
+-- Name: abilities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('abilities_id_seq', 15, true);
+
+
+--
+-- Data for Name: ability_effects; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY ability_effects (id, ability_id, effect_id, created_at, updated_at) FROM stdin;
+10	13	10	2014-09-19 00:20:32.33826	2014-09-19 00:20:32.33826
+11	14	10	2014-09-19 00:21:37.552274	2014-09-19 00:21:37.552274
+\.
+
+
+--
+-- Name: ability_effects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('ability_effects_id_seq', 11, true);
+
+
+--
+-- Data for Name: ability_equippings; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY ability_equippings (id, ability_id, monster_id, created_at, updated_at, user_id) FROM stdin;
+21	13	14	2014-09-19 00:26:20.712272	2014-09-19 00:26:20.712272	1
+20	14	13	2014-09-19 00:24:30.615119	2014-09-19 00:26:38.937193	1
+22	15	15	2014-09-19 00:26:51.809181	2014-09-19 00:26:51.809181	1
+23	11	13	2014-09-19 00:27:55.744915	2014-09-19 00:27:55.744915	2
+24	12	15	2014-09-19 00:28:04.601011	2014-09-19 00:28:04.601011	2
+25	14	14	2014-09-19 00:28:15.689776	2014-09-19 00:28:15.689776	2
+\.
+
+
+--
+-- Name: ability_equippings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('ability_equippings_id_seq', 25, true);
+
+
+--
+-- Data for Name: ability_purchases; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY ability_purchases (id, ability_id, user_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: ability_purchases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('ability_purchases_id_seq', 1, false);
+
+
+--
+-- Data for Name: ability_restrictions; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY ability_restrictions (id, job_id, ability_id, created_at, updated_at) FROM stdin;
+11	2	11	2014-09-19 00:17:46.342074	2014-09-19 00:17:46.342074
+12	3	11	2014-09-19 00:17:46.343097	2014-09-19 00:17:46.343097
+13	7	11	2014-09-19 00:17:46.344016	2014-09-19 00:17:46.344016
+14	2	12	2014-09-19 00:18:28.570817	2014-09-19 00:18:28.570817
+15	3	12	2014-09-19 00:18:28.571931	2014-09-19 00:18:28.571931
+16	7	12	2014-09-19 00:18:28.572846	2014-09-19 00:18:28.572846
+17	2	13	2014-09-19 00:20:32.334663	2014-09-19 00:20:32.334663
+18	3	13	2014-09-19 00:20:32.335953	2014-09-19 00:20:32.335953
+19	7	13	2014-09-19 00:20:32.336841	2014-09-19 00:20:32.336841
+20	2	15	2014-09-19 00:22:25.922732	2014-09-19 00:22:25.922732
+21	3	15	2014-09-19 00:22:25.92398	2014-09-19 00:22:25.92398
+22	7	15	2014-09-19 00:22:25.925293	2014-09-19 00:22:25.925293
+23	2	14	2014-09-19 00:26:04.79041	2014-09-19 00:26:04.79041
+24	3	14	2014-09-19 00:26:04.792278	2014-09-19 00:26:04.792278
+25	7	14	2014-09-19 00:26:04.793801	2014-09-19 00:26:04.793801
+\.
+
+
+--
+-- Name: ability_restrictions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('ability_restrictions_id_seq', 25, true);
+
+
+--
+-- Data for Name: backgrounds; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY backgrounds (id, name, image, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: backgrounds_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('backgrounds_id_seq', 1, false);
+
+
+--
+-- Data for Name: battle_levels; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY battle_levels (id, item_given, exp_given, created_at, updated_at, name) FROM stdin;
+1	Dead Rat	100	2014-09-15 03:39:40.01816	2014-09-15 03:39:40.01816	Stage One
+2	Crow Skull	500	2014-09-17 04:28:58.02748	2014-09-17 04:28:58.02748	Stage Two
+\.
+
+
+--
+-- Name: battle_levels_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('battle_levels_id_seq', 2, true);
+
+
+--
+-- Data for Name: battles; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY battles (id, outcome, created_at, updated_at, battle_level_id) FROM stdin;
+31	\N	2014-09-19 00:30:56.110682	2014-09-19 00:30:56.110682	1
+\.
+
+
+--
+-- Name: battles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('battles_id_seq', 31, true);
+
+
+--
+-- Data for Name: effects; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY effects (id, name, created_at, updated_at, target_id, element_id, stat_change, stat_target_id) FROM stdin;
+9	homo	2014-09-19 00:09:43.994737	2014-09-19 00:09:43.994737	5	1	1	3
+10	self inflict	2014-09-19 00:19:30.411204	2014-09-19 00:19:30.411204	10	1	-300	3
+\.
+
+
+--
+-- Name: effects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('effects_id_seq', 10, true);
+
+
+--
+-- Data for Name: elements; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY elements (id, name, created_at, updated_at) FROM stdin;
+1	Heaven	2014-09-15 04:22:52.367445	2014-09-15 04:22:52.367445
+2	Hell	2014-09-15 04:22:59.810864	2014-09-15 04:22:59.810864
+\.
+
+
+--
+-- Name: elements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('elements_id_seq', 2, true);
+
+
+--
+-- Data for Name: evolved_states; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY evolved_states (id, name, job_id, element_id, created_from_id, created_at, updated_at, monster_id, is_template, monster_skin_id, hp_modifier, dmg_modifier) FROM stdin;
+\.
+
+
+--
+-- Name: evolved_states_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('evolved_states_id_seq', 1, false);
+
+
+--
+-- Data for Name: fights; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY fights (id, battle_id, created_at, updated_at, party_id) FROM stdin;
+39	31	2014-09-19 00:30:56.165548	2014-09-19 00:30:56.165548	3
+40	31	2014-09-19 00:30:56.167318	2014-09-19 00:30:56.167318	2
+\.
+
+
+--
+-- Name: fights_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('fights_id_seq', 40, true);
+
+
+--
+-- Data for Name: jobs; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY jobs (id, name, evolve_lvl, created_at, updated_at) FROM stdin;
+2	Warrior	0	2014-09-15 04:22:21.257072	2014-09-15 04:22:21.257072
+3	Mage	0	2014-09-15 04:22:32.669375	2014-09-15 04:22:32.669375
+7	healer	0	2014-09-19 00:15:46.29249	2014-09-19 00:15:46.29249
+\.
+
+
+--
+-- Name: jobs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('jobs_id_seq', 7, true);
+
+
+--
+-- Data for Name: members; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY members (id, monster_id, party_id, created_at, updated_at) FROM stdin;
+42	13	2	2014-09-19 00:26:58.984699	2014-09-19 00:26:58.984699
+43	14	2	2014-09-19 00:27:02.77157	2014-09-19 00:27:02.77157
+44	15	2	2014-09-19 00:27:05.405075	2014-09-19 00:27:05.405075
+45	13	3	2014-09-19 00:28:20.698388	2014-09-19 00:28:20.698388
+47	14	3	2014-09-19 00:28:30.508954	2014-09-19 00:28:30.508954
+48	15	3	2014-09-19 00:28:40.482143	2014-09-19 00:28:40.482143
+\.
+
+
+--
+-- Name: members_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('members_id_seq', 48, true);
+
+
+--
+-- Data for Name: monster_skin_equippings; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY monster_skin_equippings (id, monster_id, monster_skin_id, created_at, updated_at, user_id) FROM stdin;
+10	13	8	2014-09-19 00:24:43.955164	2014-09-19 00:24:43.955164	1
+11	14	9	2014-09-19 00:24:57.824999	2014-09-19 00:24:57.824999	1
+12	15	11	2014-09-19 00:25:07.926958	2014-09-19 00:25:07.926958	1
+13	13	9	2014-09-19 00:27:23.669916	2014-09-19 00:27:23.669916	2
+14	14	10	2014-09-19 00:27:31.332628	2014-09-19 00:27:31.332628	2
+15	15	11	2014-09-19 00:27:38.875074	2014-09-19 00:27:38.875074	2
+\.
+
+
+--
+-- Name: monster_skin_equippings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('monster_skin_equippings_id_seq', 15, true);
+
+
+--
+-- Data for Name: monster_skin_purchases; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY monster_skin_purchases (id, user_id, monster_skin_id, created_at, updated_at) FROM stdin;
+16	2	8	2014-09-18 23:57:34.536307	2014-09-18 23:57:34.536307
+17	1	8	2014-09-18 23:57:41.105154	2014-09-18 23:57:41.105154
+18	2	9	2014-09-18 23:57:48.942007	2014-09-18 23:57:48.942007
+19	1	9	2014-09-18 23:57:56.09885	2014-09-18 23:57:56.09885
+20	2	10	2014-09-18 23:58:02.868669	2014-09-18 23:58:02.868669
+21	1	10	2014-09-18 23:58:10.738519	2014-09-18 23:58:10.738519
+22	1	11	2014-09-18 23:58:17.559266	2014-09-18 23:58:17.559266
+23	2	11	2014-09-18 23:58:25.206226	2014-09-18 23:58:25.206226
+\.
+
+
+--
+-- Name: monster_skin_purchases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('monster_skin_purchases_id_seq', 23, true);
+
+
+--
+-- Data for Name: monster_skins; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY monster_skins (id, name, created_at, updated_at, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at) FROM stdin;
+8	Mon1	2014-09-18 23:56:08.631678	2014-09-18 23:56:08.631678	Mon1.gif	image/gif	14082	2014-09-18 23:56:08.006881
+9	Mon2	2014-09-18 23:56:33.17689	2014-09-18 23:56:33.17689	Mon2.gif	image/gif	14671	2014-09-18 23:56:32.549184
+10	Mon3	2014-09-18 23:56:52.74396	2014-09-18 23:56:52.74396	Mon3.gif	image/gif	30894	2014-09-18 23:56:51.916015
+11	Mon4	2014-09-18 23:57:25.608586	2014-09-18 23:57:25.608586	Mon4.gif	image/gif	26458	2014-09-18 23:57:24.553125
+\.
+
+
+--
+-- Name: monster_skins_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('monster_skins_id_seq', 11, true);
+
+
+--
+-- Data for Name: monster_unlocks; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY monster_unlocks (id, user_id, monster_id, created_at, updated_at) FROM stdin;
+9	1	13	2014-09-19 00:22:59.166213	2014-09-19 00:22:59.166213
+10	2	13	2014-09-19 00:23:03.870776	2014-09-19 00:23:03.870776
+11	1	14	2014-09-19 00:23:09.713007	2014-09-19 00:23:09.713007
+12	2	14	2014-09-19 00:23:14.936164	2014-09-19 00:23:14.936164
+13	1	15	2014-09-19 00:23:19.628202	2014-09-19 00:23:19.628202
+14	2	15	2014-09-19 00:23:24.898058	2014-09-19 00:23:24.898058
+\.
+
+
+--
+-- Name: monster_unlocks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('monster_unlocks_id_seq', 14, true);
+
+
+--
+-- Data for Name: monsters; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_modifier, dmg_modifier, evolved_from_id, description) FROM stdin;
+13	Mage	1400	2014-09-19 00:14:59.104701	2014-09-19 00:14:59.104701	3	1	1	200	0	Mage
+14	Warrior	1000	2014-09-19 00:15:15.736522	2014-09-19 00:15:15.736522	2	1	1	300	0	Warrior
+15	Healer	1600	2014-09-19 00:16:08.66475	2014-09-19 00:16:08.66475	7	1	1	100	0	Healer
+\.
+
+
+--
+-- Name: monsters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('monsters_id_seq', 15, true);
+
+
+--
+-- Data for Name: parties; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY parties (id, user_id, name, created_at, updated_at) FROM stdin;
+2	1	Stage One	2014-09-15 03:55:47.837574	2014-09-15 03:55:47.837574
+3	2	Winners	2014-09-15 04:47:51.573535	2014-09-15 04:47:51.573535
+4	1	Stage Two	2014-09-17 04:48:52.346834	2014-09-17 04:48:52.346834
+\.
+
+
+--
+-- Name: parties_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('parties_id_seq', 4, true);
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY schema_migrations (version) FROM stdin;
+20140913234635
+20140830033659
+20140830035203
+20140830035509
+20140830040320
+20140830040458
+20140830040701
+20140830040946
+20140830041025
+20140830041349
+20140830041521
+20140830041743
+20140830041911
+20140830043431
+20140830043557
+20140901210239
+20140901210656
+20140901234048
+20140901234059
+20140901234103
+20140901234116
+20140901234856
+20140901234917
+20140901235541
+20140901235554
+20140902022512
+20140902022533
+20140902022557
+20140902022628
+20140902024814
+20140902030137
+20140902030306
+20140902030346
+20140902030410
+20140902031112
+20140902051918
+20140903040702
+20140903040723
+20140903041306
+20140903043246
+20140903194149
+20140903194157
+20140903194203
+20140903194210
+20140903194216
+20140905001656
+20140905025619
+20140905025955
+20140905030200
+20140905031601
+20140905031635
+20140905031744
+20140905032002
+20140905032225
+20140905032307
+20140905032337
+20140905032359
+20140905032414
+20140905032702
+20140905032816
+20140905032835
+20140905033038
+20140905033400
+20140905033425
+20140905033437
+20140905033906
+20140905033925
+20140905041044
+20140905045740
+20140905045937
+20140905045949
+20140905050151
+20140905161553
+20140905162142
+20140905193536
+20140905193729
+20140906203548
+20140906203806
+20140906211059
+20140906211130
+20140906222643
+20140907192305
+20140907192352
+20140907192432
+20140907192630
+20140907192715
+20140907192748
+20140907193737
+20140907201918
+20140907202535
+20140907214103
+20140908162041
+20140908182838
+20140908182948
+20140908211348
+20140908213246
+20140911212645
+20140911232911
+20140911233734
+20140911233822
+20140911233917
+20140911234031
+20140912002525
+20140912005340
+20140912012505
+20140912012510
+20140912013311
+20140912014847
+20140912015506
+20140912181248
+20140912181311
+20140912184854
+20140913041250
+20140915215442
+20140915221225
+20140915221546
+20140916213811
+20140916213828
+20140918011649
+20140918011735
+20140918214844
+\.
+
+
+--
+-- Data for Name: skin_restrictions; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY skin_restrictions (id, monster_skin_id, created_at, updated_at, job_id) FROM stdin;
+21	8	2014-09-18 23:56:08.638497	2014-09-18 23:56:08.638497	3
+23	8	2014-09-18 23:56:08.641412	2014-09-18 23:56:08.641412	2
+27	9	2014-09-18 23:56:33.183096	2014-09-18 23:56:33.183096	3
+29	9	2014-09-18 23:56:33.18523	2014-09-18 23:56:33.18523	2
+33	10	2014-09-18 23:56:52.752252	2014-09-18 23:56:52.752252	3
+35	10	2014-09-18 23:56:52.754292	2014-09-18 23:56:52.754292	2
+39	11	2014-09-18 23:57:25.613788	2014-09-18 23:57:25.613788	3
+41	11	2014-09-18 23:57:25.615841	2014-09-18 23:57:25.615841	2
+42	8	2014-09-19 00:23:38.067752	2014-09-19 00:23:38.067752	7
+43	9	2014-09-19 00:23:48.589621	2014-09-19 00:23:48.589621	7
+44	11	2014-09-19 00:23:57.022937	2014-09-19 00:23:57.022937	7
+\.
+
+
+--
+-- Name: skin_restrictions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('skin_restrictions_id_seq', 44, true);
+
+
+--
+-- Data for Name: stat_targets; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY stat_targets (id, name, created_at, updated_at) FROM stdin;
+3	hp	2014-09-19 00:09:18.195425	2014-09-19 00:09:18.195425
+4	change	2014-09-19 00:09:30.376222	2014-09-19 00:09:30.376222
+\.
+
+
+--
+-- Name: stat_targets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('stat_targets_id_seq', 4, true);
+
+
+--
+-- Data for Name: summoner_levels; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY summoner_levels (id, lvl, exp_to_nxt_lvl, ap, monsters_allowed, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: summoner_levels_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('summoner_levels_id_seq', 1, false);
+
+
+--
+-- Data for Name: summoners; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY summoners (id, name, current_lvl, current_exp, user_id, summoner_level_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: summoners_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('summoners_id_seq', 1, false);
+
+
+--
+-- Data for Name: targets; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY targets (id, created_at, updated_at, name) FROM stdin;
+5	2014-09-19 00:05:30.908764	2014-09-19 00:05:30.908764	ability
+6	2014-09-19 00:05:51.566237	2014-09-19 00:05:51.566237	aoeAlly
+7	2014-09-19 00:06:46.49734	2014-09-19 00:06:46.49734	aoeEnemy
+8	2014-09-19 00:06:57.089153	2014-09-19 00:06:57.089153	targetAlly
+9	2014-09-19 00:07:30.07739	2014-09-19 00:07:30.07739	targetEnemy
+10	2014-09-19 00:19:07.351939	2014-09-19 00:19:07.351939	self
+\.
+
+
+--
+-- Name: targets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('targets_id_seq', 10, true);
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, first_name, last_name, user_name, currency, paid_currency, rank, created_at, updated_at, admin) FROM stdin;
+3	admin@admin.com	$2a$10$ltrScMtNl.tsIdGyo8jYbudtjapb2jE.qPResC30ZFaJTPpYLW0eC	\N	\N	\N	1	2014-09-15 03:39:18.630928	2014-09-15 03:39:18.630928	127.0.0.1	127.0.0.1			admin	\N	\N	\N	2014-09-15 03:39:18.629016	2014-09-15 03:39:18.631453	f
+1	npc@npc.com	$2a$10$BqGvO6jUa5hasNMCQDAqH.nJUvoh2UM9paNss23c27yZ/HXW779Y2	\N	\N	\N	2	2014-09-15 04:50:00.813847	2014-09-15 03:38:29.938324	127.0.0.1	127.0.0.1	NPC	NPC	NPC	\N	\N	\N	2014-09-15 03:38:29.923672	2014-09-15 04:50:00.814573	f
+2	amaule77@gmail.com	$2a$10$sjV0vxF7AwpVJ1xiMxnnAelkTSmWmu32WgxEPGP95GDCMChSn6FLO	\N	\N	\N	5	2014-09-18 21:33:09.6008	2014-09-16 07:02:53.752265	127.0.0.1	127.0.0.1			amaule	\N	\N	\N	2014-09-15 03:39:00.15361	2014-09-18 21:33:09.601973	f
+\.
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('users_id_seq', 3, true);
+
+
+--
+-- Name: abilities_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY abilities
+    ADD CONSTRAINT abilities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ability_effects_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY ability_effects
+    ADD CONSTRAINT ability_effects_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ability_equippings_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY ability_equippings
+    ADD CONSTRAINT ability_equippings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ability_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY ability_purchases
+    ADD CONSTRAINT ability_purchases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ability_restrictions_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY ability_restrictions
+    ADD CONSTRAINT ability_restrictions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: backgrounds_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY backgrounds
+    ADD CONSTRAINT backgrounds_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: battle_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY battle_levels
+    ADD CONSTRAINT battle_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: battles_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY battles
+    ADD CONSTRAINT battles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: effects_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY effects
+    ADD CONSTRAINT effects_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: elements_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY elements
+    ADD CONSTRAINT elements_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: evolved_states_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY evolved_states
+    ADD CONSTRAINT evolved_states_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fights_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY fights
+    ADD CONSTRAINT fights_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY jobs
+    ADD CONSTRAINT jobs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: members_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY members
+    ADD CONSTRAINT members_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: monster_skin_equippings_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY monster_skin_equippings
+    ADD CONSTRAINT monster_skin_equippings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: monster_skin_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY monster_skin_purchases
+    ADD CONSTRAINT monster_skin_purchases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: monster_skins_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY monster_skins
+    ADD CONSTRAINT monster_skins_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: monster_unlocks_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY monster_unlocks
+    ADD CONSTRAINT monster_unlocks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: monsters_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY monsters
+    ADD CONSTRAINT monsters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: parties_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY parties
+    ADD CONSTRAINT parties_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skin_restrictions_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY skin_restrictions
+    ADD CONSTRAINT skin_restrictions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: stat_targets_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY stat_targets
+    ADD CONSTRAINT stat_targets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: summoner_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY summoner_levels
+    ADD CONSTRAINT summoner_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: summoners_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY summoners
+    ADD CONSTRAINT summoners_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: targets_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY targets
+    ADD CONSTRAINT targets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_abilities_on_element_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_abilities_on_element_id ON abilities USING btree (element_id);
+
+
+--
+-- Name: index_abilities_on_stat_target_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_abilities_on_stat_target_id ON abilities USING btree (stat_target_id);
+
+
+--
+-- Name: index_abilities_on_target_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_abilities_on_target_id ON abilities USING btree (target_id);
+
+
+--
+-- Name: index_ability_effects_on_ability_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_ability_effects_on_ability_id ON ability_effects USING btree (ability_id);
+
+
+--
+-- Name: index_ability_effects_on_effect_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_ability_effects_on_effect_id ON ability_effects USING btree (effect_id);
+
+
+--
+-- Name: index_ability_equippings_on_ability_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_ability_equippings_on_ability_id ON ability_equippings USING btree (ability_id);
+
+
+--
+-- Name: index_ability_equippings_on_monster_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_ability_equippings_on_monster_id ON ability_equippings USING btree (monster_id);
+
+
+--
+-- Name: index_ability_equippings_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_ability_equippings_on_user_id ON ability_equippings USING btree (user_id);
+
+
+--
+-- Name: index_ability_purchases_on_ability_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_ability_purchases_on_ability_id ON ability_purchases USING btree (ability_id);
+
+
+--
+-- Name: index_ability_purchases_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_ability_purchases_on_user_id ON ability_purchases USING btree (user_id);
+
+
+--
+-- Name: index_ability_restrictions_on_ability_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_ability_restrictions_on_ability_id ON ability_restrictions USING btree (ability_id);
+
+
+--
+-- Name: index_ability_restrictions_on_job_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_ability_restrictions_on_job_id ON ability_restrictions USING btree (job_id);
+
+
+--
+-- Name: index_battles_on_battle_level_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_battles_on_battle_level_id ON battles USING btree (battle_level_id);
+
+
+--
+-- Name: index_effects_on_element_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_effects_on_element_id ON effects USING btree (element_id);
+
+
+--
+-- Name: index_effects_on_stat_target_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_effects_on_stat_target_id ON effects USING btree (stat_target_id);
+
+
+--
+-- Name: index_effects_on_target_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_effects_on_target_id ON effects USING btree (target_id);
+
+
+--
+-- Name: index_evolved_states_on_element_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_evolved_states_on_element_id ON evolved_states USING btree (element_id);
+
+
+--
+-- Name: index_evolved_states_on_job_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_evolved_states_on_job_id ON evolved_states USING btree (job_id);
+
+
+--
+-- Name: index_evolved_states_on_monster_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_evolved_states_on_monster_id ON evolved_states USING btree (monster_id);
+
+
+--
+-- Name: index_evolved_states_on_monster_skin_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_evolved_states_on_monster_skin_id ON evolved_states USING btree (monster_skin_id);
+
+
+--
+-- Name: index_fights_on_battle_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_fights_on_battle_id ON fights USING btree (battle_id);
+
+
+--
+-- Name: index_fights_on_party_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_fights_on_party_id ON fights USING btree (party_id);
+
+
+--
+-- Name: index_members_on_monster_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_members_on_monster_id ON members USING btree (monster_id);
+
+
+--
+-- Name: index_members_on_party_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_members_on_party_id ON members USING btree (party_id);
+
+
+--
+-- Name: index_monster_skin_equippings_on_monster_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_monster_skin_equippings_on_monster_id ON monster_skin_equippings USING btree (monster_id);
+
+
+--
+-- Name: index_monster_skin_equippings_on_monster_skin_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_monster_skin_equippings_on_monster_skin_id ON monster_skin_equippings USING btree (monster_skin_id);
+
+
+--
+-- Name: index_monster_skin_equippings_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_monster_skin_equippings_on_user_id ON monster_skin_equippings USING btree (user_id);
+
+
+--
+-- Name: index_monster_skin_purchases_on_monster_skin_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_monster_skin_purchases_on_monster_skin_id ON monster_skin_purchases USING btree (monster_skin_id);
+
+
+--
+-- Name: index_monster_skin_purchases_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_monster_skin_purchases_on_user_id ON monster_skin_purchases USING btree (user_id);
+
+
+--
+-- Name: index_monster_unlocks_on_monster_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_monster_unlocks_on_monster_id ON monster_unlocks USING btree (monster_id);
+
+
+--
+-- Name: index_monster_unlocks_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_monster_unlocks_on_user_id ON monster_unlocks USING btree (user_id);
+
+
+--
+-- Name: index_monsters_on_element_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_monsters_on_element_id ON monsters USING btree (element_id);
+
+
+--
+-- Name: index_monsters_on_evolved_from_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_monsters_on_evolved_from_id ON monsters USING btree (evolved_from_id);
+
+
+--
+-- Name: index_monsters_on_job_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_monsters_on_job_id ON monsters USING btree (job_id);
+
+
+--
+-- Name: index_parties_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_parties_on_user_id ON parties USING btree (user_id);
+
+
+--
+-- Name: index_skin_restrictions_on_job_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_skin_restrictions_on_job_id ON skin_restrictions USING btree (job_id);
+
+
+--
+-- Name: index_skin_restrictions_on_monster_skin_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_skin_restrictions_on_monster_skin_id ON skin_restrictions USING btree (monster_skin_id);
+
+
+--
+-- Name: index_summoners_on_summoner_level_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_summoners_on_summoner_level_id ON summoners USING btree (summoner_level_id);
+
+
+--
+-- Name: index_summoners_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_summoners_on_user_id ON summoners USING btree (user_id);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: alanmaule
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM alanmaule;
+GRANT ALL ON SCHEMA public TO alanmaule;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

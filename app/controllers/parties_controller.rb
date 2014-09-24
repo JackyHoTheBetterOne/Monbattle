@@ -1,13 +1,24 @@
 class PartiesController < ApplicationController
   # before_action authenticate_user!
-  before_action :find_party, except: [:create]
-  before_action :find_user
+  before_action :find_party, except: [:index, :create]
+  before_action :find_user, except: [:create, :index]
+
+  def index
+    @party = Party.new
+    @parties = Party.where(user_id: User.find_by_user_name("NPC").id)
+    @battle_level = BattleLevel.new
+    @battle_levels = BattleLevel.all
+  end
 
   def create
     # render text: params.to_s
     @party = Party.new party_params
     if @party.save
-      redirect_to admin_index_path, notice: "Created Party"
+      if @party.isNPC
+        redirect_to parties_path, notice: "Success"
+      else
+        redirect_to admin_index_path, notice: "Created Party"
+      end
     else
       render :new
     end
@@ -17,20 +28,21 @@ class PartiesController < ApplicationController
   end
 
   def show
+    # render text: params.to_s
     @member = Member.new
   end
 
   def update
     @party.update_attributes(party_params)
     if @party.save
-      # @party.user.find_by_user_name(npc).blank? ? redirect_to @party, notice: "Changed" :
-      redirect_to admin_index_path, notice: "Changed"
+      if @party.isNPC
+        redirect_to parties_path, notice: "Success"
+      else
+        redirect_to admin_index_path, notice: "Created Party"
+      end
+    else
+      render :new
     end
-  end
-
-  def npc_show
-    @member = Member.new
-    render :npc_show
   end
 
   def destroy
@@ -38,12 +50,12 @@ class PartiesController < ApplicationController
 
   private
 
-  def find_user
-    @user = User.find params[:user_id]
-  end
-
   def find_party
     @party = Party.find params[:id]
+  end
+
+  def find_user
+    @user = @party.user
   end
 
   def party_params

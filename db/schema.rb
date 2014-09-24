@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918214844) do
+ActiveRecord::Schema.define(version: 20140924185941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 20140918214844) do
     t.string   "name"
     t.integer  "ap_cost"
     t.integer  "store_price"
-    t.text     "image_url"
     t.integer  "min_level"
     t.integer  "price"
     t.datetime "created_at"
@@ -30,6 +29,10 @@ ActiveRecord::Schema.define(version: 20140918214844) do
     t.integer  "target_id"
     t.integer  "element_id"
     t.integer  "stat_target_id"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   add_index "abilities", ["element_id"], name: "index_abilities_on_element_id", using: :btree
@@ -221,6 +224,7 @@ ActiveRecord::Schema.define(version: 20140918214844) do
     t.integer  "dmg_modifier"
     t.integer  "evolved_from_id"
     t.text     "description"
+    t.integer  "summon_cost"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
@@ -232,6 +236,7 @@ ActiveRecord::Schema.define(version: 20140918214844) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "npc",        default: false
   end
 
   add_index "parties", ["user_id"], name: "index_parties_on_user_id", using: :btree

@@ -1,0 +1,8 @@
+- if user_signed_in? == false
+  h1 Sign in First
+- else
+  = render partial: "admin/modal_button", locals: {modal_label: "targetLabel", modal_id: "targetModal", form_is_for: "targets/form", button_name: "Create New Target", form_title: "New Target"}
+  = render partial: "admin/modal_button", locals: {modal_label: "stat_targetLabel", modal_id: "stat_targetModal", form_is_for: "stat_targets/form", button_name: "Create New Stat Target", form_title: "New Stat Target"}
+  = render partial: "admin/modal_button", locals: {modal_label: "abilityLabel", modal_id: "abilityModal", form_is_for: "abilities/form", button_name: "Create New Ability", form_title: "New Ability"}
+  .abilities
+    hr = render @abilities

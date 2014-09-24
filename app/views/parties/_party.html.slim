@@ -1,0 +1,8 @@
+tr
+  td =link_to "#{party.name}", [party, {user_id: npc.id}]
+  -if party.monsters.empty?
+    td col-span="4"
+      h4 No monsters for this Stage
+  -else
+      -party.monsters.each do |monster|
+        td =monster.name

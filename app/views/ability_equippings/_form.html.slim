@@ -8,4 +8,5 @@
       .form-control = f.select "ability_id", options_for_select(Ability.where(id: monster.job.abilities).collect{|a| ["Abil name: " + a.name + ", Description: " + a.description + ", AP cost: " + a.ap_cost.to_s, a.id]}, :selected => ability_equipping.ability_id)
     =f.hidden_field :monster_id, value: monster.id
     =f.hidden_field :user_id, value: user_id
+    =f.hidden_field :party_id, value: party_id
     hr=f.submit "Equip Ability", class: 'btn btn-primary'

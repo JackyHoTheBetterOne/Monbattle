@@ -1,42 +1,23 @@
--if user_signed_in?
-  tr id=dom_id(monster)
-    td
-      =monster.name
-      br
-        -if monster.evolutions.empty? == false
-          h4 An evolved Monster references this monster, can not edit or delete
-        -else
-          br=link_to "Edit Template", edit_monster_path(monster), data: {confirm: "Will remove this monster from all parties using it and unequip its abilities!!"}, class: "btn btn-sm btn-info"
-          =link_to "Delete Template", monster, method: :delete, data: {confirm: "Will delete this monster from all users"}, class: "btn btn-sm btn-danger", remote: true
-    td=monster.job.name + "/" + monster.job.evolve_lvl
-    td=monster.element.name
-    td
-      -if monster.evolved_from_id == 0
-        ="Base Monster"
-      -else
-        =monster.evolved_from.name
-    td=monster.description
-    td=monster.max_hp
-    td=monster.hp_modifier
-    td=monster.dmg_modifier
-    td
-      =form_for MonsterUnlock.new do |f|
-        div class='form-group'
-          h5 Select User
-          -if monster.monster_unlocked_users.empty?
-            .form-control =f.collection_select :user_id, User.all, :id, :user_name
-          -else
-            .form-control =f.collection_select :user_id, User.where("users.id NOT IN (?)", monster.monster_unlocked_users.collect(&:id)), :id, :user_name
-          =f.hidden_field :monster_id, value: "#{monster.id}"
-          =f.submit "Unlock Monster", class: 'btn btn-sm btn-primary'
-      -if monster.monster_unlocked_users.empty?
-        h5 Already Locked Out For All Users
-      -else
-        .btn-group
-          button.btn.btn-danger.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
-            | Lock Monster
-            span.caret
-          ul.dropdown-menu role="menu"
-            -monster.monster_unlocked_users.each do |user|
-              li= link_to "#{user.user_name}", [monster, (monster.monster_unlocks.where(user_id: user.id).first)], method: :delete, data: {confirm: "This will remove this monster from all user parties and unequip them"}
-              li.divider
+tr id=dom_id(monster)
+  td
+    h3 =monster.name
+    hr
+    br=link_to "Edit Template", edit_monster_path(monster), data: {confirm: "Will remove this monster from all parties using it and unequip its abilities!!"}, class: "btn btn-sm btn-info"
+    -if monster.evolutions.empty? == false
+      h5 Evolved Form Using this
+    -else
+      =link_to "Delete Template", monster, method: :delete, data: {confirm: "Will delete this monster from all users"}, class: "btn btn-sm btn-danger", remote: true
+  td=monster.job.name + "/" + monster.job.evolve_lvl
+  td=monster.element.name
+  td
+    -if monster.evolved_from_id == 0
+      ="Base Monster"
+    -else
+      =monster.evolved_from.name
+  td=monster.description
+  td=monster.max_hp
+  td=monster.summon_cost
+  td id="unlock_#{dom_id(monster)}"
+    =render partial: "monster_unlocks/monster_unlock", locals: {monster: monster, monster_unlock: @monster_unlock}
+
+

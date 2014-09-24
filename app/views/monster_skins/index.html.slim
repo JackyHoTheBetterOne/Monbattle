@@ -1,0 +1,16 @@
+- if user_signed_in? == false
+  h1 Sign in First
+- else
+  =render partial: "admin/modal_button", locals: {modal_label: "skinLabel", modal_id: "skinModal", form_is_for: "monster_skins/form", button_name: "Upload a Monster Skin", form_title: "Upload Monster Skin" }
+  -if user_signed_in?
+    -if @monster_skins.empty?
+    -else
+      hr
+      table.table.table-striped border="1"
+        thead
+          tr
+            th Name
+            th Image
+            th Lock/Unlock
+        tbody
+          =render @monster_skins
