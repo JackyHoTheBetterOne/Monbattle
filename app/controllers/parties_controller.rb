@@ -30,6 +30,7 @@ class PartiesController < ApplicationController
   def show
     # render text: params.to_s
     @member = Member.new
+    @ability_equipping = AbilityEquipping.new
   end
 
   def update

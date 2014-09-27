@@ -1,9 +1,35 @@
 @import url("http://fonts.googleapis.com/css?family=Montserrat");
-@import url("http://fonts.googleapis.com/css?family=Erica+One");
+@import url("http://fonts.googleapis.com/css?family=Sigmar+One");
 
 $theme-background-color: rgba(10, 170, 230, 0.80);
 
+@mixin flipped() {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+};
 
+.flipped {
+  @include flipped();
+};
+
+.ability-on {
+  z-index: 10000000 !important;
+  visibility: visible !important;
+};
+
+.aoePositionUser {
+  top: -10px;
+  left: 452px;
+};
+
+.aoePositionFoe {
+  top: -10px;
+  left: 2px;
+};
 
 ///////////////////////////////////////////////////////////////////////////////////// Mix-in for monster icons
 @mixin monIcon() {
@@ -17,10 +43,10 @@ $theme-background-color: rgba(10, 170, 230, 0.80);
     width: 130px;
     p.dam {
       display: none;
-      font-style: 'Erica One', cursive;
+      font-family: 'Sigmar One', cursive;
       color: red;
       font-size: 120%;
-    }
+    };
     .img {
       width: 130px;
       height: 130px; 
@@ -40,7 +66,7 @@ $theme-background-color: rgba(10, 170, 230, 0.80);
   .mon {
     display: inline-block;
     width: 153px;
-    height: 40px;
+    height: 38px;
     margin-top: 4px;
     margin-left: 4px;
     background: $theme-background-color;
@@ -83,14 +109,16 @@ $theme-background-color: rgba(10, 170, 230, 0.80);
     .hp {
       display: inline-block;
       height: 15px;
-      width: 110px;
+      width: 106px;
       float: left;
-      margin-top: 21px;
+      margin-top: 20px;
+      margin-left: 3px;
       background-color: black;
       position: absolute;
       .bar {
         width: 100%;
         border: 1px solid black;
+        margin: 0 0 0;
         height: 100%;
         position: absolute;
       };
@@ -103,22 +131,39 @@ $theme-background-color: rgba(10, 170, 230, 0.80);
 
 /////////////////////////////////////////////////////////////////////////////////////////// Battle
 html {
-  
   height: 100%;
   width: 100%;
 };
 
 body {
-  
   height: 100%;
   width: 100%;
 };
 
+.single-ability-img {
+  position: absolute;
+  height: 135px;
+  width: 135px;
+  top: 200px;
+  left: 80px;
+  z-index: -100000;
+  outline: none;
+  visibility: hidden;
+};
+
+
+.ability-img {
+  position: absolute;
+  height: 80%;
+  width: 40%;
+  z-index: -100000;
+  outline: none;
+  visibility: hidden;
+};
 
 .battle {
   background: url(battlefield2.gif); 
   position: relative;
-  // background: #00BFFF;  
   background-size: contain;
   z-index: 0;
   width: 960px;
@@ -142,7 +187,7 @@ body {
 
   .platform {
     position: absolute;
-    z-index: 1;
+    z-index: -1000;
     top: 202px;
     width: 819px;
     opacity: 0.35;
@@ -191,11 +236,12 @@ body {
 
 .enemy.info {
   @include info();
-  top: 76.7%;
+  top: 77%;
+  left: 0.5%;
   width: 400px;
   .mon {
     width: 130px;
-    height: 53px;
+    height: 51px;
     .hp {
       display: inline-block;
       height: 12px;
@@ -250,12 +296,7 @@ body {
     }
 
     .img {
-      -moz-transform: scaleX(-1);
-      -o-transform: scaleX(-1);
-      -webkit-transform: scaleX(-1);
-      transform: scaleX(-1);
-      filter: FlipH;
-      -ms-filter: "FlipH";
+      @include flipped();
       position: absolute;
       top: 1px;
       left: 1px;
@@ -302,7 +343,7 @@ body {
     width: 80px;
     height: 130px;
     visibility: hidden;
-    z-index: 1000;
+    z-index: 2000;
     button {
       width: 80px;
       height: 40px;
@@ -316,7 +357,7 @@ body {
     visibility: hidden;
     opacity: 0.8;
     width: 260px;
-    z-index: 1111;
+    z-index: 1500;
     border-color: black;
     .pan {
       background-color: $theme-background-color;
@@ -332,7 +373,7 @@ body {
 
 
 
-///////////////////////////////////////////////////////////////////////////////////////// User monster icon positions
+///////////////////////////////////////////////////////////////////////////////////////// User monster icon position adjustments
 .mon {
   .abilityDesc {
     position: absolute;
@@ -346,7 +387,7 @@ body {
     left: 132px;
   };
 
-  .img {
+  .img{
     position: absolute;
     top: 20px;
     left: 200px;
@@ -355,3 +396,4 @@ body {
     outline: 0;
   };
 };
+

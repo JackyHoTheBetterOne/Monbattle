@@ -16,5 +16,5 @@
       span.caret
     ul.dropdown-menu role="menu"
       -monster.monster_unlocked_users.each do |user|
-        li= link_to "#{user.user_name}", [monster, (monster.monster_unlocks.where(user_id: user.id).first)], method: :delete, remote: true
+        li= link_to "#{user.user_name}", [monster, (monster.monster_unlocks.where(user_id: user.id).first)], remote: :true, method: :delete
         li.divider

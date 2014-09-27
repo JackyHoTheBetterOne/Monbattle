@@ -3,6 +3,7 @@ class Ability < ActiveRecord::Base
   belongs_to :target
   belongs_to :stat_target
   belongs_to :element
+  belongs_to :abil_socket
 
   has_many :ability_restrictions, dependent: :destroy
   has_many :jobs, through: :ability_restrictions
@@ -13,6 +14,7 @@ class Ability < ActiveRecord::Base
   has_many :effects, through: :ability_effects
 
   has_many :ability_equippings, dependent: :destroy
+  has_many :monster_unlocks, through: :ability_equippings
   has_many :equipped_monsters, through: :ability_equippings, source: :monster
   has_many :equipped_users, through: :ability_equippings, source: :user
 
@@ -32,6 +34,17 @@ class Ability < ActiveRecord::Base
   validates :stat_target_id, presence: {message: 'Must be entered'}
   validates :element_id, presence: {message: 'Must be entered'}
   validates :stat_change, presence: {message: 'Must be entered'}
+  validates :abil_socket_id, presence: {message: 'Must be entered'}
+
+  delegate :name, :ap_cost, :description, :min_level, :target_id, :stat_target_id, :element_id,
+           :stat_change, :abil_socket_id, :image,
+           to: :monster, prefix: true
+
+  delegate :name, to: :ability_equipping, prefix: true
+
+  default_scope { order('abil_socket_id') }
+  # before_save :add_slot
+
 
   def stat
     self.stat_target.name.downcase
@@ -53,10 +66,20 @@ class Ability < ActiveRecord::Base
     self.stat_change.split("").drop(1).join("")
   end
 
+  def img
+    self.image.url(:medium)
+  end
+
   private
 
   def capitalize_name
     self.name.capitalize!
+  end
+
+  protected
+
+  def add_slot
+    self.slot = self.abil_socket.socket_num
   end
 
 end

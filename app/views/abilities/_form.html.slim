@@ -9,18 +9,25 @@
         h1 Make some Targets First!
       -when StatTarget.all.empty?
         h1 Make some Stat Targets First!
+      -when AbilSocket.all.empty?
+        h1 Make some Ability Socket #'s First!
       -else
         .form-group
           h4=f.label "Here you can select Secondary effects"
           .form-control =f.collection_check_boxes :effects, Effect.all, :id, :name, {}, { name: "ability[effect_ids][]"}
           h4=f.label "Job restrictions for this Ability"
-          .form-control =f.collection_check_boxes :jobs, Job.all, :id, :name, {}, { name: "ability[job_ids][]"}
+          input type="checkbox" id="abil_form_check_all"
+            | Select All
+          .ability_job_check_boxes
+            =f.collection_check_boxes :jobs, Job.all, :id, :name, {}, { name: "ability[job_ids][]"}
           h4=f.label "Select a Target for this Ability"
           .form-control =f.collection_select :target_id, Target.all, :id, :name
           h4=f.label "Select the Element for this Ability"
           .form-control =f.collection_select :element_id, Element.all, :id, :name
           h4=f.label "Select Stat targeted by this ability"
           .form-control =f.collection_select :stat_target_id, StatTarget.all, :id, :name
+          h4=f.label "Select Socket Number that this ability is for"
+          .form-control =f.collection_select :abil_socket_id, AbilSocket.all, :id, :socket_num
           =f.label "How much the stat is Changed"
           =f.text_field :stat_change, class: 'form-control'
           =f.input :image

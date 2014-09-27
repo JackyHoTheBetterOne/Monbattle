@@ -1,0 +1,8 @@
+-if @party.members.count == 0 || @party.members.count < 4 && @party.monsters.where(id: monster).empty?
+  =link_to "Add to Party", [monster, @member, {member: {party_id: @party.id}}], class: "btn btn-large btn-primary", method: :post, remote: true
+  br
+-if @party.members.count >= 1 && @party.monsters.where(id: monster).exists?
+  hr
+  h4 Member of team #{@party.name}
+  hr
+  =link_to "Remove from Party", [monster, @party.members.find_by_monster_id(monster.id), {member: {party_id: @party.id}}], class: "btn btn-large btn-danger", method: :delete, remote: true

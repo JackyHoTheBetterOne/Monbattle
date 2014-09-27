@@ -1,0 +1,14 @@
+=form_for @abil_socket do |f|
+  .form-group
+    h4 Enter a socket number that can be used by abilities
+    =f.text_field :socket_num, class: 'form-control'
+    hr=f.submit "Create Ability Socket", class: 'btn btn-primary'
+hr
+-if @abil_sockets.empty?
+-else
+  h4 Current Sockets:
+  -@abil_sockets.each do |abil_socket|
+    -if abil_socket.abilities.empty?
+      =link_to " #{abil_socket.socket_num} ", abil_socket, method: :delete, data: {confirm: "Delete?"}, class: "btn btn-sm btn-danger"
+    -else
+      =link_to " #{abil_socket.socket_num} ", abil_socket, method: :patch, data: {confirm: "Edit only, because linked to at least one Ability"}, class: "btn btn-sm btn-info"

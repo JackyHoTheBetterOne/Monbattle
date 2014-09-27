@@ -1,7 +1,10 @@
-<div class="battle" data-index="<%= @battle.id %>">
-<%= image_tag("platform.jpg", class: "platform") %>
+<img class="single-ability-img" src="" type="image" alt="monster abiltiy"> 
 
-  <div class="user info">
+<div class="battle" data-index="<%= @battle.id %>">
+  <%= image_tag("platform.jpg", class: "platform") %>
+  <img class="ability-img" src="" type="image" alt="monster abiltiy"> 
+
+  <div class="0 user info">
     <% @user_party.monsters.each do |mon| %>
       <div class="mon mon<%= @user_party.mon_dex(mon) %>" data-index="<%= @user_party.mon_dex(mon)%>">
         <%= render :partial => "userTeamInfo", :locals => { :mon => mon }  %>
@@ -25,7 +28,7 @@
     <% end %>
   </div>
 
-  <div class="enemy info">
+  <div class="1 enemy info">
     <% @pc_party.monsters.each do |mon| %>
       <div class="mon mon<%= @pc_party.mon_dex(mon) %>" data-index="<%= @pc_party.mon_dex(mon) %>">
         <p class="avatar"></p>
@@ -42,6 +45,5 @@
   </div>
 
   <button class="end-turn">End Turn</button> 
-
 
 </div>

@@ -2,6 +2,8 @@ class AbilitiesController < ApplicationController
   before_action :find_ability, except: [:create, :index]
 
   def index
+    @abil_socket = AbilSocket.new
+    @abil_sockets = AbilSocket.all
     @stat_target = StatTarget.new
     @stat_targets = StatTarget.all
     @target = Target.new
@@ -55,7 +57,7 @@ class AbilitiesController < ApplicationController
     params.require(:ability).permit(
                              :name, :ap_cost, :store_price, :image, :min_level, :price,
                              :description, :job_id, :target_id, :stat_target_id, :element_id,
-                             :stat_change, {effect_ids: []}, {job_ids: []}
+                             :stat_change, :abil_socket_id, {effect_ids: []}, {job_ids: []}
                              )
   end
 end

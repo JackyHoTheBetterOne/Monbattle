@@ -1,5 +1,4 @@
 class ElementsController < ApplicationController
-  # before action :authenticate!
 
   def create
     @element = Element.new element_params

@@ -18,9 +18,8 @@ class MonsterUnlocksController < ApplicationController
     respond_to do |format|
       if @monster_unlock.destroy
         Member.where(monster_id: params[:monster_id]).destroy_all
-        AbilityEquipping.where(monster_id: params[:monster_id]).destroy_all
         format.html { redirect_to monsters_path, notice: "Monster Locked for User!" }
-        format.js { render :action}
+        format.js { render :action }
       else
         redirect_to monsters_path, notice: "You fail"
       end

@@ -1,10 +1,10 @@
 - if user_signed_in? == false
   h1 Sign in First
 - else
-  = render partial: "admin/modal_button", locals: {modal_label: "jobLabel", modal_id: "jobModal", form_is_for: "jobs/form", button_name: "Create New Job", form_title: "New Job" }
-  = render partial: "admin/modal_button", locals: {modal_label: "elementLabel", modal_id: "elementModal", form_is_for: "elements/form", button_name: "Create New Element", form_title: "New Element"}
   = render partial: "admin/modal_button", locals: {modal_label: "monsterTemplateLabel", modal_id: "monsterTemplateModal", form_is_for: "monsters/form", button_name: "Create New Monster", form_title: "New Monster"}
   = render partial: "admin/modal_button", locals: {modal_label: "evolvedStateTemplateLabel", modal_id: "evolvedStateTemplateModal", form_is_for: "monsters/evolved_form", button_name: "Create New Evolved State", form_title: "New Evolved State"}
+  = render partial: "admin/modal_button", locals: {modal_label: "jobLabel", modal_id: "jobModal", form_is_for: "jobs/form", button_name: "Create New Job", form_title: "New Job" }
+  = render partial: "admin/modal_button", locals: {modal_label: "elementLabel", modal_id: "elementModal", form_is_for: "elements/form", button_name: "Create New Element", form_title: "New Element"}
   hr
   table.table.table-striped border="1"
     thead

@@ -1,5 +1,6 @@
 h3 =link_to "Back to Admin Page", admin_index_path
--if @user == npc
+-if @user != npc
+-else
   .btn-group
     button.btn.btn-primary.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
       | Select NPC Stage to Modify
@@ -8,11 +9,11 @@ h3 =link_to "Back to Admin Page", admin_index_path
       -@user.parties.each do |party|
         li= link_to "#{party.name}", party
         li.divider
--else
 br
 br
 hr
-h2 #{@party.name} consists of #{@party.members.count} members
+.party_name
+  =render partial: "party_name"
 table.table.table-striped border="1"
   thead
     tr
@@ -22,72 +23,18 @@ table.table.table-striped border="1"
   tbody
     -@user.unlocked_monsters.each do |monster|
       tr
-        td
+        td id=dom_id(monster)
           h3 #{monster.name}
           h4 HP: #{monster.max_hp}
           h5 Element: #{monster.element.name}
           h5 Class: #{monster.job.name}
           br
-          -if @party.members.count == 0 || @party.members.count < 4 && @party.monsters.where(id: monster).empty?
-            =link_to "Add to Party", [monster, @member, {member: {party_id: @party.id}}], class: "btn btn-large btn-primary", method: :post
-            br
-          -if @party.members.count >= 1 && @party.monsters.where(id: monster).exists?
-            hr
-            h4 Member of team #{@party.name}
-            hr
-            =link_to "Remove from Party", [monster, @party.members.find_by_monster_id(monster.id), {member: {party_id: @party.id}}], class: "btn btn-large btn-danger", method: :delete
+          div class="member_#{dom_id(monster)}"
+            =render partial: "members/info", locals: {monster: monster}
 
-        td
-          -if monster.ability_equippings.where(user_id: @user.id).empty? #Remove this line
-          -else
-          /For new Ability Equipping
-          / -Ability.where().where().each do |ability|
-            h4 Slot One
-            /Check to see if a base ability is equipped, if it is show it.
-            -if ability.socket == first && ability.ability_equippings.where(unlocked_monster_id: ()).first.value?
-              h4 Base Slot Equipped with: ability.name
-              h4 Target: ability.target.name
-              h4 Element: ability.element.name
-              / Then call effects.each
-              hr
-              / Have form to do edit to abilityEquipping Controller, might need 2 controllers one for base one for secondary
-            -else
-              h4 Nothing Equipped in Base Slot
-              / Have form to do new to controller
-              A repeat of part 1
-            -if ability.socket == first && ability.ability_equippings.where(unlocked_monster_id: ()).first.value?
+        td id="ability_#{dom_id(monster)}"
+          =render partial: "ability_equippings/table_data", locals: {monster: monster}
 
-
-
-
-
-            -Ability.where(id: monster.ability_equippings.where(user_id: @user.id).pluck(:ability_id)).each do |ability|
-              h4 Ability Equipped: #{ability.name}
-              ul
-                li
-                  | Target: #{ability.target.name}
-                    li
-                      | Element: #{ability.element.name}
-                        li
-                          | Stat Effected: #{ability.stat_target.name}
-                            li
-                              | How much Stat is Changed: #{ability.stat_change}
-              -ability.effects.each do |effect|
-                ul type="square"
-                  li
-                    h5
-                      | Additions Effects: #{effect.name}
-                    ul
-                      li
-                        | Target: #{effect.target.name}
-                        li
-                          |  Element: #{effect.element.name}
-                          li
-                            | Stat Effected: #{effect.stat_target.name}
-                            li
-                              | How much the Stat is Changed: #{effect.stat_change}
-            hr
-          =render partial: "/ability_equippings/form", locals: {mon: "#{monster.id}", user_id: @user.id, party_id: @party.id, ability_equipping: monster.ability_equippings.find_by_user_id(@user.id) || AbilityEquipping.new}
         td
           -if monster.monster_skin_equippings.where(user_id: @user.id).empty?
             h4 Equip a skin!

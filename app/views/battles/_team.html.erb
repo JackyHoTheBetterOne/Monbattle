@@ -1,12 +1,13 @@
-<div class="monBut">
-  <button class="attack" data-index= "0" data-apCost = "<%= mon.cost(0) %>" data-target= "<%= mon.target(0) %>">Attack</button>
-  <button class="ability">Ability</button>
-  <button class="evolve" data-index="2" data-apCost = "" data-target= "">Evolve</button>
-</div>
+<% if party.npc == false %>
+  <div class="monBut">
+    <button class="attack" data-index= "0" data-apCost = "<%= mon.cost(0) %>" data-target= "<%= mon.target(0) %>"><%= mon.abilities[0].name %></button>
+    <button class="ability" data-index="1" data-apcost = "<%= mon.cost(1) %>" data-target= "<%= mon.target(1) %>"><%= mon.abilities[1].name %></button>
+    <button class="evolve" data-index="2" data-apCost = "" data-target= "">Evolve</button>
+  </div>
+<% end %>
 
-<input class="img" src="<%= mon.image(party.user) %>" type="image" alt="monster image">
-<p class="dam">Eat shit<p>
-
+<input class="img" src="<%= mon.image(party.user) %>" data-index="<%= party.mon_dex(mon) %>" type="image" alt="monster image">
+<p class="dam"><p>
 
 <% if party.npc == false %>
   <div class="abilityDesc panel panel-default">

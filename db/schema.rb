@@ -11,10 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140924185941) do
+ActiveRecord::Schema.define(version: 20140927025404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "abil_sockets", force: true do |t|
+    t.integer  "socket_num"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "abilities", force: true do |t|
     t.string   "name"
@@ -33,8 +39,11 @@ ActiveRecord::Schema.define(version: 20140924185941) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.integer  "abil_socket_id"
+    t.integer  "slot"
   end
 
+  add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree
   add_index "abilities", ["element_id"], name: "index_abilities_on_element_id", using: :btree
   add_index "abilities", ["stat_target_id"], name: "index_abilities_on_stat_target_id", using: :btree
   add_index "abilities", ["target_id"], name: "index_abilities_on_target_id", using: :btree
@@ -51,15 +60,13 @@ ActiveRecord::Schema.define(version: 20140924185941) do
 
   create_table "ability_equippings", force: true do |t|
     t.integer  "ability_id"
-    t.integer  "monster_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
+    t.integer  "monster_unlock_id"
   end
 
   add_index "ability_equippings", ["ability_id"], name: "index_ability_equippings_on_ability_id", using: :btree
-  add_index "ability_equippings", ["monster_id"], name: "index_ability_equippings_on_monster_id", using: :btree
-  add_index "ability_equippings", ["user_id"], name: "index_ability_equippings_on_user_id", using: :btree
+  add_index "ability_equippings", ["monster_unlock_id"], name: "index_ability_equippings_on_monster_unlock_id", using: :btree
 
   create_table "ability_purchases", force: true do |t|
     t.integer  "ability_id"

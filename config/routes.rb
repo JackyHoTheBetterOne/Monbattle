@@ -16,6 +16,7 @@ resources :abilities do
 end
 
 root 'admin#index'
+resources :home
 resources :admin
 resources :effects
 resources :parties
@@ -23,15 +24,16 @@ resources :battle_levels
 resources :battles
 # get 'monsters/clone' => 'monsters#clone', as: :monster_clone
 patch 'monsters/evolve/edit/:id' => 'monsters#evolve_edit', as: :evolve_edit
+resources :ability_equippings, only: [:create, :update]
 resources :jobs, only: [:create, :destroy]
 resources :elements, only: [:create, :destroy]
 resources :targets, only: [:create, :destroy]
 resources :stat_targets, only: [:create, :destroy]
+resources :abil_sockets, only: [:create, :destroy]
 
 resources :monster_skin_equippings, only: [:create, :destroy, :update]
-resources :ability_equippings, only: [:create, :destroy, :update]
 resources :monster_skin_equippings, only: [:create, :destroy, :update]
-resources :monster_unlocks, only: [:create]
+
 # resources :summoners
 # resources :summoner_levels
 

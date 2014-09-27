@@ -13,9 +13,11 @@ class Battle < ActiveRecord::Base
     # self.users.each do |user|
     #   battle_json[:"#{user.user_name}"] = user.as_json
     # end
+
     self.parties.order(:npc).each do |party|
       battle_json[:players] << party.as_json
     end
+
     return battle_json
   end
 end
