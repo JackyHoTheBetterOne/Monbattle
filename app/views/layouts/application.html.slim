@@ -20,15 +20,11 @@ html
               = link_to "Show all Battles", battles_path, class: "btn btn-default", type: "button"
               = link_to "Monsters You Own", admin_index_path, class: "btn btn-default", type: "button"
               = link_to "Enter a Battle", new_battle_path, class: "btn btn-default", type: "button"
-              .pull-right
-                - if user_signed_in?
-                  = current_user.user_name
-                  = link_to "sign out", destroy_user_session_path, method: :delete, class: "btn btn-default"
-                - else
-                  = link_to "sign in", new_user_session_path, class: "btn btn-default"
-                  / -if user_signed_in? == false
-                  /   h1 Sign in First!!
-                  / -else
+              - if user_signed_in?
+                = link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-default"
+              - else
+                = link_to "Sign in", new_user_session_path, class: "btn btn-default"
+
         br
         - if flash[:notice]
           div class='alert alert-success'

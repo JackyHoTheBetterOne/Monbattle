@@ -35,4 +35,8 @@ class MonsterUnlock < ActiveRecord::Base
     self.monster.image(user)
   end
 
+  def abdex(ability)
+    self.monster.abilities.index(ability)
+  end
+
 end

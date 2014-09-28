@@ -15,11 +15,11 @@ window.setAll = (array, attr, value) ->
     i++
   return
 window.checkMax = ->
-  n = battle.players[0].monsters.length
+  n = battle.players[0].mons.length
   i = 0
   while i < n
-    mon = battle.players[0].monsters[i]
-    battle.players[0].monsters[i].hp = mon.max_hp if mon.hp > mon.max_hp
+    mon = battle.players[0].mons[i]
+    battle.players[0].mons[i].hp = mon.max_hp if mon.hp > mon.max_hp
     i++
   return
 window.findTargets = (hp) ->
@@ -29,8 +29,8 @@ window.findTargets = (hp) ->
   i = 0
   window.aiTargets = []
   while i <= n
-    aiTargets.push battle.players[0].monsters[i].index if battle.players[0].monsters[i].hp <= hp &&
-                                                          battle.players[0].monsters[i].hp > 0
+    aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp <= hp &&
+                                                          battle.players[0].mons[i].hp > 0
     i++
   return
 window.teamPct = ->
@@ -41,8 +41,8 @@ window.teamPct = ->
   n = 3
   i = 0
   while i <= n
-    totalCurrentHp += battle.players[0].monsters[i].hp
-    totalMaxHp += battle.players[0].monsters[i].max_hp
+    totalCurrentHp += battle.players[0].mons[i].hp
+    totalMaxHp += battle.players[0].mons[i].max_hp
     i++
   return totalCurrentHp/totalMaxHp
 window.getRandom = (array) ->
@@ -58,7 +58,7 @@ window.multipleAction = ->
 
 ################################################################################################ Battle display helpers
 window.callAbilityImg = ->
-  battle.players[targets[0]].monsters[targets[1]].abilities[targets[2]].img
+  battle.players[targets[0]].mons[targets[1]].abilities[targets[2]].img
 
 window.barChange = (current, max) ->
   "width": (current/max*100).toString() + "%"
@@ -89,14 +89,14 @@ window.hpChangeBattle = ->
   n = 3
   i = 0
   while i <= n
-    battle.players[0].monsters[i].hp = (if (battle.players[0].monsters[i].hp < 0) then 0 else battle.players[0].monsters[i].hp)
-    battle.players[1].monsters[i].hp = (if (battle.players[1].monsters[i].hp < 0) then 0 else battle.players[1].monsters[i].hp)
-    $(hpBarChange("0", i)).animate barChange(battle.players[0].monsters[i].hp, battle.players[0].monsters[i].max_hp), 200 if battle.
-                    players[0].monsters[i].hp.toString() != $(".user.info" + " " + ".mon" + i.toString() + " " + ".current-hp").text()
-    $(hpChange("0", i)).text battle.players[0].monsters[i].hp
-    $(hpBarChange("1", i)).animate barChange(battle.players[1].monsters[i].hp, battle.players[1].monsters[i].max_hp), 200 if battle.
-                    players[1].monsters[i].hp.toString() != $(".user.info" + " " + ".mon" + i.toString() + " " + ".current-hp").text()
-    $(hpChange("1", i)).text battle.players[1].monsters[i].hp
+    battle.players[0].mons[i].hp = (if (battle.players[0].mons[i].hp < 0) then 0 else battle.players[0].mons[i].hp)
+    battle.players[1].mons[i].hp = (if (battle.players[1].mons[i].hp < 0) then 0 else battle.players[1].mons[i].hp)
+    $(hpBarChange("0", i)).animate barChange(battle.players[0].mons[i].hp, battle.players[0].mons[i].max_hp), 200 if battle.
+                    players[0].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i.toString() + " " + ".current-hp").text()
+    $(hpChange("0", i)).text battle.players[0].mons[i].hp
+    $(hpBarChange("1", i)).animate barChange(battle.players[1].mons[i].hp, battle.players[1].mons[i].max_hp), 200 if battle.
+                    players[1].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i.toString() + " " + ".current-hp").text()
+    $(hpChange("1", i)).text battle.players[1].mons[i].hp
     i++
 
 window.damageBoxAnime= (team, target, damage, color) ->
@@ -130,17 +130,17 @@ window.showHealTeam = (index) ->
 
 window.singleTargetAbilityDisplayVariable = (teamIndex) ->
   window.enemyHurt = battle.players[targets[teamIndex]].enemies[targets[3]]
-  window.monsterUsed = battle.players[targets[teamIndex]].monsters[targets[1]]
-  window.ability = battle.players[targets[teamIndex]].monsters[targets[1]].abilities[targets[2]]
+  window.monsterUsed = battle.players[targets[teamIndex]].mons[targets[1]]
+  window.ability = battle.players[targets[teamIndex]].mons[targets[1]].abilities[targets[2]]
 
 window.singleHealTargetAbilityDisplayVariable = (teamIndex) ->
-  window.allyHealed = battle.players[targets[teamIndex]].monsters[targets[3]]
-  window.monsterUsed = battle.players[targets[teamIndex]].monsters[targets[1]]
-  window.ability = battle.players[targets[teamIndex]].monsters[targets[1]].abilities[targets[2]]
+  window.allyHealed = battle.players[targets[teamIndex]].mons[targets[3]]
+  window.monsterUsed = battle.players[targets[teamIndex]].mons[targets[1]]
+  window.ability = battle.players[targets[teamIndex]].mons[targets[1]].abilities[targets[2]]
 
 window.multipleTargetAbilityDisplayVariable = (teamIndex) ->
-  window.ability = battle.players[targets[teamIndex]].monsters[targets[1]].abilities[targets[2]]
-  window.monsterUsed = battle.players[targets[teamIndex]].monsters[targets[1]]
+  window.ability = battle.players[targets[teamIndex]].mons[targets[1]].abilities[targets[2]]
+  window.monsterUsed = battle.players[targets[teamIndex]].mons[targets[1]]
 
 
 ################################################################################################# Battle interaction helpers
@@ -186,7 +186,7 @@ window.ai = ->
   disable($(".end-turn"))
   battle.players[0].ap = 0
   battle.players[0].turn = false
-  if battle.players[1].monsters[1].hp > 0
+  if battle.players[1].mons[1].hp > 0
     $(".enemy .mon1 .img").effect "shake", {times: 50}
     findTargets(40000)
     window.aiTarget = selectTarget()
@@ -194,11 +194,11 @@ window.ai = ->
     action()
   $(".enemy .mon1 .img, .user.info .bar").promise().done ->
     hpChangeBattle()
-    unless typeof battle.players[0].monsters[aiTarget] is "undefined"
-      if battle.players[0].monsters[aiTarget].hp <= 0
+    unless typeof battle.players[0].mons[aiTarget] is "undefined"
+      if battle.players[0].mons[aiTarget].hp <= 0
         $(".user .mon" + aiTarget.toString() + " " + ".img").effect "explode",
           pieces: 20
-    if battle.players[1].monsters[3].hp > 0
+    if battle.players[1].mons[3].hp > 0
       $(".enemy .mon3 .img").effect "shake", {times: 50}
       findTargets(40000)
       aiTarget = selectTarget()
@@ -206,11 +206,11 @@ window.ai = ->
       action()
     $(".enemy .mon3 .img, .user.info .bar").promise().done ->
       hpChangeBattle()
-      unless typeof battle.players[0].monsters[aiTarget] is "undefined"
-        if battle.players[0].monsters[aiTarget].hp <= 0
+      unless typeof battle.players[0].mons[aiTarget] is "undefined"
+        if battle.players[0].mons[aiTarget].hp <= 0
           $(".user .mon" + aiTarget.toString() + " " + ".img").effect "explode",
             pieces: 20
-      if battle.players[1].monsters[2].hp > 0
+      if battle.players[1].mons[2].hp > 0
         $(".enemy .mon2 .img").effect "shake", {times: 50}
         findTargets(40000)
         aiTarget = selectTarget()
@@ -218,19 +218,19 @@ window.ai = ->
         action()
       $(".enemy .mon2 .img, .user.info .bar").promise().done ->
         hpChangeBattle()
-        unless typeof battle.players[0].monsters[aiTarget] is "undefined"
-          if battle.players[0].monsters[aiTarget].hp <= 0
+        unless typeof battle.players[0].mons[aiTarget] is "undefined"
+          if battle.players[0].mons[aiTarget].hp <= 0
             $(".user .mon" + aiTarget.toString() + " " + ".img").effect "explode",
               pieces: 20
-        if battle.players[1].monsters[0].hp > 0
+        if battle.players[1].mons[0].hp > 0
           $(".enemy .mon0 .img").effect "shake", {times: 50}
           findTargets(40000)
           aiTarget = selectTarget()
           window.targets = [1, 1, 0].concat aiTarget
           action()
         $(".enemy .mon0 .img, .user.info .bar").promise().done ->
-          unless typeof battle.players[0].monsters[aiTarget] is "undefined"
-            if battle.players[0].monsters[aiTarget].hp <= 0
+          unless typeof battle.players[0].mons[aiTarget] is "undefined"
+            if battle.players[0].mons[aiTarget].hp <= 0
               $(".user .mon" + aiTarget.toString() + " " + ".img").effect "explode",
                 pieces: 20
           hpChangeBattle()
@@ -256,8 +256,8 @@ $ ->
       battle.maxAP = 200
       battle.calculateAP = ->
         battle.maxAP = 10 * battle.round
-      battle.players[0].enemies = battle.players[1].monsters
-      battle.players[1].enemies = battle.players[0].monsters
+      battle.players[0].enemies = battle.players[1].mons
+      battle.players[1].enemies = battle.players[0].mons
       setAll(battle.players, "ap", battle.maxAP)
       battle.checkRound = ->
         if battle.players.every(isTurnOver)
@@ -270,26 +270,26 @@ $ ->
           console.log("This ain't over.")
         return
       battle.outcome = ->
-        if @players[0].monsters.every(isTeamDead) is true
+        if @players[0].mons.every(isTeamDead) is true
           alert("You have lost!")
-        else if @players[1].monsters.every(isTeamDead) is true
+        else if @players[1].mons.every(isTeamDead) is true
           alert("You have won!")
         return
       battle.monAbility = (playerIndex, monIndex, abilityIndex, targetIndex) ->
-        ability = @players[playerIndex].monsters[monIndex].abilities[abilityIndex]
+        ability = @players[playerIndex].mons[monIndex].abilities[abilityIndex]
         player = @players[playerIndex]
-        monster = @players[playerIndex].monsters[monIndex]
+        monster = @players[playerIndex].mons[monIndex]
         switch ability.targeta
           when "targetenemy" or "attack"
             targets = [ player.enemies[targetIndex] ]
           when "targetally"
-            targets = [ player.monsters[targetIndex] ]
+            targets = [ player.mons[targetIndex] ]
           when "aoeenemy"
             targets = player.enemies
           when "aoeally"
-            targets = player.monsters
+            targets = player.mons
           when "ability"
-            targets = [player.monsters[targetIndex].abilities[0]]
+            targets = [player.mons[targetIndex].abilities[0]]
         @players[playerIndex].commandMon(monIndex, abilityIndex, targets)
         @outcome()
         @checkRound()
@@ -299,7 +299,7 @@ $ ->
         player.turn = true
         player.commandMon = (monIndex, abilityIndex, targets) ->
           p = @
-          mon = p.monsters[monIndex]
+          mon = p.mons[monIndex]
           abilityCost = mon.abilities[abilityIndex].ap_cost
           console.log(abilityCost)
           console.log(p.ap)
@@ -310,10 +310,10 @@ $ ->
             alert("You do not have enough ap to use this ability")
           return
 #################################################################################################  Monster logic
-        $(player.monsters).each ->
+        $(player.mons).each ->
           monster = @
           monster.team = battle.players.indexOf(player)
-          monster.index = player.monsters.indexOf(monster)
+          monster.index = player.mons.indexOf(monster)
           monster.isAlive = ->
             if @hp <= 0
               return false
@@ -335,7 +335,7 @@ $ ->
                   effectTargets.push monster
                   ability.effectTargets.push effectTargets
                 when "aoeally"
-                  effectTargets.push player.monsters
+                  effectTargets.push player.mons
                   ability.effectTargets.push effectTargets
                 when "aoeenemy"
                   effectTargets.push player.enemies
@@ -499,7 +499,7 @@ $ ->
                     element.attr "src", callAbilityImg
                     setTimeout (->
                       $(".enemy.mon-slot .img").each ->
-                        if battle.players[1].monsters[$(this).data("index")].isAlive() is false
+                        if battle.players[1].mons[$(this).data("index")].isAlive() is false
                           $(this).effect "explode", pieces: 20
                         else
                           $(this).effect "shake", times: 10

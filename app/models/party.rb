@@ -4,8 +4,8 @@ class Party < ActiveRecord::Base
   has_many :fights, dependent: :destroy
   has_many :battles, through: :fights
   has_many :members, dependent: :destroy
-  has_many :monster_unlocks, through: :members
-  has_many :monsters, through: :monster_unlocks
+  has_many :mons, through: :members, source: :monster_unlock
+  has_many :monsters, through: :mons
 
   validates :user_id, presence: {message: 'Must be entered'}
                                  # uniqueness: true unless: :{ |c| !c.logged_in? }
@@ -35,7 +35,7 @@ class Party < ActiveRecord::Base
   #   self.monsters.index(mon)
   # end
   def mon_dex(mon)
-    self.monster_unlocks.index(mon)
+    self.mons.index(mon)
   end
 
   def as_json(options={})
@@ -43,7 +43,8 @@ class Party < ActiveRecord::Base
       :only => [:user_id, :name],
       :methods => [:username, :isNPC],
       :include => {
-        :monster_unlocks => {
+        :mons => {
+          :as => :monsters,
           :only => [:monster_id],
           :methods => [:name, :max_hp, :hp],
           :include => {

@@ -43,14 +43,13 @@ class Monster < ActiveRecord::Base
     find_by_user_id(user_id).members.count
   end
 
-
-  def abdex(ability)
-    self.abilities.index(ability)
-  end
-
   def image(user)
     self.monster_skin_equippings.where(user_id: user).first.monster_skin.avatar.url(:small)
   end
+
+  # def abdex(ability)
+  #   self.abilities.index(ability)
+  # end
 
   # def cost(index)
   #   self.abilities[index].ap_cost

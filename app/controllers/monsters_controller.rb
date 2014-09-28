@@ -48,9 +48,6 @@ class MonstersController < ApplicationController
   #   render :clone
   # end
 
-  def edit
-  end
-
   def update
     # respond_to do |format|
     #   format.html { render text: params.to_s }
