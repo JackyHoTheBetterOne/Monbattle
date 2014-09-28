@@ -16,7 +16,23 @@ class MonsterUnlock < ActiveRecord::Base
   end
 
   def max_hp
-    self.monster.hp
+    self.monster.max_hp
+  end
+
+  def hp
+    self.monster.max_hp
+  end
+
+  def cost(index)
+    self.abilities[index].ap_cost
+  end
+
+  def target(index)
+    self.abilities[index].targeta
+  end
+
+  def image(user)
+    self.monster.image(user)
   end
 
 end

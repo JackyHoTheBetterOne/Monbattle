@@ -31,8 +31,11 @@ class Party < ActiveRecord::Base
     self.user.user_name && "NPC"
   end
 
+  # def mon_dex(mon)
+  #   self.monsters.index(mon)
+  # end
   def mon_dex(mon)
-    self.monsters.index(mon)
+    self.monster_unlocks.index(mon)
   end
 
   def as_json(options={})
@@ -42,7 +45,7 @@ class Party < ActiveRecord::Base
       :include => {
         :monster_unlocks => {
           :only => [:monster_id],
-          :methods => [:name, :max_hp, :hp => :max_hp],
+          :methods => [:name, :max_hp, :hp],
           :include => {
             :abilities => {
               :only => [:id, :name, :ap_cost, :stat_change],

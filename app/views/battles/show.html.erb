@@ -5,7 +5,7 @@
   <img class="ability-img" src="" type="image" alt="monster abiltiy">
 
   <div class="0 user info">
-    <% @user_party.monsters.each do |mon| %>
+    <% @user_party.monster_unlocks.each do |mon| %>
       <div class="mon mon<%= @user_party.mon_dex(mon) %>" data-index="<%= @user_party.mon_dex(mon)%>">
         <%= render :partial => "userTeamInfo", :locals => { :mon => mon }  %>
       </div>
@@ -13,7 +13,7 @@
   </div>
 
   <div class="0 user mon-slot" data-team="0">
-    <% @user_party.monsters.each do |mon| %>
+    <% @user_party.monster_unlocks.each do |mon| %>
       <div class="mon mon<%= @user_party.mon_dex(mon) %>" data-index="<%= @user_party.mon_dex(mon) %>">
         <%= render :partial => "team", :locals => { :mon => mon, party: @user_party  } %>
       </div>
@@ -21,7 +21,7 @@
   </div>
 
   <div class="1 enemy mon-slot" data-team="1">
-    <% @pc_party.monsters.each do |mon| %>
+    <% @pc_party.monster_unlocks.each do |mon| %>
       <div class="mon mon<%= @pc_party.mon_dex(mon) %>" data-index="<%= @pc_party.mon_dex(mon) %>">
         <%= render :partial => "team", :locals => { :mon => mon, party: @pc_party } %>
       </div>
@@ -29,7 +29,7 @@
   </div>
 
   <div class="1 enemy info">
-    <% @pc_party.monsters.each do |mon| %>
+    <% @pc_party.monster_unlocks.each do |mon| %>
       <div class="mon mon<%= @pc_party.mon_dex(mon) %>" data-index="<%= @pc_party.mon_dex(mon) %>">
         <p class="avatar"></p>
         <%= render :partial => "pcTeamInfo", :locals => {:mon => mon}  %>
