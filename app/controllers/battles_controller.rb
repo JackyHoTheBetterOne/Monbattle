@@ -23,6 +23,8 @@ class BattlesController < ApplicationController
   end
 
   def show
+    @user = @battle.parties[0].user
+    @pc = @battle.parties[1].user
     @user_party = @battle.parties[0]
     @pc_party   = @battle.parties[1]
     respond_to do |format|

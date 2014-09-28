@@ -17,7 +17,6 @@ class MonsterUnlocksController < ApplicationController
   def destroy
     respond_to do |format|
       if @monster_unlock.destroy
-        Member.where(monster_id: params[:monster_id]).destroy_all
         format.html { redirect_to monsters_path, notice: "Monster Locked for User!" }
         format.js { render :action }
       else

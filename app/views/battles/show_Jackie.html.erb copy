@@ -1,8 +1,8 @@
-<img class="single-ability-img" src="" type="image" alt="monster abiltiy">
+<img class="single-ability-img" src="" type="image" alt="monster abiltiy"> 
 
 <div class="battle" data-index="<%= @battle.id %>">
   <%= image_tag("platform.jpg", class: "platform") %>
-  <img class="ability-img" src="" type="image" alt="monster abiltiy">
+  <img class="ability-img" src="" type="image" alt="monster abiltiy"> 
 
   <div class="0 user info">
     <% @user_party.monsters.each do |mon| %>
@@ -44,6 +44,6 @@
     </div>
   </div>
 
-  <button class="end-turn">End Turn</button>
+  <button class="end-turn">End Turn</button> 
 
 </div>

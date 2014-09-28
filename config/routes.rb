@@ -3,8 +3,11 @@ Rails.application.routes.draw do
 devise_for :users
 
 resources :monsters do
-  resources :members, only: [:create, :destroy]
   resources :monster_unlocks, only: [:create, :destroy]
+end
+
+resources :monster_unlocks, only: [] do
+  resources :members, only: [:create, :destroy]
 end
 
 resources :monster_skins do

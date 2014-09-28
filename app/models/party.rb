@@ -4,7 +4,8 @@ class Party < ActiveRecord::Base
   has_many :fights, dependent: :destroy
   has_many :battles, through: :fights
   has_many :members, dependent: :destroy
-  has_many :monsters, through: :members
+  has_many :monster_unlocks, through: :members
+  has_many :monsters, through: :monster_unlocks
 
   validates :user_id, presence: {message: 'Must be entered'}
                                  # uniqueness: true unless: :{ |c| !c.logged_in? }
@@ -35,26 +36,51 @@ class Party < ActiveRecord::Base
   end
 
   def as_json(options={})
-
     super(
       :only => [:user_id, :name],
       :methods => [:username, :isNPC],
-      :include => { :monsters => {
-        :only => [:id, :name, :max_hp, :hp => :max_hp],
-        :methods => :hp,
-        :include => { :abilities => {
-          :only => [:id, :name, :ap_cost, :stat_change],
-          :methods => [:stat, :targeta, :elementa, :change, :modifier, :img, :slot],
+      :include => {
+        :monster_unlocks => {
+          :only => [:monster_id],
+          :methods => [:name, :max_hp, :hp => :max_hp],
           :include => {
-            :effects => {
-              :only => [:id, :name, :stat_change],
-              :methods => [:stat, :targeta, :change, :modifier],
+            :abilities => {
+              :only => [:id, :name, :ap_cost, :stat_change],
+              :methods => [:stat, :targeta, :elementa, :change, :modifier, :img, :slot],
+              :include => {
+                :effects => {
+                  :only => [:id, :name, :stat_change],
+                  :methods => [:stat, :targeta, :change, :modifier],
+                }
+              }
             }
           }
-        }}
-      }}
+        }
+      }
     )
   end
+
+  #   def as_json(options={})
+
+  #   super(
+  #     :only => [:user_id, :name],
+  #     :methods => [:username, :isNPC],
+  #     :include => { :monsters => {
+  #       :only => [:id, :name, :max_hp, :hp => :max_hp],
+  #       :methods => :hp,
+  #       :include => { :abilities => {
+  #         :only => [:id, :name, :ap_cost, :stat_change],
+  #         :methods => [:stat, :targeta, :elementa, :change, :modifier, :img, :slot],
+  #         :include => {
+  #           :effects => {
+  #             :only => [:id, :name, :stat_change],
+  #             :methods => [:stat, :targeta, :change, :modifier],
+  #           }
+  #         }
+  #       }}
+  #     }}
+  #   )
+  # end
 
   protected
   def npcCheck

@@ -1,8 +1,10 @@
+-@monster_unlock = monster.monster_unlocks.find_by_user_id(@user)
+
 -if @party.members.count == 0 || @party.members.count < 4 && @party.monsters.where(id: monster).empty?
-  =link_to "Add to Party", [monster, @member, {member: {party_id: @party.id}}], class: "btn btn-large btn-primary", method: :post, remote: true
+  =link_to "Add to Party", [@monster_unlock, @member, {member: {party_id: @party.id, monster_id: monster.id}}], class: "btn btn-large btn-primary", method: :post, remote: true
   br
 -if @party.members.count >= 1 && @party.monsters.where(id: monster).exists?
   hr
   h4 Member of team #{@party.name}
   hr
-  =link_to "Remove from Party", [monster, @party.members.find_by_monster_id(monster.id), {member: {party_id: @party.id}}], class: "btn btn-large btn-danger", method: :delete, remote: true
+  =link_to "Remove from Party", [@monster_unlock, @party.members.where(monster_unlock_id: @monster_unlock).first, {member: {party_id: @party.id, monster_id: monster.id}}], class: "btn btn-large btn-danger", method: :delete, remote: true

@@ -1,11 +1,12 @@
 class MembersController < ApplicationController
-  # before_action :find_user
   before_action :find_party
+  before_action :find_user
   before_action :find_monster
+  before_action :find_monster_unlock
   before_action :find_member, only: [:destroy]
 
   def create
-    @member = @monster.members.new member_params
+    @member = @monster_unlock.members.new member_params
     respond_to do |format|
       if @member.save
         format.js { render :action }
@@ -33,20 +34,24 @@ class MembersController < ApplicationController
     @party = Party.find params[:member][:party_id]
   end
 
-  # def find_user
-  #   @user = @party.user
-  # end
+  def find_user
+    @user = @party.user
+  end
 
   def find_monster
-    @monster = Monster.find params[:monster_id]
+    @monster = Monster.find params[:member][:monster_id]
   end
 
   def find_member
     @member = Member.find params[:id]
   end
 
+  def find_monster_unlock
+    @monster_unlock = MonsterUnlock.find params[:monster_unlock_id]
+  end
+
   def member_params
-    params.require(:member).permit(:monster_id, :party_id)
+    params.require(:member).permit(:monster_unlock_id, :party_id)
   end
 
 end
