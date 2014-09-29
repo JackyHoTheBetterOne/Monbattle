@@ -1,23 +1,22 @@
 <% if party.npc == false %>
   <div class="monBut">
-    <button class="attack" data-index= "0" data-apCost = "<%= mon.cost(0) %>" data-target= "<%= mon.target(0) %>"><%= mon.abilities[0].name %></button>
-    <button class="ability" data-index="1" data-apcost = "<%= mon.cost(1) %>" data-target= "<%= mon.target(1) %>"><%= mon.abilities[1].name %></button>
+    <button class="attack" data-index= "0" data-apCost = "<%= mon.cost(0) %>" data-target= "attack">Attack</button>
+    <button class="ability" data-index="1" data-apcost = "<%= mon.cost(1) %>" data-target= "<%= mon.target(1) %>">Ability</button>
     <button class="evolve" data-index="2" data-apCost = "" data-target= "">Evolve</button>
   </div>
 <% end %>
 
 <input class="img" src="<%= mon.image(party.user) %>" data-index="<%= party.mon_dex(mon) %>" type="image" alt="monster image">
-<!-- <input class="img" src="<%= mon.monster.image(party.user) %>" data-index="<%= party.mon_dex(mon) %>" type="image" alt="monster image"> -->
 <p class="dam"><p>
 
 <% if party.npc == false %>
   <div class="abilityDesc panel panel-default">
     <div class="pan panel-heading">Motherfucking ability man</div>
     <div class="pan panel-body">
-      When I was young, I'd listen to the radio. Listen to my favorite song. When they played, I'd sing along. It made me smile.
+      <%= mon.abilities[1].description %>
     </div>
     <div class="pan panel-footer">
-      500 &nbsp &nbsp AP:2
+      <span><p class="d">500</p> <p> &nbsp &nbsp</p> <p class="a">AP:2</p></span>
     </div>
   </div>
 <% end %>

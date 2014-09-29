@@ -12,6 +12,4 @@ class AbilityEquipping < ActiveRecord::Base
   #   if self.where(ability_id: )
   # end
 
-
-
 end

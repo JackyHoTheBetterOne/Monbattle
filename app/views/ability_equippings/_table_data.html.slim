@@ -1,5 +1,13 @@
 h4 Socket 1
 =render partial: "ability_equippings/socket_partial", locals: {monster: monster, slot: 1}
-
+br
 h4 Socket 2
 =render partial: "ability_equippings/socket_partial", locals: {monster: monster, slot: 2}
+br
+-if @party.user.user_name == "NPC"
+  h4 Socket 3
+  =render partial: "ability_equippings/socket_partial", locals: {monster: monster, slot: 3}
+  br
+  h4 Socket 4
+  =render partial: "ability_equippings/socket_partial", locals: {monster: monster, slot: 4}
+  br

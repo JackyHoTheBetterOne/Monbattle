@@ -1,7 +1,7 @@
 @import url("http://fonts.googleapis.com/css?family=Montserrat");
 @import url("http://fonts.googleapis.com/css?family=Sigmar+One");
 
-$theme-background-color: rgba(10, 170, 230, 0.80);
+$theme-background-color: rgba(10, 170, 230, 0.70);
 
 @mixin flipped() {
   -moz-transform: scaleX(-1);
@@ -31,6 +31,8 @@ $theme-background-color: rgba(10, 170, 230, 0.80);
   left: 2px;
 };
 
+
+
 ///////////////////////////////////////////////////////////////////////////////////// Mix-in for monster icons
 @mixin monIcon() {
   position: absolute;
@@ -45,7 +47,7 @@ $theme-background-color: rgba(10, 170, 230, 0.80);
       display: none;
       font-family: 'Sigmar One', cursive;
       color: red;
-      font-size: 120%;
+      font-size: 150%;
     };
     .img {
       width: 130px;
@@ -115,8 +117,11 @@ $theme-background-color: rgba(10, 170, 230, 0.80);
       margin-left: 3px;
       background-color: black;
       position: absolute;
+      border-radius: 5px;
+      border: 0px solid;
       .bar {
         width: 100%;
+        border-radius: 5px;
         border: 1px solid black;
         margin: 0 0 0;
         height: 100%;
@@ -129,7 +134,43 @@ $theme-background-color: rgba(10, 170, 230, 0.80);
 
 
 
-/////////////////////////////////////////////////////////////////////////////////////////// Battle
+//////////////////////////////////////////////////////////////////////////////////////////////////////// Overlay & Battle message
+
+#overlay {
+  background:rgba(0,0,0,0.7);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top:0;
+  left:0;
+  text-align: center;
+  z-index: 10000;
+  .message {
+    position: absolute;
+    width: 400px;
+    top: 50%;
+    left: 25%;
+    z-index: 1000000000;
+    border-radius: 10px;
+    background: $theme-background-color;
+  };
+};
+
+.battle-message {
+  text-align: center;
+  position: absolute;
+  z-index: 100;
+  width: 400px;
+  top: 2%;
+  left: 2%;
+  border-radius: 10px;
+  background: $theme-background-color;
+  display: none;
+};
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////// Battle
 html {
   height: 100%;
   width: 100%;
@@ -162,15 +203,18 @@ body {
 };
 
 .battle {
+  width: 960px;
+  height: 500px;
   background: url(battlefield2.gif); 
   position: relative;
   background-size: contain;
   z-index: 0;
-  width: 960px;
-  height: 500px;
   background-repeat: no-repeat;
   margin-top: 5px;
   font-family: 'Montserrat', sans-serif;
+  .panel-default {
+    border: 0px;
+  };
   .end-turn {
     position: absolute;
     background: $theme-background-color;
@@ -190,7 +234,7 @@ body {
     z-index: -1000;
     top: 202px;
     width: 819px;
-    opacity: 0.35;
+    opacity: 0.20;
   };
 
   .ap {
@@ -214,8 +258,11 @@ body {
       height: 17px;
       margin-top: -5px;
       margin-left: 7px;
+      border-radius: 5px;
+      border: 0px;
       .bar {
         position: relative;
+        border-radius: 5px;
         height: 100%;
         width:  100%;
         float: left;
@@ -359,9 +406,13 @@ body {
     width: 260px;
     z-index: 1500;
     border-color: black;
+    background: $theme-background-color;
+    span p {
+      display: inline;
+    };
     .pan {
-      background-color: $theme-background-color;
-      border-color: $theme-background-color;
+      background: $theme-background-color;
+      border-color: rgba(10, 130, 230, 0.70);
       color: black;
       padding: 3px 4px 6px;
     };
@@ -377,7 +428,7 @@ body {
 .mon {
   .abilityDesc {
     position: absolute;
-    top: 32px;
+    top: 42px;
     left: -130px;
   };
 

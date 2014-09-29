@@ -7,7 +7,6 @@ class Monster < ActiveRecord::Base
                         foreign_key: "evolved_from_id"
   belongs_to :evolved_from, class_name: "Monster"
 
-
   has_many :monster_skin_equippings, dependent: :destroy
   has_many :monster_skin_equipped_skins, through: :monster_skin_equippings, source: :monster_skin
   has_many :monster_skin_equipped_users, through: :monster_skin_equippings, source: :user
