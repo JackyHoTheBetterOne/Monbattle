@@ -9,18 +9,18 @@
         table.table border="1"
           thead
             tr
-              th Jobs Ability is available to
+              th Available to
               th Ap Cost
               th Description
-              th Summoner lvl required
+              / th Lvl Required
               th Element
               th Target
               th Stat Effected
-              th How much Stat is Changed
-              th Socket For
+              th Stat Change
+              th Socket #
               th Ability Image
-              th Store Price
-              th Price
+              / th Store Price
+              / th Price
               th Delete/Edit
               th Lock/Unlock
           tbody
@@ -30,15 +30,15 @@
                   h5 #{job.name + " / Elvl " + job.evolve_lvl}
               td=ability.ap_cost
               td=ability.description
-              td=ability.min_level
+              / td=ability.min_level
               td=ability.element.name
               td=ability.target.name
               td=ability.stat_target.name
               td=ability.stat_change
               td=ability.abil_socket.socket_num
               td=image_tag ability.image.url(:thumb)
-              td=ability.store_price
-              td=ability.price
+              / td=ability.store_price
+              / td=ability.price
               td
                 =link_to "Delete", ability, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm btn-danger"
                 =link_to "Edit", edit_ability_path(ability), data: {confirm: "This will unequip this ability from all monsters using it!"}, class: "btn btn-sm btn-warning"
@@ -59,9 +59,9 @@
               tr
                 th Effect Name
                 th Element
-                th Target of Effect
+                th Target
                 th Stat Effected
-                th How much the Stat is Changed
+                th Stat Change
                 th Delete/Edit
             tbody
               =render ability.effects

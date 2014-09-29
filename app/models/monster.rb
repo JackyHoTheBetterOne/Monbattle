@@ -25,6 +25,11 @@ class Monster < ActiveRecord::Base
   validates :hp_modifier, presence: {message: 'Must be entered'}
   validates :description, presence: {message: 'Must be entered'}
   validates :evolved_from_id, presence: {message: 'Must be entered'}
+  validates :summon_cost, presence: {message: 'Must be entered'}
+
+  def self.evolved
+    self.joins(:evolved_from)
+  end
 
   def party_member_id(user)
     members.find_by_party_id(user.parties.first.id)
@@ -44,6 +49,9 @@ class Monster < ActiveRecord::Base
 
   def image(user)
     self.monster_skin_equippings.where(user_id: user).first.monster_skin.avatar.url(:small)
+  end
+
+  def evolution_lookup
   end
 
   # def abdex(ability)
