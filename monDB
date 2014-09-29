@@ -30,6 +30,41 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: abil_sockets; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE TABLE abil_sockets (
+    id integer NOT NULL,
+    socket_num integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.abil_sockets OWNER TO alanmaule;
+
+--
+-- Name: abil_sockets_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+--
+
+CREATE SEQUENCE abil_sockets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.abil_sockets_id_seq OWNER TO alanmaule;
+
+--
+-- Name: abil_sockets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+--
+
+ALTER SEQUENCE abil_sockets_id_seq OWNED BY abil_sockets.id;
+
+
+--
 -- Name: abilities; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
 --
 
@@ -50,7 +85,8 @@ CREATE TABLE abilities (
     image_file_name character varying(255),
     image_content_type character varying(255),
     image_file_size integer,
-    image_updated_at timestamp without time zone
+    image_updated_at timestamp without time zone,
+    abil_socket_id integer
 );
 
 
@@ -120,10 +156,9 @@ ALTER SEQUENCE ability_effects_id_seq OWNED BY ability_effects.id;
 CREATE TABLE ability_equippings (
     id integer NOT NULL,
     ability_id integer,
-    monster_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    user_id integer
+    monster_unlock_id integer
 );
 
 
@@ -526,10 +561,10 @@ ALTER SEQUENCE jobs_id_seq OWNED BY jobs.id;
 
 CREATE TABLE members (
     id integer NOT NULL,
-    monster_id integer,
     party_id integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    monster_unlock_id integer
 );
 
 
@@ -720,7 +755,11 @@ CREATE TABLE monsters (
     dmg_modifier integer,
     evolved_from_id integer,
     description text,
-    summon_cost integer
+    summon_cost integer,
+    evolve_animation_file_name character varying(255),
+    evolve_animation_content_type character varying(255),
+    evolve_animation_file_size integer,
+    evolve_animation_updated_at timestamp without time zone
 );
 
 
@@ -1033,6 +1072,13 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
 --
 
+ALTER TABLE ONLY abil_sockets ALTER COLUMN id SET DEFAULT nextval('abil_sockets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+--
+
 ALTER TABLE ONLY abilities ALTER COLUMN id SET DEFAULT nextval('abilities_id_seq'::regclass);
 
 
@@ -1212,20 +1258,44 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 
 --
+-- Data for Name: abil_sockets; Type: TABLE DATA; Schema: public; Owner: alanmaule
+--
+
+COPY abil_sockets (id, socket_num, created_at, updated_at) FROM stdin;
+1	1	2014-09-25 02:44:04.081211	2014-09-25 02:44:04.081211
+2	2	2014-09-25 02:45:20.036086	2014-09-25 02:45:20.036086
+3	3	2014-09-27 18:50:15.25541	2014-09-27 18:50:15.25541
+4	4	2014-09-27 18:50:21.091792	2014-09-27 18:50:21.091792
+5	5	2014-09-27 18:50:26.669812	2014-09-27 18:50:26.669812
+\.
+
+
+--
+-- Name: abil_sockets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+--
+
+SELECT pg_catalog.setval('abil_sockets_id_seq', 5, true);
+
+
+--
 -- Data for Name: abilities; Type: TABLE DATA; Schema: public; Owner: alanmaule
 --
 
-COPY abilities (id, name, ap_cost, store_price, min_level, price, created_at, updated_at, description, stat_change, target_id, element_id, stat_target_id, image_file_name, image_content_type, image_file_size, image_updated_at) FROM stdin;
-18	Mass Recovery	20	\N	1	\N	2014-09-23 22:50:35.758282	2014-09-23 22:51:29.316485	Heals for 10000	10000	8	1	3	\N	\N	\N	\N
-12	Recover	20	\N	1	\N	2014-09-19 00:18:28.568211	2014-09-23 23:16:51.539585	Heals 6000	+6000	8	1	3	heal_modified.gif	image/gif	45759	2014-09-23 23:16:48.57538
-13	Aggression	2	\N	1	\N	2014-09-19 00:20:32.332818	2014-09-23 23:17:40.892342	-9000 to enemy, -3000 to self	-9000	9	7	3	rogue-aggression_mod.gif	image/gif	41782	2014-09-23 23:17:39.704709
-11	Ice Bolt	2	\N	1	\N	2014-09-19 00:17:46.340854	2014-09-23 23:20:11.886128	Ice Bolt	-6000	9	5	3	ice-bolt.gif	image/gif	313725	2014-09-23 23:20:09.611869
-20	Blizzard	50	\N	1	\N	2014-09-23 23:00:28.46561	2014-09-23 23:20:52.223033	7500 damage to enemies	-7500	7	5	3	blizzard.gif	image/gif	409162	2014-09-23 23:20:49.013524
-21	DownThrust	2	\N	1	\N	2014-09-23 23:06:03.847595	2014-09-23 23:23:13.859497	4000 damage	-4000	9	6	3	fighter-slash.gif	image/gif	78708	2014-09-23 23:23:11.682466
-22	Omega Slash	30	\N	1	\N	2014-09-23 23:10:13.840528	2014-09-23 23:23:43.527233	3000 damage to all enemies	-3000	7	6	3	warrior-aoe.gif	image/gif	163364	2014-09-23 23:23:41.667117
-23	Summon Bahmut	100	\N	1	\N	2014-09-23 23:13:33.191318	2014-09-23 23:24:46.752194	Death to all	-50000	7	4	3	summon-dragon.gif	image/gif	447519	2014-09-23 23:24:43.336576
-17	Healing Circle	30	\N	1	\N	2014-09-23 22:46:41.285704	2014-09-24 00:33:16.053668	AOE Heal for 5000	+5000	6	1	3	mass-heal-2.gif	image/gif	359036	2014-09-23 23:18:20.345519
-19	Overkill	20	\N	1	\N	2014-09-23 22:56:48.718145	2014-09-24 00:33:38.929617	12000 to Enemy, 6000 to self	-12000	9	7	3	rogue-overkill-mod.gif	image/gif	41363	2014-09-23 23:19:09.892068
+COPY abilities (id, name, ap_cost, store_price, min_level, price, created_at, updated_at, description, stat_change, target_id, element_id, stat_target_id, image_file_name, image_content_type, image_file_size, image_updated_at, abil_socket_id) FROM stdin;
+11	Ice Bolt	20	\N	1	\N	2014-09-19 00:17:46.340854	2014-09-28 22:26:18.937257	Ice Bolt	-6000	9	5	3	ice-bolt.gif	image/gif	313725	2014-09-23 23:20:09.611869	2
+29	BaseAttack NPC Socket3	10	\N	1	\N	2014-09-29 00:53:27.972739	2014-09-29 00:55:26.290866	-5000 to enemy	-5000	13	7	3	\N	\N	\N	\N	3
+30	NPC Bitch Slap Socket 4	10	\N	1	\N	2014-09-29 00:58:14.357361	2014-09-29 00:58:14.357361	Slaps a bitch across the face	-7500	5	1	3	\N	\N	\N	\N	4
+20	Blizzard	10	\N	1	\N	2014-09-23 23:00:28.46561	2014-09-29 01:08:23.291724	5000 damage to all enemies	-45000	7	5	3	blizzard.gif	image/gif	409162	2014-09-23 23:20:49.013524	2
+27	BaseAttack E0	10	\N	1	\N	2014-09-27 01:12:44.691642	2014-09-27 02:56:37.661889	Basic Attack 2500 damage	-2500	9	7	3	\N	\N	\N	\N	1
+25	BaseAttack NPC Stage 1	10	0	1	0	2014-09-25 22:29:15.492636	2014-09-27 02:56:37.668629	NPC Regular Attack	-3500	13	4	3	endless_fireball.gif	image/gif	2084350	2014-09-26 23:40:31.675086	1
+28	BaseAttack E1	10	\N	1	\N	2014-09-27 01:27:51.453496	2014-09-27 02:56:37.67506	4000dmg to enemy	-4000	13	1	3	\N	\N	\N	\N	1
+13	Aggression	20	\N	1	\N	2014-09-19 00:20:32.332818	2014-09-27 02:56:37.681722	-9000 to enemy, -3000 to self	-9000	9	7	3	rogue-aggression_mod.gif	image/gif	41782	2014-09-23 23:17:39.704709	2
+23	Summon Bahmut	40	\N	1	\N	2014-09-23 23:13:33.191318	2014-09-27 02:56:37.687368	5000 damage to an enemy	-5000	9	4	3	summon-dragon.gif	image/gif	447519	2014-09-23 23:24:43.336576	2
+12	Recover	20	\N	1	\N	2014-09-19 00:18:28.568211	2014-09-27 02:56:37.691865	Heals 6000	+6000	8	1	3	heal_modified.gif	image/gif	45759	2014-09-23 23:16:48.57538	2
+21	DownThrust	2	\N	1	\N	2014-09-23 23:06:03.847595	2014-09-27 02:56:37.702232	4000 damage	-4000	9	6	3	fighter-slash.gif	image/gif	78708	2014-09-23 23:23:11.682466	2
+22	Omega Slash	30	\N	1	\N	2014-09-23 23:10:13.840528	2014-09-27 02:56:37.707149	3000 damage to all enemies	-3000	7	6	3	warrior-aoe.gif	image/gif	163364	2014-09-23 23:23:41.667117	2
+17	Healing Circle	30	\N	1	\N	2014-09-23 22:46:41.285704	2014-09-27 02:56:37.714257	AOE Heal for 5000	+5000	6	1	3	mass-heal-2.gif	image/gif	359036	2014-09-23 23:18:20.345519	2
+19	Overkill	20	\N	1	\N	2014-09-23 22:56:48.718145	2014-09-27 02:56:37.720113	12000 to Enemy, 6000 to self	-12000	9	7	3	rogue-overkill-mod.gif	image/gif	41363	2014-09-23 23:19:09.892068	2
 \.
 
 
@@ -1233,7 +1303,7 @@ COPY abilities (id, name, ap_cost, store_price, min_level, price, created_at, up
 -- Name: abilities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('abilities_id_seq', 23, true);
+SELECT pg_catalog.setval('abilities_id_seq', 30, true);
 
 
 --
@@ -1241,7 +1311,8 @@ SELECT pg_catalog.setval('abilities_id_seq', 23, true);
 --
 
 COPY ability_effects (id, ability_id, effect_id, created_at, updated_at) FROM stdin;
-13	13	10	2014-09-23 22:40:38.062622	2014-09-23 22:40:38.062622
+18	13	10	2014-09-28 22:27:05.072539	2014-09-28 22:27:05.072539
+19	19	12	2014-09-28 22:28:01.715995	2014-09-28 22:28:01.715995
 \.
 
 
@@ -1249,26 +1320,53 @@ COPY ability_effects (id, ability_id, effect_id, created_at, updated_at) FROM st
 -- Name: ability_effects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('ability_effects_id_seq', 14, true);
+SELECT pg_catalog.setval('ability_effects_id_seq', 19, true);
 
 
 --
 -- Data for Name: ability_equippings; Type: TABLE DATA; Schema: public; Owner: alanmaule
 --
 
-COPY ability_equippings (id, ability_id, monster_id, created_at, updated_at, user_id) FROM stdin;
-49	21	48	2014-09-24 02:53:14.033639	2014-09-24 02:53:14.033639	1
-50	21	47	2014-09-24 02:53:18.374039	2014-09-24 02:53:18.374039	1
-51	21	45	2014-09-24 02:53:22.36542	2014-09-24 02:53:22.36542	1
-52	21	46	2014-09-24 02:53:25.704607	2014-09-24 02:53:25.704607	1
-53	21	41	2014-09-24 02:54:20.710942	2014-09-24 02:54:20.710942	2
-54	21	37	2014-09-24 02:54:23.802579	2014-09-24 02:54:23.802579	2
-56	11	38	2014-09-24 02:54:31.76718	2014-09-24 02:54:31.76718	2
-55	21	40	2014-09-24 02:54:27.880213	2014-09-24 02:54:40.849133	2
-57	21	39	2014-09-24 02:54:48.642518	2014-09-24 02:54:48.642518	2
-58	21	42	2014-09-24 02:55:06.488892	2014-09-24 02:55:06.488892	2
-59	21	44	2014-09-24 02:55:16.079405	2014-09-24 02:55:16.079405	2
-60	21	43	2014-09-24 02:55:26.284847	2014-09-24 02:55:26.284847	2
+COPY ability_equippings (id, ability_id, created_at, updated_at, monster_unlock_id) FROM stdin;
+143	27	2014-09-28 06:59:07.29134	2014-09-28 06:59:07.29134	129
+144	21	2014-09-28 06:59:09.070273	2014-09-28 06:59:09.070273	129
+145	27	2014-09-28 06:59:40.081617	2014-09-28 06:59:40.081617	131
+147	27	2014-09-28 07:42:16.780415	2014-09-28 07:42:16.780415	133
+148	12	2014-09-28 07:42:18.144474	2014-09-28 07:42:18.144474	133
+149	27	2014-09-28 07:42:33.963818	2014-09-28 07:42:33.963818	128
+150	21	2014-09-28 07:42:36.958381	2014-09-28 07:42:36.958381	128
+151	27	2014-09-28 07:42:40.448624	2014-09-28 07:42:40.448624	132
+152	27	2014-09-28 08:51:47.4342	2014-09-28 08:51:47.4342	130
+154	12	2014-09-28 08:52:17.735301	2014-09-28 08:52:17.735301	132
+155	25	2014-09-28 22:02:39.834313	2014-09-28 22:02:39.834313	134
+156	23	2014-09-28 22:02:41.456582	2014-09-28 22:02:41.456582	134
+157	25	2014-09-28 22:02:52.678797	2014-09-28 22:02:52.678797	135
+158	23	2014-09-28 22:02:54.173798	2014-09-28 22:02:54.173798	135
+159	25	2014-09-28 22:03:59.572045	2014-09-28 22:03:59.572045	136
+160	23	2014-09-28 22:04:00.925811	2014-09-28 22:04:00.925811	136
+161	25	2014-09-28 22:04:03.26131	2014-09-28 22:04:03.26131	137
+162	23	2014-09-28 22:04:05.0394	2014-09-28 22:04:05.0394	137
+163	27	2014-09-28 22:46:06.45838	2014-09-28 22:46:06.45838	142
+164	13	2014-09-28 22:46:07.955822	2014-09-28 22:46:07.955822	142
+166	22	2014-09-28 22:46:15.608319	2014-09-28 22:46:15.608319	141
+170	17	2014-09-28 22:46:25.6111	2014-09-28 22:46:25.6111	139
+173	29	2014-09-29 00:55:59.529092	2014-09-29 00:55:59.529092	134
+174	29	2014-09-29 00:56:03.777555	2014-09-29 00:56:03.777555	135
+175	29	2014-09-29 00:56:07.310889	2014-09-29 00:56:07.310889	136
+176	29	2014-09-29 00:56:11.591838	2014-09-29 00:56:11.591838	137
+177	30	2014-09-29 00:59:08.125846	2014-09-29 00:59:08.125846	137
+178	30	2014-09-29 00:59:11.65555	2014-09-29 00:59:11.65555	136
+179	30	2014-09-29 00:59:15.043838	2014-09-29 00:59:15.043838	135
+180	30	2014-09-29 00:59:19.163732	2014-09-29 00:59:19.163732	134
+181	20	2014-09-29 01:08:43.153493	2014-09-29 01:08:43.153493	131
+182	20	2014-09-29 01:08:58.346692	2014-09-29 01:08:58.346692	138
+183	28	2014-09-29 07:39:04.198972	2014-09-29 07:39:04.198972	143
+184	19	2014-09-29 07:39:06.021548	2014-09-29 07:39:06.021548	143
+185	28	2014-09-29 17:28:07.585489	2014-09-29 17:28:07.585489	138
+186	28	2014-09-29 17:28:10.370189	2014-09-29 17:28:10.370189	139
+187	28	2014-09-29 17:28:13.016255	2014-09-29 17:28:13.016255	140
+188	19	2014-09-29 17:28:14.698501	2014-09-29 17:28:14.698501	140
+189	28	2014-09-29 17:28:17.900875	2014-09-29 17:28:17.900875	141
 \.
 
 
@@ -1276,7 +1374,7 @@ COPY ability_equippings (id, ability_id, monster_id, created_at, updated_at, use
 -- Name: ability_equippings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('ability_equippings_id_seq', 60, true);
+SELECT pg_catalog.setval('ability_equippings_id_seq', 189, true);
 
 
 --
@@ -1284,10 +1382,6 @@ SELECT pg_catalog.setval('ability_equippings_id_seq', 60, true);
 --
 
 COPY ability_purchases (id, ability_id, user_id, created_at, updated_at) FROM stdin;
-7	12	1	2014-09-24 06:59:19.156758	2014-09-24 06:59:19.156758
-10	18	3	2014-09-24 07:02:52.964935	2014-09-24 07:02:52.964935
-11	18	1	2014-09-24 07:02:53.484016	2014-09-24 07:02:53.484016
-12	18	2	2014-09-24 07:02:53.708724	2014-09-24 07:02:53.708724
 13	21	3	2014-09-24 07:03:06.230256	2014-09-24 07:03:06.230256
 14	21	1	2014-09-24 07:03:07.107651	2014-09-24 07:03:07.107651
 15	21	2	2014-09-24 07:03:07.614359	2014-09-24 07:03:07.614359
@@ -1300,8 +1394,6 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at) FROM st
 22	13	3	2014-09-24 07:03:16.116536	2014-09-24 07:03:16.116536
 23	13	1	2014-09-24 07:03:16.63918	2014-09-24 07:03:16.63918
 24	13	2	2014-09-24 07:03:16.942031	2014-09-24 07:03:16.942031
-25	12	3	2014-09-24 07:03:18.451195	2014-09-24 07:03:18.451195
-26	12	2	2014-09-24 07:03:18.758614	2014-09-24 07:03:18.758614
 27	22	3	2014-09-24 07:03:23.047748	2014-09-24 07:03:23.047748
 28	22	1	2014-09-24 07:03:23.601253	2014-09-24 07:03:23.601253
 29	22	2	2014-09-24 07:03:23.873988	2014-09-24 07:03:23.873988
@@ -1311,6 +1403,18 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at) FROM st
 33	19	3	2014-09-24 07:03:28.211812	2014-09-24 07:03:28.211812
 34	19	1	2014-09-24 07:03:28.954908	2014-09-24 07:03:28.954908
 35	19	2	2014-09-24 07:03:29.314033	2014-09-24 07:03:29.314033
+38	23	2	2014-09-25 06:49:52.372314	2014-09-25 06:49:52.372314
+39	12	2	2014-09-25 22:06:56.119727	2014-09-25 22:06:56.119727
+40	25	2	2014-09-25 22:29:50.099774	2014-09-25 22:29:50.099774
+41	25	1	2014-09-26 06:42:44.765845	2014-09-26 06:42:44.765845
+42	27	2	2014-09-27 01:25:43.662838	2014-09-27 01:25:43.662838
+43	28	2	2014-09-27 01:28:05.378213	2014-09-27 01:28:05.378213
+44	23	1	2014-09-27 01:49:43.775289	2014-09-27 01:49:43.775289
+45	27	1	2014-09-27 04:55:47.263086	2014-09-27 04:55:47.263086
+46	27	3	2014-09-27 04:55:50.24261	2014-09-27 04:55:50.24261
+47	12	1	2014-09-28 08:52:04.562274	2014-09-28 08:52:04.562274
+48	29	1	2014-09-29 00:55:43.498188	2014-09-29 00:55:43.498188
+49	30	1	2014-09-29 00:58:26.783746	2014-09-29 00:58:26.783746
 \.
 
 
@@ -1318,7 +1422,7 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at) FROM st
 -- Name: ability_purchases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('ability_purchases_id_seq', 35, true);
+SELECT pg_catalog.setval('ability_purchases_id_seq', 49, true);
 
 
 --
@@ -1326,28 +1430,41 @@ SELECT pg_catalog.setval('ability_purchases_id_seq', 35, true);
 --
 
 COPY ability_restrictions (id, job_id, ability_id, created_at, updated_at) FROM stdin;
+85	21	25	2014-09-27 01:09:22.792736	2014-09-27 01:09:22.792736
+86	22	25	2014-09-27 01:09:22.845471	2014-09-27 01:09:22.845471
+87	23	25	2014-09-27 01:09:22.850001	2014-09-27 01:09:22.850001
+88	24	25	2014-09-27 01:09:22.851516	2014-09-27 01:09:22.851516
+93	16	28	2014-09-27 01:27:51.458865	2014-09-27 01:27:51.458865
+94	17	28	2014-09-27 01:27:51.460635	2014-09-27 01:27:51.460635
+95	18	28	2014-09-27 01:27:51.461987	2014-09-27 01:27:51.461987
 12	3	11	2014-09-19 00:17:46.343097	2014-09-19 00:17:46.343097
+96	20	28	2014-09-27 01:27:51.463948	2014-09-27 01:27:51.463948
+97	3	20	2014-09-27 01:41:33.355181	2014-09-27 01:41:33.355181
 16	7	12	2014-09-19 00:18:28.572846	2014-09-19 00:18:28.572846
+102	2	27	2014-09-27 01:46:40.874991	2014-09-27 01:46:40.874991
+103	3	27	2014-09-27 01:46:40.877511	2014-09-27 01:46:40.877511
+104	7	27	2014-09-27 01:46:40.880203	2014-09-27 01:46:40.880203
+105	19	27	2014-09-27 01:46:40.882676	2014-09-27 01:46:40.882676
+106	21	23	2014-09-27 01:49:03.727139	2014-09-27 01:49:03.727139
+107	22	23	2014-09-27 01:49:03.730754	2014-09-27 01:49:03.730754
+108	23	23	2014-09-27 01:49:03.735453	2014-09-27 01:49:03.735453
+109	24	23	2014-09-27 01:49:03.744272	2014-09-27 01:49:03.744272
+110	21	29	2014-09-29 00:53:28.006575	2014-09-29 00:53:28.006575
+111	22	29	2014-09-29 00:53:28.019557	2014-09-29 00:53:28.019557
+112	23	29	2014-09-29 00:53:28.022134	2014-09-29 00:53:28.022134
+113	24	29	2014-09-29 00:53:28.023231	2014-09-29 00:53:28.023231
+114	21	30	2014-09-29 00:58:14.359771	2014-09-29 00:58:14.359771
+115	22	30	2014-09-29 00:58:14.361769	2014-09-29 00:58:14.361769
+116	23	30	2014-09-29 00:58:14.363326	2014-09-29 00:58:14.363326
+117	24	30	2014-09-29 00:58:14.365268	2014-09-29 00:58:14.365268
 36	19	13	2014-09-23 22:37:00.794776	2014-09-23 22:37:00.794776
+118	25	19	2014-09-29 07:37:57.302558	2014-09-29 07:37:57.302558
+119	25	28	2014-09-29 07:38:42.812086	2014-09-29 07:38:42.812086
 39	18	17	2014-09-23 22:47:25.870625	2014-09-23 22:47:25.870625
-40	18	18	2014-09-23 22:50:35.759833	2014-09-23 22:50:35.759833
 41	20	19	2014-09-23 22:56:48.720385	2014-09-23 22:56:48.720385
 43	2	21	2014-09-23 23:06:03.849525	2014-09-23 23:06:03.849525
 44	16	22	2014-09-23 23:10:13.842214	2014-09-23 23:10:13.842214
-45	3	23	2014-09-23 23:13:33.192782	2014-09-23 23:13:33.192782
-46	17	23	2014-09-23 23:13:33.195607	2014-09-23 23:13:33.195607
 47	17	20	2014-09-23 23:20:52.195498	2014-09-23 23:20:52.195498
-48	21	21	2014-09-24 00:04:18.382926	2014-09-24 00:04:18.382926
-49	22	21	2014-09-24 00:04:18.387057	2014-09-24 00:04:18.387057
-50	23	21	2014-09-24 00:04:18.389259	2014-09-24 00:04:18.389259
-51	24	21	2014-09-24 00:04:18.390846	2014-09-24 00:04:18.390846
-52	3	21	2014-09-24 02:53:01.410778	2014-09-24 02:53:01.410778
-53	7	21	2014-09-24 02:53:01.414579	2014-09-24 02:53:01.414579
-54	16	21	2014-09-24 02:53:01.415958	2014-09-24 02:53:01.415958
-55	17	21	2014-09-24 02:53:01.41723	2014-09-24 02:53:01.41723
-56	18	21	2014-09-24 02:53:01.419949	2014-09-24 02:53:01.419949
-57	19	21	2014-09-24 02:53:01.421465	2014-09-24 02:53:01.421465
-58	20	21	2014-09-24 02:53:01.422866	2014-09-24 02:53:01.422866
 \.
 
 
@@ -1355,7 +1472,7 @@ COPY ability_restrictions (id, job_id, ability_id, created_at, updated_at) FROM 
 -- Name: ability_restrictions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('ability_restrictions_id_seq', 58, true);
+SELECT pg_catalog.setval('ability_restrictions_id_seq', 119, true);
 
 
 --
@@ -1381,7 +1498,7 @@ COPY battle_levels (id, item_given, exp_given, created_at, updated_at, name) FRO
 1	Dead Rat	100	2014-09-15 03:39:40.01816	2014-09-15 03:39:40.01816	Stage One
 2	Crow Skull	500	2014-09-17 04:28:58.02748	2014-09-17 04:28:58.02748	Stage Two
 3	Broken down chevy	1200	2014-09-19 04:15:16.241445	2014-09-19 04:15:16.241445	Stage Three
-4	Slave	10000	2014-09-24 19:16:54.188491	2014-09-24 19:16:54.188491	Stage Four
+4	Meat on  Stick	10000	2014-09-24 19:16:54.188491	2014-09-25 22:10:32.111181	Stage Four
 \.
 
 
@@ -1397,11 +1514,23 @@ SELECT pg_catalog.setval('battle_levels_id_seq', 4, true);
 --
 
 COPY battles (id, outcome, created_at, updated_at, battle_level_id) FROM stdin;
-52	\N	2014-09-24 16:40:54.882006	2014-09-24 16:40:54.882006	1
-53	\N	2014-09-24 20:19:25.397883	2014-09-24 20:19:25.397883	1
-54	\N	2014-09-24 20:31:26.97576	2014-09-24 20:31:26.97576	1
-55	\N	2014-09-24 22:48:26.543392	2014-09-24 22:48:26.543392	1
-56	\N	2014-09-24 22:52:54.083761	2014-09-24 22:52:54.083761	1
+89	\N	2014-09-28 22:13:03.103826	2014-09-28 22:13:03.103826	1
+90	\N	2014-09-28 22:38:08.80039	2014-09-28 22:38:08.80039	1
+91	\N	2014-09-28 22:46:43.670651	2014-09-28 22:46:43.670651	1
+92	\N	2014-09-28 22:53:29.578811	2014-09-28 22:53:29.578811	1
+93	\N	2014-09-28 23:15:21.062665	2014-09-28 23:15:21.062665	1
+94	\N	2014-09-29 00:36:18.700267	2014-09-29 00:36:18.700267	1
+95	\N	2014-09-29 01:02:02.075559	2014-09-29 01:02:02.075559	1
+96	\N	2014-09-29 01:09:06.325693	2014-09-29 01:09:06.325693	1
+97	\N	2014-09-29 01:55:20.513089	2014-09-29 01:55:20.513089	1
+98	\N	2014-09-29 17:27:05.262496	2014-09-29 17:27:05.262496	1
+99	\N	2014-09-29 17:28:29.211831	2014-09-29 17:28:29.211831	1
+100	\N	2014-09-29 17:30:24.41679	2014-09-29 17:30:24.41679	1
+101	\N	2014-09-29 20:24:43.772337	2014-09-29 20:24:43.772337	1
+102	\N	2014-09-29 22:23:02.602059	2014-09-29 22:23:02.602059	1
+103	\N	2014-09-29 22:31:39.21982	2014-09-29 22:31:39.21982	1
+104	\N	2014-09-29 22:40:37.109738	2014-09-29 22:40:37.109738	1
+105	\N	2014-09-29 22:47:17.017306	2014-09-29 22:47:17.017306	1
 \.
 
 
@@ -1409,7 +1538,7 @@ COPY battles (id, outcome, created_at, updated_at, battle_level_id) FROM stdin;
 -- Name: battles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('battles_id_seq', 56, true);
+SELECT pg_catalog.setval('battles_id_seq', 105, true);
 
 
 --
@@ -1470,16 +1599,40 @@ SELECT pg_catalog.setval('evolved_states_id_seq', 1, false);
 --
 
 COPY fights (id, battle_id, created_at, updated_at, party_id) FROM stdin;
-75	52	2014-09-24 16:40:54.922919	2014-09-24 16:40:54.922919	3
-76	52	2014-09-24 16:40:54.940617	2014-09-24 16:40:54.940617	2
-77	53	2014-09-24 20:19:25.428405	2014-09-24 20:19:25.428405	3
-78	53	2014-09-24 20:19:25.435099	2014-09-24 20:19:25.435099	2
-79	54	2014-09-24 20:31:26.99557	2014-09-24 20:31:26.99557	3
-80	54	2014-09-24 20:31:27.001795	2014-09-24 20:31:27.001795	2
-81	55	2014-09-24 22:48:26.588413	2014-09-24 22:48:26.588413	3
-82	55	2014-09-24 22:48:26.602175	2014-09-24 22:48:26.602175	2
-83	56	2014-09-24 22:52:54.120227	2014-09-24 22:52:54.120227	3
-84	56	2014-09-24 22:52:54.127216	2014-09-24 22:52:54.127216	2
+149	89	2014-09-28 22:13:03.120523	2014-09-28 22:13:03.120523	3
+150	89	2014-09-28 22:13:03.125992	2014-09-28 22:13:03.125992	2
+151	90	2014-09-28 22:38:08.822616	2014-09-28 22:38:08.822616	3
+152	90	2014-09-28 22:38:08.835968	2014-09-28 22:38:08.835968	2
+153	91	2014-09-28 22:46:43.683329	2014-09-28 22:46:43.683329	3
+154	91	2014-09-28 22:46:43.696494	2014-09-28 22:46:43.696494	2
+155	92	2014-09-28 22:53:29.635982	2014-09-28 22:53:29.635982	3
+156	92	2014-09-28 22:53:29.650402	2014-09-28 22:53:29.650402	2
+157	93	2014-09-28 23:15:21.080323	2014-09-28 23:15:21.080323	3
+158	93	2014-09-28 23:15:21.088915	2014-09-28 23:15:21.088915	2
+159	94	2014-09-29 00:36:18.765275	2014-09-29 00:36:18.765275	3
+160	94	2014-09-29 00:36:18.785492	2014-09-29 00:36:18.785492	2
+161	95	2014-09-29 01:02:02.099807	2014-09-29 01:02:02.099807	3
+162	95	2014-09-29 01:02:02.112698	2014-09-29 01:02:02.112698	2
+163	96	2014-09-29 01:09:06.344424	2014-09-29 01:09:06.344424	3
+164	96	2014-09-29 01:09:06.353836	2014-09-29 01:09:06.353836	2
+165	97	2014-09-29 01:55:20.528332	2014-09-29 01:55:20.528332	3
+166	97	2014-09-29 01:55:20.539223	2014-09-29 01:55:20.539223	2
+167	98	2014-09-29 17:27:05.300287	2014-09-29 17:27:05.300287	3
+168	98	2014-09-29 17:27:05.316588	2014-09-29 17:27:05.316588	2
+169	99	2014-09-29 17:28:29.22239	2014-09-29 17:28:29.22239	3
+170	99	2014-09-29 17:28:29.227134	2014-09-29 17:28:29.227134	2
+171	100	2014-09-29 17:30:24.431048	2014-09-29 17:30:24.431048	3
+172	100	2014-09-29 17:30:24.438885	2014-09-29 17:30:24.438885	2
+173	101	2014-09-29 20:24:43.822061	2014-09-29 20:24:43.822061	3
+174	101	2014-09-29 20:24:43.829594	2014-09-29 20:24:43.829594	2
+175	102	2014-09-29 22:23:02.669909	2014-09-29 22:23:02.669909	3
+176	102	2014-09-29 22:23:02.676859	2014-09-29 22:23:02.676859	2
+177	103	2014-09-29 22:31:39.243315	2014-09-29 22:31:39.243315	3
+178	103	2014-09-29 22:31:39.255473	2014-09-29 22:31:39.255473	2
+179	104	2014-09-29 22:40:37.124248	2014-09-29 22:40:37.124248	3
+180	104	2014-09-29 22:40:37.134941	2014-09-29 22:40:37.134941	2
+181	105	2014-09-29 22:47:17.033757	2014-09-29 22:47:17.033757	3
+182	105	2014-09-29 22:47:17.04256	2014-09-29 22:47:17.04256	2
 \.
 
 
@@ -1487,7 +1640,7 @@ COPY fights (id, battle_id, created_at, updated_at, party_id) FROM stdin;
 -- Name: fights_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('fights_id_seq', 84, true);
+SELECT pg_catalog.setval('fights_id_seq', 182, true);
 
 
 --
@@ -1507,6 +1660,8 @@ COPY jobs (id, name, evolve_lvl, created_at, updated_at) FROM stdin;
 22	npc_dog	0	2014-09-23 23:57:17.617943	2014-09-23 23:57:17.617943
 23	npc_mage	0	2014-09-23 23:57:27.120342	2014-09-23 23:57:27.120342
 24	npc_phoenix	0	2014-09-24 00:01:24.727645	2014-09-24 00:01:24.727645
+25	Berserker	1	2014-09-29 07:33:43.522035	2014-09-29 07:33:43.522035
+26	moron	0	2014-09-29 20:03:32.258673	2014-09-29 20:03:32.258673
 \.
 
 
@@ -1514,22 +1669,22 @@ COPY jobs (id, name, evolve_lvl, created_at, updated_at) FROM stdin;
 -- Name: jobs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('jobs_id_seq', 24, true);
+SELECT pg_catalog.setval('jobs_id_seq', 26, true);
 
 
 --
 -- Data for Name: members; Type: TABLE DATA; Schema: public; Owner: alanmaule
 --
 
-COPY members (id, monster_id, party_id, created_at, updated_at) FROM stdin;
-74	47	2	2014-09-24 00:25:55.527219	2014-09-24 00:25:55.527219
-76	45	2	2014-09-24 00:37:44.559779	2014-09-24 00:37:44.559779
-77	48	2	2014-09-24 00:37:51.391529	2014-09-24 00:37:51.391529
-78	46	2	2014-09-24 00:49:16.208259	2014-09-24 00:49:16.208259
-79	40	3	2014-09-24 02:53:44.84826	2014-09-24 02:53:44.84826
-80	37	3	2014-09-24 02:53:47.766799	2014-09-24 02:53:47.766799
-82	39	3	2014-09-24 02:54:02.054553	2014-09-24 02:54:02.054553
-83	38	3	2014-09-24 19:15:03.389456	2014-09-24 19:15:03.389456
+COPY members (id, party_id, created_at, updated_at, monster_unlock_id) FROM stdin;
+152	2	2014-09-28 22:02:42.643702	2014-09-28 22:02:42.643702	134
+154	2	2014-09-28 22:03:41.112216	2014-09-28 22:03:41.112216	136
+155	2	2014-09-28 22:03:49.574345	2014-09-28 22:03:49.574345	137
+160	3	2014-09-28 22:46:26.502578	2014-09-28 22:46:26.502578	139
+161	3	2014-09-28 22:46:35.899726	2014-09-28 22:46:35.899726	138
+162	2	2014-09-28 22:49:13.382146	2014-09-28 22:49:13.382146	135
+163	3	2014-09-28 23:10:44.165225	2014-09-28 23:10:44.165225	140
+164	3	2014-09-29 17:30:17.909542	2014-09-29 17:30:17.909542	129
 \.
 
 
@@ -1537,7 +1692,7 @@ COPY members (id, monster_id, party_id, created_at, updated_at) FROM stdin;
 -- Name: members_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('members_id_seq', 83, true);
+SELECT pg_catalog.setval('members_id_seq', 164, true);
 
 
 --
@@ -1560,6 +1715,8 @@ COPY monster_skin_equippings (id, monster_id, monster_skin_id, created_at, updat
 33	45	17	2014-09-24 00:25:18.582436	2014-09-24 00:25:18.582436	1
 34	47	18	2014-09-24 00:25:22.92561	2014-09-24 00:25:22.92561	1
 35	46	19	2014-09-24 00:25:33.853141	2014-09-24 00:25:33.853141	1
+36	39	8	2014-09-26 04:20:00.526572	2014-09-26 04:20:00.526572	1
+37	49	21	2014-09-29 07:38:59.103707	2014-09-29 07:38:59.103707	2
 \.
 
 
@@ -1567,7 +1724,7 @@ COPY monster_skin_equippings (id, monster_id, monster_skin_id, created_at, updat
 -- Name: monster_skin_equippings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('monster_skin_equippings_id_seq', 35, true);
+SELECT pg_catalog.setval('monster_skin_equippings_id_seq', 37, true);
 
 
 --
@@ -1596,6 +1753,8 @@ COPY monster_skin_purchases (id, user_id, monster_skin_id, created_at, updated_a
 37	1	18	2014-09-24 00:10:36.955134	2014-09-24 00:10:36.955134
 38	1	19	2014-09-24 00:10:42.783604	2014-09-24 00:10:42.783604
 39	1	17	2014-09-24 00:10:51.200434	2014-09-24 00:10:51.200434
+40	3	11	2014-09-26 18:30:37.561826	2014-09-26 18:30:37.561826
+41	2	21	2014-09-29 07:37:05.335171	2014-09-29 07:37:05.335171
 \.
 
 
@@ -1603,7 +1762,7 @@ COPY monster_skin_purchases (id, user_id, monster_skin_id, created_at, updated_a
 -- Name: monster_skin_purchases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('monster_skin_purchases_id_seq', 39, true);
+SELECT pg_catalog.setval('monster_skin_purchases_id_seq', 41, true);
 
 
 --
@@ -1623,6 +1782,7 @@ COPY monster_skins (id, name, created_at, updated_at, avatar_file_name, avatar_c
 18	npc_caster	2014-09-24 00:09:23.983275	2014-09-24 00:09:23.983275	npc_caster.gif	image/gif	27671	2014-09-24 00:09:23.087893
 19	npc_dog	2014-09-24 00:09:39.167885	2014-09-24 00:09:39.167885	Npc_dog.gif	image/gif	14293	2014-09-24 00:09:38.274866
 20	npc_phoenix	2014-09-24 00:10:04.044961	2014-09-24 00:10:04.044961	npc_Phoenix.gif	image/gif	50261	2014-09-24 00:10:03.274792
+21	Berserker	2014-09-29 07:36:54.533177	2014-09-29 07:36:54.533177	angel.gif	image/gif	112527	2014-09-29 07:36:51.744342
 \.
 
 
@@ -1630,7 +1790,7 @@ COPY monster_skins (id, name, created_at, updated_at, avatar_file_name, avatar_c
 -- Name: monster_skins_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('monster_skins_id_seq', 20, true);
+SELECT pg_catalog.setval('monster_skins_id_seq', 21, true);
 
 
 --
@@ -1638,18 +1798,22 @@ SELECT pg_catalog.setval('monster_skins_id_seq', 20, true);
 --
 
 COPY monster_unlocks (id, user_id, monster_id, created_at, updated_at) FROM stdin;
-82	2	37	2014-09-23 22:32:18.52428	2014-09-23 22:32:18.52428
-85	2	40	2014-09-23 22:32:20.722042	2014-09-23 22:32:20.722042
-88	2	38	2014-09-23 22:32:22.922702	2014-09-23 22:32:22.922702
-91	2	39	2014-09-23 22:32:24.777188	2014-09-23 22:32:24.777188
-94	2	42	2014-09-23 22:32:27.410499	2014-09-23 22:32:27.410499
-97	2	43	2014-09-23 22:32:29.480655	2014-09-23 22:32:29.480655
-100	2	44	2014-09-23 22:32:32.258141	2014-09-23 22:32:32.258141
-103	2	41	2014-09-23 22:32:34.605859	2014-09-23 22:32:34.605859
-104	1	48	2014-09-24 00:02:22.858148	2014-09-24 00:02:22.858148
-105	1	47	2014-09-24 00:02:25.542923	2014-09-24 00:02:25.542923
-107	1	45	2014-09-24 00:02:33.47308	2014-09-24 00:02:33.47308
-108	1	46	2014-09-24 00:48:51.180371	2014-09-24 00:48:51.180371
+128	1	37	2014-09-28 06:57:19.092833	2014-09-28 06:57:19.092833
+129	2	37	2014-09-28 06:57:21.703971	2014-09-28 06:57:21.703971
+130	1	38	2014-09-28 06:59:23.579168	2014-09-28 06:59:23.579168
+131	2	38	2014-09-28 06:59:25.293516	2014-09-28 06:59:25.293516
+132	1	39	2014-09-28 06:59:28.742979	2014-09-28 06:59:28.742979
+133	2	39	2014-09-28 06:59:30.501931	2014-09-28 06:59:30.501931
+134	1	46	2014-09-28 21:51:16.951183	2014-09-28 21:51:16.951183
+135	1	47	2014-09-28 21:51:20.558575	2014-09-28 21:51:20.558575
+136	1	48	2014-09-28 21:51:23.76354	2014-09-28 21:51:23.76354
+137	1	45	2014-09-28 21:51:27.1997	2014-09-28 21:51:27.1997
+138	2	42	2014-09-28 22:14:51.646227	2014-09-28 22:14:51.646227
+139	2	43	2014-09-28 22:14:55.492119	2014-09-28 22:14:55.492119
+140	2	44	2014-09-28 22:14:59.246691	2014-09-28 22:14:59.246691
+141	2	41	2014-09-28 22:15:02.512715	2014-09-28 22:15:02.512715
+142	2	40	2014-09-28 22:15:08.947484	2014-09-28 22:15:08.947484
+143	2	49	2014-09-29 07:36:19.673062	2014-09-29 07:36:19.673062
 \.
 
 
@@ -1657,26 +1821,28 @@ COPY monster_unlocks (id, user_id, monster_id, created_at, updated_at) FROM stdi
 -- Name: monster_unlocks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('monster_unlocks_id_seq', 108, true);
+SELECT pg_catalog.setval('monster_unlocks_id_seq', 143, true);
 
 
 --
 -- Data for Name: monsters; Type: TABLE DATA; Schema: public; Owner: alanmaule
 --
 
-COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_modifier, dmg_modifier, evolved_from_id, description, summon_cost) FROM stdin;
-37	Warrior	35000	2014-09-23 21:59:52.561238	2014-09-23 22:16:53.411136	2	6	1	1	0	Fights for their allies	0
-38	Mage	18000	2014-09-23 22:00:45.433872	2014-09-23 22:23:34.276788	3	4	1	1	0	Turns enemies into ash	0
-39	Healer	24000	2014-09-23 22:02:10.515674	2014-09-23 22:24:50.165931	7	1	1	1	0	Helps allies with powerful healing spells	0
-42	Archmage	10500	2014-09-23 22:27:23.953503	2014-09-23 22:27:23.953503	17	4	1	1	38	Eradicates all with amazing summon attacks	30
-43	Oracle	12000	2014-09-23 22:29:32.083957	2014-09-23 22:29:32.083957	18	1	1	1	39	The Messiah	30
-44	Assassin	9000	2014-09-23 22:30:48.190749	2014-09-23 22:30:48.190749	20	7	1	1	40	All that oppose will suffer	30
-41	Knight	16000	2014-09-23 22:10:24.560178	2014-09-23 22:31:52.933681	16	6	1	1	37	Tough as nails	30
-40	Rogue	15000	2014-09-23 22:07:33.634415	2014-09-23 23:29:18.470329	19	7	1	1	0	Suicidal unit that likes does massive damage with no care for safety	0
-46	Razor	30000	2014-09-23 23:58:53.371293	2014-09-23 23:58:53.371293	22	8	1	1	0	dog	0
-47	Scrolox	40000	2014-09-23 23:59:42.581157	2014-09-23 23:59:42.581157	23	8	1	1	0	Darkened Mage	0
-48	Phoenix	50000	2014-09-24 00:02:13.136873	2014-09-24 00:35:09.19223	24	4	1	1	0	Rose from the ashes to kill	0
-45	Arc Reactor	35000	2014-09-23 23:58:24.303523	2014-09-24 00:35:48.010255	21	8	1	1	0	machine	0
+COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_modifier, dmg_modifier, evolved_from_id, description, summon_cost, evolve_animation_file_name, evolve_animation_content_type, evolve_animation_file_size, evolve_animation_updated_at) FROM stdin;
+37	Warrior	35000	2014-09-23 21:59:52.561238	2014-09-23 22:16:53.411136	2	6	1	1	0	Fights for their allies	0	\N	\N	\N	\N
+38	Mage	18000	2014-09-23 22:00:45.433872	2014-09-23 22:23:34.276788	3	4	1	1	0	Turns enemies into ash	0	\N	\N	\N	\N
+39	Healer	24000	2014-09-23 22:02:10.515674	2014-09-23 22:24:50.165931	7	1	1	1	0	Helps allies with powerful healing spells	0	\N	\N	\N	\N
+42	Archmage	10500	2014-09-23 22:27:23.953503	2014-09-23 22:27:23.953503	17	4	1	1	38	Eradicates all with amazing summon attacks	30	\N	\N	\N	\N
+43	Oracle	12000	2014-09-23 22:29:32.083957	2014-09-23 22:29:32.083957	18	1	1	1	39	The Messiah	30	\N	\N	\N	\N
+44	Assassin	9000	2014-09-23 22:30:48.190749	2014-09-23 22:30:48.190749	20	7	1	1	40	All that oppose will suffer	30	\N	\N	\N	\N
+40	Rogue	15000	2014-09-23 22:07:33.634415	2014-09-23 23:29:18.470329	19	7	1	1	0	Suicidal unit that likes does massive damage with no care for safety	0	\N	\N	\N	\N
+46	Razor	30000	2014-09-23 23:58:53.371293	2014-09-23 23:58:53.371293	22	8	1	1	0	dog	0	\N	\N	\N	\N
+47	Scrolox	40000	2014-09-23 23:59:42.581157	2014-09-23 23:59:42.581157	23	8	1	1	0	Darkened Mage	0	\N	\N	\N	\N
+48	Phoenix	50000	2014-09-24 00:02:13.136873	2014-09-24 00:35:09.19223	24	4	1	1	0	Rose from the ashes to kill	0	\N	\N	\N	\N
+45	Arc Reactor	35000	2014-09-23 23:58:24.303523	2014-09-24 00:35:48.010255	21	8	1	1	0	machine	0	\N	\N	\N	\N
+50	Hello Kitty	1	2014-09-29 20:03:52.558064	2014-09-29 20:03:52.558064	26	1	1	1	0	Stupid Monster	1	\N	\N	\N	\N
+41	Knight	50000	2014-09-23 22:10:24.560178	2014-09-29 22:34:57.978255	16	6	1	1	37	Tough as nails	30	tinder.gif	image/gif	35854	2014-09-29 22:34:56.710996
+49	Berserker	35000	2014-09-29 07:34:21.33126	2014-09-29 22:36:41.18979	25	5	1	1	37	Slash some stuff dead	1	tinder.gif	image/gif	35854	2014-09-29 22:20:45.344449
 \.
 
 
@@ -1684,7 +1850,7 @@ COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_
 -- Name: monsters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('monsters_id_seq', 48, true);
+SELECT pg_catalog.setval('monsters_id_seq', 50, true);
 
 
 --
@@ -1837,6 +2003,12 @@ COPY schema_migrations (version) FROM stdin;
 20140923001557
 20140923001657
 20140924185941
+20140925012726
+20140925013046
+20140927025404
+20140927034235
+20140928054347
+20140929211257
 \.
 
 
@@ -1857,6 +2029,7 @@ COPY skin_restrictions (id, monster_skin_id, created_at, updated_at, job_id) FRO
 61	18	2014-09-24 00:09:23.985331	2014-09-24 00:09:23.985331	23
 62	19	2014-09-24 00:09:39.169687	2014-09-24 00:09:39.169687	22
 63	20	2014-09-24 00:10:04.047021	2014-09-24 00:10:04.047021	24
+64	21	2014-09-29 07:36:54.538586	2014-09-29 07:36:54.538586	25
 \.
 
 
@@ -1864,7 +2037,7 @@ COPY skin_restrictions (id, monster_skin_id, created_at, updated_at, job_id) FRO
 -- Name: skin_restrictions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('skin_restrictions_id_seq', 63, true);
+SELECT pg_catalog.setval('skin_restrictions_id_seq', 64, true);
 
 
 --
@@ -1925,7 +2098,7 @@ COPY targets (id, created_at, updated_at, name) FROM stdin;
 8	2014-09-19 00:06:57.089153	2014-09-19 00:06:57.089153	targetAlly
 9	2014-09-19 00:07:30.07739	2014-09-19 00:07:30.07739	targetEnemy
 10	2014-09-19 00:19:07.351939	2014-09-19 00:19:07.351939	self
-12	2014-09-23 16:48:01.047617	2014-09-23 16:48:01.047617	asdffdfdasf
+13	2014-09-27 01:44:38.025838	2014-09-27 01:44:38.025838	attack
 \.
 
 
@@ -1933,7 +2106,7 @@ COPY targets (id, created_at, updated_at, name) FROM stdin;
 -- Name: targets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
 --
 
-SELECT pg_catalog.setval('targets_id_seq', 12, true);
+SELECT pg_catalog.setval('targets_id_seq', 13, true);
 
 
 --
@@ -1943,7 +2116,7 @@ SELECT pg_catalog.setval('targets_id_seq', 12, true);
 COPY users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, first_name, last_name, user_name, currency, paid_currency, rank, created_at, updated_at, admin) FROM stdin;
 3	admin@admin.com	$2a$10$ltrScMtNl.tsIdGyo8jYbudtjapb2jE.qPResC30ZFaJTPpYLW0eC	\N	\N	\N	1	2014-09-15 03:39:18.630928	2014-09-15 03:39:18.630928	127.0.0.1	127.0.0.1			admin	\N	\N	\N	2014-09-15 03:39:18.629016	2014-09-15 03:39:18.631453	f
 1	npc@npc.com	$2a$10$BqGvO6jUa5hasNMCQDAqH.nJUvoh2UM9paNss23c27yZ/HXW779Y2	\N	\N	\N	2	2014-09-15 04:50:00.813847	2014-09-15 03:38:29.938324	127.0.0.1	127.0.0.1	NPC	NPC	NPC	\N	\N	\N	2014-09-15 03:38:29.923672	2014-09-15 04:50:00.814573	f
-2	amaule77@gmail.com	$2a$10$sjV0vxF7AwpVJ1xiMxnnAelkTSmWmu32WgxEPGP95GDCMChSn6FLO	\N	\N	\N	7	2014-09-24 01:02:28.282607	2014-09-22 20:46:21.943411	127.0.0.1	127.0.0.1			amaule	\N	\N	\N	2014-09-15 03:39:00.15361	2014-09-24 01:02:28.283936	f
+2	amaule77@gmail.com	$2a$10$sjV0vxF7AwpVJ1xiMxnnAelkTSmWmu32WgxEPGP95GDCMChSn6FLO	\N	\N	\N	8	2014-09-28 21:50:49.532326	2014-09-24 01:02:28.282607	127.0.0.1	127.0.0.1			amaule	\N	\N	\N	2014-09-15 03:39:00.15361	2014-09-28 21:50:49.533918	f
 \.
 
 
@@ -1952,6 +2125,14 @@ COPY users (id, email, encrypted_password, reset_password_token, reset_password_
 --
 
 SELECT pg_catalog.setval('users_id_seq', 3, true);
+
+
+--
+-- Name: abil_sockets_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+ALTER TABLE ONLY abil_sockets
+    ADD CONSTRAINT abil_sockets_pkey PRIMARY KEY (id);
 
 
 --
@@ -2163,6 +2344,13 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: index_abilities_on_abil_socket_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+--
+
+CREATE INDEX index_abilities_on_abil_socket_id ON abilities USING btree (abil_socket_id);
+
+
+--
 -- Name: index_abilities_on_element_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
 --
 
@@ -2205,17 +2393,10 @@ CREATE INDEX index_ability_equippings_on_ability_id ON ability_equippings USING 
 
 
 --
--- Name: index_ability_equippings_on_monster_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_ability_equippings_on_monster_unlock_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
 --
 
-CREATE INDEX index_ability_equippings_on_monster_id ON ability_equippings USING btree (monster_id);
-
-
---
--- Name: index_ability_equippings_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
---
-
-CREATE INDEX index_ability_equippings_on_user_id ON ability_equippings USING btree (user_id);
+CREATE INDEX index_ability_equippings_on_monster_unlock_id ON ability_equippings USING btree (monster_unlock_id);
 
 
 --
@@ -2317,10 +2498,10 @@ CREATE INDEX index_fights_on_party_id ON fights USING btree (party_id);
 
 
 --
--- Name: index_members_on_monster_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_members_on_monster_unlock_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
 --
 
-CREATE INDEX index_members_on_monster_id ON members USING btree (monster_id);
+CREATE INDEX index_members_on_monster_unlock_id ON members USING btree (monster_unlock_id);
 
 
 --
