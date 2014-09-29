@@ -41,7 +41,11 @@ class MonsterUnlock < ActiveRecord::Base
     self.monster.abilities.index(ability)
   end
 
-  def evolved_json
+  def evolve_animation
+    self.monster.evolve_animation.url(:medium)
+  end
+
+  def unlocked_evolves
 
     def unlocked_monsters_ids
       MonsterUnlock.where(user_id: self.user_id).pluck(:monster_id)
@@ -51,36 +55,58 @@ class MonsterUnlock < ActiveRecord::Base
       self.monster.evolutions.where(id: unlocked_monsters_ids).pluck(:id)
     end
 
-    def unlocked_evolves
-      MonsterUnlock.where(user_id: self.user_id, monster_id: linked_evolution_ids)
-    end
+    return MonsterUnlock.where(user_id: self.user_id, monster_id: linked_evolution_ids)
+  end
 
-    json_array = []
+  def mon_evols
+    json_array    = []
+    abil_array    = []
+    effect_array  = []
 
     unlocked_evolves.each do |unlocked_evo|
-      evolve_hash = { name:   unlocked_evo.monster.name,
-                      max_hp: unlocked_evo.monster.max_hp,
-                      hp:     unlocked_evo.monster.max_hp,
-                      summon: unlocked_evo.monster.summon_cost
-                      abilities: []
-                        unlocked_evo.monsters.abilities.each do |ability|
-                          { name: ability.name,
-                            ap_cost: ability.ap_cost,
-                            stat_change: ability.stat_change
-                          }
+      unlocked_evo.abilities.each do |ability|
+        ability_hash = { name:        ability.name,
+                         ap_cost:     ability.ap_cost,
+                         stat_change: ability.stat_change,
+                         stat:        ability.stat,
+                         targeta:     ability.targeta,
+                         elementa:    ability.elementa,
+                         change:      ability.change,
+                         modifier:    ability.modifier,
+                         img:         ability.img,
+                         slot:        ability.slot,
+                         effects:     effect_array
+                        }
 
+        ability.effects.each do |effect|
+          effect_hash = { name:        effect.name,
+                          stat_change: effect.stat_change,
+                          stat:        effect.stat,
+                          targeta:     effect.targeta,
+                          change:      effect.change,
+                          modifier:    effect.modifier
+                        }
+          effect_array.push(effect_hash)
+        end
 
+        abil_array.push(ability_hash)
+        effect_array = []
+      end
 
-                        end
+      evolve_hash = { name:      unlocked_evo.name,
+                      max_hp:    unlocked_evo.max_hp,
+                      hp:        unlocked_evo.max_hp,
+                      ap_cost:   unlocked_evo.monster.summon_cost,
+                      image:     unlocked_evo.image(self.user),
+                      animation: unlocked_evo.evolve_animation,
+                      abilities: abil_array
+                    }
+
       json_array.push(evolve_hash)
+      abil_array = []
     end
 
     return json_array
-
   end
-
-  # def linked_evolutions
-  #   self.monster.evolutions.where(id: MonsterUnlock.where(user_id: self.user_id).pluck(:monster_id))
-  # end
 
 end

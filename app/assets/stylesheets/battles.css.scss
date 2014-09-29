@@ -31,6 +31,12 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   left: 2px;
 };
 
+.controlling {
+  border: 2px solid;
+  border-color: rgba(250,184,19,0.65) !important;
+  border-radius: 5px;
+};
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////// Mix-in for monster icons
@@ -156,7 +162,7 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   };
 };
 
-.battle-message {
+.battle-message, .battle-guide {
   text-align: center;
   position: absolute;
   z-index: 100;
@@ -164,8 +170,18 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   top: 2%;
   left: 2%;
   border-radius: 10px;
-  background: $theme-background-color;
   display: none;
+};
+
+.battle-guide {
+  top: 220px;
+  left: 346px;
+  width: 150px;
+  background: rgba(250,184,19,0.65);
+};
+
+.battle-message {
+  background: rgba(235, 22, 22, 0.75);
 };
 
 
@@ -392,7 +408,7 @@ body {
     visibility: hidden;
     z-index: 2000;
     button {
-      width: 80px;
+      width: 65px;
       height: 40px;
       background: $theme-background-color;
       border-color: $theme-background-color;

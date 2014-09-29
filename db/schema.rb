@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140928054347) do
+ActiveRecord::Schema.define(version: 20140929211257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -231,6 +231,10 @@ ActiveRecord::Schema.define(version: 20140928054347) do
     t.integer  "evolved_from_id"
     t.text     "description"
     t.integer  "summon_cost"
+    t.string   "evolve_animation_file_name"
+    t.string   "evolve_animation_content_type"
+    t.integer  "evolve_animation_file_size"
+    t.datetime "evolve_animation_updated_at"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree

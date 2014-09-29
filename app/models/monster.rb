@@ -17,6 +17,13 @@ class Monster < ActiveRecord::Base
   has_many :monster_unlocked_users, through: :monster_unlocks, source: :user
   has_many :members, through: :monster_unlocks, dependent: :destroy
 
+  has_attached_file :evolve_animation,
+                    styles: { medium: "300 x 300>",
+                              small: "150x150>",
+                              thumb: "100 x 100>",
+                              tiny: "50 x 50>"}
+
+  validates_attachment_content_type :evolve_animation, :content_type => /\Aimage\/.*\Z/
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :max_hp, presence: {message: 'Must be entered'}
   validates :element_id, presence: {message: 'Must be entered'}
@@ -53,21 +60,5 @@ class Monster < ActiveRecord::Base
 
   def evolution_lookup
   end
-
-  # def abdex(ability)
-  #   self.abilities.index(ability)
-  # end
-
-  # def cost(index)
-  #   self.abilities[index].ap_cost
-  # end
-
-  # def target(index)
-  #   self.abilities[index].targeta
-  # end
-
-  # def hp
-  #   self.max_hp
-  # end
 
 end

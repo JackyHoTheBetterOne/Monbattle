@@ -45,6 +45,9 @@ class Ability < ActiveRecord::Base
   default_scope { order('abil_socket_id') }
   # before_save :add_slot
 
+  def slot
+    self.abil_socket.socket_num
+  end
 
   def stat
     self.stat_target.name.downcase

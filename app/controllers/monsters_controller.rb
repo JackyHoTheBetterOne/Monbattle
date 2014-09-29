@@ -49,18 +49,14 @@ class MonstersController < ApplicationController
   # end
 
   def update
-    # respond_to do |format|
-    #   format.html { render text: params.to_s }
-    #   format.js { render }
-      @monster.update_attributes(monster_params)
+    @monster.update_attributes(monster_params)
+    respond_to do |format|
       if @monster.save
-        @monster.ability_equippings.destroy_all
-        @monster.members.destroy_all
-        redirect_to monsters_path, notice: "Also Destroyed all Ability Equipping Associations and Party Associations!"
+        format.html { redirect_to monsters_path, notice: "Updated!" }
       else
-        redirect_to monsters_path, notice: "Failure!"
+        format.html { redirect_to monsters_path, notice: "Failure!" }
       end
-    # end
+    end
   end
 
   private
@@ -72,7 +68,7 @@ class MonstersController < ApplicationController
   def monster_params
     params.require(:monster).permit(
                                     :name, :max_hp, :monster_skin_id, :job_id, :element_id,:description,
-                                    :evolved_from_id, :hp_modifier, :dmg_modifier, :summon_cost
+                                    :evolved_from_id, :hp_modifier, :dmg_modifier, :summon_cost, :evolve_animation
                                     )
   end
 

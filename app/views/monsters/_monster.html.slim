@@ -22,6 +22,11 @@ tr id=dom_id(monster)
   td=monster.description
   td=monster.max_hp
   td=monster.summon_cost
+  td
+    -if monster.nil?
+      h5 "No Image!"
+    -else
+      =image_tag monster.evolve_animation.url(:thumb)
   td id="unlock_#{dom_id(monster)}"
     =render partial: "monster_unlocks/monster_unlock", locals: {monster: monster, monster_unlock: @monster_unlock}
 

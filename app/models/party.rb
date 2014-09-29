@@ -44,15 +44,15 @@ class Party < ActiveRecord::Base
       :methods => [:username, :isNPC],
       :include => {
         :mons => {
-          :only => [:monster_id],
-          :methods => [:name, :max_hp, :hp, :evolved_json],
+          :only => [],
+          :methods => [:name, :max_hp, :hp, :mon_evols],
           :include => {
             :abilities => {
-              :only => [:id, :name, :ap_cost, :stat_change],
+              :only => [:name, :ap_cost, :stat_change],
               :methods => [:stat, :targeta, :elementa, :change, :modifier, :img, :slot],
               :include => {
                 :effects => {
-                  :only => [:id, :name, :stat_change],
+                  :only => [:name, :stat_change],
                   :methods => [:stat, :targeta, :change, :modifier],
                 }
               }

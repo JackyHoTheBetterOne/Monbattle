@@ -24,7 +24,6 @@
               .form-control=f.select "job_id", options_for_select(Job.where(evolve_lvl: "0").where("jobs.id NOT IN (?)", Monster.pluck(:job_id)).collect{|job| [job.name + " Elvl: " + job.evolve_lvl, job.id]}, :selected => @monster.job)
           h4=f.label "The element of this monster"
           .form-control=f.collection_select :element_id, Element.all, :id, :name
-          =f.label "Click to see existing monsters -- (Feature coming Soon)"
           =f.label "This monster name is universal, so name it well!"
           =f.text_field :name, class: 'form-control'
           =f.label "The description of this monster"

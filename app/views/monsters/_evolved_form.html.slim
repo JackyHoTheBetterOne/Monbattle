@@ -1,4 +1,4 @@
-=form_for @monster do |f|
+=simple_form_for(@monster) do |f|
   div class='form-group'
     -case true
       -when Monster.all.empty?
@@ -27,7 +27,8 @@
               .form-control=f.select "job_id", options_for_select(Job.where(evolve_lvl: "1").where("jobs.id NOT IN (?)", Monster.pluck(:job_id)).collect{|job| [job.name + " Elvl: " + job.evolve_lvl, job.id]}, :selected => @monster.job)
           h4=f.label "The element of this evolved state"
           .form-control =f.collection_select :element_id, Element.all, :id, :name
-          =f.label "Click to see existing monsters -- (Feature coming Soon)"
+          =f.input :evolve_animation
+          =f.text_field :summon_cost, class: 'form-control'
           =f.label "This monster name is universal, so name it well!"
           =f.text_field :name, class: 'form-control'
           =f.label "The description of this evolved state"
@@ -38,6 +39,5 @@
           =f.text_field :hp_modifier, class: 'form-control'
           =f.label :dmg_modifier
           =f.text_field :dmg_modifier, class: 'form-control'
-          =f.label :summon_cost, class: 'form-control'
-          =f.text_field :summon_cost
+          =f.label :summon_cost
           hr=f.submit class: 'btn btn-primary'
