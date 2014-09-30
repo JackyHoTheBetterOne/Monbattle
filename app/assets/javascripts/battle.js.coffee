@@ -449,6 +449,7 @@ window.controlAI = (monIndex) ->
             hpChangeBattle()
             checkActionMonHealth()
             element.toggleClass "flipped ability-on"
+            element.attr("src", "")
             return
           ), 1000
           return
@@ -474,6 +475,7 @@ window.controlAI = (monIndex) ->
             hpChangeBattle()
             checkActionMonHealth()
             element.toggleClass "flipped ability-on aoePositionUser"
+            element.attr("src", "")
             return
           ), 1000
           return
@@ -499,9 +501,9 @@ window.ai = ->
     feedAiTargets()
     outcome()
     if teamPct(0) isnt 0
-      $(".battle-message").text(
-        battle.players[1].mons[1].name + ":" + " " + "I sleep with your wife every morning when you are out working").
-        effect("highlight", 500)
+      # $(".battle-message").text(
+      #   battle.players[1].mons[1].name + ":" + " " + "I sleep with your wife every morning when you are out working").
+      #   effect("highlight", 500)
       controlAI 1
       return
   ), timer1
@@ -798,6 +800,7 @@ $ ->
                       showDamageSingle()
                       hpChangeBattle()
                       element.toggleClass "ability-on"
+                      element.attr("src", "")
                       checkActionMonHealth()
                       outcome()
                       checkApAvailbility()
@@ -834,6 +837,7 @@ $ ->
                       showHealSingle()
                       hpChangeBattle()
                       element.toggleClass "ability-on"
+                      element.attr("src", "")
                       checkActionMonHealth()
                       outcome()
                       checkApAvailbility()
@@ -865,6 +869,7 @@ $ ->
                       apChange()
                       hpChangeBattle()
                       element.toggleClass "ability-on aoePositionFoe"
+                      element.attr("src", "")
                       checkActionMonHealth()
                       outcome()
                       checkApAvailbility()
@@ -897,6 +902,7 @@ $ ->
                     apChange()
                     hpChangeBattle()
                     element.toggleClass "ability-on aoePositionUser"
+                    element.attr("src", "")
                     checkActionMonHealth()
                     checkApAvailbility()
                     toggleImg()
@@ -920,6 +926,7 @@ $ ->
                   battle.evolve(0, targets[1], 0)
                   apChange()
                   abilityAnime.toggleClass "ability-on"
+                  element.attr("src", "")
                   checkApAvailbility()
                   toggleImg()
                   turnOnCommand(control)

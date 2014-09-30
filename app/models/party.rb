@@ -49,7 +49,7 @@ class Party < ActiveRecord::Base
           :methods => [:name, :max_hp, :hp, :mon_evols],
           :include => {
             :abilities => {
-              :only => [:name, :ap_cost, :stat_change],
+              :only => [:name, :ap_cost, :stat_change, :description],
               :methods => [:stat, :targeta, :elementa, :change, :modifier, :img, :slot],
               :include => {
                 :effects => {
