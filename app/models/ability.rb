@@ -29,12 +29,12 @@ class Ability < ActiveRecord::Base
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :ap_cost, presence: {message: 'Must be entered'}
   validates :description, presence: {message: 'Must be entered'}
-  validates :min_level, presence: {message: 'Must be entered'}
   validates :target_id, presence: {message: 'Must be entered'}
   validates :stat_target_id, presence: {message: 'Must be entered'}
   validates :element_id, presence: {message: 'Must be entered'}
   validates :stat_change, presence: {message: 'Must be entered'}
   validates :abil_socket_id, presence: {message: 'Must be entered'}
+  # validates :min_level, presence: {message: 'Must be entered'}
 
   delegate :name, :ap_cost, :description, :min_level, :target_id, :stat_target_id, :element_id,
            :stat_change, :abil_socket_id, :image,

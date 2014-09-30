@@ -28,11 +28,11 @@ class Monster < ActiveRecord::Base
   validates :max_hp, presence: {message: 'Must be entered'}
   validates :element_id, presence: {message: 'Must be entered'}
   validates :job_id, presence: {message: 'Must be entered'}
-  validates :dmg_modifier, presence: {message: 'Must be entered'}
-  validates :hp_modifier, presence: {message: 'Must be entered'}
   validates :description, presence: {message: 'Must be entered'}
   validates :evolved_from_id, presence: {message: 'Must be entered'}
   validates :summon_cost, presence: {message: 'Must be entered'}
+  # validates :dmg_modifier, presence: {message: 'Must be entered'}
+  # validates :hp_modifier, presence: {message: 'Must be entered'}
 
   def self.evolved
     self.joins(:evolved_from)
