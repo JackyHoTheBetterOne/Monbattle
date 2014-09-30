@@ -1,8 +1,10 @@
 <% if party.npc == false %>
   <div class="monBut">
-    <button class="attack" data-index= "0" data-apCost = "<%= mon.cost(0) %>" data-target= "attack">Attack</button>
+    <button class="attack" data-index= "0" data-apcost = "<%= mon.cost(0) %>" data-target= "attack">Attack</button>
     <button class="ability" data-index="1" data-apcost = "<%= mon.cost(1) %>" data-target= "<%= mon.target(1) %>">Ability</button>
-<!--     <button class="evolve" data-index="2" data-apCost = "" data-target= "">Evolve</button> -->
+    <% if mon.unlocked_evolves.exists? %>
+      <button class="evolve" data-apcost = "<%= mon.unlocked_evolves[0].ap_cost %>" data-target = "evolve">Evolve</button>
+    <% end %>
   </div>
 <% end %>
 
