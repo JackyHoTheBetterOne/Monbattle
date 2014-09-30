@@ -1,6 +1,6 @@
 -monster = User.find(user_id).unlocked_monsters.find "#{mon}"
 
-= form_for monster_skin_equipping do |f|
+= form_for monster_skin_equipping, remote: true do |f|
   div class='form-group'
     .form-control
       select name="monster_skin_equipping[monster_skin_id]" id="monster_skin_equipping_id"

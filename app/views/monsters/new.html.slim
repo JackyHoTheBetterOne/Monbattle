@@ -1,0 +1,4 @@
+-if @monster.errors.any?
+  ul
+    -@monster.errors.full_messages.each do |msg|
+      li= msg

@@ -7,8 +7,8 @@ class MonstersController < ApplicationController
     @jobs = Job.all
     @element = Element.new
     @elements = Element.all
-    @monster = Monster.new
     @monsters = Monster.all
+    @monster = Monster.new
   end
 
   def create
@@ -20,12 +20,10 @@ class MonstersController < ApplicationController
     @elements = Element.all
     respond_to do |format|
       if @monster.save
-        render :index
         format.html { redirect_to monsters_path, notice: "Monster saved" }
         format.js { render }
       else
-        format.html { redirect_to monsters_path, notice: "Failed!" }
-        format.js { render}
+        format.html { render :new }
       end
     end
   end
@@ -37,7 +35,7 @@ class MonstersController < ApplicationController
         format.js { render }
       end
     else
-      redirect_to monsters_path, notice: "Failure"
+      format.html { render :new }
     end
   end
 
@@ -54,7 +52,7 @@ class MonstersController < ApplicationController
       if @monster.save
         format.html { redirect_to monsters_path, notice: "Updated!" }
       else
-        format.html { redirect_to monsters_path, notice: "Failure!" }
+        ormat.html { render :new }
       end
     end
   end

@@ -5,7 +5,6 @@ class MonsterSkinsController < ApplicationController
     @monster_skin = MonsterSkin.new
     @monster_skins = MonsterSkin.all
     @monster_skin_purchase = MonsterSkinPurchase.new
-    @monster_skin_purchases = MonsterSkinPurchase.all
   end
 
   def create
