@@ -372,18 +372,18 @@ window.feedAiTargets = ->
     window.aiAbilities = [0,1]
     findTargetsBelowPct(1)
   else if teamPct() <= 0.8 && teamPct() >= 0.6
-    window.aiAbilities = [0,1]
-    findTargetsBelowPct(0.5)
-    findTargetsBelowPct(0.75) if aiTargets.length is 0
-  else if teamPct() < 0.6 && teamPct() >= 0.3
     window.aiAbilities = [1,2]
+    findTargetsBelowPct(0.5)
+    findTargetsAbovePct(0.8) if aiTargets.length is 0
+  else if teamPct() < 0.6 && teamPct() >= 0.4
+    window.aiAbilities = [0,3]
     findTargetsAbovePct(0.7)
     findTargetsAbovePct(0.4) if aiTargets.length is 0
-  else if teamPct() < 0.3 && teamPct() >= 0.1
+  else if teamPct() < 0.4 && teamPct() >= 0.2
     window.aiAbilities = [2,3]
     findTargets(3000)
     findTargets(5000) if aiTargets.length is 0 
-  else if teamPct() < 0.1
+  else if teamPct() < 0.2
     window.aiAbilities = [1,3]
     findTargets(2000) 
     findTargetsBelowPct(0.5) if aiTargets.length is 0
@@ -394,7 +394,7 @@ window.feedAiTargets = ->
 window.controlAI = (monIndex) ->
   if battle.players[1].mons[monIndex].hp > 0
     $(".battle-message").text(
-      battle.players[1].mons[1].name + ":" + " " + "I have a terrible childhood and now I fight other monsters randomly").
+      battle.players[1].mons[monIndex].name + ":" + " " + "I am angry!!!!!!!!!!!!!!!!!").
       effect("highlight", 500)
     battle.players[1].ap = 1000000000
     abilityIndex = getRandom(aiAbilities)
@@ -560,9 +560,12 @@ $ ->
 ############################################################################################### Battle logic
       window.battle = data
       battle.round = 1
-      battle.maxAP = 100
+      battle.maxAP = 10
       battle.calculateAP = ->
-        battle.maxAP = 10 * battle.round
+        if battle.round < 6 
+          battle.maxAP = 10 * battle.round
+        else 
+          battle.maxAP = 60
       battle.players[0].enemies = battle.players[1].mons
       battle.players[1].enemies = battle.players[0].mons
       setAll(battle.players, "ap", battle.maxAP)
