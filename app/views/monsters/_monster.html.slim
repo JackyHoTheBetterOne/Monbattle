@@ -7,11 +7,11 @@ tr id=dom_id(monster)
       =render partial: "admin/modal_button", locals: {monster: monster, modal_label: "monsterTemplateLabel_#{dom_id(monster)}", modal_id: "monsterTemplateModal_#{dom_id(monster)}", form_is_for: "monsters/form", button_name: "Edit Monster", form_title: "Edit Monster"}
       / br=link_to "Edit Template", edit_monster_path(monster), data: {confirm: "Will remove this monster from all parties using it and unequip its abilities!!"}, class: "btn btn-sm btn-info"
     -else
-      br=render partial: "admin/modal_button", locals: {modal_label: "evolvedStateTemplateLabel_#{dom_id(monster)}", modal_id: "evolvedStateTemplateModal_#{dom_id(monster)}", form_is_for: "monsters/evolved_form", button_name: " Edit Evolved State", form_title: "Edit Evolved State"}
+      =render partial: "admin/modal_button", locals: {modal_label: "evolvedStateTemplateLabel_#{dom_id(monster)}", modal_id: "evolvedStateTemplateModal_#{dom_id(monster)}", form_is_for: "monsters/evolved_form", button_name: " Edit Evolved State", form_title: "Edit Evolved State"}
     -if monster.evolutions.empty? == false
       h5 Evolved Form Using this
     -else
-      =link_to "Delete Template", monster, method: :delete, data: {confirm: "Will delete this monster from all users"}, class: "btn btn-std btn-danger", remote: true
+      br=link_to "Delete Template", monster, method: :delete, data: {confirm: "Will delete this monster from all users"}, class: "btn btn-std btn-danger", remote: true
   td=monster.job.name + "/" + monster.job.evolve_lvl
   td=monster.element.name
   td
@@ -28,6 +28,6 @@ tr id=dom_id(monster)
     -else
       =image_tag monster.evolve_animation.url(:thumb)
   td id="unlock_#{dom_id(monster)}"
-    =render partial: "monster_unlocks/monster_unlock", locals: {monster: monster, monster_unlock: @monster_unlock}
+    =render partial: "monster_unlocks/monster_unlock", locals: {monster: @monster, monster_unlock: @monster_unlock}
 
 

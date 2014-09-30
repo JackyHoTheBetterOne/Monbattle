@@ -27,7 +27,7 @@ class Monster < ActiveRecord::Base
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :max_hp, presence: {message: 'Must be entered'}
   validates :element_id, presence: {message: 'Must be entered'}
-  validates :job_id, presence: {message: 'Must be entered'}, uniqueness: true
+  validates :job_id, presence: {message: 'Must be entered'}
   validates :dmg_modifier, presence: {message: 'Must be entered'}
   validates :hp_modifier, presence: {message: 'Must be entered'}
   validates :description, presence: {message: 'Must be entered'}

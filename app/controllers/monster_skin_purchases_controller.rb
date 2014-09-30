@@ -1,22 +1,27 @@
 class MonsterSkinPurchasesController < ApplicationController
-  # before_action :authenticate_user!
   before_action :find_monster_skin_purchase, only: [:destroy]
-  before_action :find_monster_skin, only: [:create]
+  before_action :find_monster_skin
 
   def create
-    # render text: params.to_s
     @monster_skin_purchase = @monster_skin.monster_skin_purchases.new monster_skin_purchase_params
-    if @monster_skin_purchase.save
-      redirect_to monster_skins_path, notice: "Unlocked!"
-    else
-      redirect_to monster_skins_path, notice: "You fail"
+    respond_to do |format|
+      if @monster_skin_purchase.save
+        format.html { redirect_to monster_skins_path, notice: "Unlocked!" }
+        format.js { render :action }
+      else
+        redirect_to monster_skins_path, notice: "You fail"
+      end
     end
   end
 
   def destroy
-    # render text: params.to_s
-    if @monster_skin_purchase.destroy
-      redirect_to monster_skins_path, notice: "Monster Locked for User!"
+    respond_to do |format|
+      if @monster_skin_purchase.destroy
+        format.html { redirect_to monster_skins_path, notice: "Monster Locked for User!" }
+        format.js { render :action }
+      else
+        redirect_to monster_skins_path, notice: "You Fail"
+      end
     end
   end
 

@@ -85,43 +85,6 @@ window.checkMin = ->
     battle.players[0].mons[i].max_hp = 0 if mon.hp is 0
     i++
   return
-window.findTargets = (hp) ->
-  i = undefined
-  n = undefined
-  n = 3
-  i = 0
-  window.aiTargets = []
-  while i <= n
-    aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp <= hp &&
-                                                          battle.players[0].mons[i].hp > 0
-    i++
-  return
-window.totalUserHp = ->
-  i = undefined
-  n = undefined
-  totalCurrentHp = 0
-  n = 3
-  i = 0
-  while i <= n
-    totalCurrentHp += battle.players[0].mons[i].hp
-    i++
-  return totalCurrentHp
-window.teamPct = ->
-  i = undefined
-  n = undefined
-  totalCurrentHp = 0
-  totalMaxHp = 0
-  n = 3
-  i = 0
-  while i <= n
-    totalCurrentHp += battle.players[0].mons[i].hp
-    totalMaxHp += battle.players[0].mons[i].max_hp
-    i++
-  return totalCurrentHp/totalMaxHp
-window.getRandom = (array) ->
-  return array[Math.floor(Math.random()*array.length)]
-window.selectTarget = ->
-  return getRandom(aiTargets)
 window.action = ->
   battle.monAbility(targets[0], targets[1], targets[2], targets[3])
 window.multipleAction = ->
@@ -294,7 +257,7 @@ window.multipleTargetAbilityDisplayVariable = ->
 
 
 
-################################################################################################# Battle interaction helpers
+################################################################################################### Battle interaction helpers
 window.control = ->
   button = $(this).prev().css("visibility")
   if button is "visible"
@@ -341,16 +304,102 @@ window.toggleImg = ->
       $(this).attr("disabled", "true")
 
 
-########################################################################################################## AI
+
+############################################################################################################ AI logics
+window.findTargetsBelowPct = (pct) ->
+  i = undefined
+  n = undefined
+  n = 3
+  i = 0
+  window.aiTargets = []
+  while i <= n
+    aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp/battle.players[0].mons[i].max_hp <= pct &&
+                                                      battle.players[0].mons[i].hp > 0
+    i++
+  return 
+window.findTargetsAbovePct = (pct) ->
+  i = undefined
+  n = undefined
+  n = 3
+  i = 0
+  window.aiTargets = []
+  while i <= n
+    aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp/battle.players[0].mons[i].max_hp >= pct &&
+                                                      battle.players[0].mons[i].hp > 0
+    i++
+  return 
+window.findTargets = (hp) ->
+  i = undefined
+  n = undefined
+  n = 3
+  i = 0
+  window.aiTargets = []
+  while i <= n
+    aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp <= hp &&
+                                                      battle.players[0].mons[i].hp > 0
+    i++
+  return
+window.totalUserHp = ->
+  i = undefined
+  n = undefined
+  totalCurrentHp = 0
+  n = 3
+  i = 0
+  while i <= n
+    totalCurrentHp += battle.players[0].mons[i].hp
+    i++
+  return totalCurrentHp
+window.teamPct = ->
+  i = undefined
+  n = undefined
+  totalMaxHp = 0
+  n = 3
+  i = 0
+  while i <= n
+    totalMaxHp += battle.players[0].mons[i].max_hp
+    i++
+  return totalUserHp()/totalMaxHp
+window.getRandom = (array) ->
+  return array[Math.floor(Math.random()*array.length)]
+window.selectTarget = ->
+  return getRandom(aiTargets)
+
+
+
+############################################################################################################ AI target feed
+window.feedAiTargets = ->
+  if teamPct() > 0.8
+    window.aiAbilities = [0,1]
+    findTargetsBelowPct(1)
+  else if teamPct() <= 0.8 && teamPct() >= 0.6
+    window.aiAbilities = [1,2]
+    findTargetsBelowPct(0.5)
+    findTargetsAbovePct(0.8) if aiTargets.length is 0
+  else if teamPct() < 0.6 && teamPct() >= 0.4
+    window.aiAbilities = [0,3]
+    findTargetsAbovePct(0.7)
+    findTargetsAbovePct(0.4) if aiTargets.length is 0
+  else if teamPct() < 0.4 && teamPct() >= 0.2
+    window.aiAbilities = [2,3]
+    findTargets(3000)
+    findTargets(5000) if aiTargets.length is 0 
+  else if teamPct() < 0.2
+    window.aiAbilities = [1,3]
+    findTargets(2000) 
+    findTargetsBelowPct(0.5) if aiTargets.length is 0
+
+
+
+############################################################################################################ AI action helper
 window.controlAI = (monIndex) ->
   if battle.players[1].mons[monIndex].hp > 0
     $(".battle-message").text(
-      battle.players[1].mons[1].name + ":" + " " + "I have a terrible childhood and now I fight other monsters randomly").
+      battle.players[1].mons[monIndex].name + ":" + " " + "I am angry!!!!!!!!!!!!!!!!!").
       effect("highlight", 500)
     battle.players[1].ap = 1000000000
     abilityIndex = getRandom(aiAbilities)
-    ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
     targetIndex = getRandom(aiTargets)
+    ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
     switch ability.targeta
       when "attack"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
@@ -404,14 +453,14 @@ window.controlAI = (monIndex) ->
           ), 1000
           return
       when "aoeenemy"
-        window.targets = [1].concat [monIndex]
+        window.targets = [1].concat [monIndex, abilityIndex]
         currentMon = $(".enemy .mon" + monIndex.toString() + " " + ".img")
         currentMon.effect("bounce")
         abilityAnime = $(".ability-img")
         multipleAction()
         checkMax()
         multipleTargetAbilityDisplayVariable()
-        $(".ability-img").toggleClass "aoePositionFoe", ->
+        $(".ability-img").toggleClass "aoePositionUser", ->
           element = $(this)
           element.attr("src", callAbilityImg).toggleClass("flipped ability-on")
           $(".user.mon-slot .img").each ->
@@ -424,7 +473,7 @@ window.controlAI = (monIndex) ->
             showDamageTeam(0)
             hpChangeBattle()
             checkActionMonHealth()
-            element.toggleClass "flipped ability-on aoePositionFoe"
+            element.toggleClass "flipped ability-on aoePositionUser"
             return
           ), 1000
           return
@@ -433,20 +482,21 @@ window.AiObj = init: (monIndex) ->
   promise = controlAI(monIndex)
   promise
 
+
+
+############################################################################################################### AI actions
 window.ai = ->
   $(".img").removeClass("controlling")
   $(".monBut").css("visibility", "hidden")
   $(".enemy .img").attr("disabled", "true")
   toggleImg()
   $(".battle-message").fadeIn(1)
-  window.aiTargets = [0,1,2,3]
-  window.aiAbilities = [0,1]
   disable($(".end-turn"))
   battle.players[0].ap = 0
   battle.players[0].turn = false
   enemyTimer()
   setTimeout (->
-    findTargets 50000
+    feedAiTargets()
     outcome()
     if teamPct(0) isnt 0
       $(".battle-message").text(
@@ -456,21 +506,21 @@ window.ai = ->
       return
   ), timer1
   setTimeout (->
-    findTargets 50000
+    feedAiTargets()
     outcome()
     if teamPct() isnt 0
       controlAI 3
       return
   ), timer3
   setTimeout (->
-    findTargets 50000
+    feedAiTargets()
     outcome()
     if teamPct() isnt 0
       controlAI 2
       return
   ), timer2
   setTimeout (->
-    findTargets 50000
+    feedAiTargets()
     outcome()
     if teamPct() isnt 0
       controlAI 0
@@ -512,7 +562,10 @@ $ ->
       battle.round = 1
       battle.maxAP = 100
       battle.calculateAP = ->
-        battle.maxAP = 10 * battle.round
+        if battle.round < 6 
+          battle.maxAP = 10 * battle.round
+        else 
+          battle.maxAP = 60
       battle.players[0].enemies = battle.players[1].mons
       battle.players[1].enemies = battle.players[0].mons
       setAll(battle.players, "ap", battle.maxAP)
@@ -841,7 +894,7 @@ $ ->
                     showHealTeam(0)
                     apChange()
                     hpChangeBattle()
-                    element.toggleClass "ability-on aoePositionFoe"
+                    element.toggleClass "ability-on aoePositionUser"
                     checkActionMonHealth()
                     checkApAvailbility()
                     toggleImg()
@@ -852,7 +905,11 @@ $ ->
               when "evolve"
                 $(".user .img").removeClass("controlling")
                 toggleImg()
+<<<<<<< HEAD
                 disable(ability)
+=======
+                ability.remove()
+>>>>>>> 055dac7d66ca334769db0dbd7ac3b8a485706d37
                 abilityAnime = $(".single-ability-img")
                 targetMon = $(".0 .mon" + targets[1] + " " + ".img")
                 betterMon = battle.players[0].mons[targets[1]].mon_evols[0]

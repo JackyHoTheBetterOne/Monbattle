@@ -14,6 +14,7 @@ class Party < ActiveRecord::Base
                               uniqueness: {scope: :user_id}
 
   before_save :npcCheck
+  default_scope { order("npc") }
 
   default_scope { order('npc') }
 
@@ -91,6 +92,12 @@ class Party < ActiveRecord::Base
   def npcCheck
     if self.username == "NPC"
       self.npc = true
+<<<<<<< HEAD
+=======
+    else
+      self.npc = false
+      return true
+>>>>>>> 055dac7d66ca334769db0dbd7ac3b8a485706d37
     end
   end
 

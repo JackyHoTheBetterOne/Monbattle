@@ -6,7 +6,7 @@ class MonsterUnlocksController < ApplicationController
     @monster_unlock = @monster.monster_unlocks.new monster_unlock_params
     respond_to do |format|
       if @monster_unlock.save
-        format.js { render :action}
+        format.js { render :action }
         format.html { redirect_to monsters_path, notice: "Unlocked!" }
       else
         redirect_to monsters_path, notice: "You fail"
