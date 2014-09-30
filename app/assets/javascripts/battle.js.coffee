@@ -600,11 +600,13 @@ $ ->
         current_mon = @players[playerIndex].mons[monIndex]
         better_mon = @players[playerIndex].mons[monIndex].mon_evols[evolveIndex]
         added_hp = better_mon.max_hp - current_mon.max_hp
+        evolved_hp = current_mon.hp + added_hp
         if battle.players[playerIndex].ap >= better_mon.ap_cost
           battle.players[playerIndex].ap -= better_mon.ap_cost
           battle.players[playerIndex].mons[monIndex] = better_mon
           fixEvolMon(battle.players[playerIndex].mons[monIndex], battle.players[playerIndex])
           evolved_mon = battle.players[playerIndex].mons[monIndex]
+          battle.players[playerIndex].mons[monIndex].hp = evolved_hp
           damageBoxAnime(0, targets[1], "+" + added_hp.toString(), "rgba(50,205,50)")
           monDiv = ".0 .mon" + targets[1].toString()
           $(monDiv + " " + ".max-hp").text("/" + " " + better_mon.max_hp)
