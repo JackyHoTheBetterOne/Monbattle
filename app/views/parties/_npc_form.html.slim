@@ -3,10 +3,10 @@
     h1 Make a user named NPC!
   -else
     =f.hidden_field :user_id, value: User.find_by_user_name("NPC").id
-    -if BattleLevel.where("battle_levels.name NOT IN (?)", User.find_by_user_name("NPC").parties.pluck(:name)).empty?
-      h2 Make more Stage Names First!
-    -elsif User.find_by_user_name("NPC").parties.empty?
+    -if User.find_by_user_name("NPC").parties.empty?
       .form-control =f.collection_select :name, BattleLevel.all, :name, :name
+    -elsif BattleLevel.where("battle_levels.name NOT IN (?)", User.find_by_user_name("NPC").parties.pluck(:name)).empty?
+      h2 Make more Stage Names First!
     -else
       .form-control
         select name="party[name]" id="name"

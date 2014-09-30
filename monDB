@@ -30,7 +30,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: abil_sockets; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: abil_sockets; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE abil_sockets (
@@ -41,10 +41,10 @@ CREATE TABLE abil_sockets (
 );
 
 
-ALTER TABLE public.abil_sockets OWNER TO alanmaule;
+ALTER TABLE public.abil_sockets OWNER TO jackyho;
 
 --
--- Name: abil_sockets_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: abil_sockets_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE abil_sockets_id_seq
@@ -55,17 +55,17 @@ CREATE SEQUENCE abil_sockets_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.abil_sockets_id_seq OWNER TO alanmaule;
+ALTER TABLE public.abil_sockets_id_seq OWNER TO jackyho;
 
 --
--- Name: abil_sockets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: abil_sockets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE abil_sockets_id_seq OWNED BY abil_sockets.id;
 
 
 --
--- Name: abilities; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: abilities; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE abilities (
@@ -90,10 +90,10 @@ CREATE TABLE abilities (
 );
 
 
-ALTER TABLE public.abilities OWNER TO alanmaule;
+ALTER TABLE public.abilities OWNER TO jackyho;
 
 --
--- Name: abilities_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: abilities_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE abilities_id_seq
@@ -104,17 +104,17 @@ CREATE SEQUENCE abilities_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.abilities_id_seq OWNER TO alanmaule;
+ALTER TABLE public.abilities_id_seq OWNER TO jackyho;
 
 --
--- Name: abilities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: abilities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE abilities_id_seq OWNED BY abilities.id;
 
 
 --
--- Name: ability_effects; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: ability_effects; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE ability_effects (
@@ -126,10 +126,10 @@ CREATE TABLE ability_effects (
 );
 
 
-ALTER TABLE public.ability_effects OWNER TO alanmaule;
+ALTER TABLE public.ability_effects OWNER TO jackyho;
 
 --
--- Name: ability_effects_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: ability_effects_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE ability_effects_id_seq
@@ -140,17 +140,17 @@ CREATE SEQUENCE ability_effects_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ability_effects_id_seq OWNER TO alanmaule;
+ALTER TABLE public.ability_effects_id_seq OWNER TO jackyho;
 
 --
--- Name: ability_effects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: ability_effects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE ability_effects_id_seq OWNED BY ability_effects.id;
 
 
 --
--- Name: ability_equippings; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: ability_equippings; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE ability_equippings (
@@ -162,10 +162,10 @@ CREATE TABLE ability_equippings (
 );
 
 
-ALTER TABLE public.ability_equippings OWNER TO alanmaule;
+ALTER TABLE public.ability_equippings OWNER TO jackyho;
 
 --
--- Name: ability_equippings_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: ability_equippings_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE ability_equippings_id_seq
@@ -176,17 +176,17 @@ CREATE SEQUENCE ability_equippings_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ability_equippings_id_seq OWNER TO alanmaule;
+ALTER TABLE public.ability_equippings_id_seq OWNER TO jackyho;
 
 --
--- Name: ability_equippings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: ability_equippings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE ability_equippings_id_seq OWNED BY ability_equippings.id;
 
 
 --
--- Name: ability_purchases; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: ability_purchases; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE ability_purchases (
@@ -198,10 +198,10 @@ CREATE TABLE ability_purchases (
 );
 
 
-ALTER TABLE public.ability_purchases OWNER TO alanmaule;
+ALTER TABLE public.ability_purchases OWNER TO jackyho;
 
 --
--- Name: ability_purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: ability_purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE ability_purchases_id_seq
@@ -212,17 +212,17 @@ CREATE SEQUENCE ability_purchases_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ability_purchases_id_seq OWNER TO alanmaule;
+ALTER TABLE public.ability_purchases_id_seq OWNER TO jackyho;
 
 --
--- Name: ability_purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: ability_purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE ability_purchases_id_seq OWNED BY ability_purchases.id;
 
 
 --
--- Name: ability_restrictions; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: ability_restrictions; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE ability_restrictions (
@@ -234,10 +234,10 @@ CREATE TABLE ability_restrictions (
 );
 
 
-ALTER TABLE public.ability_restrictions OWNER TO alanmaule;
+ALTER TABLE public.ability_restrictions OWNER TO jackyho;
 
 --
--- Name: ability_restrictions_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: ability_restrictions_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE ability_restrictions_id_seq
@@ -248,17 +248,17 @@ CREATE SEQUENCE ability_restrictions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ability_restrictions_id_seq OWNER TO alanmaule;
+ALTER TABLE public.ability_restrictions_id_seq OWNER TO jackyho;
 
 --
--- Name: ability_restrictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: ability_restrictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE ability_restrictions_id_seq OWNED BY ability_restrictions.id;
 
 
 --
--- Name: backgrounds; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: backgrounds; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE backgrounds (
@@ -270,10 +270,10 @@ CREATE TABLE backgrounds (
 );
 
 
-ALTER TABLE public.backgrounds OWNER TO alanmaule;
+ALTER TABLE public.backgrounds OWNER TO jackyho;
 
 --
--- Name: backgrounds_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: backgrounds_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE backgrounds_id_seq
@@ -284,17 +284,17 @@ CREATE SEQUENCE backgrounds_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.backgrounds_id_seq OWNER TO alanmaule;
+ALTER TABLE public.backgrounds_id_seq OWNER TO jackyho;
 
 --
--- Name: backgrounds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: backgrounds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE backgrounds_id_seq OWNED BY backgrounds.id;
 
 
 --
--- Name: battle_levels; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: battle_levels; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE battle_levels (
@@ -307,10 +307,10 @@ CREATE TABLE battle_levels (
 );
 
 
-ALTER TABLE public.battle_levels OWNER TO alanmaule;
+ALTER TABLE public.battle_levels OWNER TO jackyho;
 
 --
--- Name: battle_levels_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: battle_levels_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE battle_levels_id_seq
@@ -321,17 +321,17 @@ CREATE SEQUENCE battle_levels_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.battle_levels_id_seq OWNER TO alanmaule;
+ALTER TABLE public.battle_levels_id_seq OWNER TO jackyho;
 
 --
--- Name: battle_levels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: battle_levels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE battle_levels_id_seq OWNED BY battle_levels.id;
 
 
 --
--- Name: battles; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: battles; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE battles (
@@ -343,10 +343,10 @@ CREATE TABLE battles (
 );
 
 
-ALTER TABLE public.battles OWNER TO alanmaule;
+ALTER TABLE public.battles OWNER TO jackyho;
 
 --
--- Name: battles_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: battles_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE battles_id_seq
@@ -357,17 +357,17 @@ CREATE SEQUENCE battles_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.battles_id_seq OWNER TO alanmaule;
+ALTER TABLE public.battles_id_seq OWNER TO jackyho;
 
 --
--- Name: battles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: battles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE battles_id_seq OWNED BY battles.id;
 
 
 --
--- Name: effects; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: effects; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE effects (
@@ -382,10 +382,10 @@ CREATE TABLE effects (
 );
 
 
-ALTER TABLE public.effects OWNER TO alanmaule;
+ALTER TABLE public.effects OWNER TO jackyho;
 
 --
--- Name: effects_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: effects_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE effects_id_seq
@@ -396,17 +396,17 @@ CREATE SEQUENCE effects_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.effects_id_seq OWNER TO alanmaule;
+ALTER TABLE public.effects_id_seq OWNER TO jackyho;
 
 --
--- Name: effects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: effects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE effects_id_seq OWNED BY effects.id;
 
 
 --
--- Name: elements; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: elements; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE elements (
@@ -417,10 +417,10 @@ CREATE TABLE elements (
 );
 
 
-ALTER TABLE public.elements OWNER TO alanmaule;
+ALTER TABLE public.elements OWNER TO jackyho;
 
 --
--- Name: elements_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: elements_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE elements_id_seq
@@ -431,17 +431,17 @@ CREATE SEQUENCE elements_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.elements_id_seq OWNER TO alanmaule;
+ALTER TABLE public.elements_id_seq OWNER TO jackyho;
 
 --
--- Name: elements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: elements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE elements_id_seq OWNED BY elements.id;
 
 
 --
--- Name: evolved_states; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: evolved_states; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE evolved_states (
@@ -460,10 +460,10 @@ CREATE TABLE evolved_states (
 );
 
 
-ALTER TABLE public.evolved_states OWNER TO alanmaule;
+ALTER TABLE public.evolved_states OWNER TO jackyho;
 
 --
--- Name: evolved_states_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: evolved_states_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE evolved_states_id_seq
@@ -474,17 +474,17 @@ CREATE SEQUENCE evolved_states_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.evolved_states_id_seq OWNER TO alanmaule;
+ALTER TABLE public.evolved_states_id_seq OWNER TO jackyho;
 
 --
--- Name: evolved_states_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: evolved_states_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE evolved_states_id_seq OWNED BY evolved_states.id;
 
 
 --
--- Name: fights; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: fights; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE fights (
@@ -496,10 +496,10 @@ CREATE TABLE fights (
 );
 
 
-ALTER TABLE public.fights OWNER TO alanmaule;
+ALTER TABLE public.fights OWNER TO jackyho;
 
 --
--- Name: fights_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: fights_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE fights_id_seq
@@ -510,17 +510,17 @@ CREATE SEQUENCE fights_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.fights_id_seq OWNER TO alanmaule;
+ALTER TABLE public.fights_id_seq OWNER TO jackyho;
 
 --
--- Name: fights_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: fights_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE fights_id_seq OWNED BY fights.id;
 
 
 --
--- Name: jobs; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: jobs; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE jobs (
@@ -532,10 +532,10 @@ CREATE TABLE jobs (
 );
 
 
-ALTER TABLE public.jobs OWNER TO alanmaule;
+ALTER TABLE public.jobs OWNER TO jackyho;
 
 --
--- Name: jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE jobs_id_seq
@@ -546,17 +546,17 @@ CREATE SEQUENCE jobs_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.jobs_id_seq OWNER TO alanmaule;
+ALTER TABLE public.jobs_id_seq OWNER TO jackyho;
 
 --
--- Name: jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE jobs_id_seq OWNED BY jobs.id;
 
 
 --
--- Name: members; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: members; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE members (
@@ -568,10 +568,10 @@ CREATE TABLE members (
 );
 
 
-ALTER TABLE public.members OWNER TO alanmaule;
+ALTER TABLE public.members OWNER TO jackyho;
 
 --
--- Name: members_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: members_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE members_id_seq
@@ -582,17 +582,17 @@ CREATE SEQUENCE members_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.members_id_seq OWNER TO alanmaule;
+ALTER TABLE public.members_id_seq OWNER TO jackyho;
 
 --
--- Name: members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE members_id_seq OWNED BY members.id;
 
 
 --
--- Name: monster_skin_equippings; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: monster_skin_equippings; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE monster_skin_equippings (
@@ -605,10 +605,10 @@ CREATE TABLE monster_skin_equippings (
 );
 
 
-ALTER TABLE public.monster_skin_equippings OWNER TO alanmaule;
+ALTER TABLE public.monster_skin_equippings OWNER TO jackyho;
 
 --
--- Name: monster_skin_equippings_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: monster_skin_equippings_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE monster_skin_equippings_id_seq
@@ -619,17 +619,17 @@ CREATE SEQUENCE monster_skin_equippings_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.monster_skin_equippings_id_seq OWNER TO alanmaule;
+ALTER TABLE public.monster_skin_equippings_id_seq OWNER TO jackyho;
 
 --
--- Name: monster_skin_equippings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: monster_skin_equippings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE monster_skin_equippings_id_seq OWNED BY monster_skin_equippings.id;
 
 
 --
--- Name: monster_skin_purchases; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: monster_skin_purchases; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE monster_skin_purchases (
@@ -641,10 +641,10 @@ CREATE TABLE monster_skin_purchases (
 );
 
 
-ALTER TABLE public.monster_skin_purchases OWNER TO alanmaule;
+ALTER TABLE public.monster_skin_purchases OWNER TO jackyho;
 
 --
--- Name: monster_skin_purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: monster_skin_purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE monster_skin_purchases_id_seq
@@ -655,17 +655,17 @@ CREATE SEQUENCE monster_skin_purchases_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.monster_skin_purchases_id_seq OWNER TO alanmaule;
+ALTER TABLE public.monster_skin_purchases_id_seq OWNER TO jackyho;
 
 --
--- Name: monster_skin_purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: monster_skin_purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE monster_skin_purchases_id_seq OWNED BY monster_skin_purchases.id;
 
 
 --
--- Name: monster_skins; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: monster_skins; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE monster_skins (
@@ -680,10 +680,10 @@ CREATE TABLE monster_skins (
 );
 
 
-ALTER TABLE public.monster_skins OWNER TO alanmaule;
+ALTER TABLE public.monster_skins OWNER TO jackyho;
 
 --
--- Name: monster_skins_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: monster_skins_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE monster_skins_id_seq
@@ -694,17 +694,17 @@ CREATE SEQUENCE monster_skins_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.monster_skins_id_seq OWNER TO alanmaule;
+ALTER TABLE public.monster_skins_id_seq OWNER TO jackyho;
 
 --
--- Name: monster_skins_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: monster_skins_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE monster_skins_id_seq OWNED BY monster_skins.id;
 
 
 --
--- Name: monster_unlocks; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: monster_unlocks; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE monster_unlocks (
@@ -716,10 +716,10 @@ CREATE TABLE monster_unlocks (
 );
 
 
-ALTER TABLE public.monster_unlocks OWNER TO alanmaule;
+ALTER TABLE public.monster_unlocks OWNER TO jackyho;
 
 --
--- Name: monster_unlocks_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: monster_unlocks_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE monster_unlocks_id_seq
@@ -730,17 +730,17 @@ CREATE SEQUENCE monster_unlocks_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.monster_unlocks_id_seq OWNER TO alanmaule;
+ALTER TABLE public.monster_unlocks_id_seq OWNER TO jackyho;
 
 --
--- Name: monster_unlocks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: monster_unlocks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE monster_unlocks_id_seq OWNED BY monster_unlocks.id;
 
 
 --
--- Name: monsters; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: monsters; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE monsters (
@@ -763,10 +763,10 @@ CREATE TABLE monsters (
 );
 
 
-ALTER TABLE public.monsters OWNER TO alanmaule;
+ALTER TABLE public.monsters OWNER TO jackyho;
 
 --
--- Name: monsters_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: monsters_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE monsters_id_seq
@@ -777,17 +777,17 @@ CREATE SEQUENCE monsters_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.monsters_id_seq OWNER TO alanmaule;
+ALTER TABLE public.monsters_id_seq OWNER TO jackyho;
 
 --
--- Name: monsters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: monsters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE monsters_id_seq OWNED BY monsters.id;
 
 
 --
--- Name: parties; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: parties; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE parties (
@@ -800,10 +800,10 @@ CREATE TABLE parties (
 );
 
 
-ALTER TABLE public.parties OWNER TO alanmaule;
+ALTER TABLE public.parties OWNER TO jackyho;
 
 --
--- Name: parties_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: parties_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE parties_id_seq
@@ -814,17 +814,17 @@ CREATE SEQUENCE parties_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.parties_id_seq OWNER TO alanmaule;
+ALTER TABLE public.parties_id_seq OWNER TO jackyho;
 
 --
--- Name: parties_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: parties_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE parties_id_seq OWNED BY parties.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE schema_migrations (
@@ -832,10 +832,10 @@ CREATE TABLE schema_migrations (
 );
 
 
-ALTER TABLE public.schema_migrations OWNER TO alanmaule;
+ALTER TABLE public.schema_migrations OWNER TO jackyho;
 
 --
--- Name: skin_restrictions; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: skin_restrictions; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE skin_restrictions (
@@ -847,10 +847,10 @@ CREATE TABLE skin_restrictions (
 );
 
 
-ALTER TABLE public.skin_restrictions OWNER TO alanmaule;
+ALTER TABLE public.skin_restrictions OWNER TO jackyho;
 
 --
--- Name: skin_restrictions_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: skin_restrictions_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE skin_restrictions_id_seq
@@ -861,17 +861,17 @@ CREATE SEQUENCE skin_restrictions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.skin_restrictions_id_seq OWNER TO alanmaule;
+ALTER TABLE public.skin_restrictions_id_seq OWNER TO jackyho;
 
 --
--- Name: skin_restrictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: skin_restrictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE skin_restrictions_id_seq OWNED BY skin_restrictions.id;
 
 
 --
--- Name: stat_targets; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: stat_targets; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE stat_targets (
@@ -882,10 +882,10 @@ CREATE TABLE stat_targets (
 );
 
 
-ALTER TABLE public.stat_targets OWNER TO alanmaule;
+ALTER TABLE public.stat_targets OWNER TO jackyho;
 
 --
--- Name: stat_targets_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: stat_targets_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE stat_targets_id_seq
@@ -896,17 +896,17 @@ CREATE SEQUENCE stat_targets_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.stat_targets_id_seq OWNER TO alanmaule;
+ALTER TABLE public.stat_targets_id_seq OWNER TO jackyho;
 
 --
--- Name: stat_targets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: stat_targets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE stat_targets_id_seq OWNED BY stat_targets.id;
 
 
 --
--- Name: summoner_levels; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: summoner_levels; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE summoner_levels (
@@ -920,10 +920,10 @@ CREATE TABLE summoner_levels (
 );
 
 
-ALTER TABLE public.summoner_levels OWNER TO alanmaule;
+ALTER TABLE public.summoner_levels OWNER TO jackyho;
 
 --
--- Name: summoner_levels_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: summoner_levels_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE summoner_levels_id_seq
@@ -934,17 +934,17 @@ CREATE SEQUENCE summoner_levels_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.summoner_levels_id_seq OWNER TO alanmaule;
+ALTER TABLE public.summoner_levels_id_seq OWNER TO jackyho;
 
 --
--- Name: summoner_levels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: summoner_levels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE summoner_levels_id_seq OWNED BY summoner_levels.id;
 
 
 --
--- Name: summoners; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: summoners; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE summoners (
@@ -959,10 +959,10 @@ CREATE TABLE summoners (
 );
 
 
-ALTER TABLE public.summoners OWNER TO alanmaule;
+ALTER TABLE public.summoners OWNER TO jackyho;
 
 --
--- Name: summoners_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: summoners_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE summoners_id_seq
@@ -973,17 +973,17 @@ CREATE SEQUENCE summoners_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.summoners_id_seq OWNER TO alanmaule;
+ALTER TABLE public.summoners_id_seq OWNER TO jackyho;
 
 --
--- Name: summoners_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: summoners_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE summoners_id_seq OWNED BY summoners.id;
 
 
 --
--- Name: targets; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: targets; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE targets (
@@ -994,10 +994,10 @@ CREATE TABLE targets (
 );
 
 
-ALTER TABLE public.targets OWNER TO alanmaule;
+ALTER TABLE public.targets OWNER TO jackyho;
 
 --
--- Name: targets_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: targets_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE targets_id_seq
@@ -1008,17 +1008,17 @@ CREATE SEQUENCE targets_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.targets_id_seq OWNER TO alanmaule;
+ALTER TABLE public.targets_id_seq OWNER TO jackyho;
 
 --
--- Name: targets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: targets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE targets_id_seq OWNED BY targets.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE TABLE users (
@@ -1045,10 +1045,10 @@ CREATE TABLE users (
 );
 
 
-ALTER TABLE public.users OWNER TO alanmaule;
+ALTER TABLE public.users OWNER TO jackyho;
 
 --
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: alanmaule
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: jackyho
 --
 
 CREATE SEQUENCE users_id_seq
@@ -1059,206 +1059,206 @@ CREATE SEQUENCE users_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.users_id_seq OWNER TO alanmaule;
+ALTER TABLE public.users_id_seq OWNER TO jackyho;
 
 --
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alanmaule
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jackyho
 --
 
 ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY abil_sockets ALTER COLUMN id SET DEFAULT nextval('abil_sockets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY abilities ALTER COLUMN id SET DEFAULT nextval('abilities_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY ability_effects ALTER COLUMN id SET DEFAULT nextval('ability_effects_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY ability_equippings ALTER COLUMN id SET DEFAULT nextval('ability_equippings_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY ability_purchases ALTER COLUMN id SET DEFAULT nextval('ability_purchases_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY ability_restrictions ALTER COLUMN id SET DEFAULT nextval('ability_restrictions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY backgrounds ALTER COLUMN id SET DEFAULT nextval('backgrounds_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY battle_levels ALTER COLUMN id SET DEFAULT nextval('battle_levels_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY battles ALTER COLUMN id SET DEFAULT nextval('battles_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY effects ALTER COLUMN id SET DEFAULT nextval('effects_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY elements ALTER COLUMN id SET DEFAULT nextval('elements_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY evolved_states ALTER COLUMN id SET DEFAULT nextval('evolved_states_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY fights ALTER COLUMN id SET DEFAULT nextval('fights_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY jobs ALTER COLUMN id SET DEFAULT nextval('jobs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY members ALTER COLUMN id SET DEFAULT nextval('members_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY monster_skin_equippings ALTER COLUMN id SET DEFAULT nextval('monster_skin_equippings_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY monster_skin_purchases ALTER COLUMN id SET DEFAULT nextval('monster_skin_purchases_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY monster_skins ALTER COLUMN id SET DEFAULT nextval('monster_skins_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY monster_unlocks ALTER COLUMN id SET DEFAULT nextval('monster_unlocks_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY monsters ALTER COLUMN id SET DEFAULT nextval('monsters_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY parties ALTER COLUMN id SET DEFAULT nextval('parties_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY skin_restrictions ALTER COLUMN id SET DEFAULT nextval('skin_restrictions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY stat_targets ALTER COLUMN id SET DEFAULT nextval('stat_targets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY summoner_levels ALTER COLUMN id SET DEFAULT nextval('summoner_levels_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY summoners ALTER COLUMN id SET DEFAULT nextval('summoners_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY targets ALTER COLUMN id SET DEFAULT nextval('targets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: alanmaule
+-- Name: id; Type: DEFAULT; Schema: public; Owner: jackyho
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
--- Data for Name: abil_sockets; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: abil_sockets; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY abil_sockets (id, socket_num, created_at, updated_at) FROM stdin;
@@ -1271,14 +1271,14 @@ COPY abil_sockets (id, socket_num, created_at, updated_at) FROM stdin;
 
 
 --
--- Name: abil_sockets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: abil_sockets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('abil_sockets_id_seq', 5, true);
 
 
 --
--- Data for Name: abilities; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: abilities; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY abilities (id, name, ap_cost, store_price, min_level, price, created_at, updated_at, description, stat_change, target_id, element_id, stat_target_id, image_file_name, image_content_type, image_file_size, image_updated_at, abil_socket_id) FROM stdin;
@@ -1300,14 +1300,14 @@ COPY abilities (id, name, ap_cost, store_price, min_level, price, created_at, up
 
 
 --
--- Name: abilities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: abilities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('abilities_id_seq', 30, true);
 
 
 --
--- Data for Name: ability_effects; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: ability_effects; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY ability_effects (id, ability_id, effect_id, created_at, updated_at) FROM stdin;
@@ -1317,14 +1317,14 @@ COPY ability_effects (id, ability_id, effect_id, created_at, updated_at) FROM st
 
 
 --
--- Name: ability_effects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: ability_effects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('ability_effects_id_seq', 19, true);
 
 
 --
--- Data for Name: ability_equippings; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: ability_equippings; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY ability_equippings (id, ability_id, created_at, updated_at, monster_unlock_id) FROM stdin;
@@ -1360,8 +1360,6 @@ COPY ability_equippings (id, ability_id, created_at, updated_at, monster_unlock_
 180	30	2014-09-29 00:59:19.163732	2014-09-29 00:59:19.163732	134
 181	20	2014-09-29 01:08:43.153493	2014-09-29 01:08:43.153493	131
 182	20	2014-09-29 01:08:58.346692	2014-09-29 01:08:58.346692	138
-183	28	2014-09-29 07:39:04.198972	2014-09-29 07:39:04.198972	143
-184	19	2014-09-29 07:39:06.021548	2014-09-29 07:39:06.021548	143
 185	28	2014-09-29 17:28:07.585489	2014-09-29 17:28:07.585489	138
 186	28	2014-09-29 17:28:10.370189	2014-09-29 17:28:10.370189	139
 187	28	2014-09-29 17:28:13.016255	2014-09-29 17:28:13.016255	140
@@ -1371,14 +1369,14 @@ COPY ability_equippings (id, ability_id, created_at, updated_at, monster_unlock_
 
 
 --
--- Name: ability_equippings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: ability_equippings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('ability_equippings_id_seq', 189, true);
 
 
 --
--- Data for Name: ability_purchases; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: ability_purchases; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY ability_purchases (id, ability_id, user_id, created_at, updated_at) FROM stdin;
@@ -1419,14 +1417,14 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at) FROM st
 
 
 --
--- Name: ability_purchases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: ability_purchases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('ability_purchases_id_seq', 49, true);
 
 
 --
--- Data for Name: ability_restrictions; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: ability_restrictions; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY ability_restrictions (id, job_id, ability_id, created_at, updated_at) FROM stdin;
@@ -1469,14 +1467,14 @@ COPY ability_restrictions (id, job_id, ability_id, created_at, updated_at) FROM 
 
 
 --
--- Name: ability_restrictions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: ability_restrictions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('ability_restrictions_id_seq', 119, true);
 
 
 --
--- Data for Name: backgrounds; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: backgrounds; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY backgrounds (id, name, image, created_at, updated_at) FROM stdin;
@@ -1484,14 +1482,14 @@ COPY backgrounds (id, name, image, created_at, updated_at) FROM stdin;
 
 
 --
--- Name: backgrounds_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: backgrounds_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('backgrounds_id_seq', 1, false);
 
 
 --
--- Data for Name: battle_levels; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: battle_levels; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY battle_levels (id, item_given, exp_given, created_at, updated_at, name) FROM stdin;
@@ -1503,14 +1501,14 @@ COPY battle_levels (id, item_given, exp_given, created_at, updated_at, name) FRO
 
 
 --
--- Name: battle_levels_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: battle_levels_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('battle_levels_id_seq', 4, true);
 
 
 --
--- Data for Name: battles; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: battles; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY battles (id, outcome, created_at, updated_at, battle_level_id) FROM stdin;
@@ -1531,18 +1529,25 @@ COPY battles (id, outcome, created_at, updated_at, battle_level_id) FROM stdin;
 103	\N	2014-09-29 22:31:39.21982	2014-09-29 22:31:39.21982	1
 104	\N	2014-09-29 22:40:37.109738	2014-09-29 22:40:37.109738	1
 105	\N	2014-09-29 22:47:17.017306	2014-09-29 22:47:17.017306	1
+106	\N	2014-09-29 23:46:53.332967	2014-09-29 23:46:53.332967	1
+107	\N	2014-09-30 01:54:00.106807	2014-09-30 01:54:00.106807	1
+108	\N	2014-09-30 01:55:00.929168	2014-09-30 01:55:00.929168	1
+109	\N	2014-09-30 01:55:40.885006	2014-09-30 01:55:40.885006	1
+110	\N	2014-09-30 02:08:03.190613	2014-09-30 02:08:03.190613	1
+111	\N	2014-09-30 02:08:42.85065	2014-09-30 02:08:42.85065	1
+112	\N	2014-09-30 02:09:42.685846	2014-09-30 02:09:42.685846	1
 \.
 
 
 --
--- Name: battles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: battles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
-SELECT pg_catalog.setval('battles_id_seq', 105, true);
+SELECT pg_catalog.setval('battles_id_seq', 112, true);
 
 
 --
--- Data for Name: effects; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: effects; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY effects (id, name, created_at, updated_at, target_id, element_id, stat_change, stat_target_id) FROM stdin;
@@ -1552,14 +1557,14 @@ COPY effects (id, name, created_at, updated_at, target_id, element_id, stat_chan
 
 
 --
--- Name: effects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: effects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('effects_id_seq', 12, true);
 
 
 --
--- Data for Name: elements; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: elements; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY elements (id, name, created_at, updated_at) FROM stdin;
@@ -1573,14 +1578,14 @@ COPY elements (id, name, created_at, updated_at) FROM stdin;
 
 
 --
--- Name: elements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: elements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('elements_id_seq', 8, true);
 
 
 --
--- Data for Name: evolved_states; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: evolved_states; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY evolved_states (id, name, job_id, element_id, created_from_id, created_at, updated_at, monster_id, is_template, monster_skin_id, hp_modifier, dmg_modifier) FROM stdin;
@@ -1588,14 +1593,14 @@ COPY evolved_states (id, name, job_id, element_id, created_from_id, created_at, 
 
 
 --
--- Name: evolved_states_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: evolved_states_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('evolved_states_id_seq', 1, false);
 
 
 --
--- Data for Name: fights; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: fights; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY fights (id, battle_id, created_at, updated_at, party_id) FROM stdin;
@@ -1633,18 +1638,32 @@ COPY fights (id, battle_id, created_at, updated_at, party_id) FROM stdin;
 180	104	2014-09-29 22:40:37.134941	2014-09-29 22:40:37.134941	2
 181	105	2014-09-29 22:47:17.033757	2014-09-29 22:47:17.033757	3
 182	105	2014-09-29 22:47:17.04256	2014-09-29 22:47:17.04256	2
+183	106	2014-09-29 23:46:53.352702	2014-09-29 23:46:53.352702	3
+184	106	2014-09-29 23:46:53.362072	2014-09-29 23:46:53.362072	2
+185	107	2014-09-30 01:54:00.119589	2014-09-30 01:54:00.119589	3
+186	107	2014-09-30 01:54:00.12776	2014-09-30 01:54:00.12776	2
+187	108	2014-09-30 01:55:00.935083	2014-09-30 01:55:00.935083	3
+188	108	2014-09-30 01:55:00.941473	2014-09-30 01:55:00.941473	2
+189	109	2014-09-30 01:55:40.890873	2014-09-30 01:55:40.890873	3
+190	109	2014-09-30 01:55:40.898534	2014-09-30 01:55:40.898534	2
+191	110	2014-09-30 02:08:03.197448	2014-09-30 02:08:03.197448	3
+192	110	2014-09-30 02:08:03.204001	2014-09-30 02:08:03.204001	2
+193	111	2014-09-30 02:08:42.858577	2014-09-30 02:08:42.858577	3
+194	111	2014-09-30 02:08:42.866185	2014-09-30 02:08:42.866185	2
+195	112	2014-09-30 02:09:42.691339	2014-09-30 02:09:42.691339	3
+196	112	2014-09-30 02:09:42.700019	2014-09-30 02:09:42.700019	2
 \.
 
 
 --
--- Name: fights_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: fights_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
-SELECT pg_catalog.setval('fights_id_seq', 182, true);
+SELECT pg_catalog.setval('fights_id_seq', 196, true);
 
 
 --
--- Data for Name: jobs; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: jobs; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY jobs (id, name, evolve_lvl, created_at, updated_at) FROM stdin;
@@ -1666,14 +1685,14 @@ COPY jobs (id, name, evolve_lvl, created_at, updated_at) FROM stdin;
 
 
 --
--- Name: jobs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: jobs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('jobs_id_seq', 26, true);
 
 
 --
--- Data for Name: members; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: members; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY members (id, party_id, created_at, updated_at, monster_unlock_id) FROM stdin;
@@ -1689,14 +1708,14 @@ COPY members (id, party_id, created_at, updated_at, monster_unlock_id) FROM stdi
 
 
 --
--- Name: members_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: members_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('members_id_seq', 164, true);
 
 
 --
--- Data for Name: monster_skin_equippings; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: monster_skin_equippings; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY monster_skin_equippings (id, monster_id, monster_skin_id, created_at, updated_at, user_id) FROM stdin;
@@ -1716,19 +1735,18 @@ COPY monster_skin_equippings (id, monster_id, monster_skin_id, created_at, updat
 34	47	18	2014-09-24 00:25:22.92561	2014-09-24 00:25:22.92561	1
 35	46	19	2014-09-24 00:25:33.853141	2014-09-24 00:25:33.853141	1
 36	39	8	2014-09-26 04:20:00.526572	2014-09-26 04:20:00.526572	1
-37	49	21	2014-09-29 07:38:59.103707	2014-09-29 07:38:59.103707	2
 \.
 
 
 --
--- Name: monster_skin_equippings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: monster_skin_equippings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('monster_skin_equippings_id_seq', 37, true);
 
 
 --
--- Data for Name: monster_skin_purchases; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: monster_skin_purchases; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY monster_skin_purchases (id, user_id, monster_skin_id, created_at, updated_at) FROM stdin;
@@ -1759,14 +1777,14 @@ COPY monster_skin_purchases (id, user_id, monster_skin_id, created_at, updated_a
 
 
 --
--- Name: monster_skin_purchases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: monster_skin_purchases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('monster_skin_purchases_id_seq', 41, true);
 
 
 --
--- Data for Name: monster_skins; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: monster_skins; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY monster_skins (id, name, created_at, updated_at, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at) FROM stdin;
@@ -1787,14 +1805,14 @@ COPY monster_skins (id, name, created_at, updated_at, avatar_file_name, avatar_c
 
 
 --
--- Name: monster_skins_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: monster_skins_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('monster_skins_id_seq', 21, true);
 
 
 --
--- Data for Name: monster_unlocks; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: monster_unlocks; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY monster_unlocks (id, user_id, monster_id, created_at, updated_at) FROM stdin;
@@ -1813,19 +1831,18 @@ COPY monster_unlocks (id, user_id, monster_id, created_at, updated_at) FROM stdi
 140	2	44	2014-09-28 22:14:59.246691	2014-09-28 22:14:59.246691
 141	2	41	2014-09-28 22:15:02.512715	2014-09-28 22:15:02.512715
 142	2	40	2014-09-28 22:15:08.947484	2014-09-28 22:15:08.947484
-143	2	49	2014-09-29 07:36:19.673062	2014-09-29 07:36:19.673062
 \.
 
 
 --
--- Name: monster_unlocks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: monster_unlocks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('monster_unlocks_id_seq', 143, true);
 
 
 --
--- Data for Name: monsters; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: monsters; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_modifier, dmg_modifier, evolved_from_id, description, summon_cost, evolve_animation_file_name, evolve_animation_content_type, evolve_animation_file_size, evolve_animation_updated_at) FROM stdin;
@@ -1841,20 +1858,19 @@ COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_
 48	Phoenix	50000	2014-09-24 00:02:13.136873	2014-09-24 00:35:09.19223	24	4	1	1	0	Rose from the ashes to kill	0	\N	\N	\N	\N
 45	Arc Reactor	35000	2014-09-23 23:58:24.303523	2014-09-24 00:35:48.010255	21	8	1	1	0	machine	0	\N	\N	\N	\N
 50	Hello Kitty	1	2014-09-29 20:03:52.558064	2014-09-29 20:03:52.558064	26	1	1	1	0	Stupid Monster	1	\N	\N	\N	\N
-41	Knight	50000	2014-09-23 22:10:24.560178	2014-09-29 22:34:57.978255	16	6	1	1	37	Tough as nails	30	tinder.gif	image/gif	35854	2014-09-29 22:34:56.710996
-49	Berserker	35000	2014-09-29 07:34:21.33126	2014-09-29 22:36:41.18979	25	5	1	1	37	Slash some stuff dead	1	tinder.gif	image/gif	35854	2014-09-29 22:20:45.344449
+41	Knight	50000	2014-09-23 22:10:24.560178	2014-09-30 02:07:54.909247	16	6	1	1	37	Tough as nails	30	evo-animation-new.gif	image/gif	301911	2014-09-30 02:07:51.254272
 \.
 
 
 --
--- Name: monsters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: monsters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('monsters_id_seq', 50, true);
 
 
 --
--- Data for Name: parties; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: parties; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY parties (id, user_id, name, created_at, updated_at, npc) FROM stdin;
@@ -1867,18 +1883,18 @@ COPY parties (id, user_id, name, created_at, updated_at, npc) FROM stdin;
 
 
 --
--- Name: parties_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: parties_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('parties_id_seq', 6, true);
 
 
 --
--- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY schema_migrations (version) FROM stdin;
-20140913234635
+20140927034235
 20140830033659
 20140830035203
 20140830035509
@@ -1991,6 +2007,7 @@ COPY schema_migrations (version) FROM stdin;
 20140912181311
 20140912184854
 20140913041250
+20140913234635
 20140915215442
 20140915221225
 20140915221546
@@ -2006,14 +2023,13 @@ COPY schema_migrations (version) FROM stdin;
 20140925012726
 20140925013046
 20140927025404
-20140927034235
 20140928054347
 20140929211257
 \.
 
 
 --
--- Data for Name: skin_restrictions; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: skin_restrictions; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY skin_restrictions (id, monster_skin_id, created_at, updated_at, job_id) FROM stdin;
@@ -2034,14 +2050,14 @@ COPY skin_restrictions (id, monster_skin_id, created_at, updated_at, job_id) FRO
 
 
 --
--- Name: skin_restrictions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: skin_restrictions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('skin_restrictions_id_seq', 64, true);
 
 
 --
--- Data for Name: stat_targets; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: stat_targets; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY stat_targets (id, name, created_at, updated_at) FROM stdin;
@@ -2051,14 +2067,14 @@ COPY stat_targets (id, name, created_at, updated_at) FROM stdin;
 
 
 --
--- Name: stat_targets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: stat_targets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('stat_targets_id_seq', 4, true);
 
 
 --
--- Data for Name: summoner_levels; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: summoner_levels; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY summoner_levels (id, lvl, exp_to_nxt_lvl, ap, monsters_allowed, created_at, updated_at) FROM stdin;
@@ -2066,14 +2082,14 @@ COPY summoner_levels (id, lvl, exp_to_nxt_lvl, ap, monsters_allowed, created_at,
 
 
 --
--- Name: summoner_levels_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: summoner_levels_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('summoner_levels_id_seq', 1, false);
 
 
 --
--- Data for Name: summoners; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: summoners; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY summoners (id, name, current_lvl, current_exp, user_id, summoner_level_id, created_at, updated_at) FROM stdin;
@@ -2081,14 +2097,14 @@ COPY summoners (id, name, current_lvl, current_exp, user_id, summoner_level_id, 
 
 
 --
--- Name: summoners_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: summoners_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('summoners_id_seq', 1, false);
 
 
 --
--- Data for Name: targets; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: targets; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY targets (id, created_at, updated_at, name) FROM stdin;
@@ -2103,32 +2119,32 @@ COPY targets (id, created_at, updated_at, name) FROM stdin;
 
 
 --
--- Name: targets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: targets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('targets_id_seq', 13, true);
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: alanmaule
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: jackyho
 --
 
 COPY users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, first_name, last_name, user_name, currency, paid_currency, rank, created_at, updated_at, admin) FROM stdin;
 3	admin@admin.com	$2a$10$ltrScMtNl.tsIdGyo8jYbudtjapb2jE.qPResC30ZFaJTPpYLW0eC	\N	\N	\N	1	2014-09-15 03:39:18.630928	2014-09-15 03:39:18.630928	127.0.0.1	127.0.0.1			admin	\N	\N	\N	2014-09-15 03:39:18.629016	2014-09-15 03:39:18.631453	f
 1	npc@npc.com	$2a$10$BqGvO6jUa5hasNMCQDAqH.nJUvoh2UM9paNss23c27yZ/HXW779Y2	\N	\N	\N	2	2014-09-15 04:50:00.813847	2014-09-15 03:38:29.938324	127.0.0.1	127.0.0.1	NPC	NPC	NPC	\N	\N	\N	2014-09-15 03:38:29.923672	2014-09-15 04:50:00.814573	f
-2	amaule77@gmail.com	$2a$10$sjV0vxF7AwpVJ1xiMxnnAelkTSmWmu32WgxEPGP95GDCMChSn6FLO	\N	\N	\N	8	2014-09-28 21:50:49.532326	2014-09-24 01:02:28.282607	127.0.0.1	127.0.0.1			amaule	\N	\N	\N	2014-09-15 03:39:00.15361	2014-09-28 21:50:49.533918	f
+2	amaule77@gmail.com	$2a$10$sjV0vxF7AwpVJ1xiMxnnAelkTSmWmu32WgxEPGP95GDCMChSn6FLO	\N	\N	2014-09-29 23:46:49.298458	9	2014-09-29 23:46:49.305287	2014-09-28 21:50:49.532326	127.0.0.1	127.0.0.1			amaule	\N	\N	\N	2014-09-15 03:39:00.15361	2014-09-29 23:46:49.306512	f
 \.
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alanmaule
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jackyho
 --
 
 SELECT pg_catalog.setval('users_id_seq', 3, true);
 
 
 --
--- Name: abil_sockets_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: abil_sockets_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY abil_sockets
@@ -2136,7 +2152,7 @@ ALTER TABLE ONLY abil_sockets
 
 
 --
--- Name: abilities_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: abilities_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY abilities
@@ -2144,7 +2160,7 @@ ALTER TABLE ONLY abilities
 
 
 --
--- Name: ability_effects_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: ability_effects_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY ability_effects
@@ -2152,7 +2168,7 @@ ALTER TABLE ONLY ability_effects
 
 
 --
--- Name: ability_equippings_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: ability_equippings_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY ability_equippings
@@ -2160,7 +2176,7 @@ ALTER TABLE ONLY ability_equippings
 
 
 --
--- Name: ability_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: ability_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY ability_purchases
@@ -2168,7 +2184,7 @@ ALTER TABLE ONLY ability_purchases
 
 
 --
--- Name: ability_restrictions_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: ability_restrictions_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY ability_restrictions
@@ -2176,7 +2192,7 @@ ALTER TABLE ONLY ability_restrictions
 
 
 --
--- Name: backgrounds_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: backgrounds_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY backgrounds
@@ -2184,7 +2200,7 @@ ALTER TABLE ONLY backgrounds
 
 
 --
--- Name: battle_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: battle_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY battle_levels
@@ -2192,7 +2208,7 @@ ALTER TABLE ONLY battle_levels
 
 
 --
--- Name: battles_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: battles_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY battles
@@ -2200,7 +2216,7 @@ ALTER TABLE ONLY battles
 
 
 --
--- Name: effects_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: effects_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY effects
@@ -2208,7 +2224,7 @@ ALTER TABLE ONLY effects
 
 
 --
--- Name: elements_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: elements_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY elements
@@ -2216,7 +2232,7 @@ ALTER TABLE ONLY elements
 
 
 --
--- Name: evolved_states_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: evolved_states_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY evolved_states
@@ -2224,7 +2240,7 @@ ALTER TABLE ONLY evolved_states
 
 
 --
--- Name: fights_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: fights_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY fights
@@ -2232,7 +2248,7 @@ ALTER TABLE ONLY fights
 
 
 --
--- Name: jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY jobs
@@ -2240,7 +2256,7 @@ ALTER TABLE ONLY jobs
 
 
 --
--- Name: members_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: members_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY members
@@ -2248,7 +2264,7 @@ ALTER TABLE ONLY members
 
 
 --
--- Name: monster_skin_equippings_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: monster_skin_equippings_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY monster_skin_equippings
@@ -2256,7 +2272,7 @@ ALTER TABLE ONLY monster_skin_equippings
 
 
 --
--- Name: monster_skin_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: monster_skin_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY monster_skin_purchases
@@ -2264,7 +2280,7 @@ ALTER TABLE ONLY monster_skin_purchases
 
 
 --
--- Name: monster_skins_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: monster_skins_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY monster_skins
@@ -2272,7 +2288,7 @@ ALTER TABLE ONLY monster_skins
 
 
 --
--- Name: monster_unlocks_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: monster_unlocks_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY monster_unlocks
@@ -2280,7 +2296,7 @@ ALTER TABLE ONLY monster_unlocks
 
 
 --
--- Name: monsters_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: monsters_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY monsters
@@ -2288,7 +2304,7 @@ ALTER TABLE ONLY monsters
 
 
 --
--- Name: parties_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: parties_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY parties
@@ -2296,7 +2312,7 @@ ALTER TABLE ONLY parties
 
 
 --
--- Name: skin_restrictions_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: skin_restrictions_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY skin_restrictions
@@ -2304,7 +2320,7 @@ ALTER TABLE ONLY skin_restrictions
 
 
 --
--- Name: stat_targets_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: stat_targets_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY stat_targets
@@ -2312,7 +2328,7 @@ ALTER TABLE ONLY stat_targets
 
 
 --
--- Name: summoner_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: summoner_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY summoner_levels
@@ -2320,7 +2336,7 @@ ALTER TABLE ONLY summoner_levels
 
 
 --
--- Name: summoners_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: summoners_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY summoners
@@ -2328,7 +2344,7 @@ ALTER TABLE ONLY summoners
 
 
 --
--- Name: targets_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: targets_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY targets
@@ -2336,7 +2352,7 @@ ALTER TABLE ONLY targets
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -2344,306 +2360,306 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: index_abilities_on_abil_socket_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_abilities_on_abil_socket_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_abilities_on_abil_socket_id ON abilities USING btree (abil_socket_id);
 
 
 --
--- Name: index_abilities_on_element_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_abilities_on_element_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_abilities_on_element_id ON abilities USING btree (element_id);
 
 
 --
--- Name: index_abilities_on_stat_target_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_abilities_on_stat_target_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_abilities_on_stat_target_id ON abilities USING btree (stat_target_id);
 
 
 --
--- Name: index_abilities_on_target_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_abilities_on_target_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_abilities_on_target_id ON abilities USING btree (target_id);
 
 
 --
--- Name: index_ability_effects_on_ability_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_ability_effects_on_ability_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_ability_effects_on_ability_id ON ability_effects USING btree (ability_id);
 
 
 --
--- Name: index_ability_effects_on_effect_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_ability_effects_on_effect_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_ability_effects_on_effect_id ON ability_effects USING btree (effect_id);
 
 
 --
--- Name: index_ability_equippings_on_ability_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_ability_equippings_on_ability_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_ability_equippings_on_ability_id ON ability_equippings USING btree (ability_id);
 
 
 --
--- Name: index_ability_equippings_on_monster_unlock_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_ability_equippings_on_monster_unlock_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_ability_equippings_on_monster_unlock_id ON ability_equippings USING btree (monster_unlock_id);
 
 
 --
--- Name: index_ability_purchases_on_ability_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_ability_purchases_on_ability_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_ability_purchases_on_ability_id ON ability_purchases USING btree (ability_id);
 
 
 --
--- Name: index_ability_purchases_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_ability_purchases_on_user_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_ability_purchases_on_user_id ON ability_purchases USING btree (user_id);
 
 
 --
--- Name: index_ability_restrictions_on_ability_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_ability_restrictions_on_ability_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_ability_restrictions_on_ability_id ON ability_restrictions USING btree (ability_id);
 
 
 --
--- Name: index_ability_restrictions_on_job_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_ability_restrictions_on_job_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_ability_restrictions_on_job_id ON ability_restrictions USING btree (job_id);
 
 
 --
--- Name: index_battles_on_battle_level_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_battles_on_battle_level_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_battles_on_battle_level_id ON battles USING btree (battle_level_id);
 
 
 --
--- Name: index_effects_on_element_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_effects_on_element_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_effects_on_element_id ON effects USING btree (element_id);
 
 
 --
--- Name: index_effects_on_stat_target_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_effects_on_stat_target_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_effects_on_stat_target_id ON effects USING btree (stat_target_id);
 
 
 --
--- Name: index_effects_on_target_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_effects_on_target_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_effects_on_target_id ON effects USING btree (target_id);
 
 
 --
--- Name: index_evolved_states_on_element_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_evolved_states_on_element_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_evolved_states_on_element_id ON evolved_states USING btree (element_id);
 
 
 --
--- Name: index_evolved_states_on_job_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_evolved_states_on_job_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_evolved_states_on_job_id ON evolved_states USING btree (job_id);
 
 
 --
--- Name: index_evolved_states_on_monster_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_evolved_states_on_monster_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_evolved_states_on_monster_id ON evolved_states USING btree (monster_id);
 
 
 --
--- Name: index_evolved_states_on_monster_skin_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_evolved_states_on_monster_skin_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_evolved_states_on_monster_skin_id ON evolved_states USING btree (monster_skin_id);
 
 
 --
--- Name: index_fights_on_battle_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_fights_on_battle_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_fights_on_battle_id ON fights USING btree (battle_id);
 
 
 --
--- Name: index_fights_on_party_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_fights_on_party_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_fights_on_party_id ON fights USING btree (party_id);
 
 
 --
--- Name: index_members_on_monster_unlock_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_members_on_monster_unlock_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_members_on_monster_unlock_id ON members USING btree (monster_unlock_id);
 
 
 --
--- Name: index_members_on_party_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_members_on_party_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_members_on_party_id ON members USING btree (party_id);
 
 
 --
--- Name: index_monster_skin_equippings_on_monster_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_monster_skin_equippings_on_monster_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_monster_skin_equippings_on_monster_id ON monster_skin_equippings USING btree (monster_id);
 
 
 --
--- Name: index_monster_skin_equippings_on_monster_skin_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_monster_skin_equippings_on_monster_skin_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_monster_skin_equippings_on_monster_skin_id ON monster_skin_equippings USING btree (monster_skin_id);
 
 
 --
--- Name: index_monster_skin_equippings_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_monster_skin_equippings_on_user_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_monster_skin_equippings_on_user_id ON monster_skin_equippings USING btree (user_id);
 
 
 --
--- Name: index_monster_skin_purchases_on_monster_skin_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_monster_skin_purchases_on_monster_skin_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_monster_skin_purchases_on_monster_skin_id ON monster_skin_purchases USING btree (monster_skin_id);
 
 
 --
--- Name: index_monster_skin_purchases_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_monster_skin_purchases_on_user_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_monster_skin_purchases_on_user_id ON monster_skin_purchases USING btree (user_id);
 
 
 --
--- Name: index_monster_unlocks_on_monster_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_monster_unlocks_on_monster_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_monster_unlocks_on_monster_id ON monster_unlocks USING btree (monster_id);
 
 
 --
--- Name: index_monster_unlocks_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_monster_unlocks_on_user_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_monster_unlocks_on_user_id ON monster_unlocks USING btree (user_id);
 
 
 --
--- Name: index_monsters_on_element_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_monsters_on_element_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_monsters_on_element_id ON monsters USING btree (element_id);
 
 
 --
--- Name: index_monsters_on_evolved_from_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_monsters_on_evolved_from_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_monsters_on_evolved_from_id ON monsters USING btree (evolved_from_id);
 
 
 --
--- Name: index_monsters_on_job_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_monsters_on_job_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_monsters_on_job_id ON monsters USING btree (job_id);
 
 
 --
--- Name: index_parties_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_parties_on_user_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_parties_on_user_id ON parties USING btree (user_id);
 
 
 --
--- Name: index_skin_restrictions_on_job_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_skin_restrictions_on_job_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_skin_restrictions_on_job_id ON skin_restrictions USING btree (job_id);
 
 
 --
--- Name: index_skin_restrictions_on_monster_skin_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_skin_restrictions_on_monster_skin_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_skin_restrictions_on_monster_skin_id ON skin_restrictions USING btree (monster_skin_id);
 
 
 --
--- Name: index_summoners_on_summoner_level_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_summoners_on_summoner_level_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_summoners_on_summoner_level_id ON summoners USING btree (summoner_level_id);
 
 
 --
--- Name: index_summoners_on_user_id; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_summoners_on_user_id; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE INDEX index_summoners_on_user_id ON summoners USING btree (user_id);
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: alanmaule; Tablespace: 
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: jackyho; Tablespace: 
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
 
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: alanmaule
+-- Name: public; Type: ACL; Schema: -; Owner: jackyho
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM alanmaule;
-GRANT ALL ON SCHEMA public TO alanmaule;
+REVOKE ALL ON SCHEMA public FROM jackyho;
+GRANT ALL ON SCHEMA public TO jackyho;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 

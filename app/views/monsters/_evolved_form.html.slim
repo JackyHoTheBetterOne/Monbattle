@@ -28,7 +28,6 @@
           h4=f.label "The element of this evolved state"
           .form-control =f.collection_select :element_id, Element.all, :id, :name
           =f.input :evolve_animation
-          =f.text_field :summon_cost, class: 'form-control'
           =f.label "This monster name is universal, so name it well!"
           =f.text_field :name, class: 'form-control'
           =f.label "The description of this evolved state"
@@ -39,5 +38,5 @@
           =f.text_field :hp_modifier, class: 'form-control'
           =f.label :dmg_modifier
           =f.text_field :dmg_modifier, class: 'form-control'
-          =f.label :summon_cost
+          =f.input :summon_cost
           hr=f.submit class: 'btn btn-primary'

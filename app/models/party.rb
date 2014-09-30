@@ -15,6 +15,8 @@ class Party < ActiveRecord::Base
 
   before_save :npcCheck
 
+  default_scope { order('npc') }
+
   # def count_party_members(user_id)
   #   find_by_user_id(user_id).members.count
   # end
@@ -89,8 +91,6 @@ class Party < ActiveRecord::Base
   def npcCheck
     if self.username == "NPC"
       self.npc = true
-    else
-      self.npc = false
     end
   end
 

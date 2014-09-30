@@ -3,6 +3,61 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 ################################################################################################# Battle logic helpers
+window.fixEvolMon = (monster, player) ->
+  monster.team = battle.players.indexOf(player)
+  monster.index = player.mons.indexOf(monster)
+  monster.isAlive = ->
+    if @hp <= 0
+      return false
+    else
+      return true
+    return
+  monster.useAbility = (abilityIndex, abilityTargets) ->
+    ability = @abilities[abilityIndex]
+    effectTargets = ability.effectTargets
+    ability.use(abilityTargets, effectTargets)
+  $(monster.abilities).each ->
+    ability = @
+    ability.effectTargets = []
+    ability.effects.forEach (effect, index) ->
+      effectTargets = []
+      switch effect.targeta
+        when "self"
+          effectTargets.push monster
+          ability.effectTargets.push effectTargets
+        when "aoeally"
+          effectTargets.push player.mons
+          ability.effectTargets.push effectTargets
+        when "aoeenemy"
+          effectTargets.push player.enemies
+          ability.effectTargets.push effectTargets
+    ability.use = (abilitytargets, effectTargets) ->
+      a = this
+      i = 0
+      while i < abilitytargets.length
+        monTarget = abilitytargets[i]
+        monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
+        monTarget.isAlive()
+        i++
+      if typeof effectTargets isnt "undefined"
+        i = 0
+        while i < effectTargets.length
+          effect = a.effects[i]
+          targets = effectTargets[i]
+          effect.activate targets
+          i++
+      return
+    $(ability.effects).each ->
+      @activate = (effectTargets) ->
+        e = this
+        i = 0
+        while i < effectTargets.length
+          monTarget = effectTargets[i]
+          monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+          monTarget.isAlive()
+          i++
+         return
+
 window.isTeamDead = (monster, index, array) ->
   monster.isAlive() is false
 window.isTurnOver = (object, index, array) ->
@@ -181,7 +236,7 @@ window.showDamageTeam = (index) ->
   n = 3
   i = 0
   while i <= n
-    if $("." + index.toString() + " " + ".mon" + i.toString() + " " + ".img") isnt "none"
+    if battle.players[index].mons[i].hp > 0
       damageBoxAnime(index, i.toString(), ability.modifier + ability.change, "rgba(255, 0, 0)")
     i++
 
@@ -455,7 +510,7 @@ $ ->
 ############################################################################################### Battle logic
       window.battle = data
       battle.round = 1
-      battle.maxAP = 10
+      battle.maxAP = 100
       battle.calculateAP = ->
         battle.maxAP = 10 * battle.round
       battle.players[0].enemies = battle.players[1].mons
@@ -488,15 +543,25 @@ $ ->
             targets = [player.mons[targetIndex].abilities[0]]
         @players[playerIndex].commandMon(monIndex, abilityIndex, targets)
         @checkRound()
-      battle.evolve = (monIndex, evolveIndex) ->
-        worse_monster = battle.players[0].mons[monIndex]
-        current_hp = worse_monster.hp
-        added_hp = worse_monster.mon_evols[evolveIndex].max_hp - worse_monster.max_hp
-        if battle.players[0].ap >= battle.players[0].mons[monIndex].mon_evols[evolveIndex].ap_cost
-          battle.players[0].monsters[monIndex] = battle.players[0].mons[monIndex].mon_evols[evolveIndex]
-          battle.players[0].monsters[monIndex].hp = current_hp + added_hp
-        else
-          alert("go fuck yourself")
+      battle.evolve = (playerIndex, monIndex, evolveIndex) ->
+        current_mon = @players[playerIndex].mons[monIndex]
+        better_mon = @players[playerIndex].mons[monIndex].mon_evols[evolveIndex]
+        added_hp = better_mon.max_hp - current_mon.max_hp
+        if battle.players[playerIndex].ap >= better_mon.ap_cost
+          battle.players[playerIndex].ap -= better_mon.ap_cost
+          battle.players[playerIndex].mons[monIndex] = better_mon
+          fixEvolMon(battle.players[playerIndex].mons[monIndex], battle.players[playerIndex])
+          evolved_mon = battle.players[playerIndex].mons[monIndex]
+          damageBoxAnime(0, targets[1], "+" + added_hp.toString(), "rgba(50,205,50)")
+          monDiv = ".0 .mon" + targets[1].toString()
+          $(monDiv + " " + ".max-hp").text("/" + " " + better_mon.max_hp)
+          $(monDiv + " " + ".attack").data("apcost", evolved_mon.abilities[0].ap_cost)
+          $(monDiv + " " + ".ability").data("target", evolved_mon.abilities[1].targeta)
+          $(monDiv + " " + ".ability").data("apcost", evolved_mon.abilities[1].ap_cost)
+          hpChangeBattle()
+
+
+
 #################################################################################################  Player logic
       $(battle.players).each ->
         player = @
@@ -728,20 +793,20 @@ $ ->
                   ability.parent().parent().children(".abilityDesc").css "visibility", "hidden"
                   disable(ability)
                   abilityAnime = $(".ability-img")
-                  multipleAction()
-                  checkMax()
                   multipleTargetAbilityDisplayVariable()
                   $(".ability-img").toggleClass "aoePositionFoe", ->
                     element = $(this)
                     element.attr("src", callAbilityImg).toggleClass("ability-on")
-                    $(".enemy.mon-slot .img").each ->
-                      if $(this).css("display") isnt "none"
-                        if battle.players[1].mons[$(this).data("index")].isAlive() is false
-                          $(this).effect("explode", {pieces: 20}, 1500).hide()
-                        else
-                          $(this).effect "shake", {times: 5, distance: 80}, 1000
                     setTimeout (->
                       showDamageTeam(1)
+                      multipleAction()
+                      $(".enemy.mon-slot .img").each ->
+                        if $(this).css("display") isnt "none"
+                          if battle.players[1].mons[$(this).data("index")].isAlive() is false
+                            $(this).effect("explode", {pieces: 20}, 1500).hide()
+                          else
+                            $(this).effect "shake", {times: 5, distance: 80}, 1000
+                      checkMax()
                       apChange()
                       hpChangeBattle()
                       element.toggleClass "ability-on aoePositionFoe"
@@ -784,9 +849,33 @@ $ ->
                     return
                   ), 1000
                   return
+              when "evolve"
+                $(".user .img").removeClass("controlling")
+                toggleImg()
+                disable(ability)
+                abilityAnime = $(".single-ability-img")
+                targetMon = $(".0 .mon" + targets[1] + " " + ".img")
+                betterMon = battle.players[0].mons[targets[1]].mon_evols[0]
+                abilityAnime.css(targetMon.data("position"))
+                abilityAnime.attr("src", betterMon.animation).toggleClass "ability-on", ->
+                  $("body").effect("shake")
+                  targetMon.fadeOut 500, ->
+                    $(this).attr("src", betterMon.image).fadeIn(1000)
+                setTimeout (->
+                  battle.evolve(0, targets[1], 0)
+                  apChange()
+                  abilityAnime.toggleClass "ability-on"
+                  checkApAvailbility()
+                  toggleImg()
+                  turnOnCommand(control)
+                  return
+                ), 2500
+                return
             checkApAvailbility()
         else
           $(this).effect("highlight", {color: "red"}, 100)
+
+
 
 
 
