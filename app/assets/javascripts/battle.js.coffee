@@ -453,7 +453,7 @@ window.controlAI = (monIndex) ->
           ), 1000
           return
       when "aoeenemy"
-        window.targets = [1].concat [monIndex]
+        window.targets = [1].concat [monIndex, abilityIndex]
         currentMon = $(".enemy .mon" + monIndex.toString() + " " + ".img")
         currentMon.effect("bounce")
         abilityAnime = $(".ability-img")

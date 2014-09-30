@@ -14,6 +14,7 @@ class Party < ActiveRecord::Base
                               uniqueness: {scope: :user_id}
 
   before_save :npcCheck
+  default_scope { order("npc") }
 
   # def count_party_members(user_id)
   #   find_by_user_id(user_id).members.count
@@ -91,6 +92,7 @@ class Party < ActiveRecord::Base
       self.npc = true
     else
       self.npc = false
+      return true
     end
   end
 
