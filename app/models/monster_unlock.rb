@@ -13,6 +13,10 @@ class MonsterUnlock < ActiveRecord::Base
 
   scope :lvl1_evolves, -> { joins(:job).where('job')}
 
+  def ap_cost
+    self.monster.summon_cost
+  end
+
   def name
     self.monster.name
   end
@@ -96,7 +100,7 @@ class MonsterUnlock < ActiveRecord::Base
       evolve_hash = { name:      unlocked_evo.name,
                       max_hp:    unlocked_evo.max_hp,
                       hp:        unlocked_evo.max_hp,
-                      ap_cost:   unlocked_evo.monster.summon_cost,
+                      ap_cost:   unlocked_evo.ap_cost,
                       image:     unlocked_evo.image(self.user),
                       animation: unlocked_evo.evolve_animation,
                       abilities: abil_array
