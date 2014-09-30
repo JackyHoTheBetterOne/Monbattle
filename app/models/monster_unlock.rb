@@ -72,7 +72,7 @@ class MonsterUnlock < ActiveRecord::Base
         ability_hash = { name:        ability.name,
                          ap_cost:     ability.ap_cost,
                          stat_change: ability.stat_change,
-                         description: description,
+                         description: ability.description,
                          stat:        ability.stat,
                          targeta:     ability.targeta,
                          elementa:    ability.elementa,
