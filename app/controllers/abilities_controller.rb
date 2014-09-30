@@ -40,7 +40,7 @@ class AbilitiesController < ApplicationController
   def update
     @ability.update_attributes(ability_params)
     if @ability.save
-      @ability.ability_equippings.destroy_all
+      # @ability.ability_equippings.destroy_all
       redirect_to abilities_path, notice: "Updated"
     else
       render :new

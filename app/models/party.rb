@@ -16,8 +16,6 @@ class Party < ActiveRecord::Base
   before_save :npcCheck
   default_scope { order("npc") }
 
-  default_scope { order('npc') }
-
   # def count_party_members(user_id)
   #   find_by_user_id(user_id).members.count
   # end
@@ -52,7 +50,7 @@ class Party < ActiveRecord::Base
           :include => {
             :abilities => {
               :only => [:name, :ap_cost, :stat_change],
-              :methods => [:stat, :targeta, :elementa, :change, :modifier, :img, :slot],
+              :methods => [:stat, :targeta, :elementa, :change, :description, :modifier, :img, :slot],
               :include => {
                 :effects => {
                   :only => [:name, :stat_change],
@@ -92,12 +90,9 @@ class Party < ActiveRecord::Base
   def npcCheck
     if self.username == "NPC"
       self.npc = true
-<<<<<<< HEAD
-=======
     else
       self.npc = false
       return true
->>>>>>> 055dac7d66ca334769db0dbd7ac3b8a485706d37
     end
   end
 

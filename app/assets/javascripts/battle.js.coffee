@@ -400,6 +400,8 @@ window.controlAI = (monIndex) ->
     abilityIndex = getRandom(aiAbilities)
     targetIndex = getRandom(aiTargets)
     ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
+    console.log(ability)
+    console.log(ability.targeta)
     switch ability.targeta
       when "attack"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
@@ -905,11 +907,7 @@ $ ->
               when "evolve"
                 $(".user .img").removeClass("controlling")
                 toggleImg()
-<<<<<<< HEAD
-                disable(ability)
-=======
                 ability.remove()
->>>>>>> 055dac7d66ca334769db0dbd7ac3b8a485706d37
                 abilityAnime = $(".single-ability-img")
                 targetMon = $(".0 .mon" + targets[1] + " " + ".img")
                 betterMon = battle.players[0].mons[targets[1]].mon_evols[0]
