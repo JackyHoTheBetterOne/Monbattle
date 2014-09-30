@@ -928,7 +928,7 @@ $ ->
                   battle.evolve(0, targets[1], 0)
                   apChange()
                   abilityAnime.toggleClass "ability-on"
-                  element.attr("src", "")
+                  abilityAnime.attr("src", "")
                   checkApAvailbility()
                   toggleImg()
                   turnOnCommand(control)
