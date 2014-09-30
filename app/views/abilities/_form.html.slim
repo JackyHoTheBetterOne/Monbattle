@@ -3,8 +3,6 @@
     -case true
       -when Job.all.empty?
         h1 Make some Jobs First
-      -when Effect.all.empty?
-        h1 Make some Effects first!
       -when Target.all.empty?
         h1 Make some Targets First!
       -when StatTarget.all.empty?
@@ -28,19 +26,13 @@
           .form-control =f.collection_select :stat_target_id, StatTarget.all, :id, :name
           h4=f.label "Select Socket Number that this ability is for"
           .form-control =f.collection_select :abil_socket_id, AbilSocket.all, :id, :socket_num
-          =f.label "How much the stat is Changed"
+          =f.label "How much the stat is Changed(Format must be + or - and then integer)"
           =f.text_field :stat_change, class: 'form-control'
           =f.input :image
-          =f.label :name
-          =f.text_field :name, class: 'form-control'
-          =f.label :ap_cost
-          =f.text_field :ap_cost, class: 'form-control'
-          =f.label :description
-          =f.text_area :description, class: 'form-control', rows: 2
-          =f.label "Summoner Level required to use this ability (Required)"
-          =f.text_field :min_level, class: 'form-control'
-          =f.label :store_price
-          =f.text_field :store_price, class: 'form-control'
-          =f.label :price
-          =f.text_field :price, class: 'form-control'
+          =f.input :name
+          =f.input :ap_cost
+          =f.input :description
+          / =f.input :min_level
+          / =f.input :store_price
+          / =f.input :price
           hr=f.submit class: 'btn btn-primary'

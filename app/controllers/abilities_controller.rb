@@ -21,7 +21,7 @@ class AbilitiesController < ApplicationController
        format.html { redirect_to abilities_path, notice: "Ability Created" }
        format.js { render }
       else
-        render :new
+        format.html { render :new }
       end
     end
   end
@@ -30,7 +30,7 @@ class AbilitiesController < ApplicationController
     if @ability.destroy
       redirect_to abilities_path, notice: "Ability Removed"
     else
-      redirect_to abilities_path, notice: "Failure"
+      render :new
     end
   end
 
@@ -40,7 +40,7 @@ class AbilitiesController < ApplicationController
   def update
     @ability.update_attributes(ability_params)
     if @ability.save
-      @ability.ability_equippings.destroy_all
+      # @ability.ability_equippings.destroy_all #(Temp removed)
       redirect_to abilities_path, notice: "Updated"
     else
       render :new
