@@ -12,6 +12,11 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   -ms-filter: "FlipH";
 };
 
+.turn-end {
+  background-color: rgba(109,201,106,0.65) !important;
+  border-color: rgba(109,201,106,0.65) !important;
+};
+
 .flipped {
   @include flipped();
 };
@@ -184,6 +189,14 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   background: rgba(235, 22, 22, 0.75);
 };
 
+.cancel {
+  background: rgba(235, 22, 22, 0.75);
+  border-color: rgba(235, 22, 22, 0.75);
+  border-radius: 5px;
+  position: absolute;
+  top: 289px;
+  left: 346px;
+};
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// Battle
