@@ -670,7 +670,7 @@ $ ->
               while i < abilitytargets.length
                 monTarget = abilitytargets[i]
                 monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
-                monTarget.isAlive()
+                monTarget.isAlive() if typeof monTarget.isAlive() isnt "undefined"
                 i++
               if typeof effectTargets isnt "undefined"
                 i = 0
