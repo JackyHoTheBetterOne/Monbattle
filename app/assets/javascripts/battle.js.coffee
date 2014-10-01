@@ -590,7 +590,7 @@ $ ->
       battle.round = 1
       battle.maxAP = 40
       battle.calculateAP = ->
-        if battle.round < 4 
+        if battle.round < 5 
           battle.maxAP = 30 + 10 * battle.round
         else 
           battle.maxAP = 60
