@@ -62,6 +62,11 @@ window.isTeamDead = (monster, index, array) ->
   monster.isAlive() is false
 window.isTurnOver = (object, index, array) ->
   object.turn is false
+window.noApLeft = (object, index, array) ->
+  $(object).data("apcost") > battle.players[0].ap
+window.nothingToDo = (object, index, array) ->
+  $(object).attr("disabled") is "disabled"
+
 window.setAll = (array, attr, value) ->
   n = array.length
   i = 0
@@ -108,34 +113,34 @@ window.enemyTimer = ->
   if checkEnemyDeath(1) is true
     window.timer3 = 0
   else
-    window.timer3 = 2400
+    window.timer3 = 2000
 ######################################################################
   if checkEnemyDeath(1) is true && checkEnemyDeath(3) is true
     window.timer2 = 0
   else if checkEnemyDeath(1) is true || checkEnemyDeath(3) is true
-    window.timer2 = 2400
+    window.timer2 = 2000
   else
-    window.timer2 = 4800
+    window.timer2 = 4000
 ######################################################################
   if checkEnemyDeath(1) && checkEnemyDeath(3) && checkEnemyDeath(2)
     window.timer0 = 0
   else if ( ( checkEnemyDeath(1) && checkEnemyDeath(2) ) || ( checkEnemyDeath(1) && checkEnemyDeath(3) ) ) ||
           ( checkEnemyDeath(2) && checkEnemyDeath(3) )
-    window.timer0 = 2400
+    window.timer0 = 2000
   else if ( checkEnemyDeath(1) || checkEnemyDeath(2) ) || checkEnemyDeath(3)
-    window.timer0 = 4800
+    window.timer0 = 4000
   else
-    window.timer0 = 7200
+    window.timer0 = 6000
 ######################################################################
   switch numOfDeadFoe()
     when 0
-      window.timerRound = 9600
+      window.timerRound = 8000
     when 1
-      window.timerRound = 7200
+      window.timerRound = 6000
     when 2
-      window.timerRound = 4800
+      window.timerRound = 4000
     when 3
-      window.timerRound = 2400
+      window.timerRound = 2000
 
 
 
@@ -176,9 +181,10 @@ window.hpChangeBattle = ->
     battle.players[1].mons[i].hp = (if (battle.players[1].mons[i].hp < 0) then 0 else battle.players[1].mons[i].hp)
     $(hpBarChange("0", i)).animate barChange(battle.players[0].mons[i].hp, battle.players[0].mons[i].max_hp), 200 if battle.
                     players[0].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i.toString() + " " + ".current-hp").text()
-    $(hpChange("0", i)).text battle.players[0].mons[i].hp
+    
     $(hpBarChange("1", i)).animate barChange(battle.players[1].mons[i].hp, battle.players[1].mons[i].max_hp), 200 if battle.
                     players[1].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i.toString() + " " + ".current-hp").text()
+    $(hpChange("0", i)).text battle.players[0].mons[i].hp
     $(hpChange("1", i)).text battle.players[1].mons[i].hp
     i++
 
@@ -303,6 +309,18 @@ window.toggleImg = ->
     else
       $(this).attr("disabled", "true")
 
+window.flashEndButton = ->
+  buttonArray = []
+  $(".monBut button").each ->
+    if $(this).parent().parent().children(".img").css("display") isnt "none"
+      buttonArray.push $(this)
+  if noApLeft($(".monBut button")) || nothingToDo(buttonArray)
+    $(".end-turn").addClass("turn-end").effect("pulsate", { times: 3 }, 1500)
+    $(".end-turn").on "click.msgOff", ->
+      $(this).off "click.msgOff"
+      $(this).stop()
+      $(this).removeClass("turn-end")
+
 
 
 ############################################################################################################ AI logics
@@ -416,18 +434,19 @@ window.controlAI = (monIndex) ->
         currentMon.animate(
           "left": "+=" + leftMove.toString() + "px"
           "top": "+=" + topMove.toString() + "px"
-        , 500, ->
+        , 350, ->
           checkMax
           singleTargetAbilityDisplayVariable()
           showDamageSingle()
           hpChangeBattle()
           if targetMon.css("display") isnt "none"
             if enemyHurt.isAlive() is false and
-              targetMon.effect("explode", {pieces: 20}, 1500).hide()
+              targetMon.effect("explode", {pieces: 30}, 1000).hide()
             else
               targetMon.effect "shake"
           checkActionMonHealth()
-        ).animate backPosition, 500
+          outcome()
+        ).animate backPosition, 350
       when "targetenemy"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
         currentMon = $(".enemy .mon" + monIndex.toString() + " " + ".img")
@@ -441,7 +460,7 @@ window.controlAI = (monIndex) ->
           action()
           if targetMon.css("display") isnt "none"
             if enemyHurt.isAlive() is false
-              targetMon.effect("explode", {pieces: 20}, 1500).hide()
+              targetMon.effect("explode", {pieces: 30}, 1000).hide()
             else
               targetMon.effect "shake", times: 10, 1000
           element = $(this)
@@ -452,6 +471,7 @@ window.controlAI = (monIndex) ->
             checkActionMonHealth()
             element.toggleClass "flipped ability-on"
             element.attr("src", "")
+            outcome()
             return
           ), 1000
           return
@@ -469,7 +489,7 @@ window.controlAI = (monIndex) ->
           $(".user.mon-slot .img").each ->
             if $(this).css("display") isnt "none"
               if battle.players[0].mons[$(this).data("index")].isAlive() is false
-                $(this).effect("explode", {pieces: 20}, 1500).hide()
+                $(this).effect("explode", {pieces: 30}, 1500).hide()
               else
                 $(this).effect "shake", {times: 5, distance: 80}, 1000
           setTimeout (->
@@ -478,6 +498,7 @@ window.controlAI = (monIndex) ->
             checkActionMonHealth()
             element.toggleClass "flipped ability-on aoePositionUser"
             element.attr("src", "")
+            outcome()
             return
           ), 1000
           return
@@ -501,31 +522,27 @@ window.ai = ->
   enemyTimer()
   setTimeout (->
     feedAiTargets()
-    outcome()
     if teamPct(0) isnt 0
-      # $(".battle-message").text(
-      #   battle.players[1].mons[1].name + ":" + " " + "I sleep with your wife every morning when you are out working").
-      #   effect("highlight", 500)
       controlAI 1
+      outcome()
       return
   ), timer1
   setTimeout (->
     feedAiTargets()
-    outcome()
     if teamPct() isnt 0
       controlAI 3
+      outcome()
       return
   ), timer3
   setTimeout (->
     feedAiTargets()
-    outcome()
     if teamPct() isnt 0
       controlAI 2
+      outcome()
       return
   ), timer2
   setTimeout (->
     feedAiTargets()
-    outcome()
     if teamPct() isnt 0
       controlAI 0
       return
@@ -540,7 +557,6 @@ window.ai = ->
       $(".battle-message").fadeOut(100)
       toggleImg()
       $(".enemy .img").removeAttr("disabled")
-      checkApAvailbility()
       return
   ), timerRound
 
@@ -563,10 +579,10 @@ $ ->
 ############################################################################################### Battle logic
       window.battle = data
       battle.round = 1
-      battle.maxAP = 10
+      battle.maxAP = 40
       battle.calculateAP = ->
-        if battle.round < 6
-          battle.maxAP = 10 * battle.round
+        if battle.round < 4 
+          battle.maxAP = 30 + 10 * battle.round
         else 
           battle.maxAP = 60
       battle.players[0].enemies = battle.players[1].mons
@@ -714,7 +730,6 @@ $ ->
         $(this).parent().parent().children(".abilityDesc").css "visibility", "hidden"
         return
       $(document).on("click.endTurn", "button.end-turn", ai)
-      checkApAvailbility()
 ###############################################################################################  User move interaction
       $(document).on "click.button", ".user.mon-slot .monBut button", ->
         $(".abilityDesc").css "visibility", "hidden"
@@ -722,25 +737,28 @@ $ ->
         if window.battle.players[0].ap >= ability.data("apcost")
           turnOffCommand(control)
           $(".user .monBut").css("visibility","hidden")
-          # $(document).on "click.cancel",".user.mon-slot .img", ->
-          #   turnOff("click.boom", ".enemy")
-          #   turnOff("click.cancel", ".user")
-          #   turnOnCommand(control)
-          #   targets = []
-          #   return
+          $(document).on "click.cancel",".cancel", ->
+            $(".user .img").removeClass("controlling")
+            $(".battle-guide").hide()
+            turnOff("click.boom", ".enemy")
+            turnOff("click.cancel", ".cancel")
+            turnOnCommand(control)
+            targets = []
+            return
           window.targets = targets.concat(ability.data("index"))  if targets.length isnt 3
           if targets.length isnt 0
             switch ability.data("target")
 #################################################################################################  Player ability interaction
               when "attack"
-                $(".battle-guide").text("Select an enemy target").show()
+                $(".battle-guide.guide").text("Select an enemy target")
+                $(".battle-guide").show()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
+                  disable(ability)
                   $(".user .img").removeClass("controlling")
                   $(".battle-guide").hide()
                   toggleImg()
                   targetMon = $(this)
                   turnOff("click.boom", ".enemy")
-                  disable(ability)
                   monDiv = targetMon.parent()
                   window.targets = targets.concat(monDiv.data("index"))
                   targetPosition = $(this).data("position")
@@ -751,7 +769,7 @@ $ ->
                   currentMon.animate(
                    "left": "+=" + leftMove.toString()  + "px"
                    "top": "+=" + topMove.toString()  + "px"
-                  , 500, ->
+                  , 250, ->
                     action()
                     checkMax()
                     singleTargetAbilityDisplayVariable()
@@ -760,26 +778,27 @@ $ ->
                     hpChangeBattle()
                     if targetMon.css("display") isnt "none"
                       if enemyHurt.isAlive() is false
-                        targetMon.effect("explode", {pieces: 20}, 1500).hide()
+                        targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
                       else
                         targetMon.effect "shake"
-                  ).animate backPosition, 500, ->
+                  ).animate backPosition, 250, ->
                     checkActionMonHealth()
                     turnOff("click.cancel", ".user")
-                    outcome()
-                    checkApAvailbility()
                     toggleImg()
                     turnOnCommand(control)
+                    flashEndButton()
+                    outcome()
                     return
                   return
               when "targetenemy"
-                $(".battle-guide").text("Select an enemy target").show()
+                $(".battle-guide.guide").text("Select an enemy target")
+                $(".battle-guide").show()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
+                  disable(ability)
                   $(".user .img").removeClass("controlling")
                   $(".battle-guide").hide()
                   toggleImg()
                   turnOff("click.boom", ".enemy")
-                  disable(ability)
                   targetMon = $(this)
                   monDiv = targetMon.parent()
                   window.targets = targets.concat(monDiv.data("index"))
@@ -791,7 +810,7 @@ $ ->
                     action()
                     if targetMon.css("display") isnt "none"
                       if enemyHurt.isAlive() is false
-                        targetMon.effect("explode", {pieces: 20}, 1500).hide()
+                        targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
                       else
                         targetMon.effect "shake", times: 10, 1000
                     element = $(this)
@@ -803,21 +822,22 @@ $ ->
                       element.toggleClass "ability-on"
                       element.attr("src", "")
                       checkActionMonHealth()
-                      outcome()
-                      checkApAvailbility()
                       toggleImg()
                       turnOnCommand(control)
+                      flashEndButton()
+                      outcome()
                       return
                     ), 1000
                     return
               when "targetally", "ability"
-                $(".battle-guide").text("Select an ally target").show()
+                disable(ability)
+                $(".battle-guide.guide").text("Select an ally target")
+                $(".battle-guide").show()
                 $(document).on "click.help", ".user.mon-slot .img", ->
                   $(".user .img").removeClass("controlling")
                   $(".battle-guide").hide()
                   toggleImg()
                   turnOff("click.help", ".user")
-                  disable(ability)
                   targetMon = $(this)
                   monDiv = targetMon.parent()
                   window.targets = targets.concat(monDiv.data("index"))
@@ -840,50 +860,49 @@ $ ->
                       element.toggleClass "ability-on"
                       element.attr("src", "")
                       checkActionMonHealth()
-                      outcome()
-                      checkApAvailbility()
                       toggleImg()
                       turnOnCommand(control)
+                      flashEndButton()
+                      outcome()
                       return
                     ), 1000
                     return
               when "aoeenemy"
-                  $(".user .img").removeClass("controlling")
-                  toggleImg()
-                  ability.parent().parent().children(".abilityDesc").css "visibility", "hidden"
-                  disable(ability)
-                  abilityAnime = $(".ability-img")
-                  multipleTargetAbilityDisplayVariable()
-                  $(".ability-img").toggleClass "aoePositionFoe", ->
-                    element = $(this)
-                    element.attr("src", callAbilityImg).toggleClass("ability-on")
-                    setTimeout (->
-                      showDamageTeam(1)
-                      multipleAction()
-                      $(".enemy.mon-slot .img").each ->
-                        if $(this).css("display") isnt "none"
-                          if battle.players[1].mons[$(this).data("index")].isAlive() is false
-                            $(this).effect("explode", {pieces: 20}, 1500).hide()
-                          else
-                            $(this).effect "shake", {times: 5, distance: 80}, 1000
-                      checkMax()
-                      apChange()
-                      hpChangeBattle()
-                      element.toggleClass "ability-on aoePositionFoe"
-                      element.attr("src", "")
-                      checkActionMonHealth()
-                      outcome()
-                      checkApAvailbility()
-                      toggleImg()
-                      turnOnCommand(control)
-                      return
-                    ), 1500
-                    return
-              when "aoeally"
+                disable(ability)
                 $(".user .img").removeClass("controlling")
                 toggleImg()
                 ability.parent().parent().children(".abilityDesc").css "visibility", "hidden"
+                abilityAnime = $(".ability-img")
+                multipleTargetAbilityDisplayVariable()
+                $(".ability-img").toggleClass "aoePositionFoe", ->
+                  element = $(this)
+                  element.attr("src", callAbilityImg).toggleClass("ability-on")
+                  setTimeout (->
+                    showDamageTeam(1)
+                    multipleAction()
+                    $(".enemy.mon-slot .img").each ->
+                      if $(this).css("display") isnt "none"
+                        if battle.players[1].mons[$(this).data("index")].isAlive() is false
+                          $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1500).hide()
+                        else
+                          $(this).effect "shake", {times: 5, distance: 80}, 1000
+                    checkMax()
+                    apChange()
+                    hpChangeBattle()
+                    element.toggleClass "ability-on aoePositionFoe"
+                    checkActionMonHealth()
+                    toggleImg()
+                    turnOnCommand(control)
+                    flashEndButton()
+                    outcome()
+                    return
+                  ), 1000
+                  return
+              when "aoeally"
                 disable(ability)
+                $(".user .img").removeClass("controlling")
+                toggleImg()
+                ability.parent().parent().children(".abilityDesc").css "visibility", "hidden"
                 abilityAnime = $(".ability-img")
                 checkMin()
                 multipleAction()
@@ -905,9 +924,9 @@ $ ->
                     element.toggleClass "ability-on aoePositionUser"
                     element.attr("src", "")
                     checkActionMonHealth()
-                    checkApAvailbility()
                     toggleImg()
                     turnOnCommand(control)
+                    flashEndButton()
                     return
                   ), 1000
                   return
@@ -925,18 +944,18 @@ $ ->
                     $(this).attr("src", betterMon.image).fadeIn(1000)
                 setTimeout (->
                   battle.evolve(0, targets[1], 0)
-                  apChange()
                   abilityAnime.toggleClass "ability-on"
                   abilityAnime.attr("src", "")
-                  checkApAvailbility()
+                  apChange()
                   toggleImg()
                   turnOnCommand(control)
+                  flashEndButton()
                   return
                 ), 2500
                 return
-            checkApAvailbility()
         else
-          $(this).effect("highlight", {color: "red"}, 100)
+          $(this).effect("highlight", {color: "red"}, 500)
+          $(".ap").effect("highlight", {color: "red"}, 500)
 
 
 
