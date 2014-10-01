@@ -528,7 +528,6 @@ window.ai = ->
     outcome()
     if teamPct() isnt 0
       controlAI 0
-      outcome()
       return
   ), timer0
   setTimeout (->
@@ -564,9 +563,9 @@ $ ->
 ############################################################################################### Battle logic
       window.battle = data
       battle.round = 1
-      battle.maxAP = 100
+      battle.maxAP = 10
       battle.calculateAP = ->
-        if battle.round < 6 
+        if battle.round < 6
           battle.maxAP = 10 * battle.round
         else 
           battle.maxAP = 60
@@ -878,7 +877,7 @@ $ ->
                       toggleImg()
                       turnOnCommand(control)
                       return
-                    ), 1000
+                    ), 1500
                     return
               when "aoeally"
                 $(".user .img").removeClass("controlling")
