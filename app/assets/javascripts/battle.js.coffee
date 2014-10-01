@@ -374,11 +374,11 @@ window.feedAiTargets = ->
   else if teamPct() <= 0.8 && teamPct() >= 0.6
     window.aiAbilities = [1,2]
     findTargetsBelowPct(0.5)
-    findTargetsAbovePct(0.8) if aiTargets.length is 0
+    findTargetsBelowPct(0.8) if aiTargets.length is 0
   else if teamPct() < 0.6 && teamPct() >= 0.4
     window.aiAbilities = [0,3]
     findTargetsAbovePct(0.7)
-    findTargetsAbovePct(0.4) if aiTargets.length is 0
+    findTargetsAbovePct(0.3) if aiTargets.length is 0
   else if teamPct() < 0.4 && teamPct() >= 0.2
     window.aiAbilities = [2,3]
     findTargets(3000)
@@ -672,7 +672,7 @@ $ ->
               while i < abilitytargets.length
                 monTarget = abilitytargets[i]
                 monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
-                monTarget.isAlive()
+                monTarget.isAlive() if typeof monTarget.isAlive() isnt "undefined"
                 i++
               if typeof effectTargets isnt "undefined"
                 i = 0
