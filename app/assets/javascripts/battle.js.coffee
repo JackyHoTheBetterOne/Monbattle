@@ -787,13 +787,13 @@ $ ->
                   singleTargetAbilityDisplayVariable()
                   abilityAnime.css(targetPosition)
                   abilityAnime.attr("src", callAbilityImg).toggleClass "ability-on", ->
+                    action()
                     if targetMon.css("display") isnt "none"
                       if enemyHurt.isAlive() is false
                         targetMon.effect("explode", {pieces: 20}, 1500).hide()
                       else
                         targetMon.effect "shake", times: 10, 1000
                     element = $(this)
-                    action()
                     checkMax()
                     apChange()
                     setTimeout (->
