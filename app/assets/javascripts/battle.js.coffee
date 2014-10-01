@@ -581,10 +581,10 @@ $ ->
       battle.round = 1
       battle.maxAP = 40
       battle.calculateAP = ->
-        if battle.round < 4 
+        if battle.round < 5 
           battle.maxAP = 30 + 10 * battle.round
         else 
-          battle.maxAP = 60
+          battle.maxAP = 80
       battle.players[0].enemies = battle.players[1].mons
       battle.players[1].enemies = battle.players[0].mons
       setAll(battle.players, "ap", battle.maxAP)
@@ -952,7 +952,7 @@ $ ->
                   turnOnCommand(control)
                   flashEndButton()
                   return
-                ), 2500
+                ), 2000
                 return
         else
           $(this).effect("highlight", {color: "red"}, 500)
