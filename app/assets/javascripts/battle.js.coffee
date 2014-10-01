@@ -244,6 +244,19 @@ window.checkActionMonHealth = ->
   if battle.players[targets[0]].mons[targets[1]].hp <= 0
     $("." + targets[0].toString() + " " + ".mon" + targets[1].toString() + " " + ".img").fadeOut()
 
+window.singleTargetAbilityAfterClickDisplay = ->
+  turnOff("click.boom", ".enemy")
+  $(document).off "click.cancel", ".cancel"
+  $(".user .img").removeClass("controlling")
+  $(".battle-guide").hide()
+
+window.singleTargetAbilityAfterActionDisplay = ->
+  apChange()
+  hpChangeBattle()
+  checkActionMonHealth()
+  toggleImg()
+  flashEndButton()
+
 
 
 ################################################################################################# Battle display variable helpers
@@ -285,9 +298,6 @@ window.control = ->
 
 window.turnOnCommand = (funk) ->
   $(document).on "click.command", ".user.mon-slot .img", funk
-
-window.turnOffCommand = (funk) ->
-  $(document).off "click.command", ".user.mon-slot .img", funk
 
 window.turnOff = (name, team) ->
   $(document).off name, team + ".mon-slot .img"
@@ -731,18 +741,18 @@ $ ->
       $(document).on("click.endTurn", "button.end-turn", ai)
 ###############################################################################################  User move interaction
       $(document).on "click.button", ".user.mon-slot .monBut button", ->
-        $(".abilityDesc").css "visibility", "hidden"
         ability = $(this)
         if window.battle.players[0].ap >= ability.data("apcost")
-          turnOffCommand(control)
+          $(".abilityDesc").css "visibility", "hidden"
           $(".user .monBut").css("visibility","hidden")
+          toggleImg()
           $(document).on "click.cancel",".cancel", ->
             $(".user .img").removeClass("controlling")
             $(".battle-guide").hide()
-            turnOff("click.boom", ".enemy")
-            turnOff("click.help", ".user")
-            turnOff("click.cancel", ".cancel")
-            turnOnCommand(control)
+            $(document).off "click.boom", ".enemy.mon-slot .img"
+            $(document).off "click.help", ".user.mon-slot .img"
+            $(document).off "click.cancel", ".cancel"
+            toggleImg()
             targets = []
             return
           window.targets = targets.concat(ability.data("index"))  if targets.length isnt 3
@@ -754,11 +764,8 @@ $ ->
                 $(".battle-guide").show()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
                   disable(ability)
-                  $(".user .img").removeClass("controlling")
-                  $(".battle-guide").hide()
-                  toggleImg()
+                  singleTargetAbilityAfterClickDisplay()
                   targetMon = $(this)
-                  turnOff("click.boom", ".enemy")
                   monDiv = targetMon.parent()
                   window.targets = targets.concat(monDiv.data("index"))
                   targetPosition = $(this).data("position")
@@ -783,9 +790,7 @@ $ ->
                         targetMon.effect "shake"
                   ).animate backPosition, 250, ->
                     checkActionMonHealth()
-                    turnOff("click.cancel", ".user")
                     toggleImg()
-                    turnOnCommand(control)
                     flashEndButton()
                     outcome()
                     return
@@ -795,10 +800,7 @@ $ ->
                 $(".battle-guide").show()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
                   disable(ability)
-                  $(".user .img").removeClass("controlling")
-                  $(".battle-guide").hide()
-                  toggleImg()
-                  turnOff("click.boom", ".enemy")
+                  singleTargetAbilityAfterClickDisplay()
                   targetMon = $(this)
                   monDiv = targetMon.parent()
                   window.targets = targets.concat(monDiv.data("index"))
@@ -815,16 +817,11 @@ $ ->
                         targetMon.effect "shake", times: 10, 1000
                     element = $(this)
                     checkMax()
-                    apChange()
                     setTimeout (->
-                      showDamageSingle()
-                      hpChangeBattle()
                       element.toggleClass "ability-on"
                       element.attr("src", "")
-                      checkActionMonHealth()
-                      toggleImg()
-                      turnOnCommand(control)
-                      flashEndButton()
+                      showDamageSingle()
+                      singleTargetAbilityAfterActionDisplay()
                       outcome()
                       return
                     ), 1000
@@ -833,10 +830,8 @@ $ ->
                 $(".battle-guide.guide").text("Select an ally target")
                 $(".battle-guide").show()
                 $(document).on "click.help", ".user.mon-slot .img", ->
-                  $(".user .img").removeClass("controlling")
-                  $(".battle-guide").hide()
-                  toggleImg()
-                  turnOff("click.help", ".user")
+                  disable(ability)
+                  singleTargetAbilityAfterClickDisplay()
                   targetMon = $(this)
                   monDiv = targetMon.parent()
                   window.targets = targets.concat(monDiv.data("index"))
@@ -845,32 +840,26 @@ $ ->
                   singleHealTargetAbilityDisplayVariable()
                   abilityAnime.css(targetPosition)
                   abilityAnime.attr("src", callAbilityImg).toggleClass "ability-on", ->
-                    disable(ability)
                     targetMon.effect "bounce",
                         distance: 100
                         times: 1
                       , 800
                     element = $(this)
                     action()
-                    apChange()
                     checkMax()
                     setTimeout (->
-                      showHealSingle()
-                      hpChangeBattle()
                       element.toggleClass "ability-on"
                       element.attr("src", "")
-                      checkActionMonHealth()
-                      toggleImg()
-                      turnOnCommand(control)
-                      flashEndButton()
+                      showHealSingle()
+                      singleTargetAbilityAfterActionDisplay()
                       outcome()
                       return
                     ), 1000
                     return
               when "aoeenemy"
+                $(document).off "click.cancel", ".cancel"
                 disable(ability)
                 $(".user .img").removeClass("controlling")
-                toggleImg()
                 ability.parent().parent().children(".abilityDesc").css "visibility", "hidden"
                 abilityAnime = $(".ability-img")
                 multipleTargetAbilityDisplayVariable()
@@ -886,19 +875,15 @@ $ ->
                           $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1500).hide()
                         else
                           $(this).effect "shake", {times: 5, distance: 80}, 1000
-                    checkMax()
-                    apChange()
-                    hpChangeBattle()
                     element.toggleClass "ability-on aoePositionFoe"
-                    checkActionMonHealth()
-                    toggleImg()
-                    turnOnCommand(control)
-                    flashEndButton()
+                    checkMax()
+                    singleTargetAbilityAfterActionDisplay()
                     outcome()
                     return
                   ), 1000
                   return
               when "aoeally"
+                $(document).off "click.cancel", ".cancel"
                 disable(ability)
                 $(".user .img").removeClass("controlling")
                 toggleImg()
@@ -918,21 +903,16 @@ $ ->
                           times: 1
                         , 800
                   setTimeout (->
-                    showHealTeam(0)
-                    apChange()
-                    hpChangeBattle()
                     element.toggleClass "ability-on aoePositionUser"
                     element.attr("src", "")
-                    checkActionMonHealth()
-                    toggleImg()
-                    turnOnCommand(control)
-                    flashEndButton()
+                    showHealTeam(0)
+                    singleTargetAbilityAfterActionDisplay()
                     return
                   ), 1000
                   return
               when "evolve"
+                $(document).off "click.cancel", ".cancel"
                 $(".user .img").removeClass("controlling")
-                toggleImg()
                 ability.remove()
                 abilityAnime = $(".single-ability-img")
                 targetMon = $(".0 .mon" + targets[1] + " " + ".img")
@@ -948,7 +928,6 @@ $ ->
                   abilityAnime.attr("src", "")
                   apChange()
                   toggleImg()
-                  turnOnCommand(control)
                   flashEndButton()
                   return
                 ), 2500
