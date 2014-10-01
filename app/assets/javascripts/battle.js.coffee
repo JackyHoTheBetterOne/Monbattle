@@ -521,29 +521,29 @@ window.ai = ->
   setTimeout (->
     feedAiTargets()
     if teamPct(0) isnt 0
-      # $(".battle-message").text(
-      #   battle.players[1].mons[1].name + ":" + " " + "I sleep with your wife every morning when you are out working").
-      #   effect("highlight", 500)
       controlAI 1
+      outcome()
       return
   ), timer1
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
       controlAI 3
+      outcome()
       return
   ), timer3
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
       controlAI 2
+      outcome()
       return
   ), timer2
   setTimeout (->
     feedAiTargets()
-    outcome()
     if teamPct() isnt 0
       controlAI 0
+      outcome()
       return
   ), timer0
   setTimeout (->
@@ -783,10 +783,10 @@ $ ->
                   ).animate backPosition, 250, ->
                     checkActionMonHealth()
                     turnOff("click.cancel", ".user")
-                    outcome()
                     toggleImg()
                     turnOnCommand(control)
                     flashEndButton()
+                    outcome()
                     return
                   return
               when "targetenemy"
@@ -821,10 +821,10 @@ $ ->
                       element.toggleClass "ability-on"
                       element.attr("src", "")
                       checkActionMonHealth()
-                      outcome()
                       toggleImg()
                       turnOnCommand(control)
                       flashEndButton()
+                      outcome()
                       return
                     ), 1000
                     return
@@ -859,10 +859,10 @@ $ ->
                       element.toggleClass "ability-on"
                       element.attr("src", "")
                       checkActionMonHealth()
-                      outcome()
                       toggleImg()
                       turnOnCommand(control)
                       flashEndButton()
+                      outcome()
                       return
                     ), 1000
                     return
@@ -890,10 +890,10 @@ $ ->
                     hpChangeBattle()
                     element.toggleClass "ability-on aoePositionFoe"
                     checkActionMonHealth()
-                    outcome()
                     toggleImg()
                     turnOnCommand(control)
                     flashEndButton()
+                    outcome()
                     return
                   ), 1000
                   return
