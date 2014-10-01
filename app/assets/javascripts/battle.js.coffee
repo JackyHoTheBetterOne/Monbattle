@@ -740,6 +740,7 @@ $ ->
             $(".user .img").removeClass("controlling")
             $(".battle-guide").hide()
             turnOff("click.boom", ".enemy")
+            turnOff("click.help", ".user")
             turnOff("click.cancel", ".cancel")
             turnOnCommand(control)
             targets = []
