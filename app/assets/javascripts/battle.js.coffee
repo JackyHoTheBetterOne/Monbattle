@@ -246,6 +246,7 @@ window.checkActionMonHealth = ->
 
 window.singleTargetAbilityAfterClickDisplay = ->
   turnOff("click.boom", ".enemy")
+  turnOff("click.help", ".user")
   $(document).off "click.cancel", ".cancel"
   $(".user .img").removeClass("controlling")
   $(".battle-guide").hide()
@@ -299,6 +300,9 @@ window.control = ->
 window.turnOnCommand = (funk) ->
   $(document).on "click.command", ".user.mon-slot .img", funk
 
+window.turnOffCommand = (funk) ->
+  $(document).off "click.command", ".user.mon-slot .img", funk
+
 window.turnOff = (name, team) ->
   $(document).off name, team + ".mon-slot .img"
 
@@ -325,11 +329,12 @@ window.flashEndButton = ->
     if $(this).parent().parent().children(".img").css("display") isnt "none"
       buttonArray.push $(this)
   if noApLeft($(".monBut button")) || nothingToDo(buttonArray)
-    $(".end-turn").addClass("turn-end").effect("pulsate", { times: 3 }, 1500)
+    $(".end-turn").fadeOut 300, ->
+      $(this).toggleClass("middle turn-end").fadeIn 300
     $(".end-turn").on "click.msgOff", ->
       $(this).off "click.msgOff"
       $(this).stop()
-      $(this).removeClass("turn-end")
+      $(this).toggleClass("middle turn-end")
 
 
 
@@ -753,6 +758,9 @@ $ ->
             $(document).off "click.help", ".user.mon-slot .img"
             $(document).off "click.cancel", ".cancel"
             toggleImg()
+            if ability.data("target") is "targetally" || ability.data("target") is "ability"
+              toggleImg()
+              turnOnCommand(control)
             targets = []
             return
           window.targets = targets.concat(ability.data("index"))  if targets.length isnt 3
@@ -827,9 +835,13 @@ $ ->
                     ), 1000
                     return
               when "targetally", "ability"
+                turnOffCommand(control)
+                toggleImg()
                 $(".battle-guide.guide").text("Select an ally target")
                 $(".battle-guide").show()
                 $(document).on "click.help", ".user.mon-slot .img", ->
+                  $(document)
+                  toggleImg()
                   disable(ability)
                   singleTargetAbilityAfterClickDisplay()
                   targetMon = $(this)
@@ -852,6 +864,7 @@ $ ->
                       element.attr("src", "")
                       showHealSingle()
                       singleTargetAbilityAfterActionDisplay()
+                      turnOnCommand(control)
                       outcome()
                       return
                     ), 1000
