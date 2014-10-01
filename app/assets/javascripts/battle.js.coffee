@@ -830,7 +830,6 @@ $ ->
                     ), 1000
                     return
               when "targetally", "ability"
-                disable(ability)
                 $(".battle-guide.guide").text("Select an ally target")
                 $(".battle-guide").show()
                 $(document).on "click.help", ".user.mon-slot .img", ->
@@ -846,6 +845,7 @@ $ ->
                   singleHealTargetAbilityDisplayVariable()
                   abilityAnime.css(targetPosition)
                   abilityAnime.attr("src", callAbilityImg).toggleClass "ability-on", ->
+                    disable(ability)
                     targetMon.effect "bounce",
                         distance: 100
                         times: 1
