@@ -85,6 +85,7 @@ class MonsterUnlock < ActiveRecord::Base
                          targeta:     ability.targeta,
                          elementa:    ability.elementa,
                          change:      ability.change,
+                         description: ability.description,
                          modifier:    ability.modifier,
                          img:         ability.img,
                          slot:        ability.slot,

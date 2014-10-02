@@ -1,0 +1,2805 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: abil_sockets; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE abil_sockets (
+    id integer NOT NULL,
+    socket_num integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.abil_sockets OWNER TO "Frank";
+
+--
+-- Name: abil_sockets_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE abil_sockets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.abil_sockets_id_seq OWNER TO "Frank";
+
+--
+-- Name: abil_sockets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE abil_sockets_id_seq OWNED BY abil_sockets.id;
+
+
+--
+-- Name: abilities; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE abilities (
+    id integer NOT NULL,
+    name character varying(255),
+    ap_cost integer,
+    store_price integer,
+    min_level integer,
+    price integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    description character varying(255),
+    stat_change character varying(255),
+    target_id integer,
+    element_id integer,
+    stat_target_id integer,
+    image_file_name character varying(255),
+    image_content_type character varying(255),
+    image_file_size integer,
+    image_updated_at timestamp without time zone,
+    abil_socket_id integer
+);
+
+
+ALTER TABLE public.abilities OWNER TO "Frank";
+
+--
+-- Name: abilities_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE abilities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.abilities_id_seq OWNER TO "Frank";
+
+--
+-- Name: abilities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE abilities_id_seq OWNED BY abilities.id;
+
+
+--
+-- Name: ability_effects; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE ability_effects (
+    id integer NOT NULL,
+    ability_id integer,
+    effect_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.ability_effects OWNER TO "Frank";
+
+--
+-- Name: ability_effects_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE ability_effects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ability_effects_id_seq OWNER TO "Frank";
+
+--
+-- Name: ability_effects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE ability_effects_id_seq OWNED BY ability_effects.id;
+
+
+--
+-- Name: ability_equippings; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE ability_equippings (
+    id integer NOT NULL,
+    ability_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    monster_unlock_id integer
+);
+
+
+ALTER TABLE public.ability_equippings OWNER TO "Frank";
+
+--
+-- Name: ability_equippings_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE ability_equippings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ability_equippings_id_seq OWNER TO "Frank";
+
+--
+-- Name: ability_equippings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE ability_equippings_id_seq OWNED BY ability_equippings.id;
+
+
+--
+-- Name: ability_purchases; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE ability_purchases (
+    id integer NOT NULL,
+    ability_id integer,
+    user_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.ability_purchases OWNER TO "Frank";
+
+--
+-- Name: ability_purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE ability_purchases_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ability_purchases_id_seq OWNER TO "Frank";
+
+--
+-- Name: ability_purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE ability_purchases_id_seq OWNED BY ability_purchases.id;
+
+
+--
+-- Name: ability_restrictions; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE ability_restrictions (
+    id integer NOT NULL,
+    job_id integer,
+    ability_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.ability_restrictions OWNER TO "Frank";
+
+--
+-- Name: ability_restrictions_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE ability_restrictions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ability_restrictions_id_seq OWNER TO "Frank";
+
+--
+-- Name: ability_restrictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE ability_restrictions_id_seq OWNED BY ability_restrictions.id;
+
+
+--
+-- Name: backgrounds; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE backgrounds (
+    id integer NOT NULL,
+    name character varying(255),
+    image character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.backgrounds OWNER TO "Frank";
+
+--
+-- Name: backgrounds_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE backgrounds_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.backgrounds_id_seq OWNER TO "Frank";
+
+--
+-- Name: backgrounds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE backgrounds_id_seq OWNED BY backgrounds.id;
+
+
+--
+-- Name: battle_levels; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE battle_levels (
+    id integer NOT NULL,
+    item_given character varying(255),
+    exp_given integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.battle_levels OWNER TO "Frank";
+
+--
+-- Name: battle_levels_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE battle_levels_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.battle_levels_id_seq OWNER TO "Frank";
+
+--
+-- Name: battle_levels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE battle_levels_id_seq OWNED BY battle_levels.id;
+
+
+--
+-- Name: battles; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE battles (
+    id integer NOT NULL,
+    outcome character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    battle_level_id integer
+);
+
+
+ALTER TABLE public.battles OWNER TO "Frank";
+
+--
+-- Name: battles_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE battles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.battles_id_seq OWNER TO "Frank";
+
+--
+-- Name: battles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE battles_id_seq OWNED BY battles.id;
+
+
+--
+-- Name: effects; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE effects (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    target_id integer,
+    element_id integer,
+    stat_change character varying(255),
+    stat_target_id integer
+);
+
+
+ALTER TABLE public.effects OWNER TO "Frank";
+
+--
+-- Name: effects_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE effects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.effects_id_seq OWNER TO "Frank";
+
+--
+-- Name: effects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE effects_id_seq OWNED BY effects.id;
+
+
+--
+-- Name: elements; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE elements (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.elements OWNER TO "Frank";
+
+--
+-- Name: elements_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE elements_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.elements_id_seq OWNER TO "Frank";
+
+--
+-- Name: elements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE elements_id_seq OWNED BY elements.id;
+
+
+--
+-- Name: evolved_states; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE evolved_states (
+    id integer NOT NULL,
+    name character varying(255),
+    job_id integer,
+    element_id integer,
+    created_from_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    monster_id integer,
+    is_template boolean DEFAULT false,
+    monster_skin_id integer,
+    hp_modifier integer,
+    dmg_modifier integer
+);
+
+
+ALTER TABLE public.evolved_states OWNER TO "Frank";
+
+--
+-- Name: evolved_states_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE evolved_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.evolved_states_id_seq OWNER TO "Frank";
+
+--
+-- Name: evolved_states_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE evolved_states_id_seq OWNED BY evolved_states.id;
+
+
+--
+-- Name: fights; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE fights (
+    id integer NOT NULL,
+    battle_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    party_id integer
+);
+
+
+ALTER TABLE public.fights OWNER TO "Frank";
+
+--
+-- Name: fights_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE fights_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.fights_id_seq OWNER TO "Frank";
+
+--
+-- Name: fights_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE fights_id_seq OWNED BY fights.id;
+
+
+--
+-- Name: jobs; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE jobs (
+    id integer NOT NULL,
+    name character varying(255),
+    evolve_lvl character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.jobs OWNER TO "Frank";
+
+--
+-- Name: jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE jobs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.jobs_id_seq OWNER TO "Frank";
+
+--
+-- Name: jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE jobs_id_seq OWNED BY jobs.id;
+
+
+--
+-- Name: members; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE members (
+    id integer NOT NULL,
+    party_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    monster_unlock_id integer
+);
+
+
+ALTER TABLE public.members OWNER TO "Frank";
+
+--
+-- Name: members_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE members_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.members_id_seq OWNER TO "Frank";
+
+--
+-- Name: members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE members_id_seq OWNED BY members.id;
+
+
+--
+-- Name: monster_skin_equippings; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE monster_skin_equippings (
+    id integer NOT NULL,
+    monster_id integer,
+    monster_skin_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    user_id integer
+);
+
+
+ALTER TABLE public.monster_skin_equippings OWNER TO "Frank";
+
+--
+-- Name: monster_skin_equippings_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE monster_skin_equippings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.monster_skin_equippings_id_seq OWNER TO "Frank";
+
+--
+-- Name: monster_skin_equippings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE monster_skin_equippings_id_seq OWNED BY monster_skin_equippings.id;
+
+
+--
+-- Name: monster_skin_purchases; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE monster_skin_purchases (
+    id integer NOT NULL,
+    user_id integer,
+    monster_skin_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.monster_skin_purchases OWNER TO "Frank";
+
+--
+-- Name: monster_skin_purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE monster_skin_purchases_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.monster_skin_purchases_id_seq OWNER TO "Frank";
+
+--
+-- Name: monster_skin_purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE monster_skin_purchases_id_seq OWNED BY monster_skin_purchases.id;
+
+
+--
+-- Name: monster_skins; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE monster_skins (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    avatar_file_name character varying(255),
+    avatar_content_type character varying(255),
+    avatar_file_size integer,
+    avatar_updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.monster_skins OWNER TO "Frank";
+
+--
+-- Name: monster_skins_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE monster_skins_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.monster_skins_id_seq OWNER TO "Frank";
+
+--
+-- Name: monster_skins_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE monster_skins_id_seq OWNED BY monster_skins.id;
+
+
+--
+-- Name: monster_unlocks; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE monster_unlocks (
+    id integer NOT NULL,
+    user_id integer,
+    monster_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.monster_unlocks OWNER TO "Frank";
+
+--
+-- Name: monster_unlocks_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE monster_unlocks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.monster_unlocks_id_seq OWNER TO "Frank";
+
+--
+-- Name: monster_unlocks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE monster_unlocks_id_seq OWNED BY monster_unlocks.id;
+
+
+--
+-- Name: monsters; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE monsters (
+    id integer NOT NULL,
+    name character varying(255),
+    max_hp integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    job_id integer,
+    element_id integer,
+    hp_modifier integer,
+    dmg_modifier integer,
+    evolved_from_id integer,
+    description text,
+    summon_cost integer,
+    evolve_animation_file_name character varying(255),
+    evolve_animation_content_type character varying(255),
+    evolve_animation_file_size integer,
+    evolve_animation_updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.monsters OWNER TO "Frank";
+
+--
+-- Name: monsters_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE monsters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.monsters_id_seq OWNER TO "Frank";
+
+--
+-- Name: monsters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE monsters_id_seq OWNED BY monsters.id;
+
+
+--
+-- Name: parties; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE parties (
+    id integer NOT NULL,
+    user_id integer,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    npc boolean DEFAULT false
+);
+
+
+ALTER TABLE public.parties OWNER TO "Frank";
+
+--
+-- Name: parties_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE parties_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.parties_id_seq OWNER TO "Frank";
+
+--
+-- Name: parties_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE parties_id_seq OWNED BY parties.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE schema_migrations (
+    version character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.schema_migrations OWNER TO "Frank";
+
+--
+-- Name: skin_restrictions; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE skin_restrictions (
+    id integer NOT NULL,
+    monster_skin_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    job_id integer
+);
+
+
+ALTER TABLE public.skin_restrictions OWNER TO "Frank";
+
+--
+-- Name: skin_restrictions_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE skin_restrictions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.skin_restrictions_id_seq OWNER TO "Frank";
+
+--
+-- Name: skin_restrictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE skin_restrictions_id_seq OWNED BY skin_restrictions.id;
+
+
+--
+-- Name: stat_targets; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE stat_targets (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.stat_targets OWNER TO "Frank";
+
+--
+-- Name: stat_targets_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE stat_targets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.stat_targets_id_seq OWNER TO "Frank";
+
+--
+-- Name: stat_targets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE stat_targets_id_seq OWNED BY stat_targets.id;
+
+
+--
+-- Name: summoner_levels; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE summoner_levels (
+    id integer NOT NULL,
+    lvl integer,
+    exp_to_nxt_lvl integer,
+    ap integer,
+    monsters_allowed integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.summoner_levels OWNER TO "Frank";
+
+--
+-- Name: summoner_levels_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE summoner_levels_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.summoner_levels_id_seq OWNER TO "Frank";
+
+--
+-- Name: summoner_levels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE summoner_levels_id_seq OWNED BY summoner_levels.id;
+
+
+--
+-- Name: summoners; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE summoners (
+    id integer NOT NULL,
+    name character varying(255),
+    current_lvl integer,
+    current_exp integer,
+    user_id integer,
+    summoner_level_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.summoners OWNER TO "Frank";
+
+--
+-- Name: summoners_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE summoners_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.summoners_id_seq OWNER TO "Frank";
+
+--
+-- Name: summoners_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE summoners_id_seq OWNED BY summoners.id;
+
+
+--
+-- Name: targets; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE targets (
+    id integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.targets OWNER TO "Frank";
+
+--
+-- Name: targets_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE targets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.targets_id_seq OWNER TO "Frank";
+
+--
+-- Name: targets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE targets_id_seq OWNED BY targets.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying(255),
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    first_name character varying(255),
+    last_name character varying(255),
+    user_name character varying(255),
+    currency integer,
+    paid_currency integer,
+    rank integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    admin boolean DEFAULT false
+);
+
+
+ALTER TABLE public.users OWNER TO "Frank";
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO "Frank";
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY abil_sockets ALTER COLUMN id SET DEFAULT nextval('abil_sockets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY abilities ALTER COLUMN id SET DEFAULT nextval('abilities_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY ability_effects ALTER COLUMN id SET DEFAULT nextval('ability_effects_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY ability_equippings ALTER COLUMN id SET DEFAULT nextval('ability_equippings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY ability_purchases ALTER COLUMN id SET DEFAULT nextval('ability_purchases_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY ability_restrictions ALTER COLUMN id SET DEFAULT nextval('ability_restrictions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY backgrounds ALTER COLUMN id SET DEFAULT nextval('backgrounds_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY battle_levels ALTER COLUMN id SET DEFAULT nextval('battle_levels_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY battles ALTER COLUMN id SET DEFAULT nextval('battles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY effects ALTER COLUMN id SET DEFAULT nextval('effects_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY elements ALTER COLUMN id SET DEFAULT nextval('elements_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY evolved_states ALTER COLUMN id SET DEFAULT nextval('evolved_states_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY fights ALTER COLUMN id SET DEFAULT nextval('fights_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY jobs ALTER COLUMN id SET DEFAULT nextval('jobs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY members ALTER COLUMN id SET DEFAULT nextval('members_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY monster_skin_equippings ALTER COLUMN id SET DEFAULT nextval('monster_skin_equippings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY monster_skin_purchases ALTER COLUMN id SET DEFAULT nextval('monster_skin_purchases_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY monster_skins ALTER COLUMN id SET DEFAULT nextval('monster_skins_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY monster_unlocks ALTER COLUMN id SET DEFAULT nextval('monster_unlocks_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY monsters ALTER COLUMN id SET DEFAULT nextval('monsters_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY parties ALTER COLUMN id SET DEFAULT nextval('parties_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY skin_restrictions ALTER COLUMN id SET DEFAULT nextval('skin_restrictions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY stat_targets ALTER COLUMN id SET DEFAULT nextval('stat_targets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY summoner_levels ALTER COLUMN id SET DEFAULT nextval('summoner_levels_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY summoners ALTER COLUMN id SET DEFAULT nextval('summoners_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY targets ALTER COLUMN id SET DEFAULT nextval('targets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Data for Name: abil_sockets; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY abil_sockets (id, socket_num, created_at, updated_at) FROM stdin;
+1	1	2014-09-30 19:59:18.094244	2014-09-30 19:59:18.094244
+2	2	2014-09-30 19:59:22.436025	2014-09-30 19:59:22.436025
+3	3	2014-09-30 19:59:25.805264	2014-09-30 19:59:25.805264
+4	4	2014-09-30 19:59:29.261064	2014-09-30 19:59:29.261064
+\.
+
+
+--
+-- Name: abil_sockets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('abil_sockets_id_seq', 4, true);
+
+
+--
+-- Data for Name: abilities; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY abilities (id, name, ap_cost, store_price, min_level, price, created_at, updated_at, description, stat_change, target_id, element_id, stat_target_id, image_file_name, image_content_type, image_file_size, image_updated_at, abil_socket_id) FROM stdin;
+13	Summon Bahmut	40	1	1	1	2014-09-30 21:27:24.960014	2014-10-01 00:01:46.233016	Does 450 to all enemies.	-450	5	2	1	summon-dragon-0.gif	image/gif	540622	2014-09-30 21:27:20.589038	2
+3	Stab	10	1	1	1	2014-09-30 20:14:10.055504	2014-09-30 20:18:54.243765	200 to target.	-200	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:14:09.04192	1
+4	Double Stab	20	1	1	1	2014-09-30 20:15:00.162119	2014-09-30 20:19:24.61364	300 to target.	-300	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:15:11.981627	2
+5	Strike 	10	1	1	1	2014-09-30 20:39:47.647934	2014-09-30 20:39:47.647934	Strikes where it hurts?	-250	2	1	1	needle-strike.gif	image/gif	12117	2014-09-30 20:39:46.831773	1
+6	Thrust	20	1	1	1	2014-09-30 20:43:15.49733	2014-09-30 20:43:15.49733	Trusts the enemy.	-350	1	1	1	slash.gif	image/gif	49124	2014-09-30 20:43:14.385443	1
+10	Needle Strike	20	1	1	1	2014-09-30 20:58:12.680668	2014-10-01 00:38:57.850291	500 to target enemy.	-500	2	3	1	needle-strike.gif	image/gif	12185	2014-09-30 20:58:11.905023	2
+2	Recklessness	40	1	1	1	2014-09-30 20:09:37.64975	2014-10-01 01:08:04.188147	700 to target. 300 to self.	-700	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:09:36.620306	4
+14	Spike	20	1	1	1	2014-09-30 21:38:31.317022	2014-09-30 21:38:31.317022	Deal 400 to target enemy.	-400	2	1	1	needle-strike.gif	image/gif	12117	2014-09-30 21:38:30.576549	2
+17	NPC Base Attack	10	1	1	1	2014-09-30 22:35:02.910878	2014-09-30 22:43:51.85317	200 to target. 	-200 	1	1	1	\N	\N	\N	\N	1
+16	Evo Attack	10	1	1	1	2014-09-30 22:34:01.47143	2014-09-30 22:44:51.630326	Does 400 to target.	-400	1	2	1	\N	\N	\N	\N	1
+15	Attack	10	1	1	1	2014-09-30 22:32:49.73003	2014-09-30 22:45:32.576615	Does 250 to target. 	-250	1	1	1	\N	\N	\N	\N	1
+8	Omega Slash	40	1	1	1	2014-09-30 20:51:19.726385	2014-09-30 22:46:46.439749	A huge slash that hits everything in its path.	-700	5	1	1	omega_slash.gif	image/gif	159225	2014-09-30 20:51:18.117781	1
+12	Downfall	20	1	1	1	2014-09-30 21:19:22.955762	2014-09-30 22:48:08.349486	750 to target enemy. 	-750	2	2	1	downfall-4.gif	image/gif	79891	2014-09-30 21:19:21.488242	2
+18	Omega Slash 2	30	1	1	1	2014-09-30 23:15:09.099317	2014-09-30 23:15:09.099317	Does 400 to all enemies.	-400	5	3	1	omega_slash.gif	image/gif	163364	2014-09-30 23:15:07.799167	3
+11	Discharge	10	1	1	1	2014-09-30 21:03:42.491408	2014-09-30 23:17:52.815787	Does 300 to all enemies.	-400	5	4	1	discharge.gif	image/gif	321683	2014-09-30 21:03:38.866905	4
+1	Aggression	30	1	0	1	2014-09-30 20:02:45.778212	2014-09-30 23:45:53.613169	800 to target. 500 to self.	-800	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:06:32.55202	3
+19	Healing Circle	30	\N	\N	\N	2014-10-01 00:08:28.800442	2014-10-01 01:23:38.466219	Heals party 600 hp.	+600	6	4	1	mass-heal.gif	image/gif	612561	2014-10-01 00:08:25.809456	2
+21	Tackle	10	\N	\N	\N	2014-10-01 01:28:31.715298	2014-10-01 01:28:31.715298	300 to target	-300	1	3	1	\N	\N	\N	\N	1
+22	Headbutt	10	\N	\N	\N	2014-10-01 01:29:11.914176	2014-10-01 01:29:11.914176	150 to target. 	-150	1	1	1	\N	\N	\N	\N	1
+20	Recover	20	\N	\N	\N	2014-10-01 01:26:21.983686	2014-10-01 01:38:31.235482	Heal target 1000. 	+1000	3	2	1	heal_modified.gif	image/gif	45759	2014-10-01 01:38:29.986785	2
+9	Weak Slash	10	1	1	1	2014-09-30 20:56:00.564341	2014-10-01 01:40:59.00599	200 damage to target.	-200	2	1	1	slash.gif	image/gif	49124	2014-09-30 20:55:59.526741	1
+\.
+
+
+--
+-- Name: abilities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('abilities_id_seq', 22, true);
+
+
+--
+-- Data for Name: ability_effects; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY ability_effects (id, ability_id, effect_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: ability_effects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('ability_effects_id_seq', 1, true);
+
+
+--
+-- Data for Name: ability_equippings; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY ability_equippings (id, ability_id, created_at, updated_at, monster_unlock_id) FROM stdin;
+3	4	2014-09-30 21:00:00.45096	2014-09-30 21:00:00.45096	9
+5	2	2014-09-30 21:00:03.218756	2014-09-30 21:00:03.218756	9
+7	4	2014-09-30 21:00:30.396852	2014-09-30 21:00:30.396852	12
+9	2	2014-09-30 21:00:33.226394	2014-09-30 21:00:33.226394	12
+11	9	2014-09-30 21:17:12.378309	2014-09-30 21:17:12.378309	13
+12	10	2014-09-30 21:17:13.870431	2014-09-30 21:17:13.870431	13
+13	9	2014-09-30 21:17:15.705856	2014-09-30 21:17:15.705856	24
+14	10	2014-09-30 21:17:17.490364	2014-09-30 21:17:17.490364	24
+15	9	2014-09-30 21:17:28.864747	2014-09-30 21:17:28.864747	18
+16	10	2014-09-30 21:17:30.033041	2014-09-30 21:17:30.033041	18
+17	9	2014-09-30 21:17:33.717294	2014-09-30 21:17:33.717294	22
+18	10	2014-09-30 21:17:34.911148	2014-09-30 21:17:34.911148	22
+23	13	2014-09-30 21:28:12.76702	2014-09-30 21:28:12.76702	20
+24	13	2014-09-30 21:28:14.732145	2014-09-30 21:28:14.732145	14
+25	13	2014-09-30 21:28:16.652637	2014-09-30 21:28:16.652637	26
+26	13	2014-09-30 21:28:18.332424	2014-09-30 21:28:18.332424	16
+28	14	2014-09-30 21:40:36.022035	2014-09-30 21:40:36.022035	11
+30	10	2014-09-30 21:44:16.364479	2014-09-30 21:44:16.364479	6
+34	10	2014-09-30 21:44:24.532807	2014-09-30 21:44:24.532807	21
+36	10	2014-09-30 21:44:27.619316	2014-09-30 21:44:27.619316	17
+51	16	2014-09-30 22:54:06.979514	2014-09-30 22:54:06.979514	25
+52	16	2014-09-30 22:54:08.4964	2014-09-30 22:54:08.4964	19
+53	16	2014-09-30 22:54:10.36444	2014-09-30 22:54:10.36444	5
+56	12	2014-09-30 22:54:17.019984	2014-09-30 22:54:17.019984	15
+57	16	2014-09-30 22:54:17.991079	2014-09-30 22:54:17.991079	15
+59	17	2014-09-30 22:55:08.19752	2014-09-30 22:55:08.19752	8
+60	17	2014-09-30 22:55:09.923125	2014-09-30 22:55:09.923125	9
+46	17	2014-09-30 22:52:29.059056	2014-09-30 22:55:11.826551	12
+61	17	2014-09-30 22:55:15.125829	2014-09-30 22:55:15.125829	11
+62	11	2014-09-30 23:06:44.086697	2014-09-30 23:06:44.086697	8
+63	18	2014-09-30 23:16:47.035019	2014-09-30 23:16:47.035019	8
+65	1	2014-09-30 23:16:51.888596	2014-09-30 23:16:57.161605	12
+66	18	2014-09-30 23:16:59.940837	2014-09-30 23:16:59.940837	11
+64	1	2014-09-30 23:16:49.274408	2014-09-30 23:17:04.00128	9
+67	11	2014-09-30 23:18:21.283203	2014-09-30 23:18:21.283203	11
+68	14	2014-09-30 23:19:07.286075	2014-09-30 23:19:07.286075	8
+69	13	2014-10-01 00:01:59.933929	2014-10-01 00:01:59.933929	25
+55	13	2014-09-30 22:54:15.043386	2014-10-01 00:02:04.088895	5
+70	19	2014-10-01 00:02:02.161353	2014-10-01 00:09:37.918286	19
+48	22	2014-09-30 22:54:02.111445	2014-10-01 01:32:04.016755	23
+50	9	2014-09-30 22:54:05.238093	2014-10-01 01:32:07.990145	17
+47	21	2014-09-30 22:54:00.366429	2014-10-01 01:32:14.677793	6
+49	9	2014-09-30 22:54:03.726524	2014-10-01 01:32:17.930649	21
+32	20	2014-09-30 21:44:19.29561	2014-10-01 02:26:56.971181	23
+\.
+
+
+--
+-- Name: ability_equippings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('ability_equippings_id_seq', 70, true);
+
+
+--
+-- Data for Name: ability_purchases; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY ability_purchases (id, ability_id, user_id, created_at, updated_at) FROM stdin;
+3	1	2	2014-09-30 20:09:47.28611	2014-09-30 20:09:47.28611
+6	2	2	2014-09-30 20:11:11.931992	2014-09-30 20:11:11.931992
+7	4	2	2014-09-30 20:15:32.696915	2014-09-30 20:15:32.696915
+8	3	2	2014-09-30 20:15:35.109208	2014-09-30 20:15:35.109208
+9	8	2	2014-09-30 20:51:26.704478	2014-09-30 20:51:26.704478
+10	11	2	2014-09-30 21:04:42.224499	2014-09-30 21:04:42.224499
+14	10	1	2014-09-30 21:16:11.693145	2014-09-30 21:16:11.693145
+15	10	3	2014-09-30 21:16:13.385772	2014-09-30 21:16:13.385772
+16	9	1	2014-09-30 21:16:18.876164	2014-09-30 21:16:18.876164
+17	9	3	2014-09-30 21:16:44.350515	2014-09-30 21:16:44.350515
+18	12	1	2014-09-30 21:21:30.975266	2014-09-30 21:21:30.975266
+19	12	3	2014-09-30 21:21:32.431194	2014-09-30 21:21:32.431194
+20	13	1	2014-09-30 21:27:55.1001	2014-09-30 21:27:55.1001
+21	13	3	2014-09-30 21:27:56.936266	2014-09-30 21:27:56.936266
+23	14	2	2014-09-30 21:39:10.853454	2014-09-30 21:39:10.853454
+24	16	3	2014-09-30 22:35:22.570066	2014-09-30 22:35:22.570066
+25	16	1	2014-09-30 22:35:24.598971	2014-09-30 22:35:24.598971
+28	17	2	2014-09-30 22:36:01.120331	2014-09-30 22:36:01.120331
+29	15	3	2014-09-30 22:36:12.646586	2014-09-30 22:36:12.646586
+30	15	1	2014-09-30 22:36:14.309517	2014-09-30 22:36:14.309517
+31	18	2	2014-09-30 23:15:34.857129	2014-09-30 23:15:34.857129
+32	19	3	2014-10-01 00:08:41.193372	2014-10-01 00:08:41.193372
+34	19	1	2014-10-01 00:08:50.353284	2014-10-01 00:08:50.353284
+35	20	3	2014-10-01 01:26:51.548633	2014-10-01 01:26:51.548633
+36	20	1	2014-10-01 01:26:55.358952	2014-10-01 01:26:55.358952
+37	22	3	2014-10-01 01:29:51.980023	2014-10-01 01:29:51.980023
+38	22	1	2014-10-01 01:29:54.197902	2014-10-01 01:29:54.197902
+39	21	3	2014-10-01 01:30:16.392784	2014-10-01 01:30:16.392784
+40	21	1	2014-10-01 01:30:18.375942	2014-10-01 01:30:18.375942
+\.
+
+
+--
+-- Name: ability_purchases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('ability_purchases_id_seq', 40, true);
+
+
+--
+-- Data for Name: ability_restrictions; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY ability_restrictions (id, job_id, ability_id, created_at, updated_at) FROM stdin;
+19	5	5	2014-09-30 20:40:11.984063	2014-09-30 20:40:11.984063
+20	6	3	2014-09-30 20:40:36.888681	2014-09-30 20:40:36.888681
+21	10	3	2014-09-30 20:40:36.890103	2014-09-30 20:40:36.890103
+22	6	4	2014-09-30 20:40:46.725663	2014-09-30 20:40:46.725663
+23	9	4	2014-09-30 20:40:46.727457	2014-09-30 20:40:46.727457
+24	10	4	2014-09-30 20:40:46.729673	2014-09-30 20:40:46.729673
+25	6	2	2014-09-30 20:40:56.434361	2014-09-30 20:40:56.434361
+26	9	2	2014-09-30 20:40:56.435807	2014-09-30 20:40:56.435807
+27	10	2	2014-09-30 20:40:56.437046	2014-09-30 20:40:56.437046
+28	6	1	2014-09-30 20:41:04.443821	2014-09-30 20:41:04.443821
+29	9	1	2014-09-30 20:41:04.447235	2014-09-30 20:41:04.447235
+30	10	1	2014-09-30 20:41:04.450136	2014-09-30 20:41:04.450136
+31	5	6	2014-09-30 20:43:15.499625	2014-09-30 20:43:15.499625
+34	11	9	2014-09-30 20:56:00.566128	2014-09-30 20:56:00.566128
+35	12	9	2014-09-30 20:56:00.567126	2014-09-30 20:56:00.567126
+36	14	9	2014-09-30 20:56:00.568003	2014-09-30 20:56:00.568003
+37	15	9	2014-09-30 20:56:00.568869	2014-09-30 20:56:00.568869
+38	11	10	2014-09-30 20:58:12.683332	2014-09-30 20:58:12.683332
+39	12	10	2014-09-30 20:58:12.684908	2014-09-30 20:58:12.684908
+40	14	10	2014-09-30 20:58:12.686075	2014-09-30 20:58:12.686075
+41	15	10	2014-09-30 20:58:12.687109	2014-09-30 20:58:12.687109
+46	19	12	2014-09-30 21:19:22.95834	2014-09-30 21:19:22.95834
+47	20	12	2014-09-30 21:19:22.959876	2014-09-30 21:19:22.959876
+48	21	12	2014-09-30 21:19:22.9613	2014-09-30 21:19:22.9613
+49	22	12	2014-09-30 21:19:22.962328	2014-09-30 21:19:22.962328
+50	19	13	2014-09-30 21:28:04.494344	2014-09-30 21:28:04.494344
+51	20	13	2014-09-30 21:28:04.495853	2014-09-30 21:28:04.495853
+52	21	13	2014-09-30 21:28:04.49707	2014-09-30 21:28:04.49707
+53	22	13	2014-09-30 21:28:04.498232	2014-09-30 21:28:04.498232
+58	6	5	2014-09-30 21:39:53.323633	2014-09-30 21:39:53.323633
+59	9	5	2014-09-30 21:39:53.325276	2014-09-30 21:39:53.325276
+60	10	5	2014-09-30 21:39:53.326474	2014-09-30 21:39:53.326474
+61	16	5	2014-09-30 21:39:53.327756	2014-09-30 21:39:53.327756
+62	16	14	2014-09-30 21:40:23.46256	2014-09-30 21:40:23.46256
+63	11	15	2014-09-30 22:32:49.731854	2014-09-30 22:32:49.731854
+64	12	15	2014-09-30 22:32:49.733501	2014-09-30 22:32:49.733501
+65	14	15	2014-09-30 22:32:49.735085	2014-09-30 22:32:49.735085
+66	15	15	2014-09-30 22:32:49.737356	2014-09-30 22:32:49.737356
+67	19	16	2014-09-30 22:34:01.473568	2014-09-30 22:34:01.473568
+68	20	16	2014-09-30 22:34:01.475667	2014-09-30 22:34:01.475667
+69	21	16	2014-09-30 22:34:01.477406	2014-09-30 22:34:01.477406
+70	22	16	2014-09-30 22:34:01.479685	2014-09-30 22:34:01.479685
+84	16	15	2014-09-30 22:45:32.567599	2014-09-30 22:45:32.567599
+85	19	8	2014-09-30 22:46:46.429612	2014-09-30 22:46:46.429612
+86	20	8	2014-09-30 22:46:46.434112	2014-09-30 22:46:46.434112
+87	21	8	2014-09-30 22:46:46.436055	2014-09-30 22:46:46.436055
+88	22	8	2014-09-30 22:46:46.437431	2014-09-30 22:46:46.437431
+89	5	11	2014-09-30 22:47:20.747738	2014-09-30 22:47:20.747738
+90	6	11	2014-09-30 22:47:20.749314	2014-09-30 22:47:20.749314
+91	9	11	2014-09-30 22:47:20.751157	2014-09-30 22:47:20.751157
+92	10	11	2014-09-30 22:47:20.754489	2014-09-30 22:47:20.754489
+93	5	17	2014-09-30 22:53:08.715405	2014-09-30 22:53:08.715405
+94	6	17	2014-09-30 22:53:08.716915	2014-09-30 22:53:08.716915
+95	9	17	2014-09-30 22:53:08.71809	2014-09-30 22:53:08.71809
+96	10	17	2014-09-30 22:53:08.719213	2014-09-30 22:53:08.719213
+97	16	17	2014-09-30 22:53:08.720346	2014-09-30 22:53:08.720346
+102	5	18	2014-09-30 23:16:40.459932	2014-09-30 23:16:40.459932
+103	6	18	2014-09-30 23:16:40.463279	2014-09-30 23:16:40.463279
+104	9	18	2014-09-30 23:16:40.467223	2014-09-30 23:16:40.467223
+105	10	18	2014-09-30 23:16:40.469852	2014-09-30 23:16:40.469852
+106	16	18	2014-09-30 23:16:40.471117	2014-09-30 23:16:40.471117
+107	16	11	2014-09-30 23:17:52.812798	2014-09-30 23:17:52.812798
+108	5	14	2014-09-30 23:19:01.898397	2014-09-30 23:19:01.898397
+109	6	14	2014-09-30 23:19:01.899766	2014-09-30 23:19:01.899766
+110	9	14	2014-09-30 23:19:01.90268	2014-09-30 23:19:01.90268
+111	10	14	2014-09-30 23:19:01.904115	2014-09-30 23:19:01.904115
+112	5	1	2014-09-30 23:45:53.60181	2014-09-30 23:45:53.60181
+113	16	1	2014-09-30 23:45:53.60852	2014-09-30 23:45:53.60852
+115	20	19	2014-10-01 00:08:28.804788	2014-10-01 00:08:28.804788
+116	12	20	2014-10-01 01:26:21.987344	2014-10-01 01:26:21.987344
+117	11	21	2014-10-01 01:28:31.717184	2014-10-01 01:28:31.717184
+118	12	21	2014-10-01 01:28:31.718659	2014-10-01 01:28:31.718659
+119	14	21	2014-10-01 01:28:31.721819	2014-10-01 01:28:31.721819
+120	15	21	2014-10-01 01:28:31.723158	2014-10-01 01:28:31.723158
+121	11	22	2014-10-01 01:29:11.91545	2014-10-01 01:29:11.91545
+122	12	22	2014-10-01 01:29:11.916404	2014-10-01 01:29:11.916404
+123	14	22	2014-10-01 01:29:11.917187	2014-10-01 01:29:11.917187
+124	15	22	2014-10-01 01:29:11.917997	2014-10-01 01:29:11.917997
+\.
+
+
+--
+-- Name: ability_restrictions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('ability_restrictions_id_seq', 124, true);
+
+
+--
+-- Data for Name: backgrounds; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY backgrounds (id, name, image, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: backgrounds_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('backgrounds_id_seq', 1, false);
+
+
+--
+-- Data for Name: battle_levels; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY battle_levels (id, item_given, exp_given, created_at, updated_at, name) FROM stdin;
+1	Monbattle Points	100	2014-09-30 19:38:52.869832	2014-09-30 19:38:52.869832	Stage 1 
+2	1	1	2014-09-30 19:40:35.218249	2014-09-30 19:40:35.218249	Stage 2
+\.
+
+
+--
+-- Name: battle_levels_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('battle_levels_id_seq', 2, true);
+
+
+--
+-- Data for Name: battles; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY battles (id, outcome, created_at, updated_at, battle_level_id) FROM stdin;
+1	\N	2014-09-30 21:23:04.508587	2014-09-30 21:23:04.508587	1
+2	\N	2014-09-30 21:28:21.180672	2014-09-30 21:28:21.180672	1
+3	\N	2014-09-30 21:31:17.035754	2014-09-30 21:31:17.035754	1
+4	\N	2014-09-30 21:45:11.027922	2014-09-30 21:45:11.027922	1
+5	\N	2014-09-30 21:50:36.130812	2014-09-30 21:50:36.130812	1
+6	\N	2014-09-30 21:52:28.094422	2014-09-30 21:52:28.094422	1
+7	\N	2014-09-30 21:54:39.077253	2014-09-30 21:54:39.077253	1
+8	\N	2014-09-30 21:56:08.535343	2014-09-30 21:56:08.535343	1
+9	\N	2014-09-30 22:24:04.442769	2014-09-30 22:24:04.442769	1
+10	\N	2014-09-30 22:37:03.447532	2014-09-30 22:37:03.447532	1
+11	\N	2014-09-30 22:39:46.273052	2014-09-30 22:39:46.273052	1
+12	\N	2014-09-30 22:52:12.772717	2014-09-30 22:52:12.772717	1
+13	\N	2014-09-30 22:55:26.938774	2014-09-30 22:55:26.938774	1
+14	\N	2014-09-30 23:06:56.045069	2014-09-30 23:06:56.045069	1
+15	\N	2014-09-30 23:19:13.722696	2014-09-30 23:19:13.722696	1
+16	\N	2014-09-30 23:22:07.957374	2014-09-30 23:22:07.957374	1
+17	\N	2014-09-30 23:34:30.014817	2014-09-30 23:34:30.014817	1
+18	\N	2014-09-30 23:38:56.380193	2014-09-30 23:38:56.380193	1
+19	\N	2014-09-30 23:46:40.694612	2014-09-30 23:46:40.694612	1
+20	\N	2014-09-30 23:49:29.594397	2014-09-30 23:49:29.594397	1
+21	\N	2014-10-01 00:02:08.939295	2014-10-01 00:02:08.939295	1
+22	\N	2014-10-01 00:08:57.389576	2014-10-01 00:08:57.389576	1
+23	\N	2014-10-01 00:09:42.696554	2014-10-01 00:09:42.696554	1
+24	\N	2014-10-01 00:12:45.493378	2014-10-01 00:12:45.493378	1
+25	\N	2014-10-01 00:23:45.650439	2014-10-01 00:23:45.650439	1
+26	\N	2014-10-01 00:31:01.493893	2014-10-01 00:31:01.493893	1
+27	\N	2014-10-01 00:34:20.406061	2014-10-01 00:34:20.406061	1
+28	\N	2014-10-01 00:35:49.140119	2014-10-01 00:35:49.140119	1
+29	\N	2014-10-01 00:39:41.512118	2014-10-01 00:39:41.512118	1
+30	\N	2014-10-01 01:08:19.901178	2014-10-01 01:08:19.901178	1
+31	\N	2014-10-01 01:08:20.110849	2014-10-01 01:08:20.110849	1
+32	\N	2014-10-01 01:10:14.302094	2014-10-01 01:10:14.302094	1
+33	\N	2014-10-01 01:17:49.290395	2014-10-01 01:17:49.290395	1
+34	\N	2014-10-01 01:31:21.275145	2014-10-01 01:31:21.275145	1
+35	\N	2014-10-01 01:32:36.695132	2014-10-01 01:32:36.695132	1
+36	\N	2014-10-01 01:38:35.619528	2014-10-01 01:38:35.619528	1
+37	\N	2014-10-01 01:39:03.004633	2014-10-01 01:39:03.004633	1
+38	\N	2014-10-01 01:41:14.157106	2014-10-01 01:41:14.157106	1
+39	\N	2014-10-01 02:28:00.609598	2014-10-01 02:28:00.609598	1
+40	\N	2014-10-01 02:47:07.118871	2014-10-01 02:47:07.118871	1
+41	\N	2014-10-01 03:10:56.259803	2014-10-01 03:10:56.259803	1
+42	\N	2014-10-01 04:01:37.160493	2014-10-01 04:01:37.160493	1
+43	\N	2014-10-01 04:05:49.512404	2014-10-01 04:05:49.512404	1
+44	\N	2014-10-01 04:22:24.802801	2014-10-01 04:22:24.802801	1
+45	\N	2014-10-01 04:31:17.714258	2014-10-01 04:31:17.714258	1
+46	\N	2014-10-01 05:51:58.048516	2014-10-01 05:51:58.048516	1
+47	\N	2014-10-01 16:26:12.704878	2014-10-01 16:26:12.704878	1
+48	\N	2014-10-01 18:34:39.024966	2014-10-01 18:34:39.024966	1
+49	\N	2014-10-01 19:07:17.042276	2014-10-01 19:07:17.042276	1
+50	\N	2014-10-01 20:24:51.911885	2014-10-01 20:24:51.911885	1
+51	\N	2014-10-01 21:32:18.695415	2014-10-01 21:32:18.695415	1
+52	\N	2014-10-01 21:35:25.761481	2014-10-01 21:35:25.761481	1
+\.
+
+
+--
+-- Name: battles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('battles_id_seq', 52, true);
+
+
+--
+-- Data for Name: effects; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY effects (id, name, created_at, updated_at, target_id, element_id, stat_change, stat_target_id) FROM stdin;
+1	self-inflict	2014-09-30 19:58:53.375236	2014-09-30 19:58:53.375236	7	1	-500	1
+\.
+
+
+--
+-- Name: effects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('effects_id_seq', 1, true);
+
+
+--
+-- Data for Name: elements; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY elements (id, name, created_at, updated_at) FROM stdin;
+1	fire	2014-09-30 17:40:16.872264	2014-09-30 17:40:16.872264
+2	water	2014-09-30 17:40:24.431443	2014-09-30 17:40:24.431443
+3	thunder	2014-09-30 17:40:50.11721	2014-09-30 17:40:50.11721
+4	earth	2014-09-30 17:41:11.756223	2014-09-30 17:41:11.756223
+\.
+
+
+--
+-- Name: elements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('elements_id_seq', 4, true);
+
+
+--
+-- Data for Name: evolved_states; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY evolved_states (id, name, job_id, element_id, created_from_id, created_at, updated_at, monster_id, is_template, monster_skin_id, hp_modifier, dmg_modifier) FROM stdin;
+\.
+
+
+--
+-- Name: evolved_states_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('evolved_states_id_seq', 1, false);
+
+
+--
+-- Data for Name: fights; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY fights (id, battle_id, created_at, updated_at, party_id) FROM stdin;
+1	1	2014-09-30 21:23:04.528355	2014-09-30 21:23:04.528355	3
+2	1	2014-09-30 21:23:04.537099	2014-09-30 21:23:04.537099	1
+3	2	2014-09-30 21:28:21.197002	2014-09-30 21:28:21.197002	3
+4	2	2014-09-30 21:28:21.202537	2014-09-30 21:28:21.202537	1
+5	3	2014-09-30 21:31:17.049456	2014-09-30 21:31:17.049456	3
+6	3	2014-09-30 21:31:17.054217	2014-09-30 21:31:17.054217	1
+7	4	2014-09-30 21:45:11.052471	2014-09-30 21:45:11.052471	4
+8	4	2014-09-30 21:45:11.066039	2014-09-30 21:45:11.066039	1
+9	5	2014-09-30 21:50:36.150489	2014-09-30 21:50:36.150489	4
+10	5	2014-09-30 21:50:36.156968	2014-09-30 21:50:36.156968	1
+11	6	2014-09-30 21:52:28.128522	2014-09-30 21:52:28.128522	4
+12	6	2014-09-30 21:52:28.14171	2014-09-30 21:52:28.14171	1
+13	7	2014-09-30 21:54:39.091914	2014-09-30 21:54:39.091914	4
+14	7	2014-09-30 21:54:39.09691	2014-09-30 21:54:39.09691	1
+15	8	2014-09-30 21:56:08.549939	2014-09-30 21:56:08.549939	4
+16	8	2014-09-30 21:56:08.561004	2014-09-30 21:56:08.561004	1
+17	9	2014-09-30 22:24:04.472014	2014-09-30 22:24:04.472014	4
+18	9	2014-09-30 22:24:04.480392	2014-09-30 22:24:04.480392	1
+19	10	2014-09-30 22:37:03.465366	2014-09-30 22:37:03.465366	4
+20	10	2014-09-30 22:37:03.470464	2014-09-30 22:37:03.470464	1
+21	11	2014-09-30 22:39:46.289801	2014-09-30 22:39:46.289801	4
+22	11	2014-09-30 22:39:46.295046	2014-09-30 22:39:46.295046	1
+23	12	2014-09-30 22:52:12.794865	2014-09-30 22:52:12.794865	4
+24	12	2014-09-30 22:52:12.809084	2014-09-30 22:52:12.809084	1
+25	13	2014-09-30 22:55:26.957065	2014-09-30 22:55:26.957065	4
+26	13	2014-09-30 22:55:26.961825	2014-09-30 22:55:26.961825	1
+27	14	2014-09-30 23:06:56.060658	2014-09-30 23:06:56.060658	4
+28	14	2014-09-30 23:06:56.068111	2014-09-30 23:06:56.068111	1
+29	15	2014-09-30 23:19:13.737946	2014-09-30 23:19:13.737946	4
+30	15	2014-09-30 23:19:13.750789	2014-09-30 23:19:13.750789	1
+31	16	2014-09-30 23:22:07.984084	2014-09-30 23:22:07.984084	4
+32	16	2014-09-30 23:22:07.990402	2014-09-30 23:22:07.990402	1
+33	17	2014-09-30 23:34:30.040046	2014-09-30 23:34:30.040046	4
+34	17	2014-09-30 23:34:30.047498	2014-09-30 23:34:30.047498	1
+35	18	2014-09-30 23:38:56.402612	2014-09-30 23:38:56.402612	4
+36	18	2014-09-30 23:38:56.414551	2014-09-30 23:38:56.414551	1
+37	19	2014-09-30 23:46:40.708437	2014-09-30 23:46:40.708437	4
+38	19	2014-09-30 23:46:40.714813	2014-09-30 23:46:40.714813	1
+39	20	2014-09-30 23:49:29.608124	2014-09-30 23:49:29.608124	4
+40	20	2014-09-30 23:49:29.619008	2014-09-30 23:49:29.619008	1
+41	21	2014-10-01 00:02:08.956938	2014-10-01 00:02:08.956938	4
+42	21	2014-10-01 00:02:08.966741	2014-10-01 00:02:08.966741	1
+43	22	2014-10-01 00:08:57.409765	2014-10-01 00:08:57.409765	4
+44	22	2014-10-01 00:08:57.420019	2014-10-01 00:08:57.420019	1
+45	23	2014-10-01 00:09:42.715556	2014-10-01 00:09:42.715556	4
+46	23	2014-10-01 00:09:42.721851	2014-10-01 00:09:42.721851	1
+47	24	2014-10-01 00:12:45.510633	2014-10-01 00:12:45.510633	4
+48	24	2014-10-01 00:12:45.516842	2014-10-01 00:12:45.516842	1
+49	25	2014-10-01 00:23:45.675134	2014-10-01 00:23:45.675134	4
+50	25	2014-10-01 00:23:45.683809	2014-10-01 00:23:45.683809	1
+51	26	2014-10-01 00:31:01.510146	2014-10-01 00:31:01.510146	4
+52	26	2014-10-01 00:31:01.516034	2014-10-01 00:31:01.516034	1
+53	27	2014-10-01 00:34:20.437436	2014-10-01 00:34:20.437436	4
+54	27	2014-10-01 00:34:20.444218	2014-10-01 00:34:20.444218	1
+55	28	2014-10-01 00:35:49.15897	2014-10-01 00:35:49.15897	4
+56	28	2014-10-01 00:35:49.166087	2014-10-01 00:35:49.166087	1
+57	29	2014-10-01 00:39:41.528902	2014-10-01 00:39:41.528902	4
+58	29	2014-10-01 00:39:41.534248	2014-10-01 00:39:41.534248	1
+59	30	2014-10-01 01:08:19.918733	2014-10-01 01:08:19.918733	4
+60	30	2014-10-01 01:08:19.926428	2014-10-01 01:08:19.926428	1
+61	31	2014-10-01 01:08:20.123813	2014-10-01 01:08:20.123813	4
+62	31	2014-10-01 01:08:20.129037	2014-10-01 01:08:20.129037	1
+63	32	2014-10-01 01:10:14.319092	2014-10-01 01:10:14.319092	4
+64	32	2014-10-01 01:10:14.323989	2014-10-01 01:10:14.323989	1
+65	33	2014-10-01 01:17:49.303586	2014-10-01 01:17:49.303586	4
+66	33	2014-10-01 01:17:49.308398	2014-10-01 01:17:49.308398	1
+67	34	2014-10-01 01:31:21.289382	2014-10-01 01:31:21.289382	4
+68	34	2014-10-01 01:31:21.294163	2014-10-01 01:31:21.294163	1
+69	35	2014-10-01 01:32:36.707156	2014-10-01 01:32:36.707156	4
+70	35	2014-10-01 01:32:36.712042	2014-10-01 01:32:36.712042	1
+71	36	2014-10-01 01:38:35.634284	2014-10-01 01:38:35.634284	4
+72	36	2014-10-01 01:38:35.638706	2014-10-01 01:38:35.638706	1
+73	37	2014-10-01 01:39:03.021863	2014-10-01 01:39:03.021863	4
+74	37	2014-10-01 01:39:03.028114	2014-10-01 01:39:03.028114	1
+75	38	2014-10-01 01:41:14.173664	2014-10-01 01:41:14.173664	4
+76	38	2014-10-01 01:41:14.178849	2014-10-01 01:41:14.178849	1
+77	39	2014-10-01 02:28:00.624251	2014-10-01 02:28:00.624251	4
+78	39	2014-10-01 02:28:00.629137	2014-10-01 02:28:00.629137	1
+79	40	2014-10-01 02:47:07.135431	2014-10-01 02:47:07.135431	4
+80	40	2014-10-01 02:47:07.144613	2014-10-01 02:47:07.144613	1
+81	41	2014-10-01 03:10:56.273127	2014-10-01 03:10:56.273127	4
+82	41	2014-10-01 03:10:56.278752	2014-10-01 03:10:56.278752	1
+83	42	2014-10-01 04:01:37.176196	2014-10-01 04:01:37.176196	4
+84	42	2014-10-01 04:01:37.185414	2014-10-01 04:01:37.185414	1
+85	43	2014-10-01 04:05:49.527558	2014-10-01 04:05:49.527558	4
+86	43	2014-10-01 04:05:49.541133	2014-10-01 04:05:49.541133	1
+87	44	2014-10-01 04:22:24.820167	2014-10-01 04:22:24.820167	4
+88	44	2014-10-01 04:22:24.826554	2014-10-01 04:22:24.826554	1
+89	45	2014-10-01 04:31:17.73003	2014-10-01 04:31:17.73003	4
+90	45	2014-10-01 04:31:17.740802	2014-10-01 04:31:17.740802	1
+91	46	2014-10-01 05:51:58.056537	2014-10-01 05:51:58.056537	4
+92	46	2014-10-01 05:51:58.067402	2014-10-01 05:51:58.067402	1
+93	47	2014-10-01 16:26:12.734113	2014-10-01 16:26:12.734113	4
+94	47	2014-10-01 16:26:12.739858	2014-10-01 16:26:12.739858	1
+95	48	2014-10-01 18:34:39.040114	2014-10-01 18:34:39.040114	4
+96	48	2014-10-01 18:34:39.050665	2014-10-01 18:34:39.050665	1
+97	49	2014-10-01 19:07:17.076865	2014-10-01 19:07:17.076865	4
+98	49	2014-10-01 19:07:17.089799	2014-10-01 19:07:17.089799	1
+99	50	2014-10-01 20:24:51.95885	2014-10-01 20:24:51.95885	4
+100	50	2014-10-01 20:24:51.972597	2014-10-01 20:24:51.972597	1
+101	51	2014-10-01 21:32:18.719434	2014-10-01 21:32:18.719434	4
+102	51	2014-10-01 21:32:18.729569	2014-10-01 21:32:18.729569	1
+103	52	2014-10-01 21:35:25.773796	2014-10-01 21:35:25.773796	4
+104	52	2014-10-01 21:35:25.778778	2014-10-01 21:35:25.778778	1
+\.
+
+
+--
+-- Name: fights_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('fights_id_seq', 104, true);
+
+
+--
+-- Data for Name: jobs; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY jobs (id, name, evolve_lvl, created_at, updated_at) FROM stdin;
+5	npc-warrior-0001	0	2014-09-30 17:49:51.23017	2014-09-30 17:49:51.23017
+6	npc-rogue-0002	0	2014-09-30 17:56:31.193328	2014-09-30 17:56:31.193328
+9	npc-rogue-0005	0	2014-09-30 17:57:23.544362	2014-09-30 17:57:23.544362
+10	npc-rogue-0003	0	2014-09-30 18:05:31.349473	2014-09-30 18:05:31.349473
+11	warrior-0001	0	2014-09-30 18:30:34.501395	2014-09-30 18:30:34.501395
+12	healer-0002	0	2014-09-30 18:30:48.162211	2014-09-30 18:30:48.162211
+14	mage-0004	0	2014-09-30 18:31:25.963458	2014-09-30 18:31:25.963458
+15	rogue-0003	0	2014-09-30 18:31:38.656319	2014-09-30 18:31:38.656319
+16	npc-mage-0006	0	2014-09-30 18:33:55.995664	2014-09-30 18:33:55.995664
+19	warrior-0001-e1	1	2014-09-30 18:45:06.300704	2014-09-30 18:45:06.300704
+20	healer-0002-e1	1	2014-09-30 18:45:18.000041	2014-09-30 18:45:18.000041
+21	mage-0004-e1	1	2014-09-30 18:45:24.781599	2014-09-30 18:45:24.781599
+22	rogue-0003-e1	1	2014-09-30 18:45:32.933817	2014-09-30 18:45:32.933817
+\.
+
+
+--
+-- Name: jobs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('jobs_id_seq', 22, true);
+
+
+--
+-- Data for Name: members; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY members (id, party_id, created_at, updated_at, monster_unlock_id) FROM stdin;
+1	1	2014-09-30 21:04:54.452074	2014-09-30 21:04:54.452074	8
+2	1	2014-09-30 21:04:56.694363	2014-09-30 21:04:56.694363	9
+3	1	2014-09-30 21:04:58.155668	2014-09-30 21:04:58.155668	11
+4	1	2014-09-30 21:04:59.867055	2014-09-30 21:04:59.867055	12
+5	3	2014-09-30 21:15:10.433552	2014-09-30 21:15:10.433552	13
+6	3	2014-09-30 21:15:11.911349	2014-09-30 21:15:11.911349	22
+7	3	2014-09-30 21:15:12.984598	2014-09-30 21:15:12.984598	18
+8	3	2014-09-30 21:15:14.000187	2014-09-30 21:15:14.000187	16
+9	4	2014-09-30 21:44:54.10955	2014-09-30 21:44:54.10955	6
+10	4	2014-09-30 21:44:56.766202	2014-09-30 21:44:56.766202	23
+11	4	2014-09-30 21:44:58.794795	2014-09-30 21:44:58.794795	21
+12	4	2014-09-30 21:45:00.311442	2014-09-30 21:45:00.311442	17
+\.
+
+
+--
+-- Name: members_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('members_id_seq', 13, true);
+
+
+--
+-- Data for Name: monster_skin_equippings; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY monster_skin_equippings (id, monster_id, monster_skin_id, created_at, updated_at, user_id) FROM stdin;
+1	2	24	2014-09-30 21:00:06.404734	2014-09-30 21:00:06.404734	2
+2	1	23	2014-09-30 21:00:14.712202	2014-09-30 21:00:14.712202	2
+5	5	19	2014-09-30 21:10:00.750573	2014-09-30 21:10:00.750573	3
+7	6	20	2014-09-30 21:10:07.502076	2014-09-30 21:10:07.502076	3
+8	11	18	2014-09-30 21:10:10.088785	2014-09-30 21:10:10.088785	3
+9	10	17	2014-09-30 21:10:15.995849	2014-09-30 21:10:15.995849	3
+10	8	16	2014-09-30 21:10:19.431943	2014-09-30 21:10:19.431943	3
+11	7	15	2014-09-30 21:15:41.272241	2014-09-30 21:15:41.272241	3
+13	5	19	2014-09-30 21:43:42.173135	2014-09-30 21:43:42.173135	1
+14	7	15	2014-09-30 21:43:44.93503	2014-09-30 21:43:44.93503	1
+15	8	16	2014-09-30 21:43:47.292758	2014-09-30 21:43:47.292758	1
+18	6	20	2014-09-30 21:43:56.590975	2014-09-30 21:43:56.590975	1
+19	10	17	2014-09-30 21:44:01.494521	2014-09-30 21:44:01.494521	1
+20	11	18	2014-09-30 21:44:05.756174	2014-09-30 21:44:05.756174	1
+21	12	22	2014-09-30 22:54:36.062455	2014-09-30 22:54:36.062455	1
+22	9	21	2014-09-30 22:54:42.509159	2014-09-30 22:54:42.509159	1
+23	4	2	2014-09-30 22:55:15.865326	2014-09-30 22:55:15.865326	2
+24	3	5	2014-09-30 22:55:18.135784	2014-09-30 22:55:18.135784	2
+\.
+
+
+--
+-- Name: monster_skin_equippings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('monster_skin_equippings_id_seq', 24, true);
+
+
+--
+-- Data for Name: monster_skin_purchases; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY monster_skin_purchases (id, user_id, monster_skin_id, created_at, updated_at) FROM stdin;
+3	2	2	2014-09-30 19:01:35.01807	2014-09-30 19:01:35.01807
+4	2	5	2014-09-30 19:04:12.224592	2014-09-30 19:04:12.224592
+27	1	15	2014-09-30 19:18:00.793803	2014-09-30 19:18:00.793803
+28	3	15	2014-09-30 19:18:04.705649	2014-09-30 19:18:04.705649
+29	1	16	2014-09-30 19:20:21.634069	2014-09-30 19:20:21.634069
+30	3	16	2014-09-30 19:20:24.80248	2014-09-30 19:20:24.80248
+31	1	18	2014-09-30 19:23:44.218688	2014-09-30 19:23:44.218688
+32	3	18	2014-09-30 19:23:47.245668	2014-09-30 19:23:47.245668
+34	3	17	2014-09-30 19:23:57.011911	2014-09-30 19:23:57.011911
+35	1	17	2014-09-30 19:23:59.924302	2014-09-30 19:23:59.924302
+36	1	20	2014-09-30 19:26:52.277935	2014-09-30 19:26:52.277935
+37	3	20	2014-09-30 19:26:55.907074	2014-09-30 19:26:55.907074
+38	3	19	2014-09-30 19:26:59.710942	2014-09-30 19:26:59.710942
+39	1	19	2014-09-30 19:27:04.224686	2014-09-30 19:27:04.224686
+40	1	22	2014-09-30 19:29:15.876152	2014-09-30 19:29:15.876152
+41	3	22	2014-09-30 19:29:19.170369	2014-09-30 19:29:19.170369
+42	1	21	2014-09-30 19:29:22.581655	2014-09-30 19:29:22.581655
+43	3	21	2014-09-30 19:29:25.890625	2014-09-30 19:29:25.890625
+45	2	23	2014-09-30 19:32:47.322457	2014-09-30 19:32:47.322457
+46	2	24	2014-09-30 19:38:10.783795	2014-09-30 19:38:10.783795
+\.
+
+
+--
+-- Name: monster_skin_purchases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('monster_skin_purchases_id_seq', 46, true);
+
+
+--
+-- Data for Name: monster_skins; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY monster_skins (id, name, created_at, updated_at, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at) FROM stdin;
+15	GhostWhale	2014-09-30 19:17:51.685217	2014-09-30 19:17:51.685217	whale-healer-new.gif	image/gif	509869	2014-09-30 19:17:50.189067
+16	DeadWhale	2014-09-30 19:20:12.116556	2014-09-30 19:20:12.116556	whale-healer-evo-new.gif	image/gif	662578	2014-09-30 19:20:10.531622
+17	Foxtrot	2014-09-30 19:22:12.711659	2014-09-30 19:22:12.711659	fox-mage-new.png	image/png	408538	2014-09-30 19:22:11.254718
+18	Foxrage	2014-09-30 19:23:37.255808	2014-09-30 19:23:37.255808	fox-mage-evo.png	image/png	729891	2014-09-30 19:23:35.790005
+19	Etheragon	2014-09-30 19:26:19.868393	2014-09-30 19:26:19.868393	dragon-fighter.png	image/png	388700	2014-09-30 19:26:18.474766
+20	Eviagnon	2014-09-30 19:26:42.410401	2014-09-30 19:26:42.410401	dragon-fighter-evo.png	image/png	900621	2014-09-30 19:26:40.975694
+23	Kagura	2014-09-30 19:32:41.33503	2014-09-30 19:32:41.33503	kagura.png	image/png	231821	2014-09-30 19:32:40.894316
+24	Loki	2014-09-30 19:38:06.547748	2014-09-30 19:38:06.547748	Character-Fighter_001.png	image/png	377424	2014-09-30 19:38:05.934648
+2	GreenBubbles	2014-09-30 19:01:20.757788	2014-09-30 22:50:47.553416	slime.gif	image/gif	34234	2014-09-30 22:50:46.836596
+21	Keets	2014-09-30 19:28:47.561597	2014-09-30 22:51:27.062893	bird-rogue.png	image/png	326940	2014-09-30 22:51:25.663261
+22	Kakeeto	2014-09-30 19:29:06.667368	2014-09-30 22:51:44.20563	bird-rogue-evo.png	image/png	475907	2014-09-30 22:51:42.857385
+5	Rattle	2014-09-30 19:04:01.924167	2014-09-30 22:52:01.673703	rattle.gif	image/gif	73377	2014-09-30 22:52:00.994785
+\.
+
+
+--
+-- Name: monster_skins_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('monster_skins_id_seq', 24, true);
+
+
+--
+-- Data for Name: monster_unlocks; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY monster_unlocks (id, user_id, monster_id, created_at, updated_at) FROM stdin;
+5	1	6	2014-09-30 18:53:30.520913	2014-09-30 18:53:30.520913
+6	1	5	2014-09-30 18:53:32.558943	2014-09-30 18:53:32.558943
+8	2	1	2014-09-30 18:59:23.079758	2014-09-30 18:59:23.079758
+9	2	2	2014-09-30 18:59:41.054619	2014-09-30 18:59:41.054619
+11	2	4	2014-09-30 18:59:47.397835	2014-09-30 18:59:47.397835
+12	2	3	2014-09-30 18:59:55.71926	2014-09-30 18:59:55.71926
+13	3	5	2014-09-30 18:59:59.350685	2014-09-30 18:59:59.350685
+14	3	6	2014-09-30 19:00:02.069262	2014-09-30 19:00:02.069262
+15	1	11	2014-09-30 20:29:24.417375	2014-09-30 20:29:24.417375
+16	3	11	2014-09-30 20:29:26.008653	2014-09-30 20:29:26.008653
+17	1	10	2014-09-30 20:29:29.821839	2014-09-30 20:29:29.821839
+18	3	10	2014-09-30 20:29:31.320847	2014-09-30 20:29:31.320847
+19	1	8	2014-09-30 20:29:38.627743	2014-09-30 20:29:38.627743
+20	3	8	2014-09-30 20:29:39.854579	2014-09-30 20:29:39.854579
+21	1	9	2014-09-30 20:29:42.93861	2014-09-30 20:29:42.93861
+22	3	9	2014-09-30 20:29:44.25897	2014-09-30 20:29:44.25897
+23	1	7	2014-09-30 21:15:32.038499	2014-09-30 21:15:32.038499
+24	3	7	2014-09-30 21:15:33.626693	2014-09-30 21:15:33.626693
+25	1	12	2014-09-30 21:22:06.909325	2014-09-30 21:22:06.909325
+26	3	12	2014-09-30 21:22:08.186689	2014-09-30 21:22:08.186689
+\.
+
+
+--
+-- Name: monster_unlocks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('monster_unlocks_id_seq', 26, true);
+
+
+--
+-- Data for Name: monsters; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_modifier, dmg_modifier, evolved_from_id, description, summon_cost, evolve_animation_file_name, evolve_animation_content_type, evolve_animation_file_size, evolve_animation_updated_at) FROM stdin;
+7	GhostWhale	3500	2014-09-30 20:21:22.196954	2014-09-30 20:21:22.196954	12	2	1	1	0	A ghost whale.	1	\N	\N	\N	\N
+10	FoxTrot	3700	2014-09-30 20:25:52.948533	2014-09-30 20:25:52.948533	14	3	1	1	0	A fox with magic. Yeah.	1	\N	\N	\N	\N
+2	Loki	3000	2014-09-30 18:06:10.640735	2014-09-30 23:48:56.364628	10	3	1	1	0	I've got a mad legit spear	0	\N	\N	\N	\N
+5	Etheragon	3000	2014-09-30 18:46:57.985514	2014-10-01 00:29:30.817611	11	2	1	1	0	Blue Dragon	0	\N	\N	\N	\N
+9	Keets	2500	2014-09-30 20:23:39.443142	2014-10-01 00:29:40.368078	15	4	1	1	0	A rogue bird.	1	\N	\N	\N	\N
+4	GreenBubbles	2000	2014-09-30 18:34:52.037132	2014-10-01 00:29:52.434208	16	4	1	1	0	Best bubbles there is. 	0	\N	\N	\N	\N
+3	Atlantis	2500	2014-09-30 18:29:02.744568	2014-10-01 00:30:07.239311	6	2	1	1	0	Spear Guy	0	\N	\N	\N	\N
+1	Kagura	3600	2014-09-30 17:45:35.816134	2014-10-01 00:30:15.243101	5	1	1	1	0	Demon wielding a scythe.	0	\N	\N	\N	\N
+12	Kakeeto	3500	2014-09-30 20:32:57.303379	2014-10-01 01:09:37.394119	22	4	1	1	9	A bigger rogue bird.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:44.771173
+11	FoxRage	3500	2014-09-30 20:29:11.596906	2014-10-01 01:09:46.270444	21	3	1	1	10	A mad fox with magic. Shouldn't have pissed him off.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:33.265983
+8	DeadWhale	4000	2014-09-30 20:22:20.010067	2014-10-01 01:09:55.878532	20	2	1	1	7	Ghost whale evolved.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:58.48608
+6	Eviganon	3500	2014-09-30 18:53:20.718158	2014-10-01 01:24:41.82137	19	2	1	1	5	Bigger Blue Dragon	40	evo-animation-new.gif	image/gif	301911	2014-09-30 18:53:17.695736
+\.
+
+
+--
+-- Name: monsters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('monsters_id_seq', 12, true);
+
+
+--
+-- Data for Name: parties; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY parties (id, user_id, name, created_at, updated_at, npc) FROM stdin;
+1	2	Stage 1 	2014-09-30 19:47:11.349654	2014-09-30 19:47:11.349654	t
+2	2	Stage 2	2014-09-30 20:33:14.784495	2014-09-30 20:33:14.784495	t
+3	3	My Team	2014-09-30 21:09:20.317341	2014-09-30 21:09:20.317341	f
+4	1	User Team 1	2014-09-30 21:43:35.352881	2014-09-30 21:43:35.352881	f
+\.
+
+
+--
+-- Name: parties_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('parties_id_seq', 4, true);
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY schema_migrations (version) FROM stdin;
+20140830033659
+20140830035203
+20140830035509
+20140830040320
+20140830040458
+20140830040701
+20140830040946
+20140830041025
+20140830041349
+20140830041521
+20140830041743
+20140830041911
+20140830043431
+20140830043557
+20140901210239
+20140901210656
+20140901234048
+20140918011735
+20140901234059
+20140901234103
+20140901234116
+20140901234856
+20140901234917
+20140901235541
+20140901235554
+20140902022512
+20140902022533
+20140902022557
+20140902022628
+20140902024814
+20140902030137
+20140902030306
+20140902030346
+20140902030410
+20140902031112
+20140902051918
+20140903040702
+20140903040723
+20140903041306
+20140903043246
+20140903194149
+20140903194157
+20140903194203
+20140903194210
+20140903194216
+20140905001656
+20140905025619
+20140905025955
+20140905030200
+20140905031601
+20140905031635
+20140905031744
+20140905032002
+20140905032225
+20140905032307
+20140905032337
+20140905032359
+20140905032414
+20140905032702
+20140905032816
+20140905032835
+20140905033038
+20140905033400
+20140905033425
+20140905033437
+20140905033906
+20140905033925
+20140905041044
+20140905045740
+20140905045937
+20140905045949
+20140905050151
+20140905161553
+20140905162142
+20140905193536
+20140905193729
+20140906203548
+20140906203806
+20140906211059
+20140906211130
+20140906222643
+20140907192305
+20140907192352
+20140907192432
+20140907192630
+20140907192715
+20140907192748
+20140907193737
+20140907201918
+20140907202535
+20140907214103
+20140908162041
+20140908182838
+20140908182948
+20140908211348
+20140908213246
+20140911212645
+20140911232911
+20140911233734
+20140911233822
+20140911233917
+20140911234031
+20140912002525
+20140912005340
+20140912012505
+20140912012510
+20140912013311
+20140912014847
+20140912015506
+20140912181248
+20140912181311
+20140912184854
+20140913041250
+20140913234635
+20140915215442
+20140915221225
+20140915221546
+20140916213811
+20140916213828
+20140918011649
+20140918214844
+20140919234149
+20140923001557
+20140923001657
+20140924185941
+20140929211257
+20140925012726
+20140925013046
+20140927025404
+20140927034235
+20140928054347
+\.
+
+
+--
+-- Data for Name: skin_restrictions; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY skin_restrictions (id, monster_skin_id, created_at, updated_at, job_id) FROM stdin;
+3	2	2014-09-30 19:01:20.759773	2014-09-30 19:01:20.759773	16
+6	5	2014-09-30 19:04:01.926254	2014-09-30 19:04:01.926254	10
+7	5	2014-09-30 19:04:01.927846	2014-09-30 19:04:01.927846	9
+18	15	2014-09-30 19:17:51.687024	2014-09-30 19:17:51.687024	12
+19	16	2014-09-30 19:20:12.11876	2014-09-30 19:20:12.11876	20
+20	17	2014-09-30 19:22:12.713391	2014-09-30 19:22:12.713391	14
+21	18	2014-09-30 19:23:37.257422	2014-09-30 19:23:37.257422	21
+22	19	2014-09-30 19:26:19.870215	2014-09-30 19:26:19.870215	11
+23	20	2014-09-30 19:26:42.412136	2014-09-30 19:26:42.412136	19
+24	21	2014-09-30 19:28:47.563048	2014-09-30 19:28:47.563048	15
+25	22	2014-09-30 19:29:06.668996	2014-09-30 19:29:06.668996	22
+26	23	2014-09-30 19:32:41.336851	2014-09-30 19:32:41.336851	5
+27	24	2014-09-30 19:38:06.549363	2014-09-30 19:38:06.549363	10
+28	24	2014-09-30 19:38:06.550487	2014-09-30 19:38:06.550487	9
+29	5	2014-09-30 21:02:05.393316	2014-09-30 21:02:05.393316	16
+30	5	2014-09-30 21:02:05.396131	2014-09-30 21:02:05.396131	5
+31	5	2014-09-30 21:02:24.561265	2014-09-30 21:02:24.561265	6
+\.
+
+
+--
+-- Name: skin_restrictions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('skin_restrictions_id_seq', 31, true);
+
+
+--
+-- Data for Name: stat_targets; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY stat_targets (id, name, created_at, updated_at) FROM stdin;
+1	hp	2014-09-30 19:56:32.066064	2014-09-30 19:56:32.066064
+\.
+
+
+--
+-- Name: stat_targets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('stat_targets_id_seq', 1, true);
+
+
+--
+-- Data for Name: summoner_levels; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY summoner_levels (id, lvl, exp_to_nxt_lvl, ap, monsters_allowed, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: summoner_levels_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('summoner_levels_id_seq', 1, false);
+
+
+--
+-- Data for Name: summoners; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY summoners (id, name, current_lvl, current_exp, user_id, summoner_level_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: summoners_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('summoners_id_seq', 1, false);
+
+
+--
+-- Data for Name: targets; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY targets (id, created_at, updated_at, name) FROM stdin;
+1	2014-09-30 19:53:39.743635	2014-09-30 19:53:39.743635	attack
+2	2014-09-30 19:53:48.314621	2014-09-30 19:53:48.314621	targetenemy
+3	2014-09-30 19:53:54.185738	2014-09-30 19:53:54.185738	targetally
+4	2014-09-30 19:53:59.124862	2014-09-30 19:53:59.124862	ability
+5	2014-09-30 19:54:08.304421	2014-09-30 19:54:08.304421	aoeenemy
+6	2014-09-30 19:54:13.926488	2014-09-30 19:54:13.926488	aoeally
+7	2014-09-30 19:54:18.666179	2014-09-30 19:54:18.666179	self
+\.
+
+
+--
+-- Name: targets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('targets_id_seq', 7, true);
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, first_name, last_name, user_name, currency, paid_currency, rank, created_at, updated_at, admin) FROM stdin;
+2	npc@npc.com	$2a$10$UXbD70SJcSQD0EJH3b08Xe/yhmqjAMavGPACSnHdJdXuyjdbUGHrq	\N	\N	\N	1	2014-09-30 18:57:48.688221	2014-09-30 18:57:48.688221	127.0.0.1	127.0.0.1	NPC	NPC	NPC	\N	\N	\N	2014-09-30 18:57:48.68598	2014-09-30 18:57:48.688821	f
+3	vahn@gmail.com	$2a$10$VIayojfT0gh9O7MnXkfboeRAWoYJy4m6U5srHggGJHtGFi2yx37cS	\N	\N	\N	1	2014-09-30 18:58:54.988909	2014-09-30 18:58:54.988909	127.0.0.1	127.0.0.1	vahn	manx	misc86	\N	\N	\N	2014-09-30 18:58:54.978781	2014-09-30 18:58:54.98946	f
+1	test@test.com	$2a$10$.se6m1lSZjupPuuXLldq4ufFmGIRPo2qElrciyVMhJa6rIKlqNugq	\N	\N	\N	4	2014-09-30 21:34:07.579759	2014-09-30 21:33:19.625807	127.0.0.1	127.0.0.1	test	admin	admin	\N	\N	\N	2014-09-30 17:35:52.809659	2014-09-30 21:34:07.58038	f
+\.
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('users_id_seq', 3, true);
+
+
+--
+-- Name: abil_sockets_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY abil_sockets
+    ADD CONSTRAINT abil_sockets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: abilities_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY abilities
+    ADD CONSTRAINT abilities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ability_effects_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY ability_effects
+    ADD CONSTRAINT ability_effects_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ability_equippings_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY ability_equippings
+    ADD CONSTRAINT ability_equippings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ability_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY ability_purchases
+    ADD CONSTRAINT ability_purchases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ability_restrictions_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY ability_restrictions
+    ADD CONSTRAINT ability_restrictions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: backgrounds_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY backgrounds
+    ADD CONSTRAINT backgrounds_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: battle_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY battle_levels
+    ADD CONSTRAINT battle_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: battles_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY battles
+    ADD CONSTRAINT battles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: effects_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY effects
+    ADD CONSTRAINT effects_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: elements_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY elements
+    ADD CONSTRAINT elements_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: evolved_states_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY evolved_states
+    ADD CONSTRAINT evolved_states_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fights_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY fights
+    ADD CONSTRAINT fights_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY jobs
+    ADD CONSTRAINT jobs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: members_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY members
+    ADD CONSTRAINT members_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: monster_skin_equippings_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY monster_skin_equippings
+    ADD CONSTRAINT monster_skin_equippings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: monster_skin_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY monster_skin_purchases
+    ADD CONSTRAINT monster_skin_purchases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: monster_skins_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY monster_skins
+    ADD CONSTRAINT monster_skins_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: monster_unlocks_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY monster_unlocks
+    ADD CONSTRAINT monster_unlocks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: monsters_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY monsters
+    ADD CONSTRAINT monsters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: parties_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY parties
+    ADD CONSTRAINT parties_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skin_restrictions_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY skin_restrictions
+    ADD CONSTRAINT skin_restrictions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: stat_targets_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY stat_targets
+    ADD CONSTRAINT stat_targets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: summoner_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY summoner_levels
+    ADD CONSTRAINT summoner_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: summoners_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY summoners
+    ADD CONSTRAINT summoners_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: targets_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY targets
+    ADD CONSTRAINT targets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_abilities_on_abil_socket_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_abilities_on_abil_socket_id ON abilities USING btree (abil_socket_id);
+
+
+--
+-- Name: index_abilities_on_element_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_abilities_on_element_id ON abilities USING btree (element_id);
+
+
+--
+-- Name: index_abilities_on_stat_target_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_abilities_on_stat_target_id ON abilities USING btree (stat_target_id);
+
+
+--
+-- Name: index_abilities_on_target_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_abilities_on_target_id ON abilities USING btree (target_id);
+
+
+--
+-- Name: index_ability_effects_on_ability_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_ability_effects_on_ability_id ON ability_effects USING btree (ability_id);
+
+
+--
+-- Name: index_ability_effects_on_effect_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_ability_effects_on_effect_id ON ability_effects USING btree (effect_id);
+
+
+--
+-- Name: index_ability_equippings_on_ability_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_ability_equippings_on_ability_id ON ability_equippings USING btree (ability_id);
+
+
+--
+-- Name: index_ability_equippings_on_monster_unlock_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_ability_equippings_on_monster_unlock_id ON ability_equippings USING btree (monster_unlock_id);
+
+
+--
+-- Name: index_ability_purchases_on_ability_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_ability_purchases_on_ability_id ON ability_purchases USING btree (ability_id);
+
+
+--
+-- Name: index_ability_purchases_on_user_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_ability_purchases_on_user_id ON ability_purchases USING btree (user_id);
+
+
+--
+-- Name: index_ability_restrictions_on_ability_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_ability_restrictions_on_ability_id ON ability_restrictions USING btree (ability_id);
+
+
+--
+-- Name: index_ability_restrictions_on_job_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_ability_restrictions_on_job_id ON ability_restrictions USING btree (job_id);
+
+
+--
+-- Name: index_battles_on_battle_level_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_battles_on_battle_level_id ON battles USING btree (battle_level_id);
+
+
+--
+-- Name: index_effects_on_element_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_effects_on_element_id ON effects USING btree (element_id);
+
+
+--
+-- Name: index_effects_on_stat_target_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_effects_on_stat_target_id ON effects USING btree (stat_target_id);
+
+
+--
+-- Name: index_effects_on_target_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_effects_on_target_id ON effects USING btree (target_id);
+
+
+--
+-- Name: index_evolved_states_on_element_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_evolved_states_on_element_id ON evolved_states USING btree (element_id);
+
+
+--
+-- Name: index_evolved_states_on_job_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_evolved_states_on_job_id ON evolved_states USING btree (job_id);
+
+
+--
+-- Name: index_evolved_states_on_monster_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_evolved_states_on_monster_id ON evolved_states USING btree (monster_id);
+
+
+--
+-- Name: index_evolved_states_on_monster_skin_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_evolved_states_on_monster_skin_id ON evolved_states USING btree (monster_skin_id);
+
+
+--
+-- Name: index_fights_on_battle_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_fights_on_battle_id ON fights USING btree (battle_id);
+
+
+--
+-- Name: index_fights_on_party_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_fights_on_party_id ON fights USING btree (party_id);
+
+
+--
+-- Name: index_members_on_monster_unlock_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_members_on_monster_unlock_id ON members USING btree (monster_unlock_id);
+
+
+--
+-- Name: index_members_on_party_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_members_on_party_id ON members USING btree (party_id);
+
+
+--
+-- Name: index_monster_skin_equippings_on_monster_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_monster_skin_equippings_on_monster_id ON monster_skin_equippings USING btree (monster_id);
+
+
+--
+-- Name: index_monster_skin_equippings_on_monster_skin_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_monster_skin_equippings_on_monster_skin_id ON monster_skin_equippings USING btree (monster_skin_id);
+
+
+--
+-- Name: index_monster_skin_equippings_on_user_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_monster_skin_equippings_on_user_id ON monster_skin_equippings USING btree (user_id);
+
+
+--
+-- Name: index_monster_skin_purchases_on_monster_skin_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_monster_skin_purchases_on_monster_skin_id ON monster_skin_purchases USING btree (monster_skin_id);
+
+
+--
+-- Name: index_monster_skin_purchases_on_user_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_monster_skin_purchases_on_user_id ON monster_skin_purchases USING btree (user_id);
+
+
+--
+-- Name: index_monster_unlocks_on_monster_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_monster_unlocks_on_monster_id ON monster_unlocks USING btree (monster_id);
+
+
+--
+-- Name: index_monster_unlocks_on_user_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_monster_unlocks_on_user_id ON monster_unlocks USING btree (user_id);
+
+
+--
+-- Name: index_monsters_on_element_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_monsters_on_element_id ON monsters USING btree (element_id);
+
+
+--
+-- Name: index_monsters_on_evolved_from_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_monsters_on_evolved_from_id ON monsters USING btree (evolved_from_id);
+
+
+--
+-- Name: index_monsters_on_job_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_monsters_on_job_id ON monsters USING btree (job_id);
+
+
+--
+-- Name: index_parties_on_user_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_parties_on_user_id ON parties USING btree (user_id);
+
+
+--
+-- Name: index_skin_restrictions_on_job_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_skin_restrictions_on_job_id ON skin_restrictions USING btree (job_id);
+
+
+--
+-- Name: index_skin_restrictions_on_monster_skin_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_skin_restrictions_on_monster_skin_id ON skin_restrictions USING btree (monster_skin_id);
+
+
+--
+-- Name: index_summoners_on_summoner_level_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_summoners_on_summoner_level_id ON summoners USING btree (summoner_level_id);
+
+
+--
+-- Name: index_summoners_on_user_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_summoners_on_user_id ON summoners USING btree (user_id);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: Frank
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM "Frank";
+GRANT ALL ON SCHEMA public TO "Frank";
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

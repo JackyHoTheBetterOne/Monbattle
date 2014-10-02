@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-################################################################################################# Battle logic helpers
+########################################################################################### Dressing evol mons(not very dry now)
 window.fixEvolMon = (monster, player) ->
   monster.team = battle.players.indexOf(player)
   monster.index = player.mons.indexOf(monster)
@@ -12,52 +12,89 @@ window.fixEvolMon = (monster, player) ->
     else
       return true
     return
-  monster.useAbility = (abilityIndex, abilityTargets) ->
-    ability = @abilities[abilityIndex]
-    effectTargets = ability.effectTargets
-    ability.use(abilityTargets, effectTargets)
   $(monster.abilities).each ->
     ability = @
-    ability.effectTargets = []
-    ability.effects.forEach (effect, index) ->
-      effectTargets = []
-      switch effect.targeta
-        when "self"
-          effectTargets.push monster
-          ability.effectTargets.push effectTargets
-        when "aoeally"
-          effectTargets.push player.mons
-          ability.effectTargets.push effectTargets
-        when "aoeenemy"
-          effectTargets.push player.enemies
-          ability.effectTargets.push effectTargets
-    ability.use = (abilitytargets, effectTargets) ->
+    ability.use = (abilitytargets) ->
       a = this
       i = 0
       while i < abilitytargets.length
         monTarget = abilitytargets[i]
-        monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
-        monTarget.isAlive()
+        monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change.toString())
+        monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
-      if typeof effectTargets isnt "undefined"
+      if ability.effects.length isnt 0 
         i = 0
-        while i < effectTargets.length
+        while i < ability.effects.length
           effect = a.effects[i]
-          targets = effectTargets[i]
-          effect.activate targets
+          switch effect.targeta
+            when "self"
+              effect.activate [monster]
+            when "selfbuffattack"
+              effect.activate [monster.abilities[0]]
+            when "tworandomfoes"
+              effectTargets = []
+              findAliveEnemies()
+              effectTargets.push liveFoes[0]
+              effectTargets.push liveFoes[1] if typeof liveFoes[1] isnt "undefined"
+              effect.activate effectTargets
+            when "onerandomfoe"
+              effectTargets = []
+              findAliveEnemies()
+              effectTargets.push liveFoes[0]
+              effect.activate effectTargets
+            when "tworandommons"
+              findAliveEnemies()
+              findAliveFriends()
+              findAliveMons()
+              effectTargets = [] 
+              effectTargets.push liveMons[0]
+              effectTargets.push liveMons[1] if typeof liveMons[1] isnt "undefined"
+              effect.activate effectTargets
+            when "foebuffability"
+              effectTargets = []
+              i = 0
+              while i < abilitytargets.length
+                index = getRandom([0,1,2,3])
+                effectTargets.push abilitytargets[i].abilities[index]
+                i++
+              effect.activate effectTargets
+            when "tworandomallies"
+              effectTargets = []
+              findAliveFriends()
+              effectTargets.push liveFriends[0]
+              effectTargets.push liveFriends[1] if typeof liveFriends[1] isnt "undefined"
+              effect.activate effectTargets
+            when "randomap"
+              effectTargets = [player]
+              effect.activate effectTargets
           i++
       return
     $(ability.effects).each ->
       @activate = (effectTargets) ->
         e = this
         i = 0
-        while i < effectTargets.length
-          monTarget = effectTargets[i]
-          monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-          monTarget.isAlive()
-          i++
-         return
+        if typeof e.random isnt "undefined"
+          while i < effectTargets.length
+            monTarget = effectTargets[i]
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + randomNumRange(e.max, e.min).toString())
+            checkMin()
+            checkMax()
+            monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
+            i++
+          return
+        else
+          while i < effectTargets.length
+            monTarget = effectTargets[i]
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change.toString())
+            checkMin()
+            checkMax()
+            monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
+            i++
+          return
 
+
+
+################################################################################################# Battle logic helpers
 window.isTeamDead = (monster, index, array) ->
   monster.isAlive() is false
 window.isTurnOver = (object, index, array) ->
@@ -74,6 +111,7 @@ window.setAll = (array, attr, value) ->
     array[i][attr] = value
     i++
   return
+
 window.checkMax = ->
   n = battle.players[0].mons.length
   i = 0
@@ -82,6 +120,7 @@ window.checkMax = ->
     battle.players[0].mons[i].hp = mon.max_hp if mon.hp > mon.max_hp
     i++
   return
+
 window.checkMin = ->
   n = battle.players[0].mons.length
   i = 0
@@ -90,12 +129,14 @@ window.checkMin = ->
     battle.players[0].mons[i].max_hp = 0 if mon.hp is 0
     i++
   return
+
 window.action = ->
   battle.monAbility(targets[0], targets[1], targets[2], targets[3])
 window.multipleAction = ->
   battle.monAbility(targets[0], targets[1], targets[2])
 window.userMon = (index) ->
   $(".user .mon" + index.toString() + " " + ".img")
+
 window.numOfDeadFoe = ->
   num = 0
   n = 3
@@ -107,6 +148,47 @@ window.numOfDeadFoe = ->
   return num
 window.checkEnemyDeath = (index) ->
   return !battle.players[1].mons[index].isAlive()
+
+window.shuffle = (array) ->
+  i = array.length - 1
+
+  while i > 0
+    j = Math.floor(Math.random() * (i + 1))
+    temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
+    i--
+  array
+
+window.findAliveEnemies =  ->
+  window.liveFoes = []
+  n = 3
+  i = 0
+  while i <= n 
+    if battle.players[0].enemies[i].isAlive() is true
+      liveFoes.push battle.players[0].enemies[i]
+    i++
+  shuffle(liveFoes)
+
+window.findAliveFriends = ->
+  window.liveFriends = []
+  n = 3
+  i = 0
+  while i <= n 
+    if battle.players[0].mons[i].isAlive() is true
+      liveFriends.push battle.players[0].mons[i]
+    i++
+  shuffle(liveFriends)
+
+window.findAliveMons = ->
+  window.liveMons = liveFriends.concat liveFoes
+  shuffle(window.liveMons)
+
+window.randomNumRange = (max, min)->
+  Math.floor(Math.random() * (max - min) + min)
+
+
+#########################################################################################################  AI timer
 window.enemyTimer = ->
   window.timer1 = 0
 ######################################################################
@@ -329,12 +411,11 @@ window.flashEndButton = ->
     if $(this).parent().parent().children(".img").css("display") isnt "none"
       buttonArray.push $(this)
   if noApLeft($(".monBut button")) || nothingToDo(buttonArray)
-    $(".end-turn").fadeOut 300, ->
-      $(this).toggleClass("middle turn-end").fadeIn 300
+    $(".end-turn").addClass("turn-end").effect("pulsate", {times: 3}, 1500)
     $(".end-turn").on "click.msgOff", ->
       $(this).off "click.msgOff"
       $(this).stop()
-      $(this).toggleClass("middle turn-end")
+      $(this).toggleClass("turn-end")
 
 
 
@@ -401,25 +482,30 @@ window.selectTarget = ->
 
 ############################################################################################################ AI target feed
 window.feedAiTargets = ->
-  if teamPct() > 0.8
+  if battle.round > 5 && teamPct() > 0.6 
+    window.aiAbilities = [2,3]
+    findTargetsAbovePct(0.5)
+    findTargetsBelowPct(0.9) if aiTargets.length is 0
+  else if teamPct() > 0.8
     window.aiAbilities = [0,1]
     findTargetsBelowPct(1)
-  else if teamPct() <= 0.8 && teamPct() >= 0.6
+  else if teamPct() <= 0.8 && teamPct() > 0.6
     window.aiAbilities = [1,2]
     findTargetsBelowPct(0.5)
-    findTargetsBelowPct(0.8) if aiTargets.length is 0
-  else if teamPct() < 0.6 && teamPct() >= 0.4
-    window.aiAbilities = [0,3]
+    findTargetsBelowPct(0.75) if aiTargets.length is 0
+  else if teamPct() <= 0.6 && teamPct() > 0.4
+    window.aiAbilities = [1,3]
     findTargetsAbovePct(0.7)
     findTargetsAbovePct(0.3) if aiTargets.length is 0
-  else if teamPct() < 0.4 && teamPct() >= 0.2
+  else if teamPct() <= 0.4 && teamPct() > 0.2
     window.aiAbilities = [2,3]
-    findTargets(3000)
-    findTargets(5000) if aiTargets.length is 0 
-  else if teamPct() < 0.2
-    window.aiAbilities = [1,3]
-    findTargets(2000) 
-    findTargetsBelowPct(0.5) if aiTargets.length is 0
+    findTargets(2000)
+    findTargets(4000) if aiTargets.length is 0 
+  else if teamPct() <= 0.2
+    window.aiAbilities = [0,3]
+    findTargets(1000) 
+    findTargets(3500) if aiTargets.length is 0
+
 
 
 
@@ -433,6 +519,8 @@ window.controlAI = (monIndex) ->
     abilityIndex = getRandom(aiAbilities)
     targetIndex = getRandom(aiTargets)
     ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
+    console.log(ability)
+    console.log(ability.targeta)
     switch ability.targeta
       when "attack"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
@@ -456,7 +544,7 @@ window.controlAI = (monIndex) ->
             if enemyHurt.isAlive() is false and
               targetMon.effect("explode", {pieces: 30}, 1000).hide()
             else
-              targetMon.effect "shake"
+              targetMon.effect "shake", 750
           checkActionMonHealth()
           outcome()
         ).animate backPosition, 350
@@ -475,7 +563,7 @@ window.controlAI = (monIndex) ->
             if enemyHurt.isAlive() is false
               targetMon.effect("explode", {pieces: 30}, 1000).hide()
             else
-              targetMon.effect "shake", times: 10, 1000
+              targetMon.effect "shake", times: 10, 750
           element = $(this)
           checkMax()
           setTimeout (->
@@ -504,7 +592,7 @@ window.controlAI = (monIndex) ->
               if battle.players[0].mons[$(this).data("index")].isAlive() is false
                 $(this).effect("explode", {pieces: 30}, 1500).hide()
               else
-                $(this).effect "shake", {times: 5, distance: 80}, 1000
+                $(this).effect "shake", {times: 5, distance: 80}, 750
           setTimeout (->
             showDamageTeam(0)
             hpChangeBattle()
@@ -558,7 +646,6 @@ window.ai = ->
     feedAiTargets()
     if teamPct() isnt 0
       controlAI 0
-      outcome()
       return
   ), timer0
   setTimeout (->
@@ -578,11 +665,18 @@ window.ai = ->
 
 ############################################################################################## Start of Ajax
 $ ->
+  $(document).bind "touchmove", (event) ->
+    event.preventDefault()
+    return
   setTimeout (->
     $("#overlay").fadeOut 500, ->
       $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
       return
   ), 1500
+  setTimeout (->
+    $("#battle-tutorial").joyride({'tipLocation': 'top'})
+    $("#battle-tutorial").joyride({'tipLocation': 'top'})
+  ), 3333
   $.ajax if $(".battle").length > 0
     url: "http://localhost:3000/battles/" + $(".battle").data("index") + ".json"
     dataType: "json"
@@ -647,9 +741,6 @@ $ ->
           $(monDiv + " " + ".ability").data("target", evolved_mon.abilities[1].targeta)
           $(monDiv + " " + ".ability").data("apcost", evolved_mon.abilities[1].ap_cost)
           hpChangeBattle()
-
-
-
 #################################################################################################  Player logic
       $(battle.players).each ->
         player = @
@@ -677,38 +768,64 @@ $ ->
             return
           monster.useAbility = (abilityIndex, abilityTargets) ->
             ability = @abilities[abilityIndex]
-            effectTargets = ability.effectTargets
-            ability.use(abilityTargets, effectTargets)
+            ability.use(abilityTargets)
 ##################################################################################################  Ability logic
           $(monster.abilities).each ->
             ability = @
-            ability.effectTargets = []
-            ability.effects.forEach (effect, index) ->
-              effectTargets = []
-              switch effect.targeta
-                when "self"
-                  effectTargets.push monster
-                  ability.effectTargets.push effectTargets
-                when "aoeally"
-                  effectTargets.push player.mons
-                  ability.effectTargets.push effectTargets
-                when "aoeenemy"
-                  effectTargets.push player.enemies
-                  ability.effectTargets.push effectTargets
-            ability.use = (abilitytargets, effectTargets) ->
+            ability.use = (abilitytargets) ->
               a = this
               i = 0
               while i < abilitytargets.length
                 monTarget = abilitytargets[i]
                 monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
-                monTarget.isAlive() if typeof monTarget.isAlive() isnt "undefined"
+                monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
                 i++
-              if typeof effectTargets isnt "undefined"
+              if ability.effects.length isnt 0 
                 i = 0
-                while i < effectTargets.length
+                while i < ability.effects.length
                   effect = a.effects[i]
-                  targets = effectTargets[i]
-                  effect.activate targets
+                  switch effect.targeta
+                    when "self"
+                      effect.activate [monster]
+                    when "selfbuffattack"
+                      effect.activate [monster.abilities[0]]
+                    when "tworandomfoes"
+                      effectTargets = []
+                      findAliveEnemies()
+                      effectTargets.push liveFoes[0]
+                      effectTargets.push liveFoes[1] if typeof liveFoes[1] isnt "undefined"
+                      effect.activate effectTargets
+                    when "onerandomfoe"
+                      effectTargets = []
+                      findAliveEnemies()
+                      effectTargets.push liveFoes[0]
+                      effect.activate effectTargets
+                    when "tworandommons"
+                      findAliveEnemies()
+                      console.log("Hello")
+                      findAliveFriends()
+                      findAliveMons()
+                      effectTargets = []
+                      effectTargets.push liveMons[0]
+                      effectTargets.push liveMons[1] if typeof liveMons[1] isnt "undefined"
+                      effect.activate effectTargets
+                    when "foebuffattack"
+                      effectTargets = []
+                      i = 0
+                      while i < abilitytargets.length
+                        index = getRandom([0,1,2,3])
+                        effectTargets.push abilitytargets[i].abilities[index]
+                        i++
+                      effect.activate effectTargets
+                    when "tworandomallies"
+                      effectTargets = []
+                      findAliveFriends()
+                      effectTargets.push liveFriends[0]
+                      effectTargets.push liveFriends[1] if typeof liveFriends[1] isnt "undefined"
+                      effect.activate effectTargets
+                    when "randomap"
+                      effectTargets = [player]
+                      effect.activate effectTargets
                   i++
               return
 ##################################################################################################### Effect logic
@@ -716,12 +833,24 @@ $ ->
               @activate = (effectTargets) ->
                 e = this
                 i = 0
-                while i < effectTargets.length
-                  monTarget = effectTargets[i]
-                  monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-                  monTarget.isAlive()
-                  i++
-                 return
+                if typeof e.random isnt "undefined"
+                  while i < effectTargets.length
+                    monTarget = effectTargets[i]
+                    monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + randomNumRange(e.max, e.min).toString())
+                    checkMin()
+                    checkMax()
+                    monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
+                    i++
+                  return
+                else
+                  while i < effectTargets.length
+                    monTarget = effectTargets[i]
+                    monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+                    checkMin()
+                    checkMax()
+                    monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
+                    i++
+                  return
 ###############################################################################################  Battle interaction
       window.feed = ->
         targets.shift()
@@ -795,7 +924,7 @@ $ ->
                       if enemyHurt.isAlive() is false
                         targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
                       else
-                        targetMon.effect "shake"
+                        targetMon.effect "shake", 750
                   ).animate backPosition, 250, ->
                     checkActionMonHealth()
                     toggleImg()
@@ -822,7 +951,7 @@ $ ->
                       if enemyHurt.isAlive() is false
                         targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
                       else
-                        targetMon.effect "shake", times: 10, 1000
+                        targetMon.effect "shake", times: 10, 750
                     element = $(this)
                     checkMax()
                     setTimeout (->
@@ -840,7 +969,7 @@ $ ->
                 $(".battle-guide.guide").text("Select an ally target")
                 $(".battle-guide").show()
                 $(document).on "click.help", ".user.mon-slot .img", ->
-                  $(document)
+                  $(document).off "click.help", ".user.mon-slot .img"
                   toggleImg()
                   disable(ability)
                   singleTargetAbilityAfterClickDisplay()
@@ -887,7 +1016,7 @@ $ ->
                         if battle.players[1].mons[$(this).data("index")].isAlive() is false
                           $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1500).hide()
                         else
-                          $(this).effect "shake", {times: 5, distance: 80}, 1000
+                          $(this).effect "shake", {times: 5, distance: 80}, 750
                     element.toggleClass "ability-on aoePositionFoe"
                     checkMax()
                     singleTargetAbilityAfterActionDisplay()
@@ -896,10 +1025,10 @@ $ ->
                   ), 1000
                   return
               when "aoeally"
+                toggleImg()
                 $(document).off "click.cancel", ".cancel"
                 disable(ability)
                 $(".user .img").removeClass("controlling")
-                toggleImg()
                 ability.parent().parent().children(".abilityDesc").css "visibility", "hidden"
                 abilityAnime = $(".ability-img")
                 checkMin()
@@ -920,6 +1049,7 @@ $ ->
                     element.attr("src", "")
                     showHealTeam(0)
                     singleTargetAbilityAfterActionDisplay()
+                    toggleImg()
                     return
                   ), 1000
                   return
@@ -945,6 +1075,8 @@ $ ->
                   return
                 ), 2000
                 return
+              else
+                alert("Frank, I will murder your entire family")
         else
           $(this).effect("highlight", {color: "red"}, 500)
           $(".ap").effect("highlight", {color: "red"}, 500)

@@ -1,3 +1,26 @@
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '501113016692391',
+      xfbml      : true,
+      version    : 'v2.1'
+    });
+
+    // ADD ADDITIONAL FACEBOOK CODE HERE
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+<%= javascript_include_tag "jquery.joyride-2.1" %>
+
 <img class="single-ability-img" src="" type="image" alt="monster abiltiy">
 
 <div id="overlay">
@@ -31,7 +54,7 @@
     <% end %>
   </div>
 
-  <div class="0 user mon-slot" data-team="0">
+  <div class="0 user mon-slot" id="control-tip" data-team="0">
     <% @user_party.mons.each do |mon| %>
       <div class="mon mon<%= @user_party.mon_dex(mon) %>" data-index="<%= @user_party.mon_dex(mon) %>">
         <%= render :partial => "team", :locals => { :mon => mon, party: @user_party  } %>
@@ -56,13 +79,27 @@
     <% end %>
   </div>
 
-  <div class="ap">
+  <div class="ap" id="ap-tip">
     <p class="ap-number">AP:   1000 / 1000 </p>
     <div class="ap-meter">
       <%= image_tag("HPBar1px.gif", class: "bar") %>
     </div>
   </div>
 
-  <button class="end-turn">End Turn</button>
+  <button class="end-turn" id="end-turn-tip">End Turn</button>
 
 </div>
+
+<ol id="battle-tutorial" hidden>
+  <li data-id="tutorial0" class="start-speech">This is your party. You control each monster by clicking on their image.</li>
+  <li data-id="tutorial0" class="start-speech">There are three actions: Attack, Ability and Evolve.</li>
+  <li data-id="ap-tip">Each action costs ability points (AP). You have a finite amount of AP. Your total AP increases by 10 per round, to a maximum 80.</li>
+  <li data-id="end-turn-tip">When you have no other actions available or AP left, your "End Turn" button will highlight. Once the button is clicked, the enemy monsters will make their moves.</li>
+  <li data-id="end-turn-tip" class="end-speech"> Now let's kill these motherfuckers!</li>
+
+</ol>
+
+
+
+
+

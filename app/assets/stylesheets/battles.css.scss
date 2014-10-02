@@ -42,9 +42,40 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   border-radius: 5px;
 };
 
-.middle {
-  top: 43% !important;
-  right: 50.5% !important;
+.end-speech {
+  top: 133px !important;
+  left: 134px !important;
+};
+
+.start-speech {
+  top: 155px !important;
+  left: 545px !important;
+};
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////// Joy ride customization
+.joyride-content-wrapper {
+  margin-top: -1px !important;
+  overflow: auto !important;
+  display: block !important;
+};
+
+.joyride-next-tip {
+  float: left !important;
+  background: rgba(10, 170, 230, 1) !important;
+  margin-top: 30px;
+  margin-right: -65px;
+  border-radius: 5px !important;
+  display: block !important;
+  height: 25px;
+  width: 25px;
+  padding-top: 3px !important;
+};
+
+.joyride-nub.top {
+  top: -13px !important;
 };
 
 
@@ -195,13 +226,14 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
 };
 
 .cancel {
-  background: rgba(235, 22, 22, 0.75);
-  border-color: rgba(235, 22, 22, 0.75);
+  background: rgba(235, 22, 22, 0.75) !important;
+  border-color: rgba(235, 22, 22, 0.75) !important;
   border-radius: 5px;
   position: absolute;
   top: 289px;
   left: 346px;
 };
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// Battle
