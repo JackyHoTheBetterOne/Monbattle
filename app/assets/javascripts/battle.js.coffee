@@ -732,9 +732,6 @@ $ ->
           $(monDiv + " " + ".ability").data("target", evolved_mon.abilities[1].targeta)
           $(monDiv + " " + ".ability").data("apcost", evolved_mon.abilities[1].ap_cost)
           hpChangeBattle()
-
-
-
 #################################################################################################  Player logic
       $(battle.players).each ->
         player = @
@@ -796,7 +793,6 @@ $ ->
                       effect.activate effectTargets
                     when "tworandommons"
                       findAliveEnemies()
-                      console.log("Hello")
                       findAliveFriends()
                       findAliveMons()
                       effectTargets = []
