@@ -19,7 +19,7 @@ window.fixEvolMon = (monster, player) ->
       i = 0
       while i < abilitytargets.length
         monTarget = abilitytargets[i]
-        monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
+        monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change.toString())
         monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
       if ability.effects.length isnt 0 
@@ -85,7 +85,7 @@ window.fixEvolMon = (monster, player) ->
         else
           while i < effectTargets.length
             monTarget = effectTargets[i]
-            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change.toString())
             checkMin()
             checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
