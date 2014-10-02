@@ -1,2 +1,2 @@
-li
-  =link_to "#{thought.comment}", [@personality, thought], method: :delete
+li id="#{dom_id(thought)}"
+  =link_to "#{thought.comment}", [@personality, thought], method: :delete, remote: true

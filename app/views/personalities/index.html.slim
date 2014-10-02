@@ -9,4 +9,5 @@ hr
     .panel-body
       h4 Speech
       =render partial: "thoughts/form"
-      =render pers.thoughts
+      div id="thought_#{dom_id(@personality)}"
+        =render pers.thoughts

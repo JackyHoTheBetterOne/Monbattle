@@ -3,19 +3,23 @@ class ThoughtsController < ApplicationController
   before_action :find_thought, except: [:create]
 
   def create
-    # render text: params.to_s
     @thought = Thought.new thought_params
     @thought.personality = @personality
-    if @thought.save
-      redirect_to personalities_path
-    else
-      render :new
+    respond_to do |format|
+      if @thought.save
+        format.html { redirect_to personalities_path }
+        format.js { render }
+      end
     end
   end
 
   def destroy
-    @thought.destroy
-    redirect_to personalities_path
+    respond_to do |format|
+      if @thought.destroy
+        format.html { redirect_to personalities_path }
+        format.js { render }
+      end
+    end
   end
 
   private
