@@ -333,7 +333,7 @@ window.flashEndButton = ->
     $(".end-turn").on "click.msgOff", ->
       $(this).off "click.msgOff"
       $(this).stop()
-      $(this).toggleClass("middle turn-end")
+      $(this).toggleClass("turn-end")
 
 
 
@@ -902,10 +902,10 @@ $ ->
                   ), 1000
                   return
               when "aoeally"
+                toggleImg()
                 $(document).off "click.cancel", ".cancel"
                 disable(ability)
                 $(".user .img").removeClass("controlling")
-                toggleImg()
                 ability.parent().parent().children(".abilityDesc").css "visibility", "hidden"
                 abilityAnime = $(".ability-img")
                 checkMin()
@@ -926,6 +926,7 @@ $ ->
                     element.attr("src", "")
                     showHealTeam(0)
                     singleTargetAbilityAfterActionDisplay()
+                    toggleImg()
                     return
                   ), 1000
                   return
