@@ -11,13 +11,20 @@
         h1 Make some Ability Socket #'s First!
       -else
         .form-group
-          h4=f.label "Here you can select Secondary effects"
-          .form-control =f.collection_check_boxes :effects, Effect.all, :id, :name, {}, { name: "ability[effect_ids][]"}
+          =f.input :name
+          h4=f.label "Secondary effects"
+          =hidden_field_tag "ability[effect_ids][]", nil
+          -Effect.all.each do |effect|
+            =check_box_tag "ability[effect_ids][]", effect.id, @ability.effect_ids.include?(effect.id), id: dom_id(effect)
+            =label_tag dom_id(effect), effect.name
           h4=f.label "Job restrictions for this Ability"
-          input type="checkbox" id="abil_form_check_all"
+          input type="checkbox" class="abil_form_check_all"
             | Select All
           .ability_job_check_boxes
-            =f.collection_check_boxes :jobs, Job.all, :id, :name, {}, { name: "ability[job_ids][]"}
+            =hidden_field_tag "ability[job_ids][]", nil
+            -Job.all.each do |job|
+              =check_box_tag "ability[job_ids][]", job.id, @ability.job_ids.include?(job.id), id: dom_id(job)
+              =label_tag dom_id(job), job.name
           h4=f.label "Select a Target for this Ability"
           .form-control =f.collection_select :target_id, Target.all, :id, :name
           h4=f.label "Select the Element for this Ability"
@@ -29,10 +36,6 @@
           =f.label "How much the stat is Changed(Format must be + or - and then integer)"
           =f.text_field :stat_change, class: 'form-control'
           =f.input :image
-          =f.input :name
           =f.input :ap_cost
           =f.input :description
-          / =f.input :min_level
-          / =f.input :store_price
-          / =f.input :price
           hr=f.submit class: 'btn btn-primary'

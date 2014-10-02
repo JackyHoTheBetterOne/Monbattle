@@ -7,11 +7,11 @@
         h1 Make some Jobs with evolve lvl 0 First!
       -else
         .form-group
+          =f.input :name
           h4=f.label "Select Monster Job"
           .form-control =f.collection_select :job_id, Job.all.where(evolve_lvl: "0"), :id, :name
           h4=f.label "The element of this monster"
           .form-control=f.collection_select :element_id, Element.all, :id, :name
-          =f.input :name
           =f.input :description
           =f.input :max_hp
           / =f.input :hp_modifier

@@ -34,6 +34,10 @@ class Monster < ActiveRecord::Base
   # validates :dmg_modifier, presence: {message: 'Must be entered'}
   # validates :hp_modifier, presence: {message: 'Must be entered'}
 
+  def self.base_mon
+    where(evolved_from_id: 0)
+  end
+
   def self.evolved
     self.joins(:evolved_from)
   end
