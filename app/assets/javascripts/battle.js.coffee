@@ -77,6 +77,8 @@ window.fixEvolMon = (monster, player) ->
           while i < effectTargets.length
             monTarget = effectTargets[i]
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + randomNumRange(e.max, e.min).toString())
+            checkMin()
+            checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             i++
           return
@@ -84,6 +86,8 @@ window.fixEvolMon = (monster, player) ->
           while i < effectTargets.length
             monTarget = effectTargets[i]
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+            checkMin()
+            checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             i++
           return
@@ -833,6 +837,8 @@ $ ->
                   while i < effectTargets.length
                     monTarget = effectTargets[i]
                     monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + randomNumRange(e.max, e.min).toString())
+                    checkMin()
+                    checkMax()
                     monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
                     i++
                   return
@@ -840,6 +846,8 @@ $ ->
                   while i < effectTargets.length
                     monTarget = effectTargets[i]
                     monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+                    checkMin()
+                    checkMax()
                     monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
                     i++
                   return
