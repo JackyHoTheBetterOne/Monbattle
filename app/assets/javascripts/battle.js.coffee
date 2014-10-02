@@ -167,6 +167,11 @@ window.findAliveFriends = ->
     i++
   shuffle(liveFriends)
 
+window.findAliveMons = ->
+  window.liveMons = []
+  liveMons = liveFriends.concat liveFoes
+  shuffle(liveMons)
+
 window.randomNumRange = (max, min)->
   Math.floor(Math.random() * (max - min) + min)
 
@@ -781,6 +786,14 @@ $ ->
                       findAliveEnemies()
                       effectTargets.push liveFoes[0]
                       effect.activate effectTargets
+                    when "tworandommons"
+                      findAliveEnemies()
+                      findAliveFriends()
+                      findAliveMons()
+                      effectTargets = [] 
+                      effectTargets.push liveMons[0]
+                      effectTargets.push liveMons[1] if typeof liveMons[1] isnt "undefined"
+                      effect.activate effectTargets
                     when "foeattack"
                       effectTargets = []
                       i = 0
@@ -788,7 +801,7 @@ $ ->
                         effectTargets.push abilitytargets[i].abilities[0]
                         i++
                       effect.activate effectTargets
-                    when "teamdamage"
+                    when "teamdamage", "teamheal"
                       effectTargets = []
                       findAliveFriends()
                       effectTargets.push liveFriends[0]
@@ -797,6 +810,7 @@ $ ->
                     when "randomap"
                       effectTargets = [player]
                       effect.activate effectTargets
+
                   i++
               return
 ##################################################################################################### Effect logic
