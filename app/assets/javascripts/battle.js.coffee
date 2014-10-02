@@ -329,12 +329,11 @@ window.flashEndButton = ->
     if $(this).parent().parent().children(".img").css("display") isnt "none"
       buttonArray.push $(this)
   if noApLeft($(".monBut button")) || nothingToDo(buttonArray)
-    $(".end-turn").fadeOut 300, ->
-      $(this).toggleClass("middle turn-end").fadeIn 300
+    $(".end-turn").addClass("turn-end").effect("pulsate", {times: 3}, 1500)
     $(".end-turn").on "click.msgOff", ->
       $(this).off "click.msgOff"
       $(this).stop()
-      $(this).toggleClass("middle turn-end")
+      $(this).toggleClass("turn-end")
 
 
 
@@ -458,7 +457,7 @@ window.controlAI = (monIndex) ->
             if enemyHurt.isAlive() is false and
               targetMon.effect("explode", {pieces: 30}, 1000).hide()
             else
-              targetMon.effect "shake"
+              targetMon.effect "shake", 750
           checkActionMonHealth()
           outcome()
         ).animate backPosition, 350
@@ -477,7 +476,7 @@ window.controlAI = (monIndex) ->
             if enemyHurt.isAlive() is false
               targetMon.effect("explode", {pieces: 30}, 1000).hide()
             else
-              targetMon.effect "shake", times: 10, 1000
+              targetMon.effect "shake", times: 10, 750
           element = $(this)
           checkMax()
           setTimeout (->
@@ -506,7 +505,7 @@ window.controlAI = (monIndex) ->
               if battle.players[0].mons[$(this).data("index")].isAlive() is false
                 $(this).effect("explode", {pieces: 30}, 1500).hide()
               else
-                $(this).effect "shake", {times: 5, distance: 80}, 1000
+                $(this).effect "shake", {times: 5, distance: 80}, 750
           setTimeout (->
             showDamageTeam(0)
             hpChangeBattle()
@@ -579,11 +578,18 @@ window.ai = ->
 
 ############################################################################################## Start of Ajax
 $ ->
+  $(document).bind "touchmove", (event) ->
+    event.preventDefault()
+    return
   setTimeout (->
     $("#overlay").fadeOut 500, ->
       $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
       return
   ), 1500
+  setTimeout (->
+    $("#battle-tutorial").joyride({'tipLocation': 'top'})
+    $("#battle-tutorial").joyride({'tipLocation': 'top'})
+  ), 3333
   $.ajax if $(".battle").length > 0
     url: "http://localhost:3000/battles/" + $(".battle").data("index") + ".json"
     dataType: "json"
@@ -796,7 +802,7 @@ $ ->
                       if enemyHurt.isAlive() is false
                         targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
                       else
-                        targetMon.effect "shake"
+                        targetMon.effect "shake", 750
                   ).animate backPosition, 250, ->
                     checkActionMonHealth()
                     toggleImg()
@@ -823,7 +829,7 @@ $ ->
                       if enemyHurt.isAlive() is false
                         targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
                       else
-                        targetMon.effect "shake", times: 10, 1000
+                        targetMon.effect "shake", times: 10, 750
                     element = $(this)
                     checkMax()
                     setTimeout (->
@@ -888,7 +894,7 @@ $ ->
                         if battle.players[1].mons[$(this).data("index")].isAlive() is false
                           $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1500).hide()
                         else
-                          $(this).effect "shake", {times: 5, distance: 80}, 1000
+                          $(this).effect "shake", {times: 5, distance: 80}, 750
                     element.toggleClass "ability-on aoePositionFoe"
                     checkMax()
                     singleTargetAbilityAfterActionDisplay()
@@ -897,10 +903,10 @@ $ ->
                   ), 1000
                   return
               when "aoeally"
+                toggleImg()
                 $(document).off "click.cancel", ".cancel"
                 disable(ability)
                 $(".user .img").removeClass("controlling")
-                toggleImg()
                 ability.parent().parent().children(".abilityDesc").css "visibility", "hidden"
                 abilityAnime = $(".ability-img")
                 checkMin()
@@ -921,6 +927,7 @@ $ ->
                     element.attr("src", "")
                     showHealTeam(0)
                     singleTargetAbilityAfterActionDisplay()
+                    toggleImg()
                     return
                   ), 1000
                   return

@@ -49,6 +49,31 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
 
 
 
+////////////////////////////////////////////////////////////////////////////////////// Joy ride customization
+.joyride-content-wrapper {
+  margin-top: -1px !important;
+  overflow: auto !important;
+  display: block !important;
+};
+
+.joyride-next-tip {
+  float: left !important;
+  background: rgba(10, 170, 230, 1) !important;
+  margin-top: 30px;
+  margin-right: -65px;
+  border-radius: 5px !important;
+  display: block !important;
+  height: 25px;
+  width: 25px;
+  padding-top: 3px !important;
+};
+
+.joyride-nub.top {
+  top: -13px !important;
+};
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////// Mix-in for monster icons
 @mixin monIcon() {
   position: absolute;
@@ -195,13 +220,14 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
 };
 
 .cancel {
-  background: rgba(235, 22, 22, 0.75);
-  border-color: rgba(235, 22, 22, 0.75);
+  background: rgba(235, 22, 22, 0.75) !important;
+  border-color: rgba(235, 22, 22, 0.75) !important;
   border-radius: 5px;
   position: absolute;
   top: 289px;
   left: 346px;
 };
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// Battle
