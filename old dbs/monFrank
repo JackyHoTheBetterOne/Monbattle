@@ -1634,7 +1634,10 @@ COPY monster_skin_equippings (id, monster_id, monster_skin_id, created_at, updat
 34	47	18	2014-09-24 00:25:22.92561	2014-09-24 00:25:22.92561	1
 35	46	19	2014-09-24 00:25:33.853141	2014-09-24 00:25:33.853141	1
 36	39	8	2014-09-26 04:20:00.526572	2014-09-26 04:20:00.526572	1
+<<<<<<< HEAD:monDB
+=======
 >>>>>>> a4de05afc3472a8a0e0e4a16c2e7c3ca2ab11ecf:monDB
+>>>>>>> 055dac7d66ca334769db0dbd7ac3b8a485706d37:monFrank
 \.
 
 
@@ -1710,7 +1713,10 @@ COPY monster_unlocks (id, user_id, monster_id, created_at, updated_at) FROM stdi
 140	2	44	2014-09-28 22:14:59.246691	2014-09-28 22:14:59.246691
 141	2	41	2014-09-28 22:15:02.512715	2014-09-28 22:15:02.512715
 142	2	40	2014-09-28 22:15:08.947484	2014-09-28 22:15:08.947484
+<<<<<<< HEAD:monDB
+=======
 >>>>>>> a4de05afc3472a8a0e0e4a16c2e7c3ca2ab11ecf:monDB
+>>>>>>> 055dac7d66ca334769db0dbd7ac3b8a485706d37:monFrank
 \.
 
 
@@ -1741,7 +1747,10 @@ COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_
 45	Arc Reactor	35000	2014-09-23 23:58:24.303523	2014-09-24 00:35:48.010255	21	8	1	1	0	machine	0	\N	\N	\N	\N
 50	Hello Kitty	1	2014-09-29 20:03:52.558064	2014-09-29 20:03:52.558064	26	1	1	1	0	Stupid Monster	1	\N	\N	\N	\N
 41	Knight	50000	2014-09-23 22:10:24.560178	2014-09-30 02:07:54.909247	16	6	1	1	37	Tough as nails	30	evo-animation-new.gif	image/gif	301911	2014-09-30 02:07:51.254272
+<<<<<<< HEAD:monDB
+=======
 >>>>>>> a4de05afc3472a8a0e0e4a16c2e7c3ca2ab11ecf:monDB
+>>>>>>> 055dac7d66ca334769db0dbd7ac3b8a485706d37:monFrank
 \.
 
 
