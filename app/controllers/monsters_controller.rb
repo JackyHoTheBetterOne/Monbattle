@@ -9,6 +9,8 @@ class MonstersController < ApplicationController
     @elements = Element.all
     @monsters = Monster.all
     @monster = Monster.new
+    @personality = Personality.new
+    @personalities = Personality.all
   end
 
   def create
@@ -65,8 +67,9 @@ class MonstersController < ApplicationController
 
   def monster_params
     params.require(:monster).permit(
-                                    :name, :max_hp, :monster_skin_id, :job_id, :element_id,:description,
-                                    :evolved_from_id, :hp_modifier, :dmg_modifier, :summon_cost, :evolve_animation
+                                    :name, :max_hp, :monster_skin_id, :job_id, :element_id, :description,
+                                    :personality_id, :evolved_from_id, :hp_modifier, :dmg_modifier, :summon_cost,
+                                    :evolve_animation
                                     )
   end
 

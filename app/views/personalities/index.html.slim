@@ -1,0 +1,12 @@
+= render partial: "admin/modal_button", locals: {modal_label: "personalityLabel", modal_id: "personalityModal", form_is_for: "personalities/form", button_name: "Create New Personality", form_title: "New Personality"}
+hr
+-@personalities.each do |pers|
+  -@personality = pers
+  .panel.panel-primary
+    .panel-heading
+      .panel-title
+        | #{pers.name}
+    .panel-body
+      h4 Speech
+      =render partial: "thoughts/form"
+      =render pers.thoughts

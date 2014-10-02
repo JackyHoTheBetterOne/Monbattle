@@ -18,6 +18,14 @@ resources :abilities do
   resources :ability_purchases, only: [:create, :destroy]
 end
 
+resources :personalities, only: [:create, :destroy, :edit, :index] do
+  resources :thoughts, only: [:create, :destroy]
+end
+
+namespace :home, only: [:index] do
+  resources :parties, only: [:show]
+end
+
 root 'admin#index'
 resources :home
 resources :admin
@@ -25,8 +33,6 @@ resources :effects
 resources :parties
 resources :battle_levels
 resources :battles
-# get 'monsters/clone' => 'monsters#clone', as: :monster_clone
-patch 'monsters/evolve/edit/:id' => 'monsters#evolve_edit', as: :evolve_edit
 resources :ability_equippings, only: [:create, :update]
 resources :jobs, only: [:create, :destroy]
 resources :elements, only: [:create, :destroy]

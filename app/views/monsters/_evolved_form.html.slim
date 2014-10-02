@@ -14,9 +14,9 @@
           -else
             .form-control =f.collection_select :id, Monster.base_mon, :id, :name
           h4=f.label "The job of this evolved state"
-          .form-control =f.collection_select :job_id, Job.all.where(evolve_lvl: "1"), :id, :name
+          .form-control =f.collection_select :job_id, @jobs.where(evolve_lvl: "1"), :id, :name
           h4=f.label "The element of this evolved state"
-          .form-control =f.collection_select :element_id, Element.all, :id, :name
+          .form-control =f.collection_select :element_id, @elements, :id, :name
           =f.input :evolve_animation
           =f.input :name
           =f.input :description

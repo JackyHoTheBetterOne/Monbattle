@@ -1,4 +1,42 @@
-H1 DO SOME SHIT
+.party-pane
+  | Party pane
+  .member-image
+    | Drag Members here
 
-br=link_to "Your Party"
-br=link_to "Play With Your Skins"
+.monsters-display-area
+  .monster-info-area
+    .info-display-area
+      .btn-group id="monster-btns"
+        .btn.btn-default type="button" id="base-btn"
+          | Base
+        .btn.btn-default type="button" id="evolve-btn"
+          | Evolved
+      .info-pane
+        .monster-info
+          | Monster Info
+        .equip1
+          | Equipped Slot 1
+        .equip2
+          | Equipped Slot 2
+
+    .abilities-display-area
+      | Ability Equipping Choices
+      .ability-pane
+        .ability-icon
+          | Ability Icon
+        .ability-info
+          | Ability Info
+        .ability-equip
+          | Eqiup Ability
+
+  .monsters-image-area
+    .monster-title-area
+      |  Monsters
+    .monsters-image-display
+      -current_user.monster_unlocks.each do |mu|
+        .monster-image
+          =image_tag mu.mon_skin(current_user)
+
+
+
+
