@@ -828,9 +828,11 @@ $ ->
                     ), 1000
                     return
               when "targetally", "ability"
+                toggleImg()
                 $(".battle-guide.guide").text("Select an ally target")
                 $(".battle-guide").show()
                 $(document).on "click.help", ".user.mon-slot .img", ->
+                  toggleImg()
                   disable(ability)
                   singleTargetAbilityAfterClickDisplay()
                   targetMon = $(this)
