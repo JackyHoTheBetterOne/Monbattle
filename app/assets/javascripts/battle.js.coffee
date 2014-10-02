@@ -329,8 +329,7 @@ window.flashEndButton = ->
     if $(this).parent().parent().children(".img").css("display") isnt "none"
       buttonArray.push $(this)
   if noApLeft($(".monBut button")) || nothingToDo(buttonArray)
-    $(".end-turn").fadeOut 300, ->
-      $(this).toggleClass("middle turn-end").fadeIn 300
+    $(".end-turn").addClass("turn-end").effect("pulsate", {times: 3}, 1500)
     $(".end-turn").on "click.msgOff", ->
       $(this).off "click.msgOff"
       $(this).stop()
