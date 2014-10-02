@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-########################################################################################### Dressing evol mons(not very dry)
+########################################################################################### Dressing evol mons(not very dry now)
 window.fixEvolMon = (monster, player) ->
   monster.team = battle.players.indexOf(player)
   monster.index = player.mons.indexOf(monster)
@@ -29,7 +29,7 @@ window.fixEvolMon = (monster, player) ->
           switch effect.targeta
             when "self"
               effect.activate [monster]
-            when "selfattack"
+            when "selfbuffattack"
               effect.activate [monster.abilities[0]]
             when "tworandomfoes"
               effectTargets = []
@@ -42,14 +42,23 @@ window.fixEvolMon = (monster, player) ->
               findAliveEnemies()
               effectTargets.push liveFoes[0]
               effect.activate effectTargets
-            when "foeattack"
+            when "tworandommons"
+              findAliveEnemies()
+              findAliveFriends()
+              findAliveMons()
+              effectTargets = [] 
+              effectTargets.push liveMons[0]
+              effectTargets.push liveMons[1] if typeof liveMons[1] isnt "undefined"
+              effect.activate effectTargets
+            when "foebuffattack"
               effectTargets = []
               i = 0
               while i < abilitytargets.length
-                effectTargets.push abilitytargets[i].abilities[0]
+                index = getRandom([0,1,2,3])
+                effectTargets.push abilitytargets[i].abilities[index]
                 i++
               effect.activate effectTargets
-            when "teamdamage"
+            when "tworandomallies"
               effectTargets = []
               findAliveFriends()
               effectTargets.push liveFriends[0]
@@ -60,24 +69,24 @@ window.fixEvolMon = (monster, player) ->
               effect.activate effectTargets
           i++
       return
-      $(ability.effects).each ->
-        @activate = (effectTargets) ->
-          e = this
-          i = 0
-          if typeof e.random isnt "undefined"
-            while i < effectTargets.length
-              monTarget = effectTargets[i]
-              monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + randomNumRange(e.max, e.min).toString())
-              monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
-              i++
-            return
-          else
-            while i < effectTargets.length
-              monTarget = effectTargets[i]
-              monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-              monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
-              i++
-            return
+    $(ability.effects).each ->
+      @activate = (effectTargets) ->
+        e = this
+        i = 0
+        if typeof e.random isnt "undefined"
+          while i < effectTargets.length
+            monTarget = effectTargets[i]
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + randomNumRange(e.max, e.min).toString())
+            monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
+            i++
+          return
+        else
+          while i < effectTargets.length
+            monTarget = effectTargets[i]
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+            monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
+            i++
+          return
 
 
 
@@ -773,7 +782,7 @@ $ ->
                   switch effect.targeta
                     when "self"
                       effect.activate [monster]
-                    when "selfattack"
+                    when "selfbuffattack"
                       effect.activate [monster.abilities[0]]
                     when "tworandomfoes"
                       effectTargets = []
@@ -794,14 +803,15 @@ $ ->
                       effectTargets.push liveMons[0]
                       effectTargets.push liveMons[1] if typeof liveMons[1] isnt "undefined"
                       effect.activate effectTargets
-                    when "foeattack"
+                    when "foebuffattack"
                       effectTargets = []
                       i = 0
                       while i < abilitytargets.length
-                        effectTargets.push abilitytargets[i].abilities[0]
+                        index = getRandom([0,1,2,3])
+                        effectTargets.push abilitytargets[i].abilities[index]
                         i++
                       effect.activate effectTargets
-                    when "teamdamage", "teamheal"
+                    when "tworandomallies"
                       effectTargets = []
                       findAliveFriends()
                       effectTargets.push liveFriends[0]
@@ -810,7 +820,6 @@ $ ->
                     when "randomap"
                       effectTargets = [player]
                       effect.activate effectTargets
-
                   i++
               return
 ##################################################################################################### Effect logic
