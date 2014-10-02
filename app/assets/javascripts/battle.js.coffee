@@ -177,9 +177,8 @@ window.findAliveFriends = ->
   shuffle(liveFriends)
 
 window.findAliveMons = ->
-  window.liveMons = []
-  liveMons = liveFriends.concat liveFoes
-  shuffle(liveMons)
+  window.liveMons = liveFriends.concat liveFoes
+  shuffle(window.liveMons)
 
 window.randomNumRange = (max, min)->
   Math.floor(Math.random() * (max - min) + min)
@@ -763,12 +762,11 @@ $ ->
             return
           monster.useAbility = (abilityIndex, abilityTargets) ->
             ability = @abilities[abilityIndex]
-            effectTargets = ability.effectTargets
-            ability.use(abilityTargets, effectTargets)
+            ability.use(abilityTargets)
 ##################################################################################################  Ability logic
           $(monster.abilities).each ->
             ability = @
-            ability.use = (abilitytargets, effectTargets) ->
+            ability.use = (abilitytargets) ->
               a = this
               i = 0
               while i < abilitytargets.length
@@ -798,9 +796,10 @@ $ ->
                       effect.activate effectTargets
                     when "tworandommons"
                       findAliveEnemies()
+                      console.log("Hello")
                       findAliveFriends()
                       findAliveMons()
-                      effectTargets = [] 
+                      effectTargets = []
                       effectTargets.push liveMons[0]
                       effectTargets.push liveMons[1] if typeof liveMons[1] isnt "undefined"
                       effect.activate effectTargets
