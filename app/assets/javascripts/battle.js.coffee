@@ -50,7 +50,7 @@ window.fixEvolMon = (monster, player) ->
               effectTargets.push liveMons[0]
               effectTargets.push liveMons[1] if typeof liveMons[1] isnt "undefined"
               effect.activate effectTargets
-            when "foebuffattack"
+            when "foebuffability"
               effectTargets = []
               i = 0
               while i < abilitytargets.length
