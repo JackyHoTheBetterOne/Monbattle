@@ -42,16 +42,23 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   border-radius: 5px;
 };
 
-.end-speech {
-  top: 133px !important;
-  left: 134px !important;
+#first-stop {
+  position: absolute;
+  z-index: -2000;
+  top: 120px;
+  left: 530px;
+  height:10px;
+  width: 10px;
 };
 
-.start-speech {
-  top: 155px !important;
-  left: 545px !important;
+#last-stop {
+  position: absolute;
+  z-index: -2000;
+  top: 100px;
+  left: 130px;
+  height: 10px;
+  width: 10px;
 };
-
 
 
 

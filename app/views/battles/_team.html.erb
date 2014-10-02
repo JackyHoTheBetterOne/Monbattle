@@ -8,7 +8,7 @@
   </div>
 <% end %>
 
-<input class="img" id="tutorial<%= @user_party.mon_dex(mon) %>" src="<%= mon.image(party.user) %>" data-index="<%= party.mon_dex(mon) %>" type="image" alt="monster image">
+<input class="img" src="<%= mon.image(party.user) %>" data-index="<%= party.mon_dex(mon) %>" type="image" alt="monster image">
 <p class="dam"><p>
 
 <% if party.npc == false %>

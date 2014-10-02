@@ -511,9 +511,10 @@ window.feedAiTargets = ->
 
 ############################################################################################################ AI action helper
 window.controlAI = (monIndex) ->
-  if battle.players[1].mons[monIndex].hp > 0
+  monster = battle.players[1].mons[monIndex]
+  if monster.hp > 0
     $(".battle-message").text(
-      battle.players[1].mons[monIndex].name + ":" + " " + "I am angry!!!!!!!!!!!!!!!!!").
+      monster.name + ":" + " " + "I am angry!!!!!!!!!!!!!!!!!").
       effect("highlight", 500)
     battle.players[1].ap = 1000000000
     abilityIndex = getRandom(aiAbilities)
@@ -665,9 +666,6 @@ window.ai = ->
 
 ############################################################################################## Start of Ajax
 $ ->
-  $(document).bind "touchmove", (event) ->
-    event.preventDefault()
-    return
   setTimeout (->
     $("#overlay").fadeOut 500, ->
       $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
@@ -675,7 +673,7 @@ $ ->
   ), 1500
   setTimeout (->
     $("#battle-tutorial").joyride({'tipLocation': 'top'})
-    $("#battle-tutorial").joyride({'tipLocation': 'top'})
+    $("#battle-tutorial").joyride({})
   ), 3333
   $.ajax if $(".battle").length > 0
     url: "http://localhost:3000/battles/" + $(".battle").data("index") + ".json"
