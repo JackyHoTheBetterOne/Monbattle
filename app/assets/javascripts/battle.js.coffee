@@ -511,9 +511,10 @@ window.feedAiTargets = ->
 
 ############################################################################################################ AI action helper
 window.controlAI = (monIndex) ->
-  if battle.players[1].mons[monIndex].hp > 0
+  monster = battle.players[1].mons[monIndex]
+  if monster.hp > 0
     $(".battle-message").text(
-      battle.players[1].mons[monIndex].name + ":" + " " + "I am angry!!!!!!!!!!!!!!!!!").
+      monster.name + ":" + " " + "I am angry!!!!!!!!!!!!!!!!!").
       effect("highlight", 500)
     battle.players[1].ap = 1000000000
     abilityIndex = getRandom(aiAbilities)
