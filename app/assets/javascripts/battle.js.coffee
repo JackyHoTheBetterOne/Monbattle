@@ -14,7 +14,7 @@ window.fixEvolMon = (monster, player) ->
     return
   $(monster.abilities).each ->
     ability = @
-    ability.use = (abilitytargets, effectTargets) ->
+    ability.use = (abilitytargets) ->
       a = this
       i = 0
       while i < abilitytargets.length
@@ -478,25 +478,30 @@ window.selectTarget = ->
 
 ############################################################################################################ AI target feed
 window.feedAiTargets = ->
-  if teamPct() > 0.8
+  if battle.round > 5 && teamPct() > 0.6 
+    window.aiAbilities = [2,3]
+    findTargetsAbovePct(0.5)
+    findTargetsBelowPct(0.9) if aiTargets.length is 0
+  else if teamPct() > 0.8
     window.aiAbilities = [0,1]
     findTargetsBelowPct(1)
-  else if teamPct() <= 0.8 && teamPct() >= 0.6
+  else if teamPct() <= 0.8 && teamPct() > 0.6
     window.aiAbilities = [1,2]
     findTargetsBelowPct(0.5)
-    findTargetsBelowPct(0.8) if aiTargets.length is 0
-  else if teamPct() < 0.6 && teamPct() >= 0.4
-    window.aiAbilities = [0,3]
+    findTargetsBelowPct(0.75) if aiTargets.length is 0
+  else if teamPct() <= 0.6 && teamPct() > 0.4
+    window.aiAbilities = [1,3]
     findTargetsAbovePct(0.7)
     findTargetsAbovePct(0.3) if aiTargets.length is 0
-  else if teamPct() < 0.4 && teamPct() >= 0.2
+  else if teamPct() <= 0.4 && teamPct() > 0.2
     window.aiAbilities = [2,3]
-    findTargets(3000)
-    findTargets(5000) if aiTargets.length is 0 
-  else if teamPct() < 0.2
-    window.aiAbilities = [1,3]
-    findTargets(2000) 
-    findTargetsBelowPct(0.5) if aiTargets.length is 0
+    findTargets(2000)
+    findTargets(4000) if aiTargets.length is 0 
+  else if teamPct() <= 0.2
+    window.aiAbilities = [0,3]
+    findTargets(1000) 
+    findTargets(3500) if aiTargets.length is 0
+
 
 
 
@@ -732,9 +737,6 @@ $ ->
           $(monDiv + " " + ".ability").data("target", evolved_mon.abilities[1].targeta)
           $(monDiv + " " + ".ability").data("apcost", evolved_mon.abilities[1].ap_cost)
           hpChangeBattle()
-
-
-
 #################################################################################################  Player logic
       $(battle.players).each ->
         player = @
@@ -1065,6 +1067,8 @@ $ ->
                   return
                 ), 2000
                 return
+              else
+                alert("Frank, I will murder your entire family")
         else
           $(this).effect("highlight", {color: "red"}, 500)
           $(".ap").effect("highlight", {color: "red"}, 500)
