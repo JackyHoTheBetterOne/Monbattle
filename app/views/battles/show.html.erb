@@ -41,13 +41,17 @@
     <% end %>
   </div>
 
-  <div class="1 enemy mon-slot" data-team="1">
+  <div id="first-stop"></div>
+
+  <div class="1 enemy mon-slot" id="tutorial-end" data-team="1">
     <% @pc_party.mons.each do |mon| %>
       <div class="mon mon<%= @pc_party.mon_dex(mon) %>" data-index="<%= @pc_party.mon_dex(mon) %>">
         <%= render :partial => "team", :locals => { :mon => mon, party: @pc_party } %>
       </div>
     <% end %>
   </div>
+
+  <div id="last-stop"></div>
 
   <div class="1 enemy info">
     <% @pc_party.mons.each do |mon| %>
@@ -70,11 +74,11 @@
 </div>
 
 <ol id="battle-tutorial" hidden>
-  <li data-id="tutorial0" class="start-speech">This is your party. You control each monster by clicking on their image.</li>
-  <li data-id="tutorial0" class="start-speech">There are three actions: Attack, Ability and Evolve.</li>
+  <li data-id="first-stop">This is your party. You control each monster by clicking on their image.</li>
+  <li data-id="first-stop">There are three actions: Attack, Ability and Evolve.</li>
   <li data-id="ap-tip">Each action costs ability points (AP). You have a finite amount of AP. Your total AP increases by 10 per round, to a maximum 80.</li>
   <li data-id="end-turn-tip">When you have no other actions available or AP left, your "End Turn" button will highlight. Once the button is clicked, the enemy monsters will make their moves.</li>
-  <li data-id="end-turn-tip" class="end-speech"> Now let's kill these motherfuckers!</li>
+  <li data-id="last-stop"> Now let's kill these motherfuckers!</li>
 
 </ol>
 

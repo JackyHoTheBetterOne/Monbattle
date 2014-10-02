@@ -666,9 +666,6 @@ window.ai = ->
 
 ############################################################################################## Start of Ajax
 $ ->
-  $(document).bind "touchmove", (event) ->
-    event.preventDefault()
-    return
   setTimeout (->
     $("#overlay").fadeOut 500, ->
       $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
@@ -676,7 +673,7 @@ $ ->
   ), 1500
   setTimeout (->
     $("#battle-tutorial").joyride({'tipLocation': 'top'})
-    $("#battle-tutorial").joyride({'tipLocation': 'top'})
+    $("#battle-tutorial").joyride({})
   ), 3333
   $.ajax if $(".battle").length > 0
     url: "http://localhost:3000/battles/" + $(".battle").data("index") + ".json"
