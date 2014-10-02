@@ -3,17 +3,19 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $("#abil_form_check_all").click (event) ->
+  $(".abil_form_check_all").click (event) ->
     if @checked
-      $(".ability_job_check_boxes input").prop "checked", true
+      $(".ability_job_check_boxes input").prop("checked", true)
     else
-      $(".ability_job_check_boxes input").prop "checked", false
+      $(".ability_job_check_boxes input").prop("checked", false)
     return
+
+# $('.abil_form_check_all').click(function(event){ $('.ability_job_check_boxes input').prop("checked", true);  });
 
   # $('#abil_form_check_all').click(function(event){
   #     if(this.checked) {
-  #       $('.ability_job_check_boxes [id^="ability_"]').prop('checked', true);
+  #       $(".ability_job_check_boxes input").prop("checked", true);
   #     }else {
-  #       $('.ability_job_check_boxes [id^="ability_"]').prop('checked', false);
+  #       $(".ability_job_check_boxes input").prop("checked", false);
   #       }
   # });
