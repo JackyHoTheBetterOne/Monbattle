@@ -1,0 +1,5 @@
+=form_for [@personality, @thought] do |f|
+  .form-group
+    h4 Add a New Comment this Persona can say!
+    =f.text_area :comment, class: 'form-control'
+    =f.submit class: 'btn btn-primary'

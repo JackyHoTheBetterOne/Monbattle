@@ -1,0 +1,14 @@
+=form_for @personality do |f|
+  .form-group
+    h4 Give a Name to a Monster Personality
+    =f.text_field :name, class: 'form-control'
+    hr=f.submit class: 'btn btn-primary'
+hr
+-if @personalities.empty?
+-else
+  h4 Current Classes:
+  -@personalities.each do |pers|
+    -if pers.monsters.empty?
+      =link_to " #{pers.name}", pers, method: :delete, data: {confirm: "Delete?"}, class: "btn btn-sm btn-danger"
+    -else
+      =link_to " #{pers.name}", pers, method: :patch, data: {confirm: "Edit only, because linked to at least one monster"}, class: "btn btn-sm btn-info"

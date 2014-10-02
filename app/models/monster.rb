@@ -2,6 +2,7 @@ class Monster < ActiveRecord::Base
 
   belongs_to :job
   belongs_to :element
+  belongs_to :personality
 
   has_many :evolutions, class_name: "Monster",
                         foreign_key: "evolved_from_id"
@@ -16,6 +17,7 @@ class Monster < ActiveRecord::Base
   has_many :monster_unlocks, dependent: :destroy
   has_many :monster_unlocked_users, through: :monster_unlocks, source: :user
   has_many :members, through: :monster_unlocks, dependent: :destroy
+  has_many :thoughts, through: :personality
 
   has_attached_file :evolve_animation,
                     styles: { medium: "300 x 300>",

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140929211257) do
+ActiveRecord::Schema.define(version: 20141002201510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -235,11 +235,13 @@ ActiveRecord::Schema.define(version: 20140929211257) do
     t.string   "evolve_animation_content_type"
     t.integer  "evolve_animation_file_size"
     t.datetime "evolve_animation_updated_at"
+    t.integer  "personality_id"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
   add_index "monsters", ["evolved_from_id"], name: "index_monsters_on_evolved_from_id", using: :btree
   add_index "monsters", ["job_id"], name: "index_monsters_on_job_id", using: :btree
+  add_index "monsters", ["personality_id"], name: "index_monsters_on_personality_id", using: :btree
 
   create_table "parties", force: true do |t|
     t.integer  "user_id"
@@ -250,6 +252,12 @@ ActiveRecord::Schema.define(version: 20140929211257) do
   end
 
   add_index "parties", ["user_id"], name: "index_parties_on_user_id", using: :btree
+
+  create_table "personalities", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "skin_restrictions", force: true do |t|
     t.integer  "monster_skin_id"
@@ -294,6 +302,15 @@ ActiveRecord::Schema.define(version: 20140929211257) do
     t.datetime "updated_at"
     t.string   "name"
   end
+
+  create_table "thoughts", force: true do |t|
+    t.integer  "personality_id"
+    t.text     "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "thoughts", ["personality_id"], name: "index_thoughts_on_personality_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",    null: false
