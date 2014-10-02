@@ -846,7 +846,7 @@ $ ->
                 $(".battle-guide.guide").text("Select an ally target")
                 $(".battle-guide").show()
                 $(document).on "click.help", ".user.mon-slot .img", ->
-                  $(document)
+                  $(document).off "click.help", ".user.mon-slot .img"
                   toggleImg()
                   disable(ability)
                   singleTargetAbilityAfterClickDisplay()
