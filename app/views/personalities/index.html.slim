@@ -8,5 +8,7 @@ hr
         | #{pers.name}
     .panel-body
       h4 Speech
-      =render partial: "thoughts/form"
-      =render pers.thoughts
+      .thought-form
+        =render partial: "thoughts/form"
+      .thoughts
+        =render pers.thoughts
