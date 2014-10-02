@@ -836,18 +836,12 @@ $ ->
                     ), 1000
                     return
               when "targetally", "ability"
-<<<<<<< HEAD
-=======
                 turnOffCommand(control)
->>>>>>> d33078deaadf983c8530055d11ce7a1b1a902a84
                 toggleImg()
                 $(".battle-guide.guide").text("Select an ally target")
                 $(".battle-guide").show()
                 $(document).on "click.help", ".user.mon-slot .img", ->
-<<<<<<< HEAD
-=======
-                  $(document)
->>>>>>> d33078deaadf983c8530055d11ce7a1b1a902a84
+                  $(document).off "click.help", ".user.mon-slot .img"
                   toggleImg()
                   disable(ability)
                   singleTargetAbilityAfterClickDisplay()
