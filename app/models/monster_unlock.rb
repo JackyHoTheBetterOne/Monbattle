@@ -13,6 +13,14 @@ class MonsterUnlock < ActiveRecord::Base
 
   scope :lvl1_evolves, -> { joins(:job).where('job')}
 
+  def speech
+    self.monster.thoughts.map(&:comment)
+  end
+
+  def mon_skin(user)
+    self.monster.monster_skin_equippings.where(user_id: user).first.monster_skin.avatar.url(:thumb)
+  end
+
   def ap_cost
     self.monster.summon_cost
   end

@@ -10,9 +10,25 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= require joyride-2.1.css
  *= require_tree .
  *= require jquery-ui
  *= require animate
  *= require_self
- *= require joyride-2.1.css
  */
+
+.navbar {
+  border:     5px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.nav-title {
+  color:        grey;
+  padding-left: 15px;
+}
+
+.nav-btn-group {
+  padding: 5px 0 5px 20px;
+}

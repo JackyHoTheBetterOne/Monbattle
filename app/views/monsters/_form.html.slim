@@ -9,9 +9,11 @@
         .form-group
           =f.input :name
           h4=f.label "Select Monster Job"
-          .form-control =f.collection_select :job_id, Job.all.where(evolve_lvl: "0"), :id, :name
+          .form-control =f.collection_select :job_id, @jobs.where(evolve_lvl: "0"), :id, :name
           h4=f.label "The element of this monster"
-          .form-control=f.collection_select :element_id, Element.all, :id, :name
+          .form-control=f.collection_select :element_id, @elements, :id, :name
+          h4=f.label "Monster Personality"
+          .form-control=f.collection_select :personality_id, @personalities, :id, :name
           =f.input :description
           =f.input :max_hp
           / =f.input :hp_modifier

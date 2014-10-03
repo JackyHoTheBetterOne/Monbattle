@@ -12,9 +12,12 @@ window.fixEvolMon = (monster, player) ->
     else
       return true
     return
+  monster.useAbility = (abilityIndex, abilityTargets) ->
+    ability = @abilities[abilityIndex]
+    ability.use(abilityTargets)
   $(monster.abilities).each ->
     ability = @
-    ability.use = (abilitytargets, effectTargets) ->
+    ability.use = (abilitytargets) ->
       a = this
       i = 0
       while i < abilitytargets.length
@@ -44,9 +47,10 @@ window.fixEvolMon = (monster, player) ->
               effect.activate effectTargets
             when "tworandommons"
               findAliveEnemies()
+              console.log("Hello")
               findAliveFriends()
               findAliveMons()
-              effectTargets = [] 
+              effectTargets = []
               effectTargets.push liveMons[0]
               effectTargets.push liveMons[1] if typeof liveMons[1] isnt "undefined"
               effect.activate effectTargets
@@ -77,6 +81,8 @@ window.fixEvolMon = (monster, player) ->
           while i < effectTargets.length
             monTarget = effectTargets[i]
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + randomNumRange(e.max, e.min).toString())
+            checkMin()
+            checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             i++
           return
@@ -84,10 +90,11 @@ window.fixEvolMon = (monster, player) ->
           while i < effectTargets.length
             monTarget = effectTargets[i]
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+            checkMin()
+            checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             i++
           return
-
 
 
 ################################################################################################# Battle logic helpers
@@ -478,33 +485,39 @@ window.selectTarget = ->
 
 ############################################################################################################ AI target feed
 window.feedAiTargets = ->
-  if teamPct() > 0.8
+  if battle.round > 5 && teamPct() > 0.6 
+    window.aiAbilities = [2,3]
+    findTargetsAbovePct(0.5)
+    findTargetsBelowPct(0.9) if aiTargets.length is 0
+  else if teamPct() > 0.8
     window.aiAbilities = [0,1]
     findTargetsBelowPct(1)
-  else if teamPct() <= 0.8 && teamPct() >= 0.6
+  else if teamPct() <= 0.8 && teamPct() > 0.6
     window.aiAbilities = [1,2]
     findTargetsBelowPct(0.5)
-    findTargetsBelowPct(0.8) if aiTargets.length is 0
-  else if teamPct() < 0.6 && teamPct() >= 0.4
-    window.aiAbilities = [0,3]
+    findTargetsBelowPct(0.75) if aiTargets.length is 0
+  else if teamPct() <= 0.6 && teamPct() > 0.4
+    window.aiAbilities = [1,3]
     findTargetsAbovePct(0.7)
     findTargetsAbovePct(0.3) if aiTargets.length is 0
-  else if teamPct() < 0.4 && teamPct() >= 0.2
+  else if teamPct() <= 0.4 && teamPct() > 0.2
     window.aiAbilities = [2,3]
-    findTargets(3000)
-    findTargets(5000) if aiTargets.length is 0 
-  else if teamPct() < 0.2
-    window.aiAbilities = [1,3]
-    findTargets(2000) 
-    findTargetsBelowPct(0.5) if aiTargets.length is 0
+    findTargets(2000)
+    findTargets(4000) if aiTargets.length is 0 
+  else if teamPct() <= 0.2
+    window.aiAbilities = [0,3]
+    findTargets(1000) 
+    findTargets(3500) if aiTargets.length is 0
+
 
 
 
 ############################################################################################################ AI action helper
 window.controlAI = (monIndex) ->
-  if battle.players[1].mons[monIndex].hp > 0
+  monster = battle.players[1].mons[monIndex]
+  if monster.hp > 0
     $(".battle-message").text(
-      battle.players[1].mons[monIndex].name + ":" + " " + "I am angry!!!!!!!!!!!!!!!!!").
+      monster.name + ":" + " " + getRandom(monster.speech)).
       effect("highlight", 500)
     battle.players[1].ap = 1000000000
     abilityIndex = getRandom(aiAbilities)
@@ -656,9 +669,6 @@ window.ai = ->
 
 ############################################################################################## Start of Ajax
 $ ->
-  $(document).bind "touchmove", (event) ->
-    event.preventDefault()
-    return
   setTimeout (->
     $("#overlay").fadeOut 500, ->
       $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
@@ -666,7 +676,7 @@ $ ->
   ), 1500
   setTimeout (->
     $("#battle-tutorial").joyride({'tipLocation': 'top'})
-    $("#battle-tutorial").joyride({'tipLocation': 'top'})
+    $("#battle-tutorial").joyride({})
   ), 3333
   $.ajax if $(".battle").length > 0
     url: "http://localhost:3000/battles/" + $(".battle").data("index") + ".json"
@@ -827,6 +837,8 @@ $ ->
                   while i < effectTargets.length
                     monTarget = effectTargets[i]
                     monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + randomNumRange(e.max, e.min).toString())
+                    checkMin()
+                    checkMax()
                     monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
                     i++
                   return
@@ -834,6 +846,8 @@ $ ->
                   while i < effectTargets.length
                     monTarget = effectTargets[i]
                     monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+                    checkMin()
+                    checkMax()
                     monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
                     i++
                   return
@@ -1061,6 +1075,8 @@ $ ->
                   return
                 ), 2000
                 return
+              else
+                alert("Frank, I will murder your entire family")
         else
           $(this).effect("highlight", {color: "red"}, 500)
           $(".ap").effect("highlight", {color: "red"}, 500)
