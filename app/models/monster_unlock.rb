@@ -14,7 +14,7 @@ class MonsterUnlock < ActiveRecord::Base
   scope :lvl1_evolves, -> { joins(:job).where('job')}
 
   def speech
-    self.monster.thoughts
+    self.monster.thoughts.map(&:comment)
   end
 
   def mon_skin(user)

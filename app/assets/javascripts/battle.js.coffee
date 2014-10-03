@@ -12,6 +12,9 @@ window.fixEvolMon = (monster, player) ->
     else
       return true
     return
+  monster.useAbility = (abilityIndex, abilityTargets) ->
+    ability = @abilities[abilityIndex]
+    ability.use(abilityTargets)
   $(monster.abilities).each ->
     ability = @
     ability.use = (abilitytargets) ->
@@ -19,7 +22,7 @@ window.fixEvolMon = (monster, player) ->
       i = 0
       while i < abilitytargets.length
         monTarget = abilitytargets[i]
-        monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change.toString())
+        monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
         monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
       if ability.effects.length isnt 0 
@@ -44,13 +47,14 @@ window.fixEvolMon = (monster, player) ->
               effect.activate effectTargets
             when "tworandommons"
               findAliveEnemies()
+              console.log("Hello")
               findAliveFriends()
               findAliveMons()
-              effectTargets = [] 
+              effectTargets = []
               effectTargets.push liveMons[0]
               effectTargets.push liveMons[1] if typeof liveMons[1] isnt "undefined"
               effect.activate effectTargets
-            when "foebuffability"
+            when "foebuffattack"
               effectTargets = []
               i = 0
               while i < abilitytargets.length
@@ -85,13 +89,12 @@ window.fixEvolMon = (monster, player) ->
         else
           while i < effectTargets.length
             monTarget = effectTargets[i]
-            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change.toString())
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
             checkMin()
             checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             i++
           return
-
 
 
 ################################################################################################# Battle logic helpers
@@ -514,7 +517,7 @@ window.controlAI = (monIndex) ->
   monster = battle.players[1].mons[monIndex]
   if monster.hp > 0
     $(".battle-message").text(
-      monster.name + ":" + " " + "I am angry!!!!!!!!!!!!!!!!!").
+      monster.name + ":" + " " + getRandom(monster.speech)).
       effect("highlight", 500)
     battle.players[1].ap = 1000000000
     abilityIndex = getRandom(aiAbilities)
