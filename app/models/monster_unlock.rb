@@ -26,7 +26,7 @@ class MonsterUnlock < ActiveRecord::Base
   end
 
   def speech
-    self.monster.thoughts
+    self.monster.thoughts.map(&:comment)
   end
 
   def mon_skin(user)
