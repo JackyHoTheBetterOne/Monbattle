@@ -45,6 +45,15 @@ class Ability < ActiveRecord::Base
   default_scope { order('abil_socket_id') }
   # before_save :add_slot
 
+  def self.abil_avail_for_sock(user, socket_num)
+    where(id: AbilityPurchase.abils_purchased(user).pluck(:ability_id),
+               abil_socket_id: AbilSocket.socket(socket_num))
+  end
+
+  def self.abils_for_mon(monster)
+    where(id: Monster.mon_abils(monster))
+  end
+
   def slot
     self.abil_socket.socket_num
   end

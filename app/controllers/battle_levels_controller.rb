@@ -5,17 +5,17 @@ class BattleLevelsController < ApplicationController
   def create
     @battle_level = BattleLevel.new battle_level_params
     if @battle_level.save
-      redirect_to admin_index_path, notice: "Battle Level Created"
+      redirect_to parties_index_path, notice: "Battle Level Created"
     else
-      redirect_to admin_index_path, notice: "Failure"
+      redirect_to parties_index_path, notice: "Failure"
     end
   end
 
   def destroy
     if @battle_level.destroy
-      redirect_to admin_index_path, notice: "Battle Level Removed"
+      redirect_to parties_index_path, notice: "Battle Level Removed"
     else
-      redirect_to admin_index_path, notice: "Failure"
+      redirect_to parties_index_path, notice: "Failure"
     end
   end
 
@@ -25,7 +25,7 @@ class BattleLevelsController < ApplicationController
   def update
     @battle_level.update_attributes(battle_level_params)
     if @battle_level.save
-      redirect_to admin_index_path, notice: "Success!"
+      redirect_to parties_index_path, notice: "Success!"
     end
   end
 

@@ -3,6 +3,8 @@ class HomeController < ApplicationController
   before_action :find_user
 
   def index
+    @base_mons = MonsterUnlock.base_mons(current_user)
+    @abilities = Ability.all
   end
 
   def show

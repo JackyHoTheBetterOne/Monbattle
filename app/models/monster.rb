@@ -13,7 +13,6 @@ class Monster < ActiveRecord::Base
   has_many :monster_skin_equipped_users, through: :monster_skin_equippings, source: :user
 
   has_many :ability_equippings, through: :monster_unlocks
-  has_many :abilities, through: :monster_unlocks
   has_many :monster_unlocks, dependent: :destroy
   has_many :monster_unlocked_users, through: :monster_unlocks, source: :user
   has_many :members, through: :monster_unlocks, dependent: :destroy
@@ -35,6 +34,10 @@ class Monster < ActiveRecord::Base
   validates :summon_cost, presence: {message: 'Must be entered'}
   # validates :dmg_modifier, presence: {message: 'Must be entered'}
   # validates :hp_modifier, presence: {message: 'Must be entered'}
+
+  def self.mon_abils(monster)
+    find_by_id(monster).job.abilities
+  end
 
   def self.base_mon
     where(evolved_from_id: 0)

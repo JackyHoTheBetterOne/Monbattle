@@ -1,0 +1,15 @@
+-mon.abil_in_sock(socket_num).each do |abil|
+  .div id="#{dom_id(mon)}-socket#{socket_num}"
+    p=abil.name
+.abils_avail id="#{dom_id(mon)}-socket#{socket_num}-abils"
+  -@abilities.abil_avail_for_sock(current_user, socket_num).abils_for_mon(mon.monster).each do |abil|
+    .ability-pane
+      .ability-icon
+        | Ability Icon
+      .ability-info
+        span
+          p=abil.description
+          p=abil.name
+          p=abil.ap_cost
+      .ability-equip
+        | Eqiup Ability
