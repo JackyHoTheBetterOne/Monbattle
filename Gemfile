@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'omniauth-facebook'
+gem 'cancancan', '~> 1.9'
 gem "omniauth"
 gem 'rails', '4.1.4'
 gem "cocoon"

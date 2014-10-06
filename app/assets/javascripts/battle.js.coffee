@@ -198,34 +198,34 @@ window.enemyTimer = ->
   if checkEnemyDeath(1) is true
     window.timer3 = 0
   else
-    window.timer3 = 2000
+    window.timer3 = 2200
 ######################################################################
   if checkEnemyDeath(1) is true && checkEnemyDeath(3) is true
     window.timer2 = 0
   else if checkEnemyDeath(1) is true || checkEnemyDeath(3) is true
-    window.timer2 = 2000
+    window.timer2 = 2200
   else
-    window.timer2 = 4000
+    window.timer2 = 4400
 ######################################################################
   if checkEnemyDeath(1) && checkEnemyDeath(3) && checkEnemyDeath(2)
     window.timer0 = 0
   else if ( ( checkEnemyDeath(1) && checkEnemyDeath(2) ) || ( checkEnemyDeath(1) && checkEnemyDeath(3) ) ) ||
           ( checkEnemyDeath(2) && checkEnemyDeath(3) )
-    window.timer0 = 2000
+    window.timer0 = 2200
   else if ( checkEnemyDeath(1) || checkEnemyDeath(2) ) || checkEnemyDeath(3)
-    window.timer0 = 4000
+    window.timer0 = 4400
   else
-    window.timer0 = 6000
+    window.timer0 = 6600
 ######################################################################
   switch numOfDeadFoe()
     when 0
-      window.timerRound = 8000
+      window.timerRound = 8800
     when 1
-      window.timerRound = 6000
+      window.timerRound = 6600
     when 2
-      window.timerRound = 4000
+      window.timerRound = 4400
     when 3
-      window.timerRound = 2000
+      window.timerRound = 2200
 
 
 
@@ -275,7 +275,7 @@ window.hpChangeBattle = ->
 
 window.damageBoxAnime= (team, target, damage, color) ->
   $("." + team + " " + ".mon" + target + " " + "p.dam").text(damage).animate({"color":color, "font-weight":"bold"}, 1).
-  fadeIn(1).animate({"top":"-=50px", "z-index":"+=10000"}, 300).effect("bounce", {times: 10}).fadeOut().
+  fadeIn(1).animate({"top":"-=50px", "z-index":"+=10000"}, 200).effect("bounce", {times: 10}).fadeOut().
   animate({"top":"+=50px", "z-index":"-=10000" })
 
 window.showDamageSingle = ->
@@ -332,8 +332,9 @@ window.checkMonHealthAfterEffect = ->
   i = 0
   n = 3 
   while i <= n
-      $(".0 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[0].mons[i].hp <= 0
-      $(".1 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[1].mons[i].hp <= 0 
+    $(".0 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[0].mons[i].hp <= 0
+    $(".1 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[1].mons[i].hp <= 0 
+    i++
 
 #####################################################################################################################
 window.singleTargetAbilityAfterClickDisplay = ->
@@ -612,7 +613,7 @@ window.controlAI = (monIndex) ->
             element.attr("src", "")
             outcome()
             return
-          ), 1500
+          ), 1200
           return
 
 window.AiObj = init: (monIndex) ->
@@ -1030,7 +1031,7 @@ $ ->
                     singleTargetAbilityAfterActionDisplay()
                     outcome()
                     return
-                  ), 1500
+                  ), 1200
                   return
               when "aoeally"
                 toggleImg()
@@ -1059,7 +1060,7 @@ $ ->
                     singleTargetAbilityAfterActionDisplay()
                     toggleImg()
                     return
-                  ), 1500
+                  ), 1200
                   return
               when "evolve"
                 $(document).off "click.cancel", ".cancel"
