@@ -27,6 +27,7 @@ gem 'simple_form', github: "plataformatec/simple_form"
 # gem "better_errors"
 gem "binding_of_caller"
 gem "paperclip"
+gem 'omniauth-facebook'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

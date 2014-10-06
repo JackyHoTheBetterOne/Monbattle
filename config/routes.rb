@@ -26,6 +26,10 @@ namespace :home, only: [:index] do
   resources :parties, only: [:show]
 end
 
+
+post "/facebook" => "battles#new"
+
+
 root 'admin#index'
 resources :home
 resources :admin

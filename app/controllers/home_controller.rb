@@ -8,6 +8,10 @@ class HomeController < ApplicationController
   def show
   end
 
+  def facebook
+    render text: "abc"
+  end
+
   private
 
   def find_party
