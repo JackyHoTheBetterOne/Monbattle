@@ -25,7 +25,7 @@ window.fixEvolMon = (monster, player) ->
         monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
         monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
-      if ability.effects.length isnt 0 
+      if ability.effects.length isnt 0
         i = 0
         while i < ability.effects.length
           effect = a.effects[i]
@@ -167,7 +167,7 @@ window.findAliveEnemies =  ->
   window.liveFoes = []
   n = 3
   i = 0
-  while i <= n 
+  while i <= n
     if battle.players[0].enemies[i].isAlive() is true
       liveFoes.push battle.players[0].enemies[i]
     i++
@@ -177,7 +177,7 @@ window.findAliveFriends = ->
   window.liveFriends = []
   n = 3
   i = 0
-  while i <= n 
+  while i <= n
     if battle.players[0].mons[i].isAlive() is true
       liveFriends.push battle.players[0].mons[i]
     i++
@@ -266,7 +266,7 @@ window.hpChangeBattle = ->
     battle.players[1].mons[i].hp = (if (battle.players[1].mons[i].hp < 0) then 0 else battle.players[1].mons[i].hp)
     $(hpBarChange("0", i)).animate barChange(battle.players[0].mons[i].hp, battle.players[0].mons[i].max_hp), 200 if battle.
                     players[0].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i.toString() + " " + ".current-hp").text()
-    
+
     $(hpBarChange("1", i)).animate barChange(battle.players[1].mons[i].hp, battle.players[1].mons[i].max_hp), 200 if battle.
                     players[1].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i.toString() + " " + ".current-hp").text()
     $(hpChange("0", i)).text battle.players[0].mons[i].hp
@@ -440,7 +440,7 @@ window.findTargetsBelowPct = (pct) ->
     aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp/battle.players[0].mons[i].max_hp <= pct &&
                                                       battle.players[0].mons[i].hp > 0
     i++
-  return 
+  return
 window.findTargetsAbovePct = (pct) ->
   i = undefined
   n = undefined
@@ -451,7 +451,7 @@ window.findTargetsAbovePct = (pct) ->
     aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp/battle.players[0].mons[i].max_hp >= pct &&
                                                       battle.players[0].mons[i].hp > 0
     i++
-  return 
+  return
 window.findTargets = (hp) ->
   i = undefined
   n = undefined
@@ -492,7 +492,7 @@ window.selectTarget = ->
 
 ############################################################################################################ AI target feed
 window.feedAiTargets = ->
-  if battle.round > 5 && teamPct() > 0.6 
+  if battle.round > 5 && teamPct() > 0.6
     window.aiAbilities = [2,3]
     findTargetsAbovePct(0.5)
     findTargetsBelowPct(0.9) if aiTargets.length is 0
@@ -510,10 +510,10 @@ window.feedAiTargets = ->
   else if teamPct() <= 0.4 && teamPct() > 0.2
     window.aiAbilities = [2,3]
     findTargets(2000)
-    findTargets(4000) if aiTargets.length is 0 
+    findTargets(4000) if aiTargets.length is 0
   else if teamPct() <= 0.2
     window.aiAbilities = [0,3]
-    findTargets(1000) 
+    findTargets(1000)
     findTargets(3500) if aiTargets.length is 0
 
 
@@ -697,9 +697,9 @@ $ ->
       battle.round = 1
       battle.maxAP = 40
       battle.calculateAP = ->
-        if battle.round < 5 
+        if battle.round < 5
           battle.maxAP = 30 + 10 * battle.round
-        else 
+        else
           battle.maxAP = 80
       battle.players[0].enemies = battle.players[1].mons
       battle.players[1].enemies = battle.players[0].mons
@@ -788,7 +788,7 @@ $ ->
                 monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
                 monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
                 i++
-              if ability.effects.length isnt 0 
+              if ability.effects.length isnt 0
                 i = 0
                 while i < ability.effects.length
                   effect = a.effects[i]

@@ -2,7 +2,7 @@
   h1 Sign in First
 -else
   =render partial: "admin/modal_button", locals: {modal_label: "battle_levelLabel", modal_id: "battle_levelModal", form_is_for: "battle_levels/form", button_name: "Create Stage", form_title: "Stage Creation" }
-  =render partial: "admin/modal_button", locals: {modal_label: "npc_partyLabel", modal_id: "npc_partyModal", form_is_for: "parties/npc_form", button_name: "Populate a Stage", form_title: "Populate a Stage" }
+  =render partial: "admin/modal_button", locals: {modal_label: "npc_partyLabel", modal_id: "npc_partyModal", form_is_for: "parties/npc_form", button_name: "Link Stage Name to NPC", form_title: "Link Stage Name to NPC" }
   hr
   -if npc.blank?
     h1 There is no user named NPC, make one
@@ -12,20 +12,17 @@
     -else
       -if @battle_levels.empty?
       -else
-        h3 Stages
-        table.table.table-striped border="1"
-          thead
-            tr
-              th Stage Name
-              th Item Given
-              th Exp Given
-              th Background Image
-          tbody
-            =render @battle_levels
-        hr
+        / h3 Stages
+        / table.table.table-striped border="1"
+        /   thead
+        /     tr
+        /       th Stage Name
+        /       th Item Given
+        /       th Exp Given
+        /       th Background Image
+        /   tbody
+        /     =render @battle_levels
         h3 Stage Enemies
-        h4 make logic to change colspan based on party count-party.monsters.count == 4
-        h4 In the future make two forms submit at once, when you create an npc party, name becomes a battle level
         table.table.table-striped border="1"
           thead
             tr

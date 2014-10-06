@@ -19,13 +19,17 @@ class Ability < ActiveRecord::Base
   has_many :equipped_users, through: :ability_equippings, source: :user
 
   has_attached_file :image,
-                  styles: { large: "300 x 375>",
-                            medium: "300 x 300>",
-                            small: "150x150>",
-                            thumb: "100 x 100>",
-                            tiny: "50 x 50>"}
+                    styles: { large: "300 x 375>",
+                              medium: "300 x 300>",
+                              small: "150x150>",
+                              thumb: "100 x 100>",
+                              tiny: "50 x 50>" }
+  has_attached_file :portrait,
+                    styles: { small: "150x150>",
+                              thumb: "100 x 100>" }
 
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
+  validates_attachment_content_type :portrait, :content_type => /\Aimage\/.*\Z/
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :ap_cost, presence: {message: 'Must be entered'}
   validates :description, presence: {message: 'Must be entered'}
@@ -44,6 +48,15 @@ class Ability < ActiveRecord::Base
 
   default_scope { order('abil_socket_id') }
   # before_save :add_slot
+
+  def self.abil_avail_for_sock(user, socket_num)
+    where(id: AbilityPurchase.abils_purchased(user).pluck(:ability_id),
+               abil_socket_id: AbilSocket.socket(socket_num))
+  end
+
+  def self.abils_for_mon(monster)
+    where(id: Monster.mon_abils(monster))
+  end
 
   def slot
     self.abil_socket.socket_num

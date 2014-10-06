@@ -13,12 +13,28 @@ class MonsterUnlock < ActiveRecord::Base
 
   scope :lvl1_evolves, -> { joins(:job).where('job')}
 
+  def self.base_mons(user)
+    self.where(user_id: user).where(monster_id: Monster.base_mon.pluck(:id))
+  end
+
+  def abil_in_sock(socket_num)
+    self.abilities.where(abil_socket_id: AbilSocket.socket(socket_num))
+  end
+
+  def abil_avail_for_sock(socket_num)
+    self.abilities.where
+  end
+
   def speech
     self.monster.thoughts.map(&:comment)
   end
 
+  def mon_portrait(user)
+    self.monster.monster_skin_equippings.where(user_id: user).first.monster_skin.portrait.url(:small)
+  end
+
   def mon_skin(user)
-    self.monster.monster_skin_equippings.where(user_id: user).first.monster_skin.avatar.url(:thumb)
+    self.monster.monster_skin_equippings.where(user_id: user).first.monster_skin.avatar.url(:small)
   end
 
   def ap_cost

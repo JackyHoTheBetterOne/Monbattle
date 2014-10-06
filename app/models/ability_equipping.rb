@@ -7,9 +7,8 @@ class AbilityEquipping < ActiveRecord::Base
 
   validates :monster_unlock, presence: {message: 'Must be entered'}
 
-  #Create a check to validate only one equipped ability for socket 1
-  # def socket_check
-  #   if self.where(ability_id: )
-  # end
+  def self.record_find(monster_unlock, ability)
+    find_by(monster_unlock_id: monster_unlock, ability_id: ability)
+  end
 
 end

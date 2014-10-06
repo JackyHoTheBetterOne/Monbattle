@@ -17,6 +17,7 @@ class AbilityEquippingsController < ApplicationController
   end
 
   def update
+    render text: params.to_s
     @ability_equipping.update_attributes(ability_equipping_params)
     respond_to do |format|
       if @ability_equipping.save

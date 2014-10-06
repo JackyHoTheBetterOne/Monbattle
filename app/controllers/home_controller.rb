@@ -1,6 +1,4 @@
 class HomeController < ApplicationController
-  before_action :find_party
-  before_action :find_user
 
   def index
   end
@@ -20,6 +18,10 @@ class HomeController < ApplicationController
 
   def find_user
     @user = current_user
+    @base_mons = MonsterUnlock.base_mons(current_user)
+    @abilities = Ability.all
+    @ability_equippings = AbilityEquipping.all
+    @members = Member.all
   end
 
 end
