@@ -19,7 +19,8 @@
               th Stat Effected
               th Stat Change
               th Socket #
-              th Ability Image
+              th Animation
+              th Portrait
               / th Store Price
               / th Price
               th Delete/Edit
@@ -38,6 +39,7 @@
               td=ability.stat_change
               td=ability.abil_socket.socket_num
               td=image_tag ability.image.url(:thumb)
+              td=image_tag ability.portrait.url(:thumb)
               / td=ability.store_price
               / td=ability.price
               td

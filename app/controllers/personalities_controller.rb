@@ -10,13 +10,13 @@ class PersonalitiesController < ApplicationController
   def create
     @personality = Personality.new personality_params
     @personality.save
-    redirect_to monsters_path
+    redirect_to personalities_path
   end
 
   def destroy
     @personality = Personality.find params[:id]
     @personality.destroy
-    redirect_to monsters_path
+    redirect_to personalities_path
   end
 
   private

@@ -18,14 +18,15 @@
  */
 
 .navbar {
-  border:     5px;
+  border: 5px;
   margin-top: 10px;
   margin-left: 10px;
   margin-right: 10px;
+  background-color: #3366AA;
 }
 
 .nav-title {
-  color:        grey;
+  color: #E0E05D;
   padding-left: 15px;
 }
 

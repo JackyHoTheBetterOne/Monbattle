@@ -1,2 +1,0 @@
-class AbilityEffectsController < ApplicationController
-end
