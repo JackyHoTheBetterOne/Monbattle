@@ -7,6 +7,7 @@
 # Ignore bundler config.
 /.bundle
 /app/views/battles/.DS_Store
+/locales/secrets.yml
 .DS_Store
 
 # Ignore the default SQLite database.
