@@ -22,9 +22,8 @@ resources :personalities, only: [:create, :destroy, :edit, :index] do
   resources :thoughts, only: [:create, :destroy]
 end
 
-namespace :home, only: [:index] do
-  resources :parties, only: [:show]
-end
+resources :home, only: [:index]
+resources :ability_equipping_for_users, only:[:create,:update]
 
 root 'admin#index'
 resources :home

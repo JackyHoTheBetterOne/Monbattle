@@ -17,6 +17,13 @@ $border-color: 1px solid blue;
   height: $height;
 }
 
+@mixin portrait-img($width, $height) {
+  @include abs-div($width, $height);
+  bottom: 0;
+  right: 0;
+  max-width: 100%;
+  max-height: 100%;
+}
 
 .body {
   position: relative;
@@ -29,7 +36,6 @@ $border-color: 1px solid blue;
 ///////////////////////////////////
 .party-pane {
   @include abs-div(60%, 24%);
-
   .member-image {
     @include abs-div(25%, 85%);
     top: 0;
@@ -37,13 +43,10 @@ $border-color: 1px solid blue;
     margin-top: auto;
     margin-bottom: auto;
     margin-left: 2%;
-
     .member-image img {
       max-width: 100%;
     }
-
   }
-
 }
 
 ///////////////////////////////////
@@ -55,12 +58,23 @@ $border-color: 1px solid blue;
     @include abs-div(65%, 100%);
     bottom: 0;
     right: 0;
+    img {
+      @include portrait-img(50%, 100%);
+    }
   }
-    #monster-btns {
-      position: absolute;
-      right: 0;
+    .btn-box {
+      @include abs-div(25%, 22%);
+      display: none;
+      top: 0;
       left: 0;
-      margin-left:5%
+      margin-left: 0%;
+      margin-top: 0%;
+      .btn {
+        position: relative;
+        max-width: 100%;
+        max-height: 100%;
+        width: 50%;
+      }
     }
     .info-display-area {
       @include abs-div(100%, 32%);
@@ -82,28 +96,40 @@ $border-color: 1px solid blue;
           bottom: 0;
           right: 0;
           margin-right: 14%;
+          img {
+            @include portrait-img(100%, 100%);
+          }
         }
         .equip2 {
           @include abs-div(10%, 60%);
           bottom: 0;
           right: 0;
           margin-right: 2%;
+          img {
+            @include portrait-img(100%, 100%);
+          }
         }
 /////////////////////////////////////
     .abilities-display-area {
       @include abs-div(100%, 67%);
       bottom: 0;
       right: 0;
-      .ability-pane {
-        @include rel-div(85%, 35%);
-        right: 0;
-        left: 0;
-        margin: 2.5% auto 2.5% auto;
+      .abils_avail {
+        @include abs-div(100%, 100%);
+        .ability-pane {
+          @include rel-div(85%, 35%);
+          right: 0;
+          left: 0;
+          margin: 2.5% auto 2.5% auto;
+        }
       }
     }
         .ability-icon {
           @include abs-div(15%, 100%);
           left: 0;
+          img {
+            @include portrait-img(100%, 100%);
+          }
         }
         .ability-info {
           @include abs-div(67%, 100%);
@@ -115,6 +141,9 @@ $border-color: 1px solid blue;
         .ability-equip {
           @include abs-div(15%, 100%);
           right: 0;
+          img {
+            @include portrait-img(100%, 100%);
+          }
         }
 ///////////////////////////////////
   .monsters-image-area {

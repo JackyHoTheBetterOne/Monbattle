@@ -1,14 +1,13 @@
 -@base_mons.each do |mon|
   .mon-unlock
-    .div id="#{dom_id(mon)}-info"
-      p Name: #{mon.name}
-      p Max HP: #{mon.max_hp}
-    =render partial: "abil_in_sock", locals: {socket_num: 1, mon: mon}
-    =render partial: "abil_in_sock", locals: {socket_num: 2, mon: mon}
-    .div id="#{dom_id(mon)}-unlocked-evolves"
-      -if mon.unlocked_evolves.empty?
-        h3 Only Show One Button
-      -else
+    =render partial: "mon_info", locals: {mon: mon}
+    -if mon.unlocked_evolves.empty?
+      .div class="#{dom_id(mon)}-evolve-id" id="#{dom_id(mon)}"
+    -else
+      -base = mon
+      -mon.unlocked_evolves.each do |mon|
+        =render partial: "mon_info", locals: {mon: mon}
+        .div class="#{dom_id(base)}-evolve-id" id="#{dom_id(mon)}"
 
 .party-pane
   | Party pane
@@ -18,29 +17,22 @@
 .monsters-display-area
   .monster-info-area
     .info-display-area
-      .btn-group id="monster-btns"
-        .btn.btn-default.base type="button" id="base-btn"
+      .btn-box
+        .btn.btn-default.btn-base type="button"
           | Base
-        .btn.btn-default.evolve type="button" id="evolve-btn"
+        .btn.btn-default.btn-evolve type="button"
           | Evolved
       .info-pane
         .monster-info
-          | Monster Info
         .equip1
-          | Equipped Slot 1
         .equip2
-          | Equipped Slot 2
 
     .abilities-display-area
       | Ability Equipping Choices
 
   .monsters-image-area
-    / .monster-title-area
-    /   |  Monsters
     .monsters-image-display
       -@base_mons.each do |mon|
-        / .div class="#{dom_id(mu)}-image"
-        /   p #{dom_id(mu)}
         =image_tag mon.mon_skin(current_user), id: "#{dom_id(mon)}", class: "monImg"
 
 

@@ -1,0 +1,8 @@
+.div id="#{dom_id(mon)}-info"
+  p Name: #{mon.name}
+  p HP: #{mon.max_hp}
+  =image_tag mon.mon_portrait(current_user), class: "portrait"
+.div id="#{dom_id(mon)}-socket1-info"
+  =render partial: "abil_in_sock", locals: {socket_num: 1, mon: mon}
+.div id="#{dom_id(mon)}-socket2-info"
+  =render partial: "abil_in_sock", locals: {socket_num: 2, mon: mon}
