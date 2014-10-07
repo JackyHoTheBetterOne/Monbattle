@@ -2,6 +2,10 @@ class HomeController < ApplicationController
   layout "facebook_landing"
 
   def index
+    @base_mons = MonsterUnlock.base_mons(current_user)
+    @abilities = Ability.all
+    @ability_equippings = AbilityEquipping.all
+    @members = Member.all
   end
 
   def show

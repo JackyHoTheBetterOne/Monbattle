@@ -2,21 +2,32 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$border-color: 1px solid blue;
+
+$bottom-bg: #E0E0D1;
+$top-bg: #8A002E;
+$ability-display: #0000FF;
+$ability-pane: azure;
+
+%panel-3d {
+  border-top: 1px solid #c0ffff;
+  border-right: 1px solid #00f;
+  border-bottom: 1px solid #00f;
+  border-left: 1px solid #c0ffff;
+}
+
 
 @mixin abs-div($width, $height) {
   position: absolute;
-  border: 1px solid blue;
+
   width: $width;
   height: $height;
 }
 @mixin rel-div($width, $height) {
   position: relative;
-  border: 1px solid blue;
+
   width: $width;
   height: $height;
 }
-
 @mixin portrait-img($width, $height) {
   @include abs-div($width, $height);
   bottom: 0;
@@ -28,23 +39,20 @@ $border-color: 1px solid blue;
 .body {
   position: relative;
 }
-
-.mon-unlock {
-  display: none;
-}
-
 ///////////////////////////////////
-.party-pane {
-  @include abs-div(60%, 24%);
-  .member-image {
-    @include abs-div(25%, 85%);
+.top-section {
+  @include abs-div(100%,25%);
+  background-color: $top-bg;
+  top: 0;
+  .party-pane {
+    @include abs-div(50%, 94%);
     top: 0;
-    bottom: 0;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: 2%;
-    .member-image img {
+    left: 0;
+    img {
+      @include rel-div(25%, 100%);
+      float: left;
       max-width: 100%;
+      max-height: 100%;
     }
   }
 }
@@ -53,18 +61,16 @@ $border-color: 1px solid blue;
 .monsters-display-area {
   @include abs-div(100%, 75%);
   bottom: 0;
-}
+  background-color: $bottom-bg;
   .monster-info-area {
     @include abs-div(65%, 100%);
     bottom: 0;
     right: 0;
-    img {
-      @include portrait-img(50%, 100%);
-    }
+    display: none;
   }
+}
     .btn-box {
       @include abs-div(25%, 22%);
-      display: none;
       top: 0;
       left: 0;
       margin-left: 0%;
@@ -83,13 +89,25 @@ $border-color: 1px solid blue;
     }
       .info-pane {
         @include abs-div(100%, 78%);
+        @extend %panel-3d;
         bottom: 0;
         right: 0;
+        background-color: $ability-display;
+        .monster-thumb {
+          @include abs-div(55%, 85%);
+          right: 0;
+          top: 0;
+          img {
+            @include portrait-img(100%, 100%);
+          }
+        }
       }
+
         .monster-info {
           @include abs-div(25%, 90%);
           bottom: 0;
           left: 0;
+          background-color: $ability-pane;
         }
         .equip1 {
           @include abs-div(10%, 60%);
@@ -111,17 +129,15 @@ $border-color: 1px solid blue;
         }
 /////////////////////////////////////
     .abilities-display-area {
-      @include abs-div(100%, 67%);
+      @include abs-div(100%, 65%);
       bottom: 0;
       right: 0;
-      .abils_avail {
-        @include abs-div(100%, 100%);
-        .ability-pane {
-          @include rel-div(85%, 35%);
-          right: 0;
-          left: 0;
-          margin: 2.5% auto 2.5% auto;
-        }
+      background-color: $ability-display;
+      .ability-pane {
+        @include rel-div(85%, 35%);
+        right: 0;
+        left: 0;
+        margin: 2.5% auto 2.5% auto;
       }
     }
         .ability-icon {
@@ -137,6 +153,7 @@ $border-color: 1px solid blue;
           left: 0;
           margin-left: auto;
           margin-right: auto;
+          background-color: $ability-pane;
         }
         .ability-equip {
           @include abs-div(15%, 100%);
@@ -158,15 +175,20 @@ $border-color: 1px solid blue;
     .monsters-image-display {
       @include abs-div(100%, 85%);
       bottom: 0;
-      img {
-        @include rel-div(25%, 25%);
-        float: left;
-        max-width: 100%;
-        max-height: 100%;
-      }
     }
-
-
-
-
-
+      .monster-thumb {
+        @include rel-div(25%, 25%);
+        float: right;
+        .monThumb {
+          position: absolute;
+          @include portrait-img(100%, 100%);
+        }
+        .fa {
+          color: black;
+          position: absolute;
+          margin-right: 3%;
+          margin-top: 3%;
+          right: 0;
+          top: 0;
+        }
+      }

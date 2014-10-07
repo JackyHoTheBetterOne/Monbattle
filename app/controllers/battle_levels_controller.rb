@@ -6,18 +6,18 @@ class BattleLevelsController < ApplicationController
     @battle_level = BattleLevel.new battle_level_params
     authorize @battle_level
     if @battle_level.save
-      redirect_to parties_index_path, notice: "Battle Level Created"
+      redirect_to parties_path, notice: "Battle Level Created"
     else
-      redirect_to parties_index_path, notice: "Failure"
+      render :new
     end
   end
 
   def destroy
     authorize @battle_level
     if @battle_level.destroy
-      redirect_to parties_index_path, notice: "Battle Level Removed"
+      redirect_to parties_path, notice: "Battle Level Removed"
     else
-      redirect_to parties_index_path, notice: "Failure"
+      redirect_to parties_path, notice: "Failure"
     end
   end
 
