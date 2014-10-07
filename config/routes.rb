@@ -27,9 +27,10 @@ resources :ability_equipping_for_users, only:[:create,:update]
 
 
 post "/facebook" => "battles#new"
+get "/cannot" => "home#illegal_access", as: :illegal
 
 
-root 'admin#index'
+root 'home#facebook'
 resources :home
 resources :admin
 resources :effects

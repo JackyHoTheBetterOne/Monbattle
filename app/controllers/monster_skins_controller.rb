@@ -10,6 +10,7 @@ class MonsterSkinsController < ApplicationController
   def create
     # render text: params.to_s
     @monster_skin = MonsterSkin.new monster_skin_params
+    authorize @monster_skin
     if @monster_skin.save
       redirect_to monster_skins_path, notice: "Skin Added!"
     else
@@ -21,6 +22,7 @@ class MonsterSkinsController < ApplicationController
   end
 
   def update
+    authorize @monster_skin
     @monster_skin.update_attributes(monster_skin_params)
     if @monster_skin.save
       @monster_skin.monster_skin_equippings.destroy_all
@@ -30,6 +32,7 @@ class MonsterSkinsController < ApplicationController
 
   def destroy
     # render text: params.to_s
+    authorize @monster_skin
     if @monster_skin.destroy
       redirect_to monster_skins_path, notice: "Monster Skin Destroyed!!!"
     end

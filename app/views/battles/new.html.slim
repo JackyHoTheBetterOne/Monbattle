@@ -1,19 +1,20 @@
--if user_signed_in? == false
-  h1 Sign in First
--else
-  -if @battle.errors.any?
-    ul
-    -@battle.errors.full_messages.each do |msg|
-      li= msg
-  -else
-    -if current_user.parties.empty?
-    -else
-      -if Party.members_count_for(current_user) == 0
-        h1 Add more members to your team first.
-      -else
-        h5 add logic to check if monsters in party are equipped
-        h5 Make a select box for each party that exists for npc called (select a level)
-        hr
-        = render "/battles/form"
-
 h1 id="fb-welcome"
+
+div class="level-select"
+  -if user_signed_in? == false
+    h1 Sign in First
+  -else
+    -if @battle.errors.any?
+      ul
+      -@battle.errors.full_messages.each do |msg|
+        li= msg
+    -else
+      -if current_user.parties.empty?
+      -else
+        -if Party.members_count_for(current_user) == 0
+          h1 Add more members to your team first.
+        -else
+          / h5 add logic to check if monsters in party are equipped
+          / h5 Make a select box for each party that exists for npc called (select a level)
+          = render "/battles/form"
+

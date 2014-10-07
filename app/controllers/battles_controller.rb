@@ -8,6 +8,7 @@ class BattlesController < ApplicationController
 
   def new
     @battle = Battle.new
+    render :layout => "facebook_landing" if current_user.admin == false
   end
 
   def create
@@ -26,7 +27,7 @@ class BattlesController < ApplicationController
     @user_party = @battle.parties[0]
     @pc_party   = @battle.parties[1]
     respond_to do |format|
-      format.html
+      format.html { render layout: "facebook_landing" if current_user.admin == false }
       format.json { render json: @battle.build_json  }
     end
   end

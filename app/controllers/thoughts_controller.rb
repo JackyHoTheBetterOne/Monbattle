@@ -4,6 +4,7 @@ class ThoughtsController < ApplicationController
 
   def create
     @thought = Thought.new thought_params
+    authorize @thought
     @thought.personality = @personality
     respond_to do |format|
       if @thought.save
@@ -14,6 +15,7 @@ class ThoughtsController < ApplicationController
   end
 
   def destroy
+    authorize @thought
     respond_to do |format|
       if @thought.destroy
         format.html { redirect_to personalities_path }

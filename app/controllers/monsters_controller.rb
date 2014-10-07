@@ -20,6 +20,7 @@ class MonstersController < ApplicationController
     @jobs = Job.all
     @element = Element.new
     @elements = Element.all
+    authorize @monster
     respond_to do |format|
       if @monster.save
         format.html { redirect_to monsters_path, notice: "Monster saved" }
@@ -31,6 +32,7 @@ class MonstersController < ApplicationController
   end
 
   def destroy
+    authorize @monster
     if @monster.destroy
       respond_to do |format|
         format.html { redirect_to monsters_path, notice: "Monster Removed" }
@@ -49,6 +51,7 @@ class MonstersController < ApplicationController
   # end
 
   def update
+    authorize @monster
     @monster.update_attributes(monster_params)
     respond_to do |format|
       if @monster.save
@@ -74,3 +77,5 @@ class MonstersController < ApplicationController
   end
 
 end
+
+

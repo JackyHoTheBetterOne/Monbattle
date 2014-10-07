@@ -9,11 +9,13 @@ class PersonalitiesController < ApplicationController
 
   def create
     @personality = Personality.new personality_params
+    authorize @personality
     @personality.save
     redirect_to personalities_path
   end
 
   def destroy
+    authorize @personality
     @personality = Personality.find params[:id]
     @personality.destroy
     redirect_to personalities_path
