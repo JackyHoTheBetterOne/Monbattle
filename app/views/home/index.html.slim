@@ -1,39 +1,24 @@
--@base_mons.each do |mon|
-  .mon-unlock
-    =render partial: "mon_info", locals: {mon: mon}
-    -if mon.unlocked_evolves.empty?
-      .div class="#{dom_id(mon)}-evolve-id" id="#{dom_id(mon)}"
-    -else
-      -base = mon
-      -mon.unlocked_evolves.each do |mon|
-        =render partial: "mon_info", locals: {mon: mon}
-        .div class="#{dom_id(base)}-evolve-id" id="#{dom_id(mon)}"
-
-.party-pane
-  | Party pane
-  .member-image
-    | Drag Members here
+.top-section
+  .party-pane
+    -@base_mons.each do |mon|
+      =render partial: "mon_party_img", locals: {mon: mon}
 
 .monsters-display-area
-  .monster-info-area
-    .info-display-area
-      .btn-box
-        .btn.btn-default.btn-base type="button"
-          | Base
-        .btn.btn-default.btn-evolve type="button"
-          | Evolved
-      .info-pane
-        .monster-info
-        .equip1
-        .equip2
-
-    .abilities-display-area
-      | Ability Equipping Choices
+  -current_user.monster_unlocks.each do |mon|
+    .monster-info-area id="#{dom_id(mon)}-info-pane"
+      =render partial: "monster_display", locals: {mon: mon}
+      .abilities-display-area id="#{dom_id(mon)}-socket1"
+        =render partial: "abilities_display_area", locals: {socket_num: 1, mon: mon}
+      .abilities-display-area id="#{dom_id(mon)}-socket2"
+        =render partial: "abilities_display_area", locals: {socket_num: 2, mon: mon}
 
   .monsters-image-area
-    .monsters-image-display
-      -@base_mons.each do |mon|
-        =image_tag mon.mon_skin(current_user), id: "#{dom_id(mon)}", class: "monImg"
+    =render partial: "mon_image_display"
+
+.start-battle
+  / =render partial: start a battle
+    / -if current_user.members.count == 4
+    / -else
 
 
 

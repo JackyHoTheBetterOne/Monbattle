@@ -1,5 +1,5 @@
 | $('#thought_#{dom_id(@personality)}').prepend("#{j render partial: "/thoughts/thought", locals: {thought: @thought, personality: @personality}}");
 | $('##{dom_id(@thought)}').effect("highlight");
-| $('#thought_comment').val("");
 -@thought = Thought.new
+| $('#thought_comment').val("");
 | $(".thought-form").html("#{j render "/thoughts/form"}")

@@ -86,6 +86,14 @@ class MonsterUnlock < ActiveRecord::Base
     return MonsterUnlock.where(user_id: self.user_id, monster_id: linked_evolution_ids)
   end
 
+  def unlocked_evolved_from(user)
+    def evolved_from_id
+      self.monster.evolved_from.id
+    end
+
+    return MonsterUnlock.where(user_id: user, monster_id: evolved_from_id)
+  end
+
   def mon_evols
     json_array    = []
     abil_array    = []
