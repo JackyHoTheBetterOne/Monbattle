@@ -46,7 +46,8 @@ class User < ActiveRecord::Base
                             provider:auth.provider,
                             uid:auth.uid,
                             email:auth.info.email,
-                            password:Devise.friendly_token[0,20]
+                            password:Devise.friendly_token[0,20],
+                            raw_oauth_info: oauth_data
                            )
       end    
     end

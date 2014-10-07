@@ -13,7 +13,6 @@ class PartiesController < ApplicationController
   def create
     # render text: params.to_s
     @party = Party.new party_params
-    authorize @party 
     if @party.save
       if @party.isNPC
         redirect_to parties_path, notice: "Success"
