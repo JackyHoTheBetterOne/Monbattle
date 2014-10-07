@@ -332,8 +332,9 @@ window.checkMonHealthAfterEffect = ->
   i = 0
   n = 3 
   while i <= n
-      $(".0 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[0].mons[i].hp <= 0
-      $(".1 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[1].mons[i].hp <= 0 
+    $(".0 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[0].mons[i].hp <= 0
+    $(".1 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[1].mons[i].hp <= 0 
+    i++
 
 #####################################################################################################################
 window.singleTargetAbilityAfterClickDisplay = ->
