@@ -7,6 +7,7 @@ resources :monsters do
 end
 
 resources :monster_unlocks, only: [] do
+  resources :member_for_users, only:[:create, :destroy]
   resources :members, only: [:create, :destroy]
 end
 
@@ -23,10 +24,9 @@ resources :personalities, only: [:create, :destroy, :edit, :index] do
 end
 
 resources :home, only: [:index]
-resources :ability_equipping_for_users, only:[:create,:update]
+resources :ability_equipping_for_users, only:[:create, :update]
 
 root 'admin#index'
-resources :home
 resources :admin
 resources :effects
 resources :parties
@@ -38,10 +38,7 @@ resources :elements, only: [:create, :destroy]
 resources :targets, only: [:create, :destroy]
 resources :stat_targets, only: [:create, :destroy]
 resources :abil_sockets, only: [:create, :destroy]
-
 resources :monster_skin_equippings, only: [:create, :destroy, :update]
-resources :monster_skin_equippings, only: [:create, :destroy, :update]
-
 # resources :summoners
 # resources :summoner_levels
 

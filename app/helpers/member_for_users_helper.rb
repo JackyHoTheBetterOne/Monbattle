@@ -1,0 +1,2 @@
+module MemberForUsersHelper
+end

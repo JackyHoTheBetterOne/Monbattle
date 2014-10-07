@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :parties, dependent: :destroy
+  has_many :members, through: :parties
 
   has_many :monster_skin_equippings, dependent: :destroy
   has_many :user_skin_equipped_monsters, through: :monster_skin_equippings, source: :monster
@@ -27,8 +28,25 @@ class User < ActiveRecord::Base
     User.where(id: current_user_id).first.parties.first.members.count
   end
 
-  def party_user(user_id)
-    User.find(user_id)
+  # def party_user(user_id)
+  #   User.find(user_id)
+  # end
+
+  def can_add_to_party?(mon_unlock)
+    if self.members.count == 0 || self.members.count < 4 && self.members.where(monster_unlock_id: mon_unlock).empty?
+      return true
+    else
+      return false
+    end
   end
+
+  def can_remove_from_party?(mon_unlock)
+    if self.members.count >= 1 && self.members.where(monster_unlock_id: mon_unlock).exists?
+      return true
+    else
+      return false
+    end
+  end
+
 
 end

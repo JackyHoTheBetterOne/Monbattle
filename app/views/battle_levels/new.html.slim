@@ -1,0 +1,4 @@
+-if @battle_level.errors.any?
+  ul
+  -@battle_level.errors.full_messages.each do |msg|
+    li= msg
