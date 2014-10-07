@@ -26,6 +26,10 @@ end
 resources :home, only: [:index]
 resources :ability_equipping_for_users, only:[:create, :update]
 
+
+post "/facebook" => "battles#new"
+
+
 root 'admin#index'
 resources :admin
 resources :effects

@@ -229,7 +229,7 @@ window.enemyTimer = ->
 
 
 
-################################################################################################ Battle display helpers
+######################################################################################################## Battle display helpers
 window.callAbilityImg = ->
   battle.players[targets[0]].mons[targets[1]].abilities[targets[2]].img
 
@@ -324,11 +324,18 @@ window.outcome = ->
 window.checkApAvailbility = ->
   $(".monBut button").each ->
     disable($(this)) if $(this).data("apcost") > battle.players[0].ap
+###################################################################################################################
+# window.checkActionMonHealth = ->
 
-window.checkActionMonHealth = ->
-  if battle.players[targets[0]].mons[targets[1]].hp <= 0
-    $("." + targets[0].toString() + " " + ".mon" + targets[1].toString() + " " + ".img").fadeOut()
 
+window.checkMonHealthAfterEffect = ->
+  i = 0
+  n = 3 
+  while i <= n
+      $(".0 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[0].mons[i].hp <= 0
+      $(".1 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[1].mons[i].hp <= 0 
+
+#####################################################################################################################
 window.singleTargetAbilityAfterClickDisplay = ->
   turnOff("click.boom", ".enemy")
   turnOff("click.help", ".user")
@@ -339,7 +346,7 @@ window.singleTargetAbilityAfterClickDisplay = ->
 window.singleTargetAbilityAfterActionDisplay = ->
   apChange()
   hpChangeBattle()
-  checkActionMonHealth()
+  checkMonHealthAfterEffect()
   toggleImg()
   flashEndButton()
 
@@ -413,7 +420,7 @@ window.flashEndButton = ->
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("display") isnt "none"
       buttonArray.push $(this)
-  if noApLeft($(".monBut button")) || nothingToDo(buttonArray)
+  if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
     $(".end-turn").addClass("turn-end").effect("pulsate", {times: 3}, 1500)
     $(".end-turn").on "click.msgOff", ->
       $(this).off "click.msgOff"
@@ -422,7 +429,7 @@ window.flashEndButton = ->
 
 
 
-############################################################################################################ AI logics
+###################################################################################################################### AI logics
 window.findTargetsBelowPct = (pct) ->
   i = undefined
   n = undefined
@@ -545,11 +552,11 @@ window.controlAI = (monIndex) ->
           showDamageSingle()
           hpChangeBattle()
           if targetMon.css("display") isnt "none"
-            if enemyHurt.isAlive() is false and
+            if enemyHurt.isAlive() is false
               targetMon.effect("explode", {pieces: 30}, 1000).hide()
             else
               targetMon.effect "shake", 750
-          checkActionMonHealth()
+          checkMonHealthAfterEffect()
           outcome()
         ).animate backPosition, 350
       when "targetenemy"
@@ -573,12 +580,12 @@ window.controlAI = (monIndex) ->
           setTimeout (->
             showDamageSingle()
             hpChangeBattle()
-            checkActionMonHealth()
+            checkMonHealthAfterEffect()
             element.toggleClass "flipped ability-on"
             element.attr("src", "")
             outcome()
             return
-          ), 1000
+          ), 1200
           return
       when "aoeenemy"
         window.targets = [1].concat [monIndex, abilityIndex]
@@ -600,12 +607,12 @@ window.controlAI = (monIndex) ->
           setTimeout (->
             showDamageTeam(0)
             hpChangeBattle()
-            checkActionMonHealth()
+            checkMonHealthAfterEffect()
             element.toggleClass "flipped ability-on aoePositionUser"
             element.attr("src", "")
             outcome()
             return
-          ), 1000
+          ), 1500
           return
 
 window.AiObj = init: (monIndex) ->
@@ -669,15 +676,6 @@ window.ai = ->
 
 ############################################################################################## Start of Ajax
 $ ->
-  setTimeout (->
-    $("#overlay").fadeOut 500, ->
-      $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
-      return
-  ), 1500
-  setTimeout (->
-    $("#battle-tutorial").joyride({'tipLocation': 'top'})
-    $("#battle-tutorial").joyride({})
-  ), 3333
   $.ajax if $(".battle").length > 0
     url: "http://localhost:3000/battles/" + $(".battle").data("index") + ".json"
     dataType: "json"
@@ -685,6 +683,15 @@ $ ->
     error: ->
       alert("This battle cannot be loaded!")
     success: (data) ->
+      setTimeout (->
+        $("#overlay").fadeOut 500, ->
+          $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
+          return
+      ), 1500
+      setTimeout (->
+        $("#battle-tutorial").joyride({'tipLocation': 'top'})
+        $("#battle-tutorial").joyride({})
+      ), 3333  
 ############################################################################################### Battle logic
       window.battle = data
       battle.round = 1
@@ -927,7 +934,7 @@ $ ->
                       else
                         targetMon.effect "shake", 750
                   ).animate backPosition, 250, ->
-                    checkActionMonHealth()
+                    checkMonHealthAfterEffect()
                     toggleImg()
                     flashEndButton()
                     outcome()
@@ -962,7 +969,7 @@ $ ->
                       singleTargetAbilityAfterActionDisplay()
                       outcome()
                       return
-                    ), 1000
+                    ), 1200
                     return
               when "targetally", "ability"
                 turnOffCommand(control)
@@ -997,7 +1004,7 @@ $ ->
                       turnOnCommand(control)
                       outcome()
                       return
-                    ), 1000
+                    ), 1200
                     return
               when "aoeenemy"
                 $(document).off "click.cancel", ".cancel"
@@ -1023,7 +1030,7 @@ $ ->
                     singleTargetAbilityAfterActionDisplay()
                     outcome()
                     return
-                  ), 1000
+                  ), 1500
                   return
               when "aoeally"
                 toggleImg()
@@ -1052,7 +1059,7 @@ $ ->
                     singleTargetAbilityAfterActionDisplay()
                     toggleImg()
                     return
-                  ), 1000
+                  ), 1500
                   return
               when "evolve"
                 $(document).off "click.cancel", ".cancel"
