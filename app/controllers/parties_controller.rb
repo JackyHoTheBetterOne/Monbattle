@@ -35,6 +35,7 @@ class PartiesController < ApplicationController
 
   def update
     @party.update_attributes(party_params)
+    authorize @party
     if @party.save
       if @party.isNPC
         redirect_to parties_path, notice: "Success"
@@ -47,6 +48,7 @@ class PartiesController < ApplicationController
   end
 
   def destroy
+    authorize @party
   end
 
   private

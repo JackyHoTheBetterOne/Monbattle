@@ -8,6 +8,7 @@ class EffectsController < ApplicationController
 
   def create
     @effect = Effect.new effect_params
+    authorize @effect
     if @effect.save
       redirect_to effects_path, notice: "Effect Added"
     else
@@ -16,6 +17,7 @@ class EffectsController < ApplicationController
   end
 
   def destroy
+    authorize @effect
     if @effect.destroy
       redirect_to effects_path, notice: "Effect Removed"
     else
@@ -27,6 +29,7 @@ class EffectsController < ApplicationController
   end
 
   def update
+    authorize @effect
     @effect.update_attributes(effect_params)
     if @effect.save
       redirect_to effects_path, notice: "Success!"

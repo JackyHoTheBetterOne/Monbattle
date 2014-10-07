@@ -20,6 +20,6 @@
               td=link_to "#{battle.id}", battle
               -battle.parties.each do |party|
                 td=party.user.user_name
-              td=battle.battle_level.name
+              / td=battle.battle_level.name
               td
                 =link_to "Destroy", battle_path(battle), class: "btn btn-danger", method: :delete

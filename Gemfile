@@ -2,7 +2,10 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 gem 'omniauth-facebook'
+gem "pundit"
+gem "omniauth"
 gem 'rails', '4.1.4'
 gem "cocoon"
 # Use postgresql as the database for Active Record
@@ -28,7 +31,6 @@ gem 'simple_form', github: "plataformatec/simple_form"
 # gem "better_errors"
 gem "binding_of_caller"
 gem "paperclip"
-gem 'omniauth-facebook'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

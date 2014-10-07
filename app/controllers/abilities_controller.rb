@@ -15,6 +15,7 @@ class AbilitiesController < ApplicationController
 
   def create
     # render text: params.to_s
+    authorize @ability
     @ability = Ability.new ability_params
     respond_to do |format|
       if @ability.save
@@ -27,6 +28,7 @@ class AbilitiesController < ApplicationController
   end
 
   def destroy
+    authorize @ability
     if @ability.destroy
       redirect_to abilities_path, notice: "Ability Removed"
     else
@@ -38,6 +40,7 @@ class AbilitiesController < ApplicationController
   end
 
   def update
+    authorize @ability
     @ability.update_attributes(ability_params)
     if @ability.save
       # @ability.ability_equippings.destroy_all #(Temp removed)

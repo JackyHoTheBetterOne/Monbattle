@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  layout "facebook_landing"
 
   def index
     @base_mons = MonsterUnlock.base_mons(current_user)
@@ -11,7 +12,13 @@ class HomeController < ApplicationController
   end
 
   def facebook
-    render text: "abc"
+  end
+
+  def level_select
+    render new_battle_path, layout: "facebook_landing"
+  end
+
+  def illegal_access
   end
 
   private

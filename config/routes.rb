@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-devise_for :users
+devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
 resources :monsters do
   resources :monster_unlocks, only: [:create, :destroy]
@@ -28,9 +28,15 @@ resources :ability_equipping_for_users, only:[:create, :update]
 
 
 post "/facebook" => "battles#new"
+get "/cannot" => "home#illegal_access", as: :illegal
 
 
+<<<<<<< HEAD
 root 'admin#index'
+=======
+root 'home#facebook'
+resources :home
+>>>>>>> d3f1dd21395d81d6f33a831526c9fa929a136d9f
 resources :admin
 resources :effects
 resources :parties
