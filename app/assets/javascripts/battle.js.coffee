@@ -811,7 +811,6 @@ $ ->
                       effect.activate effectTargets
                     when "tworandommons"
                       findAliveEnemies()
-                      console.log("Hello")
                       findAliveFriends()
                       findAliveMons()
                       effectTargets = []

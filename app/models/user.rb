@@ -4,8 +4,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
 
-  serialize :raw_oauth_info
-
   has_many :parties, dependent: :destroy
   has_many :members, through: :parties
 
@@ -24,7 +22,7 @@ class User < ActiveRecord::Base
 
   validates :user_name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :email, presence: {message: 'Must be entered'}
-  validates :password, presence: {message: 'Must be entered'}
+  # validates :password, presence: {message: 'Must be entered'}
 
   def party_member_count(current_user_id)
     User.where(id: current_user_id).first.parties.first.members.count
@@ -50,6 +48,15 @@ class User < ActiveRecord::Base
     end
   end
 
+
+  def can_remove_from_party?(mon_unlock)
+    if self.members.count >= 1 && self.members.where(monster_unlock_id: mon_unlock).exists?
+      return true
+    else
+      return false
+    end
+  end
+
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
@@ -60,11 +67,10 @@ class User < ActiveRecord::Base
         return registered_user
       else
         user = User.create!(user_name: auth.extra.raw_info.name,
-                            provider:auth.provider,
-                            uid:auth.uid,
-                            email:auth.info.email,
-                            password:Devise.friendly_token[0,20],
-                            raw_oauth_info: oauth_data
+                            provider: auth.provider,
+                            uid: auth.uid,
+                            email: auth.info.email,
+                            password: Devise.friendly_token[0,20]
                            )
       end
     end
