@@ -14,7 +14,7 @@ window.showSocket = (socket_num) ->
 $ ->
   $(document).on "click", ".monSet", ->
     window.mon_unlock_id = $(this).attr("id")
-    $(this).effect("shake", 5, 5)
+    # $(this).effect("highlight")
     setPanelInfo()
 
   $(document).on "click", ".equip1", ->
