@@ -4,15 +4,17 @@
   .container-fluid class="large"
     .nav-btn-group
       div class="btn-group"
-        = link_to "Monsters", monsters_path, class: "btn btn-default", type: "button"
-        = link_to "Abilities", abilities_path, class: "btn btn-default", type: "button"
-        = link_to "Effects", effects_path, class: "btn btn-default", type: "button"
-        = link_to "Monster Skins", monster_skins_path, class: "btn btn-default", type: "button"
-        = link_to "Monster Speech", personalities_path, class: "btn btn-default", type: "button"
-        = link_to "Stage Creation", parties_path, class: "btn btn-default", type: "button"
-        = link_to "Show all Battles", battles_path, class: "btn btn-default", type: "button"
-        = link_to "Monsters You Own", admin_index_path, class: "btn btn-default", type: "button"
-        = link_to "Enter a Battle", new_battle_path, class: "btn btn-default", type: "button"
+        - if current_user
+          - if current_user.admin == true
+            = link_to "Monsters", monsters_path, class: "btn btn-default", type: "button"
+            = link_to "Abilities", abilities_path, class: "btn btn-default", type: "button"
+            = link_to "Effects", effects_path, class: "btn btn-default", type: "button"
+            = link_to "Monster Skins", monster_skins_path, class: "btn btn-default", type: "button"
+            = link_to "Monster Speech", personalities_path, class: "btn btn-default", type: "button"
+            = link_to "Stage Creation", parties_path, class: "btn btn-default", type: "button"
+            = link_to "Show all Battles", battles_path, class: "btn btn-default", type: "button"
+            = link_to "Monsters You Own", admin_index_path, class: "btn btn-default", type: "button"
+            = link_to "Enter a Battle", new_battle_path, class: "btn btn-default", type: "button"
         - if user_signed_in?
           = link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-default"
         - else

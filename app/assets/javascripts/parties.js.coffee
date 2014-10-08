@@ -2,7 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 $ ->
-
   $("#abil_form_check_all").click (event) ->
   if @checked
     $(".ability_job_check_boxes [id^=\"ability_\"]").prop "checked", true
