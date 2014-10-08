@@ -2,6 +2,7 @@ class MemberForUsersController < ApplicationController
   before_action :find_party
   before_action :find_monster_unlock
   before_action :find_base_mons
+  before_action :find_members
   before_action :find_portrait_destroy, only: [:destroy]
   before_action :find_member, only: [:destroy]
 
@@ -53,6 +54,10 @@ class MemberForUsersController < ApplicationController
 
   def member_params
     params.require(:member).permit(:monster_unlock_id, :party_id)
+  end
+
+  def find_members
+    @members = @party.members
   end
 
 end

@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     @base_mons = MonsterUnlock.base_mons(current_user)
     @abilities = Ability.all
     @ability_equippings = AbilityEquipping.all
-    @members = Member.all
+    @members = current_user.parties.first.members
   end
 
   def show
@@ -22,17 +22,5 @@ class HomeController < ApplicationController
   end
 
   private
-
-  def find_party
-    @party = current_user.parties.first
-  end
-
-  def find_user
-    @user = current_user
-    @base_mons = MonsterUnlock.base_mons(current_user)
-    @abilities = Ability.all
-    @ability_equippings = AbilityEquipping.all
-    @members = Member.all
-  end
 
 end

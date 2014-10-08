@@ -16,9 +16,13 @@
     .monster-info
       p Name: #{mon.name}
       p HP: #{mon.max_hp}
-      .monster-thumb
+      .monster-portrait
         =image_tag mon.mon_portrait(current_user), class: "portrait"
     .equip1 id="#{dom_id(mon)}-socket1-info"
       =image_tag mon.abil_in_sock(1).first.portrait.url(:small)
     .equip2 id="#{dom_id(mon)}-socket2-info"
       =image_tag mon.abil_in_sock(2).first.portrait.url(:small)
+.abilities-display-area id="#{dom_id(mon)}-socket1"
+  =render partial: "/home/abilities_display_area", locals: {socket_num: 1, mon: mon}
+.abilities-display-area id="#{dom_id(mon)}-socket2"
+  =render partial: "/home/abilities_display_area", locals: {socket_num: 2, mon: mon}
