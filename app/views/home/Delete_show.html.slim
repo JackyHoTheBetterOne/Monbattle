@@ -1,0 +1,31 @@
+
+
+/ .party_name
+/   =render partial: "parties/party_name"
+/ table.table.table-striped border="1"
+/   thead
+/     tr
+/       th Monster Name
+/       th Equipped Ability
+/       th Monster Skin
+/   tbody
+/     -@user.unlocked_monsters.each do |monster|
+/       tr
+/         td id=dom_id(monster)
+/           h3 #{monster.name}
+/           h4 HP: #{monster.max_hp}
+/           h5 Element: #{monster.element.name}
+/           h5 Class: #{monster.job.name}
+/           br
+/           div class="member_#{dom_id(monster)}"
+/             =render partial: "members/info", locals: {monster: monster}
+
+/         td id="ability_#{dom_id(monster)}"
+/           =render partial: "ability_equippings/table_data", locals: {monster: monster}
+
+/         td
+/           -if monster.monster_skin_equippings.where(user_id: @user.id).empty?
+/             h4 Equip a skin!
+/           -else
+/             =image_tag monster.monster_skin_equippings.where(user_id: @user.id).first.monster_skin.avatar.url(:medium)
+/           =render partial: "monster_skin_equippings/form", locals: {mon: "#{monster.id}", party_id: @party.id, user_id: @user.id, monster_skin_equipping: monster.monster_skin_equipping_for(@user) || MonsterSkinEquipping.new}
