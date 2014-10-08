@@ -2,10 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$bottom-bg: #E0E0D1;
-$top-bg: #66CCFF;
-$ability-display: #0000FF;
-$ability-pane: azure;
+$top-bg:linear-gradient(to bottom, #111624 5%, #3d94f6 100%);
+$bottom-bg: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
+$ability-display: linear-gradient(to bottom, #111624 5%, #3d94f6 100%);
+
+$grey-fade: linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
+$grey-fade-hover: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
+
+$button-color: #599bb3;
+$button-hover-color: #FFFF80;
 
 %panel-3d {
   border-top: 1px solid #c0ffff;
@@ -22,7 +27,6 @@ $ability-pane: azure;
 }
 @mixin rel-div($width, $height) {
   position: relative;
-
   width: $width;
   height: $height;
 }
@@ -34,13 +38,25 @@ $ability-pane: azure;
   max-height: 100%;
 }
 
+%mon-img-button {
+  box-shadow: 4px 4px 0px 0px black;
+  background: $grey-fade;
+  border-radius:6px;
+  border:1px solid black;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  padding:5px 5px;
+  text-decoration:none;
+}
+
 .body {
   position: relative;
 }
 ///////////////////////////////////
 .top-section {
   @include abs-div(100%,25%);
-  background-color: $top-bg;
+  background: $top-bg;
   top: 0;
   .start-battle {
   @include abs-div(30%,60%);
@@ -49,7 +65,7 @@ $ability-pane: azure;
   bottom: 0;
   margin-bottom: auto;
   margin-top: auto;
-  margin-right: 10%;
+  margin-right: 6%;
   }
   .party-pane {
     @include abs-div(50%, 94%);
@@ -68,7 +84,7 @@ $ability-pane: azure;
   -moz-box-shadow: 8px 6px 0px -1px #276873;
   -webkit-box-shadow: 8px 6px 0px -1px #276873;
   box-shadow: 8px 6px 0px -1px #276873;
-  background-color:#599bb3;
+  background-color:$button-color;
   -moz-border-radius:28px;
   -webkit-border-radius:28px;
   border-radius:28px;
@@ -82,21 +98,18 @@ $ability-pane: azure;
   font-style:italic;
   padding:25px 67px;
   text-decoration:none;
-  text-shadow:0px 1px 0px #3d768a;
+  text-shadow:5px 5px 0px #3d768a;
 }
 .battle-button:hover {
   background-color:#408c99;
-}
-.battle-button:active {
-  position:relative;
-  top:1px;
+  text-decoration:none;
 }
 
 ///////////////////////////////////
 .monsters-display-area {
   @include abs-div(100%, 75%);
   bottom: 0;
-  background-color: $bottom-bg;
+  background: $bottom-bg;
   .monster-info-area {
     @include abs-div(65%, 100%);
     bottom: 0;
@@ -111,10 +124,14 @@ $ability-pane: azure;
       margin-left: 0%;
       margin-top: 0%;
       .btn {
+        background: $grey-fade;
         position: relative;
         max-width: 100%;
         max-height: 100%;
         width: 50%;
+      }
+      .btn-default:hover {
+        background: $grey-fade-hover
       }
     }
     .info-display-area {
@@ -127,8 +144,8 @@ $ability-pane: azure;
         @extend %panel-3d;
         bottom: 0;
         right: 0;
-        background-color: $ability-display;
-        .monster-thumb {
+        background: $ability-display;
+        .monster-portrait {
           @include abs-div(55%, 85%);
           right: 0;
           top: 0;
@@ -142,21 +159,20 @@ $ability-pane: azure;
           @include abs-div(25%, 90%);
           bottom: 0;
           left: 0;
-          background-color: $ability-pane;
+          background: $grey-fade;
         }
         .equip1 {
           @include abs-div(10%, 60%);
           bottom: 0;
           right: 0;
           margin-right: 14%;
+          margin-bottom: 1%;
           img {
             @include portrait-img(100%, 100%);
           }
         }
         .equip2 {
-          @include abs-div(10%, 60%);
-          bottom: 0;
-          right: 0;
+          @extend .equip1;
           margin-right: 2%;
           img {
             @include portrait-img(100%, 100%);
@@ -167,7 +183,7 @@ $ability-pane: azure;
       @include abs-div(100%, 65%);
       bottom: 0;
       right: 0;
-      background-color: $ability-display;
+      background: $ability-display;
       .ability-pane {
         @include rel-div(85%, 35%);
         right: 0;
@@ -188,7 +204,7 @@ $ability-pane: azure;
           left: 0;
           margin-left: auto;
           margin-right: auto;
-          background-color: $ability-pane;
+          background: $grey-fade;
         }
         .ability-equip {
           @include abs-div(15%, 100%);
@@ -212,18 +228,28 @@ $ability-pane: azure;
       bottom: 0;
     }
       .monster-thumb {
-        @include rel-div(25%, 25%);
+        @include rel-div(22%, 22%);
+        @extend %mon-img-button;
+        margin: 5px;
         float: right;
         .monThumb {
+          margin: 5px;
           position: absolute;
           @include portrait-img(100%, 100%);
         }
         .fa {
           color: black;
           position: absolute;
-          margin-right: 3%;
-          margin-top: 3%;
+          margin-right: 10px;
+          margin-top: 5px;
           right: 0;
           top: 0;
         }
+        .fa:hover {
+          background:red;
+        }
+      }
+      .monster-thumb:hover {
+        background: $grey-fade-hover;
+        text-decoration:none;
       }
