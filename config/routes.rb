@@ -31,12 +31,8 @@ post "/facebook" => "battles#new"
 get "/cannot" => "home#illegal_access", as: :illegal
 
 
-<<<<<<< HEAD
-root 'admin#index'
-=======
 root 'home#facebook'
 resources :home
->>>>>>> d3f1dd21395d81d6f33a831526c9fa929a136d9f
 resources :admin
 resources :effects
 resources :parties
