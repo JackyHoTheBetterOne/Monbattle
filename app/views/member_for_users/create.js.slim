@@ -1,4 +1,4 @@
-/ | $(".party-pane").effect("shake");
-| $(".party-pane:").html("#{j render partial: "/home/mon_party_img", locals: {mon: @monster_unlock}}")
-| $(".monPartyImg##{dom_id(@monster_unlock)}").show("slide", { direction: "right" }, 600);
-/ | $(".monsters-image-area").html( "#{j render partial: "home/mon_image_display"}");
+| $(".party-pane").hide().html("#{j render partial: "/home/mon_party_img"}").show("slide", { direction: "left" }, 300);
+| $(".monsters-image-area").html( "#{j render partial: "home/mon_image_display"}");
+-if @members.count == 4
+  | $(".start-battle").html("#{j render partial: "home/battle_start"}").effect("pulsate")

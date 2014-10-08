@@ -66,7 +66,7 @@ class User < ActiveRecord::Base
                             password:Devise.friendly_token[0,20],
                             raw_oauth_info: oauth_data
                            )
-      end    
+      end
     end
   end
 end
