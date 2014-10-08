@@ -14,4 +14,4 @@
         -when mon.abil_in_sock(socket_num).first.blank?
            =link_to "First Equip", ability_equipping_for_users_path({ability_equipping: {ability_id: abil, monster_unlock_id: mon, socket_num: socket_num}}), method: :post, remote: true
         -else
-          =link_to "Equip this", ability_equipping_for_user_path(@ability_equippings.record_find(mon, mon.abil_in_sock(socket_num).first),{ability_equipping: {ability_id: abil, monster_unlock_id: mon, socket_num: socket_num}}), method: :patch, remote: true
+          =link_to image_tag("ability-equip-avatar.png"), ability_equipping_for_user_path(@ability_equippings.record_find(mon, mon.abil_in_sock(socket_num).first),{ability_equipping: {ability_id: abil, monster_unlock_id: mon, socket_num: socket_num}}), method: :patch, remote: true
