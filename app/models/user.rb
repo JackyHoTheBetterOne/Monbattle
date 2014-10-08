@@ -4,8 +4,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
 
-  serialize :raw_oauth_info
-
   has_many :parties, dependent: :destroy
   has_many :members, through: :parties
 
@@ -69,14 +67,12 @@ class User < ActiveRecord::Base
         return registered_user
       else
         user = User.create!(user_name: auth.extra.raw_info.name,
-                            provider:auth.provider,
-                            uid:auth.uid,
-                            email:auth.info.email,
-                            password:Devise.friendly_token[0,20],
-                            raw_oauth_info: oauth_data
+                            provider: auth.provider,
+                            uid: auth.uid,
+                            email: auth.info.email,
+                            password: Devise.friendly_token[0,20]
                            )
-      end    
+      end
     end
   end
-
 end

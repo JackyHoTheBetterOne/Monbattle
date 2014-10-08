@@ -2,9 +2,8 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
 $bottom-bg: #E0E0D1;
-$top-bg: #8A002E;
+$top-bg: #66CCFF;
 $ability-display: #0000FF;
 $ability-pane: azure;
 
@@ -14,7 +13,6 @@ $ability-pane: azure;
   border-bottom: 1px solid #00f;
   border-left: 1px solid #c0ffff;
 }
-
 
 @mixin abs-div($width, $height) {
   position: absolute;
@@ -44,6 +42,15 @@ $ability-pane: azure;
   @include abs-div(100%,25%);
   background-color: $top-bg;
   top: 0;
+  .start-battle {
+  @include abs-div(30%,60%);
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin-bottom: auto;
+  margin-top: auto;
+  margin-right: 10%;
+  }
   .party-pane {
     @include abs-div(50%, 94%);
     top: 0;
@@ -55,6 +62,34 @@ $ability-pane: azure;
       max-height: 100%;
     }
   }
+}
+
+.battle-button {
+  -moz-box-shadow: 8px 6px 0px -1px #276873;
+  -webkit-box-shadow: 8px 6px 0px -1px #276873;
+  box-shadow: 8px 6px 0px -1px #276873;
+  background-color:#599bb3;
+  -moz-border-radius:28px;
+  -webkit-border-radius:28px;
+  border-radius:28px;
+  border:6px solid #29668f;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:Trebuchet MS;
+  font-size:17px;
+  font-weight:bold;
+  font-style:italic;
+  padding:25px 67px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #3d768a;
+}
+.battle-button:hover {
+  background-color:#408c99;
+}
+.battle-button:active {
+  position:relative;
+  top:1px;
 }
 
 ///////////////////////////////////

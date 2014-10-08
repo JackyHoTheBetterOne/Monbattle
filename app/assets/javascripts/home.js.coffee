@@ -4,12 +4,12 @@
 
 window.setPanelInfo = ->
   $(".monster-info-area").hide("fadeOut")
-  $("#" + mon_unlock_id + "-info-pane").show("fadeIn")
+  $("#" + mon_unlock_id + "-info-pane").show("slide", { direction: "left" }, 300 )
   showSocket(1)
 
 window.showSocket = (socket_num) ->
   $(".abilities-display-area").hide()
-  $("#" + mon_unlock_id + "-socket" + socket_num).slideDown()
+  $("#" + mon_unlock_id + "-socket" + socket_num).show("slide", { direction: "up"}, 300)
 
 $ ->
   $(document).on "click", ".monSet", ->
@@ -18,9 +18,9 @@ $ ->
     setPanelInfo()
 
   $(document).on "click", ".equip1", ->
-    $(this).effect("highlight")
+    $(this).toggle("puff", 80).toggle("puff", 35)
     showSocket(1)
 
   $(document).on "click", ".equip2", ->
-    $(this).effect("highlight")
+    $(this).toggle("puff", 80).toggle("puff", 35)
     showSocket(2)
