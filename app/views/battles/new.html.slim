@@ -10,6 +10,9 @@ div class="level-select"
         li= msg
     -else
       -if current_user.parties.empty?
+        br 
+        div class="alert alert-danger no-party"
+          h2 Please go to My Monsters to set up your party!
       -else
         -if Party.members_count_for(current_user) == 0
           h1 Add more members to your team first.

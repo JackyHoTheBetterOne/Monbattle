@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
 devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
+resources :charges
+
 resources :monsters do
   resources :monster_unlocks, only: [:create, :destroy]
 end
@@ -23,12 +25,11 @@ resources :personalities, only: [:create, :destroy, :edit, :index] do
   resources :thoughts, only: [:create, :destroy]
 end
 
-resources :home, only: [:index]
 resources :ability_equipping_for_users, only:[:create, :update]
-
 
 post "/facebook" => "battles#new"
 get "/cannot" => "home#illegal_access", as: :illegal
+get "/home" => "home#index", as: :battle_preparation
 
 
 root 'home#facebook'

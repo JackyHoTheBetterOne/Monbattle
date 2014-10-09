@@ -1,6 +1,6 @@
 .monsters-image-display
   -@base_mons.each do |mon|
-    .monster-thumb
+    .monster-thumb.btn.shadowed2
       =image_tag mon.mon_skin(current_user), id: "#{dom_id(mon)}", class: "monSet monThumb"
       -if current_user.can_add_to_party?(mon)
         =link_to fa_icon("plus-square 1x"), monster_unlock_member_for_users_path(mon, {member: {user: current_user}}), method: :post, remote: true
