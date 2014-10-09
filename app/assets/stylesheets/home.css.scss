@@ -3,25 +3,19 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 $top-bg:linear-gradient(to bottom, #111624 5%, #3d94f6 100%);
-$bottom-bg: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
 $ability-display: linear-gradient(to bottom, #111624 5%, #3d94f6 100%);
+$bottom-bg: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
 
 $grey-fade: linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
 $grey-fade-hover: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
 
-$button-color: #599bb3;
-$button-hover-color: #FFFF80;
-
-%panel-3d {
-  border-top: 1px solid #c0ffff;
-  border-right: 1px solid #00f;
-  border-bottom: 1px solid #00f;
-  border-left: 1px solid #c0ffff;
-}
+$screen-gap-right: 8px;
+$screen-gap-bottom: 5px;
+$screen-gap-top: 5px;
+$distance-between-pane-top-pane-info: 10px;
 
 @mixin abs-div($width, $height) {
   position: absolute;
-
   width: $width;
   height: $height;
 }
@@ -38,26 +32,39 @@ $button-hover-color: #FFFF80;
   max-height: 100%;
 }
 
-%mon-img-button {
-  box-shadow: 4px 4px 0px 0px black;
-  background: $grey-fade;
-  border-radius:6px;
-  border:1px solid black;
-  display:inline-block;
-  cursor:pointer;
-  color:#ffffff;
-  padding:5px 5px;
-  text-decoration:none;
+.nav {
+  display: none;
 }
-
+.container-fluid {
+  padding: 0px;
+}
 .body {
   position: relative;
 }
+.master-bg {
+  @include abs-div(100%, 100%);
+  background: $bottom-bg;
+}
+.btn:active {
+  position:relative;
+  top: 1px;
+}
+.shadowed1 {
+  box-shadow: 3px 3px 3px 0px #111624;
+  border-radius: 3px;
+}
+.shadowed2 {
+  box-shadow: 2px 2px 2px 0px black;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
 ///////////////////////////////////
 .top-section {
-  @include abs-div(100%,25%);
+  @include abs-div(99%,24%);
   background: $top-bg;
-  top: 0;
+  top: $screen-gap-top;
+  right: $screen-gap-right;
   .start-battle {
   @include abs-div(30%,60%);
   right: 0;
@@ -72,7 +79,7 @@ $button-hover-color: #FFFF80;
     top: 0;
     left: 0;
     img {
-      @include rel-div(25%, 100%);
+      @include rel-div(22%, 100%);
       float: left;
       max-width: 100%;
       max-height: 100%;
@@ -81,27 +88,23 @@ $button-hover-color: #FFFF80;
 }
 
 .battle-button {
-  -moz-box-shadow: 8px 6px 0px -1px #276873;
-  -webkit-box-shadow: 8px 6px 0px -1px #276873;
-  box-shadow: 8px 6px 0px -1px #276873;
-  background-color:$button-color;
-  -moz-border-radius:28px;
-  -webkit-border-radius:28px;
+  box-shadow: 5px 5px 0px 1px slateGray;
+  background:$grey-fade-hover;
   border-radius:28px;
-  border:6px solid #29668f;
+  border:3px solid darkGrey;
   display:inline-block;
   cursor:pointer;
-  color:#ffffff;
+  color:black;
   font-family:Trebuchet MS;
   font-size:17px;
   font-weight:bold;
   font-style:italic;
   padding:25px 67px;
   text-decoration:none;
-  text-shadow:5px 5px 0px #3d768a;
+  text-shadow:4px 4px 1px #707070;
 }
 .battle-button:hover {
-  background-color:#408c99;
+  background:Yellow;
   text-decoration:none;
 }
 
@@ -109,20 +112,18 @@ $button-hover-color: #FFFF80;
 .monsters-display-area {
   @include abs-div(100%, 75%);
   bottom: 0;
-  background: $bottom-bg;
   .monster-info-area {
     @include abs-div(65%, 100%);
-    bottom: 0;
-    right: 0;
+    bottom: $screen-gap-bottom;
+    right: $screen-gap-right;
     display: none;
+
   }
 }
     .btn-box {
       @include abs-div(25%, 22%);
       top: 0;
-      left: 0;
-      margin-left: 0%;
-      margin-top: 0%;
+      left: 1%;
       .btn {
         background: $grey-fade;
         position: relative;
@@ -136,12 +137,11 @@ $button-hover-color: #FFFF80;
     }
     .info-display-area {
       @include abs-div(100%, 32%);
-      top: 0;
+      top: $distance-between-pane-top-pane-info;
       right: 0;
     }
       .info-pane {
-        @include abs-div(100%, 78%);
-        @extend %panel-3d;
+        @include abs-div(100%, 74%);
         bottom: 0;
         right: 0;
         background: $ability-display;
@@ -154,41 +154,48 @@ $button-hover-color: #FFFF80;
           }
         }
       }
-
         .monster-info {
-          @include abs-div(25%, 90%);
-          bottom: 0;
-          left: 0;
+          @include abs-div(35%, 90%);
+          bottom: 5%;
+          left: 1%;
           background: $grey-fade;
         }
         .equip1 {
           @include abs-div(10%, 60%);
-          bottom: 0;
-          right: 0;
-          margin-right: 14%;
-          margin-bottom: 1%;
+          bottom: 5%;
+          right: 13%;
           img {
             @include portrait-img(100%, 100%);
           }
         }
         .equip2 {
           @extend .equip1;
-          margin-right: 2%;
+          right: 1%;
           img {
             @include portrait-img(100%, 100%);
           }
         }
 /////////////////////////////////////
     .abilities-display-area {
-      @include abs-div(100%, 65%);
+      @include abs-div(100%, 62%);
       bottom: 0;
       right: 0;
       background: $ability-display;
-      .ability-pane {
-        @include rel-div(85%, 35%);
-        right: 0;
-        left: 0;
-        margin: 2.5% auto 2.5% auto;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      padding-left: 5px;
+      padding-right: 5px;
+      .scroll-wrapper {
+        @include rel-div(100%, 100%);
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        .ability-pane {
+          @include rel-div(90%, 35%);
+          right: 0;
+          left: 0;
+          margin: 2.5% auto 2.5% auto;
+        }
       }
     }
         .ability-icon {
@@ -226,12 +233,20 @@ $button-hover-color: #FFFF80;
     .monsters-image-display {
       @include abs-div(100%, 85%);
       bottom: 0;
+      left: 0;
+      padding-left: 8px;
     }
       .monster-thumb {
         @include rel-div(22%, 22%);
-        @extend %mon-img-button;
+        background: $grey-fade;
+        border-radius:6px;
+        display:inline-block;
+        cursor:pointer;
+        color:#ffffff;
+        padding:5px 5px;
+        text-decoration:none;
         margin: 5px;
-        float: right;
+        float: left;
         .monThumb {
           margin: 5px;
           position: absolute;
