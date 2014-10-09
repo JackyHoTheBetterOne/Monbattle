@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <!-- <div class="container-fluid"> -->
+  <div class="container-fluid">
     <ul class="nav nav-tabs" role="tablist" id="navigation">
       <li class="<%= 'active' if current_page?(battle_preparation_path) %>" id="party-setup"><%= link_to "My Monsters", battle_preparation_path %></li>
       <li class="<%= 'active' if current_page?(new_battle_path) %>"><%= link_to "Choose a level", new_battle_path %></li>
@@ -41,7 +41,7 @@
       <% end %>
     <% end %>
     <%= yield %>
-<!--   </div> -->
+  </div>
 </body>
 </html>
 

@@ -1,32 +1,15 @@
-<<<<<<< HEAD
--@abilities.abil_avail_for_sock(current_user, socket_num).abils_for_mon(mon.monster).each do |abil|
-  .ability-pane
-    .ability-icon
-      =image_tag abil.portrait.url(:small)
-    .ability-info
-      span
-        p=abil.name
-        p=abil.description
-        p AP Cost: #{abil.ap_cost}
-    .ability-equip
-      -case true
-        -when mon.abil_in_sock(socket_num).first == abil
-          =image_tag mon.mon_portrait(current_user)
-        -when mon.abil_in_sock(socket_num).first.blank?
-           =link_to "First Equip", ability_equipping_for_users_path({ability_equipping: {ability_id: abil, monster_unlock_id: mon, socket_num: socket_num}}), method: :post, remote: true
-        -else
-          =link_to image_tag("ability-equip-avatar.png"), ability_equipping_for_user_path(@ability_equippings.record_find(mon, mon.abil_in_sock(socket_num).first),{ability_equipping: {ability_id: abil, monster_unlock_id: mon, socket_num: socket_num}}), method: :patch, remote: true
-=======
 .scroll-wrapper
   -@abilities.abil_avail_for_sock(current_user, socket_num).abils_for_mon(mon.monster).each do |abil|
     .ability-pane
       .ability-icon.shadowed2
         =image_tag abil.portrait.url(:small)
       .ability-info.shadowed2
-        span
-          p=abil.name
-          p=abil.description
-          p AP Cost: #{abil.ap_cost}
+        .well
+          .col-md-6
+            p=abil.name
+          .col-md-6
+            p AP Cost: #{abil.ap_cost}
+        p=abil.description
       .ability-equip.shadowed2
         -case true
           -when mon.abil_in_sock(socket_num).first == abil
@@ -35,4 +18,3 @@
              =link_to "First Equip", ability_equipping_for_users_path({ability_equipping: {ability_id: abil, monster_unlock_id: mon, socket_num: socket_num}}), method: :post, remote: true
           -else
             =link_to "Equip this", ability_equipping_for_user_path(@ability_equippings.record_find(mon, mon.abil_in_sock(socket_num).first),{ability_equipping: {ability_id: abil, monster_unlock_id: mon, socket_num: socket_num}}), method: :patch, remote: true
->>>>>>> 40233741ba9082fb1487c93820e1f915db434d69
