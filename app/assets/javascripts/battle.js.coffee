@@ -278,7 +278,7 @@ window.damageBoxAnime= (team, target, damage, color) ->
   animate
     "top":"+=50px"
     "z-index":"-=10000"
-    , 1, -> 
+    , 5, -> 
       outcome()
 
 window.showDamageSingle = ->
@@ -560,10 +560,9 @@ window.controlAI = (monIndex) ->
             else
               targetMon.effect "shake", 750
         ).animate backPosition, 350, ->
-            showDamageSingle()
-            hpChangeBattle()
-            checkMonHealthAfterEffect()
-            return
+          hpChangeBattle()
+          showDamageSingle()
+          checkMonHealthAfterEffect()
       when "targetenemy"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
         currentMon = $(".enemy .mon" + monIndex.toString() + " " + ".img")
@@ -588,7 +587,6 @@ window.controlAI = (monIndex) ->
             checkMonHealthAfterEffect()
             element.toggleClass "flipped ability-on"
             element.attr("src", "")
-            outcome()
             return
           ), 1200
           return
@@ -610,8 +608,8 @@ window.controlAI = (monIndex) ->
               else
                 $(this).effect "shake", {times: 5, distance: 80}, 750
           setTimeout (->
-            showDamageTeam(0)
             hpChangeBattle()
+            showDamageTeam(0)
             checkMonHealthAfterEffect()
             element.toggleClass "flipped ability-on aoePositionUser"
             element.attr("src", "")
@@ -638,23 +636,20 @@ window.ai = ->
   enemyTimer()
   setTimeout (->
     feedAiTargets()
-    if teamPct(0) isnt 0
+    if teamPct() isnt 0
       controlAI 1
-      outcome()
       return
   ), timer1
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
       controlAI 3
-      outcome()
       return
   ), timer3
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
       controlAI 2
-      outcome()
       return
   ), timer2
   setTimeout (->
