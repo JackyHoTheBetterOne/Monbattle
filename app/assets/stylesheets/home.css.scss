@@ -14,7 +14,7 @@ $grey-fade-hover: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
 $screen-gap-right: 8px;
 $screen-gap-bottom: 5px;
 $screen-gap-top: 5px;
-$distance-between-pane-top-pane-info: 10px;
+$distance-between-pane-top-pane-info: 15px;
 
 @mixin abs-div($width, $height) {
   position: absolute;
@@ -33,11 +33,9 @@ $distance-between-pane-top-pane-info: 10px;
   max-width: 100%;
   max-height: 100%;
 }
-
 .body {
   position: relative;
 }
-
 .master-bg {
   @include abs-div(100%, 100%);
   background: $bottom-bg;
@@ -62,49 +60,58 @@ $distance-between-pane-top-pane-info: 10px;
   background: $top-bg;
   top: $screen-gap-top;
   right: $screen-gap-right;
-  p {
-    font-family: $home-font;
-  }
-  .start-battle {
-  @include abs-div(30%,60%);
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin-bottom: auto;
-  margin-top: auto;
-  margin-right: 6%;
-  }
-  .party-pane {
-    @include abs-div(50%, 94%);
-    top: 0;
-    left: 0;
-    img {
-      @include rel-div(22%, 100%);
-      float: left;
-      max-width: 100%;
-      max-height: 100%;
+  .party-title {
+    @include abs-div(50%, 30%);
+    p {
+      font-family: $home-font;
+      font-size: 22px;
+      margin-left: 60px;
+      color: azure;
     }
   }
-}
-
-.battle-button {
-  box-shadow: 5px 5px 0px 1px slateGray;
-  background:$grey-fade-hover;
-  border-radius:28px;
-  border:3px solid darkGrey;
-  display:inline-block;
-  cursor:pointer;
-  color:black;
-  font-family: $home-font;
-  font-size:17px;
-  font-weight:bold;
-  font-style:italic;
-  padding:25px 67px;
-  text-decoration:none;
-}
-.battle-button:hover {
-  background:Yellow;
-  text-decoration:none;
+  .party-pane {
+    @include abs-div(50%, 70%);
+    top: 23%;
+    left: 0;
+    img {
+      // @include rel-div(100px, 100px);
+      @include rel-div(20%, 100%);
+      padding: 0px;
+      margin-left: 5px;
+      float: left;
+      bottom: 0;
+      max-height: 100%;
+      max-width: 100;
+    }
+  }
+  .start-battle {
+    @include abs-div(30%,60%);
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-right: 6%;
+    .battle-button {
+      box-shadow: 5px 5px 0px 1px slateGray;
+      background:$grey-fade-hover;
+      border-radius:28px;
+      border:3px solid darkGrey;
+      display:inline-block;
+      cursor:pointer;
+      color:black;
+      font-family: $home-font;
+      font-size:17px;
+      font-weight:bold;
+      font-style:italic;
+      padding:25px 67px;
+      text-decoration:none;
+    }
+    .battle-button:hover {
+      background:Yellow;
+      text-decoration:none;
+    }
+  }
 }
 
 ///////////////////////////////////
@@ -115,7 +122,7 @@ $distance-between-pane-top-pane-info: 10px;
     p {
       font-family: $home-font;
       margin-left: 5px;
-      margin-bottom: 3px;
+      margin-bottom: 1px;
     }
     .btn {
       font-family: $home-font
@@ -124,7 +131,6 @@ $distance-between-pane-top-pane-info: 10px;
     bottom: $screen-gap-bottom;
     right: $screen-gap-right;
     display: none;
-
   }
 }
     .btn-box {
@@ -153,7 +159,7 @@ $distance-between-pane-top-pane-info: 10px;
         right: 0;
         background: $ability-display;
         .monster-portrait {
-          @include abs-div(41%, 92%);
+          @include abs-div(38%, 92%);
           right: 0;
           top: 0;
           img {
@@ -171,6 +177,7 @@ $distance-between-pane-top-pane-info: 10px;
           @include abs-div(10%, 60%);
           bottom: 5%;
           right: 13%;
+          cursor: pointer;
           img {
             @include portrait-img(100%, 100%);
           }
@@ -178,9 +185,6 @@ $distance-between-pane-top-pane-info: 10px;
         .equip2 {
           @extend .equip1;
           right: 1%;
-          img {
-            @include portrait-img(100%, 100%);
-          }
         }
 /////////////////////////////////////
     .abilities-display-area {
@@ -214,11 +218,26 @@ $distance-between-pane-top-pane-info: 10px;
         }
         .ability-info {
           @include abs-div(67%, 100%);
+          display: block;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
           right: 0;
           left: 0;
           margin-left: auto;
           margin-right: auto;
           background: $grey-fade;
+          .well {
+            margin-bottom: 10px;
+            padding: 2px;
+            font-weight: bold;
+            border: 0px;
+            p {
+              margin-left: 0px;
+            }
+          }
+          p {
+            text-align: center
+          }
         }
         .ability-equip {
           @include abs-div(15%, 100%);
@@ -232,22 +251,25 @@ $distance-between-pane-top-pane-info: 10px;
     @include abs-div(34%, 100%);
     bottom: 0;
     left: 0;
-    p {
-      font-size: 26px;
-      font-weight: bold;
-      margin-top: 20px;
-      margin-left: 20px;
-    }
-  }
     .monster-title-area {
       @include abs-div(100%, 15%);
       top: 0;
+      p {
+        font-family: $home-font;
+        color: azure;
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: 25px;
+        text-align: center;
+        vertical-align: middle;
+      }
     }
+  }
     .monsters-image-display {
-      @include abs-div(100%, 85%);
+      @include abs-div(100%, 80%);
       bottom: 0;
       left: 0;
-      padding-left: 8px;
+      padding-left: 6px;
     }
       .monster-thumb {
         @include rel-div(22%, 22%);

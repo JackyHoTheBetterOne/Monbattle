@@ -1,5 +1,7 @@
 class Monster < ActiveRecord::Base
 
+ default_scope{ order('updated_at desc') }
+
   belongs_to :job
   belongs_to :element
   belongs_to :personality
@@ -34,6 +36,8 @@ class Monster < ActiveRecord::Base
   validates :summon_cost, presence: {message: 'Must be entered'}
   # validates :dmg_modifier, presence: {message: 'Must be entered'}
   # validates :hp_modifier, presence: {message: 'Must be entered'}
+
+
 
   def self.mon_abils(monster)
     find_by_id(monster).job.abilities

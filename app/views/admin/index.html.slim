@@ -4,12 +4,11 @@
   -if current_user.parties.empty?
     br=render partial: "admin/modal_button", locals: {modal_label: "partyLabel", modal_id: "partyModal", form_is_for: "parties/form", button_name: "Create New Party", form_title: "New Party"}
   -else
-    h4 Make an edit party button
   -if current_user.unlocked_monsters.empty?
     h1 You have no monsters unlocked
   -else
     -if current_user.parties.empty?
       h1 Create a team first!
     -else
-      p Make this render the show party page and make sure to send in the user id of current user
-      h3 =link_to "Edit Your Party: #{current_user.parties.first.name}", [current_user.parties.first, {user_id: current_user.id}]
+      h2 Admin Party Edit
+      h3 =link_to "#{current_user.parties.first.name}", [current_user.parties.first, {user_id: current_user.id}]
