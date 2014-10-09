@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
 
   validates :user_name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :email, presence: {message: 'Must be entered'}
-  # validates :password, presence: {message: 'Must be entered'}
+  validates :password, presence: {message: 'Must be entered'}
 
   def party_member_count(current_user_id)
     User.where(id: current_user_id).first.parties.first.members.count
