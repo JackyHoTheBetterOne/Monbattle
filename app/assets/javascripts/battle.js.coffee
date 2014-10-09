@@ -1075,6 +1075,7 @@ $ ->
                     $(this).attr("src", betterMon.image).fadeIn(1000)
                 setTimeout (->
                   battle.evolve(0, targets[1], 0)
+                  $(".0 .mon" + targets[1].toString() + " " + ".avatar").fadeOut(250).attr("src", betterMon.portrait).fadeIn(500)
                   abilityAnime.toggleClass "ability-on"
                   abilityAnime.attr("src", "")
                   apChange()

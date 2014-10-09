@@ -31,7 +31,7 @@
   <div class="0 user info">
     <% @user_party.mons.each do |mon| %>
       <div class="mon mon<%= @user_party.mon_dex(mon) %>" data-index="<%= @user_party.mon_dex(mon)%>">
-        <%= render :partial => "userTeamInfo", :locals => { :mon => mon }  %>
+        <%= render :partial => "userTeamInfo", :locals => { :mon => mon, party: @user_party }  %>
       </div>
     <% end %>
   </div>
