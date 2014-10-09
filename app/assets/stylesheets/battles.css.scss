@@ -199,10 +199,11 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   text-align: center;
   z-index: 10000;
   .message {
+    color: white;
     position: absolute;
     width: 400px;
-    top: 45%;
-    left: 25%;
+    top: 37.5%;
+    left: 30%;
     z-index: 1000000000;
     border-radius: 10px;
     background: $theme-background-color;
@@ -511,7 +512,7 @@ body {
 .mon {
   .abilityDesc {
     position: absolute;
-    top: 42px;
+    top: 25px;
     left: -130px;
   };
 
