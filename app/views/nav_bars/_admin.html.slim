@@ -14,7 +14,7 @@
             = link_to "Stage Creation", parties_path, class: "btn btn-default", type: "button"
             = link_to "Show all Battles", battles_path, class: "btn btn-default", type: "button"
             = link_to "Monsters You Own", admin_index_path, class: "btn btn-default", type: "button"
-            = link_to "Enter a Battle", new_battle_path, class: "btn btn-default", type: "button"
+            = link_to "Prepare For Battle", root_path, class: "btn btn-default", type: "button"
         - if user_signed_in?
           = link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-default"
         - else

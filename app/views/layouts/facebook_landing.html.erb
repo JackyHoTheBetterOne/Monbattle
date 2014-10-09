@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="container-fluid">
+  <!-- <div class="container-fluid"> -->
     <ul class="nav nav-tabs" role="tablist" id="navigation">
       <li class="<%= 'active' if current_page?(battle_preparation_path) %>" id="party-setup"><%= link_to "My Monsters", battle_preparation_path %></li>
       <li class="<%= 'active' if current_page?(new_battle_path) %>"><%= link_to "Choose a level", new_battle_path %></li>
@@ -28,7 +28,7 @@
           <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
           <%= message %>
         </div>
-      <% elsif type == "alert" %> 
+      <% elsif type == "alert" %>
         <div class="alert alert-warning fade in" role="alert">
           <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
           <%= message %>
@@ -41,7 +41,7 @@
       <% end %>
     <% end %>
     <%= yield %>
-  </div>
+<!--   </div> -->
 </body>
 </html>
 
