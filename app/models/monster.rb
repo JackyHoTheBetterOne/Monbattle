@@ -67,7 +67,5 @@ class Monster < ActiveRecord::Base
     self.monster_skin_equippings.where(user_id: user).first.monster_skin.avatar.url(:small)
   end
 
-  def evolution_lookup
-  end
 
 end
