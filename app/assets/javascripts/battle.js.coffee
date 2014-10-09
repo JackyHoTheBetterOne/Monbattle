@@ -434,6 +434,13 @@ window.flashEndButton = ->
       $(this).stop()
       $(this).toggleClass("turn-end")
 
+window.toggleEnemyClick = ->
+  $(".enemy .img").each ->
+    if $(this).attr("disabled") is "disabled"
+      $(this).prop("disabled", false)
+    else
+      $(this).prop("disabled", true)
+
 
 
 ################################################################################################################ AI logic helpers
@@ -566,7 +573,7 @@ window.controlAI = (monIndex) ->
       when "targetenemy"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
         currentMon = $(".enemy .mon" + monIndex.toString() + " " + ".img")
-        currentMon.effect("bounce", 500)
+        currentMon.effect("bounce", {distance: 50, times: 1}, 800)
         targetMon = userMon(targetIndex)
         targetPosition = targetMon.data("position")
         abilityAnime = $(".single-ability-img")
@@ -593,7 +600,7 @@ window.controlAI = (monIndex) ->
       when "aoeenemy"
         window.targets = [1].concat [monIndex, abilityIndex]
         currentMon = $(".enemy .mon" + monIndex.toString() + " " + ".img")
-        currentMon.effect("bounce", 500)
+        currentMon.effect("bounce", {distance: 50, times: 1}, 800)
         abilityAnime = $(".ability-img")
         multipleAction()
         checkMax()
@@ -690,6 +697,8 @@ $ ->
       setTimeout (->
         $("#battle-tutorial").joyride({'tipLocation': 'top'})
         $("#battle-tutorial").joyride({})
+        $(".user .img").each ->
+          $(this).effect("bounce", {distance: 80, times: 5}, 1500)
       ), 3333  
 ############################################################################################### Battle logic
       window.battle = data
@@ -861,6 +870,7 @@ $ ->
       window.feed = ->
         targets.shift()
       window.currentBut = undefined
+      toggleEnemyClick()
       $(".mon-slot .mon .img, div.mon-slot").each ->
         $(this).data "position", $(this).offset()
         return
@@ -907,6 +917,8 @@ $ ->
             $(document).off "click.boom", ".enemy.mon-slot .img"
             $(document).off "click.help", ".user.mon-slot .img"
             $(document).off "click.cancel", ".cancel"
+            $(".enemy .img").each ->
+              $(this).prop("disabled", true)
             toggleImg()
             if ability.data("target") is "targetally" || ability.data("target") is "ability"
               toggleImg()
@@ -918,6 +930,7 @@ $ ->
             switch ability.data("target")
 #################################################################################################  Player ability interaction
               when "attack"
+                toggleEnemyClick()
                 $(".battle-guide.guide").text("Select an enemy target")
                 $(".battle-guide").show()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
@@ -950,9 +963,11 @@ $ ->
                     checkMonHealthAfterEffect()
                     toggleImg()
                     flashEndButton()
+                    toggleEnemyClick()
                     return
                   return
               when "targetenemy"
+                toggleEnemyClick()
                 $(".battle-guide.guide").text("Select an enemy target")
                 $(".battle-guide").show()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
@@ -979,6 +994,7 @@ $ ->
                       element.attr("src", "")
                       showDamageSingle()
                       singleTargetAbilityAfterActionDisplay()
+                      toggleEnemyClick()
                       return
                     ), 1200
                     return
