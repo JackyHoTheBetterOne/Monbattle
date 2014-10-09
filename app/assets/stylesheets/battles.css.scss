@@ -90,7 +90,7 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
 ///////////////////////////////////////////////////////////////////////////////////// Mix-in for monster icons
 @mixin monIcon() {
   position: absolute;
-  width: 420px; 
+  width: 420px;
   height: 300px;
   .mon {
     display: inline-block;
@@ -105,12 +105,10 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
     };
     .img {
       width: 130px;
-      height: 130px; 
+      height: 130px;
     };
   };
 };
-
-
 
 /////////////////////////////////////////////////////////////////////////////////// Mix-in for monster info boxes
 @mixin info() {
@@ -279,7 +277,7 @@ body {
 .battle {
   width: 960px;
   height: 500px;
-  background: url(battlefield2.gif); 
+  background: url(battlefield2.gif);
   position: relative;
   background-size: contain;
   z-index: 0;
@@ -428,7 +426,7 @@ body {
 
 .enemy.mon-slot {
   .mon {
-    margin-top: 2%; 
+    margin-top: 2%;
   };
   .monBut {
     display: none;
@@ -443,7 +441,7 @@ body {
   display: inline-block;
   top: 112px;
   right: 66px;
-  width: 477px; 
+  width: 477px;
   height: 800px;
 
 
