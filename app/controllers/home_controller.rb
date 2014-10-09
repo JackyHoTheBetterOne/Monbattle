@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  layout "facebook_landing"
+  layout "facebook_landing", except: [:index]
 
   def index
     @base_mons = MonsterUnlock.base_mons(current_user)

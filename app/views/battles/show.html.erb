@@ -2,30 +2,13 @@
 
 <img class="single-ability-img" src="" type="image" alt="monster abiltiy">
 
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '810856255619977',
-      xfbml      : true,
-      version    : 'v2.1'
-    });
-
-    // ADD ADDITIONAL FACEBOOK CODE HERE
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
 
 <div id="overlay">
   <div class="panel panel-default">
     <div class="panel-body message">
       Time to take out the trash!
+    </div>
+    <div class="panel-body ">
     </div>
   </div>
 </div>
@@ -48,7 +31,7 @@
   <div class="0 user info">
     <% @user_party.mons.each do |mon| %>
       <div class="mon mon<%= @user_party.mon_dex(mon) %>" data-index="<%= @user_party.mon_dex(mon)%>">
-        <%= render :partial => "userTeamInfo", :locals => { :mon => mon }  %>
+        <%= render :partial => "userTeamInfo", :locals => { :mon => mon, party: @user_party }  %>
       </div>
     <% end %>
   </div>

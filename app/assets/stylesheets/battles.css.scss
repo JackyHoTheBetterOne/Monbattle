@@ -90,7 +90,7 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
 ///////////////////////////////////////////////////////////////////////////////////// Mix-in for monster icons
 @mixin monIcon() {
   position: absolute;
-  width: 420px; 
+  width: 420px;
   height: 300px;
   .mon {
     display: inline-block;
@@ -105,12 +105,10 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
     };
     .img {
       width: 130px;
-      height: 130px; 
+      height: 130px;
     };
   };
 };
-
-
 
 /////////////////////////////////////////////////////////////////////////////////// Mix-in for monster info boxes
 @mixin info() {
@@ -122,7 +120,7 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   .mon {
     display: inline-block;
     width: 153px;
-    height: 38px;
+    height: 40px;
     margin-top: 4px;
     margin-left: 4px;
     background: $theme-background-color;
@@ -160,6 +158,7 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
       margin-left: 3px;
       height: 35px;
       width: 35px;
+      border-radius: 5px;
     };
 
     .hp {
@@ -202,7 +201,7 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   .message {
     position: absolute;
     width: 400px;
-    top: 50%;
+    top: 45%;
     left: 25%;
     z-index: 1000000000;
     border-radius: 10px;
@@ -278,7 +277,7 @@ body {
 .battle {
   width: 960px;
   height: 500px;
-  background: url(battlefield2.gif); 
+  background: url(battlefield2.gif);
   position: relative;
   background-size: contain;
   z-index: 0;
@@ -427,7 +426,7 @@ body {
 
 .enemy.mon-slot {
   .mon {
-    margin-top: 2%; 
+    margin-top: 2%;
   };
   .monBut {
     display: none;
@@ -442,7 +441,7 @@ body {
   display: inline-block;
   top: 112px;
   right: 66px;
-  width: 477px; 
+  width: 477px;
   height: 800px;
 
 

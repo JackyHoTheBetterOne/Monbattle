@@ -137,7 +137,8 @@ class MonsterUnlock < ActiveRecord::Base
                       ap_cost:   unlocked_evo.ap_cost,
                       image:     unlocked_evo.image(self.user),
                       animation: unlocked_evo.evolve_animation,
-                      abilities: abil_array
+                      abilities: abil_array,
+                      portrait:  unlocked_evo.mon_portrait(self.user)
                     }
 
       json_array.push(evolve_hash)
