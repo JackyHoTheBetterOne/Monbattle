@@ -1,5 +1,7 @@
 .master-bg
   .top-section.shadowed1
+    .party-title
+      p Party Members
     .party-pane
       =render partial: "mon_party_img"
     .start-battle
@@ -11,5 +13,7 @@
         =render partial: "monster_display", locals: {mon: mon}
 
     .monsters-image-area
-      p Monster Box
-      =render partial: "mon_image_display"
+      .monster-title-area
+        p Monster Box
+      .monsters-image-display
+        =render partial: "mon_image_display"

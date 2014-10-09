@@ -4,10 +4,12 @@
       .ability-icon.shadowed2
         =image_tag abil.portrait.url(:small)
       .ability-info.shadowed2
-        span
-          p=abil.name
-          p=abil.description
-          p AP Cost: #{abil.ap_cost}
+        .well
+          .col-md-6
+            p=abil.name
+          .col-md-6
+            p AP Cost: #{abil.ap_cost}
+        p=abil.description
       .ability-equip.shadowed2
         -case true
           -when mon.abil_in_sock(socket_num).first == abil
