@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-########################################################################################### Dressing evol mons(not very dry now)
+########################################################################################### Evolution dressing (not very dry now)
 window.fixEvolMon = (monster, player) ->
   monster.team = battle.players.indexOf(player)
   monster.index = player.mons.indexOf(monster)
@@ -47,7 +47,6 @@ window.fixEvolMon = (monster, player) ->
               effect.activate effectTargets
             when "tworandommons"
               findAliveEnemies()
-              console.log("Hello")
               findAliveFriends()
               findAliveMons()
               effectTargets = []
@@ -324,8 +323,6 @@ window.outcome = ->
 window.checkApAvailbility = ->
   $(".monBut button").each ->
     disable($(this)) if $(this).data("apcost") > battle.players[0].ap
-###################################################################################################################
-# window.checkActionMonHealth = ->
 
 
 window.checkMonHealthAfterEffect = ->
@@ -336,7 +333,9 @@ window.checkMonHealthAfterEffect = ->
     $(".1 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[1].mons[i].hp <= 0 
     i++
 
-#####################################################################################################################
+
+
+################################################################################################### Display function-calling helpers
 window.singleTargetAbilityAfterClickDisplay = ->
   turnOff("click.boom", ".enemy")
   turnOff("click.help", ".user")
@@ -353,7 +352,7 @@ window.singleTargetAbilityAfterActionDisplay = ->
 
 
 
-################################################################################################# Battle display variable helpers
+################################################################################################### Battle display variable helpers
 window.singleTargetAbilityDisplayVariable = ->
   window.enemyHurt = battle.players[targets[0]].enemies[targets[3]]
   window.monsterUsed = battle.players[targets[0]].mons[targets[1]]
@@ -418,8 +417,9 @@ window.toggleImg = ->
 
 window.flashEndButton = ->
   buttonArray = []
+  $(".end-turn").prop("disabled", false)
   $(".monBut button").each ->
-    if $(this).parent().parent().children(".img").css("display") isnt "none"
+    if $(this).parent().parent().children(".img").css("display") isnt "none" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
   if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
     $(".end-turn").addClass("turn-end").effect("pulsate", {times: 3}, 1500)
@@ -430,7 +430,7 @@ window.flashEndButton = ->
 
 
 
-###################################################################################################################### AI logics
+################################################################################################################ AI logic helpers
 window.findTargetsBelowPct = (pct) ->
   i = undefined
   n = undefined
@@ -491,7 +491,7 @@ window.selectTarget = ->
 
 
 
-############################################################################################################ AI target feed
+############################################################################################################ AI logics
 window.feedAiTargets = ->
   if battle.round > 5 && teamPct() > 0.6
     window.aiAbilities = [2,3]
@@ -503,15 +503,15 @@ window.feedAiTargets = ->
   else if teamPct() <= 0.8 && teamPct() > 0.6
     window.aiAbilities = [1,2]
     findTargetsBelowPct(0.5)
-    findTargetsBelowPct(0.75) if aiTargets.length is 0
+    findTargetsBelowPct(0.9) if aiTargets.length is 0
   else if teamPct() <= 0.6 && teamPct() > 0.4
     window.aiAbilities = [1,3]
-    findTargetsAbovePct(0.7)
+    findTargetsAbovePct(0.6)
     findTargetsAbovePct(0.3) if aiTargets.length is 0
   else if teamPct() <= 0.4 && teamPct() > 0.2
     window.aiAbilities = [2,3]
-    findTargets(2000)
-    findTargets(4000) if aiTargets.length is 0
+    findTargets(1800)
+    findTargets(3500) if aiTargets.length is 0
   else if teamPct() <= 0.2
     window.aiAbilities = [0,3]
     findTargets(1000)
@@ -520,7 +520,7 @@ window.feedAiTargets = ->
 
 
 
-############################################################################################################ AI action helper
+############################################################################################################ AI action helpers
 window.controlAI = (monIndex) ->
   monster = battle.players[1].mons[monIndex]
   if monster.hp > 0
@@ -531,8 +531,6 @@ window.controlAI = (monIndex) ->
     abilityIndex = getRandom(aiAbilities)
     targetIndex = getRandom(aiTargets)
     ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
-    console.log(ability)
-    console.log(ability.targeta)
     switch ability.targeta
       when "attack"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
@@ -579,8 +577,8 @@ window.controlAI = (monIndex) ->
           element = $(this)
           checkMax()
           setTimeout (->
-            showDamageSingle()
             hpChangeBattle()
+            showDamageSingle()
             checkMonHealthAfterEffect()
             element.toggleClass "flipped ability-on"
             element.attr("src", "")
@@ -881,8 +879,9 @@ $ ->
         $(this).parent().parent().children(".abilityDesc").css "visibility", "hidden"
         return
       $(document).on("click.endTurn", "button.end-turn", ai)
-###############################################################################################  User move interaction
+#####################################################################################################  User move interaction
       $(document).on "click.button", ".user.mon-slot .monBut button", ->
+        $(".end-turn").prop("disabled", true)
         ability = $(this)
         if window.battle.players[0].ap >= ability.data("apcost")
           $(".abilityDesc").css "visibility", "hidden"
@@ -891,6 +890,7 @@ $ ->
           $(document).on "click.cancel",".cancel", ->
             $(".user .img").removeClass("controlling")
             $(".battle-guide").hide()
+            $(".end-turn").prop("disabled", false)
             $(document).off "click.boom", ".enemy.mon-slot .img"
             $(document).off "click.help", ".user.mon-slot .img"
             $(document).off "click.cancel", ".cancel"
