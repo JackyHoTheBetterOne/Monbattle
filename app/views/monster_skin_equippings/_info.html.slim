@@ -1,0 +1,5 @@
+-if monster.monster_skin_equippings.where(user_id: @user.id).empty?
+  h4 Equip a skin!
+-else
+  =image_tag monster.monster_skin_equippings.where(user_id: @user.id).first.monster_skin.avatar.url(:medium)
+=render partial: "monster_skin_equippings/form", locals: {mon: "#{monster.id}", party_id: @party.id, user_id: @user.id, monster_skin_equipping: monster.monster_skin_equipping_for(@user) || MonsterSkinEquipping.new}

@@ -12,9 +12,8 @@
             = link_to "Skins", monster_skins_path, class: "btn btn-default", type: "button"
             = link_to "Speech", personalities_path, class: "btn btn-default", type: "button"
             = link_to "Stages", parties_path, class: "btn btn-default", type: "button"
-            = link_to "Battles", battles_path, class: "btn btn-default", type: "button"
-            = link_to "Your Monsters", admin_index_path, class: "btn btn-default", type: "button"
             = link_to "Prepare for Battle", root_path, class: "btn btn-default", type: "button"
+            = link_to "Your Monsters", admin_index_path, class: "btn btn-default", type: "button"
         - if user_signed_in?
           = link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-default"
         - else
