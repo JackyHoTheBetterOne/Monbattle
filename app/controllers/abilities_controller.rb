@@ -15,8 +15,8 @@ class AbilitiesController < ApplicationController
 
   def create
     # render text: params.to_s
-    authorize @ability
     @ability = Ability.new ability_params
+    authorize @ability
     respond_to do |format|
       if @ability.save
        format.html { redirect_to abilities_path, notice: "Ability Created" }
