@@ -28,7 +28,7 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
 
 .aoePositionUser {
   top: -10px;
-  left: 452px;
+  left: 595px;
 };
 
 .aoePositionFoe {
@@ -45,8 +45,8 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
 #first-stop {
   position: absolute;
   z-index: -2000;
-  top: 120px;
-  left: 530px;
+  top: 125px;
+  left: 645px;
   height:10px;
   width: 10px;
 };
@@ -223,7 +223,7 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
 
 .battle-guide {
   top: 220px;
-  left: 346px;
+  left: 395px;
   width: 150px;
   background: rgba(250,184,19,0.65);
 };
@@ -238,7 +238,7 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   border-radius: 5px;
   position: absolute;
   top: 289px;
-  left: 346px;
+  left: 395px;
 };
 
 
@@ -280,11 +280,11 @@ body {
   height: 500px;
   background: url(battlefield2.gif);
   position: relative;
-  background-size: contain;
+  background-size: cover;
   z-index: 0;
   background-repeat: no-repeat;
   margin-top: 5px;
-  left: 130px;
+  left: 100px;
   font-family: 'Montserrat', sans-serif;
   .panel-default {
     border: 0px;
@@ -295,7 +295,7 @@ body {
     height: 50px;
     width: 115px;
     top: 87%;
-    right: 16%;
+    right: 2%;
     font-size: 120%;
     font-weight: bold;
     border-color: $theme-background-color;
@@ -306,8 +306,10 @@ body {
   .platform {
     position: absolute;
     z-index: -1000;
+    height: 188px;
     top: 202px;
-    width: 819px;
+    left: 5px;
+    width: 945px;
     opacity: 0.20;
   };
 
@@ -318,7 +320,7 @@ body {
     height: 50px;
     width: 155px;
     top: 87%;
-    left: 53%;
+    left: 66%;
     text-align: center;
     font-size: 120%;
     border-radius: 5px;
@@ -351,14 +353,14 @@ body {
 /////////////////////////////////////////////////////////////////////////////////////////////////// Info boxes
 .user.info {
   @include info();
-  right: 4%;
-  top: 0.5%;
+  right: -10%;
+  top: .5%;
 };
 
 .enemy.info {
   @include info();
   top: 77%;
-  left: 0.5%;
+  left: 2%;
   width: 400px;
   .mon {
     width: 130px;
@@ -397,6 +399,16 @@ body {
   margin-left: -1px;
 };
 
+.enemy.info {
+  .mon1 {
+    margin-left: 12px;
+  };
+  .mon3 {
+    margin-left: 16px;
+  };
+};
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////// Enemy Monster icons
@@ -404,7 +416,7 @@ body {
   @include monIcon();
   position: absolute;
   top: 94px;
-  left: -30px;
+  left: -10px;
 
   .mon {
     position: relative;
@@ -441,7 +453,7 @@ body {
   @include monIcon();
   display: inline-block;
   top: 112px;
-  right: 66px;
+  right: -48px;
   width: 477px;
   height: 800px;
 

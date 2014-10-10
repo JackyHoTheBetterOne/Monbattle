@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141006190032) do
+ActiveRecord::Schema.define(version: 20141009232233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,6 +111,8 @@ ActiveRecord::Schema.define(version: 20141006190032) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "battle_level_id"
+    t.integer  "round_taken"
+    t.string   "time_taken",      limit: nil
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
@@ -342,6 +344,7 @@ ActiveRecord::Schema.define(version: 20141006190032) do
     t.boolean  "admin",                  default: false
     t.string   "uid"
     t.string   "provider"
+    t.text     "raw_oauth_info"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

@@ -20,4 +20,13 @@ class Battle < ActiveRecord::Base
 
     return battle_json
   end
+
+  def self.average_round(level_id)
+    average(:round_taken).where("battle_level_id = #{level_id}")
+  end
+
+  def self.average_time(level_id)
+    average(:time_taken).where("battle_level_id = #{level_id}")
+  end
+
 end
