@@ -54,6 +54,10 @@ $distance-between-pane-top-pane-info: 15px;
   background: light-blue;
 } 
 
+.panel-heading {
+  background: $ability-display;
+}
+
 @mixin abs-div($width, $height) {
   position: absolute;
   width: $width;

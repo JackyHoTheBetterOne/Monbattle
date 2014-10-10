@@ -1094,10 +1094,11 @@ $ ->
                 ), 2000
                 return
               else
-                alert("Frank, I will murder your entire family")
+                alert(".")
         else
           $(this).effect("highlight", {color: "red"}, 500)
           $(".ap").effect("highlight", {color: "red"}, 500)
+          $(".end-turn").prop("disabled", false)
 
 
 
