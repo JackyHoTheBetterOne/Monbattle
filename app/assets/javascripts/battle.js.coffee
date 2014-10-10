@@ -279,7 +279,11 @@ window.damageBoxAnime= (team, target, damage, color) ->
     "top":"+=50px"
     "z-index":"-=10000"
     , 5, -> 
-      outcome()
+      $(".img").promise().done ->
+        setTimeout (->
+          $("p.dam").promise().done ->
+            outcome()
+        ), 50
 
 window.showDamageSingle = ->
   damageBoxAnime(enemyHurt.team, enemyHurt.index, ability.modifier + ability.change, "rgba(255, 0, 0)")
@@ -567,8 +571,8 @@ window.controlAI = (monIndex) ->
             else
               targetMon.effect "shake", 750
         ).animate backPosition, 350, ->
-          hpChangeBattle()
           showDamageSingle()
+          hpChangeBattle()
           checkMonHealthAfterEffect()
       when "targetenemy"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
@@ -589,8 +593,8 @@ window.controlAI = (monIndex) ->
           element = $(this)
           checkMax()
           setTimeout (->
-            hpChangeBattle()
             showDamageSingle()
+            hpChangeBattle()
             checkMonHealthAfterEffect()
             element.toggleClass "flipped ability-on"
             element.attr("src", "")
@@ -615,10 +619,10 @@ window.controlAI = (monIndex) ->
               else
                 $(this).effect "shake", {times: 5, distance: 40}, 750
           setTimeout (->
-            showDamageTeam(0)
-            hpChangeBattle()
             element.toggleClass "flipped ability-on aoePositionUser"
             element.attr("src", "")
+            showDamageTeam(0)
+            hpChangeBattle()
             checkMonHealthAfterEffect()
             return
           ), 1200
@@ -675,6 +679,7 @@ window.ai = ->
       $(".battle-message").fadeOut(100)
       toggleImg()
       $(".enemy .img").removeAttr("disabled")
+      toggleEnemyClick()
       return
   ), timerRound
 
@@ -1095,7 +1100,7 @@ $ ->
                 betterMon = battle.players[0].mons[targets[1]].mon_evols[0]
                 abilityAnime.css(targetMon.data("position"))
                 abilityAnime.attr("src", betterMon.animation).toggleClass "ability-on", ->
-                  $("body").effect("shake")
+                  $(".battle").effect("shake")
                   targetMon.fadeOut 500, ->
                     $(this).attr("src", betterMon.image).fadeIn(1000)
                 setTimeout (->
@@ -1114,6 +1119,7 @@ $ ->
         else
           $(this).effect("highlight", {color: "red"}, 500)
           $(".ap").effect("highlight", {color: "red"}, 500)
+          $(".end-turn").prop("disabled", false)
 
 
 
