@@ -283,7 +283,7 @@ window.damageBoxAnime= (team, target, damage, color) ->
         setTimeout (->
           $("p.dam").promise().done ->
             outcome()
-        ), 50
+        ), 100
 
 window.showDamageSingle = ->
   damageBoxAnime(enemyHurt.team, enemyHurt.index, ability.modifier + ability.change, "rgba(255, 0, 0)")
