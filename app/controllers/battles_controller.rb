@@ -1,5 +1,5 @@
 class BattlesController < ApplicationController
-  before_action :find_battle, except: [:create, :index, :new]
+  before_action :find_battle, except: [:create, :index, :new, :generate_field]
 
   def index
     @battles = Battle.all
@@ -8,15 +8,24 @@ class BattlesController < ApplicationController
 
   def new
     @battle = Battle.new
-    render :layout => "facebook_landing" if current_user.admin == false
+    @user = current_user
+    respond_to do |format|
+      format.html {render :layout => "facebook_landing" if current_user.admin == false}
+      format.js
+    end
   end
 
   def create
     # render text: params.to_s
     @battle = Battle.new battle_params
+    @user = current_user
     if @battle.save
       @battle.parties.push(Party.find_by_user_id(current_user.id))
-      @battle.parties.push(Party.where(user: User.find_by_user_name("NPC")).find_by_name(@battle.battle_level.name))
+      @battle.parties.push(
+        Party.where(user: User.find_by_user_name("NPC")).
+        where(name: @battle.battle_level.name).
+        where(enemy: @user.email).last
+        )
       redirect_to @battle, notice: "Battle Starting!"
     else
       render :new
@@ -39,6 +48,14 @@ class BattlesController < ApplicationController
   def destroy
     if @battle.destroy
       redirect_to battles_path, notice: "Destroyed"
+    end
+  end
+
+  def generate_field
+    @user = current_user
+    Party.generate(@user)
+    respond_to do |format|
+      format.js
     end
   end
 

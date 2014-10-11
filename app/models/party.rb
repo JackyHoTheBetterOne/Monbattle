@@ -10,8 +10,7 @@ class Party < ActiveRecord::Base
   validates :user_id, presence: {message: 'Must be entered'}
                                  # uniqueness: true unless: :{ |c| !c.logged_in? }
 
-  validates :name, presence: {message: "Must be entered"},
-                              uniqueness: {scope: :user_id}
+  validates :name, presence: {message: "Must be entered"}
 
   before_save :npcCheck
   default_scope { order("npc") }
@@ -85,6 +84,20 @@ class Party < ActiveRecord::Base
   #     }}
   #   )
   # end
+
+  def self.generate(user)
+    BattleLevel.all.each do |level|
+      Party.where("user_id = 2").where(name: level.name).where(enemy: user.email).destroy_all
+      party = Party.create!(
+        user_id: 2, 
+        name: level.name,
+        enemy: user.email
+        )
+      npc_mons = MonsterUnlock.where("user_id = 2")
+      party.mons = npc_mons.shuffle[0..3]
+      party.save
+    end
+  end
 
   protected
   def npcCheck

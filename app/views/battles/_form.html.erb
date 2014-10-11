@@ -17,7 +17,7 @@
       </div> -->
 
 <div class="battle_level">
-  <%= form_for(@battle) do |f| %>
+  <%= form_for(Battle.new) do |f| %>
     <% BattleLevel.all.limit(5).each do |level| %> 
       <div class="form-group">
         <%= f.button "#{level.name}", :name => "battle[battle_level_id]", :value => "#{level.id}", 

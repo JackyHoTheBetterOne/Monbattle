@@ -17,5 +17,8 @@ div class="level-select"
         -else
           / h5 add logic to check if monsters in party are equipped
           / h5 Make a select box for each party that exists for npc called (select a level)
-          = render "/battles/form"
+          = form_tag generate_field_battles_path, remote: true, :method => "get" do
+            = submit_tag "Generate your battlefield", class: "btn btn-warning btn-lg field-generation"
+          div class="battle_map"
+            = render "/battles/form"
 

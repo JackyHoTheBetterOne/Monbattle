@@ -62,7 +62,7 @@ class PartiesController < ApplicationController
   end
 
   def party_params
-    params.require(:party).permit(:user_id, :name)
+    params.require(:party).permit(:user_id, :name, :enemy)
   end
 
 end
