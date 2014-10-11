@@ -278,11 +278,9 @@ body {
 .battle {
   width: 960px;
   height: 500px;
-  background: url(battlefield2.gif);
+  // background: url(battlefield2.gif);
   position: relative;
-  background-size: cover;
   z-index: 0;
-  background-repeat: no-repeat;
   margin-top: 5px;
   left: 100px;
   font-family: 'Montserrat', sans-serif;

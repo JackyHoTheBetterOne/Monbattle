@@ -8,6 +8,7 @@ class Battle < ActiveRecord::Base
 
   def build_json
     battle_json = {}
+    battle_json[:background] = self.background
     battle_json[:battle_id] = self.id
     battle_json[:players] = []
     # self.users.each do |user|
@@ -27,6 +28,10 @@ class Battle < ActiveRecord::Base
 
   def self.average_time(level_id)
     average(:time_taken).where("battle_level_id = #{level_id}")
+  end
+
+  def background
+    self.battle_level.background.url(:large)
   end
 
 end

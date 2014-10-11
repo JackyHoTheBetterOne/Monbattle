@@ -1,7 +1,9 @@
 class BattleLevel < ActiveRecord::Base
   has_many :battles
 
-  has_one :background
-
   validates :name, presence: {message: 'Must be entered'}, uniqueness: :true
+
+  has_attached_file :background, :styles => { :large => "960x500>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+  validates_attachment_content_type :background, :content_type => /\Aimage\/.*\Z/
+
 end

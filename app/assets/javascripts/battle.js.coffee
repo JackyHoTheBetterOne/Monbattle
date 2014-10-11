@@ -707,6 +707,7 @@ $ ->
       ), 3333  
 ############################################################################################### Battle logic
       window.battle = data
+      $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
       battle.round = 1
       battle.maxAP = 40
       battle.calculateAP = ->
