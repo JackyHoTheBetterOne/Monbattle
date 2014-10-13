@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141006190032) do
+ActiveRecord::Schema.define(version: 20141010231716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,19 +91,16 @@ ActiveRecord::Schema.define(version: 20141006190032) do
   add_index "ability_restrictions", ["ability_id"], name: "index_ability_restrictions_on_ability_id", using: :btree
   add_index "ability_restrictions", ["job_id"], name: "index_ability_restrictions_on_job_id", using: :btree
 
-  create_table "backgrounds", force: true do |t|
-    t.string   "name"
-    t.string   "image"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "battle_levels", force: true do |t|
     t.string   "item_given"
     t.integer  "exp_given"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.string   "background_file_name"
+    t.string   "background_content_type"
+    t.integer  "background_file_size"
+    t.datetime "background_updated_at"
   end
 
   create_table "battles", force: true do |t|
@@ -111,6 +108,8 @@ ActiveRecord::Schema.define(version: 20141006190032) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "battle_level_id"
+    t.integer  "round_taken"
+    t.string   "time_taken",      limit: nil
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
@@ -257,6 +256,7 @@ ActiveRecord::Schema.define(version: 20141006190032) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "npc",        default: false
+    t.text     "enemy"
   end
 
   add_index "parties", ["user_id"], name: "index_parties_on_user_id", using: :btree
@@ -342,6 +342,7 @@ ActiveRecord::Schema.define(version: 20141006190032) do
     t.boolean  "admin",                  default: false
     t.string   "uid"
     t.string   "provider"
+    t.text     "raw_oauth_info"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

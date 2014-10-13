@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :parties, dependent: :destroy
   has_many :members, through: :parties
 
+  serialize :raw_oauth_info
+
   has_many :monster_skin_equippings, dependent: :destroy
   has_many :user_skin_equipped_monsters, through: :monster_skin_equippings, source: :monster
   has_many :user_skin_equipped_skins, through: :monster_skin_equippings, source: :monster_skin
@@ -53,7 +55,8 @@ class User < ActiveRecord::Base
                             provider: auth.provider,
                             uid: auth.uid,
                             email: auth.info.email,
-                            password: Devise.friendly_token[0,20]
+                            password: Devise.friendly_token[0,20],
+                            raw_oauth_info: auth
                            )
       end
     end

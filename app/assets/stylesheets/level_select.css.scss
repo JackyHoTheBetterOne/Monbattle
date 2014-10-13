@@ -1,6 +1,6 @@
 .battle_level {
   position: relative;
-  top: 30px;
+  top: -2px;
   width: 960px;
   left: 100px;
   height: 600px;
@@ -36,5 +36,22 @@
   left: 508px;
   position: absolute;
 };
+
+#Stage4 {
+  position: absolute;
+  top: 295px;
+  left: 785px;
+};
+
+#Stage5 {
+  position: absolute;
+  top: 148px;
+  left: 530px
+};
+
+.field-generation {
+  position: relative;
+  left: 454px;
+}
 
 
