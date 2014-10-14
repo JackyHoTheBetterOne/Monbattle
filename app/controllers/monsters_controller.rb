@@ -7,10 +7,10 @@ class MonstersController < ApplicationController
     @jobs = Job.all
     @element = Element.new
     @elements = Element.all
-    @monsters = Monster.all
     @monster = Monster.new
     @personality = Personality.new
     @personalities = Personality.all
+    @monsters = Monster.all
   end
 
   def create

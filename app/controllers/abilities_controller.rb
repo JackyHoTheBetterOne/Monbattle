@@ -2,6 +2,7 @@ class AbilitiesController < ApplicationController
   before_action :find_ability, except: [:create, :index]
 
   def index
+    @abilities = Ability.includes(:effects, :stat_target, :ability_purchases, :target, :abil_socket, :jobs).all
     @abil_socket = AbilSocket.new
     @abil_sockets = AbilSocket.all
     @stat_target = StatTarget.new
@@ -9,7 +10,6 @@ class AbilitiesController < ApplicationController
     @target = Target.new
     @targets = Target.all
     @ability = Ability.new
-    @abilities = Ability.all
     @ability_purchase = AbilityPurchase.new
   end
 
