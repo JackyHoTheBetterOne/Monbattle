@@ -279,7 +279,7 @@ window.damageBoxAnime= (team, target, damage, color) ->
     "top":"+=50px"
     "z-index":"-=10000"
     , 5, -> 
-      $(".img").promise().done ->
+      $(".img, p.dam").promise().done ->
         setTimeout (->
           $("p.dam").promise().done ->
             outcome()

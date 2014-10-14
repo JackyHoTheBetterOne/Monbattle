@@ -2,6 +2,9 @@ class AbilitiesController < ApplicationController
   before_action :find_ability, except: [:create, :index]
 
   def index
+    @abilities = Ability.includes(:effects, :stat_target, :target, :abil_socket, :jobs).search(params[:keyword]).
+                  ap_cost_search(params[:cost]).effect_search(params[:effect]).
+                  paginate(:page => params[:page], :per_page => 10)
     @abil_socket = AbilSocket.new
     @abil_sockets = AbilSocket.all
     @stat_target = StatTarget.new
@@ -9,8 +12,12 @@ class AbilitiesController < ApplicationController
     @target = Target.new
     @targets = Target.all
     @ability = Ability.new
-    @abilities = Ability.all
     @ability_purchase = AbilityPurchase.new
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def create
