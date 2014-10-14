@@ -51,6 +51,18 @@ class Ability < ActiveRecord::Base
   before_save :unlock_for_admin
   before_save :unlock_for_npc
 
+  scope :search, -> (keyword) {
+    if keyword.present?
+      joins(:effects).where("abilities.keywords LIKE ? OR effects.keywords LIKE ?", "%#{keyword.downcase}%", "%#{keyword.downcase}%")
+    end
+  }
+
+  scope :ap_cost_search, -> (cost) {
+    if cost.present?
+      where("ap_cost = ?", "#{cost}")
+    end
+  }
+
   def self.abil_avail_for_sock(user, socket_num)
     where(id: AbilityPurchase.abils_purchased(user).pluck(:ability_id),
                abil_socket_id: AbilSocket.socket(socket_num))
@@ -108,17 +120,21 @@ class Ability < ActiveRecord::Base
   end
 
   def unlock_for_admin
-    unlock = AbilityPurchase.new
-    unlock.user_id = 1
-    unlock.ability_id = self.id
-    unlock.save
+    if AbilityPurchase.where("user_id = 1 AND ability_id = #{self.id}").count == 0
+      unlock = AbilityPurchase.new
+      unlock.user_id = 1
+      unlock.ability_id = self.id
+      unlock.save
+    end
   end
 
   def unlock_for_npc
-    unlock = AbilityPurchase.new
-    unlock.user_id = 2
-    unlock.ability_id = self.id
-    unlock.save
+    if AbilityPurchase.where("user_id = 2 AND ability_id = #{self.id}").count == 0
+      unlock = AbilityPurchase.new
+      unlock.user_id = 2
+      unlock.ability_id = self.id
+      unlock.save
+    end
   end
 
 end

@@ -2,6 +2,12 @@ class Monster < ActiveRecord::Base
 
   default_scope{ order('updated_at desc') }
 
+  scope :search, -> (keyword) {
+    if keyword.present?
+      where("keywords LIKE ?", "%#{keyword.downcase}%")
+    end
+  }
+
   belongs_to :job
   belongs_to :element
   belongs_to :personality
@@ -75,22 +81,31 @@ class Monster < ActiveRecord::Base
 
   private
   def set_keywords
-    self.keywords = [name, description, self.job.name, self.element.name, self.personality.name]
-                      .map(&:downcase).concat([max_hp, summon_cost]).join(" ")
+    if self.personality != nil 
+      self.keywords = [name, description, self.job.name, self.element.name, self.personality.name, self.evolved_from]
+                        .map(&:downcase).concat([max_hp, summon_cost]).join(" ")
+    else
+      self.keywords = [name, description, self.job.name, self.element.name, self.evolved_from]
+                        .map(&:downcase).concat([max_hp, summon_cost]).join(" ")
+    end
   end
 
   def unlock_for_admin
-    unlock = MonsterUnlock.new
-    unlock.user_id = 1
-    unlock.monster_id = self.id
-    unlock.save
+    if MonsterUnlock.where("user_id = 1 AND monster_id = #{self.id}").count == 0
+      unlock = MonsterUnlock.new
+      unlock.user_id = 1
+      unlock.monster_id = self.id
+      unlock.save
+    end
   end
 
   def unlock_for_npc 
-    unlock = MonsterUnlock.new
-    unlock.user_id = 2
-    unlock.monster_id = self.id
-    unlock.save
+    if MonsterUnlock.where("user_id = 2 AND monster_id = #{self.id}").count == 0 
+      unlock = MonsterUnlock.new
+      unlock.user_id = 2
+      unlock.monster_id = self.id
+      unlock.save
+    end
   end
 
 end
