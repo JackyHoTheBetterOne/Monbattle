@@ -81,11 +81,11 @@ class Monster < ActiveRecord::Base
 
   private
   def set_keywords
-    if self.personality != nil 
-      self.keywords = [name, description, self.job.name, self.element.name, self.personality.name, self.evolved_from]
+    if self.evolved_from != nil 
+      self.keywords = [name, description, self.job.name, self.element.name, self.evolved_from.name, self.evolved_from.name]
                         .map(&:downcase).concat([max_hp, summon_cost]).join(" ")
     else
-      self.keywords = [name, description, self.job.name, self.element.name, self.evolved_from]
+      self.keywords = [name, description, self.job.name, self.element.name]
                         .map(&:downcase).concat([max_hp, summon_cost]).join(" ")
     end
   end
