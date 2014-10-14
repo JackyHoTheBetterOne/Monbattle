@@ -36,6 +36,6 @@ class Effect < ActiveRecord::Base
 
   private
   def set_keywords
-    self.keywords = [name, stat_change, self.targeta].map(&:downcase).join(" ")
+    self.keywords = [name, stat_change, self.targeta, self.element.name].map(&:downcase).join(" ")
   end
 end
