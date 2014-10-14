@@ -53,13 +53,19 @@ class Ability < ActiveRecord::Base
 
   scope :search, -> (keyword) {
     if keyword.present?
-      joins(:effects).where("abilities.keywords LIKE ? OR effects.keywords LIKE ?", "%#{keyword.downcase}%", "%#{keyword.downcase}%")
+      where("abilities.keywords LIKE ?", "%#{keyword.downcase}%")
     end
   }
 
   scope :ap_cost_search, -> (cost) {
     if cost.present?
       where("ap_cost = ?", "#{cost}")
+    end
+  }
+
+  scope :effect_search, -> (effect) {
+    if effect.present?
+      joins(:effects).where("effects.keywords LIKE ?", "%#{effect.downcase}%")
     end
   }
 

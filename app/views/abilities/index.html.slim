@@ -13,6 +13,11 @@
   = form_tag abilities_path, :method => "get", remote: true
     = text_field_tag :cost, params[:cost]  
     = submit_tag "Search by ap cost", class: "btn btn-default" 
+  p
+  = form_tag abilities_path, :method => "get", remote: true
+    = text_field_tag :effect, params[:effect]  
+    = submit_tag "Search by effect(s)", class: "btn btn-default" 
+  p
   .abilities
     hr = render @abilities
     = will_paginate @abilities
