@@ -4,6 +4,7 @@ class Ability < ActiveRecord::Base
   belongs_to :stat_target
   belongs_to :element
   belongs_to :abil_socket
+  belongs_to :rarity
 
   has_many :ability_restrictions, dependent: :destroy
   has_many :jobs, through: :ability_restrictions
@@ -38,7 +39,8 @@ class Ability < ActiveRecord::Base
   validates :element_id, presence: {message: 'Must be entered'}
   validates :stat_change, presence: {message: 'Must be entered'}
   validates :abil_socket_id, presence: {message: 'Must be entered'}
-  # validates :min_level, presence: {message: 'Must be entered'}
+  validates :rarity_id, presence: {message: 'Must be entered'}
+  validates :min_level, presence: {message: 'Must be entered'}
 
   delegate :name, :ap_cost, :description, :min_level, :target_id, :stat_target_id, :element_id,
            :stat_change, :abil_socket_id, :image,

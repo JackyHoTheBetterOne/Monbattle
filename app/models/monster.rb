@@ -5,6 +5,7 @@ class Monster < ActiveRecord::Base
   belongs_to :job
   belongs_to :element
   belongs_to :personality
+  belongs_to :rarity
 
   has_many :evolutions, class_name: "Monster",
                         foreign_key: "evolved_from_id"
@@ -34,10 +35,9 @@ class Monster < ActiveRecord::Base
   validates :description, presence: {message: 'Must be entered'}
   validates :evolved_from_id, presence: {message: 'Must be entered'}
   validates :summon_cost, presence: {message: 'Must be entered'}
+  validates :rarity_id, presence: {message: 'Must be entered'}
   # validates :dmg_modifier, presence: {message: 'Must be entered'}
   # validates :hp_modifier, presence: {message: 'Must be entered'}
-
-
 
   def self.mon_abils(monster)
     find_by_id(monster).job.abilities
