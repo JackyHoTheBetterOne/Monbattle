@@ -40,11 +40,11 @@ class Ability < ActiveRecord::Base
   validates :stat_change, presence: {message: 'Must be entered'}
   validates :abil_socket_id, presence: {message: 'Must be entered'}
   validates :rarity_id, presence: {message: 'Must be entered'}
-  validates :min_level, presence: {message: 'Must be entered'}
+  # validates :min_level, presence: {message: 'Must be entered'}
 
-  delegate :name, :ap_cost, :description, :min_level, :target_id, :stat_target_id, :element_id,
-           :stat_change, :abil_socket_id, :image,
-           to: :monster, prefix: true
+  # delegate :name, :ap_cost, :description, :min_level, :target_id, :stat_target_id, :element_id,
+  #          :stat_change, :abil_socket_id, :image,
+  #          to: :monster, prefix: true
 
   delegate :name, to: :ability_equipping, prefix: true
 

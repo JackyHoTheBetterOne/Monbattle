@@ -14,6 +14,8 @@
           .form-control=f.collection_select :element_id, @elements, :id, :name
           h4=f.label "Monster Personality"
           .form-control=f.collection_select :personality_id, @personalities, :id, :name
+          h4=f.label "Rarity of this Monster"
+          .form-control =f.collection_select :rarity_id, Rarity.all, :id, :name
           =f.input :description
           =f.input :max_hp
           / =f.input :hp_modifier
