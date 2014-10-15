@@ -11,6 +11,9 @@ class HomeController < ApplicationController
   def show
   end
 
+  def store
+  end
+
   def facebook
   end
 
