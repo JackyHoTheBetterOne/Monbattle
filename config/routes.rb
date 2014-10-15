@@ -30,6 +30,7 @@ resources :ability_equipping_for_users, only:[:create, :update]
 post "/facebook" => "battles#new"
 get "/cannot" => "home#illegal_access", as: :illegal
 get "/home" => "home#index", as: :battle_preparation
+get "/store" => "home#store", as: :device_store
 
 
 root 'home#facebook'
