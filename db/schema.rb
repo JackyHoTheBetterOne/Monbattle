@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141014173436) do
+ActiveRecord::Schema.define(version: 20141015011648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20141014173436) do
     t.string   "portrait_content_type"
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
-    t.integer  "rarity_id"
     t.text     "keywords"
+    t.integer  "rarity_id"
   end
 
   add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree
@@ -94,19 +94,16 @@ ActiveRecord::Schema.define(version: 20141014173436) do
   add_index "ability_restrictions", ["ability_id"], name: "index_ability_restrictions_on_ability_id", using: :btree
   add_index "ability_restrictions", ["job_id"], name: "index_ability_restrictions_on_job_id", using: :btree
 
-  create_table "backgrounds", force: true do |t|
-    t.string   "name"
-    t.string   "image"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "battle_levels", force: true do |t|
     t.string   "item_given"
     t.integer  "exp_given"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.string   "background_file_name"
+    t.string   "background_content_type"
+    t.integer  "background_file_size"
+    t.datetime "background_updated_at"
   end
 
   create_table "battles", force: true do |t|
@@ -250,11 +247,8 @@ ActiveRecord::Schema.define(version: 20141014173436) do
     t.integer  "evolve_animation_file_size"
     t.datetime "evolve_animation_updated_at"
     t.integer  "personality_id"
-<<<<<<< HEAD
-    t.integer  "rarity_id"
-=======
     t.text     "keywords"
->>>>>>> 40c6a971046ec7d581d8bc53c6e3d22e02e91809
+    t.integer  "rarity_id"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
