@@ -44,11 +44,13 @@ ActiveRecord::Schema.define(version: 20141014173436) do
     t.string   "portrait_content_type"
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
+    t.integer  "rarity_id"
     t.text     "keywords"
   end
 
   add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree
   add_index "abilities", ["element_id"], name: "index_abilities_on_element_id", using: :btree
+  add_index "abilities", ["rarity_id"], name: "index_abilities_on_rarity_id", using: :btree
   add_index "abilities", ["stat_target_id"], name: "index_abilities_on_stat_target_id", using: :btree
   add_index "abilities", ["target_id"], name: "index_abilities_on_target_id", using: :btree
 
@@ -92,16 +94,19 @@ ActiveRecord::Schema.define(version: 20141014173436) do
   add_index "ability_restrictions", ["ability_id"], name: "index_ability_restrictions_on_ability_id", using: :btree
   add_index "ability_restrictions", ["job_id"], name: "index_ability_restrictions_on_job_id", using: :btree
 
+  create_table "backgrounds", force: true do |t|
+    t.string   "name"
+    t.string   "image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "battle_levels", force: true do |t|
     t.string   "item_given"
     t.integer  "exp_given"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.string   "background_file_name"
-    t.string   "background_content_type"
-    t.integer  "background_file_size"
-    t.datetime "background_updated_at"
   end
 
   create_table "battles", force: true do |t|
@@ -245,13 +250,18 @@ ActiveRecord::Schema.define(version: 20141014173436) do
     t.integer  "evolve_animation_file_size"
     t.datetime "evolve_animation_updated_at"
     t.integer  "personality_id"
+<<<<<<< HEAD
+    t.integer  "rarity_id"
+=======
     t.text     "keywords"
+>>>>>>> 40c6a971046ec7d581d8bc53c6e3d22e02e91809
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
   add_index "monsters", ["evolved_from_id"], name: "index_monsters_on_evolved_from_id", using: :btree
   add_index "monsters", ["job_id"], name: "index_monsters_on_job_id", using: :btree
   add_index "monsters", ["personality_id"], name: "index_monsters_on_personality_id", using: :btree
+  add_index "monsters", ["rarity_id"], name: "index_monsters_on_rarity_id", using: :btree
 
   create_table "parties", force: true do |t|
     t.integer  "user_id"
@@ -265,6 +275,12 @@ ActiveRecord::Schema.define(version: 20141014173436) do
   add_index "parties", ["user_id"], name: "index_parties_on_user_id", using: :btree
 
   create_table "personalities", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rarities", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -346,6 +362,7 @@ ActiveRecord::Schema.define(version: 20141014173436) do
     t.string   "uid"
     t.string   "provider"
     t.text     "raw_oauth_info"
+    t.integer  "gp"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

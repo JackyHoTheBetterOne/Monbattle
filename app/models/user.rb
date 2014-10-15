@@ -26,14 +26,6 @@ class User < ActiveRecord::Base
   validates :email, presence: {message: 'Must be entered'}
   validates :password, presence: {message: 'Must be entered'}
 
-  def party_member_count(current_user_id)
-    User.where(id: current_user_id).first.parties.first.members.count
-  end
-
-  # def party_user(user_id)
-  #   User.find(user_id)
-  # end
-
   def can_add_to_party?(mon_unlock)
     if self.members.count == 0 || self.members.count < 4 && self.members.where(monster_unlock_id: mon_unlock).empty?
       return true
@@ -41,15 +33,6 @@ class User < ActiveRecord::Base
       return false
     end
   end
-
-  def can_remove_from_party?(mon_unlock)
-    if self.members.count >= 1 && self.members.where(monster_unlock_id: mon_unlock).exists?
-      return true
-    else
-      return false
-    end
-  end
-
 
   def can_remove_from_party?(mon_unlock)
     if self.members.count >= 1 && self.members.where(monster_unlock_id: mon_unlock).exists?
