@@ -48,7 +48,6 @@ class Monster < ActiveRecord::Base
   # validates :dmg_modifier, presence: {message: 'Must be entered'}
   # validates :hp_modifier, presence: {message: 'Must be entered'}
 
-
   def self.mon_abils(monster)
     find_by_id(monster).job.abilities
   end

@@ -1,0 +1,14 @@
+=form_for @rarity do |f|
+  .form-group
+    =f.label :name
+    =f.text_field :name, class: 'form-control'
+    hr=f.submit class: 'btn btn-primary'
+hr
+-if @rarities.empty?
+-else
+  h4 Defined Rarities:
+  -@rarities.each do |rarity|
+    -if rarity.monster_skins.empty? && rarity.monsters.empty? && rarity.abilities.empty?
+      =link_to " #{rarity.name} ", rarity, method: :delete, data: {confirm: "Delete?"}, class: "btn btn-sm btn-danger"
+    -else
+      =link_to " #{rarity.name} ", rarity, method: :patch, data: {confirm: "Edit only, because linked to at least one effect or monster"}, class: "btn btn-sm btn-info"

@@ -17,6 +17,8 @@
           .form-control =f.collection_select :job_id, @jobs.where(evolve_lvl: "1"), :id, :name
           h4=f.label "The element of this evolved state"
           .form-control =f.collection_select :element_id, @elements, :id, :name
+          h4=f.label "Rarity of this evolution"
+          .form-control =f.collection_select :rarity_id, Rarity.all, :id, :name
           =f.input :evolve_animation
           =f.input :name
           =f.input :description

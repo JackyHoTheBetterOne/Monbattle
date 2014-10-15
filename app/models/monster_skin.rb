@@ -1,5 +1,7 @@
 class MonsterSkin < ActiveRecord::Base
 
+  belongs_to :rarity
+
   has_many :monster_skin_equippings, dependent: :destroy
   has_many :skin_equipped_users, through: :monster_skin_equippings, source: :user
   has_many :skin_equipped_monsters, through: :monster_skin_equippings, source: :monster
@@ -21,5 +23,6 @@ class MonsterSkin < ActiveRecord::Base
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
   validates_attachment_content_type :portrait, :content_type => /\Aimage\/.*\Z/
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
+  validates :rarity, presence: {message: 'Must be entered'}
 
 end

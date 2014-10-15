@@ -3,6 +3,8 @@ class MonstersController < ApplicationController
 
   def index
     @monster_unlock = MonsterUnlock.new
+    @rarity = Rarity.new
+    @rarities = Rarity.all
     @job = Job.new
     @jobs = Job.all
     @element = Element.new

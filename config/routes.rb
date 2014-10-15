@@ -39,13 +39,14 @@ resources :effects
 resources :parties
 resources :battle_levels
 
-resources :battles do 
-  collection do 
+resources :battles do
+  collection do
     get :generate_field
   end
 end
 
 resources :ability_equippings, only: [:create, :update]
+resources :rarities, only: [:create, :destroy]
 resources :jobs, only: [:create, :destroy]
 resources :elements, only: [:create, :destroy]
 resources :targets, only: [:create, :destroy]
