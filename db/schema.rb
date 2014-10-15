@@ -11,7 +11,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 20141015015928) do
 
   # These are extensions that must be enabled in order to support this database
@@ -251,8 +250,8 @@ ActiveRecord::Schema.define(version: 20141015015928) do
     t.integer  "evolve_animation_file_size"
     t.datetime "evolve_animation_updated_at"
     t.integer  "personality_id"
-    t.integer  "rarity_id"
     t.text     "keywords"
+    t.integer  "rarity_id"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
