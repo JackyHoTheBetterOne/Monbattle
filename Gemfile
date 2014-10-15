@@ -8,6 +8,7 @@ gem "pundit"
 gem "omniauth"
 gem 'rails', '4.1.4'
 gem "cocoon"
+gem 'will_paginate', '~> 3.0'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets

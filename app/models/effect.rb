@@ -12,6 +12,7 @@ class Effect < ActiveRecord::Base
   validates :stat_target_id, presence: {message: 'Must be entered'}
   validates :element_id, presence: {message: 'Must be entered'}
 
+  before_save :set_keywords
 
   def stat
     self.stat_target.name.downcase
@@ -33,5 +34,8 @@ class Effect < ActiveRecord::Base
     self.stat_change.split("").drop(1).join("")
   end
 
-
+  private
+  def set_keywords
+    self.keywords = [name, stat_change, self.targeta, self.element.name].map(&:downcase).join(" ")
+  end
 end

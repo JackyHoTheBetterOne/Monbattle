@@ -49,7 +49,27 @@ class Ability < ActiveRecord::Base
   delegate :name, to: :ability_equipping, prefix: true
 
   default_scope { order('abil_socket_id') }
-  # before_save :add_slot
+  before_save :set_keywords
+  before_save :unlock_for_admin
+  before_save :unlock_for_npc
+
+  scope :search, -> (keyword) {
+    if keyword.present?
+      where("abilities.keywords LIKE ?", "%#{keyword.downcase}%")
+    end
+  }
+
+  scope :ap_cost_search, -> (cost) {
+    if cost.present?
+      where("ap_cost = ?", "#{cost}")
+    end
+  }
+
+  scope :effect_search, -> (effect) {
+    if effect.present?
+      joins(:effects).where("effects.keywords LIKE ?", "%#{effect.downcase}%")
+    end
+  }
 
   def self.abil_avail_for_sock(user, socket_num)
     where(id: AbilityPurchase.abils_purchased(user).pluck(:ability_id),
@@ -98,6 +118,31 @@ class Ability < ActiveRecord::Base
 
   def add_slot
     self.slot = self.abil_socket.socket_num
+  end
+
+  private
+
+  def set_keywords
+    self.keywords = [name, description, self.targeta, self.stat_target.name, self.element.name].map(&:downcase).
+                      concat([ap_cost, stat_change, price]).join(" ")
+  end
+
+  def unlock_for_admin
+    if AbilityPurchase.where("user_id = 1 AND ability_id = #{self.id}").count == 0
+      unlock = AbilityPurchase.new
+      unlock.user_id = 1
+      unlock.ability_id = self.id
+      unlock.save
+    end
+  end
+
+  def unlock_for_npc
+    if AbilityPurchase.where("user_id = 2 AND ability_id = #{self.id}").count == 0
+      unlock = AbilityPurchase.new
+      unlock.user_id = 2
+      unlock.ability_id = self.id
+      unlock.save
+    end
   end
 
 end

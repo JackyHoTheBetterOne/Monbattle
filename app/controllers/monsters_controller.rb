@@ -7,10 +7,16 @@ class MonstersController < ApplicationController
     @jobs = Job.all
     @element = Element.new
     @elements = Element.all
-    @monsters = Monster.all
     @monster = Monster.new
     @personality = Personality.new
     @personalities = Personality.all
+    @monsters = Monster.includes(:job, :element, :personality).search(params[:keyword]).
+                paginate(:page => params[:page], :per_page => 15)
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def create

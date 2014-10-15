@@ -279,7 +279,7 @@ window.damageBoxAnime= (team, target, damage, color) ->
     "top":"+=50px"
     "z-index":"-=10000"
     , 5, -> 
-      $(".img").promise().done ->
+      $(".img, p.dam").promise().done ->
         setTimeout (->
           $("p.dam").promise().done ->
             outcome()
@@ -1116,7 +1116,7 @@ $ ->
                 ), 2000
                 return
               else
-                alert("Frank, I will murder your entire family")
+                alert(".")
         else
           $(this).effect("highlight", {color: "red"}, 500)
           $(".ap").effect("highlight", {color: "red"}, 500)

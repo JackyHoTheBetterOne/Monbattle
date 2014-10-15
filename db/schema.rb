@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141015011648) do
+ActiveRecord::Schema.define(version: 20141014173436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20141015011648) do
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
     t.integer  "rarity_id"
+    t.text     "keywords"
   end
 
   add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree
@@ -127,6 +128,7 @@ ActiveRecord::Schema.define(version: 20141015011648) do
     t.integer  "element_id"
     t.string   "stat_change"
     t.integer  "stat_target_id"
+    t.text     "keywords"
   end
 
   add_index "effects", ["element_id"], name: "index_effects_on_element_id", using: :btree
@@ -248,7 +250,11 @@ ActiveRecord::Schema.define(version: 20141015011648) do
     t.integer  "evolve_animation_file_size"
     t.datetime "evolve_animation_updated_at"
     t.integer  "personality_id"
+<<<<<<< HEAD
     t.integer  "rarity_id"
+=======
+    t.text     "keywords"
+>>>>>>> 40c6a971046ec7d581d8bc53c6e3d22e02e91809
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
