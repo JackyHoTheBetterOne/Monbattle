@@ -4,6 +4,7 @@ class Ability < ActiveRecord::Base
   belongs_to :stat_target
   belongs_to :element
   belongs_to :abil_socket
+  belongs_to :rarity
 
   has_many :ability_restrictions, dependent: :destroy
   has_many :jobs, through: :ability_restrictions
@@ -38,11 +39,12 @@ class Ability < ActiveRecord::Base
   validates :element_id, presence: {message: 'Must be entered'}
   validates :stat_change, presence: {message: 'Must be entered'}
   validates :abil_socket_id, presence: {message: 'Must be entered'}
+  validates :rarity_id, presence: {message: 'Must be entered'}
   # validates :min_level, presence: {message: 'Must be entered'}
 
-  delegate :name, :ap_cost, :description, :min_level, :target_id, :stat_target_id, :element_id,
-           :stat_change, :abil_socket_id, :image,
-           to: :monster, prefix: true
+  # delegate :name, :ap_cost, :description, :min_level, :target_id, :stat_target_id, :element_id,
+  #          :stat_change, :abil_socket_id, :image,
+  #          to: :monster, prefix: true
 
   delegate :name, to: :ability_equipping, prefix: true
 
@@ -68,6 +70,14 @@ class Ability < ActiveRecord::Base
       joins(:effects).where("effects.keywords LIKE ?", "%#{effect.downcase}%")
     end
   }
+
+  def self.worth(rarity)
+    where(rarity_id: Rarity.worth(rarity))
+  end
+
+  def self.find_name(id)
+    where(id: id).pluck(:name)
+  end
 
   def self.abil_avail_for_sock(user, socket_num)
     where(id: AbilityPurchase.abils_purchased(user).pluck(:ability_id),

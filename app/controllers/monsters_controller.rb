@@ -3,6 +3,8 @@ class MonstersController < ApplicationController
 
   def index
     @monster_unlock = MonsterUnlock.new
+    @rarity = Rarity.new
+    @rarities = Rarity.all
     @job = Job.new
     @jobs = Job.all
     @element = Element.new
@@ -76,7 +78,7 @@ class MonstersController < ApplicationController
 
   def monster_params
     params.require(:monster).permit(
-                                    :name, :max_hp, :monster_skin_id, :job_id, :element_id, :description,
+                                    :name, :max_hp, :monster_skin_id, :job_id, :element_id, :description, :rarity_id,
                                     :personality_id, :evolved_from_id, :hp_modifier, :dmg_modifier, :summon_cost,
                                     :evolve_animation
                                     )

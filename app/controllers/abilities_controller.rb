@@ -65,7 +65,7 @@ class AbilitiesController < ApplicationController
 
   def ability_params
     params.require(:ability).permit(
-                             :name, :ap_cost, :store_price, :image, :min_level, :price,
+                             :name, :ap_cost, :store_price, :image, :min_level, :price, :rarity_id,
                              :description, :job_id, :target_id, :stat_target_id, :element_id,
                              :stat_change, :abil_socket_id, :portrait, {effect_ids: []}, {job_ids: []}
                              )

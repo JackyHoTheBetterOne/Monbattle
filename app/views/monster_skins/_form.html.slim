@@ -1,6 +1,8 @@
 =simple_form_for(@monster_skin) do |f|
   div class='form-group' id="monsterForm"
     =f.input :name
+    h4=f.label "Rarity of this skin"
+    .form-control =f.collection_select :rarity_id, Rarity.all, :id, :name
     =f.input :avatar
     =f.input :portrait
     h4 Jobs That can use this skin

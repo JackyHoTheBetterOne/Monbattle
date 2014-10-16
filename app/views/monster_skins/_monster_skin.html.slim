@@ -5,5 +5,9 @@ tr
     =link_to "Delete Skin", monster_skin, method: :delete, data: {confirm: "Will delete this skin for all users!!"}, class: "btn btn-sm btn-danger"
   td=image_tag monster_skin.avatar.url(:medium)
   td=image_tag monster_skin.portrait.url(:small)
+  / td
+  /   -if monster_skin.rarity.nil?
+  /   -else
+  /     =monster_skin.rarity.name
   td id="purchase_#{dom_id(monster_skin)}"
     =render partial: "monster_skin_purchases/monster_skin_purchase", locals: {monster_skin: monster_skin}

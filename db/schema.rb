@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141014173436) do
+ActiveRecord::Schema.define(version: 20141015210744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,10 +45,12 @@ ActiveRecord::Schema.define(version: 20141014173436) do
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
     t.text     "keywords"
+    t.integer  "rarity_id"
   end
 
   add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree
   add_index "abilities", ["element_id"], name: "index_abilities_on_element_id", using: :btree
+  add_index "abilities", ["rarity_id"], name: "index_abilities_on_rarity_id", using: :btree
   add_index "abilities", ["stat_target_id"], name: "index_abilities_on_stat_target_id", using: :btree
   add_index "abilities", ["target_id"], name: "index_abilities_on_target_id", using: :btree
 
@@ -110,7 +112,7 @@ ActiveRecord::Schema.define(version: 20141014173436) do
     t.datetime "updated_at"
     t.integer  "battle_level_id"
     t.integer  "round_taken"
-    t.string   "time_taken",      limit: nil
+    t.string   "time_taken"
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
@@ -216,7 +218,10 @@ ActiveRecord::Schema.define(version: 20141014173436) do
     t.string   "portrait_content_type"
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
+    t.integer  "rarity_id"
   end
+
+  add_index "monster_skins", ["rarity_id"], name: "index_monster_skins_on_rarity_id", using: :btree
 
   create_table "monster_unlocks", force: true do |t|
     t.integer  "user_id"
@@ -246,12 +251,14 @@ ActiveRecord::Schema.define(version: 20141014173436) do
     t.datetime "evolve_animation_updated_at"
     t.integer  "personality_id"
     t.text     "keywords"
+    t.integer  "rarity_id"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
   add_index "monsters", ["evolved_from_id"], name: "index_monsters_on_evolved_from_id", using: :btree
   add_index "monsters", ["job_id"], name: "index_monsters_on_job_id", using: :btree
   add_index "monsters", ["personality_id"], name: "index_monsters_on_personality_id", using: :btree
+  add_index "monsters", ["rarity_id"], name: "index_monsters_on_rarity_id", using: :btree
 
   create_table "parties", force: true do |t|
     t.integer  "user_id"
@@ -265,6 +272,12 @@ ActiveRecord::Schema.define(version: 20141014173436) do
   add_index "parties", ["user_id"], name: "index_parties_on_user_id", using: :btree
 
   create_table "personalities", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rarities", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -297,12 +310,15 @@ ActiveRecord::Schema.define(version: 20141014173436) do
 
   create_table "summoners", force: true do |t|
     t.string   "name"
-    t.integer  "current_lvl"
-    t.integer  "current_exp"
     t.integer  "user_id"
     t.integer  "summoner_level_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "mp",                default: 0
+    t.integer  "gp",                default: 0
+    t.integer  "current_lvl",       default: 1
+    t.integer  "current_exp",       default: 0
+    t.integer  "vortex_key",        default: 0
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree
@@ -337,8 +353,6 @@ ActiveRecord::Schema.define(version: 20141014173436) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "user_name"
-    t.integer  "currency"
-    t.integer  "paid_currency"
     t.integer  "rank"
     t.datetime "created_at"
     t.datetime "updated_at"

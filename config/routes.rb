@@ -30,22 +30,25 @@ resources :ability_equipping_for_users, only:[:create, :update]
 post "/facebook" => "battles#new"
 get "/cannot" => "home#illegal_access", as: :illegal
 get "/home" => "home#index", as: :battle_preparation
+get "/store" => "home#store", as: :device_store
 
 
 root 'home#facebook'
+get 'home/roll' => "home#roll", as: :roll_path
 resources :home
 resources :admin
 resources :effects
 resources :parties
 resources :battle_levels
 
-resources :battles do 
-  collection do 
+resources :battles do
+  collection do
     get :generate_field
   end
 end
 
 resources :ability_equippings, only: [:create, :update]
+resources :rarities, only: [:create, :destroy]
 resources :jobs, only: [:create, :destroy]
 resources :elements, only: [:create, :destroy]
 resources :targets, only: [:create, :destroy]

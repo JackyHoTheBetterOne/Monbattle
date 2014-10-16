@@ -31,6 +31,8 @@
           .form-control =f.collection_select :element_id, Element.all, :id, :name
           h4=f.label "Select Stat targeted by this ability"
           .form-control =f.collection_select :stat_target_id, StatTarget.all, :id, :name
+          h4=f.label "Rarity of this ability"
+          .form-control =f.collection_select :rarity_id, Rarity.all, :id, :name
           h4=f.label "Select Socket Number that this ability is for"
           .form-control =f.collection_select :abil_socket_id, AbilSocket.all, :id, :socket_num
           =f.label "How much the stat is Changed(Format must be + or - and then integer)"

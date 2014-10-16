@@ -1,4 +1,7 @@
 class Monster < ActiveRecord::Base
+  before_save :set_keywords
+  before_save :unlock_for_admin
+  before_save :unlock_for_npc
 
   default_scope{ order('updated_at desc') }
 
@@ -11,6 +14,7 @@ class Monster < ActiveRecord::Base
   belongs_to :job
   belongs_to :element
   belongs_to :personality
+  belongs_to :rarity
 
   has_many :evolutions, class_name: "Monster",
                         foreign_key: "evolved_from_id"
@@ -40,15 +44,20 @@ class Monster < ActiveRecord::Base
   validates :description, presence: {message: 'Must be entered'}
   validates :evolved_from_id, presence: {message: 'Must be entered'}
   validates :summon_cost, presence: {message: 'Must be entered'}
+  validates :rarity_id, presence: {message: 'Must be entered'}
   # validates :dmg_modifier, presence: {message: 'Must be entered'}
   # validates :hp_modifier, presence: {message: 'Must be entered'}
 
-  before_save :set_keywords
-  before_save :unlock_for_admin
-  before_save :unlock_for_npc
-
   def self.mon_abils(monster)
     find_by_id(monster).job.abilities
+  end
+
+  def self.worth(rarity)
+    where(rarity_id: Rarity.worth(rarity))
+  end
+
+  def self.find_name(id)
+    where(id: id).pluck(:name)
   end
 
   def self.base_mon
@@ -81,7 +90,7 @@ class Monster < ActiveRecord::Base
 
   private
   def set_keywords
-    if self.evolved_from != nil 
+    if self.evolved_from != nil
       self.keywords = [name, description, self.job.name, self.element.name, self.evolved_from.name, self.evolved_from.name]
                         .map(&:downcase).concat([max_hp, summon_cost]).join(" ")
     else
@@ -99,8 +108,8 @@ class Monster < ActiveRecord::Base
     end
   end
 
-  def unlock_for_npc 
-    if MonsterUnlock.where("user_id = 2 AND monster_id = #{self.id}").count == 0 
+  def unlock_for_npc
+    if MonsterUnlock.where("user_id = 2 AND monster_id = #{self.id}").count == 0
       unlock = MonsterUnlock.new
       unlock.user_id = 2
       unlock.monster_id = self.id
