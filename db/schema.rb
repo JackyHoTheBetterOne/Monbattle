@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141015015928) do
+ActiveRecord::Schema.define(version: 20141015210744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 20141015015928) do
     t.datetime "updated_at"
     t.integer  "battle_level_id"
     t.integer  "round_taken"
-    t.string   "time_taken"
+    t.string   "time_taken",      limit: nil
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
@@ -310,12 +310,15 @@ ActiveRecord::Schema.define(version: 20141015015928) do
 
   create_table "summoners", force: true do |t|
     t.string   "name"
-    t.integer  "current_lvl"
-    t.integer  "current_exp"
     t.integer  "user_id"
     t.integer  "summoner_level_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "mp",                default: 0
+    t.integer  "gp",                default: 0
+    t.integer  "current_lvl",       default: 1
+    t.integer  "current_exp",       default: 0
+    t.integer  "vortex_key",        default: 0
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree
@@ -350,8 +353,6 @@ ActiveRecord::Schema.define(version: 20141015015928) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "user_name"
-    t.integer  "currency"
-    t.integer  "paid_currency"
     t.integer  "rank"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -359,7 +360,6 @@ ActiveRecord::Schema.define(version: 20141015015928) do
     t.string   "uid"
     t.string   "provider"
     t.text     "raw_oauth_info"
-    t.integer  "gp"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

@@ -34,6 +34,7 @@ get "/store" => "home#store", as: :device_store
 
 
 root 'home#facebook'
+get 'home/roll' => "home#roll", as: :roll_path
 resources :home
 resources :admin
 resources :effects

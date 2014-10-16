@@ -10,4 +10,8 @@ class AbilityPurchase < ActiveRecord::Base
     self.where(user_id: user)
   end
 
+  def self.unlock_check(user, ability_id)
+    where(user_id: user, ability_id: ability_id)
+  end
+
 end

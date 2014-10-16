@@ -71,6 +71,14 @@ class Ability < ActiveRecord::Base
     end
   }
 
+  def self.worth(rarity)
+    where(rarity_id: Rarity.worth(rarity))
+  end
+
+  def self.find_name(id)
+    where(id: id).pluck(:name)
+  end
+
   def self.abil_avail_for_sock(user, socket_num)
     where(id: AbilityPurchase.abils_purchased(user).pluck(:ability_id),
                abil_socket_id: AbilSocket.socket(socket_num))
