@@ -12,6 +12,7 @@ class HomeController < ApplicationController
   end
 
   def store
+    @abilities = Ability.all.order(:created_at).limit(8)
   end
 
   def facebook

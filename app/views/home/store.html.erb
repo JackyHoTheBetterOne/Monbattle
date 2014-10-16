@@ -1,2 +1,12 @@
 <div class="store-front">
+  <div class="ability-latest">
+    <% @abilities.each do |a| %>
+      <div class="panel panel-default showcase store-ability-<%= a.name %>">
+        <div class="panel-body">
+          <%= a.name %>
+        </div>
+      </div>
+    <% end %> 
+  </div>
+  <button class="king-roll">Rolling in the deep</button>
 </div>
