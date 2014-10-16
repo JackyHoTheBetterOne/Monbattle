@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 20141015210744) do
     t.datetime "updated_at"
     t.integer  "battle_level_id"
     t.integer  "round_taken"
-    t.string   "time_taken",      limit: nil
+    t.string   "time_taken"
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
