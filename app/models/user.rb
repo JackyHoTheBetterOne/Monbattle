@@ -27,6 +27,8 @@ class User < ActiveRecord::Base
   validates :email, presence: {message: 'Must be entered'}
   validates :password, presence: {message: 'Must be entered'}
 
+  before_save :create_summoner
+
   def can_add_to_party?(mon_unlock)
     if self.members.count == 0 || self.members.count < 4 && self.members.where(monster_unlock_id: mon_unlock).empty?
       return true
@@ -60,6 +62,15 @@ class User < ActiveRecord::Base
                             raw_oauth_info: auth
                            )
       end
+    end
+  end
+
+  private
+  def create_summoner
+    if self.summoner == "undefined"
+      @summoner = self.summoner.new 
+      @summoner.name = self.user_name
+      @summoner.save 
     end
   end
 end

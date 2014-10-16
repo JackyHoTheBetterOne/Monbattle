@@ -26,130 +26,132 @@ class HomeController < ApplicationController
   end
 
   def roll
-    @user = current_user
-    @summoner = @user.summoner
+    rolling = Home::RollTreasure(user: current_user)
+    rolling.call
 
-    #remove ticket from current user then execute
+  #   @user = current_user
+  #   @summoner = @user.summoner
 
-    if @summoner.vortex_key <= 0
-      render text: "No keys to open this vortex, spend your life savings to buy more!"
-    else
-      @summoner.vortex_key -= 1
+  #   #remove ticket from current user then execute
 
-      roll = Random.new
-      reward_category_roll = roll.rand(1000) + 1
-      reward_level_roll = roll.rand(1000) + 1
+  #   if @summoner.vortex_key <= 0
+  #     render text: "No keys to open this vortex, spend your life savings to buy more!"
+  #   else
+  #     @summoner.vortex_key -= 1
 
-      case
+  #     roll = Random.new
+  #     reward_category_roll = roll.rand(1000) + 1
+  #     reward_level_roll = roll.rand(1000) + 1
 
-        when (1..850).include?(reward_category_roll) #85% resource
+  #     case
 
-          case
-            when (1..370).include?(reward_level_roll) #37%
-              @gp = 5
-            when (371..620).include?(reward_level_roll) #25%
-              @gp = 7
-            when (621..820).include?(reward_level_roll) #20%
-              @gp = 10
-            when (821..920).include?(reward_level_roll) #10%
-              @gp = 15
-            when (921..975).include?(reward_level_roll) #5.5%
-              @gp = 20
-            when (976..1000).include?(reward_level_roll) #2.5%
-              @gp = 30
-            else
-              return "hack attempt"
-          end
+  #       when (1..850).include?(reward_category_roll) #85% resource
 
-          @summoner.gp += @gp
-          if @summoner.save
-            render text: "You won #{@gp} Genetic Points you silly fuck"
-          else
-          end
-          #update a database with results
+  #         case
+  #           when (1..370).include?(reward_level_roll) #37%
+  #             @gp = 5
+  #           when (371..620).include?(reward_level_roll) #25%
+  #             @gp = 7
+  #           when (621..820).include?(reward_level_roll) #20%
+  #             @gp = 10
+  #           when (821..920).include?(reward_level_roll) #10%
+  #             @gp = 15
+  #           when (921..975).include?(reward_level_roll) #5.5%
+  #             @gp = 20
+  #           when (976..1000).include?(reward_level_roll) #2.5%
+  #             @gp = 30
+  #           else
+  #             return "hack attempt"
+  #         end
 
-        when (851..950).include?(reward_category_roll) #10% ability
+  #         @summoner.gp += @gp
+  #         if @summoner.save
+  #           render text: "You won #{@gp} Genetic Points you silly fuck"
+  #         else
+  #         end
+  #         #update a database with results
 
-          case
-            when (1..820).include?(reward_level_roll) #82%
-              @rarity = "common"
-            when (821..920).include?(reward_level_roll) #10%
-              @rarity = "rare"
-            when (921..970).include?(reward_level_roll) #5%
-              @rarity = "super rare"
-            when (971..995).include?(reward_level_roll) #2.5%
-              @rarity = "ultra rare"
-            when (996..1000).include?(reward_level_roll) #.5%
-              @rarity = "legendary"
-            else
-              return "hack attempt"
-          end
+  #       when (851..950).include?(reward_category_roll) #10% ability
 
-          @abilities = Ability.includes(:rarity)
-          @ability_purchases = AbilityPurchase.all
-          @summoner.save
+  #         case
+  #           when (1..820).include?(reward_level_roll) #82%
+  #             @rarity = "common"
+  #           when (821..920).include?(reward_level_roll) #10%
+  #             @rarity = "rare"
+  #           when (921..970).include?(reward_level_roll) #5%
+  #             @rarity = "super rare"
+  #           when (971..995).include?(reward_level_roll) #2.5%
+  #             @rarity = "ultra rare"
+  #           when (996..1000).include?(reward_level_roll) #.5%
+  #             @rarity = "legendary"
+  #           else
+  #             return "hack attempt"
+  #         end
 
-          @abil_array = @abilities.worth(@rarity).pluck(:id)
-          @abil_position = Random.new.rand(@abil_array.count)
-          @abil_id_won = @abil_array[@abil_position]
-          @abil_won_name = @abilities.find_name(@abil_id_won)
+  #         @abilities = Ability.includes(:rarity)
+  #         @ability_purchases = AbilityPurchase.all
+  #         @summoner.save
 
-          if @ability_purchases.unlock_check(@user, @abil_id_won).exists?
-            render text: "You already own the ability #{@abil_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"
-          else
-            @ability_purchase = AbilityPurchase.new
-            @ability_purchase.user_id = @user.id
-            @ability_purchase.ability_id = @abil_id_won
-            @ability_purchase.save
-            render text: "You unlocked ability #{@abil_won_name} that has rarity #{@rarity}!"
-          end
+  #         @abil_array = @abilities.worth(@rarity).pluck(:id)
+  #         @abil_position = Random.new.rand(@abil_array.count)
+  #         @abil_id_won = @abil_array[@abil_position]
+  #         @abil_won_name = @abilities.find_name(@abil_id_won)
 
-        when (951..1000).include?(reward_category_roll) #5% monsters
+  #         if @ability_purchases.unlock_check(@user, @abil_id_won).exists?
+  #           render text: "You already own the ability #{@abil_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"
+  #         else
+  #           @ability_purchase = AbilityPurchase.new
+  #           @ability_purchase.user_id = @user.id
+  #           @ability_purchase.ability_id = @abil_id_won
+  #           @ability_purchase.save
+  #           render text: "You unlocked ability #{@abil_won_name} that has rarity #{@rarity}!"
+  #         end
 
-          case
-            when (1..820).include?(reward_level_roll) #82%
-              @rarity = "common"
-            when (821..920).include?(reward_level_roll) #10%
-              @rarity = "rare"
-            when (921..970).include?(reward_level_roll) #5%
-              @rarity = "super rare"
-            when (971..995).include?(reward_level_roll) #2.5%
-              @rarity = "ultra rare"
-            when (996..1000).include?(reward_level_roll) #.5%
-              @rarity = "legendary"
-            else
-              return "hack attempt"
-          end
+  #       when (951..1000).include?(reward_category_roll) #5% monsters
 
-            @monsters = Monster.base_mon #includes(:rarity)
-            @monster_unlocks = MonsterUnlock.all
-            @summoner.save
+  #         case
+  #           when (1..820).include?(reward_level_roll) #82%
+  #             @rarity = "common"
+  #           when (821..920).include?(reward_level_roll) #10%
+  #             @rarity = "rare"
+  #           when (921..970).include?(reward_level_roll) #5%
+  #             @rarity = "super rare"
+  #           when (971..995).include?(reward_level_roll) #2.5%
+  #             @rarity = "ultra rare"
+  #           when (996..1000).include?(reward_level_roll) #.5%
+  #             @rarity = "legendary"
+  #           else
+  #             return "hack attempt"
+  #         end
 
-            @mon_array = @monsters.worth(@rarity).pluck(:id)
-            @mon_position = Random.new.rand(@mon_array.count)
-            @mon_id_won = @mon_array[@mon_position]
-            @mon_won_name = @monsters.find_name(@mon_id_won)
+  #           @monsters = Monster.base_mon #includes(:rarity)
+  #           @monster_unlocks = MonsterUnlock.all
+  #           @summoner.save
 
-            #create_reward
+  #           @mon_array = @monsters.worth(@rarity).pluck(:id)
+  #           @mon_position = Random.new.rand(@mon_array.count)
+  #           @mon_id_won = @mon_array[@mon_position]
+  #           @mon_won_name = @monsters.find_name(@mon_id_won)
 
-            if @monster_unlocks.unlock_check(@user, @mon_id_won).exists?
-              render text: "You already own the monster #{@mon_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"
-            else
-              @monster_unlock = MonsterUnlock.new
-              @monster_unlock.user_id = @user.id
-              @monster_unlock.monster_id = @mon_id_won
-              @monster_unlock.save
-              render text: "You unlocked monster #{@mon_won_name} that has rarity #{@rarity}!"
-            end
+  #           #create_reward
 
-        else
-          return "hack attempt"
+  #           if @monster_unlocks.unlock_check(@user, @mon_id_won).exists?
+  #             render text: "You already own the monster #{@mon_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"
+  #           else
+  #             @monster_unlock = MonsterUnlock.new
+  #             @monster_unlock.user_id = @user.id
+  #             @monster_unlock.monster_id = @mon_id_won
+  #             @monster_unlock.save
+  #             render text: "You unlocked monster #{@mon_won_name} that has rarity #{@rarity}!"
+  #           end
+  #       else
+  #         return "hack attempt"
 
-      end
+  #     end
 
-    end #Ending the if/else statement for vortex key check
+  #   end #Ending the if/else statement for vortex key check
 
-  end
+  # end
 
   private
 
