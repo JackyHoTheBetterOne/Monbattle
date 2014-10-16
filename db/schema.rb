@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20141015210744) do
     t.string   "portrait_content_type"
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
-    t.integer  "rarity_id"
     t.text     "keywords"
+    t.integer  "rarity_id"
   end
 
   add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree
@@ -250,8 +250,8 @@ ActiveRecord::Schema.define(version: 20141015210744) do
     t.integer  "evolve_animation_file_size"
     t.datetime "evolve_animation_updated_at"
     t.integer  "personality_id"
-    t.integer  "rarity_id"
     t.text     "keywords"
+    t.integer  "rarity_id"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
