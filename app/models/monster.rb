@@ -52,6 +52,14 @@ class Monster < ActiveRecord::Base
     find_by_id(monster).job.abilities
   end
 
+  def self.worth(rarity)
+    where(rarity_id: Rarity.worth(rarity))
+  end
+
+  def self.find_name(id)
+    where(id: id).pluck(:name)
+  end
+
   def self.base_mon
     where(evolved_from_id: 0)
   end

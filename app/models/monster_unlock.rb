@@ -25,6 +25,10 @@ class MonsterUnlock < ActiveRecord::Base
     self.abilities.where
   end
 
+  def self.unlock_check(user, monster_id)
+    where(user_id: user, monster_id: monster_id)
+  end
+
   def speech
     self.monster.thoughts.map(&:comment)
   end
