@@ -25,9 +25,9 @@ class HomeController < ApplicationController
   def illegal_access
   end
 
-  def roll
-    rolling = Home::RollTreasure(user: current_user)
-    rolling.call
+  # def roll
+  #   rolling = Home::RollTreasure(user: current_user)
+  #   rolling.call
 
   #   @user = current_user
   #   @summoner = @user.summoner

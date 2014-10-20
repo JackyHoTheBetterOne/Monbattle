@@ -42,8 +42,53 @@ class BattlesController < ApplicationController
   end
 
   def update
-    #update victory status at end of battle
+    @battle.outcome = "complete"
+    if @battle.save
+      BattleReward.new(winner_id: winner_id, loser_id: loser_id, battle_id: @battle.id, npc_id: npc_id,
+                      gp_reward: @battle.battle_level.mp_reward, mp_reward: @battle.battle_level.mp_reward,
+                      )
+    else
+      #raise_expection
+    end
   end
+
+    class BattleReward
+
+      def initialize(args)
+        @winner_id = args[:winner_id]
+        @loser_id = args[:loser_id]
+        @battle_id = args[:battle_id]
+        @npc_id = args[:npc_id]
+        @mp_reward = args[:mp_reward]
+        @gp_reward = args[:gp_reward]
+        @summoner = args[:summoner]
+
+        self.reward
+      end
+
+      def reward
+        if @winner_id == npc_id
+          self.winner
+          self.loser
+        else
+
+        end
+      end
+
+      def winner
+      end
+
+      def loser
+      end
+
+    end
+
+    # if @victorious_user.user_name != "NPC"
+    #   @mp_reward = @battle.battle_level.mp_reward
+    #   @gp_reward = @battle.battle_level.gp_reward
+    #   @victorious_user.summoner.give_reward(@gp_reward, @mp_reward)
+    # else
+    # end
 
   def destroy
     if @battle.destroy
@@ -71,3 +116,4 @@ class BattlesController < ApplicationController
   end
 
 end
+
