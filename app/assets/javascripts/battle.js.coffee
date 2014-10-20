@@ -328,6 +328,14 @@ window.outcome = ->
     $("body").on "click", ->
       $("#overlay").fadeOut(500)
       disable($(".end-turn"))
+    $.ajax
+      url: "http://localhost:3000/battles/" + battle.id
+      method: "patch"
+      data: {'outcome': 'Victory'}
+    $.ajax
+      url: "http://localhost:3000/summoners/" + battle.summoner_id
+      method: 'patch'
+      data: {'mp': battle.reward_point}
   return
 
 window.checkApAvailbility = ->
