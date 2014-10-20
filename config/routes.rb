@@ -34,12 +34,13 @@ get "/store" => "home#store", as: :device_store
 
 
 root 'home#facebook'
-get 'home/roll' => "home#roll", as: :roll_path
+get 'home/roll' => "home#roll", as: :roll
 resources :home
 resources :admin
 resources :effects
 resources :parties
 resources :battle_levels
+resources :users
 
 resources :battles do
   collection do

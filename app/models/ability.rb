@@ -50,8 +50,8 @@ class Ability < ActiveRecord::Base
 
   default_scope { order('abil_socket_id') }
   before_save :set_keywords
-  before_save :unlock_for_admin
-  before_save :unlock_for_npc
+  after_save :unlock_for_admin
+  after_save :unlock_for_npc
 
   scope :search, -> (keyword) {
     if keyword.present?
@@ -136,7 +136,7 @@ class Ability < ActiveRecord::Base
   end
 
   def unlock_for_admin
-    if AbilityPurchase.where("user_id = 1 AND ability_id = #{self.id}").count == 0
+    if AbilityPurchase.where(user_id: 1, ability_id: self.id).count == 0
       unlock = AbilityPurchase.new
       unlock.user_id = 1
       unlock.ability_id = self.id
@@ -145,7 +145,7 @@ class Ability < ActiveRecord::Base
   end
 
   def unlock_for_npc
-    if AbilityPurchase.where("user_id = 2 AND ability_id = #{self.id}").count == 0
+    if AbilityPurchase.where(user_id: 1, ability_id: self.id).count == 0
       unlock = AbilityPurchase.new
       unlock.user_id = 2
       unlock.ability_id = self.id

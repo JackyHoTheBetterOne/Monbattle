@@ -12,7 +12,7 @@ class HomeController < ApplicationController
   end
 
   def store
-    @abilities = Ability.all.order(:created_at).limit(8)
+    @abilities = Ability.all.order(:created_at).limit(4)
   end
 
   def facebook
@@ -26,8 +26,16 @@ class HomeController < ApplicationController
   end
 
   def roll
-    rolling = Home::RollTreasure(user: current_user)
+    rolling = RollTreasure.new(user: current_user)
     rolling.call
+    if rolling.message
+      render text: rolling.message
+    else
+      flash[:alert] = "Something went wrong. It's your fault."
+      redirect_to device_store_path
+    end
+  end
+
 
   #   @user = current_user
   #   @summoner = @user.summoner
