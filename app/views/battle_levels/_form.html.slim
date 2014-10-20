@@ -1,7 +1,8 @@
 =simple_form_for(@battle_level) do |f|
   div class="form-group"
     =f.input :name
-    =f.input :item_given
+    =f.input :mp_reward
+    =f.input :gp_reward
     =f.input :exp_given
     =f.label "Level Background"
     =f.file_field :background

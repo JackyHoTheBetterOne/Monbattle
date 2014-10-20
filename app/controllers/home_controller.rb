@@ -35,7 +35,10 @@ class HomeController < ApplicationController
       redirect_to device_store_path
     end
   end
-
+  
+  # def roll
+  #   rolling = Home::RollTreasure(user: current_user)
+  #   rolling.call
 
   #   @user = current_user
   #   @summoner = @user.summoner
