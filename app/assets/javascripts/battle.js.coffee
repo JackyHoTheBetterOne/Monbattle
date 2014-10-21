@@ -320,6 +320,13 @@ window.outcome = ->
     $("body").on "click", ->
       $("#overlay").fadeOut(500)
       disable($(".end-turn"))
+    $.ajax
+      url: "http://localhost:3000/battles/" + battle.id
+      method: "patch"
+      data: {
+        'victor': battle.players[1].user_name,
+        'loser': battle.players[0].user_name
+      }
   else if battle.players[1].mons.every(isTeamDead) is true
     $(".message").text("You won! Now play another round cause you are good at this and nothing else").
       append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
@@ -331,11 +338,10 @@ window.outcome = ->
     $.ajax
       url: "http://localhost:3000/battles/" + battle.id
       method: "patch"
-      data: {'outcome': 'Victory'}
-    $.ajax
-      url: "http://localhost:3000/summoners/" + battle.summoner_id
-      method: 'patch'
-      data: {'mp': battle.reward_point}
+      data: {
+        'victor': battle.players[0].user_name,
+        'loser': battle.players[1].user_name
+      }
   return
 
 window.checkApAvailbility = ->

@@ -13,6 +13,10 @@ class HomeController < ApplicationController
 
   def store
     @abilities = Ability.all.order(:created_at).limit(4)
+    respond_to do |format|
+      format.html
+      format.json { render json: @abilities }
+    end
   end
 
   def facebook

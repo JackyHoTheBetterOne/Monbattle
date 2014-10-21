@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   validates :email, presence: {message: 'Must be entered'}
   # validates :password, presence: {message: 'Must be entered'}
 
-  before_save :create_summoner
+  after_save :create_summoner
 
   def can_add_to_party?(mon_unlock)
     if self.members.count == 0 || self.members.count < 4 && self.members.where(monster_unlock_id: mon_unlock).empty?
