@@ -21,8 +21,8 @@
               th Socket #
               th Animation
               th Portrait
-              / th Store Price
-              / th Price
+              th MP Cost
+              th GP Cost
               th Rarity
               th Delete/Edit
               th Lock/Unlock
@@ -41,16 +41,12 @@
               td=ability.abil_socket.socket_num
               td=image_tag ability.image.url(:thumb)
               td=image_tag ability.portrait.url(:thumb)
-              / td=ability.store_price
-              / td=ability.price
-              td
-                -if ability.rarity.nil?
-                -else
-                  =ability.rarity.name
+              td=ability.mp_cost
+              td=ability.gp_cost
+              td=ability.rarity.try(:name)
               td
                 =render partial: "admin/modal_button", locals: {modal_label: "abilityLabel_#{dom_id(ability)}", modal_id: "abilityModal_#{dom_id(ability)}", form_is_for: "abilities/form", button_name: "Edit", form_title: "Edit Ability"}
                 br=link_to "Delete", ability, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger"
-                / =link_to "Edit", edit_ability_path(ability), data: {confirm: "This will unequip this ability from all monsters using it!"}, class: "btn btn-sm btn-warning"
               td id="unlock_#{dom_id(ability)}"
                 =render partial: "ability_purchases/ability_purchase", locals: {ability: ability, ability_purchase: @ability_purchase}
 

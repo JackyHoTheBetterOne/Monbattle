@@ -28,14 +28,16 @@ class BattleLevelsController < ApplicationController
     authorize @battle_level
     @battle_level.update_attributes(battle_level_params)
     if @battle_level.save
-      redirect_to parties_index_path, notice: "Success!"
+      redirect_to parties_path, notice: "Success!"
+    else
+      render :new
     end
   end
 
 private
 
   def battle_level_params
-    params.require(:battle_level).permit(:name, :item_given, :exp_given, :background)
+    params.require(:battle_level).permit(:name, :item_given, :exp_given, :background, :gp_reward, :mp_reward)
   end
 
   def find_battle_level

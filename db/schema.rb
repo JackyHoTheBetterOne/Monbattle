@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141015210744) do
+ActiveRecord::Schema.define(version: 20141020045626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,9 +25,7 @@ ActiveRecord::Schema.define(version: 20141015210744) do
   create_table "abilities", force: true do |t|
     t.string   "name"
     t.integer  "ap_cost"
-    t.integer  "store_price"
     t.integer  "min_level"
-    t.integer  "price"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "description"
@@ -44,8 +42,10 @@ ActiveRecord::Schema.define(version: 20141015210744) do
     t.string   "portrait_content_type"
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
-    t.text     "keywords"
     t.integer  "rarity_id"
+    t.text     "keywords"
+    t.integer  "mp_cost"
+    t.integer  "gp_cost"
   end
 
   add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree
@@ -95,7 +95,6 @@ ActiveRecord::Schema.define(version: 20141015210744) do
   add_index "ability_restrictions", ["job_id"], name: "index_ability_restrictions_on_job_id", using: :btree
 
   create_table "battle_levels", force: true do |t|
-    t.string   "item_given"
     t.integer  "exp_given"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -104,6 +103,8 @@ ActiveRecord::Schema.define(version: 20141015210744) do
     t.string   "background_content_type"
     t.integer  "background_file_size"
     t.datetime "background_updated_at"
+    t.integer  "mp_reward",               default: 0
+    t.integer  "gp_reward",               default: 0
   end
 
   create_table "battles", force: true do |t|
@@ -162,6 +163,7 @@ ActiveRecord::Schema.define(version: 20141015210744) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "party_id"
+    t.boolean  "winner",     default: false
   end
 
   add_index "fights", ["battle_id"], name: "index_fights_on_battle_id", using: :btree
@@ -185,16 +187,14 @@ ActiveRecord::Schema.define(version: 20141015210744) do
   add_index "members", ["party_id"], name: "index_members_on_party_id", using: :btree
 
   create_table "monster_skin_equippings", force: true do |t|
-    t.integer  "monster_id"
     t.integer  "monster_skin_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
+    t.integer  "monster_unlock_id"
   end
 
-  add_index "monster_skin_equippings", ["monster_id"], name: "index_monster_skin_equippings_on_monster_id", using: :btree
   add_index "monster_skin_equippings", ["monster_skin_id"], name: "index_monster_skin_equippings_on_monster_skin_id", using: :btree
-  add_index "monster_skin_equippings", ["user_id"], name: "index_monster_skin_equippings_on_user_id", using: :btree
+  add_index "monster_skin_equippings", ["monster_unlock_id"], name: "index_monster_skin_equippings_on_monster_unlock_id", using: :btree
 
   create_table "monster_skin_purchases", force: true do |t|
     t.integer  "user_id"
@@ -250,8 +250,10 @@ ActiveRecord::Schema.define(version: 20141015210744) do
     t.integer  "evolve_animation_file_size"
     t.datetime "evolve_animation_updated_at"
     t.integer  "personality_id"
-    t.text     "keywords"
     t.integer  "rarity_id"
+    t.text     "keywords"
+    t.integer  "mp_cost"
+    t.integer  "gp_cost"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
