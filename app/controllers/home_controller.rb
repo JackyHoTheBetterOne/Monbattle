@@ -28,6 +28,7 @@ class HomeController < ApplicationController
   def roll
     rolling = Home::RollTreasure(user: current_user)
     rolling.call
+  end
 
   #   @user = current_user
   #   @summoner = @user.summoner
