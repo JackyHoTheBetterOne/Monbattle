@@ -50,8 +50,8 @@ class Ability < ActiveRecord::Base
 
   default_scope { order('abil_socket_id') }
   before_save :set_keywords
-  before_save :unlock_for_admin
-  before_save :unlock_for_npc
+  after_save :unlock_for_admin
+  after_save :unlock_for_npc
 
   scope :search, -> (keyword) {
     if keyword.present?
@@ -70,6 +70,14 @@ class Ability < ActiveRecord::Base
       joins(:effects).where("effects.keywords LIKE ?", "%#{effect.downcase}%")
     end
   }
+
+  def self.default_sock1
+    find_by
+  end
+
+  def self.default_sock1
+  end
+
 
   def self.worth(rarity)
     where(rarity_id: Rarity.worth(rarity))
@@ -132,7 +140,7 @@ class Ability < ActiveRecord::Base
 
   def set_keywords
     self.keywords = [name, description, self.targeta, self.stat_target.name, self.element.name].map(&:downcase).
-                      concat([ap_cost, stat_change, price]).join(" ")
+                      concat([ap_cost, stat_change]).join(" ")
   end
 
   def unlock_for_admin

@@ -1,7 +1,7 @@
 class Monster < ActiveRecord::Base
   before_save :set_keywords
-  before_save :unlock_for_admin
-  before_save :unlock_for_npc
+  after_save :unlock_for_admin
+  after_save :unlock_for_npc
 
   default_scope{ order('updated_at desc') }
 

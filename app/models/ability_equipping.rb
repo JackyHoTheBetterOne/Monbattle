@@ -7,8 +7,19 @@ class AbilityEquipping < ActiveRecord::Base
 
   validates :monster_unlock, presence: {message: 'Must be entered'}
 
+  def default_abil_socket1
+    Ability.
+  end
+
+  def default_abil_socket2
+    Ability.
+  end
+
+
   def self.record_find(monster_unlock, ability)
     find_by(monster_unlock_id: monster_unlock, ability_id: ability)
   end
+
+
 
 end

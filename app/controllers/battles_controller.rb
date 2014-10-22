@@ -44,51 +44,46 @@ class BattlesController < ApplicationController
   def update
     @battle.outcome = "complete"
     if @battle.save
-      BattleReward.new(winner_id: winner_id, loser_id: loser_id, battle_id: @battle.id, npc_id: npc_id,
-                      gp_reward: @battle.battle_level.mp_reward, mp_reward: @battle.battle_level.mp_reward,
-                      )
+      BattleReward.new(winner_id: winner_id, loser_id: loser_id, npc_id: npc_id, winning_summoner: @winning_summoner,
+                      gp_reward: @battle.battle_level.mp_reward, mp_reward: @battle.battle_level.mp_reward)
+      #redirect somewhere
     else
       #raise_expection
+      #redirect somewhere
     end
   end
 
+    # BattleReward.new(winner_id: 1, loser_id: 2, npc_id: 2, winning_summoner: s,
+    #                   gp_reward: 100, mp_reward: 100)
+
     class BattleReward
+      attr_reader :winner_id, :loser_id, :npc_id, :mp_reward, :gp_reward, :winning_summoner
 
       def initialize(args)
-        @winner_id = args[:winner_id]
-        @loser_id = args[:loser_id]
-        @battle_id = args[:battle_id]
-        @npc_id = args[:npc_id]
-        @mp_reward = args[:mp_reward]
-        @gp_reward = args[:gp_reward]
-        @summoner = args[:summoner]
+        @winner_id        = args[:winner_id]
+        @loser_id         = args[:loser_id]
+        @npc_id           = args[:npc_id]
+        @mp_reward        = args[:mp_reward]
+        @gp_reward        = args[:gp_reward]
+        @winning_summoner = args[:winning_summoner]
 
-        self.reward
-      end
-
-      def reward
-        if @winner_id == npc_id
-          self.winner
-          self.loser
-        else
-
-        end
+        self.winner
       end
 
       def winner
+        if @winner_id == npc_id
+        else
+          self.reward
+        end
       end
 
-      def loser
+      def reward
+        @winning_summoner.mp += mp_reward
+        @winning_summoner.gp += gp_reward
+        @winning_summoner.save
       end
 
     end
-
-    # if @victorious_user.user_name != "NPC"
-    #   @mp_reward = @battle.battle_level.mp_reward
-    #   @gp_reward = @battle.battle_level.gp_reward
-    #   @victorious_user.summoner.give_reward(@gp_reward, @mp_reward)
-    # else
-    # end
 
   def destroy
     if @battle.destroy
