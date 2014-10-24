@@ -39,7 +39,9 @@ class Battle < ActiveRecord::Base
 
   private
   def generate_code
-    self.id_code = SecureRandom.uuid
+    if !self.id_code
+      self.id_code = SecureRandom.uuid
+    end
   end
 
 end

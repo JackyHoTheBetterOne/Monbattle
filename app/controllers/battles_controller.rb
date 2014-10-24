@@ -43,14 +43,17 @@ class BattlesController < ApplicationController
 
   def update
     @battle.outcome = "complete"
-    if @battle.save
-      BattleReward.new(winner_id: winner_id, loser_id: loser_id, npc_id: npc_id, winning_summoner: @winning_summoner,
-                      gp_reward: @battle.battle_level.mp_reward, mp_reward: @battle.battle_level.mp_reward)
-      #redirect somewhere
-    else
-      #raise_expection
-      #redirect somewhere
-    end
+    @battle.update_attributes(battle_params)
+    @battle.save
+    render nothing: true
+    # if @battle.save
+    #   BattleReward.new(winner_id: winner_id, loser_id: loser_id, npc_id: npc_id, winning_summoner: @winning_summoner,
+    #                   gp_reward: @battle.battle_level.mp_reward, mp_reward: @battle.battle_level.mp_reward)
+    #   redirect somewhere
+    # else
+    #   raise_expection
+    #   redirect somewhere
+    # end
   end
 
     # BattleReward.new(winner_id: 1, loser_id: 2, npc_id: 2, winning_summoner: s,
@@ -102,7 +105,7 @@ class BattlesController < ApplicationController
   private
 
   def battle_params
-    params.require(:battle).permit(:outcome, :battle_level_id)
+    params.require(:battle).permit(:outcome, :battle_level_id, :victor, :loser)
   end
 
   def find_battle
