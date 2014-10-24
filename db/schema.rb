@@ -42,8 +42,8 @@ ActiveRecord::Schema.define(version: 20141020045626) do
     t.string   "portrait_content_type"
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
-    t.integer  "rarity_id"
     t.text     "keywords"
+    t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
   end
@@ -187,14 +187,16 @@ ActiveRecord::Schema.define(version: 20141020045626) do
   add_index "members", ["party_id"], name: "index_members_on_party_id", using: :btree
 
   create_table "monster_skin_equippings", force: true do |t|
+    t.integer  "monster_id"
     t.integer  "monster_skin_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "monster_unlock_id"
+    t.integer  "user_id"
   end
 
+  add_index "monster_skin_equippings", ["monster_id"], name: "index_monster_skin_equippings_on_monster_id", using: :btree
   add_index "monster_skin_equippings", ["monster_skin_id"], name: "index_monster_skin_equippings_on_monster_skin_id", using: :btree
-  add_index "monster_skin_equippings", ["monster_unlock_id"], name: "index_monster_skin_equippings_on_monster_unlock_id", using: :btree
+  add_index "monster_skin_equippings", ["user_id"], name: "index_monster_skin_equippings_on_user_id", using: :btree
 
   create_table "monster_skin_purchases", force: true do |t|
     t.integer  "user_id"
@@ -250,8 +252,8 @@ ActiveRecord::Schema.define(version: 20141020045626) do
     t.integer  "evolve_animation_file_size"
     t.datetime "evolve_animation_updated_at"
     t.integer  "personality_id"
-    t.integer  "rarity_id"
     t.text     "keywords"
+    t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
   end
