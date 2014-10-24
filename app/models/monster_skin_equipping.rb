@@ -17,10 +17,11 @@ class MonsterSkinEquipping < ActiveRecord::Base
     @monster_skin_equipping.user_id =  @user_id
     @monster_skin_equipping.monster_id = @monster_id
     @monster_skin_equipping.monster_skin_id = @monster_skin_id
+    @monster_skin_equipping.save
   end
 
-  def self.default_equip(args={})
-    @monster_skin_id = find_default_skin_id
+  def self.default_equip(args = {})
+    @monster_skin_id = self.find_default_skin_id
     @user_id         = args[:user_id]
     @monster_id      = args[:monster_id]
 

@@ -71,6 +71,8 @@ class Ability < ActiveRecord::Base
     end
   }
 
+#####################################################
+
   def self.find_socket_id(sock_num)
     AbilSocket.socket_id(sock_num)
   end
@@ -91,6 +93,8 @@ class Ability < ActiveRecord::Base
     @ability_name = self.find_default_name(sock_num)
     where(name: @ability_name, abil_socket_id: @socket_id).first.id
   end
+
+  #################################################################
 
   def self.worth(rarity)
     where(rarity_id: Rarity.worth(rarity))
