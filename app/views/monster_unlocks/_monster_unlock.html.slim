@@ -5,7 +5,6 @@
       .form-control =f.collection_select :user_id, User.all, :id, :user_name
     -else
       .form-control =f.collection_select :user_id, User.where("users.id NOT IN (?)", monster.monster_unlocked_users.collect(&:id)), :id, :user_name
-    / =f.hidden_field :monster_id, value: "#{monster.id}"
     =f.submit "Unlock Monster", class: 'btn btn-sm btn-primary'
 -if monster.monster_unlocked_users.empty?
   h5 Already Locked Out For All Users

@@ -71,13 +71,26 @@ class Ability < ActiveRecord::Base
     end
   }
 
-  def self.default_sock1
-    find_by
+  def self.find_socket_id(sock_num)
+    AbilSocket.socket_id(sock_num)
   end
 
-  def self.default_sock1
+  def self.find_default_name(sock_num)
+    case sock_num
+      when 1
+        "Bitch Slap"
+      when 2
+        "Groin Kick"
+      else
+        raise exception
+    end
   end
 
+  def self.default_socket_id(sock_num)
+    @socket_id = self.find_socket_id(sock_num)
+    @ability_name = self.find_default_name(sock_num)
+    where(name: @ability_name, abil_socket_id: @socket_id).first.id
+  end
 
   def self.worth(rarity)
     where(rarity_id: Rarity.worth(rarity))

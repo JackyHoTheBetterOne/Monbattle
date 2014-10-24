@@ -9,4 +9,8 @@ class AbilSocket < ActiveRecord::Base
     self.find_by_socket_num(socket_num)
   end
 
+  def self.socket_id(socket_num)
+    self.find_by_socket_num(socket_num).id
+  end
+
 end
