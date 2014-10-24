@@ -1,15 +1,17 @@
 class Battle < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :id_code
   belongs_to :battle_level
-
   has_many :fights, dependent: :destroy
   has_many :parties, through: :fights
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
+  before_save :generate_code
 
   def build_json
     battle_json = {}
     battle_json[:background] = self.background
-    battle_json[:battle_id] = self.id
+    battle_json[:battle_id] = self.id_code
     battle_json[:reward] = self.battle_level.mp_reward
     battle_json[:players] = []
     # self.users.each do |user|
@@ -33,6 +35,11 @@ class Battle < ActiveRecord::Base
 
   def background
     self.battle_level.background.url(:large)
+  end
+
+  private
+  def generate_code
+    self.id_code = SecureRandom.uuid
   end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141023211920) do
+ActiveRecord::Schema.define(version: 20141024213141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,8 +42,8 @@ ActiveRecord::Schema.define(version: 20141023211920) do
     t.string   "portrait_content_type"
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
-    t.integer  "rarity_id"
     t.text     "keywords"
+    t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
   end
@@ -114,9 +114,12 @@ ActiveRecord::Schema.define(version: 20141023211920) do
     t.integer  "battle_level_id"
     t.integer  "round_taken"
     t.string   "time_taken"
+    t.string   "id_code"
+    t.string   "slug"
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
+  add_index "battles", ["slug"], name: "index_battles_on_slug", unique: true, using: :btree
 
   create_table "effects", force: true do |t|
     t.string   "name"
@@ -169,6 +172,19 @@ ActiveRecord::Schema.define(version: 20141023211920) do
   add_index "fights", ["battle_id"], name: "index_fights_on_battle_id", using: :btree
   add_index "fights", ["party_id"], name: "index_fights_on_party_id", using: :btree
 
+  create_table "friendly_id_slugs", force: true do |t|
+    t.string   "slug",                      null: false
+    t.integer  "sluggable_id",              null: false
+    t.string   "sluggable_type", limit: 50
+    t.string   "scope"
+    t.datetime "created_at"
+  end
+
+  add_index "friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
   create_table "jobs", force: true do |t|
     t.string   "name"
     t.string   "evolve_lvl"
@@ -187,11 +203,11 @@ ActiveRecord::Schema.define(version: 20141023211920) do
   add_index "members", ["party_id"], name: "index_members_on_party_id", using: :btree
 
   create_table "monster_skin_equippings", force: true do |t|
+    t.integer  "monster_id"
     t.integer  "monster_skin_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.integer  "monster_id"
   end
 
   add_index "monster_skin_equippings", ["monster_id"], name: "index_monster_skin_equippings_on_monster_id", using: :btree
@@ -252,8 +268,8 @@ ActiveRecord::Schema.define(version: 20141023211920) do
     t.integer  "evolve_animation_file_size"
     t.datetime "evolve_animation_updated_at"
     t.integer  "personality_id"
-    t.integer  "rarity_id"
     t.text     "keywords"
+    t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
     t.integer  "physical_resistance"

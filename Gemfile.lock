@@ -100,6 +100,8 @@ GEM
       multipart-post (>= 1.2, < 3)
     font-awesome-rails (4.2.0.0)
       railties (>= 3.2, < 5.0)
+    friendly_id (5.0.4)
+      activerecord (>= 4.0.0)
     fssm (0.2.10)
     hashie (3.3.1)
     hike (1.2.3)
@@ -243,6 +245,7 @@ DEPENDENCIES
   compass-rails
   devise
   font-awesome-rails
+  friendly_id
   hirb
   jbuilder (~> 2.0)
   jquery-rails

@@ -50,6 +50,8 @@ gem 'spring',        group: :development
 
 gem "better_errors", group: :development
 
+gem 'friendly_id'
+
 if ENV['RAILS_ENV']
   require 'rubygems'
   require 'hirb'

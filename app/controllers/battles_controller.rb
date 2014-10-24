@@ -106,7 +106,7 @@ class BattlesController < ApplicationController
   end
 
   def find_battle
-    @battle = Battle.find params[:id]
+    @battle = Battle.friendly.find params[:id]
     @battle.parties = @battle.parties.order(:npc)
   end
 
