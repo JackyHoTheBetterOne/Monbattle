@@ -1,14 +1,17 @@
-class Home::RollTreasure
+class RollTreasure
   include Virtus.model
 
   attribute :user, User 
+  attribute :message
+
 
   def call
-    @summoner = user.summoner
+    @summoner = user.summoner             
     if @summoner.vortex_key <= 0 
-      render text: "You ain't got no vortex key. Get more to roll."
+      self.message = "You ain't got no vortex key. Get more to roll."
+      return self.message
     else 
-      @summoner.vortex_key -= 0 
+      @summoner.vortex_key -= 1
       roll = Random.new
       reward_category_roll = roll.rand(1000)+1
       reward_level_roll = roll.rand(1000)+1
@@ -34,9 +37,10 @@ class Home::RollTreasure
           @summoner.gp += @gp 
 
           if @summoner.save
-            render text: "You won #{@gp} Genetic Points you stupid fuck"
+            self.message = "You won #{@gp} Genetic Points you stupid fuck"
+            return self.message
           else
-            render text: "Cannot transfer the price to the summoner"
+            return false
           end
 
         when (851..950).include?(reward_category_roll) #10% ability
@@ -63,13 +67,14 @@ class Home::RollTreasure
           @abil_won_name = @abilities.find_name(@abil_id_won)
 
           if @ability_purchases.unlock_check(@user, @abil_id_won).exists?
-            render text: "You already own the ability #{@abil_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"
+            self.message =  "You already own the ability #{@abil_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"
+            return self.message
           else 
             @ability_purchase = AbilityPurchase.new
             @ability_purchase.user_id = @user.id
             @ability_purchase.ability_id = @abil_id_won
             @ability_purchase.save
-            render text: "You unlocked ability #{@abil_won_name} that has rarity #{@rarity}!"
+            return "You unlocked ability #{@abil_won_name} that has rarity #{@rarity}!"
           end
 
         when (951..1000).include?(reward_category_roll) #5% monsters
@@ -97,19 +102,19 @@ class Home::RollTreasure
           #create_reward
 
           if @monster_unlocks.unlock_check(@user, @mon_id_won).exists?
-            render text: "You already own the monster #{@mon_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"
+            self.message =  "You already own the monster #{@mon_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"
+            return self.message
           else
             @monster_unlock = MonsterUnlock.new
             @monster_unlock.user_id = @user.id
             @monster_unlock.monster_id = @mon_id_won
             @monster_unlock.save
-            render text: "You unlocked monster #{@mon_won_name} that has rarity #{@rarity}!"
+            self.message = "You unlocked monster #{@mon_won_name} that has rarity #{@rarity}!"
+            return self.message
           end
         else
           return false
       end
     end
   end
-      
-
 end

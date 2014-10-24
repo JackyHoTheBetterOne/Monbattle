@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
 @import url("https://fonts.googleapis.com/css?family=Sigmar+One");
+@import "compass";
 
-$theme-background-color: rgba(10, 170, 230, 0.70);
+$theme-background-color: rgba(32, 32, 32, 0.9);
 
 @mixin flipped() {
   -moz-transform: scaleX(-1);
@@ -115,15 +116,15 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   position: absolute;
   height: 100px;
   width: 420px;
-  color: black;
+  color: white;
 
   .mon {
+    @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
     display: inline-block;
     width: 153px;
     height: 40px;
     margin-top: 4px;
     margin-left: 4px;
-    background: $theme-background-color;
     border-radius: 5px;
 
     .num {
@@ -206,7 +207,7 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
     left: 30%;
     z-index: 1000000000;
     border-radius: 10px;
-    background: $theme-background-color;
+    @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
   };
 };
 
@@ -225,16 +226,18 @@ $theme-background-color: rgba(10, 170, 230, 0.70);
   top: 220px;
   left: 395px;
   width: 150px;
-  background: rgba(250,184,19,0.65);
+  color: white;
+  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
 };
 
 .battle-message {
-  background: rgba(235, 22, 22, 0.75);
+  color: white;
+  background: rgba(235, 22, 22, 0.9);
 };
 
 .cancel {
-  background: rgba(235, 22, 22, 0.75) !important;
-  border-color: rgba(235, 22, 22, 0.75) !important;
+  background: rgba(235, 22, 22, 0.9) !important;
+  border-color: rgba(235, 22, 22, 0.9) !important;
   border-radius: 5px;
   position: absolute;
   top: 289px;
@@ -289,7 +292,7 @@ body {
   };
   .end-turn {
     position: absolute;
-    background: $theme-background-color;
+    @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
     height: 50px;
     width: 115px;
     top: 87%;
@@ -297,7 +300,7 @@ body {
     font-size: 120%;
     font-weight: bold;
     border-color: $theme-background-color;
-    color: black;
+    color: white;
     border-radius: 5px;
   };
 
@@ -313,8 +316,8 @@ body {
 
   .ap {
     position: absolute;
-    color: black;
-    background: $theme-background-color;
+    color: white;
+    @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
     height: 50px;
     width: 155px;
     top: 87%;
@@ -488,7 +491,7 @@ body {
     button {
       width: 65px;
       height: 40px;
-      background: $theme-background-color;
+      @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
       border-color: $theme-background-color;
       border-radius: 5px;
     };
@@ -500,14 +503,14 @@ body {
     width: 260px;
     z-index: 1500;
     border-color: black;
-    background: $theme-background-color;
+    @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
     span p {
       display: inline;
     };
     .pan {
-      background: $theme-background-color;
-      border-color: rgba(10, 130, 230, 0.70);
-      color: black;
+      @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+      border-color: black;
+      color: white;
       padding: 3px 4px 6px;
     };
     .panel-body {
@@ -530,6 +533,7 @@ body {
     position: absolute;
     top: 24px;
     left: 132px;
+    color: white;
   };
 
   .img{
@@ -541,4 +545,21 @@ body {
     outline: 0;
   };
 };
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////// Hover properties
+.end-turn:hover {
+  background: rgba(8,136,196,1);
+};
+
+.cancel:hover {
+  background: rgba(250, 30, 30, 1) !important;
+  border-color: rgba(250, 30, 30, 1) !important;
+};
+
+
+
+
+
 

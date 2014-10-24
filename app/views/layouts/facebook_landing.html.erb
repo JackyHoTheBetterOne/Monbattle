@@ -6,41 +6,59 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="forest">
   <div class="container-fluid">
-    <ul class="nav nav-tabs" role="tablist" id="navigation">
-      <li class="<%= 'active' if current_page?(battle_preparation_path) %>" id="party-setup"><%= link_to "My Monsters", battle_preparation_path %></li>
-      <li class="<%= 'active' if current_page?(new_battle_path) %>"><%= link_to "Choose a level", new_battle_path %></li>
-      <li class="<%= 'active' if current_page?(new_charge_path) %>"><%= link_to " Give us your money", new_charge_path %></li>
-      <li class="<%= 'active' if current_page?(device_store_path) %>"><%= link_to "Store", device_store_path %></li>
-      <% if user_signed_in? %>
-        <li class="pull-right">
-          <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
-        <li>
-      <% else %>
-        <li class="pull-right">
-          <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), id: "user_session" %>
+    <nav class="navbar mon-front" role="navigation">
+      <ul class="nav nav-pills main-nav" id="navigation">
+        <%= link_to image_tag("logo.png", class: "navbar-logo"), home_sweet_home_path %>
+        <% if user_signed_in? %>
+          <li class="pull-right fb-nav">
+            <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
+          <li>
+        <% else %>
+          <li class="pull-right fb-nav">
+            <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), id: "user_session" %>
+          </li>
+        <% end %>
+        <li class="<%= 'active' if current_page?(new_charge_path) %> pull-right fb-nav">
+          <%= link_to "Donate", new_charge_path %>
         </li>
-      <% end %>
-    </ul>
+        <li class="<%= 'active' if current_page?(device_store_path) %> pull-right fb-nav">
+          <%= link_to "Upgrade", device_store_path %>
+        </li>
+        <li class="<%= 'active' if current_page?(battle_preparation_path) %> pull-right fb-nav" id="party-setup">
+          <%= link_to "Battle", battle_preparation_path %>
+        </li>
+        <li class="<%= 'active' if current_page?(home_sweet_home_path) || current_page?(root_path) %> pull-right fb-nav">
+          <%= link_to "Home", home_sweet_home_path%>
+        </li>
+        <% if current_user %>
+          <li class= "currency pull-right">
+            <%= current_user.summoner.gp %> GP
+            <br>
+            <%= current_user.summoner.mp %> MP
+          </li>
+        <% end %>
+      </ul>
+    </nav>
     <% flash.each do |type, message| %>
-      <% if type == "notice" %>
-        <div class="alert alert-success fade in" role="alert">
-          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-          <%= message %>
-        </div>
-      <% elsif type == "alert" %>
-        <div class="alert alert-warning fade in" role="alert">
-          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-          <%= message %>
-        </div>
-      <% else %>
-        <div class="alert alert-<%= type %> fade in" role="alert">
-          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-          <%= message %>
-        </div>
-      <% end %>
+    <% if type == "notice" %>
+      <div class="alert alert-success fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <%= message %>
+      </div>
+    <% elsif type == "alert" %>
+      <div class="alert alert-warning fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <%= message %>
+      </div>
+    <% else %>
+      <div class="alert alert-<%= type %> fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <%= message %>
+      </div>
     <% end %>
+  <% end %>
     <%= yield %>
   </div>
 </body>

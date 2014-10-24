@@ -48,6 +48,15 @@
 
 // };
 
+
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1514420408809454',
+    xfbml      : true,
+    version    : 'v2.1'
+  });
+};
+
 // (function(d, s, id){
 //    var js, fjs = d.getElementsByTagName(s)[0];
 //    if (d.getElementById(id)) {return;}

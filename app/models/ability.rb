@@ -71,6 +71,31 @@ class Ability < ActiveRecord::Base
     end
   }
 
+#####################################################
+
+  def self.find_socket_id(sock_num)
+    AbilSocket.socket_id(sock_num)
+  end
+
+  def self.find_default_name(sock_num)
+    case sock_num
+      when 1
+        "Bitch Slap"
+      when 2
+        "Groin Kick"
+      else
+        raise exception
+    end
+  end
+
+  def self.default_socket_id(sock_num)
+    @socket_id = self.find_socket_id(sock_num)
+    @ability_name = self.find_default_name(sock_num)
+    where(name: @ability_name, abil_socket_id: @socket_id).first.id
+  end
+
+  #################################################################
+
   def self.worth(rarity)
     where(rarity_id: Rarity.worth(rarity))
   end
@@ -132,12 +157,11 @@ class Ability < ActiveRecord::Base
 
   def set_keywords
     self.keywords = [name, description, self.targeta, self.stat_target.name, self.element.name].map(&:downcase).
-                      concat([ap_cost, stat_change, price]).join(" ")
+                      concat([ap_cost, stat_change]).join(" ")
   end
 
   def unlock_for_admin
-    id = self.id
-    if AbilityPurchase.where(user_id: 1, ability_id: id).count == 0
+    if AbilityPurchase.where(user_id: 1, ability_id: self.id).count == 0
       unlock = AbilityPurchase.new
       unlock.user_id = 1
       unlock.ability_id = self.id
@@ -146,8 +170,7 @@ class Ability < ActiveRecord::Base
   end
 
   def unlock_for_npc
-    id = self.id
-    if AbilityPurchase.where(user_id: 2, ability_id: id).count == 0
+    if AbilityPurchase.where(user_id: 1, ability_id: self.id).count == 0
       unlock = AbilityPurchase.new
       unlock.user_id = 2
       unlock.ability_id = self.id

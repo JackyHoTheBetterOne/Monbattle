@@ -1,11 +1,14 @@
 div.store-front {
   height: 600px;
   width: 960px;
-  background: #D0D0D0;
+  background: url("store-background.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
   position: relative;
-  left: 20px;
-  top: 20px;
+  left: 130px;
+  top: -5px;
   margin-bottom: 20px;
+  border-radius: 5px;
 };
 
 div.ability-showoff {
@@ -20,9 +23,9 @@ div.ability-showoff {
 div.ability-latest {
   position: absolute;
   background: #BFEFFF;
-  height: 309px;
+  height: 160px;
   width: 775px;
-  top: 20px;
+  top: 296px;
   left: 90px;
 };
 
@@ -36,11 +39,52 @@ div.ability-latest {
 
 .king-roll {
   position: relative;
-  top: 381px;
-  left: 382px;
-  width: 250px;
-  height: 100px;
+  top: 470px;
+  left: 400px;
+  width: 182px;
+  height: 70px;
 };
+
+.ability-detail {
+  position: absolute;
+  text-align: center;
+  top: 152px;
+  left: 356px;
+  background: #BFEFFF;
+  height: 120px;
+  width: 240px;
+};
+
+.announcement {
+  position: absolute;
+  text-align: center;
+  background: #BFEFFF;
+  height: 60px;
+  width: 500px;
+  top: 52px;
+  left: 225px;
+};
+
+.store-overlay {
+  background:rgba(0,0,0,0.7);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top:0px;
+  left:0px;
+  text-align: center;
+  z-index: 10000;
+  display: none;
+};
+
+.roll-popup {
+  position: absolute;
+  top: 248px;
+  left: 454px;
+};
+
+
+
 
 
 

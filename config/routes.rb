@@ -31,15 +31,17 @@ post "/facebook" => "battles#new"
 get "/cannot" => "home#illegal_access", as: :illegal
 get "/home" => "home#index", as: :battle_preparation
 get "/store" => "home#store", as: :device_store
+get "/landing" => "home#facebook", as: :home_sweet_home
 
 
 root 'home#facebook'
-get 'home/roll' => "home#roll", as: :roll_path
+get 'home/roll' => "home#roll", as: :roll
 resources :home
 resources :admin
 resources :effects
 resources :parties
 resources :battle_levels
+resources :users
 
 resources :battles do
   collection do

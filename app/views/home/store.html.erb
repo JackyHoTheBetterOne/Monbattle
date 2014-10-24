@@ -1,7 +1,13 @@
 <div class="store-front">
+  <div class="panel-body announcement">
+    Please buy some shit
+  </div>
+  <div class="panel-body ability-detail">
+    latest shit
+  </div>
   <div class="ability-latest">
     <% @abilities.each do |a| %>
-      <div class="panel panel-default showcase store-ability-<%= a.name %>">
+      <div class="panel panel-default showcase store-ability-<%= a.name %>" data-index="<%= @abilities.index(a) %>">
         <div class="panel-body">
           <%= a.name %>
         </div>
@@ -9,4 +15,12 @@
     <% end %> 
   </div>
   <button class="king-roll">Rolling in the deep</button>
+</div>
+
+<div class="store-overlay">
+  <div class="panel panel-default roll-popup">
+    <div class="panel-body roll-message">
+      Fuck yeah
+    </diV>
+  </div>
 </div>
