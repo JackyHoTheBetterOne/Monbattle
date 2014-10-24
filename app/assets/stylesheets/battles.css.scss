@@ -226,16 +226,18 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
   top: 220px;
   left: 395px;
   width: 150px;
-  background: rgba(250,184,19,0.65);
+  color: white;
+  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
 };
 
 .battle-message {
-  background: rgba(235, 22, 22, 0.75);
+  color: white;
+  background: rgba(235, 22, 22, 0.9);
 };
 
 .cancel {
-  background: rgba(235, 22, 22, 0.75) !important;
-  border-color: rgba(235, 22, 22, 0.75) !important;
+  background: rgba(235, 22, 22, 0.9) !important;
+  border-color: rgba(235, 22, 22, 0.9) !important;
   border-radius: 5px;
   position: absolute;
   top: 289px;
@@ -290,6 +292,7 @@ body {
   };
   .end-turn {
     position: absolute;
+    @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
     height: 50px;
     width: 115px;
     top: 87%;
@@ -542,6 +545,21 @@ body {
     outline: 0;
   };
 };
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////// Hover properties
+.end-turn:hover {
+  background: rgba(8,136,196,1);
+};
+
+.cancel:hover {
+  background: rgba(250, 30, 30, 1) !important;
+  border-color: rgba(250, 30, 30, 1) !important;
+};
+
+
+
 
 
 
