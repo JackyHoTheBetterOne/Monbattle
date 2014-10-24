@@ -40,7 +40,7 @@ class Party < ActiveRecord::Base
 
   def as_json(options={})
     super(
-      :only => [:user_id, :name],
+      :only => [:name],
       :methods => [:username, :isNPC],
       :include => {
         :mons => {
