@@ -8,9 +8,9 @@
 </head>
 <body class="forest">
   <div class="container-fluid">
-    <nav class="navbar" role="navigation">
+    <nav class="navbar mon-front" role="navigation">
       <ul class="nav nav-pills main-nav" id="navigation">
-        <%= image_tag("logo.png", class: "navbar-logo") %>
+        <%= link_to image_tag("logo.png", class: "navbar-logo"), home_sweet_home_path %>
         <% if user_signed_in? %>
           <li class="pull-right fb-nav">
             <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
@@ -29,9 +29,16 @@
         <li class="<%= 'active' if current_page?(battle_preparation_path) %> pull-right fb-nav" id="party-setup">
           <%= link_to "Battle", battle_preparation_path %>
         </li>
-        <li class="<%= 'active' if current_page?(home_sweet_home_path) %> pull-right fb-nav">
+        <li class="<%= 'active' if current_page?(home_sweet_home_path) || current_page?(root_path) %> pull-right fb-nav">
           <%= link_to "Home", home_sweet_home_path%>
         </li>
+        <% if current_user %>
+          <li class= "currency pull-right">
+            <%= current_user.summoner.gp %> GP
+            <br>
+            <%= current_user.summoner.mp %> MP
+          </li>
+        <% end %>
       </ul>
     </nav>
     <% flash.each do |type, message| %>

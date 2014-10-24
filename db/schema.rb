@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141024021610) do
+ActiveRecord::Schema.define(version: 20141023211920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -256,6 +256,8 @@ ActiveRecord::Schema.define(version: 20141024021610) do
     t.text     "keywords"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
+    t.integer  "physical_resistance"
+    t.integer  "ability_resistance"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree

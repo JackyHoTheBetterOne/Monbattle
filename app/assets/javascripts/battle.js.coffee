@@ -313,7 +313,7 @@ window.showHealTeam = (index) ->
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
-    $(".message").text("You lost! Now play another round instead of doing something productive").
+    $(".message").text("You lost, but here's" + battle.reward*0.1 + " MP because we pity you. Try harder next time!").
       append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>")
     $("#overlay").fadeIn(1000)
     $(".battle-message").fadeOut(1000)
@@ -328,7 +328,7 @@ window.outcome = ->
         'loser': battle.players[0].user_name
       }
   else if battle.players[1].mons.every(isTeamDead) is true
-    $(".message").text("You won! Now play another round cause you are good at this and nothing else").
+    $(".message").text("You won" + " " + battle.reward + " " + "MP!" + "Go kill more monsters!").
       append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
     $("#overlay").fadeIn(1000)
     $(".battle-message").fadeOut(1000)
@@ -394,6 +394,23 @@ window.multipleTargetAbilityDisplayVariable = ->
 
 
 ################################################################################################### Battle interaction helpers
+window.mouseOverMon = ->
+  console.log($(this))
+  $(this).addClass("controlling")
+  $(this).prev().css "visibility", "visible"
+  mon = $(this).closest(".mon").data("index")
+  team = $(this).closest(".mon-slot").data("team")
+  window.currentMon = $(this)
+  window.targets = [
+    team
+    mon
+  ]
+  return
+
+window.mouseLeaveMon = ->
+  $(".user .monBut").css "visibility","hidden"
+  $(".user .img").removeClass("controlling")
+
 window.control = ->
   button = $(this).prev().css("visibility")
   if button is "visible"
@@ -413,6 +430,14 @@ window.control = ->
     ]
   return
 
+window.turnOnCommandA = ->
+  $(document).on "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
+  $(document).on "mouseover.command", ".user.mon-slot .img", mouseOverMon
+
+window.turnOffCommandA = ->
+  $(document).off "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
+  $(document).off "mouseover.command", ".user.mon-slot .img", mouseOverMon
+
 window.turnOnCommand = (funk) ->
   $(document).on "click.command", ".user.mon-slot .img", funk
 
@@ -424,12 +449,12 @@ window.turnOff = (name, team) ->
 
 window.disable = (button) ->
   button.attr("disabled", "true")
-  button.animate({"background-color":"rgba(192, 192, 192, 0.6)", "border-color":"rgba(192, 192, 192, 0.6)"
+  button.animate({"background-color":"rgba(192, 192, 192, 0.6)", "border-color":"black"
                 , "opacity":"0.6"})
 
 window.enable = (button) ->
   button.removeAttr("disabled")
-  button.animate({"background-color":"rgba(10, 170, 230, 0.80)", "border-color":"rgba(10, 170, 230, 0.80)"
+  button.animate({"background-color":"rgba(10, 170, 230, 0.80)", "border-color":"black"
                 , "opacity":"1"})
 
 window.toggleImg = ->
@@ -689,7 +714,7 @@ window.ai = ->
       battle.checkRound()
       apChange()
       enable($("button"))
-      $(".ap").effect("highlight", 2000)
+      $(".ap").effect("pulsate", {times: 5}, 1500)
       $(".battle-message").fadeOut(100)
       toggleImg()
       $(".enemy .img").removeAttr("disabled")
@@ -895,9 +920,10 @@ $ ->
         $(this).data "position", $(this).offset()
         return
       $(".ap .ap-number").text apInfo(battle.maxAP)
-      turnOnCommand(control)
+      turnOnCommandA()
       $(document).on("mouseover", ".user .monBut button", ->
         description = $(this).parent().parent().children(".abilityDesc")
+        $(this).css("background", "rgba(8,136,196,1)")
         if $(this).data("target") is "evolve"
           better_mon = battle.players[0].mons[targets[1]].mon_evols[0]
           worse_mon = battle.players[0].mons[targets[1]]
@@ -920,6 +946,7 @@ $ ->
         return
       ).on "mouseleave", ".user .monBut button", ->
         $(this).parent().parent().children(".abilityDesc").css "visibility", "hidden"
+        $(this).css("background-image", "-webkit-linear-gradient(top, #606060 0%, #131313 100%)")
         return
       $(document).on("click.endTurn", "button.end-turn", ai)
 #####################################################################################################  User move interaction
@@ -942,7 +969,7 @@ $ ->
             toggleImg()
             if ability.data("target") is "targetally" || ability.data("target") is "ability"
               toggleImg()
-              turnOnCommand(control)
+              turnOnCommandA()
             targets = []
             return
           window.targets = targets.concat(ability.data("index"))  if targets.length isnt 3
@@ -1019,7 +1046,7 @@ $ ->
                     ), 1200
                     return
               when "targetally", "ability"
-                turnOffCommand(control)
+                turnOffCommandA()
                 toggleImg()
                 $(".battle-guide.guide").text("Select an ally target")
                 $(".battle-guide").show()
@@ -1048,7 +1075,7 @@ $ ->
                       element.attr("src", "")
                       showHealSingle()
                       singleTargetAbilityAfterActionDisplay()
-                      turnOnCommand(control)
+                      turnOnCommandA()
                       return
                     ), 1200
                     return

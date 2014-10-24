@@ -10,6 +10,7 @@ class Battle < ActiveRecord::Base
     battle_json = {}
     battle_json[:background] = self.background
     battle_json[:battle_id] = self.id
+    battle_json[:reward] = self.battle_level.mp_reward
     battle_json[:players] = []
     # self.users.each do |user|
     #   battle_json[:"#{user.user_name}"] = user.as_json
