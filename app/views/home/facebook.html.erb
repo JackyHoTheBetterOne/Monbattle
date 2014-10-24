@@ -1,7 +1,15 @@
-<div class="jumbotron">
-  <h1>Welcome to Monbattle</h1>
-  <p>Please give us feedback!</p>
-  <%= link_to "Prepare for your battle", battle_preparation_path, class: "btn btn-success btn-lg" %>
+<div class="jumbotron sweet-home">
+  <h1>Welcome to Demeter</h1>
+  <%= link_to "Start your journey", battle_preparation_path, class: "btn btn-success btn-lg" %>
 </div>
-      <%#= link_to "Sign in", new_user_session_path, class: "btn btn-default" %>
-      <%#= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-default" %>
+
+<div class="contact-footer">
+  <a href="https://www.facebook.com/monbattle"><%= image_tag("facebook-logo.png", class: "logo facebook") %></a>
+  <a href="https://twitter.com/monbattle"><%= image_tag("twitter-logo.png", class: "logo twitter") %></a>
+  <a href="http://www.youtube.com/user/monbattle"><%= image_tag("youtube-logo.jpg", class: "logo youtube") %></a>
+</div>
+
+<div class="extra-information">
+    <%= link_to "About us", battle_preparation_path,class: "btn btn-info" %>
+</div>
+

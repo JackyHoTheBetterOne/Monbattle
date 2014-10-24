@@ -313,7 +313,7 @@ window.showHealTeam = (index) ->
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
-    $(".message").text("You lost! Now play another round instead of doing something productive").
+    $(".message").text("You lost, but here's" + battle.reward*0.1 + " MP because we pity you. Try harder next time!").
       append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>")
     $("#overlay").fadeIn(1000)
     $(".battle-message").fadeOut(1000)
@@ -328,7 +328,7 @@ window.outcome = ->
         'loser': battle.players[0].user_name
       }
   else if battle.players[1].mons.every(isTeamDead) is true
-    $(".message").text("You won! Now play another round cause you are good at this and nothing else").
+    $(".message").text("You won" + " " + battle.reward + " " + "MP!" + "Go kill more monsters!").
       append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
     $("#overlay").fadeIn(1000)
     $(".battle-message").fadeOut(1000)
