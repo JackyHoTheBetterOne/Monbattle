@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
   # validates :password, presence: {message: 'Must be entered'}
 
   after_save :create_summoner
+  after_save :create_party
 
   def can_add_to_party?(mon_unlock)
     if self.members.count == 0 || self.members.count < 4 && self.members.where(monster_unlock_id: mon_unlock).empty?
@@ -66,6 +67,7 @@ class User < ActiveRecord::Base
   end
 
   private
+
   def create_summoner
     if self.summoner == nil
       @summoner = Summoner.new
@@ -74,4 +76,13 @@ class User < ActiveRecord::Base
       @summoner.save 
     end
   end
+
+  def create_party
+    if self.parties.first == nil
+      @party = Party.new
+      @party.name = "Your Party"
+      @party.user_id = self.id
+    end
+  end
+
 end

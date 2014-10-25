@@ -4,7 +4,7 @@ class AbilitiesController < ApplicationController
   def index
     @abilities = Ability.includes(:effects, :stat_target, :target, :abil_socket, :jobs).search(params[:keyword]).
                   ap_cost_search(params[:cost]).effect_search(params[:effect]).
-                  paginate(:page => params[:page], :per_page => 10)
+                  paginate(:page => params[:page], :per_page => 10).name_alphabetical
     @abil_socket = AbilSocket.new
     @abil_sockets = AbilSocket.all
     @stat_target = StatTarget.new

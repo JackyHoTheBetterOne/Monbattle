@@ -53,6 +53,8 @@ class Ability < ActiveRecord::Base
   after_save :unlock_for_admin
   after_save :unlock_for_npc
 
+  scope :name_alphabetical, -> { order('name') }
+
   scope :search, -> (keyword) {
     if keyword.present?
       where("abilities.keywords LIKE ?", "%#{keyword.downcase}%")
