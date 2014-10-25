@@ -21,6 +21,9 @@ class Battle < ActiveRecord::Base
 
   end
 
+  self.done do
+    self.battle_complete
+  end
 
 #############################################
 
