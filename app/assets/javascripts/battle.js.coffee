@@ -313,7 +313,7 @@ window.showHealTeam = (index) ->
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
-    $(".message").text("You lost, but here's" + battle.reward*0.1 + " MP because we pity you. Try harder next time!").
+    $(".message").text("You lost, but here's " + battle.reward*0.1 + " MP because we pity you. Try harder next time!").
       append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>")
     $("#overlay").fadeIn(1000)
     $(".battle-message").fadeOut(1000)
@@ -324,8 +324,8 @@ window.outcome = ->
       url: "http://localhost:3000/battles/" + battle.id
       method: "patch"
       data: {
-        battle: {'victor': battle.players[0].user_name,
-                  'loser': battle.players[1].user_name }
+        "victor": battle.players[1].username,
+        "loser": battle.players[0].username
       }
   else if battle.players[1].mons.every(isTeamDead) is true
     $(".message").text("You won" + " " + battle.reward + " " + "MP!" + "Go kill more monsters!").
@@ -339,8 +339,8 @@ window.outcome = ->
       url: "http://localhost:3000/battles/" + battle.id
       method: "patch"
       data: {
-        battle: {'victor': battle.players[0].user_name,
-                  'loser': battle.players[1].user_name }
+        "victor": battle.players[0].username,
+        "loser": battle.players[1].username
       }
   return
 

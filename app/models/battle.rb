@@ -11,7 +11,7 @@ class Battle < ActiveRecord::Base
   def build_json
     battle_json = {}
     battle_json[:background] = self.background
-    battle_json[:battle_id] = self.id_code
+    battle_json[:id] = self.id_code
     battle_json[:reward] = self.battle_level.mp_reward
     battle_json[:players] = []
     # self.users.each do |user|

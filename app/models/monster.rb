@@ -44,7 +44,7 @@ class Monster < ActiveRecord::Base
   validates :description, presence: {message: 'Must be entered'}
   validates :evolved_from_id, presence: {message: 'Must be entered'}
   validates :summon_cost, presence: {message: 'Must be entered'}
-  # validates :rarity_id, presence: {message: 'Must be entered'}
+  validates :rarity_id, presence: {message: 'Must be entered'}
   # validates :dmg_modifier, presence: {message: 'Must be entered'}
   # validates :hp_modifier, presence: {message: 'Must be entered'}
 

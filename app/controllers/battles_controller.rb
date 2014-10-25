@@ -43,7 +43,7 @@ class BattlesController < ApplicationController
 
   def update
     @battle.outcome = "complete"
-    @battle.update_attributes(battle_params)
+    @battle.update_attributes(update_params)
     @battle.save
     render nothing: true
     # if @battle.save
@@ -106,6 +106,10 @@ class BattlesController < ApplicationController
 
   def battle_params
     params.require(:battle).permit(:outcome, :battle_level_id, :victor, :loser)
+  end
+
+  def update_params
+    params.permit(:victor, :loser)
   end
 
   def find_battle
