@@ -8,6 +8,35 @@ class Battle < ActiveRecord::Base
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_save :generate_code
 
+#############################################
+
+  def battle_complete
+    @victor = self.victor
+    victor_check
+  end
+
+  def victor_check
+    if @victor == "NPC"
+    else
+      set_reward_variables
+    end
+  end
+
+  def set_reward_variables
+    @mp_reward           = self.battle_level.mp_reward
+    @gp_reward           = self.battle_level.gp_reward
+    @victorious_summoner = Summoner.find_victorious_summoner(@victor)
+    give_reward
+  end
+
+  def give_reward
+    @victorious_summoner.mp += @mp_reward
+    @victorious_summoner.gp += @gp_reward
+    @victorious_summoner.save
+  end
+
+  ###########################################
+
   def build_json
     battle_json = {}
     battle_json[:background] = self.background

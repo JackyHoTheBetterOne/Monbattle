@@ -26,7 +26,7 @@ class MonsterSkin < ActiveRecord::Base
   validates :rarity, presence: {message: 'Must be entered'}
 
   def self.default_skin_id
-    @default_skin_name = "sack"
+    @default_skin_name = "Sack"
     self.where(name: @default_skin_name).first.id
   end
 end
