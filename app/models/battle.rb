@@ -18,18 +18,15 @@ class Battle < ActiveRecord::Base
   def victor_check
     if @victor == "NPC"
     else
-      set_reward_variables
+      give_reward
     end
   end
 
-  def set_reward_variables
+  def give_reward
     @mp_reward           = self.battle_level.mp_reward
     @gp_reward           = self.battle_level.gp_reward
     @victorious_summoner = Summoner.find_victorious_summoner(@victor)
-    give_reward
-  end
 
-  def give_reward
     @victorious_summoner.mp += @mp_reward
     @victorious_summoner.gp += @gp_reward
     @victorious_summoner.save
