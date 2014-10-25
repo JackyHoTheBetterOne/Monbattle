@@ -10,6 +10,7 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_save :generate_code
+  after_update :to_finish
 
   aasm do
     state :battling, :initial => true
@@ -18,12 +19,9 @@ class Battle < ActiveRecord::Base
     event :done do
       transitions :from => :battling, :to => :complete
     end
-
   end
 
-  self.done do
-    self.battle_complete
-  end
+
 
 #############################################
 
@@ -49,7 +47,7 @@ class Battle < ActiveRecord::Base
     @victorious_summoner.save
   end
 
-  ###########################################
+#############################################
 
   def build_json
     battle_json = {}
@@ -87,4 +85,9 @@ class Battle < ActiveRecord::Base
     end
   end
 
+  def to_finish
+    self.done do 
+      self.battle_complete
+    end
+  end
 end
