@@ -9,9 +9,9 @@ class MonstersController < ApplicationController
     @jobs = Job.all
     @element = Element.new
     @elements = Element.all
-    @monster = Monster.new
     @personality = Personality.new
     @personalities = Personality.all
+    @monster = Monster.new
     @monsters = Monster.includes(:job, :element, :personality).search(params[:keyword]).
                 paginate(:page => params[:page], :per_page => 15)
 

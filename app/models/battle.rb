@@ -1,4 +1,7 @@
+# require 'assm'
+
 class Battle < ActiveRecord::Base
+  include AASM
   extend FriendlyId
   friendly_id :id_code
   belongs_to :battle_level
@@ -7,6 +10,17 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_save :generate_code
+
+  aasm do
+    state :battling, :initial => true
+    state :complete
+
+    event :done do
+      transitions :form => :battling, :to => :done
+    end
+
+  end
+
 
 #############################################
 
