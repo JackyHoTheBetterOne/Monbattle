@@ -6,11 +6,11 @@ class Summoner < ActiveRecord::Base
   validates :user_id, presence: {message: 'Must be entered'}, uniqueness: true
 
 def self.find_victorious_summoner(user_name)
-  @user_id = find_user_id(user_name)
-  Summoner.where(user_id: @user_id).first
+  @user = find_user(user_name)
+  Summoner.where(user_id: @user).first
 end
 
-def self.find_user_id(user_name)
+def self.find_user(user_name)
   User.where(user_name: user_name)
 end
 

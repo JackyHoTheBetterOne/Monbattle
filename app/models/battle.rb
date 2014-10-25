@@ -1,4 +1,4 @@
-# require 'assm'
+require 'aasm'
 
 class Battle < ActiveRecord::Base
   include AASM
@@ -16,7 +16,7 @@ class Battle < ActiveRecord::Base
     state :complete
 
     event :done do
-      transitions :form => :battling, :to => :done
+      transitions :from => :battling, :to => :complete
     end
 
   end
