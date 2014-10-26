@@ -80,6 +80,7 @@ class User < ActiveRecord::Base
     @party = Party.new
     @party.name = "Your Party"
     @party.user_id = self.id
+    @party.save
   end
 
   def
