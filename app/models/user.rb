@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
 
-  has_one :summoner
+  has_one :summoner, dependent: :destroy
   has_many :parties, dependent: :destroy
   has_many :members, through: :parties
 
@@ -78,10 +78,11 @@ class User < ActiveRecord::Base
   end
 
   def create_party
-    if self.parties.first == nil
+    if self.parties.count == 0
       @party = Party.new
       @party.name = "Your Party"
       @party.user_id = self.id
+      @party.save
     end
   end
 
