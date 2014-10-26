@@ -12,6 +12,7 @@ class HomeController < ApplicationController
   end
 
   def store
+    @ability_purchases =
     @abilities = Ability.all.order(:created_at).limit(4)
     respond_to do |format|
       format.html
