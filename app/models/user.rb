@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
 
-  has_one :summoner
+  has_one :summoner, dependent: :destroy
   has_many :parties, dependent: :destroy
   has_many :members, through: :parties
 
@@ -27,8 +27,9 @@ class User < ActiveRecord::Base
   validates :email, presence: {message: 'Must be entered'}
   # validates :password, presence: {message: 'Must be entered'}
 
-  after_save :create_summoner
-  after_save :create_party
+  after_create :create_summoner
+  after_create :create_party
+  after_create :create_default_members
 
   def can_add_to_party?(mon_unlock)
     if self.members.count == 0 || self.members.count < 4 && self.members.where(monster_unlock_id: mon_unlock).empty?
@@ -69,20 +70,19 @@ class User < ActiveRecord::Base
   private
 
   def create_summoner
-    if self.summoner == nil
-      @summoner = Summoner.new
-      @summoner.user_id = self.id
-      @summoner.name = self.user_name
-      @summoner.save 
-    end
+    @summoner = Summoner.new
+    @summoner.user_id = self.id
+    @summoner.name = self.user_name
+    @summoner.save
   end
 
   def create_party
-    if self.parties.first == nil
-      @party = Party.new
-      @party.name = "Your Party"
-      @party.user_id = self.id
-    end
+    @party = Party.new
+    @party.name = "Your Party"
+    @party.user_id = self.id
   end
+
+  def
+
 
 end
