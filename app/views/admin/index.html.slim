@@ -1,21 +1,9 @@
 - if user_signed_in? == false
   h1 Sign in First
 - else
-  / -if current_user.parties.empty?
-  /   br=render partial: "admin/modal_button", locals: {modal_label: "partyLabel", modal_id: "partyModal", form_is_for: "parties/form", button_name: "Create New Party", form_title: "New Party"}
-  / -else
-  / -if current_user.unlocked_monsters.empty?
-  /   h1 You have no monsters unlocked
-  / -else
-  /   -if current_user.parties.empty?
-  /     h1 Create a team first!
-  /   -else
-  /     h2 Admin Party Edit
-  /     h3 =link_to "#{current_user.parties.first.name}", [current_user.parties.first, {user_id: current_user.id}]
   = render partial: "admin/modal_button", locals: {modal_label: "jobLabel", modal_id: "jobModal", form_is_for: "jobs/form", button_name: "Create New Job", form_title: "New Job" }
   = render partial: "admin/modal_button", locals: {modal_label: "elementLabel", modal_id: "elementModal", form_is_for: "elements/form", button_name: "Create New Element", form_title: "New Element"}
   = render partial: "admin/modal_button", locals: {modal_label: "rarityLabel", modal_id: "rarityModal", form_is_for: "rarities/form", button_name: "Define Rarity", form_title: "Define A Rarity"}
-  / = render partial: "admin/modal_button", locals: {modal_label: "abilityLabel", modal_id: "abilityModal", form_is_for: "abilities/form", button_name: "Create New Ability", form_title: "New Ability"}
   = render partial: "admin/modal_button", locals: {modal_label: "targetLabel", modal_id: "targetModal", form_is_for: "targets/form", button_name: "Create New Target", form_title: "New Target"}
   = render partial: "admin/modal_button", locals: {modal_label: "stat_targetLabel", modal_id: "stat_targetModal", form_is_for: "stat_targets/form", button_name: "Create New Stat Target", form_title: "New Stat Target"}
   = render partial: "admin/modal_button", locals: {modal_label: "abil_socketLabel", modal_id: "abil_socketModal", form_is_for: "abil_sockets/form", button_name: "Create Socket # for Abilities", form_title: "Create Socket #"}
