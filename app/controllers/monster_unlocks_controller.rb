@@ -7,8 +7,6 @@ class MonsterUnlocksController < ApplicationController
     @monster_unlock = @monster.monster_unlocks.new monster_unlock_params
     respond_to do |format|
       if @monster_unlock.save
-        AbilityEquipping.default_equip(socket_nums: [1, 2], monster_unlock_id: @monster_unlock.id)
-        MonsterSkinEquipping.default_equip(monster_id: @monster.id, user_id: @user_id)
         format.js { render :action }
         format.html { redirect_to monsters_path, notice: "Unlocked!" }
       else

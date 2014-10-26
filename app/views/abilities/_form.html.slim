@@ -22,9 +22,12 @@
             | Select All
           .ability_job_check_boxes
             =hidden_field_tag "ability[job_ids][]", nil
-            -Job.all.each do |job|
-              =check_box_tag "ability[job_ids][]", job.id, @ability.job_ids.include?(job.id), id: dom_id(job)
-              =label_tag dom_id(job), job.name
+            .row
+              -Job.all.each do |job|
+                .col-md-6
+                  li
+                    =check_box_tag "ability[job_ids][]", job.id, @ability.job_ids.include?(job.id), id: dom_id(job)
+                    =label_tag dom_id(job), job.name
           h4=f.label "Select a Target for this Ability"
           .form-control =f.collection_select :target_id, Target.all, :id, :name
           h4=f.label "Select the Element for this Ability"

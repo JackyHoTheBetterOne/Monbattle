@@ -1,4 +1,7 @@
+require 'aasm'
+
 class Battle < ActiveRecord::Base
+  include AASM
   extend FriendlyId
   friendly_id :id_code
   belongs_to :battle_level
@@ -7,11 +10,49 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_save :generate_code
+  before_update :to_finish
+
+  aasm do
+    state :battling, :initial => true
+    state :complete
+
+    event :done do
+      transitions :from => :battling, :to => :complete, :on_transition => :battle_complete
+    end
+  end
+
+
+
+#############################################
+
+  def battle_complete
+    @victor = self.victor
+    victor_check
+  end
+
+  def victor_check
+    if @victor == "NPC"
+    else
+      give_reward
+    end
+  end
+
+  def give_reward
+    @mp_reward           = self.battle_level.mp_reward
+    @gp_reward           = self.battle_level.gp_reward
+    @victorious_summoner = Summoner.find_victorious_summoner(@victor)
+
+    @victorious_summoner.mp += @mp_reward
+    @victorious_summoner.gp += @gp_reward
+    @victorious_summoner.save
+  end
+
+#############################################
 
   def build_json
     battle_json = {}
     battle_json[:background] = self.background
-    battle_json[:battle_id] = self.id_code
+    battle_json[:id] = self.id_code
     battle_json[:reward] = self.battle_level.mp_reward
     battle_json[:players] = []
     # self.users.each do |user|
@@ -39,7 +80,12 @@ class Battle < ActiveRecord::Base
 
   private
   def generate_code
-    self.id_code = SecureRandom.uuid
+    if !self.id_code
+      self.id_code = SecureRandom.uuid
+    end
   end
 
+  def to_finish
+    self.done
+  end
 end

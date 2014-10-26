@@ -9,9 +9,9 @@ class MonstersController < ApplicationController
     @jobs = Job.all
     @element = Element.new
     @elements = Element.all
-    @monster = Monster.new
     @personality = Personality.new
     @personalities = Personality.all
+    @monster = Monster.new
     @monsters = Monster.includes(:job, :element, :personality).search(params[:keyword]).
                 paginate(:page => params[:page], :per_page => 15)
 
@@ -62,10 +62,14 @@ class MonstersController < ApplicationController
     authorize @monster
     @monster.update_attributes(monster_params)
     respond_to do |format|
+      # @monster.save
+      # p "==============="
+      # p @monster.errors.full_messages
+      # p "==============="
       if @monster.save
         format.html { redirect_to monsters_path, notice: "Updated!" }
       else
-        ormat.html { render :new }
+        format.html { render :new }
       end
     end
   end

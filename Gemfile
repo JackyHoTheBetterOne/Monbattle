@@ -34,6 +34,7 @@ gem 'simple_form', github: "plataformatec/simple_form"
 # gem "better_errors"
 gem "binding_of_caller"
 gem "paperclip"
+gem "aasm"
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -48,7 +49,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
-gem "better_errors", group: :development
+# gem "better_errors", group: :development
 
 gem 'friendly_id'
 

@@ -278,7 +278,7 @@ window.damageBoxAnime= (team, target, damage, color) ->
   animate
     "top":"+=50px"
     "z-index":"-=10000"
-    , 5, -> 
+    , 5, ->
       $(".img, p.dam").promise().done ->
         setTimeout (->
           $("p.dam").promise().done ->
@@ -308,12 +308,12 @@ window.showHealTeam = (index) ->
   i = 0
   while i <= n
     if battle.players[index].mons[i].hp > 0
-      damageBoxAnime(index, i.toString(), ability.modifier + ability.change, "rgba(0, 60, 255)")
+      damageBoxAnime(index, i.toString(), ability.modifier + ability.change, "rgba(50, 205, 50)")
     i++
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
-    $(".message").text("You lost, but here's" + battle.reward*0.1 + " MP because we pity you. Try harder next time!").
+    $(".message").text("You lost, but here's " + battle.reward*0.1 + " MP because we pity you. Try harder next time!").
       append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>")
     $("#overlay").fadeIn(1000)
     $(".battle-message").fadeOut(1000)
@@ -324,8 +324,8 @@ window.outcome = ->
       url: "http://localhost:3000/battles/" + battle.id
       method: "patch"
       data: {
-        'victor': battle.players[1].user_name,
-        'loser': battle.players[0].user_name
+        "victor": battle.players[1].username,
+        "loser": battle.players[0].username
       }
   else if battle.players[1].mons.every(isTeamDead) is true
     $(".message").text("You won" + " " + battle.reward + " " + "MP!" + "Go kill more monsters!").
@@ -339,8 +339,8 @@ window.outcome = ->
       url: "http://localhost:3000/battles/" + battle.id
       method: "patch"
       data: {
-        'victor': battle.players[0].user_name,
-        'loser': battle.players[1].user_name
+        "victor": battle.players[0].username,
+        "loser": battle.players[1].username
       }
   return
 
@@ -351,10 +351,10 @@ window.checkApAvailbility = ->
 
 window.checkMonHealthAfterEffect = ->
   i = 0
-  n = 3 
+  n = 3
   while i <= n
     $(".0 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[0].mons[i].hp <= 0
-    $(".1 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[1].mons[i].hp <= 0 
+    $(".1 .mon" + i.toString() + " " + ".img").fadeOut() if battle.players[1].mons[i].hp <= 0
     i++
 
 
@@ -449,8 +449,8 @@ window.turnOff = (name, team) ->
 
 window.disable = (button) ->
   button.attr("disabled", "true")
-  button.animate({"background-color":"rgba(192, 192, 192, 0.6)", "border-color":"black"
-                , "opacity":"0.6"})
+  button.animate({"background-color":"rgba(192, 192, 192, 0)", "border-color":"black"
+                , "opacity":"0"})
 
 window.enable = (button) ->
   button.removeAttr("disabled")
@@ -743,7 +743,7 @@ $ ->
         $("#battle-tutorial").joyride({})
         $(".user .img").each ->
           $(this).effect("bounce", {distance: 80, times: 5}, 1500)
-      ), 3333  
+      ), 3333
 ############################################################################################### Battle logic
       window.battle = data
       $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
@@ -930,7 +930,7 @@ $ ->
           added_hp = better_mon.max_hp - worse_mon.max_hp
           description.children(".panel-heading").text better_mon.name
           description.children(".panel-body").html(
-            better_mon.abilities[0].name + ": " + better_mon.abilities[0].description + "<br />" + 
+            better_mon.abilities[0].name + ": " + better_mon.abilities[0].description + "<br />" +
             "<br />" + better_mon.abilities[1].name + ": " + better_mon.abilities[1].description
             )
           description.children(".panel-footer").children("span").children(".d").text "HP: +" + added_hp

@@ -53,6 +53,8 @@ class Ability < ActiveRecord::Base
   after_save :unlock_for_admin
   after_save :unlock_for_npc
 
+  scope :name_alphabetical, -> { order('name') }
+
   scope :search, -> (keyword) {
     if keyword.present?
       where("abilities.keywords LIKE ?", "%#{keyword.downcase}%")
@@ -77,18 +79,18 @@ class Ability < ActiveRecord::Base
     AbilSocket.socket_id(sock_num)
   end
 
-  def self.find_default_name(sock_num)
+  def self.find_default_name(sock_num) #Create tests to see if default ability exists
     case sock_num
       when 1
         "Bitch Slap"
       when 2
         "Groin Kick"
       else
-        raise exception
+        "raise error"
     end
   end
 
-  def self.default_socket_id(sock_num)
+  def self.default_id_for_socket(sock_num)
     @socket_id = self.find_socket_id(sock_num)
     @ability_name = self.find_default_name(sock_num)
     where(name: @ability_name, abil_socket_id: @socket_id).first.id
