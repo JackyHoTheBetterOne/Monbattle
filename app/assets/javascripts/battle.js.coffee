@@ -308,7 +308,7 @@ window.showHealTeam = (index) ->
   i = 0
   while i <= n
     if battle.players[index].mons[i].hp > 0
-      damageBoxAnime(index, i.toString(), ability.modifier + ability.change, "rgba(0, 60, 255)")
+      damageBoxAnime(index, i.toString(), ability.modifier + ability.change, "rgba(50, 205, 50)")
     i++
 
 window.outcome = ->
@@ -449,8 +449,8 @@ window.turnOff = (name, team) ->
 
 window.disable = (button) ->
   button.attr("disabled", "true")
-  button.animate({"background-color":"rgba(192, 192, 192, 0.6)", "border-color":"black"
-                , "opacity":"0.6"})
+  button.animate({"background-color":"rgba(192, 192, 192, 0)", "border-color":"black"
+                , "opacity":"0"})
 
 window.enable = (button) ->
   button.removeAttr("disabled")
