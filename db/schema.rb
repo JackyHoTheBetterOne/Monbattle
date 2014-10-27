@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141026031343) do
+ActiveRecord::Schema.define(version: 20141027220343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20141026031343) do
     t.text     "keywords"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
+    t.text     "former_name",           default: ""
   end
 
   add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree
@@ -79,6 +80,7 @@ ActiveRecord::Schema.define(version: 20141026031343) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "amount_owned", default: 1
   end
 
   add_index "ability_purchases", ["ability_id"], name: "index_ability_purchases_on_ability_id", using: :btree
@@ -241,6 +243,7 @@ ActiveRecord::Schema.define(version: 20141026031343) do
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
     t.integer  "rarity_id"
+    t.text     "former_name",           default: ""
   end
 
   add_index "monster_skins", ["rarity_id"], name: "index_monster_skins_on_rarity_id", using: :btree
@@ -278,6 +281,9 @@ ActiveRecord::Schema.define(version: 20141026031343) do
     t.integer  "gp_cost"
     t.integer  "physical_resistance"
     t.integer  "ability_resistance"
+    t.text     "default_skin",                  default: "sack"
+    t.text     "default_abil_socket1",          default: "Slap"
+    t.text     "default_abil_socket2",          default: "Groin Kick"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
