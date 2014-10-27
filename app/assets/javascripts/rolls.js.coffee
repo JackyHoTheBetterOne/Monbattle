@@ -15,13 +15,20 @@ $ ->
     $.ajax 
       url: "http://localhost:3000/home/roll"
       method: "get"
-      dataType: "text"
+      dataType: "json"
       error: ->
         alert("Can't process the roll")
       success: (response) ->
-        $(".roll-message").text(response)
-        $(".store-overlay").fadeIn(100)
+        overlay = document.getElementsByClassName("store-overlay")[0]
+        gp = document.getElementById("summoner_gp")
+        mp = document.getElementById("summoner_mp")
+        message = document.getElementsByClassName("roll-message")[0]
+        overlay.className += " fadeIn-1s"
+        gp.innerHTML = response.gp 
+        mp.innerHTML = response.mp 
+        message.innerHTML = response.message
     $(document).on "click", ->
-      $(".store-overlay").hide()
+      overlay = document.getElementsByClassName("store-overlay")[0]
+      overlay.classList.remove("fadeIn-1s")
   $(document).on "mouseover", ".showcase", ->
     $(".ability-detail").text latest_abilities[$(this).data("index")].description

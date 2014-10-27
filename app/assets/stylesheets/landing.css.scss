@@ -20,8 +20,6 @@
   font-weight: bold;
 };
 
-
-
 .forest {
   background: url("forest.jpg");
   background-repeat: no-repeat;
@@ -60,11 +58,25 @@
 
 .currency {
   position: absolute;
-  top: 14px;
+  top: 6px;
   left: -24px;
   color: #CCCCCC;
   font-weight: bold;
 };
 
+.donation-panel {
+  background: rgba(107,65,143,0.92) !important;
+  color: #3399f3;
+};
+
+
+
+/////////////////////////////////////////////////// Parallax magic
+// .parallax {
+//   perspective: 1px;
+//   height: 100vh;
+//   overflow-x: hidden;
+//   overflow-y: auto;
+// };
 
 

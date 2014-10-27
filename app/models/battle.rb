@@ -1,6 +1,7 @@
 require 'aasm'
 
 class Battle < ActiveRecord::Base
+  is_impressionable
   include AASM
   extend FriendlyId
   friendly_id :id_code

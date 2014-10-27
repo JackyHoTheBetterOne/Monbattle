@@ -9,6 +9,7 @@ gem "pundit"
 gem "omniauth"
 gem 'rails', '4.1.4'
 gem "cocoon"
+gem 'impressionist'
 gem 'will_paginate', '~> 3.0'
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -49,7 +50,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
-# gem "better_errors", group: :development
+gem "better_errors", group: :development
 
 gem 'friendly_id'
 
