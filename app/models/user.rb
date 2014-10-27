@@ -27,8 +27,9 @@ class User < ActiveRecord::Base
   validates :email, presence: {message: 'Must be entered'}
   # validates :password, presence: {message: 'Must be entered'}
 
-  after_save :create_summoner
-  after_save :create_party
+  after_create :create_summoner
+  after_create :create_party
+  after_create :unlock_default_monsters
 
   def can_add_to_party?(mon_unlock)
     if self.members.count == 0 || self.members.count < 4 && self.members.where(monster_unlock_id: mon_unlock).empty?
@@ -69,20 +70,19 @@ class User < ActiveRecord::Base
   private
 
   def create_summoner
-    if self.summoner == nil
-      @summoner = Summoner.new
-      @summoner.user_id = self.id
-      @summoner.name = self.user_name
-      @summoner.save 
-    end
+    Summoner.create(user_id: self.id, name: self.user_name, vortex_key: 25)
   end
 
   def create_party
-    if self.parties.count == 0
-      @party = Party.new
-      @party.name = "Your Party"
-      @party.user_id = self.id
-      @party.save
+    Party.create(name: "Your Party", user_id: self.id)
+  end
+
+  def unlock_default_monsters
+    @default_monster_ids = Monster.find_default_monster_ids
+    @user_id = self.id
+
+    @default_monster_ids.each do |id|
+      MonsterUnlock.create(user_id: @user_id, monster_id: id)
     end
   end
 

@@ -25,7 +25,7 @@ class MonsterSkinsController < ApplicationController
     authorize @monster_skin
     @monster_skin.update_attributes(monster_skin_params)
     if @monster_skin.save
-      @monster_skin.monster_skin_equippings.destroy_all
+      # @monster_skin.monster_skin_equippings.destroy_all
       redirect_to monster_skins_path, notice: "Previous skin restrictions destroyed, new skin restrictions added!"
     end
   end

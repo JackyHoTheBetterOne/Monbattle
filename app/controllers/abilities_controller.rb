@@ -26,8 +26,8 @@ class AbilitiesController < ApplicationController
     authorize @ability
     respond_to do |format|
       if @ability.save
-       format.html { redirect_to abilities_path, notice: "Ability Created" }
-       format.js { render }
+        format.html { redirect_to abilities_path, notice: "Ability Created" }
+        format.js { render }
       else
         format.html { render :new }
       end

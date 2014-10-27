@@ -15,12 +15,10 @@ class AdminController < ApplicationController
     @elements = Element.all
     @personality = Personality.new
     @personalities = Personality.all
-
-    if current_user
-      if current_user.admin == false
-        redirect_to illegal_path
-      end
+    if user_signed_in?
+        if current_user.admin == false
+          redirect_to illegal_path
+        end
     end
   end
-
 end

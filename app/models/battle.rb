@@ -40,10 +40,12 @@ class Battle < ActiveRecord::Base
   def give_reward
     @mp_reward           = self.battle_level.mp_reward
     @gp_reward           = self.battle_level.gp_reward
+    @vk_reward           = self.battle_level.vk_reward
     @victorious_summoner = Summoner.find_victorious_summoner(@victor)
 
     @victorious_summoner.mp += @mp_reward
     @victorious_summoner.gp += @gp_reward
+    @victorious_summoner.vortex_key += @vk_reward
     @victorious_summoner.save
   end
 

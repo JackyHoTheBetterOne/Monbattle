@@ -37,7 +37,7 @@ class BattleLevelsController < ApplicationController
 private
 
   def battle_level_params
-    params.require(:battle_level).permit(:name, :item_given, :exp_given, :background, :gp_reward, :mp_reward)
+    params.require(:battle_level).permit(:name, :item_given, :exp_given, :background, :gp_reward, :mp_reward, :vk_reward)
   end
 
   def find_battle_level
