@@ -7,4 +7,7 @@
     =f.input :portrait
     h4 Jobs That can use this skin
     =f.collection_check_boxes :job_ids, Job.order(:name), :id, :name
+    -if @monster_skin.nil?
+    -else
+      =f.hidden_field :former_name, value: @monster_skin.name
     hr=f.submit "Upload Monster", class: 'btn btn-primary'

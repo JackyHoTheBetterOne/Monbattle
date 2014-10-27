@@ -73,6 +73,16 @@ class Ability < ActiveRecord::Base
     end
   }
 
+  scope :find_default_abilities_available, -> (socket_num, job_id) {
+    @socket_id = find_socket_id(socket_num)
+    @job_restricted_abil_ids  = find_abil_ids_through_ability_restriction(job_id)
+    where(abil_socket_id: @socket_id).where(id: @job_restricted_abil_ids)
+  }
+
+  def self.find_abil_ids_through_ability_restriction(job_id)
+    AbilityRestriction.find_abilities_avail_for_job_id(job_id)
+  end
+
 #####################################################
 
   def self.find_socket_id(sock_num)

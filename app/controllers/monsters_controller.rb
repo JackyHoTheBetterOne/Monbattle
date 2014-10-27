@@ -11,6 +11,8 @@ class MonstersController < ApplicationController
     @elements = Element.all
     @personality = Personality.new
     @personalities = Personality.all
+    @abilities = Ability.includes(:abil_socket).includes(:ability_restrictions)
+    @monster_skins = MonsterSkin.includes(:skin_restrictions)
     @monster = Monster.new
     @monsters = Monster.includes(:job, :element, :personality).search(params[:keyword]).
                 paginate(:page => params[:page], :per_page => 15)
@@ -84,7 +86,8 @@ class MonstersController < ApplicationController
     params.require(:monster).permit(
                                     :name, :max_hp, :monster_skin_id, :job_id, :element_id, :description, :rarity_id,
                                     :personality_id, :evolved_from_id, :hp_modifier, :dmg_modifier, :summon_cost,
-                                    :evolve_animation, :gp_cost, :mp_cost
+                                    :evolve_animation, :gp_cost, :mp_cost, :default_skin, :default_abil_socket1,
+                                    :default_abil_socket2
                                     )
   end
 

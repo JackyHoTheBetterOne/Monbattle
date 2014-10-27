@@ -46,4 +46,7 @@
           =f.input :mp_cost
           =f.input :gp_cost
           =f.input :description
+          -if @ability.nil?
+          -else
+            =f.hidden_field :former_name, value: @ability.name
           hr=f.submit class: 'btn btn-primary'

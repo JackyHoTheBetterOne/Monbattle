@@ -16,6 +16,21 @@
           .form-control=f.collection_select :personality_id, @personalities, :id, :name
           h4=f.label "Rarity of this Monster"
           .form-control =f.collection_select :rarity_id, Rarity.all, :id, :name
+          h4=f.label "Default Skin For This Monster"
+          -if @monster_skins.find_default_skins_available(@monster.job_id).empty?
+            .form-control="No Monster Skins Avail for Job of this Mon, setting default skin as Sack"
+          -else
+            .form-control =f.collection_select :default_skin, @monster_skins.find_default_skins_available(@monster.job_id), :name, :name
+          h4=f.label "Default Ability for Socket 1"
+          -if @abilities.find_default_abilities_available(1, @monster.job_id).empty?
+            .form-control="No Abil Avail for Job of this Mon for Sock 1, setting default as Slap"
+          -else
+            .form-control =f.collection_select :default_abil_socket1, @abilities.find_default_abilities_available(1, @monster.job_id), :name, :name
+          h4=f.label "Default Ability for Socket 2"
+          -if @abilities.find_default_abilities_available(2, @monster.job_id).empty?
+            .form-control="No Abil Avail for Job of this Mon for Sock 2, setting default as Groin Kick"
+          -else
+            .form-control =f.collection_select :default_abil_socket2, @abilities.find_default_abilities_available(2, @monster.job_id), :name, :name
           =f.input :description
           =f.input :max_hp
           / =f.input :hp_modifier
