@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
   private
 
   def create_summoner
-    Summoner.create(user_id: self.id, name: self.user_name)
+    Summoner.create(user_id: self.id, name: self.user_name, vortex_key: 25)
   end
 
   def create_party

@@ -21,5 +21,4 @@ class AdminController < ApplicationController
         end
     end
   end
-
 end

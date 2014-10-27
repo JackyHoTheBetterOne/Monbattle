@@ -1,14 +1,14 @@
 .info-display-area
   .btn-box
     -if mon.monster.evolved_from.nil?
-      .btn.btn-default.btn-change.monSet.shadowed2 type="button" id="#{dom_id(mon)}"
-        | Base
+      / .btn.btn-default.btn-change.monSet.shadowed2 type="button" id="#{dom_id(mon)}"
+      /   | Base
     -else
       .btn.btn-default.btn-change.monSet.shadowed2 type="button" id="monster_unlock_#{mon.unlocked_evolved_from(current_user).first.id}"
         | Base
-    -if mon.monster.evolutions.empty?
-      .btn.btn-default.btn-change.monSet.shadowed2 type="button" id="#{dom_id(mon)}"
-        | Evolved
+    -if mon.unlocked_evolves.empty?
+      / .btn.btn-default.btn-change.monSet.shadowed2 type="button" id="#{dom_id(mon)}"
+      /   | Evolved
     -else
       / .btn.btn-default.btn-change.monSet.shadowed2 type="button" id="monster_unlock_#{mon.unlocked_evolves.first.id}"
       /   | Evolved

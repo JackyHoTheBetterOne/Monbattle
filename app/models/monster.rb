@@ -105,7 +105,7 @@ class Monster < ActiveRecord::Base
   end
 
   # def unlock_for_admin
-  #   if MonsterUnlock.where("user_id = 1 AND monster_id = #{self.id}").count == 0
+  #   if MonsterUnlock.where(user_id: 1, monster_id: self.id).count == 0
   #     unlock = MonsterUnlock.new
   #     unlock.user_id = 1
   #     unlock.monster_id = self.id
@@ -114,12 +114,13 @@ class Monster < ActiveRecord::Base
   # end
 
   # def unlock_for_npc
-  #   if MonsterUnlock.where("user_id = 2 AND monster_id = #{self.id}").count == 0
+  #   if MonsterUnlock.where(user_id: 2, monster_id: self.id).count == 0
   #     unlock = MonsterUnlock.new
   #     unlock.user_id = 2
   #     unlock.monster_id = self.id
   #     unlock.save
   #   end
   # end
+
 
 end

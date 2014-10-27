@@ -45,7 +45,7 @@ class Battle < ActiveRecord::Base
 
     @victorious_summoner.mp += @mp_reward
     @victorious_summoner.gp += @gp_reward
-    @victorious_summoner.vk += @vk_reward
+    @victorious_summoner.vortex_key += @vk_reward
     @victorious_summoner.save
   end
 
@@ -88,6 +88,8 @@ class Battle < ActiveRecord::Base
   end
 
   def to_finish
-    self.done
+    if self.aasm_state == "battling"
+      self.done
+    end
   end
 end

@@ -7,16 +7,16 @@ class RollTreasure
 
   def call
     @summoner = user.summoner             
-    if @summoner.vortex_key <= 0 
+    if @summoner.gp <= 5 
       self.message = "You ain't got no vortex key. Get more to roll."
       return self.message
     else 
-      @summoner.vortex_key -= 1
+      @summoner.vortex_key -= 5
       roll = Random.new
       reward_category_roll = roll.rand(1000)+1
       reward_level_roll = roll.rand(1000)+1
       case
-        when (1..850).include?(reward_category_roll) #85% resource
+        when (1..400).include?(reward_category_roll) #40% resource
           case
             when (1..370).include?(reward_level_roll) #37%
               @gp = 5
@@ -43,7 +43,7 @@ class RollTreasure
             return false
           end
 
-        when (851..950).include?(reward_category_roll) #10% ability
+        when (401..700).include?(reward_category_roll) #30% ability
           case
             when (1..820).include?(reward_level_roll) #82%
               @rarity = "common"
@@ -54,7 +54,7 @@ class RollTreasure
             when (971..995).include?(reward_level_roll) #2.5%
               @rarity = "ultra rare"
             when (996..1000).include?(reward_level_roll) #.5%
-              @rarity = "legendary"
+              @rarity = "mythical"
             else
               return false
           end
@@ -66,7 +66,7 @@ class RollTreasure
           @abil_id_won = @abil_array[@abil_position]
           @abil_won_name = @abilities.find_name(@abil_id_won)
 
-          if @ability_purchases.unlock_check(@user, @abil_id_won).exists?
+          if AbilityPurchase.unlock_check(@user, @abil_id_won).exists?
             self.message =  "You already own the ability #{@abil_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"
             return self.message
           else 
@@ -74,10 +74,11 @@ class RollTreasure
             @ability_purchase.user_id = @user.id
             @ability_purchase.ability_id = @abil_id_won
             @ability_purchase.save
-            return "You unlocked ability #{@abil_won_name} that has rarity #{@rarity}!"
+            self.message = "You unlocked ability #{@abil_won_name} that has rarity #{@rarity}!"
+            return self.message
           end
 
-        when (951..1000).include?(reward_category_roll) #5% monsters
+        when (701..1000).include?(reward_category_roll) #30% monsters
           case
             when (1..820).include?(reward_level_roll) #82%
               @rarity = "common"
@@ -88,7 +89,7 @@ class RollTreasure
             when (971..995).include?(reward_level_roll) #2.5%
               @rarity = "ultra rare"
             when (996..1000).include?(reward_level_roll) #.5%
-              @rarity = "legendary"
+              @rarity = "mythical"
             else
               return "hack attempt"
           end
@@ -101,7 +102,7 @@ class RollTreasure
 
           #create_reward
 
-          if @monster_unlocks.unlock_check(@user, @mon_id_won).exists?
+          if MonsterUnlock.unlock_check(@user, @mon_id_won).exists?
             self.message =  "You already own the monster #{@mon_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"
             return self.message
           else

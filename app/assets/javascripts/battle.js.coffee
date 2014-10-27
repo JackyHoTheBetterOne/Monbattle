@@ -471,11 +471,12 @@ window.flashEndButton = ->
     if $(this).parent().parent().children(".img").css("display") isnt "none" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
   if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
-    $(".end-turn").addClass("turn-end").effect("pulsate", {times: 3}, 1500)
-    $(".end-turn").on "click.msgOff", ->
-      $(this).off "click.msgOff"
-      $(this).stop()
-      $(this).toggleClass("turn-end")
+    setTimeout (->
+      $(".end-turn").trigger("click")
+      return
+    ), 1000
+    return
+
 
 window.toggleEnemyClick = ->
   $(".enemy .img").each ->
