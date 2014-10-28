@@ -1,5 +1,6 @@
 class BattlesController < ApplicationController
   before_action :find_battle, except: [:create, :index, :new, :generate_field]
+  impressionist :unique => [:controller_name, :action_name, :session_hash]
 
   def index
     @battles = Battle.all
@@ -33,11 +34,17 @@ class BattlesController < ApplicationController
   end
 
   def show
+    impressionist(@battle)
     @user_party = @battle.parties[0]
     @pc_party   = @battle.parties[1]
-    respond_to do |format|
-      format.html { render layout: "facebook_landing" if current_user.admin == false }
-      format.json { render json: @battle.build_json  }
+    if @battle.impressionist_count <= 2
+      respond_to do |format|
+        format.html { render layout: "facebook_landing" if current_user.admin == false }
+        format.json { render json: @battle.build_json  }
+      end
+    else
+      flash[:alert] = "You need to fuck off!"
+      redirect_to new_battle_path
     end
   end
 

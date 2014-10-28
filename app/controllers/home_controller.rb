@@ -5,7 +5,11 @@ class HomeController < ApplicationController
     @base_mons = MonsterUnlock.base_mons(current_user)
     @abilities = Ability.all
     @ability_equippings = AbilityEquipping.all
-    @members = current_user.parties.first.members
+    if current_user
+      @members = current_user.parties.first.members
+    else
+      render layout: "facebook_landing"
+    end
   end
 
   def show
@@ -33,8 +37,14 @@ class HomeController < ApplicationController
   def roll
     rolling = RollTreasure.new(user: current_user)
     rolling.call
+    @treasure = rolling
+    @summoner = current_user.summoner
     if rolling.message
-      render text: rolling.message
+      render :json => {
+        message: @treasure.message,
+        gp: @summoner.gp,
+        mp: @summoner.mp
+      }
     else
       flash[:alert] = "Something went wrong. It's your fault."
       redirect_to device_store_path

@@ -16,9 +16,9 @@ class AdminController < ApplicationController
     @personality = Personality.new
     @personalities = Personality.all
     if user_signed_in?
-        if current_user.admin == false
-          redirect_to illegal_path
-        end
+      if current_user.admin == false
+        redirect_to illegal_path
+      end
     end
   end
 end
