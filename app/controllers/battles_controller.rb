@@ -11,7 +11,8 @@ class BattlesController < ApplicationController
     @battle = Battle.new
     @user = current_user
     respond_to do |format|
-      format.html {render :layout => "facebook_landing" if current_user.admin == false}
+      # format.html {render :layout => "facebook_landing" if current_user.admin == false}
+      format.html {render :layout => "facebook_landing"}
       format.js
     end
   end
