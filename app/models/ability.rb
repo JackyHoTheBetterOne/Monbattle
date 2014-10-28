@@ -50,8 +50,10 @@ class Ability < ActiveRecord::Base
 
   default_scope { order('abil_socket_id') }
   before_save :set_keywords
-  after_save :unlock_for_admin
-  after_save :unlock_for_npc
+  after_create :unlock_for_admin
+  after_create :unlock_for_npc
+  # after_create :set_former_name_field
+  # after_update :change_default_ability_name_for_monsters
 
   scope :name_alphabetical, -> { order('name') }
 
@@ -74,39 +76,22 @@ class Ability < ActiveRecord::Base
   }
 
   scope :find_default_abilities_available, -> (socket_num, job_id) {
-    @socket_id = find_socket_id(socket_num)
+    @socket_id                = find_socket_id(socket_num)
     @job_restricted_abil_ids  = find_abil_ids_through_ability_restriction(job_id)
-    where(abil_socket_id: @socket_id).where(id: @job_restricted_abil_ids)
+    where(abil_socket_id: @socket_id, id: @job_restricted_abil_ids)
   }
 
   def self.find_abil_ids_through_ability_restriction(job_id)
     AbilityRestriction.find_abilities_avail_for_job_id(job_id)
   end
 
-#####################################################
-
   def self.find_socket_id(sock_num)
     AbilSocket.socket_id(sock_num)
   end
 
-  def self.find_default_name(sock_num) #Create tests to see if default ability exists
-    case sock_num
-      when 1
-        "Slap"
-      when 2
-        "Groin Kick"
-      else
-        "raise error"
-    end
+  def find_socket_num(socket_id)
+    AbilSocket.find(socket_id).socket_num
   end
-
-  def self.default_id_for_socket(sock_num)
-    @socket_id = self.find_socket_id(sock_num)
-    @ability_name = self.find_default_name(sock_num)
-    where(name: @ability_name, abil_socket_id: @socket_id).first
-  end
-
-  #################################################################
 
   def self.worth(rarity)
     where(rarity_id: Rarity.worth(rarity))
@@ -167,6 +152,15 @@ class Ability < ActiveRecord::Base
 
   private
 
+  # def change_default_ability_name_for_monsters
+  #   if self.former_name == self.name
+  #   else
+  #     @socket_id = self.abil_socket_id
+  #     @socket_num = find_socket_num(@socket_id)
+  #     Monster.update_default_abil_name(socket_num: @socket_num, former_name: self.former_name, new_name: self.name)
+  #   end
+  # end
+
   def set_keywords
     self.keywords = [name, description, self.targeta, self.stat_target.name, self.element.name].map(&:downcase).
                       concat([ap_cost, stat_change]).join(" ")
@@ -189,5 +183,10 @@ class Ability < ActiveRecord::Base
       unlock.save
     end
   end
+
+  # def set_former_name_field
+  #   self.former_name = self.name
+  #   self.save
+  # end
 
 end

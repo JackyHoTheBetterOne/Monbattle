@@ -34,14 +34,14 @@ class AbilitiesController < ApplicationController
     end
   end
 
-  def destroy
-    authorize @ability
-    if @ability.destroy
-      redirect_to abilities_path, notice: "Ability Removed"
-    else
-      render :new
-    end
-  end
+  # def destroy
+  #   authorize @ability
+  #   if @ability.destroy
+  #     redirect_to abilities_path, notice: "Ability Removed"
+  #   else
+  #     render :new
+  #   end
+  # end
 
   def edit
   end

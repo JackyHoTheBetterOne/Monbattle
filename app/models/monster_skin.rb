@@ -25,17 +25,30 @@ class MonsterSkin < ActiveRecord::Base
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :rarity, presence: {message: 'Must be entered'}
 
+  # after_create :set_former_name_field
+  # after_update :change_default_skin_name_for_monsters
+
   scope :find_default_skins_available, -> (job_id) {
     @job_restricted_monster_skin_ids  = find_monster_skin_ids_through_skin_restriction(job_id)
     where(id: @job_restricted_monster_skin_ids)
   }
 
+  # def change_default_skin_name_for_monsters
+  #   if self.former_name == self.name
+  #   else
+  #     Monster.update_default_skin_name(former_name: self.former_name, new_name: self.name)
+  #   end
+  # end
+
   def self.find_monster_skin_ids_through_skin_restriction(job_id)
     SkinRestriction.find_monster_skins_avail_for_job_id(job_id)
   end
 
-  def self.default_skin_id
-    @default_skin_name = "Sack"
-    self.where(name: @default_skin_name).first.id
-  end
+  private
+
+  # def set_former_name_field
+  #   self.former_name = self.name
+  #   self.save
+  # end
+
 end

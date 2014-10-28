@@ -37,7 +37,10 @@
           h4=f.label "Rarity of this ability"
           .form-control =f.collection_select :rarity_id, Rarity.all, :id, :name
           h4=f.label "Select Socket Number that this ability is for"
-          .form-control =f.collection_select :abil_socket_id, AbilSocket.all, :id, :socket_num
+          -if @ability.abil_socket_id.nil?
+            .form-control =f.collection_select :abil_socket_id, AbilSocket.all, :id, :socket_num
+          -else
+            .form-control ="Currently set to socket #{@ability.abil_socket.socket_num} *Can Not Change*"
           =f.label "How much the stat is Changed(Format must be + or - and then integer)"
           =f.text_field :stat_change, class: 'form-control'
           =f.input :image
@@ -46,7 +49,5 @@
           =f.input :mp_cost
           =f.input :gp_cost
           =f.input :description
-          -if @ability.nil?
-          -else
-            =f.hidden_field :former_name, value: @ability.name
+          =f.hidden_field :former_name, value: @ability.name
           hr=f.submit class: 'btn btn-primary'

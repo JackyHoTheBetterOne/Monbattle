@@ -1,7 +1,7 @@
 - if user_signed_in? == false
   h1 Sign in First
 - else
-  =render partial: "admin/modal_button", locals: {modal_label: "skinLabel", modal_id: "skinModal", form_is_for: "monster_skins/form", button_name: "Upload a Monster Skin", form_title: "Upload Monster Skin" }
+  =render partial: "admin/modal_button", locals: {modal_label: "skinLabel", modal_id: "skinModal", form_is_for: "monster_skins/form", button_name: "Create a Monster Skin", form_title: "Create Monster Skin" }
   -if user_signed_in?
     -if @monster_skins.empty?
     -else

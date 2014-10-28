@@ -30,13 +30,13 @@ class MonsterSkinsController < ApplicationController
     end
   end
 
-  def destroy
-    # render text: params.to_s
-    authorize @monster_skin
-    if @monster_skin.destroy
-      redirect_to monster_skins_path, notice: "Monster Skin Destroyed!!!"
-    end
-  end
+  # def destroy
+  #   # render text: params.to_s
+  #   authorize @monster_skin
+  #   if @monster_skin.destroy
+  #     redirect_to monster_skins_path, notice: "Monster Skin Destroyed!!!"
+  #   end
+  # end
 
   private
 
