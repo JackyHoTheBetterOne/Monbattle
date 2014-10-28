@@ -345,3 +345,7 @@ $distance-between-pane-top-pane-info: 15px;
         background: $grey-fade-hover;
         text-decoration:none;
       }
+
+#topcontrol {
+  bottom: -10px !important;
+};

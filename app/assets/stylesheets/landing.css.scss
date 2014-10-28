@@ -1,3 +1,5 @@
+@import "compass";
+
 .navbar-logo {
   height: 50px;
   width: 160px;
@@ -11,7 +13,7 @@
 };
 
 .mon-front {
-  background: rgba(107,65,143,0.92) !important;
+  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%) !important);
 };
 
 .fb-nav {
@@ -21,16 +23,16 @@
 };
 
 .forest {
-  background: url("forest.jpg");
+  background: black;
   background-repeat: no-repeat;
   background-size: cover;
 };
 
 .sweet-home {
+  color: #446e9b !important;
+  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%) !important);
   text-align: center;
   border-radius: 5px;
-  color: #3399f3 !important;
-  background: url("purple-space.jpeg");
   background-size: cover;
   background-repeat: no-repeat;
   height: 300px;
@@ -53,7 +55,7 @@
 .extra-information {
   position: fixed;
   bottom: 20px;
-  left: 600px;
+  left: 585px;
 };
 
 .currency {
@@ -69,6 +71,9 @@
   color: #3399f3;
 };
 
+.modal {
+  top: 65px !important;
+};
 
 
 /////////////////////////////////////////////////// Parallax magic

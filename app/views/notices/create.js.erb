@@ -1,0 +1,8 @@
+<% if @notice.new_record? %>
+  $(".new_notice").effect("highlight", {color: "red"});
+<% else %>
+  $(".new_notice")[0].reset();
+  $(".notice-form-unfold").click();
+  $(".notices").prepend("<%= j render @notice %>");
+  $("div#<%= dom_id(@notice) %>").effect("highlight");
+<% end %>

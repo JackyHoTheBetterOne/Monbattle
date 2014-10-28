@@ -3,6 +3,7 @@
 @import "compass";
 
 $theme-background-color: rgba(32, 32, 32, 0.9);
+// @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
 
 @mixin flipped() {
   -moz-transform: scaleX(-1);

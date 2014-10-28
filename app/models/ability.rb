@@ -103,7 +103,7 @@ class Ability < ActiveRecord::Base
   def self.default_id_for_socket(sock_num)
     @socket_id = self.find_socket_id(sock_num)
     @ability_name = self.find_default_name(sock_num)
-    where(name: @ability_name, abil_socket_id: @socket_id).first.id
+    where(name: @ability_name, abil_socket_id: @socket_id).first
   end
 
   #################################################################

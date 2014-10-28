@@ -1,0 +1,19 @@
+<div class="jumbotron">
+  <h1>I am Frank. And I want attention.</h1>
+  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default notice-form-unfold">
+    Notice form
+  </a>
+  <p></p>
+  <div id="collapseOne" class="panel-collapse collapse">
+    <%= simple_form_for(@notice, remote: true) do |f| %>
+      <%= f.input :title %>
+      <%= f.input :body, input_html: {rows: "5"} %>
+      <%= f.association :notice_type %>
+      <%= f.button :submit %>
+    <% end %>
+  </div>
+</div>
+<p></p>
+<div class="notices">
+  <%= render @notices %>
+</div>

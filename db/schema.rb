@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141027211258) do
+ActiveRecord::Schema.define(version: 20141028180308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -316,6 +316,20 @@ ActiveRecord::Schema.define(version: 20141027211258) do
   add_index "monsters", ["job_id"], name: "index_monsters_on_job_id", using: :btree
   add_index "monsters", ["personality_id"], name: "index_monsters_on_personality_id", using: :btree
   add_index "monsters", ["rarity_id"], name: "index_monsters_on_rarity_id", using: :btree
+
+  create_table "notice_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "notices", force: true do |t|
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "notice_type_id"
+  end
 
   create_table "parties", force: true do |t|
     t.integer  "user_id"
