@@ -1,7 +1,6 @@
 class Monster < ActiveRecord::Base
   before_save :set_keywords
-  # after_create :unlock_for_admin
-  # after_create :unlock_for_npc
+  after_create :unlock_monster
 
   # default_scope{ order('updated_at desc') }
 
@@ -48,9 +47,46 @@ class Monster < ActiveRecord::Base
   # validates :dmg_modifier, presence: {message: 'Must be entered'}
   # validates :hp_modifier, presence: {message: 'Must be entered'}
 
+  def self.update_default_abil_name(params = {})
+    @socket_num  = params[:socket_num]
+    @former_name = params[:former_name]
+    @new_name    = params[:new_name]
+
+    if @socket_num == 1
+      @mons_to_update_default_abil = where(default_abil_socket1: @former_name)
+      @mons_to_update_default_abil.each do |mon|
+        mon.default_abil_socket1 = @new_name
+        mon.save
+      end
+
+    elsif @socket_num == 2
+      @mons_to_update_default_abil = where(default_abil_socket2: @former_name)
+      @mons_to_update_default_abil.each do |mon|
+        mon.default_abil_socket2 = @new_name
+        mon.save
+      end
+
+    end
+  end
+
+  def self.update_default_skin_name(params = {})
+    @new_name    = params[:new_name]
+    @former_name = params[:former_name]
+
+    @mons_to_update = where(default_skin: @former_name)
+    @mons_to_update.each do |mon|
+      mon.default_skin = @new_name
+      mon.save
+    end
+  end
+
   def self.find_default_monster_ids
     @default_monster_names = ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira"]
     where(name: @default_monster_names).pluck(:id)
+  end
+
+  def find_user(user_name)
+    User.find_by_user_name(user_name)
   end
 
   def self.mon_abils(monster)
@@ -104,23 +140,20 @@ class Monster < ActiveRecord::Base
     end
   end
 
-  # def unlock_for_admin
-  #   if MonsterUnlock.where(user_id: 1, monster_id: self.id).count == 0
-  #     unlock = MonsterUnlock.new
-  #     unlock.user_id = 1
-  #     unlock.monster_id = self.id
-  #     unlock.save
-  #   end
-  # end
+  def unlock_monster
+    case
+      when MonsterSkin.all.empty?
+      when Ability.all.empty?
+      else
+        if rarity == "NPC"
+          @user = find_user("NPC")
+        else
+          @user = find_user("admin")
+        end
 
-  # def unlock_for_npc
-  #   if MonsterUnlock.where(user_id: 2, monster_id: self.id).count == 0
-  #     unlock = MonsterUnlock.new
-  #     unlock.user_id = 2
-  #     unlock.monster_id = self.id
-  #     unlock.save
-  #   end
-  # end
+        MonsterUnlock.create(user_id: @user.id, monster_id: self.id)
 
+    end
+  end
 
 end
