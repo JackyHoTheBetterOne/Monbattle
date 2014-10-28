@@ -1,8 +1,8 @@
 tr
   td
     h4 Skin Name: #{monster_skin.name}
-    br=link_to "Edit Skin Settings", edit_monster_skin_path(monster_skin), data: {confirm: "Will unequip this skin from all monsters and remake all class restrictions on this skin!!"}, class: "btn btn-sm btn-info"
-    =link_to "Delete Skin", monster_skin, method: :delete, data: {confirm: "Will delete this skin for all users!!"}, class: "btn btn-sm btn-danger"
+    br=link_to "Edit Skin Settings", edit_monster_skin_path(monster_skin), class: "btn btn-sm btn-info"
+    / =link_to "Delete Skin", monster_skin, method: :delete, data: {confirm: "Will delete this skin for all users!!"}, class: "btn btn-sm btn-danger"
   td=image_tag monster_skin.avatar.url(:medium)
   td=image_tag monster_skin.portrait.url(:small)
   / td

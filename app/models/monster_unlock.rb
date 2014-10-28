@@ -161,17 +161,17 @@ class MonsterUnlock < ActiveRecord::Base
     @monster_unlock_id  = self.id
     @monster_id         = self.monster_id
     @user_id            = self.user_id
-    @sock1_default_name = self.monster.default_abil_socket1
-    @sock2_default_name = self.monster.default_abil_socket2
-    @default_skin_name  = self.monster.default_skin
+    @default_sock1_id   = self.monster.default_sock1_id
+    @default_sock2_id   = self.monster.default_sock2_id
+    @default_skin_id    = self.monster.default_skin_id
     AbilityEquipping.create(monster_unlock_id: @monster_unlock_id,
-                            ability_id: Ability.default_abil_id(sock_num: 1, abil_name: @sock1_default_name)
+                            ability_id: @default_sock1_id
                             )
     AbilityEquipping.create(monster_unlock_id: @monster_unlock_id,
-                            ability_id: Ability.default_abil_id(sock_num: 2, abil_name: @sock2_default_name)
+                            ability_id: @default_sock2_id
                             )
     MonsterSkinEquipping.create(monster_id: @monster_id, user_id: @user_id,
-                                monster_skin_id: MonsterSkin.default_skin_id(@default_skin_name)
+                                monster_skin_id: @default_skin_id
                                 )
   end
 

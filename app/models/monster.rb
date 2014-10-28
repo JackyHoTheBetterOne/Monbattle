@@ -1,6 +1,4 @@
 class Monster < ActiveRecord::Base
-  before_save :set_keywords
-  after_create :unlock_monster
 
   # default_scope{ order('updated_at desc') }
 
@@ -47,37 +45,61 @@ class Monster < ActiveRecord::Base
   # validates :dmg_modifier, presence: {message: 'Must be entered'}
   # validates :hp_modifier, presence: {message: 'Must be entered'}
 
-  def self.update_default_abil_name(params = {})
-    @socket_num  = params[:socket_num]
-    @former_name = params[:former_name]
-    @new_name    = params[:new_name]
+  before_save :set_keywords
+  after_create :unlock_for_admins
+  after_create :set_defaults
 
-    if @socket_num == 1
-      @mons_to_update_default_abil = where(default_abil_socket1: @former_name)
-      @mons_to_update_default_abil.each do |mon|
-        mon.default_abil_socket1 = @new_name
-        mon.save
-      end
-
-    elsif @socket_num == 2
-      @mons_to_update_default_abil = where(default_abil_socket2: @former_name)
-      @mons_to_update_default_abil.each do |mon|
-        mon.default_abil_socket2 = @new_name
-        mon.save
-      end
-
-    end
+  def find_default_skin_id(skin_name)
+    MonsterSkin.find_by(name: skin_name).id
   end
 
-  def self.update_default_skin_name(params = {})
-    @new_name    = params[:new_name]
-    @former_name = params[:former_name]
+  def find_default_abil_id(abil_name)
+    Ability.find_by(name: abil_name).id
+  end
 
-    @mons_to_update = where(default_skin: @former_name)
-    @mons_to_update.each do |mon|
-      mon.default_skin = @new_name
-      mon.save
-    end
+  # def self.update_default_abil_name(params = {})
+  #   @socket_num  = params[:socket_num]
+  #   @former_name = params[:former_name]
+  #   @new_name    = params[:new_name]
+
+  #   if @socket_num == 1
+  #     @mons_to_update_default_abil = where(default_abil_socket1: @former_name)
+  #     @mons_to_update_default_abil.each do |mon|
+  #       mon.default_abil_socket1 = @new_name
+  #       mon.save
+  #     end
+
+  #   elsif @socket_num == 2
+  #     @mons_to_update_default_abil = where(default_abil_socket2: @former_name)
+  #     @mons_to_update_default_abil.each do |mon|
+  #       mon.default_abil_socket2 = @new_name
+  #       mon.save
+  #     end
+
+  #   end
+  # end
+
+  # def self.update_default_skin_name(params = {})
+  #   @new_name    = params[:new_name]
+  #   @former_name = params[:former_name]
+
+  #   @mons_to_update = where(default_skin: @former_name)
+  #   @mons_to_update.each do |mon|
+  #     mon.default_skin = @new_name
+  #     mon.save
+  #   end
+  # end
+
+  def default_skin_img
+    MonsterSkin.find(self.default_skin_id).portrait.url(:thumb)
+  end
+
+  def default_sock1_name
+    Ability.find(self.default_sock1_id).name
+  end
+
+  def default_sock2_name
+    Ability.find(self.default_sock2_id).name
   end
 
   def self.find_default_monster_ids
@@ -140,7 +162,14 @@ class Monster < ActiveRecord::Base
     end
   end
 
-  def unlock_monster
+  def set_defaults
+    self.default_skin_id  = find_default_skin_id("Sack")
+    self.default_sock1_id = find_default_abil_id("Slap")
+    self.default_sock2_id = find_default_abil_id("Groin Kick")
+    self.save
+  end
+
+  def unlock_for_admins
     case
       when MonsterSkin.all.empty?
       when Ability.all.empty?

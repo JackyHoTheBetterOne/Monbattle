@@ -52,8 +52,8 @@ class Ability < ActiveRecord::Base
   before_save :set_keywords
   after_create :unlock_for_admin
   after_create :unlock_for_npc
-  after_create :set_former_name_field
-  after_update :change_default_ability_name_for_monsters
+  # after_create :set_former_name_field
+  # after_update :change_default_ability_name_for_monsters
 
   scope :name_alphabetical, -> { order('name') }
 
@@ -85,21 +85,9 @@ class Ability < ActiveRecord::Base
     AbilityRestriction.find_abilities_avail_for_job_id(job_id)
   end
 
-#####################################################
-
   def self.find_socket_id(sock_num)
     AbilSocket.socket_id(sock_num)
   end
-
-
-  def self.default_abil_id(params = {})
-    @sock_num = params[:sock_num]
-    @abil_name = params[:abil_name]
-    @socket_id = find_socket_id(@sock_num)
-    where(name: @abil_name, abil_socket_id: @socket_id).first.id
-  end
-
-  #################################################################
 
   def find_socket_num(socket_id)
     AbilSocket.find(socket_id).socket_num
@@ -164,14 +152,14 @@ class Ability < ActiveRecord::Base
 
   private
 
-  def change_default_ability_name_for_monsters
-    if self.former_name == self.name
-    else
-      @socket_id = self.abil_socket_id
-      @socket_num = find_socket_num(@socket_id)
-      Monster.update_default_abil_name(socket_num: @socket_num, former_name: self.former_name, new_name: self.name)
-    end
-  end
+  # def change_default_ability_name_for_monsters
+  #   if self.former_name == self.name
+  #   else
+  #     @socket_id = self.abil_socket_id
+  #     @socket_num = find_socket_num(@socket_id)
+  #     Monster.update_default_abil_name(socket_num: @socket_num, former_name: self.former_name, new_name: self.name)
+  #   end
+  # end
 
   def set_keywords
     self.keywords = [name, description, self.targeta, self.stat_target.name, self.element.name].map(&:downcase).
@@ -196,9 +184,9 @@ class Ability < ActiveRecord::Base
     end
   end
 
-  def set_former_name_field
-    self.former_name = self.name
-    self.save
-  end
+  # def set_former_name_field
+  #   self.former_name = self.name
+  #   self.save
+  # end
 
 end

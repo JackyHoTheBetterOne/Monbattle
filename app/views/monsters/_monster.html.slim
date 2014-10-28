@@ -26,9 +26,9 @@ tr id=dom_id(monster)
   td=monster.rarity.try(:name)
   td=monster.mp_cost
   td=monster.gp_cost
-  td=monster.default_skin
-  td=monster.default_abil_socket1
-  td=monster.default_abil_socket2
+  td=monster.default_skin_id.nil? ? "Not Set" : "#{monster.default_skin_img}"
+  td=monster.default_sock1_id.nil? ? "Not Set" : "#{monster.default_sock1_name}"
+  td=monster.default_sock2_id.nil? ? "Not Set" : "#{monster.default_sock2_name}"
 
   td id="unlock_#{dom_id(monster)}"
     =render partial: "monster_unlocks/monster_unlock", locals: {monster: @monster, monster_unlock: @monster_unlock}
