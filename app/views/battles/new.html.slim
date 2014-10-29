@@ -1,7 +1,7 @@
-div class="level-select"
-  -if user_signed_in? == false
-    h1 Sign in First
-  -else
+-if !user_signed_in? 
+  = render "home/no_user"
+-else
+  div class="level-select"
     -if @battle.errors.any?
       ul
       -@battle.errors.full_messages.each do |msg|
@@ -15,10 +15,8 @@ div class="level-select"
         -if Party.members_count_for(current_user) == 0
           h1 Add more members to your team first.
         -else
-          / h5 add logic to check if monsters in party are equipped
-          / h5 Make a select box for each party that exists for npc called (select a level)
-          = form_tag generate_field_battles_path, remote: true, :method => "get" do
-            = submit_tag "Generate your battlefield", class: "btn btn-warning btn-lg field-generation"
+          = form_tag generate_field_battles_path, remote: true, :method => "get", class: "field-generation" do
+              = submit_tag "Generate your battlefield", class: "btn btn-warning btn-lg"
           div class="battle_map"
             = render "/battles/form"
 

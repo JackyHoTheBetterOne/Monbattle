@@ -7,4 +7,6 @@
   = render partial: "admin/modal_button", locals: {modal_label: "targetLabel", modal_id: "targetModal", form_is_for: "targets/form", button_name: "Create New Target", form_title: "New Target"}
   = render partial: "admin/modal_button", locals: {modal_label: "stat_targetLabel", modal_id: "stat_targetModal", form_is_for: "stat_targets/form", button_name: "Create New Stat Target", form_title: "New Stat Target"}
   = render partial: "admin/modal_button", locals: {modal_label: "abil_socketLabel", modal_id: "abil_socketModal", form_is_for: "abil_sockets/form", button_name: "Create Socket # for Abilities", form_title: "Create Socket #"}
+  h2 Admin Party Edit
+  h3 =link_to "#{current_user.parties.first.name}", [current_user.parties.first, {user_id: current_user.id}]
 

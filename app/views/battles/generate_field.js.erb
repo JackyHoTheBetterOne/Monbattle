@@ -1,1 +1,2 @@
-$(".battle_map").effect("explode", {pieces: 20}).html("<%= j render '/battles/form' %>").fadeIn(1000)
+$(".battle_map").html("<%= j render '/battles/form' %>");
+$(".battle_level").fadeOut(500).fadeIn(1000);

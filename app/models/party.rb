@@ -7,6 +7,7 @@ class Party < ActiveRecord::Base
   has_many :monster_unlocks, through: :members
   has_many :mons, through: :members, source: :monster_unlock
   has_many :monsters, through: :mons
+  has_many :monster_unlocks, through: :members
 
   validates :user_id, presence: {message: 'Must be entered'}
                                  # uniqueness: true unless: :{ |c| !c.logged_in? }
