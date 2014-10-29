@@ -92,7 +92,8 @@ CREATE TABLE abilities (
     keywords text,
     rarity_id integer,
     mp_cost integer,
-    gp_cost integer
+    gp_cost integer,
+    former_name text DEFAULT ''::text
 );
 
 
@@ -200,7 +201,8 @@ CREATE TABLE ability_purchases (
     ability_id integer,
     user_id integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    amount_owned integer DEFAULT 1
 );
 
 
@@ -542,6 +544,51 @@ ALTER SEQUENCE friendly_id_slugs_id_seq OWNED BY friendly_id_slugs.id;
 
 
 --
+-- Name: impressions; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE impressions (
+    id integer NOT NULL,
+    impressionable_type character varying(255),
+    impressionable_id integer,
+    user_id integer,
+    controller_name character varying(255),
+    action_name character varying(255),
+    view_name character varying(255),
+    request_hash character varying(255),
+    ip_address character varying(255),
+    session_hash character varying(255),
+    message text,
+    referrer text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.impressions OWNER TO "Frank";
+
+--
+-- Name: impressions_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE impressions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.impressions_id_seq OWNER TO "Frank";
+
+--
+-- Name: impressions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE impressions_id_seq OWNED BY impressions.id;
+
+
+--
 -- Name: jobs; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
 --
 
@@ -703,7 +750,8 @@ CREATE TABLE monster_skins (
     portrait_content_type character varying(255),
     portrait_file_size integer,
     portrait_updated_at timestamp without time zone,
-    rarity_id integer
+    rarity_id integer,
+    former_name text DEFAULT ''::text
 );
 
 
@@ -793,7 +841,10 @@ CREATE TABLE monsters (
     mp_cost integer,
     gp_cost integer,
     physical_resistance integer,
-    ability_resistance integer
+    ability_resistance integer,
+    default_skin_id integer,
+    default_sock1_id integer,
+    default_sock2_id integer
 );
 
 
@@ -818,6 +869,78 @@ ALTER TABLE public.monsters_id_seq OWNER TO "Frank";
 --
 
 ALTER SEQUENCE monsters_id_seq OWNED BY monsters.id;
+
+
+--
+-- Name: notice_types; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE notice_types (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.notice_types OWNER TO "Frank";
+
+--
+-- Name: notice_types_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE notice_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notice_types_id_seq OWNER TO "Frank";
+
+--
+-- Name: notice_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE notice_types_id_seq OWNED BY notice_types.id;
+
+
+--
+-- Name: notices; Type: TABLE; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE TABLE notices (
+    id integer NOT NULL,
+    title character varying(255),
+    body text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    notice_type_id integer
+);
+
+
+ALTER TABLE public.notices OWNER TO "Frank";
+
+--
+-- Name: notices_id_seq; Type: SEQUENCE; Schema: public; Owner: Frank
+--
+
+CREATE SEQUENCE notices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notices_id_seq OWNER TO "Frank";
+
+--
+-- Name: notices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Frank
+--
+
+ALTER SEQUENCE notices_id_seq OWNED BY notices.id;
 
 
 --
@@ -1308,6 +1431,13 @@ ALTER TABLE ONLY friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('friendly
 -- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
 --
 
+ALTER TABLE ONLY impressions ALTER COLUMN id SET DEFAULT nextval('impressions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
 ALTER TABLE ONLY jobs ALTER COLUMN id SET DEFAULT nextval('jobs_id_seq'::regclass);
 
 
@@ -1351,6 +1481,20 @@ ALTER TABLE ONLY monster_unlocks ALTER COLUMN id SET DEFAULT nextval('monster_un
 --
 
 ALTER TABLE ONLY monsters ALTER COLUMN id SET DEFAULT nextval('monsters_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY notice_types ALTER COLUMN id SET DEFAULT nextval('notice_types_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Frank
+--
+
+ALTER TABLE ONLY notices ALTER COLUMN id SET DEFAULT nextval('notices_id_seq'::regclass);
 
 
 --
@@ -1446,39 +1590,39 @@ SELECT pg_catalog.setval('abil_sockets_id_seq', 4, true);
 -- Data for Name: abilities; Type: TABLE DATA; Schema: public; Owner: Frank
 --
 
-COPY abilities (id, name, ap_cost, min_level, created_at, updated_at, description, stat_change, target_id, element_id, stat_target_id, image_file_name, image_content_type, image_file_size, image_updated_at, abil_socket_id, portrait_file_name, portrait_content_type, portrait_file_size, portrait_updated_at, keywords, rarity_id, mp_cost, gp_cost) FROM stdin;
-19	Healing Circle	20	\N	2014-10-01 00:08:28.800442	2014-10-24 22:40:23.246201	Heals party 600 hp.	+600	6	4	1	mass-heal-3.gif	image/gif	479054	2014-10-10 00:25:05.343814	2	mass-heal-avatar.gif	image/gif	14216	2014-10-09 21:05:13.934179	healing circle heals party 600 hp. aoeally hp earth 20 +600	1	\N	\N
-5	Strike 	10	1	2014-09-30 20:39:47.647934	2014-10-26 04:42:17.054815	275 damage to target enemy.	-2750	5	1	1	needle-strike.gif	image/gif	12117	2014-09-30 20:39:46.831773	1	\N	\N	\N	\N	strike  275 damage to target enemy. aoeenemy hp fire 10 -2750	4	\N	\N
-4	Double Stab	20	1	2014-09-30 20:15:00.162119	2014-10-26 05:42:20.090475	300 to target.	-300	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:15:11.981627	2	\N	\N	\N	\N	double stab 300 to target. targetenemy hp thunder 20 -300	4	\N	\N
-10	Needle Strike	20	1	2014-09-30 20:58:12.680668	2014-10-26 05:43:25.864262	500 to target enemy.	-500	2	3	1	needle-strike.gif	image/gif	12185	2014-09-30 20:58:11.905023	2	needle-strike.gif	image/gif	6685	2014-10-09 21:20:08.918439	needle strike 500 to target enemy. targetenemy hp thunder 20 -500	4	\N	\N
-20	Recover	20	\N	2014-10-01 01:26:21.983686	2014-10-26 05:43:55.497396	Heal target 800 HP. 	+800	3	2	1	heal_modified.gif	image/gif	45759	2014-10-01 01:38:29.986785	2	single-heal-avatar.gif	image/gif	10404	2014-10-09 21:06:40.439256	recover heal target 800 hp.  targetally hp water 20 +800	4	\N	\N
-1	Aggression	30	0	2014-09-30 20:02:45.778212	2014-10-19 04:50:08.922011	500 to target. 300 to self.	-500	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:06:32.55202	3	\N	\N	\N	\N	aggression 500 to target. 300 to self. targetenemy hp thunder 30 -500 1	1	\N	\N
-36	Sharpen	10	\N	2014-10-17 00:33:27.795759	2014-10-26 05:44:28.822173	Increase Attack Damage by 30.	+30	3	1	3	\N	\N	\N	\N	2	\N	\N	\N	\N	sharpen increase attack damage by 30. targetally change fire 10 +30	4	\N	\N
-14	Spike	20	1	2014-09-30 21:38:31.317022	2014-10-26 05:44:51.018526	Deal 400 to target enemy.	-400	2	1	1	aoe-1-final.gif	image/gif	278463	2014-10-08 22:55:40.705689	2	spike-avatar.gif	image/gif	16033	2014-10-09 21:24:22.730584	spike deal 400 to target enemy. targetenemy hp fire 20 -400	4	\N	\N
-13	Summon Bahmut	40	1	2014-09-30 21:27:24.960014	2014-10-26 05:45:07.690932	Does 450 to all enemies.	-450	5	2	1	summon-dragon-0.gif	image/gif	540622	2014-09-30 21:27:20.589038	2	summon-bahmut-avatar.gif	image/gif	13376	2014-10-09 21:15:50.131163	summon bahmut does 450 to all enemies. aoeenemy hp water 40 -450	4	\N	\N
-32	Sword Smash	-20	\N	2014-10-09 22:37:14.76436	2014-10-26 05:45:47.471298	200 damage to all enemies. 	-200	5	1	1	sword-smash-final.gif	image/gif	672253	2014-10-09 22:39:12.885948	2	sword-smash-avatar.gif	image/gif	10135	2014-10-09 22:39:16.776065	sword smash 200 damage to all enemies.  aoeenemy hp fire -20 -200	4	\N	\N
-15	Attack	10	1	2014-09-30 22:32:49.73003	2014-10-16 21:03:32.367808	Does 200 to target. 	-200	1	1	1	\N	\N	\N	\N	1	attack-icon.png	image/png	6370	2014-10-08 01:13:56.128172	attack does 200 to target.  attack hp fire 10 -200 1	4	\N	\N
-12	Downfall	20	1	2014-09-30 21:19:22.955762	2014-10-14 22:59:01.436277	750 to target enemy. 	-750	2	2	1	downfall-4.gif	image/gif	79891	2014-09-30 21:19:21.488242	2	downfall-avatar.gif	image/gif	9285	2014-10-09 21:25:49.597657	downfall 750 to target enemy.  targetenemy hp water 20 -750 1	\N	\N	\N
-24	Scattershot	20	\N	2014-10-02 19:15:25.059578	2014-10-14 22:59:01.376244	100 to target monsters. 300 to two random allies and two random monsters.	-100	2	3	1	needle-strike.gif	image/gif	12117	2014-10-02 19:15:24.185359	2	\N	\N	\N	\N	scattershot 100 to target monsters. 300 to two random allies and two random monsters. targetenemy hp thunder 20 -100 	\N	\N	\N
-3	Stab	10	1	2014-09-30 20:14:10.055504	2014-10-16 20:35:24.358224	250 damage to target enemy.	-250	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:14:09.04192	1	\N	\N	\N	\N	stab 250 damage to target enemy. targetenemy hp thunder 10 -250 1	1	\N	\N
-8	Omega Slash	40	1	2014-09-30 20:51:19.726385	2014-10-14 22:59:01.661456	A huge slash that hits everything in its path.	-500	5	1	1	omega_slash.gif	image/gif	159225	2014-09-30 20:51:18.117781	3	\N	\N	\N	\N	omega slash a huge slash that hits everything in its path. aoeenemy hp fire 40 -500 1	\N	\N	\N
-27	Super Heal	20	\N	2014-10-04 23:58:15.8834	2014-10-14 22:59:01.560649	Target heals 1200HP.	+1200	3	3	1	heal_modified.gif	image/gif	45759	2014-10-04 23:58:14.586159	2	single-heal-avatar.gif	image/gif	10404	2014-10-09 21:08:04.660035	super heal target heals 1200hp. targetally hp thunder 20 +1200 	\N	\N	\N
-16	Evo Attack	10	1	2014-09-30 22:34:01.47143	2014-10-14 22:59:01.231312	Does 400 to target.	-400	1	2	1	\N	\N	\N	\N	1	attack-icon.png	image/png	6370	2014-10-08 20:29:18.091707	evo attack does 400 to target. attack hp water 10 -400 1	\N	\N	\N
-18	Omega Slash 2	30	1	2014-09-30 23:15:09.099317	2014-10-19 04:49:51.364337	Does 400 to all enemies.	-400	5	3	1	aoe-2-use-final.gif	image/gif	580848	2014-10-09 03:35:56.818716	3	\N	\N	\N	\N	omega slash 2 does 400 to all enemies. aoeenemy hp thunder 30 -400 1	1	\N	\N
-30	Vortex Shot	-10	\N	2014-10-09 20:12:39.841207	2014-10-14 22:59:01.696302	600 damage to all enemies.	-600	5	1	1	aoe-6-use-final.gif	image/gif	330920	2014-10-09 20:12:37.410315	4	\N	\N	\N	\N	vortex shot 600 damage to all enemies. aoeenemy hp fire -10 -600 	\N	\N	\N
-17	NPC Base Attack	10	1	2014-09-30 22:35:02.910878	2014-10-16 21:35:20.255931	250 damage to target enemy. 	-250	1	1	1	\N	\N	\N	\N	1	\N	\N	\N	\N	npc base attack 250 damage to target enemy.  attack hp fire 10 -250 1	5	\N	\N
-6	Thrust	20	1	2014-09-30 20:43:15.49733	2014-10-16 21:28:08.739974	200 damage to target enemy.	-200	1	1	1	slash.gif	image/gif	49124	2014-09-30 20:43:14.385443	1	\N	\N	\N	\N	thrust 200 damage to target enemy. attack hp fire 20 -200 1	1	\N	\N
-2	Recklessness	40	1	2014-09-30 20:09:37.64975	2014-10-14 22:59:01.714382	700 to target. 300 to self.	-700	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:09:36.620306	4	\N	\N	\N	\N	recklessness 700 to target. 300 to self. targetenemy hp thunder 40 -700 1	\N	\N	\N
-21	Tackle	10	\N	2014-10-01 01:28:31.715298	2014-10-16 21:34:38.122346	300 damage to target.	-300	1	3	1	aoe-1-final.gif	image/gif	278463	2014-10-08 22:53:18.358553	1	attack-icon.png	image/png	6370	2014-10-08 01:14:55.490086	tackle 300 damage to target. attack hp thunder 10 -300 	1	\N	\N
-11	Discharge	10	1	2014-09-30 21:03:42.491408	2014-10-16 22:00:46.584266	Does 200 to all enemies.	-200	5	4	1	discharge.gif	image/gif	321683	2014-09-30 21:03:38.866905	4	\N	\N	\N	\N	discharge does 200 to all enemies. aoeenemy hp earth 10 -200 1	5	\N	\N
-33	Vampire Strike	10	\N	2014-10-16 23:54:51.826008	2014-10-17 00:06:24.00426	Attack 	-175	1	1	1	\N	\N	\N	\N	1	\N	\N	\N	\N	vampire strike attack  attack hp fire 10 -175 	4	\N	\N
-34	Vampire Hit	10	\N	2014-10-17 00:07:52.797045	2014-10-17 00:07:52.797045	200 damage to target. Heal 50 hp. 	-200	1	1	1	\N	\N	\N	\N	1	\N	\N	\N	\N	vampire hit 200 damage to target. heal 50 hp.  attack hp fire 10 -200 	1	\N	\N
-25	Bulk Up	10	\N	2014-10-02 20:50:05.206252	2014-10-17 00:13:02.882493	Increase own attack damage by 25.	-200	2	3	1	needle-strike.gif	image/gif	12185	2014-10-02 20:55:51.951882	1	needle-strike.gif	image/gif	6685	2014-10-09 21:29:31.632374	bulk up increase own attack damage by 25. targetenemy hp thunder 10 -200 	4	\N	\N
-35	Bulk Up More 	10	\N	2014-10-17 00:14:11.736874	2014-10-17 00:14:48.872442	225 damage to target. Increase attack damage by 25. 	-225	1	1	1	\N	\N	\N	\N	1	\N	\N	\N	\N	bulk up more  225 damage to target. increase attack damage by 25.  attack hp fire 10 -225 	4	\N	\N
-31	Summon Undine	30	\N	2014-10-09 20:35:20.051712	2014-10-19 04:49:38.640125	600 damage to all enemies.	-300	5	2	1	test8.gif	image/gif	1242386	2014-10-09 20:35:15.574941	2	summon-undine-avatar.gif	image/gif	13808	2014-10-09 21:12:02.723826	summon undine 600 damage to all enemies. aoeenemy hp water 30 -300 	1	\N	\N
-37	Slap	10	\N	2014-10-25 23:49:10.702675	2014-10-26 05:21:01.958463	Socket 1 Default Ability	-50	1	1	1	shot-use.gif	image/gif	12117	2014-10-26 00:11:32.618769	1	sword-avatar.png	image/png	18521	2014-10-26 00:24:30.555271	slap socket 1 default ability attack hp fire 10 -50	4	\N	\N
-38	Groin Kick	20	\N	2014-10-25 23:50:14.387224	2014-10-26 05:42:35.109645	Default Ability for Socket 2	-100	2	1	1	shot-use.gif	image/gif	12117	2014-10-26 00:12:32.129483	2	shot-avatar.png	image/png	13693	2014-10-26 00:12:32.980751	groin kick default ability for socket 2 targetenemy hp fire 20 -100	4	\N	\N
-23	Dynamite Throw	20	\N	2014-10-02 18:24:44.200239	2014-10-26 05:42:49.284367	500 damage to two random monsters including your own.	-0	5	1	1	tinder.gif	image/gif	35854	2014-10-02 18:25:48.260397	2	dynamite-throw-avatar.gif	image/gif	6156	2014-10-09 21:32:01.490626	dynamite throw 500 damage to two random monsters including your own. aoeenemy hp fire 20 -0	4	\N	\N
+COPY abilities (id, name, ap_cost, min_level, created_at, updated_at, description, stat_change, target_id, element_id, stat_target_id, image_file_name, image_content_type, image_file_size, image_updated_at, abil_socket_id, portrait_file_name, portrait_content_type, portrait_file_size, portrait_updated_at, keywords, rarity_id, mp_cost, gp_cost, former_name) FROM stdin;
+19	Healing Circle	20	\N	2014-10-01 00:08:28.800442	2014-10-24 22:40:23.246201	Heals party 600 hp.	+600	6	4	1	mass-heal-3.gif	image/gif	479054	2014-10-10 00:25:05.343814	2	mass-heal-avatar.gif	image/gif	14216	2014-10-09 21:05:13.934179	healing circle heals party 600 hp. aoeally hp earth 20 +600	1	\N	\N	
+5	Strike 	10	1	2014-09-30 20:39:47.647934	2014-10-26 04:42:17.054815	275 damage to target enemy.	-2750	5	1	1	needle-strike.gif	image/gif	12117	2014-09-30 20:39:46.831773	1	\N	\N	\N	\N	strike  275 damage to target enemy. aoeenemy hp fire 10 -2750	4	\N	\N	
+4	Double Stab	20	1	2014-09-30 20:15:00.162119	2014-10-26 05:42:20.090475	300 to target.	-300	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:15:11.981627	2	\N	\N	\N	\N	double stab 300 to target. targetenemy hp thunder 20 -300	4	\N	\N	
+10	Needle Strike	20	1	2014-09-30 20:58:12.680668	2014-10-26 05:43:25.864262	500 to target enemy.	-500	2	3	1	needle-strike.gif	image/gif	12185	2014-09-30 20:58:11.905023	2	needle-strike.gif	image/gif	6685	2014-10-09 21:20:08.918439	needle strike 500 to target enemy. targetenemy hp thunder 20 -500	4	\N	\N	
+20	Recover	20	\N	2014-10-01 01:26:21.983686	2014-10-26 05:43:55.497396	Heal target 800 HP. 	+800	3	2	1	heal_modified.gif	image/gif	45759	2014-10-01 01:38:29.986785	2	single-heal-avatar.gif	image/gif	10404	2014-10-09 21:06:40.439256	recover heal target 800 hp.  targetally hp water 20 +800	4	\N	\N	
+1	Aggression	30	0	2014-09-30 20:02:45.778212	2014-10-19 04:50:08.922011	500 to target. 300 to self.	-500	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:06:32.55202	3	\N	\N	\N	\N	aggression 500 to target. 300 to self. targetenemy hp thunder 30 -500 1	1	\N	\N	
+36	Sharpen	10	\N	2014-10-17 00:33:27.795759	2014-10-26 05:44:28.822173	Increase Attack Damage by 30.	+30	3	1	3	\N	\N	\N	\N	2	\N	\N	\N	\N	sharpen increase attack damage by 30. targetally change fire 10 +30	4	\N	\N	
+14	Spike	20	1	2014-09-30 21:38:31.317022	2014-10-26 05:44:51.018526	Deal 400 to target enemy.	-400	2	1	1	aoe-1-final.gif	image/gif	278463	2014-10-08 22:55:40.705689	2	spike-avatar.gif	image/gif	16033	2014-10-09 21:24:22.730584	spike deal 400 to target enemy. targetenemy hp fire 20 -400	4	\N	\N	
+13	Summon Bahmut	40	1	2014-09-30 21:27:24.960014	2014-10-26 05:45:07.690932	Does 450 to all enemies.	-450	5	2	1	summon-dragon-0.gif	image/gif	540622	2014-09-30 21:27:20.589038	2	summon-bahmut-avatar.gif	image/gif	13376	2014-10-09 21:15:50.131163	summon bahmut does 450 to all enemies. aoeenemy hp water 40 -450	4	\N	\N	
+32	Sword Smash	-20	\N	2014-10-09 22:37:14.76436	2014-10-26 05:45:47.471298	200 damage to all enemies. 	-200	5	1	1	sword-smash-final.gif	image/gif	672253	2014-10-09 22:39:12.885948	2	sword-smash-avatar.gif	image/gif	10135	2014-10-09 22:39:16.776065	sword smash 200 damage to all enemies.  aoeenemy hp fire -20 -200	4	\N	\N	
+15	Attack	10	1	2014-09-30 22:32:49.73003	2014-10-16 21:03:32.367808	Does 200 to target. 	-200	1	1	1	\N	\N	\N	\N	1	attack-icon.png	image/png	6370	2014-10-08 01:13:56.128172	attack does 200 to target.  attack hp fire 10 -200 1	4	\N	\N	
+12	Downfall	20	1	2014-09-30 21:19:22.955762	2014-10-14 22:59:01.436277	750 to target enemy. 	-750	2	2	1	downfall-4.gif	image/gif	79891	2014-09-30 21:19:21.488242	2	downfall-avatar.gif	image/gif	9285	2014-10-09 21:25:49.597657	downfall 750 to target enemy.  targetenemy hp water 20 -750 1	\N	\N	\N	
+24	Scattershot	20	\N	2014-10-02 19:15:25.059578	2014-10-14 22:59:01.376244	100 to target monsters. 300 to two random allies and two random monsters.	-100	2	3	1	needle-strike.gif	image/gif	12117	2014-10-02 19:15:24.185359	2	\N	\N	\N	\N	scattershot 100 to target monsters. 300 to two random allies and two random monsters. targetenemy hp thunder 20 -100 	\N	\N	\N	
+3	Stab	10	1	2014-09-30 20:14:10.055504	2014-10-16 20:35:24.358224	250 damage to target enemy.	-250	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:14:09.04192	1	\N	\N	\N	\N	stab 250 damage to target enemy. targetenemy hp thunder 10 -250 1	1	\N	\N	
+8	Omega Slash	40	1	2014-09-30 20:51:19.726385	2014-10-14 22:59:01.661456	A huge slash that hits everything in its path.	-500	5	1	1	omega_slash.gif	image/gif	159225	2014-09-30 20:51:18.117781	3	\N	\N	\N	\N	omega slash a huge slash that hits everything in its path. aoeenemy hp fire 40 -500 1	\N	\N	\N	
+27	Super Heal	20	\N	2014-10-04 23:58:15.8834	2014-10-14 22:59:01.560649	Target heals 1200HP.	+1200	3	3	1	heal_modified.gif	image/gif	45759	2014-10-04 23:58:14.586159	2	single-heal-avatar.gif	image/gif	10404	2014-10-09 21:08:04.660035	super heal target heals 1200hp. targetally hp thunder 20 +1200 	\N	\N	\N	
+16	Evo Attack	10	1	2014-09-30 22:34:01.47143	2014-10-14 22:59:01.231312	Does 400 to target.	-400	1	2	1	\N	\N	\N	\N	1	attack-icon.png	image/png	6370	2014-10-08 20:29:18.091707	evo attack does 400 to target. attack hp water 10 -400 1	\N	\N	\N	
+18	Omega Slash 2	30	1	2014-09-30 23:15:09.099317	2014-10-19 04:49:51.364337	Does 400 to all enemies.	-400	5	3	1	aoe-2-use-final.gif	image/gif	580848	2014-10-09 03:35:56.818716	3	\N	\N	\N	\N	omega slash 2 does 400 to all enemies. aoeenemy hp thunder 30 -400 1	1	\N	\N	
+30	Vortex Shot	-10	\N	2014-10-09 20:12:39.841207	2014-10-14 22:59:01.696302	600 damage to all enemies.	-600	5	1	1	aoe-6-use-final.gif	image/gif	330920	2014-10-09 20:12:37.410315	4	\N	\N	\N	\N	vortex shot 600 damage to all enemies. aoeenemy hp fire -10 -600 	\N	\N	\N	
+17	NPC Base Attack	10	1	2014-09-30 22:35:02.910878	2014-10-16 21:35:20.255931	250 damage to target enemy. 	-250	1	1	1	\N	\N	\N	\N	1	\N	\N	\N	\N	npc base attack 250 damage to target enemy.  attack hp fire 10 -250 1	5	\N	\N	
+6	Thrust	20	1	2014-09-30 20:43:15.49733	2014-10-16 21:28:08.739974	200 damage to target enemy.	-200	1	1	1	slash.gif	image/gif	49124	2014-09-30 20:43:14.385443	1	\N	\N	\N	\N	thrust 200 damage to target enemy. attack hp fire 20 -200 1	1	\N	\N	
+2	Recklessness	40	1	2014-09-30 20:09:37.64975	2014-10-14 22:59:01.714382	700 to target. 300 to self.	-700	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:09:36.620306	4	\N	\N	\N	\N	recklessness 700 to target. 300 to self. targetenemy hp thunder 40 -700 1	\N	\N	\N	
+21	Tackle	10	\N	2014-10-01 01:28:31.715298	2014-10-16 21:34:38.122346	300 damage to target.	-300	1	3	1	aoe-1-final.gif	image/gif	278463	2014-10-08 22:53:18.358553	1	attack-icon.png	image/png	6370	2014-10-08 01:14:55.490086	tackle 300 damage to target. attack hp thunder 10 -300 	1	\N	\N	
+11	Discharge	10	1	2014-09-30 21:03:42.491408	2014-10-16 22:00:46.584266	Does 200 to all enemies.	-200	5	4	1	discharge.gif	image/gif	321683	2014-09-30 21:03:38.866905	4	\N	\N	\N	\N	discharge does 200 to all enemies. aoeenemy hp earth 10 -200 1	5	\N	\N	
+33	Vampire Strike	10	\N	2014-10-16 23:54:51.826008	2014-10-17 00:06:24.00426	Attack 	-175	1	1	1	\N	\N	\N	\N	1	\N	\N	\N	\N	vampire strike attack  attack hp fire 10 -175 	4	\N	\N	
+34	Vampire Hit	10	\N	2014-10-17 00:07:52.797045	2014-10-17 00:07:52.797045	200 damage to target. Heal 50 hp. 	-200	1	1	1	\N	\N	\N	\N	1	\N	\N	\N	\N	vampire hit 200 damage to target. heal 50 hp.  attack hp fire 10 -200 	1	\N	\N	
+25	Bulk Up	10	\N	2014-10-02 20:50:05.206252	2014-10-17 00:13:02.882493	Increase own attack damage by 25.	-200	2	3	1	needle-strike.gif	image/gif	12185	2014-10-02 20:55:51.951882	1	needle-strike.gif	image/gif	6685	2014-10-09 21:29:31.632374	bulk up increase own attack damage by 25. targetenemy hp thunder 10 -200 	4	\N	\N	
+35	Bulk Up More 	10	\N	2014-10-17 00:14:11.736874	2014-10-17 00:14:48.872442	225 damage to target. Increase attack damage by 25. 	-225	1	1	1	\N	\N	\N	\N	1	\N	\N	\N	\N	bulk up more  225 damage to target. increase attack damage by 25.  attack hp fire 10 -225 	4	\N	\N	
+31	Summon Undine	30	\N	2014-10-09 20:35:20.051712	2014-10-19 04:49:38.640125	600 damage to all enemies.	-300	5	2	1	test8.gif	image/gif	1242386	2014-10-09 20:35:15.574941	2	summon-undine-avatar.gif	image/gif	13808	2014-10-09 21:12:02.723826	summon undine 600 damage to all enemies. aoeenemy hp water 30 -300 	1	\N	\N	
+37	Slap	10	\N	2014-10-25 23:49:10.702675	2014-10-26 05:21:01.958463	Socket 1 Default Ability	-50	1	1	1	shot-use.gif	image/gif	12117	2014-10-26 00:11:32.618769	1	sword-avatar.png	image/png	18521	2014-10-26 00:24:30.555271	slap socket 1 default ability attack hp fire 10 -50	4	\N	\N	
+38	Groin Kick	20	\N	2014-10-25 23:50:14.387224	2014-10-26 05:42:35.109645	Default Ability for Socket 2	-100	2	1	1	shot-use.gif	image/gif	12117	2014-10-26 00:12:32.129483	2	shot-avatar.png	image/png	13693	2014-10-26 00:12:32.980751	groin kick default ability for socket 2 targetenemy hp fire 20 -100	4	\N	\N	
+23	Dynamite Throw	20	\N	2014-10-02 18:24:44.200239	2014-10-26 05:42:49.284367	500 damage to two random monsters including your own.	-0	5	1	1	tinder.gif	image/gif	35854	2014-10-02 18:25:48.260397	2	dynamite-throw-avatar.gif	image/gif	6156	2014-10-09 21:32:01.490626	dynamite throw 500 damage to two random monsters including your own. aoeenemy hp fire 20 -0	4	\N	\N	
 \.
 
 
@@ -1669,6 +1813,20 @@ COPY ability_equippings (id, ability_id, created_at, updated_at, monster_unlock_
 262	38	2014-10-28 00:10:39.153376	2014-10-28 00:10:39.153376	146
 263	37	2014-10-28 00:10:39.167176	2014-10-28 00:10:39.167176	147
 264	38	2014-10-28 00:10:39.172702	2014-10-28 00:10:39.172702	147
+265	37	2014-10-29 00:31:25.844444	2014-10-29 00:31:25.844444	150
+266	38	2014-10-29 00:31:25.849277	2014-10-29 00:31:25.849277	150
+267	37	2014-10-29 00:34:00.555188	2014-10-29 00:34:00.555188	151
+268	38	2014-10-29 00:34:00.55828	2014-10-29 00:34:00.55828	151
+269	37	2014-10-29 00:35:32.230147	2014-10-29 00:35:32.230147	152
+270	38	2014-10-29 00:35:32.233066	2014-10-29 00:35:32.233066	152
+271	37	2014-10-29 00:42:03.439738	2014-10-29 00:42:03.439738	153
+272	38	2014-10-29 00:42:03.444226	2014-10-29 00:42:03.444226	153
+273	37	2014-10-29 00:42:03.452157	2014-10-29 00:42:03.452157	154
+274	38	2014-10-29 00:42:03.454826	2014-10-29 00:42:03.454826	154
+275	37	2014-10-29 00:42:03.462574	2014-10-29 00:42:03.462574	155
+276	14	2014-10-29 00:42:03.465001	2014-10-29 00:42:03.465001	155
+277	37	2014-10-29 00:42:03.473339	2014-10-29 00:42:03.473339	156
+278	10	2014-10-29 00:42:03.475618	2014-10-29 00:42:03.475618	156
 \.
 
 
@@ -1676,117 +1834,117 @@ COPY ability_equippings (id, ability_id, created_at, updated_at, monster_unlock_
 -- Name: ability_equippings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('ability_equippings_id_seq', 264, true);
+SELECT pg_catalog.setval('ability_equippings_id_seq', 278, true);
 
 
 --
 -- Data for Name: ability_purchases; Type: TABLE DATA; Schema: public; Owner: Frank
 --
 
-COPY ability_purchases (id, ability_id, user_id, created_at, updated_at) FROM stdin;
-3	1	2	2014-09-30 20:09:47.28611	2014-09-30 20:09:47.28611
-6	2	2	2014-09-30 20:11:11.931992	2014-09-30 20:11:11.931992
-7	4	2	2014-09-30 20:15:32.696915	2014-09-30 20:15:32.696915
-8	3	2	2014-09-30 20:15:35.109208	2014-09-30 20:15:35.109208
-9	8	2	2014-09-30 20:51:26.704478	2014-09-30 20:51:26.704478
-10	11	2	2014-09-30 21:04:42.224499	2014-09-30 21:04:42.224499
-14	10	1	2014-09-30 21:16:11.693145	2014-09-30 21:16:11.693145
-18	12	1	2014-09-30 21:21:30.975266	2014-09-30 21:21:30.975266
-20	13	1	2014-09-30 21:27:55.1001	2014-09-30 21:27:55.1001
-23	14	2	2014-09-30 21:39:10.853454	2014-09-30 21:39:10.853454
-25	16	1	2014-09-30 22:35:24.598971	2014-09-30 22:35:24.598971
-28	17	2	2014-09-30 22:36:01.120331	2014-09-30 22:36:01.120331
-30	15	1	2014-09-30 22:36:14.309517	2014-09-30 22:36:14.309517
-31	18	2	2014-09-30 23:15:34.857129	2014-09-30 23:15:34.857129
-34	19	1	2014-10-01 00:08:50.353284	2014-10-01 00:08:50.353284
-36	20	1	2014-10-01 01:26:55.358952	2014-10-01 01:26:55.358952
-40	21	1	2014-10-01 01:30:18.375942	2014-10-01 01:30:18.375942
-42	23	1	2014-10-02 18:26:21.262602	2014-10-02 18:26:21.262602
-44	24	1	2014-10-02 19:18:04.17309	2014-10-02 19:18:04.17309
-46	25	1	2014-10-02 20:51:33.474585	2014-10-02 20:51:33.474585
-50	27	1	2014-10-04 23:59:05.145975	2014-10-04 23:59:05.145975
-51	14	1	2014-10-08 22:56:26.587976	2014-10-08 22:56:26.587976
-54	30	2	2014-10-09 20:13:01.562323	2014-10-09 20:13:01.562323
-55	31	1	2014-10-09 20:35:34.20917	2014-10-09 20:35:34.20917
-56	13	2	2014-10-09 22:24:31.618078	2014-10-09 22:24:31.618078
-57	32	2	2014-10-09 22:39:28.509414	2014-10-09 22:39:28.509414
-58	5	2	2014-10-11 00:13:33.102566	2014-10-11 00:13:33.102566
-59	5	1	2014-10-11 00:13:35.196441	2014-10-11 00:13:35.196441
-60	3	1	2014-10-11 00:13:38.166942	2014-10-11 00:13:38.166942
-61	15	2	2014-10-11 00:13:40.125688	2014-10-11 00:13:40.125688
-62	24	2	2014-10-11 00:13:41.725993	2014-10-11 00:13:41.725993
-63	10	2	2014-10-11 00:13:43.681981	2014-10-11 00:13:43.681981
-64	4	1	2014-10-11 00:13:45.398203	2014-10-11 00:13:45.398203
-65	12	2	2014-10-11 00:13:49.856272	2014-10-11 00:13:49.856272
-66	16	2	2014-10-14 22:59:01.219076	2014-10-14 22:59:01.219076
-67	17	1	2014-10-14 22:59:01.247777	2014-10-14 22:59:01.247777
-68	21	2	2014-10-14 22:59:01.283437	2014-10-14 22:59:01.283437
-70	6	1	2014-10-14 22:59:01.356426	2014-10-14 22:59:01.356426
-71	6	2	2014-10-14 22:59:01.360247	2014-10-14 22:59:01.360247
-72	19	2	2014-10-14 22:59:01.446468	2014-10-14 22:59:01.446468
-73	25	2	2014-10-14 22:59:01.472644	2014-10-14 22:59:01.472644
-74	23	2	2014-10-14 22:59:01.482114	2014-10-14 22:59:01.482114
-76	20	2	2014-10-14 22:59:01.536282	2014-10-14 22:59:01.536282
-77	27	2	2014-10-14 22:59:01.556583	2014-10-14 22:59:01.556583
-78	31	2	2014-10-14 22:59:01.576428	2014-10-14 22:59:01.576428
-79	32	1	2014-10-14 22:59:01.609785	2014-10-14 22:59:01.609785
-80	18	1	2014-10-14 22:59:01.628953	2014-10-14 22:59:01.628953
-81	1	1	2014-10-14 22:59:01.643496	2014-10-14 22:59:01.643496
-82	8	1	2014-10-14 22:59:01.658943	2014-10-14 22:59:01.658943
-83	11	1	2014-10-14 22:59:01.675695	2014-10-14 22:59:01.675695
-84	30	1	2014-10-14 22:59:01.692962	2014-10-14 22:59:01.692962
-85	2	1	2014-10-14 22:59:01.712017	2014-10-14 22:59:01.712017
-86	16	4	2014-10-15 18:18:15.126242	2014-10-15 18:18:15.126242
-87	3	4	2014-10-15 18:18:16.060823	2014-10-15 18:18:16.060823
-88	21	4	2014-10-15 18:18:17.044369	2014-10-15 18:18:17.044369
-89	5	4	2014-10-15 18:18:17.809366	2014-10-15 18:18:17.809366
-91	15	4	2014-10-15 18:18:19.453632	2014-10-15 18:18:19.453632
-92	17	4	2014-10-15 18:18:20.359499	2014-10-15 18:18:20.359499
-94	4	4	2014-10-15 18:18:28.815146	2014-10-15 18:18:28.815146
-95	12	4	2014-10-15 18:18:29.844336	2014-10-15 18:18:29.844336
-96	20	4	2014-10-15 18:18:32.960531	2014-10-15 18:18:32.960531
-97	13	4	2014-10-15 18:18:34.20291	2014-10-15 18:18:34.20291
-98	31	4	2014-10-15 18:18:34.820026	2014-10-15 18:18:34.820026
-99	23	4	2014-10-15 18:18:36.052753	2014-10-15 18:18:36.052753
-100	25	4	2014-10-15 18:18:39.495387	2014-10-15 18:18:39.495387
-101	14	4	2014-10-15 18:18:45.123389	2014-10-15 18:18:45.123389
-102	18	4	2014-10-15 18:18:46.241423	2014-10-15 18:18:46.241423
-103	1	4	2014-10-15 18:18:47.705445	2014-10-15 18:18:47.705445
-104	8	4	2014-10-15 18:18:48.373655	2014-10-15 18:18:48.373655
-105	11	4	2014-10-15 18:18:49.785307	2014-10-15 18:18:49.785307
-106	30	4	2014-10-15 18:18:50.310581	2014-10-15 18:18:50.310581
-107	2	4	2014-10-15 18:18:51.583145	2014-10-15 18:18:51.583145
-108	32	4	2014-10-15 19:03:30.676369	2014-10-15 19:03:30.676369
-109	33	1	2014-10-16 23:54:51.858795	2014-10-16 23:54:51.858795
-110	33	2	2014-10-16 23:54:51.866856	2014-10-16 23:54:51.866856
-111	33	4	2014-10-16 23:55:00.745557	2014-10-16 23:55:00.745557
-112	34	1	2014-10-17 00:07:52.828426	2014-10-17 00:07:52.828426
-113	34	2	2014-10-17 00:07:52.832875	2014-10-17 00:07:52.832875
-114	35	1	2014-10-17 00:14:11.762048	2014-10-17 00:14:11.762048
-115	35	2	2014-10-17 00:14:11.766691	2014-10-17 00:14:11.766691
-116	36	1	2014-10-17 00:33:27.814862	2014-10-17 00:33:27.814862
-117	36	2	2014-10-17 00:33:27.818186	2014-10-17 00:33:27.818186
-118	36	4	2014-10-17 00:34:02.805743	2014-10-17 00:34:02.805743
-119	37	1	2014-10-25 23:49:10.723203	2014-10-25 23:49:10.723203
-120	38	1	2014-10-25 23:50:14.390532	2014-10-25 23:50:14.390532
-121	25	8	2014-10-26 05:11:48.429464	2014-10-26 05:11:48.429464
-122	15	8	2014-10-26 05:12:00.891502	2014-10-26 05:12:00.891502
-123	21	8	2014-10-26 05:14:05.973329	2014-10-26 05:14:05.973329
-124	37	8	2014-10-26 05:14:58.934043	2014-10-26 05:14:58.934043
-125	5	8	2014-10-26 05:15:17.948489	2014-10-26 05:15:17.948489
-126	33	9	2014-10-26 05:38:09.894597	2014-10-26 05:38:09.894597
-127	5	9	2014-10-26 05:38:12.552624	2014-10-26 05:38:12.552624
-128	37	9	2014-10-26 05:38:13.70745	2014-10-26 05:38:13.70745
-129	25	10	2014-10-26 05:46:42.435895	2014-10-26 05:46:42.435895
-130	36	10	2014-10-26 05:46:44.03405	2014-10-26 05:46:44.03405
-131	31	10	2014-10-26 05:46:46.086299	2014-10-26 05:46:46.086299
-132	5	10	2014-10-26 05:46:49.139373	2014-10-26 05:46:49.139373
-133	19	10	2014-10-26 05:46:56.169777	2014-10-26 05:46:56.169777
-134	38	10	2014-10-26 05:47:01.115538	2014-10-26 05:47:01.115538
-135	33	10	2014-10-26 05:47:03.109459	2014-10-26 05:47:03.109459
-136	37	10	2014-10-26 05:47:04.688062	2014-10-26 05:47:04.688062
-137	10	10	2014-10-26 05:50:31.45421	2014-10-26 05:50:31.45421
-138	4	10	2014-10-26 05:50:34.079274	2014-10-26 05:50:34.079274
+COPY ability_purchases (id, ability_id, user_id, created_at, updated_at, amount_owned) FROM stdin;
+3	1	2	2014-09-30 20:09:47.28611	2014-09-30 20:09:47.28611	1
+6	2	2	2014-09-30 20:11:11.931992	2014-09-30 20:11:11.931992	1
+7	4	2	2014-09-30 20:15:32.696915	2014-09-30 20:15:32.696915	1
+8	3	2	2014-09-30 20:15:35.109208	2014-09-30 20:15:35.109208	1
+9	8	2	2014-09-30 20:51:26.704478	2014-09-30 20:51:26.704478	1
+10	11	2	2014-09-30 21:04:42.224499	2014-09-30 21:04:42.224499	1
+14	10	1	2014-09-30 21:16:11.693145	2014-09-30 21:16:11.693145	1
+18	12	1	2014-09-30 21:21:30.975266	2014-09-30 21:21:30.975266	1
+20	13	1	2014-09-30 21:27:55.1001	2014-09-30 21:27:55.1001	1
+23	14	2	2014-09-30 21:39:10.853454	2014-09-30 21:39:10.853454	1
+25	16	1	2014-09-30 22:35:24.598971	2014-09-30 22:35:24.598971	1
+28	17	2	2014-09-30 22:36:01.120331	2014-09-30 22:36:01.120331	1
+30	15	1	2014-09-30 22:36:14.309517	2014-09-30 22:36:14.309517	1
+31	18	2	2014-09-30 23:15:34.857129	2014-09-30 23:15:34.857129	1
+34	19	1	2014-10-01 00:08:50.353284	2014-10-01 00:08:50.353284	1
+36	20	1	2014-10-01 01:26:55.358952	2014-10-01 01:26:55.358952	1
+40	21	1	2014-10-01 01:30:18.375942	2014-10-01 01:30:18.375942	1
+42	23	1	2014-10-02 18:26:21.262602	2014-10-02 18:26:21.262602	1
+44	24	1	2014-10-02 19:18:04.17309	2014-10-02 19:18:04.17309	1
+46	25	1	2014-10-02 20:51:33.474585	2014-10-02 20:51:33.474585	1
+50	27	1	2014-10-04 23:59:05.145975	2014-10-04 23:59:05.145975	1
+51	14	1	2014-10-08 22:56:26.587976	2014-10-08 22:56:26.587976	1
+54	30	2	2014-10-09 20:13:01.562323	2014-10-09 20:13:01.562323	1
+55	31	1	2014-10-09 20:35:34.20917	2014-10-09 20:35:34.20917	1
+56	13	2	2014-10-09 22:24:31.618078	2014-10-09 22:24:31.618078	1
+57	32	2	2014-10-09 22:39:28.509414	2014-10-09 22:39:28.509414	1
+58	5	2	2014-10-11 00:13:33.102566	2014-10-11 00:13:33.102566	1
+59	5	1	2014-10-11 00:13:35.196441	2014-10-11 00:13:35.196441	1
+60	3	1	2014-10-11 00:13:38.166942	2014-10-11 00:13:38.166942	1
+61	15	2	2014-10-11 00:13:40.125688	2014-10-11 00:13:40.125688	1
+62	24	2	2014-10-11 00:13:41.725993	2014-10-11 00:13:41.725993	1
+63	10	2	2014-10-11 00:13:43.681981	2014-10-11 00:13:43.681981	1
+64	4	1	2014-10-11 00:13:45.398203	2014-10-11 00:13:45.398203	1
+65	12	2	2014-10-11 00:13:49.856272	2014-10-11 00:13:49.856272	1
+66	16	2	2014-10-14 22:59:01.219076	2014-10-14 22:59:01.219076	1
+67	17	1	2014-10-14 22:59:01.247777	2014-10-14 22:59:01.247777	1
+68	21	2	2014-10-14 22:59:01.283437	2014-10-14 22:59:01.283437	1
+70	6	1	2014-10-14 22:59:01.356426	2014-10-14 22:59:01.356426	1
+71	6	2	2014-10-14 22:59:01.360247	2014-10-14 22:59:01.360247	1
+72	19	2	2014-10-14 22:59:01.446468	2014-10-14 22:59:01.446468	1
+73	25	2	2014-10-14 22:59:01.472644	2014-10-14 22:59:01.472644	1
+74	23	2	2014-10-14 22:59:01.482114	2014-10-14 22:59:01.482114	1
+76	20	2	2014-10-14 22:59:01.536282	2014-10-14 22:59:01.536282	1
+77	27	2	2014-10-14 22:59:01.556583	2014-10-14 22:59:01.556583	1
+78	31	2	2014-10-14 22:59:01.576428	2014-10-14 22:59:01.576428	1
+79	32	1	2014-10-14 22:59:01.609785	2014-10-14 22:59:01.609785	1
+80	18	1	2014-10-14 22:59:01.628953	2014-10-14 22:59:01.628953	1
+81	1	1	2014-10-14 22:59:01.643496	2014-10-14 22:59:01.643496	1
+82	8	1	2014-10-14 22:59:01.658943	2014-10-14 22:59:01.658943	1
+83	11	1	2014-10-14 22:59:01.675695	2014-10-14 22:59:01.675695	1
+84	30	1	2014-10-14 22:59:01.692962	2014-10-14 22:59:01.692962	1
+85	2	1	2014-10-14 22:59:01.712017	2014-10-14 22:59:01.712017	1
+86	16	4	2014-10-15 18:18:15.126242	2014-10-15 18:18:15.126242	1
+87	3	4	2014-10-15 18:18:16.060823	2014-10-15 18:18:16.060823	1
+88	21	4	2014-10-15 18:18:17.044369	2014-10-15 18:18:17.044369	1
+89	5	4	2014-10-15 18:18:17.809366	2014-10-15 18:18:17.809366	1
+91	15	4	2014-10-15 18:18:19.453632	2014-10-15 18:18:19.453632	1
+92	17	4	2014-10-15 18:18:20.359499	2014-10-15 18:18:20.359499	1
+94	4	4	2014-10-15 18:18:28.815146	2014-10-15 18:18:28.815146	1
+95	12	4	2014-10-15 18:18:29.844336	2014-10-15 18:18:29.844336	1
+96	20	4	2014-10-15 18:18:32.960531	2014-10-15 18:18:32.960531	1
+97	13	4	2014-10-15 18:18:34.20291	2014-10-15 18:18:34.20291	1
+98	31	4	2014-10-15 18:18:34.820026	2014-10-15 18:18:34.820026	1
+99	23	4	2014-10-15 18:18:36.052753	2014-10-15 18:18:36.052753	1
+100	25	4	2014-10-15 18:18:39.495387	2014-10-15 18:18:39.495387	1
+101	14	4	2014-10-15 18:18:45.123389	2014-10-15 18:18:45.123389	1
+102	18	4	2014-10-15 18:18:46.241423	2014-10-15 18:18:46.241423	1
+103	1	4	2014-10-15 18:18:47.705445	2014-10-15 18:18:47.705445	1
+104	8	4	2014-10-15 18:18:48.373655	2014-10-15 18:18:48.373655	1
+105	11	4	2014-10-15 18:18:49.785307	2014-10-15 18:18:49.785307	1
+106	30	4	2014-10-15 18:18:50.310581	2014-10-15 18:18:50.310581	1
+107	2	4	2014-10-15 18:18:51.583145	2014-10-15 18:18:51.583145	1
+108	32	4	2014-10-15 19:03:30.676369	2014-10-15 19:03:30.676369	1
+109	33	1	2014-10-16 23:54:51.858795	2014-10-16 23:54:51.858795	1
+110	33	2	2014-10-16 23:54:51.866856	2014-10-16 23:54:51.866856	1
+111	33	4	2014-10-16 23:55:00.745557	2014-10-16 23:55:00.745557	1
+112	34	1	2014-10-17 00:07:52.828426	2014-10-17 00:07:52.828426	1
+113	34	2	2014-10-17 00:07:52.832875	2014-10-17 00:07:52.832875	1
+114	35	1	2014-10-17 00:14:11.762048	2014-10-17 00:14:11.762048	1
+115	35	2	2014-10-17 00:14:11.766691	2014-10-17 00:14:11.766691	1
+116	36	1	2014-10-17 00:33:27.814862	2014-10-17 00:33:27.814862	1
+117	36	2	2014-10-17 00:33:27.818186	2014-10-17 00:33:27.818186	1
+118	36	4	2014-10-17 00:34:02.805743	2014-10-17 00:34:02.805743	1
+119	37	1	2014-10-25 23:49:10.723203	2014-10-25 23:49:10.723203	1
+120	38	1	2014-10-25 23:50:14.390532	2014-10-25 23:50:14.390532	1
+121	25	8	2014-10-26 05:11:48.429464	2014-10-26 05:11:48.429464	1
+122	15	8	2014-10-26 05:12:00.891502	2014-10-26 05:12:00.891502	1
+123	21	8	2014-10-26 05:14:05.973329	2014-10-26 05:14:05.973329	1
+124	37	8	2014-10-26 05:14:58.934043	2014-10-26 05:14:58.934043	1
+125	5	8	2014-10-26 05:15:17.948489	2014-10-26 05:15:17.948489	1
+126	33	9	2014-10-26 05:38:09.894597	2014-10-26 05:38:09.894597	1
+127	5	9	2014-10-26 05:38:12.552624	2014-10-26 05:38:12.552624	1
+128	37	9	2014-10-26 05:38:13.70745	2014-10-26 05:38:13.70745	1
+129	25	10	2014-10-26 05:46:42.435895	2014-10-26 05:46:42.435895	1
+130	36	10	2014-10-26 05:46:44.03405	2014-10-26 05:46:44.03405	1
+131	31	10	2014-10-26 05:46:46.086299	2014-10-26 05:46:46.086299	1
+132	5	10	2014-10-26 05:46:49.139373	2014-10-26 05:46:49.139373	1
+133	19	10	2014-10-26 05:46:56.169777	2014-10-26 05:46:56.169777	1
+134	38	10	2014-10-26 05:47:01.115538	2014-10-26 05:47:01.115538	1
+135	33	10	2014-10-26 05:47:03.109459	2014-10-26 05:47:03.109459	1
+136	37	10	2014-10-26 05:47:04.688062	2014-10-26 05:47:04.688062	1
+137	10	10	2014-10-26 05:50:31.45421	2014-10-26 05:50:31.45421	1
+138	4	10	2014-10-26 05:50:34.079274	2014-10-26 05:50:34.079274	1
 \.
 
 
@@ -2361,6 +2519,9 @@ COPY battles (id, outcome, created_at, updated_at, battle_level_id, round_taken,
 369	\N	2014-10-27 20:51:03.701098	2014-10-27 20:51:03.701098	7	\N	\N	ea175e83-2e81-4d17-afeb-ef78547452c4	\N	\N	\N	battling
 370	\N	2014-10-28 00:10:51.178488	2014-10-28 00:10:51.178488	8	\N	\N	9b0dbccf-3b18-498f-8637-c985ce43f6ad	\N	\N	\N	battling
 371	\N	2014-10-28 00:10:55.79662	2014-10-28 00:10:55.79662	8	\N	\N	64baa47c-a369-49f1-bdda-2259727b3a48	\N	\N	\N	battling
+372	\N	2014-10-28 06:38:28.228851	2014-10-28 06:38:28.228851	7	\N	\N	82525927-ba5a-46de-99ef-9a3c0440244e	\N	\N	\N	battling
+373	\N	2014-10-29 00:42:49.82789	2014-10-29 00:42:49.82789	7	\N	\N	29af01d1-7799-4b85-8829-3c8a7e85b66e	\N	\N	\N	battling
+374	\N	2014-10-29 00:42:57.529338	2014-10-29 00:42:57.529338	7	\N	\N	e21dbe3e-2271-44d1-9f08-b5915c481a67	\N	\N	\N	battling
 \.
 
 
@@ -2368,7 +2529,7 @@ COPY battles (id, outcome, created_at, updated_at, battle_level_id, round_taken,
 -- Name: battles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('battles_id_seq', 371, true);
+SELECT pg_catalog.setval('battles_id_seq', 374, true);
 
 
 --
@@ -2833,6 +2994,11 @@ COPY fights (id, battle_id, created_at, updated_at, party_id, winner) FROM stdin
 717	370	2014-10-28 00:10:51.192613	2014-10-28 00:10:51.192613	59	f
 718	371	2014-10-28 00:10:55.811714	2014-10-28 00:10:55.811714	59	f
 719	371	2014-10-28 00:10:55.830782	2014-10-28 00:10:55.830782	60	f
+720	372	2014-10-28 06:38:28.235299	2014-10-28 06:38:28.235299	4	f
+721	372	2014-10-28 06:38:28.243537	2014-10-28 06:38:28.243537	30	f
+722	373	2014-10-29 00:42:49.851423	2014-10-29 00:42:49.851423	62	f
+724	374	2014-10-29 00:42:57.542373	2014-10-29 00:42:57.542373	62	f
+725	374	2014-10-29 00:42:57.549226	2014-10-29 00:42:57.549226	66	f
 \.
 
 
@@ -2840,7 +3006,7 @@ COPY fights (id, battle_id, created_at, updated_at, party_id, winner) FROM stdin
 -- Name: fights_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('fights_id_seq', 719, true);
+SELECT pg_catalog.setval('fights_id_seq', 725, true);
 
 
 --
@@ -2856,6 +3022,29 @@ COPY friendly_id_slugs (id, slug, sluggable_id, sluggable_type, scope, created_a
 --
 
 SELECT pg_catalog.setval('friendly_id_slugs_id_seq', 1, false);
+
+
+--
+-- Data for Name: impressions; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY impressions (id, impressionable_type, impressionable_id, user_id, controller_name, action_name, view_name, request_hash, ip_address, session_hash, message, referrer, created_at, updated_at) FROM stdin;
+1	Battle	\N	13	battles	new	\N	37a8d6dfa1f3d169254f7c0d32bdeb3e83857c9ce1c07254e8daf1ea757d8df3	127.0.0.1	ece4bb9dc5a2cce0ccb1d766a0833106	\N	http://localhost:3000/home	2014-10-29 00:42:45.519588	2014-10-29 00:42:45.519588
+2	Battle	\N	13	battles	generate_field	\N	f73e715d5a2a41d5b95ca21c778d3ba4075ab0fd43473fad00a9d6a36c0453ad	127.0.0.1	ece4bb9dc5a2cce0ccb1d766a0833106	\N	http://localhost:3000/battles/new	2014-10-29 00:42:47.562047	2014-10-29 00:42:47.562047
+3	Battle	\N	13	battles	create	\N	0692fe6c7cf1d8acc57044ba391d2957f0056d71885277b39b83f0429e22e36c	127.0.0.1	ece4bb9dc5a2cce0ccb1d766a0833106	\N	http://localhost:3000/battles/new	2014-10-29 00:42:49.809571	2014-10-29 00:42:49.809571
+4	Battle	29	13	battles	show	\N	4b162c52d769779420fbe272d11e076ff6d3568ede36aac3f1e1066098ffbbca	127.0.0.1	ece4bb9dc5a2cce0ccb1d766a0833106	\N	http://localhost:3000/battles/new	2014-10-29 00:42:49.897381	2014-10-29 00:42:49.897381
+5	Battle	373	13	battles	show	\N	4b162c52d769779420fbe272d11e076ff6d3568ede36aac3f1e1066098ffbbca	127.0.0.1	ece4bb9dc5a2cce0ccb1d766a0833106	\N	http://localhost:3000/battles/new	2014-10-29 00:42:49.907162	2014-10-29 00:42:49.907162
+6	Battle	374	13	battles	show	\N	81efccd347ffb15929171f766e2e75b0700e33e227df4970c4230cc5c7cab4f8	127.0.0.1	ece4bb9dc5a2cce0ccb1d766a0833106	\N	http://localhost:3000/battles/new	2014-10-29 00:42:57.574149	2014-10-29 00:42:57.574149
+7	Battle	374	13	battles	show	\N	f0cd0d8000066bab5f5aa814fefcd0aad8a5caab1026a6da4c11003d6073b150	127.0.0.1	ece4bb9dc5a2cce0ccb1d766a0833106	\N	http://localhost:3000/battles/e21dbe3e-2271-44d1-9f08-b5915c481a67	2014-10-29 00:42:58.871738	2014-10-29 00:42:58.871738
+8	Battle	374	13	battles	show	\N	8041553622e7b4b4e568081ee9e88473d9da1c834554a83fcd768c225fd26250	127.0.0.1	ece4bb9dc5a2cce0ccb1d766a0833106	\N	\N	2014-10-29 00:44:13.68456	2014-10-29 00:44:13.68456
+\.
+
+
+--
+-- Name: impressions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('impressions_id_seq', 8, true);
 
 
 --
@@ -2906,7 +3095,6 @@ COPY members (id, party_id, created_at, updated_at, monster_unlock_id) FROM stdi
 300	42	2014-10-26 05:03:02.060242	2014-10-26 05:03:02.060242	45
 238	29	2014-10-25 04:22:18.095741	2014-10-25 04:22:18.095741	9
 239	29	2014-10-25 04:22:20.588579	2014-10-25 04:22:20.588579	12
-240	29	2014-10-25 04:22:23.660217	2014-10-25 04:22:23.660217	11
 301	42	2014-10-26 05:03:02.062652	2014-10-26 05:03:02.062652	81
 241	29	2014-10-25 04:22:25.081609	2014-10-25 04:22:25.081609	8
 302	43	2014-10-26 05:03:02.07715	2014-10-26 05:03:02.07715	86
@@ -2985,6 +3173,19 @@ COPY members (id, party_id, created_at, updated_at, monster_unlock_id) FROM stdi
 373	61	2014-10-28 00:10:54.324766	2014-10-28 00:10:54.324766	81
 374	61	2014-10-28 00:10:54.327941	2014-10-28 00:10:54.327941	11
 375	61	2014-10-28 00:10:54.331712	2014-10-28 00:10:54.331712	64
+376	29	2014-10-28 06:37:35.945928	2014-10-28 06:37:35.945928	11
+377	62	2014-10-29 00:42:29.474216	2014-10-29 00:42:29.474216	153
+378	62	2014-10-29 00:42:30.647931	2014-10-29 00:42:30.647931	154
+379	62	2014-10-29 00:42:31.653104	2014-10-29 00:42:31.653104	155
+380	62	2014-10-29 00:42:33.001901	2014-10-29 00:42:33.001901	156
+389	65	2014-10-29 00:42:55.369719	2014-10-29 00:42:55.369719	34
+390	65	2014-10-29 00:42:55.372119	2014-10-29 00:42:55.372119	82
+391	65	2014-10-29 00:42:55.374317	2014-10-29 00:42:55.374317	9
+392	65	2014-10-29 00:42:55.376604	2014-10-29 00:42:55.376604	88
+393	66	2014-10-29 00:42:55.392533	2014-10-29 00:42:55.392533	88
+394	66	2014-10-29 00:42:55.394753	2014-10-29 00:42:55.394753	12
+395	66	2014-10-29 00:42:55.397018	2014-10-29 00:42:55.397018	84
+396	66	2014-10-29 00:42:55.399464	2014-10-29 00:42:55.399464	82
 \.
 
 
@@ -2992,7 +3193,7 @@ COPY members (id, party_id, created_at, updated_at, monster_unlock_id) FROM stdi
 -- Name: members_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('members_id_seq', 375, true);
+SELECT pg_catalog.setval('members_id_seq', 396, true);
 
 
 --
@@ -3063,14 +3264,21 @@ COPY monster_skin_equippings (id, monster_id, monster_skin_id, created_at, updat
 26	1	26	2014-10-07 20:56:59.589035	2014-10-27 01:14:37.659397	2
 117	2	26	2014-10-27 03:05:23.501958	2014-10-27 03:05:23.501958	2
 69	12	22	2014-10-15 19:02:47.761027	2014-10-27 03:07:17.993228	2
-118	21	2	2014-10-27 20:49:51.088389	2014-10-27 20:49:51.088389	2
-119	15	26	2014-10-27 20:49:54.803605	2014-10-27 20:49:54.803605	2
 120	10	17	2014-10-27 20:49:57.786577	2014-10-27 20:49:57.786577	2
 121	26	26	2014-10-27 20:50:02.873631	2014-10-27 20:50:02.873631	2
 122	5	35	2014-10-28 00:10:39.118496	2014-10-28 00:10:39.118496	12
 123	15	35	2014-10-28 00:10:39.138188	2014-10-28 00:10:39.138188	12
 124	4	35	2014-10-28 00:10:39.158133	2014-10-28 00:10:39.158133	12
 125	26	35	2014-10-28 00:10:39.17548	2014-10-28 00:10:39.17548	12
+119	15	19	2014-10-27 20:49:54.803605	2014-10-28 06:37:25.481884	2
+118	21	19	2014-10-27 20:49:51.088389	2014-10-28 06:38:21.409164	2
+126	15	35	2014-10-29 00:31:25.852414	2014-10-29 00:31:25.852414	4
+127	29	35	2014-10-29 00:34:00.569942	2014-10-29 00:34:00.569942	1
+128	30	35	2014-10-29 00:35:32.244326	2014-10-29 00:35:32.244326	1
+129	15	35	2014-10-29 00:42:03.446211	2014-10-29 00:42:03.446211	13
+130	26	35	2014-10-29 00:42:03.456671	2014-10-29 00:42:03.456671	13
+131	4	2	2014-10-29 00:42:03.467015	2014-10-29 00:42:03.467015	13
+132	5	19	2014-10-29 00:42:03.477684	2014-10-29 00:42:03.477684	13
 \.
 
 
@@ -3078,7 +3286,7 @@ COPY monster_skin_equippings (id, monster_id, monster_skin_id, created_at, updat
 -- Name: monster_skin_equippings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('monster_skin_equippings_id_seq', 125, true);
+SELECT pg_catalog.setval('monster_skin_equippings_id_seq', 132, true);
 
 
 --
@@ -3159,28 +3367,28 @@ SELECT pg_catalog.setval('monster_skin_purchases_id_seq', 107, true);
 -- Data for Name: monster_skins; Type: TABLE DATA; Schema: public; Owner: Frank
 --
 
-COPY monster_skins (id, name, created_at, updated_at, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at, portrait_file_name, portrait_content_type, portrait_file_size, portrait_updated_at, rarity_id) FROM stdin;
-26	rattle-blue	2014-10-07 19:25:23.449443	2014-10-10 23:15:49.839746	snake-blue.png	image/png	265990	2014-10-10 23:15:49.054199	snake-blue-avatar.png	image/png	22799	2014-10-10 23:15:49.696469	\N
-2	Green Bubbles	2014-09-30 19:01:20.757788	2014-10-10 23:20:54.898513	green-bubbles.png	image/png	78527	2014-10-10 23:20:54.141553	green-slime-avatar.png	image/png	11139	2014-10-10 23:20:54.751762	\N
-5	Red Rattle	2014-09-30 19:04:01.924167	2014-10-10 23:22:29.450324	snake-red.png	image/png	220453	2014-10-10 23:16:26.594134	snake-red-avatar.png	image/png	26658	2014-10-10 23:16:27.220662	\N
-34	Super Loki	2014-10-10 23:58:42.351292	2014-10-10 23:58:42.351292	evolved-loki.png	image/png	720052	2014-10-10 23:58:41.507504	loki-evo-avatar.png	image/png	37548	2014-10-10 23:58:42.206155	\N
-24	Loki	2014-09-30 19:38:06.547748	2014-10-11 00:09:51.812494	Character-Fighter_001.png	image/png	377424	2014-09-30 19:38:05.934648	loki-avatar.png	image/png	23635	2014-10-11 00:09:51.672825	\N
-23	Kagura	2014-09-30 19:32:41.33503	2014-10-11 00:16:11.314169	kagura.png	image/png	231821	2014-09-30 19:32:40.894316	kagura-avatar.png	image/png	32390	2014-10-11 00:16:11.137789	\N
-25	beast-bubbles-red	2014-10-07 19:16:26.510801	2014-10-07 20:56:42.470236	Slime_Evo_001_v2.png	image/png	564622	2014-10-07 20:56:40.178596	Slime_Evo_001_v2.png	image/png	564622	2014-10-07 20:56:41.750736	\N
-15	GhostWhale	2014-09-30 19:17:51.685217	2014-10-08 00:59:10.342327	whale-healer-new.gif	image/gif	509869	2014-09-30 19:17:50.189067	ghost-whale-avatar.gif	image/gif	10819	2014-10-08 00:59:10.12507	\N
-17	Foxtrot	2014-09-30 19:22:12.711659	2014-10-22 19:46:51.381647	fox-mage.png	image/png	592766	2014-10-22 19:46:49.913532	fox-mage-avatar.png	image/png	20933	2014-10-08 01:09:35.411672	1
-21	Keets	2014-09-30 19:28:47.561597	2014-10-08 01:09:14.625436	bird-rogue.png	image/png	326940	2014-09-30 22:51:25.663261	bird-rogue-avatar.png	image/png	19834	2014-10-08 01:09:14.425772	\N
-16	DeadWhale	2014-09-30 19:20:12.116556	2014-10-08 20:26:02.745197	whale-healer-evo-new.gif	image/gif	662578	2014-09-30 19:20:10.531622	whale-evo-avatar.png	image/png	16671	2014-10-08 20:26:02.564823	\N
-18	Foxrage	2014-09-30 19:23:37.255808	2014-10-08 20:26:27.617863	fox-mage-evo.png	image/png	729891	2014-09-30 19:23:35.790005	foxrage-avatar.png	image/png	21154	2014-10-08 20:26:27.493822	\N
-20	Eviagnon	2014-09-30 19:26:42.410401	2014-10-08 20:26:35.455594	dragon-fighter-evo.png	image/png	900621	2014-09-30 19:26:40.975694	dragon-evo-avatar.png	image/png	20336	2014-10-08 20:26:35.331889	\N
-22	Kakeeto	2014-09-30 19:29:06.667368	2014-10-08 20:26:45.096833	bird-rogue-evo.png	image/png	475907	2014-09-30 22:51:42.857385	bird-evo-avatar.png	image/png	23064	2014-10-08 20:26:44.961545	\N
-19	Etheragon	2014-09-30 19:26:19.868393	2014-10-25 04:13:11.136887	dragon-fighter-animated.png	image/png	457997	2014-10-25 04:13:09.564243	dragon-base-avatar.gif	image/gif	10587	2014-10-08 01:06:48.217041	1
-29	Yellow Bubbles	2014-10-09 04:16:23.886381	2014-10-09 04:16:23.886381	yellow-slime.png	image/png	69556	2014-10-09 04:16:23.13392	yellow-slime-avatar.png	image/png	16185	2014-10-09 04:16:23.734347	\N
-30	Chuck	2014-10-09 04:30:58.910503	2014-10-09 04:31:22.705661	Chuck-Norris-final-2.png	image/png	847846	2014-10-09 04:31:21.621174	chuck-norris-avatar.png	image/png	157219	2014-10-09 04:31:22.542012	\N
-32	BlueBubbles	2014-10-10 22:54:00.785315	2014-10-10 22:54:00.785315	blue-bubbles.png	image/png	79628	2014-10-10 22:53:59.882248	blue-bubbles-avatar.png	image/png	12909	2014-10-10 22:54:00.581498	\N
-31	Snake Bubbles	2014-10-09 22:29:49.771133	2014-10-10 23:01:35.175776	slime-snake.png	image/png	428130	2014-10-09 22:29:48.369698	slime-snake-avatar.png	image/png	28373	2014-10-10 23:01:35.040739	\N
-33	Fat Bubbles	2014-10-10 23:07:04.264239	2014-10-10 23:07:04.264239	fat-bubbles.png	image/png	164548	2014-10-10 23:07:03.343581	fat-bubbles-avatar.png	image/png	11537	2014-10-10 23:07:04.12252	\N
-35	Sack	2014-10-25 23:48:34.356636	2014-10-26 05:36:30.465354	bird_BASE.png	image/png	119803	2014-10-26 05:36:29.573346	bird-avatar.png	image/png	16897	2014-10-26 05:36:30.301636	4
+COPY monster_skins (id, name, created_at, updated_at, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at, portrait_file_name, portrait_content_type, portrait_file_size, portrait_updated_at, rarity_id, former_name) FROM stdin;
+26	rattle-blue	2014-10-07 19:25:23.449443	2014-10-10 23:15:49.839746	snake-blue.png	image/png	265990	2014-10-10 23:15:49.054199	snake-blue-avatar.png	image/png	22799	2014-10-10 23:15:49.696469	\N	
+2	Green Bubbles	2014-09-30 19:01:20.757788	2014-10-10 23:20:54.898513	green-bubbles.png	image/png	78527	2014-10-10 23:20:54.141553	green-slime-avatar.png	image/png	11139	2014-10-10 23:20:54.751762	\N	
+5	Red Rattle	2014-09-30 19:04:01.924167	2014-10-10 23:22:29.450324	snake-red.png	image/png	220453	2014-10-10 23:16:26.594134	snake-red-avatar.png	image/png	26658	2014-10-10 23:16:27.220662	\N	
+34	Super Loki	2014-10-10 23:58:42.351292	2014-10-10 23:58:42.351292	evolved-loki.png	image/png	720052	2014-10-10 23:58:41.507504	loki-evo-avatar.png	image/png	37548	2014-10-10 23:58:42.206155	\N	
+24	Loki	2014-09-30 19:38:06.547748	2014-10-11 00:09:51.812494	Character-Fighter_001.png	image/png	377424	2014-09-30 19:38:05.934648	loki-avatar.png	image/png	23635	2014-10-11 00:09:51.672825	\N	
+23	Kagura	2014-09-30 19:32:41.33503	2014-10-11 00:16:11.314169	kagura.png	image/png	231821	2014-09-30 19:32:40.894316	kagura-avatar.png	image/png	32390	2014-10-11 00:16:11.137789	\N	
+25	beast-bubbles-red	2014-10-07 19:16:26.510801	2014-10-07 20:56:42.470236	Slime_Evo_001_v2.png	image/png	564622	2014-10-07 20:56:40.178596	Slime_Evo_001_v2.png	image/png	564622	2014-10-07 20:56:41.750736	\N	
+15	GhostWhale	2014-09-30 19:17:51.685217	2014-10-08 00:59:10.342327	whale-healer-new.gif	image/gif	509869	2014-09-30 19:17:50.189067	ghost-whale-avatar.gif	image/gif	10819	2014-10-08 00:59:10.12507	\N	
+17	Foxtrot	2014-09-30 19:22:12.711659	2014-10-22 19:46:51.381647	fox-mage.png	image/png	592766	2014-10-22 19:46:49.913532	fox-mage-avatar.png	image/png	20933	2014-10-08 01:09:35.411672	1	
+21	Keets	2014-09-30 19:28:47.561597	2014-10-08 01:09:14.625436	bird-rogue.png	image/png	326940	2014-09-30 22:51:25.663261	bird-rogue-avatar.png	image/png	19834	2014-10-08 01:09:14.425772	\N	
+16	DeadWhale	2014-09-30 19:20:12.116556	2014-10-08 20:26:02.745197	whale-healer-evo-new.gif	image/gif	662578	2014-09-30 19:20:10.531622	whale-evo-avatar.png	image/png	16671	2014-10-08 20:26:02.564823	\N	
+18	Foxrage	2014-09-30 19:23:37.255808	2014-10-08 20:26:27.617863	fox-mage-evo.png	image/png	729891	2014-09-30 19:23:35.790005	foxrage-avatar.png	image/png	21154	2014-10-08 20:26:27.493822	\N	
+20	Eviagnon	2014-09-30 19:26:42.410401	2014-10-08 20:26:35.455594	dragon-fighter-evo.png	image/png	900621	2014-09-30 19:26:40.975694	dragon-evo-avatar.png	image/png	20336	2014-10-08 20:26:35.331889	\N	
+22	Kakeeto	2014-09-30 19:29:06.667368	2014-10-08 20:26:45.096833	bird-rogue-evo.png	image/png	475907	2014-09-30 22:51:42.857385	bird-evo-avatar.png	image/png	23064	2014-10-08 20:26:44.961545	\N	
+29	Yellow Bubbles	2014-10-09 04:16:23.886381	2014-10-09 04:16:23.886381	yellow-slime.png	image/png	69556	2014-10-09 04:16:23.13392	yellow-slime-avatar.png	image/png	16185	2014-10-09 04:16:23.734347	\N	
+30	Chuck	2014-10-09 04:30:58.910503	2014-10-09 04:31:22.705661	Chuck-Norris-final-2.png	image/png	847846	2014-10-09 04:31:21.621174	chuck-norris-avatar.png	image/png	157219	2014-10-09 04:31:22.542012	\N	
+32	BlueBubbles	2014-10-10 22:54:00.785315	2014-10-10 22:54:00.785315	blue-bubbles.png	image/png	79628	2014-10-10 22:53:59.882248	blue-bubbles-avatar.png	image/png	12909	2014-10-10 22:54:00.581498	\N	
+31	Snake Bubbles	2014-10-09 22:29:49.771133	2014-10-10 23:01:35.175776	slime-snake.png	image/png	428130	2014-10-09 22:29:48.369698	slime-snake-avatar.png	image/png	28373	2014-10-10 23:01:35.040739	\N	
+33	Fat Bubbles	2014-10-10 23:07:04.264239	2014-10-10 23:07:04.264239	fat-bubbles.png	image/png	164548	2014-10-10 23:07:03.343581	fat-bubbles-avatar.png	image/png	11537	2014-10-10 23:07:04.12252	\N	
+35	Sack	2014-10-25 23:48:34.356636	2014-10-26 05:36:30.465354	bird_BASE.png	image/png	119803	2014-10-26 05:36:29.573346	bird-avatar.png	image/png	16897	2014-10-26 05:36:30.301636	4	
+19	Etheragon	2014-09-30 19:26:19.868393	2014-10-28 06:36:35.263304	Untitled-9.png	image/png	1358865	2014-10-28 06:36:33.031018	Untitled-9.png	image/png	1358865	2014-10-28 06:36:20.783914	1	
 \.
 
 
@@ -3250,9 +3458,17 @@ COPY monster_unlocks (id, user_id, monster_id, created_at, updated_at) FROM stdi
 146	12	4	2014-10-28 00:10:39.141086	2014-10-28 00:10:39.141086
 60	1	1	2014-10-14 23:17:20.813876	2014-10-14 23:17:20.813876
 147	12	26	2014-10-28 00:10:39.160799	2014-10-28 00:10:39.160799
+149	1	28	2014-10-29 00:25:25.308993	2014-10-29 00:25:25.308993
 64	2	9	2014-10-14 23:17:20.856981	2014-10-14 23:17:20.856981
 65	2	10	2014-10-14 23:17:20.868419	2014-10-14 23:17:20.868419
 66	2	7	2014-10-14 23:17:20.882309	2014-10-14 23:17:20.882309
+150	4	15	2014-10-29 00:31:25.841175	2014-10-29 00:31:25.841175
+151	1	29	2014-10-29 00:34:00.536142	2014-10-29 00:34:00.536142
+152	1	30	2014-10-29 00:35:32.213158	2014-10-29 00:35:32.213158
+153	13	15	2014-10-29 00:42:03.435826	2014-10-29 00:42:03.435826
+154	13	26	2014-10-29 00:42:03.44871	2014-10-29 00:42:03.44871
+155	13	4	2014-10-29 00:42:03.45888	2014-10-29 00:42:03.45888
+156	13	5	2014-10-29 00:42:03.469394	2014-10-29 00:42:03.469394
 80	2	12	2014-10-21 00:59:51.257402	2014-10-21 00:59:51.257402
 81	2	8	2014-10-21 01:00:07.519153	2014-10-21 01:00:07.519153
 82	2	6	2014-10-21 01:00:21.900907	2014-10-21 01:00:21.900907
@@ -3280,32 +3496,35 @@ COPY monster_unlocks (id, user_id, monster_id, created_at, updated_at) FROM stdi
 -- Name: monster_unlocks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('monster_unlocks_id_seq', 147, true);
+SELECT pg_catalog.setval('monster_unlocks_id_seq', 156, true);
 
 
 --
 -- Data for Name: monsters; Type: TABLE DATA; Schema: public; Owner: Frank
 --
 
-COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_modifier, dmg_modifier, evolved_from_id, description, summon_cost, evolve_animation_file_name, evolve_animation_content_type, evolve_animation_file_size, evolve_animation_updated_at, personality_id, keywords, rarity_id, mp_cost, gp_cost, physical_resistance, ability_resistance) FROM stdin;
-1	Kagura	1200	2014-09-30 17:45:35.816134	2014-10-17 20:40:47.403367	5	1	1	1	0	Demon wielding a scythe.	0	\N	\N	\N	\N	6	kagura demon wielding a scythe. npc-warrior-0001 fire 1200 0	1	\N	\N	\N	\N
-12	Kakeeto	2100	2014-09-30 20:32:57.303379	2014-10-21 00:59:51.238992	22	4	1	1	9	A bigger rogue bird.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:44.771173	\N	kakeeto a bigger rogue bird. rogue-0003-e1 earth keets keets 2100 40	1	\N	\N	\N	\N
-8	DeadWhale	2500	2014-09-30 20:22:20.010067	2014-10-21 01:00:07.508295	20	2	1	1	7	Ghost whale evolved.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:58.48608	\N	deadwhale ghost whale evolved. healer-0002-e1 water ghostwhale ghostwhale 2500 40	1	\N	\N	\N	\N
-6	Eviganon	2200	2014-09-30 18:53:20.718158	2014-10-21 01:00:21.892172	19	2	1	1	5	Bigger Blue Dragon	40	evo-animation-new.gif	image/gif	301911	2014-09-30 18:53:17.695736	\N	eviganon bigger blue dragon warrior-0001-e1 water saphira saphira 2200 40	1	\N	\N	\N	\N
-11	FoxRage	2150	2014-09-30 20:29:11.596906	2014-10-21 01:00:37.763068	21	3	1	1	10	A mad fox with magic. Shouldn't have pissed him off.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:33.265983	\N	foxrage a mad fox with magic. shouldn't have pissed him off. mage-0004-e1 thunder foxtrot foxtrot 2150 40	1	\N	\N	\N	\N
-25	Super Loki	2450	2014-10-10 23:50:00.894536	2014-10-21 01:01:38.332458	19	1	\N	\N	2	Loki supped up. 	40	tinder.gif	image/gif	35854	2014-10-10 23:49:59.868373	\N	super loki loki supped up.  warrior-0001-e1 fire loki loki 2450 40	1	\N	\N	\N	\N
-24	Snake Bubbles	2600	2014-10-10 23:47:11.634389	2014-10-25 03:28:16.887289	22	3	\N	\N	15	A snake bubbles	40	tinder.gif	image/gif	35854	2014-10-10 23:47:10.507253	\N	snake bubbles a snake bubbles rogue-0003-e1 thunder yellow bubbles yellow bubbles 2600 40	1	\N	\N	\N	\N
-22	King Bubbles	2350	2014-10-10 23:28:02.991097	2014-10-25 03:28:29.544477	20	4	\N	\N	4	A big bubbles	40	\N	\N	\N	\N	\N	king bubbles a big bubbles healer-0002-e1 earth greenbubbles greenbubbles 2350 40	1	\N	\N	\N	\N
-7	GhostWhale	1500	2014-09-30 20:21:22.196954	2014-10-26 05:19:01.468471	12	2	1	1	0	A ghost whale.	1	\N	\N	\N	\N	6	ghostwhale a ghost whale. healer-0002 water 1500 1	4	\N	\N	\N	\N
-9	Keets	1250	2014-09-30 20:23:39.443142	2014-10-26 05:19:37.099586	15	4	1	1	0	A rogue bird.	1	\N	\N	\N	\N	7	keets a rogue bird. rogue-0003 earth 1250 1	4	\N	\N	\N	\N
-10	FoxTrot	1200	2014-09-30 20:25:52.948533	2014-10-26 05:19:51.304775	14	3	1	1	0	A fox with magic. Yeah.	1	\N	\N	\N	\N	9	foxtrot a fox with magic. yeah. mage-0004 thunder 1200 1	4	\N	\N	\N	\N
-26	Red Bubbles	950	2014-10-26 02:55:44.059487	2014-10-26 05:21:57.750734	11	1	\N	\N	0	A red bubbles.	0	\N	\N	\N	\N	4	red bubbles a red bubbles. warrior-0001 fire 950 0	6	\N	\N	\N	\N
-4	Green Bubbles	900	2014-09-30 18:34:52.037132	2014-10-26 05:22:11.197406	16	4	1	1	0	Best bubbles there is. 	0	\N	\N	\N	\N	7	green bubbles best bubbles there is.  npc-mage-0006 earth 900 0	6	\N	\N	\N	\N
-15	Yellow Bubbles	1100	2014-10-09 04:06:43.604328	2014-10-26 05:22:20.859808	11	3	\N	\N	0	A yellow bubbles.	0	\N	\N	\N	\N	10	yellow bubbles a yellow bubbles. warrior-0001 thunder 1100 0	6	\N	\N	\N	\N
-5	Saphira	1450	2014-09-30 18:46:57.985514	2014-10-26 05:22:37.904438	11	2	1	1	0	Blue Dragon	0	\N	\N	\N	\N	9	saphira blue dragon warrior-0001 water 1450 0	6	\N	\N	\N	\N
-3	Red Rattle	1250	2014-09-30 18:29:02.744568	2014-10-26 05:23:05.18323	6	2	1	1	0	A red snake	0	\N	\N	\N	\N	8	red rattle a red snake npc-rogue-0002 water 1250 0	4	\N	\N	\N	\N
-21	Blue Bubbles	1500	2014-10-10 22:40:54.841088	2014-10-26 05:23:17.291032	16	2	\N	\N	0	A water bubbles.	0	\N	\N	\N	\N	7	blue bubbles a water bubbles. npc-mage-0006 water 1500 0	6	\N	\N	\N	\N
-2	Loki	1350	2014-09-30 18:06:10.640735	2014-10-26 05:23:35.035404	15	1	1	1	0	I've got a mad legit spear	0	\N	\N	\N	\N	6	loki i've got a mad legit spear rogue-0003 fire 1350 0	4	\N	\N	\N	\N
+COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_modifier, dmg_modifier, evolved_from_id, description, summon_cost, evolve_animation_file_name, evolve_animation_content_type, evolve_animation_file_size, evolve_animation_updated_at, personality_id, keywords, rarity_id, mp_cost, gp_cost, physical_resistance, ability_resistance, default_skin_id, default_sock1_id, default_sock2_id) FROM stdin;
+15	Yellow Bubbles	1100	2014-10-09 04:06:43.604328	2014-10-29 00:23:02.461476	11	3	\N	\N	0	A yellow bubbles.	0	\N	\N	\N	\N	10	yellow bubbles a yellow bubbles. warrior-0001 thunder 1100 0	6	\N	\N	\N	\N	35	37	38
+1	Kagura	1200	2014-09-30 17:45:35.816134	2014-10-29 00:23:02.350055	5	1	1	1	0	Demon wielding a scythe.	0	\N	\N	\N	\N	6	kagura demon wielding a scythe. npc-warrior-0001 fire 1200 0	1	\N	\N	\N	\N	35	37	38
+12	Kakeeto	2100	2014-09-30 20:32:57.303379	2014-10-29 00:23:02.366533	22	4	1	1	9	A bigger rogue bird.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:44.771173	\N	kakeeto a bigger rogue bird. rogue-0003-e1 earth keets keets 2100 40	1	\N	\N	\N	\N	35	37	38
+8	DeadWhale	2500	2014-09-30 20:22:20.010067	2014-10-29 00:23:02.373359	20	2	1	1	7	Ghost whale evolved.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:58.48608	\N	deadwhale ghost whale evolved. healer-0002-e1 water ghostwhale ghostwhale 2500 40	1	\N	\N	\N	\N	35	37	38
+6	Eviganon	2200	2014-09-30 18:53:20.718158	2014-10-29 00:23:02.380418	19	2	1	1	5	Bigger Blue Dragon	40	evo-animation-new.gif	image/gif	301911	2014-09-30 18:53:17.695736	\N	eviganon bigger blue dragon warrior-0001-e1 water saphira saphira 2200 40	1	\N	\N	\N	\N	35	37	38
+11	FoxRage	2150	2014-09-30 20:29:11.596906	2014-10-29 00:23:02.389846	21	3	1	1	10	A mad fox with magic. Shouldn't have pissed him off.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:33.265983	\N	foxrage a mad fox with magic. shouldn't have pissed him off. mage-0004-e1 thunder foxtrot foxtrot 2150 40	1	\N	\N	\N	\N	35	37	38
+25	Super Loki	2450	2014-10-10 23:50:00.894536	2014-10-29 00:23:02.398343	19	1	\N	\N	2	Loki supped up. 	40	tinder.gif	image/gif	35854	2014-10-10 23:49:59.868373	\N	super loki loki supped up.  warrior-0001-e1 fire loki loki 2450 40	1	\N	\N	\N	\N	35	37	38
+24	Snake Bubbles	2600	2014-10-10 23:47:11.634389	2014-10-29 00:23:02.404734	22	3	\N	\N	15	A snake bubbles	40	tinder.gif	image/gif	35854	2014-10-10 23:47:10.507253	\N	snake bubbles a snake bubbles rogue-0003-e1 thunder yellow bubbles yellow bubbles 2600 40	1	\N	\N	\N	\N	35	37	38
+22	King Bubbles	2350	2014-10-10 23:28:02.991097	2014-10-29 00:23:02.414512	20	4	\N	\N	4	A big bubbles	40	\N	\N	\N	\N	\N	king bubbles a big bubbles healer-0002-e1 earth green bubbles green bubbles 2350 40	1	\N	\N	\N	\N	35	37	38
+7	GhostWhale	1500	2014-09-30 20:21:22.196954	2014-10-29 00:23:02.421602	12	2	1	1	0	A ghost whale.	1	\N	\N	\N	\N	6	ghostwhale a ghost whale. healer-0002 water 1500 1	4	\N	\N	\N	\N	35	37	38
+9	Keets	1250	2014-09-30 20:23:39.443142	2014-10-29 00:23:02.42792	15	4	1	1	0	A rogue bird.	1	\N	\N	\N	\N	7	keets a rogue bird. rogue-0003 earth 1250 1	4	\N	\N	\N	\N	35	37	38
+10	FoxTrot	1200	2014-09-30 20:25:52.948533	2014-10-29 00:23:02.437676	14	3	1	1	0	A fox with magic. Yeah.	1	\N	\N	\N	\N	9	foxtrot a fox with magic. yeah. mage-0004 thunder 1200 1	4	\N	\N	\N	\N	35	37	38
+26	Red Bubbles	950	2014-10-26 02:55:44.059487	2014-10-29 00:23:02.448525	11	1	\N	\N	0	A red bubbles.	0	\N	\N	\N	\N	4	red bubbles a red bubbles. warrior-0001 fire 950 0	6	\N	\N	\N	\N	35	37	38
+3	Red Rattle	1250	2014-09-30 18:29:02.744568	2014-10-29 00:23:02.4737	6	2	1	1	0	A red snake	0	\N	\N	\N	\N	8	red rattle a red snake npc-rogue-0002 water 1250 0	4	\N	\N	\N	\N	35	37	38
+2	Loki	1350	2014-09-30 18:06:10.640735	2014-10-29 00:23:02.490868	15	1	1	1	0	I've got a mad legit spear	0	\N	\N	\N	\N	6	loki i've got a mad legit spear rogue-0003 fire 1350 0	4	\N	\N	\N	\N	35	37	38
+28	Testie	1	2014-10-29 00:25:25.301129	2014-10-29 00:25:25.301129	5	1	\N	\N	0	asdfafsdfdsaafafsd	1	\N	\N	\N	\N	4	testie asdfafsdfdsaafafsd npc-warrior-0001 fire 1 1	1	1	1	\N	\N	35	37	38
+29	Testicle Face	1	2014-10-29 00:34:00.458231	2014-10-29 00:34:00.458231	5	1	\N	\N	0	sadfsadfafsd	1	\N	\N	\N	\N	4	testicle face sadfsadfafsd npc-warrior-0001 fire 1 1	1	1	1	\N	\N	35	37	38
+30	Dick Hole	1	2014-10-29 00:35:32.097892	2014-10-29 00:36:59.19903	5	1	\N	\N	0	dfgadagafd1	1	\N	\N	\N	\N	4	dick hole dfgadagafd1 npc-warrior-0001 fire 1 1	1	1	1	\N	\N	25	37	14
+4	Green Bubbles	900	2014-09-30 18:34:52.037132	2014-10-29 00:38:47.125589	16	4	1	1	0	Best bubbles there is. 	0	\N	\N	\N	\N	7	green bubbles best bubbles there is.  npc-mage-0006 earth 900 0	6	\N	\N	\N	\N	2	37	14
+5	Saphira	1450	2014-09-30 18:46:57.985514	2014-10-29 00:40:49.297993	11	2	1	1	0	Blue Dragon	0	\N	\N	\N	\N	9	saphira blue dragon warrior-0001 water 1450 0	6	\N	\N	\N	\N	19	37	10
+21	Blue Bubbles	1500	2014-10-10 22:40:54.841088	2014-10-29 00:41:11.176186	16	2	\N	\N	0	A water bubbles.	0	\N	\N	\N	\N	7	blue bubbles a water bubbles. npc-mage-0006 water 1500 0	6	\N	\N	\N	\N	32	37	14
 \.
 
 
@@ -3313,7 +3532,37 @@ COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_
 -- Name: monsters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('monsters_id_seq', 26, true);
+SELECT pg_catalog.setval('monsters_id_seq', 30, true);
+
+
+--
+-- Data for Name: notice_types; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY notice_types (id, name, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: notice_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('notice_types_id_seq', 1, false);
+
+
+--
+-- Data for Name: notices; Type: TABLE DATA; Schema: public; Owner: Frank
+--
+
+COPY notices (id, title, body, created_at, updated_at, notice_type_id) FROM stdin;
+\.
+
+
+--
+-- Name: notices_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
+--
+
+SELECT pg_catalog.setval('notices_id_seq', 1, false);
 
 
 --
@@ -3346,6 +3595,9 @@ COPY parties (id, user_id, name, created_at, updated_at, npc, enemy) FROM stdin;
 59	12	Your Party	2014-10-28 00:10:39.098594	2014-10-28 00:10:39.098594	f	\N
 60	2	Stage 2 	2014-10-28 00:10:54.272376	2014-10-28 00:10:54.272376	t	test@gmail.com
 61	2	Stage 1 	2014-10-28 00:10:54.30301	2014-10-28 00:10:54.30301	t	test@gmail.com
+62	13	Your Party	2014-10-29 00:42:03.430842	2014-10-29 00:42:03.430842	f	\N
+65	2	Stage 2 	2014-10-29 00:42:55.362636	2014-10-29 00:42:55.362636	t	sdaflkasdfljkafsdklj@gmail.com
+66	2	Stage 1 	2014-10-29 00:42:55.387189	2014-10-29 00:42:55.387189	t	sdaflkasdfljkafsdklj@gmail.com
 \.
 
 
@@ -3353,7 +3605,7 @@ COPY parties (id, user_id, name, created_at, updated_at, npc, enemy) FROM stdin;
 -- Name: parties_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('parties_id_seq', 61, true);
+SELECT pg_catalog.setval('parties_id_seq', 66, true);
 
 
 --
@@ -3566,6 +3818,15 @@ COPY schema_migrations (version) FROM stdin;
 20141024222455
 20141025230439
 20141026031343
+20141026062403
+20141027184625
+20141027191623
+20141027211258
+20141027220343
+20141028045249
+20141028175425
+20141028180308
+20141028220740
 \.
 
 
@@ -3618,6 +3879,11 @@ COPY skin_restrictions (id, monster_skin_id, created_at, updated_at, job_id) FRO
 70	31	2014-10-11 00:03:12.88573	2014-10-11 00:03:12.88573	22
 71	33	2014-10-11 00:04:07.996039	2014-10-11 00:04:07.996039	20
 72	24	2014-10-11 00:10:06.511873	2014-10-11 00:10:06.511873	15
+86	19	2014-10-28 06:38:09.079994	2014-10-28 06:38:09.079994	16
+87	19	2014-10-28 06:38:09.096756	2014-10-28 06:38:09.096756	6
+88	19	2014-10-28 06:38:09.099044	2014-10-28 06:38:09.099044	10
+89	19	2014-10-28 06:38:09.102141	2014-10-28 06:38:09.102141	9
+90	19	2014-10-28 06:38:09.10485	2014-10-28 06:38:09.10485	5
 \.
 
 
@@ -3625,7 +3891,7 @@ COPY skin_restrictions (id, monster_skin_id, created_at, updated_at, job_id) FRO
 -- Name: skin_restrictions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('skin_restrictions_id_seq', 85, true);
+SELECT pg_catalog.setval('skin_restrictions_id_seq', 90, true);
 
 
 --
@@ -3671,6 +3937,7 @@ COPY summoners (id, name, user_id, summoner_level_id, created_at, updated_at, mp
 9	remember@me2.com	10	\N	2014-10-26 05:46:20.409787	2014-10-26 05:50:34.06185	100	90	1	0	15
 10	remember@me3.com	11	\N	2014-10-26 23:55:12.926349	2014-10-26 23:55:12.926349	0	0	1	0	25
 11	test10@test.com	12	\N	2014-10-28 00:10:39.095671	2014-10-28 00:10:39.095671	0	0	1	0	25
+12	homo	13	\N	2014-10-29 00:42:03.409573	2014-10-29 00:42:03.409573	0	0	1	0	25
 7	dickhead	8	\N	2014-10-26 05:11:38.434741	2014-10-26 05:15:51.925407	0	80	1	0	0
 1	admin	1	\N	2014-10-24 22:38:19.20184	2014-10-26 05:00:42.785886	300	215	1	0	0
 5	bitchtits	6	\N	2014-10-26 05:02:02.839209	2014-10-26 05:02:02.839209	0	0	1	0	0
@@ -3683,7 +3950,7 @@ COPY summoners (id, name, user_id, summoner_level_id, created_at, updated_at, mp
 -- Name: summoners_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('summoners_id_seq', 11, true);
+SELECT pg_catalog.setval('summoners_id_seq', 12, true);
 
 
 --
@@ -3761,6 +4028,8 @@ SELECT pg_catalog.setval('thoughts_id_seq', 69, true);
 --
 
 COPY users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, first_name, last_name, user_name, rank, created_at, updated_at, admin, uid, provider, raw_oauth_info) FROM stdin;
+13	sdaflkasdfljkafsdklj@gmail.com	$2a$10$xeebWlnxm1t5SQZYu.wY4OQ2B/y.IHmQM5RaFLCV1.lz2CraTF6h6	\N	\N	\N	1	2014-10-29 00:42:03.480408	2014-10-29 00:42:03.480408	127.0.0.1	127.0.0.1	sdfalkjfsdaklja	lkkljsdafafds	homo	\N	2014-10-29 00:42:03.402287	2014-10-29 00:47:33.02749	f	\N	\N	\N
+1	muffintopper420@mombattle.com	$2a$10$jOSMor36e34kwIT2owvaeuemx/Z2O8ZZtV2u7o877Vf9SSgmQBwE.	\N	\N	\N	36	2014-10-29 00:47:56.377152	2014-10-28 00:53:30.731876	127.0.0.1	127.0.0.1	test	admin	admin	\N	2014-09-30 17:35:52.809659	2014-10-29 00:47:56.377938	t	\N	\N	\N
 6	bitchtits@bitchtits.com	$2a$10$RzCpxzOXoWwGOzzQnN6HJOpoTNAba3RIPDoqO7DvhIGWz6zlDPSB2	\N	\N	\N	1	2014-10-26 05:02:02.991718	2014-10-26 05:02:02.991718	127.0.0.1	127.0.0.1			bitchtits	\N	2014-10-26 05:02:02.832967	2014-10-26 05:07:32.834032	f	\N	\N	\N
 7	fuckum@gmail.com	$2a$10$Wwru/Kt9RH3U4HQ1VL10NOOXL7H.dwxTQ2dZOvt5esd68ZrFxeaYa	\N	\N	\N	1	2014-10-26 05:08:33.353766	2014-10-26 05:08:33.353766	127.0.0.1	127.0.0.1			fuckum	\N	2014-10-26 05:08:33.19549	2014-10-26 05:09:26.608544	f	\N	\N	\N
 8	dickhead@gmail.com	$2a$10$sli0YUO8sgKuh8mqnGHcyuLWlDf6XTWGtSG6BDYjvWmlUc54q5Y3i	\N	\N	\N	1	2014-10-26 05:11:38.628494	2014-10-26 05:11:38.628494	127.0.0.1	127.0.0.1			dickhead	\N	2014-10-26 05:11:38.419524	2014-10-26 05:17:01.677631	f	\N	\N	\N
@@ -3770,7 +4039,6 @@ COPY users (id, email, encrypted_password, reset_password_token, reset_password_
 2	slayersgraken69@mombattle.com	$2a$10$7SyYB5FyZfx8Ax3QpM5Gee8UIMwmmo8RbH8yqfblR8mUYMckh5pfW	\N	\N	\N	1	2014-09-30 18:57:48.688221	2014-09-30 18:57:48.688221	127.0.0.1	127.0.0.1	NPC	NPC	NPC	\N	2014-09-30 18:57:48.68598	2014-10-26 00:47:43.576699	f	\N	\N	\N
 11	test4@gmail.com	$2a$10$n6BN/k9SQ1AxSfeaftEZWOV0QhBJPsCrN5YQthJVqd1QJwlbLu1WC	\N	\N	\N	1	2014-10-26 23:55:13.071963	2014-10-26 23:55:13.071963	127.0.0.1	127.0.0.1	43	4324	remember@me3.com	\N	2014-10-26 23:55:12.888388	2014-10-27 00:04:28.828287	f	\N	\N	\N
 12	test@gmail.com	$2a$10$bfRpnbewt6RTneEixmZbF.J8gTtjMtb.YiHUJs2vtiV.qKOlUVFEi	\N	\N	\N	1	2014-10-28 00:10:39.179813	2014-10-28 00:10:39.179813	127.0.0.1	127.0.0.1	test	test	test10@test.com	\N	2014-10-28 00:10:39.087487	2014-10-28 00:53:08.208101	f	\N	\N	\N
-1	muffintopper420@mombattle.com	$2a$10$jOSMor36e34kwIT2owvaeuemx/Z2O8ZZtV2u7o877Vf9SSgmQBwE.	\N	\N	\N	35	2014-10-28 00:53:30.731876	2014-10-27 00:05:02.520782	127.0.0.1	127.0.0.1	test	admin	admin	\N	2014-09-30 17:35:52.809659	2014-10-28 00:53:30.732652	t	\N	\N	\N
 5	fuckface@fuckface.com	$2a$10$Bb2SfeUCm0HgdZdO56iNROEbZuLzeAE/ehlpC2YyBfcQ4Z9iah45e	\N	\N	\N	2	2014-10-26 04:16:01.63638	2014-10-26 03:36:27.209449	127.0.0.1	127.0.0.1	fuckface	fuckface	fuckface	\N	2014-10-26 03:36:27.120573	2014-10-26 04:18:18.203266	f	\N	\N	\N
 \.
 
@@ -3779,7 +4047,7 @@ COPY users (id, email, encrypted_password, reset_password_token, reset_password_
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('users_id_seq', 12, true);
+SELECT pg_catalog.setval('users_id_seq', 13, true);
 
 
 --
@@ -3887,6 +4155,14 @@ ALTER TABLE ONLY friendly_id_slugs
 
 
 --
+-- Name: impressions_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY impressions
+    ADD CONSTRAINT impressions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
 --
 
@@ -3940,6 +4216,22 @@ ALTER TABLE ONLY monster_unlocks
 
 ALTER TABLE ONLY monsters
     ADD CONSTRAINT monsters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notice_types_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY notice_types
+    ADD CONSTRAINT notice_types_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notices_pkey; Type: CONSTRAINT; Schema: public; Owner: Frank; Tablespace: 
+--
+
+ALTER TABLE ONLY notices
+    ADD CONSTRAINT notices_pkey PRIMARY KEY (id);
 
 
 --
@@ -4020,6 +4312,34 @@ ALTER TABLE ONLY thoughts
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: controlleraction_ip_index; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX controlleraction_ip_index ON impressions USING btree (controller_name, action_name, ip_address);
+
+
+--
+-- Name: controlleraction_request_index; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX controlleraction_request_index ON impressions USING btree (controller_name, action_name, request_hash);
+
+
+--
+-- Name: controlleraction_session_index; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX controlleraction_session_index ON impressions USING btree (controller_name, action_name, session_hash);
+
+
+--
+-- Name: impressionable_type_message_index; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX impressionable_type_message_index ON impressions USING btree (impressionable_type, message, impressionable_id);
 
 
 --
@@ -4219,6 +4539,13 @@ CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USIN
 
 
 --
+-- Name: index_impressions_on_user_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX index_impressions_on_user_id ON impressions USING btree (user_id);
+
+
+--
 -- Name: index_members_on_monster_unlock_id; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
 --
 
@@ -4377,6 +4704,27 @@ CREATE INDEX index_users_on_email ON users USING btree (email);
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: poly_ip_index; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX poly_ip_index ON impressions USING btree (impressionable_type, impressionable_id, ip_address);
+
+
+--
+-- Name: poly_request_index; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX poly_request_index ON impressions USING btree (impressionable_type, impressionable_id, request_hash);
+
+
+--
+-- Name: poly_session_index; Type: INDEX; Schema: public; Owner: Frank; Tablespace: 
+--
+
+CREATE INDEX poly_session_index ON impressions USING btree (impressionable_type, impressionable_id, session_hash);
 
 
 --

@@ -10,6 +10,9 @@ class BattlesController < ApplicationController
   def new
     @battle = Battle.new
     @user = current_user
+    if current_user
+      @monsters = @user.parties.first.monster_unlocks
+    end
     respond_to do |format|
       # format.html {render :layout => "facebook_landing" if current_user.admin == false}
       format.html {render :layout => "facebook_landing"}
