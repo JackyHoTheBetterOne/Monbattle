@@ -13,7 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20141028220740) do
 
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,8 +42,8 @@ ActiveRecord::Schema.define(version: 20141028220740) do
     t.string   "portrait_content_type"
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
-    t.integer  "rarity_id"
     t.text     "keywords"
+    t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
     t.text     "former_name",           default: ""
@@ -235,11 +234,11 @@ ActiveRecord::Schema.define(version: 20141028220740) do
   add_index "members", ["party_id"], name: "index_members_on_party_id", using: :btree
 
   create_table "monster_skin_equippings", force: true do |t|
+    t.integer  "monster_id"
     t.integer  "monster_skin_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.integer  "monster_id"
   end
 
   add_index "monster_skin_equippings", ["monster_id"], name: "index_monster_skin_equippings_on_monster_id", using: :btree
@@ -301,8 +300,8 @@ ActiveRecord::Schema.define(version: 20141028220740) do
     t.integer  "evolve_animation_file_size"
     t.datetime "evolve_animation_updated_at"
     t.integer  "personality_id"
-    t.integer  "rarity_id"
     t.text     "keywords"
+    t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
     t.integer  "physical_resistance"

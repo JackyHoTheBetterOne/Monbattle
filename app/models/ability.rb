@@ -171,6 +171,7 @@ class Ability < ActiveRecord::Base
       unlock = AbilityPurchase.new
       unlock.user_id = 1
       unlock.ability_id = self.id
+      unlock.amount_owned = 99
       unlock.save
     end
   end
@@ -180,6 +181,7 @@ class Ability < ActiveRecord::Base
       unlock = AbilityPurchase.new
       unlock.user_id = 2
       unlock.ability_id = self.id
+      unlock.amount_owned = 99
       unlock.save
     end
   end
