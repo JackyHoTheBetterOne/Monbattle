@@ -87,7 +87,7 @@ class MonstersController < ApplicationController
                                     :name, :max_hp, :monster_skin_id, :job_id, :element_id, :description, :rarity_id,
                                     :personality_id, :evolved_from_id, :hp_modifier, :dmg_modifier, :summon_cost,
                                     :evolve_animation, :gp_cost, :mp_cost, :default_skin_id, :default_sock1_id,
-                                    :default_sock2_id
+                                    :default_abil_sock2
                                     )
   end
 

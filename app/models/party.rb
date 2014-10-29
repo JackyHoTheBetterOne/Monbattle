@@ -4,6 +4,7 @@ class Party < ActiveRecord::Base
   has_many :fights, dependent: :destroy
   has_many :battles, through: :fights
   has_many :members, dependent: :destroy
+  has_many :monster_unlocks, through: :members
   has_many :mons, through: :members, source: :monster_unlock
   has_many :monsters, through: :mons
 
@@ -89,7 +90,7 @@ class Party < ActiveRecord::Base
     BattleLevel.all.each do |level|
       Party.where("user_id = 2").where(name: level.name).where(enemy: user.email).destroy_all
       party = Party.create!(
-        user_id: 2, 
+        user_id: 2,
         name: level.name,
         enemy: user.email
         )
