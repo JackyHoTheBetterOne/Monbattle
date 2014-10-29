@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141026031343) do
+ActiveRecord::Schema.define(version: 20141028220740) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,10 +43,11 @@ ActiveRecord::Schema.define(version: 20141026031343) do
     t.string   "portrait_content_type"
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
-    t.text     "keywords"
     t.integer  "rarity_id"
+    t.text     "keywords"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
+    t.text     "former_name",           default: ""
   end
 
   add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree
@@ -79,6 +81,7 @@ ActiveRecord::Schema.define(version: 20141026031343) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "amount_owned", default: 1
   end
 
   add_index "ability_purchases", ["ability_id"], name: "index_ability_purchases_on_ability_id", using: :btree
@@ -114,7 +117,7 @@ ActiveRecord::Schema.define(version: 20141026031343) do
     t.datetime "updated_at"
     t.integer  "battle_level_id"
     t.integer  "round_taken"
-    t.string   "time_taken",      limit: nil
+    t.string   "time_taken"
     t.string   "id_code"
     t.string   "slug"
     t.string   "victor"
@@ -189,6 +192,31 @@ ActiveRecord::Schema.define(version: 20141026031343) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
+  create_table "impressions", force: true do |t|
+    t.string   "impressionable_type"
+    t.integer  "impressionable_id"
+    t.integer  "user_id"
+    t.string   "controller_name"
+    t.string   "action_name"
+    t.string   "view_name"
+    t.string   "request_hash"
+    t.string   "ip_address"
+    t.string   "session_hash"
+    t.text     "message"
+    t.text     "referrer"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "impressions", ["controller_name", "action_name", "ip_address"], name: "controlleraction_ip_index", using: :btree
+  add_index "impressions", ["controller_name", "action_name", "request_hash"], name: "controlleraction_request_index", using: :btree
+  add_index "impressions", ["controller_name", "action_name", "session_hash"], name: "controlleraction_session_index", using: :btree
+  add_index "impressions", ["impressionable_type", "impressionable_id", "ip_address"], name: "poly_ip_index", using: :btree
+  add_index "impressions", ["impressionable_type", "impressionable_id", "request_hash"], name: "poly_request_index", using: :btree
+  add_index "impressions", ["impressionable_type", "impressionable_id", "session_hash"], name: "poly_session_index", using: :btree
+  add_index "impressions", ["impressionable_type", "message", "impressionable_id"], name: "impressionable_type_message_index", using: :btree
+  add_index "impressions", ["user_id"], name: "index_impressions_on_user_id", using: :btree
+
   create_table "jobs", force: true do |t|
     t.string   "name"
     t.string   "evolve_lvl"
@@ -207,11 +235,11 @@ ActiveRecord::Schema.define(version: 20141026031343) do
   add_index "members", ["party_id"], name: "index_members_on_party_id", using: :btree
 
   create_table "monster_skin_equippings", force: true do |t|
-    t.integer  "monster_id"
     t.integer  "monster_skin_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "monster_id"
   end
 
   add_index "monster_skin_equippings", ["monster_id"], name: "index_monster_skin_equippings_on_monster_id", using: :btree
@@ -241,6 +269,7 @@ ActiveRecord::Schema.define(version: 20141026031343) do
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
     t.integer  "rarity_id"
+    t.text     "former_name",           default: ""
   end
 
   add_index "monster_skins", ["rarity_id"], name: "index_monster_skins_on_rarity_id", using: :btree
@@ -272,12 +301,15 @@ ActiveRecord::Schema.define(version: 20141026031343) do
     t.integer  "evolve_animation_file_size"
     t.datetime "evolve_animation_updated_at"
     t.integer  "personality_id"
-    t.text     "keywords"
     t.integer  "rarity_id"
+    t.text     "keywords"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
     t.integer  "physical_resistance"
     t.integer  "ability_resistance"
+    t.integer  "default_skin_id"
+    t.integer  "default_sock1_id"
+    t.integer  "default_sock2_id"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
@@ -285,6 +317,20 @@ ActiveRecord::Schema.define(version: 20141026031343) do
   add_index "monsters", ["job_id"], name: "index_monsters_on_job_id", using: :btree
   add_index "monsters", ["personality_id"], name: "index_monsters_on_personality_id", using: :btree
   add_index "monsters", ["rarity_id"], name: "index_monsters_on_rarity_id", using: :btree
+
+  create_table "notice_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "notices", force: true do |t|
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "notice_type_id"
+  end
 
   create_table "parties", force: true do |t|
     t.integer  "user_id"

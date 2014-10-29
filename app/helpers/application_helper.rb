@@ -8,4 +8,8 @@ module ApplicationHelper
     current_user.parties.first.empty?
   end
 
+  def dateTime(time)
+    time.strftime("Created at %I:%M%p %m/%d/%Y")
+  end
+
 end

@@ -30,18 +30,18 @@ class MonsterSkinsController < ApplicationController
     end
   end
 
-  def destroy
-    # render text: params.to_s
-    authorize @monster_skin
-    if @monster_skin.destroy
-      redirect_to monster_skins_path, notice: "Monster Skin Destroyed!!!"
-    end
-  end
+  # def destroy
+  #   # render text: params.to_s
+  #   authorize @monster_skin
+  #   if @monster_skin.destroy
+  #     redirect_to monster_skins_path, notice: "Monster Skin Destroyed!!!"
+  #   end
+  # end
 
   private
 
   def monster_skin_params
-    params.require(:monster_skin).permit(:avatar, :name, :portrait, :rarity_id, {job_ids: []})
+    params.require(:monster_skin).permit(:avatar, :name, :portrait, :rarity_id, :former_name, {job_ids: []})
   end
 
   def find_monster_skin

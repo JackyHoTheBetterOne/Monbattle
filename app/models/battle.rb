@@ -1,6 +1,7 @@
 require 'aasm'
 
 class Battle < ActiveRecord::Base
+  is_impressionable
   include AASM
   extend FriendlyId
   friendly_id :id_code
@@ -88,6 +89,8 @@ class Battle < ActiveRecord::Base
   end
 
   def to_finish
-    self.done
+    if self.aasm_state == "battling"
+      self.done
+    end
   end
 end

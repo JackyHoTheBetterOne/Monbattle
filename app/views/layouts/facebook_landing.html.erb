@@ -10,7 +10,7 @@
   <div class="container-fluid">
     <nav class="navbar mon-front" role="navigation">
       <ul class="nav nav-pills main-nav" id="navigation">
-        <%= link_to image_tag("logo.png", class: "navbar-logo"), home_sweet_home_path %>
+        <%= link_to image_tag("monbattle-logo.png", class: "navbar-logo"), home_sweet_home_path %>
         <% if user_signed_in? %>
           <li class="pull-right fb-nav">
             <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
@@ -20,23 +20,25 @@
             <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), id: "user_session" %>
           </li>
         <% end %>
-        <li class="<%= 'active' if current_page?(new_charge_path) %> pull-right fb-nav">
-          <%= link_to "Donate", new_charge_path %>
-        </li>
         <li class="<%= 'active' if current_page?(device_store_path) %> pull-right fb-nav">
           <%= link_to "Upgrade", device_store_path %>
         </li>
         <li class="<%= 'active' if current_page?(battle_preparation_path) %> pull-right fb-nav" id="party-setup">
           <%= link_to "Battle", battle_preparation_path %>
         </li>
+        <li class="<%= 'active' if current_page?(new_charge_path) %> pull-right fb-nav forum">
+          <a href="http://monbattle.boards.net/" target="_blank">Forum</a>
+        </li>
         <li class="<%= 'active' if current_page?(home_sweet_home_path) || current_page?(root_path) %> pull-right fb-nav">
           <%= link_to "Home", home_sweet_home_path%>
         </li>
         <% if current_user %>
           <li class= "currency pull-right">
-            <%= current_user.summoner.gp %> GP
+            Hello, <%= current_user.user_name %>
             <br>
-            <%= current_user.summoner.mp %> MP
+            <span id="summoner_gp"><%= current_user.summoner.gp %></span> GP
+            <br>
+            <span id="summoner_mp"><%= current_user.summoner.mp %></span> MP
           </li>
         <% end %>
       </ul>
@@ -60,6 +62,9 @@
     <% end %>
   <% end %>
     <%= yield %>
+    <% if current_page?(home_sweet_home_path) || current_page?(root_path)  %>
+      <%= render "home/footer" %>
+    <% end %>
   </div>
 </body>
 </html>

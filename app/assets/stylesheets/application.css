@@ -35,3 +35,9 @@
 .nav-btn-group {
   padding: 5px 0 5px 20px;
 }
+
+
+abbr[title] {
+  border-bottom: none !important;
+};
+

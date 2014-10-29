@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+resources :notices
+
 devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
 resources :users
@@ -15,11 +17,11 @@ resources :monster_unlocks, only: [] do
   resources :members, only: [:create, :destroy]
 end
 
-resources :monster_skins do
+resources :monster_skins, except: [:destroy] do
   resources :monster_skin_purchases, only: [:create, :destroy]
 end
 
-resources :abilities do
+resources :abilities, except: [:destroy] do
   resources :ability_purchases, only: [:create, :destroy]
 end
 

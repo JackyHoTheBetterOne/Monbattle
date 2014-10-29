@@ -1,0 +1,7 @@
+<% if @notice.save %>
+  document.getElementById("<%= dom_id(@notice) %>").remove();
+  $(".notices").prepend("<%= j render @notice %>");
+  $("div#<%= dom_id(@notice) %>").effect("highlight");
+<% else %>
+  $("#<%= dom_id(@notice) %>-edit").effect("highlight", {color: "red"});
+<% end %>

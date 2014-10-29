@@ -7,11 +7,12 @@ class RollTreasure
 
   def call
     @summoner = user.summoner             
-    if @summoner.vortex_key <= 0 
+    if @summoner.gp <= 5 
       self.message = "You ain't got no vortex key. Get more to roll."
       return self.message
     else 
-      @summoner.vortex_key -= 1
+      @summoner.gp -= 5
+      @summoner.save
       roll = Random.new
       reward_category_roll = roll.rand(1000)+1
       reward_level_roll = roll.rand(1000)+1

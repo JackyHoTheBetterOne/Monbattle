@@ -1,24 +1,22 @@
-/ -case true
-/   -when party_empty?(current_user)
-/     h4 Create a Party First
-/ Dummy objects for rails
+-if current_user
+  .master-bg
+    .top-section.shadowed1
+      .party-title
+        p Party Members
+      .party-pane
+        =render partial: "mon_party_img"
+      .start-battle
+        =render partial: "battle_start"
 
-.master-bg
-  .top-section.shadowed1
-    .party-title
-      p Party Members
-    .party-pane
-      =render partial: "mon_party_img"
-    .start-battle
-      =render partial: "battle_start"
+    .monsters-display-area
+      -current_user.monster_unlocks.each do |mon|
+        .monster-info-area id="#{dom_id(mon)}-info-pane"
+          =render partial: "monster_display", locals: {mon: mon}
 
-  .monsters-display-area
-    -current_user.monster_unlocks.each do |mon|
-      .monster-info-area id="#{dom_id(mon)}-info-pane"
-        =render partial: "monster_display", locals: {mon: mon}
-
-    .monsters-image-area
-      .monster-title-area
-        p Monster Box
-      .monsters-image-display
-        =render partial: "mon_image_display"
+      .monsters-image-area
+        .monster-title-area
+          p Monster Box
+        .monsters-image-display
+          =render partial: "mon_image_display"
+-else
+  = render partial: "no_user"
