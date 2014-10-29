@@ -26,7 +26,11 @@ tr id=dom_id(monster)
   td=monster.rarity.try(:name)
   td=monster.mp_cost
   td=monster.gp_cost
-  td=monster.default_skin_id.nil? ? "Not Set" : "#{monster.default_skin_img}"
+  td
+    -if monster.default_skin_id.nil?
+      ="Not Set"
+    -else
+      =image_tag monster.default_skin_img
   td=monster.default_sock1_id.nil? ? "Not Set" : "#{monster.default_sock1_name}"
   td=monster.default_sock2_id.nil? ? "Not Set" : "#{monster.default_sock2_name}"
 
