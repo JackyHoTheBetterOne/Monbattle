@@ -46,8 +46,8 @@ class Monster < ActiveRecord::Base
   # validates :hp_modifier, presence: {message: 'Must be entered'}
 
   before_save :set_keywords
-  after_create :unlock_for_admins
   after_create :set_defaults
+  after_create :unlock_for_admins
 
   def find_default_skin_id(skin_name)
     MonsterSkin.find_by(name: skin_name).id

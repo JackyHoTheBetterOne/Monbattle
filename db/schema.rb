@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(version: 20141028220740) do
     t.datetime "updated_at"
     t.integer  "battle_level_id"
     t.integer  "round_taken"
-    t.string   "time_taken"
+    t.string   "time_taken",      limit: nil
     t.string   "id_code"
     t.string   "slug"
     t.string   "victor"
