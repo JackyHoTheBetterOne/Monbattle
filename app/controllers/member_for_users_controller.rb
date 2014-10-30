@@ -1,4 +1,5 @@
 class MemberForUsersController < ApplicationController
+  before_action :find_user
   before_action :find_party
   before_action :find_monster_unlock
   before_action :find_base_mons
@@ -32,8 +33,12 @@ class MemberForUsersController < ApplicationController
 
   private
 
+  def find_user
+    @user = User.find params[:member][:user_id]
+  end
+
   def find_party
-    @party = current_user.parties.first
+    @party = @user.parties.first
   end
 
   def find_member
@@ -45,7 +50,7 @@ class MemberForUsersController < ApplicationController
   end
 
   def find_base_mons
-    @base_mons = MonsterUnlock.base_mons(current_user)
+    @base_mons = MonsterUnlock.base_mons(@user)
   end
 
   def find_monster_unlock

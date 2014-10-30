@@ -1,12 +1,12 @@
 =form_for [ @monster, monster_unlock ], remote: true do |f|
   div class='form-group'
     h5 Select User
-    -if monster.monster_unlocked_users.empty?
-      .form-control =f.collection_select :user_id, User.all, :id, :user_name
+    -if monster.users.empty?
+      .form-control =f.collection_select :user_id, User.rarity_filter(monster.rarity.try(:name)), :id, :user_name
     -else
-      .form-control =f.collection_select :user_id, User.where("users.id NOT IN (?)", monster.monster_unlocked_users.collect(&:id)), :id, :user_name
+      .form-control =f.collection_select :user_id, User.rarity_filter(monster.rarity.try(:name)).where("users.id NOT IN (?)", monster.users.collect(&:id)), :id, :user_name
     =f.submit "Unlock Monster", class: 'btn btn-sm btn-primary'
--if monster.monster_unlocked_users.empty?
+-if monster.users.empty?
   h5 Already Locked Out For All Users
 -else
   .btn-group
@@ -14,6 +14,6 @@
       | Lock Monster
       span.caret
     ul.dropdown-menu role="menu"
-      -monster.monster_unlocked_users.each do |user|
+      -monster.users.each do |user|
         li= link_to "#{user.user_name}", [monster, (monster.monster_unlocks.where(user_id: user.id).first)], remote: :true, method: :delete
         li.divider

@@ -1,20 +1,12 @@
 class AbilityEquippingForUsersController < ApplicationController
+  before_action :find_user
+  before_action :find_base_mons
   before_action :find_monster_unlock
   before_action :find_ability
   before_action :find_socket_num
   before_action :find_abilities
   before_action :find_ability_equippings
   before_action :find_ability_equipping, only: [:update]
-
-  def create
-    render text: "Trying to create"
-    # @ability_equipping = AbilityEquipping.new ability_equipping_params
-    # if @ability_equipping.save
-    #   render :action
-    # else
-    #   render :new
-    # end
-  end
 
   def update
     @ability_equipping.update_attributes(ability_equipping_params)
@@ -29,6 +21,14 @@ class AbilityEquippingForUsersController < ApplicationController
   end
 
   private
+
+  def find_user
+    @user = User.find params[:ability_equipping][:user_id]
+  end
+
+  def find_base_mons
+    @base_mons = MonsterUnlock.base_mons(@user)
+  end
 
   def find_ability_equipping
     @ability_equipping = AbilityEquipping.find params[:id]
@@ -47,14 +47,14 @@ class AbilityEquippingForUsersController < ApplicationController
   end
 
   def find_abilities
-    @abilities = Ability.all
+    @abilities = Ability.abilities_purchased(@user)
   end
 
   def find_ability_equippings
-    @ability_equippings = AbilityEquipping.all
+    @ability_equippings = AbilityEquipping.monster_unlocks(@base_mons)
   end
 
   def ability_equipping_params
-    params.require(:ability_equipping).permit(:monster_unlock_id, :ability_id)
+    params.require(:ability_equipping).permit(:monster_unlock_id, :ability_purchase_id)
   end
 end

@@ -47,7 +47,7 @@ class AbilityEquippingsController < ApplicationController
   end
 
   def ability_equipping_params
-    params.require(:ability_equipping).permit(:monster_unlock_id, :ability_id)
+    params.require(:ability_equipping).permit(:monster_unlock_id, :ability_purchase_id)
   end
 
 end
