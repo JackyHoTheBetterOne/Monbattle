@@ -50,7 +50,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
-gem "better_errors", group: :development
+# gem "better_errors", group: :development
 
 gem 'friendly_id'
 
@@ -58,7 +58,7 @@ if ENV['RAILS_ENV']
   require 'rubygems'
   require 'hirb'
   require 'active_record'
-  Hirb.enable
+  # Hirb.enable
   ActiveRecord::Base.logger = Logger.new(STDOUT)
 end
 

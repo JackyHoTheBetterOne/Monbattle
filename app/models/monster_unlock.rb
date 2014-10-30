@@ -1,9 +1,11 @@
 class MonsterUnlock < ActiveRecord::Base
   belongs_to :user
   belongs_to :monster
+  has_one    :job, through: :monster
 
   has_many :ability_equippings, dependent: :destroy
-  has_many :abilities, through: :ability_equippings
+  has_many :ability_purchases, through: :ability_equippings
+  has_many :abilities, through: :ability_purchases
   has_many :members, dependent: :destroy
   has_many :parties, through: :members
 
@@ -16,17 +18,35 @@ class MonsterUnlock < ActiveRecord::Base
 
   scope :lvl1_evolves, -> { joins(:job).where('job')}
 
+  # def abilities
+  #   @ap_ids = AbilityEquipping.where(monster_unlock_id: self.id).pluck(:ability_purchase_id)
+  #   @a_ids = AbilityPurchase.where(id: @ap_ids).pluck(:ability_id)
+  #   Abilities.where(id: @a_ids)
+  # end
+
+  def find_abil_purchases_in_socket(socket_num)
+    ability_purchases.find_ability_purchases_for_socket(socket_num)
+  end
+
   def self.base_mons(user)
     self.where(user_id: user).where(monster_id: Monster.base_mon.pluck(:id))
   end
 
   def abil_in_sock(socket_num)
-    self.abilities.where(abil_socket_id: AbilSocket.socket(socket_num))
+    self.abilities.find_abilities_for_socket(socket_num)
   end
 
-  def abil_avail_for_sock(socket_num)
-    self.abilities.where
+  def abil_portrait(sock_num)
+    abilities.abil_portrait(sock_num)
   end
+
+  # def abil_img_in_sock(sock_num)
+  #   abil_in_sock(sock_num).first.portrait.url(:small)
+  # end
+
+  # def abil_avail_for_sock(socket_num)
+  #   self.abilities.where
+  # end
 
   def self.unlock_check(user, monster_id)
     where(user_id: user, monster_id: monster_id)
@@ -165,23 +185,33 @@ class MonsterUnlock < ActiveRecord::Base
     @default_sock2_id   = self.monster.default_sock2_id
     @default_skin_id    = self.monster.default_skin_id
     AbilityPurchase.on_monster_unlock(user_id: @user_id,
-                                      abil_id: @default_sock1_id
+                                      abil_id: @default_sock1_id,
+                                      monster_unlock_id: @monster_unlock_id
                                       )
     AbilityPurchase.on_monster_unlock(user_id: @user_id,
-                                      abil_id: @default_sock2_id
+                                      abil_id: @default_sock2_id,
+                                      monster_unlock_id: @monster_unlock_id
                                       )
-    AbilityEquipping.create(monster_unlock_id: @monster_unlock_id,
-                            ability_id: @default_sock1_id
-                            )
-    AbilityEquipping.create(monster_unlock_id: @monster_unlock_id,
-                            ability_id: @default_sock2_id
-                            )
     MonsterSkinPurchase.on_monster_unlock(user_id: @user_id,
                                           mon_skin_id: @default_skin_id
                                           )
     MonsterSkinEquipping.create(monster_id: @monster_id, user_id: @user_id,
                                 monster_skin_id: @default_skin_id
                                 )
+    if self.monster.rarity.name == "npc"
+      @default_sock3_id = 18
+      @default_sock4_id = 30
+
+      AbilityPurchase.on_monster_unlock(user_id: @user_id,
+                                        abil_id: @default_sock3_id,
+                                        monster_unlock_id: @monster_unlock_id
+                                        )
+      AbilityPurchase.on_monster_unlock(user_id: @user_id,
+                                        abil_id: @default_sock4_id,
+                                        monster_unlock_id: @monster_unlock_id
+                                        )
+    else
+    end
   end
 
 end

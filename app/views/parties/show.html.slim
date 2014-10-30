@@ -21,7 +21,7 @@ table.table.table-striped border="1"
       th Equipped Ability
       th Monster Skin
   tbody
-    -@user.unlocked_monsters.each do |monster|
+    -@user.monsters.each do |monster|
       tr
         td id=dom_id(monster)
           h3 #{monster.name}

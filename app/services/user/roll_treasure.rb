@@ -1,16 +1,16 @@
 class RollTreasure
   include Virtus.model
 
-  attribute :user, User 
+  attribute :user, User
   attribute :message
 
 
   def call
-    @summoner = user.summoner             
-    if @summoner.gp <= 5 
+    @summoner = user.summoner
+    if @summoner.gp <= 5
       self.message = "You ain't got no vortex key. Get more to roll."
       return self.message
-    else 
+    else
       @summoner.gp -= 5
       @summoner.save
       roll = Random.new
@@ -35,10 +35,10 @@ class RollTreasure
               return false
           end
 
-          @summoner.gp += @gp 
+          @summoner.gp += @gp
 
           if @summoner.save
-            self.message = "You won #{@gp} Genetic Points you stupid fuck"
+            self.message = "You won #{@gp} Genetic Points, go roll some more!"
             return self.message
           else
             return false
@@ -60,24 +60,16 @@ class RollTreasure
               return false
           end
 
-          @abilities = Ability.includes(:rarity)
-          @summoner.save 
-          @abil_array = @abilities.worth(@rarity).pluck(:id)
+          @summoner.save
+          @abilities = Ability.can_win(@rarity)
+          @abil_array = @abilities.pluck(:id)
           @abil_position = Random.new.rand(@abil_array.count)
           @abil_id_won = @abil_array[@abil_position]
           @abil_won_name = @abilities.find_name(@abil_id_won)
 
-          if AbilityPurchase.unlock_check(@user, @abil_id_won).exists?
-            self.message =  "You already own the ability #{@abil_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"
-            return self.message
-          else 
-            @ability_purchase = AbilityPurchase.new
-            @ability_purchase.user_id = @user.id
-            @ability_purchase.ability_id = @abil_id_won
-            @ability_purchase.save
-            self.message = "You unlocked ability #{@abil_won_name} that has rarity #{@rarity}!"
-            return self.message
-          end
+          AbilityPurchase.create(user_id: @user.id, ability_id: @abil_id_won)
+          self.message = "You unlocked ability #{@abil_won_name} that has rarity #{@rarity}!"
+          return self.message
 
         when (701..1000).include?(reward_category_roll) #30% monsters
           case
@@ -94,14 +86,13 @@ class RollTreasure
             else
               return "hack attempt"
           end
-          @monsters = Monster.base_mon #includes(:rarity)
-          @summoner.save
-          @mon_array = @monsters.worth(@rarity).pluck(:id)
-          @mon_position = Random.new.rand(@mon_array.count)
-          @mon_id_won = @mon_array[@mon_position]
-          @mon_won_name = @monsters.find_name(@mon_id_won)
 
-          #create_reward
+          @summoner.save
+          @monsters     = Monster.can_win(@rarity)
+          @mon_array    = @monsters.pluck(:id)
+          @mon_position = Random.new.rand(@mon_array.count)
+          @mon_id_won   = @mon_array[@mon_position]
+          @mon_won_name = @monsters.find_name(@mon_id_won)
 
           if MonsterUnlock.unlock_check(@user, @mon_id_won).exists?
             self.message =  "You already own the monster #{@mon_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"

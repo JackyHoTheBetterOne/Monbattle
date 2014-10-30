@@ -7,7 +7,7 @@
   -if npc.blank?
     h1 There is no user named NPC, make one
   -else
-    -if npc.unlocked_monsters.empty?
+    -if npc.monsters.empty?
       h1 Unlock some monsters for NPC First
     -else
       -if @battle_levels.empty?
