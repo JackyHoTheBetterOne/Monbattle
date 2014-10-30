@@ -475,7 +475,7 @@ window.flashEndButton = ->
     setTimeout (->
       $(".end-turn").trigger("click")
       return
-    ), 1000
+    ), 800
     return
 
 
@@ -738,14 +738,16 @@ $ ->
       setTimeout (->
         $("#overlay").fadeOut 500, ->
           $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
+          $(".message").css("visibility", "visible")
+          $(".cutscene").css("visibility", "hidden")
           return
-      ), 1500
+      ), 4000
       setTimeout (->
         $("#battle-tutorial").joyride({'tipLocation': 'top'})
         $("#battle-tutorial").joyride({})
         $(".user .img").each ->
           $(this).effect("bounce", {distance: 80, times: 5}, 1500)
-      ), 3333
+      ), 6000
 ############################################################################################### Battle logic
       window.battle = data
       $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})

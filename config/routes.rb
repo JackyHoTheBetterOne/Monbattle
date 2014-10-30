@@ -39,7 +39,9 @@ get "/landing" => "home#facebook", as: :home_sweet_home
 
 
 root 'home#facebook'
-get 'home/roll' => "home#roll", as: :roll
+get 'home/roll_trash' => "home#roll_trash", as: :roll_trash
+get 'home/roll_treasure' => "home#roll_treasure", as: :roll_treasure
+
 resources :home
 resources :admin
 resources :effects
@@ -61,8 +63,6 @@ resources :targets, only: [:create, :destroy]
 resources :stat_targets, only: [:create, :destroy]
 resources :abil_sockets, only: [:create, :destroy]
 resources :monster_skin_equippings, only: [:create, :destroy, :update]
-# resources :summoners
-# resources :summoner_levels
 
 
   # The priority is based upon order of creation: first created -> highest priority.

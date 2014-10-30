@@ -1,3 +1,6 @@
+@import "compass";
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////// Classes for animation
 .fadeIn-1s {
   opacity: 1 !important;
@@ -12,7 +15,7 @@
 div.store-front {
   height: 600px;
   width: 960px;
-  background: url("store-background.jpeg");
+  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;

@@ -13,7 +13,7 @@ $ ->
       window.latest_abilities = response
   $(document).on "click", ".king-roll", ->
     $.ajax 
-      url: "http://localhost:3000/home/roll"
+      url: "http://localhost:3000/home/roll_trash"
       method: "get"
       dataType: "json"
       error: ->

@@ -1,4 +1,4 @@
-class User::RollTreasure
+class User::RollTrash
   include Virtus.model
 
   attribute :user, User 
@@ -7,11 +7,11 @@ class User::RollTreasure
 
   def call
     @summoner = user.summoner             
-    if @summoner.gp <= 5 
-      self.message = "You ain't got no gp. Get more to roll."
+    if @summoner.mp <= 200
+      self.message = "You ain't got no mp. Get more to roll."
       return self.message
     else 
-      @summoner.gp -= 5
+      @summoner.mp -= 200
       @summoner.save
       roll = Random.new
       reward_category_roll = roll.rand(1000)+1
