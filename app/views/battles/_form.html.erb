@@ -1,44 +1,13 @@
-<!-- =form_for @battle do |f|
-  div class='form-group'
-    h4 Select a level (This is selecting User: NPC his parties match the battle level names, which is how they are called)
-    .form-control
-      select name="battle[battle_level_id]" id="battle_level_id"
-        =BattleLevel.all.each do |level|
-          option value="#{level.id}" #{level.name}
-    / =f.hidden_field :user_ids, multiple: true, value: User.find_by_user_name("NPC").id
-    / =f.hidden_field :user_ids, multiple: true, value: current_user.id
-    hr=f.submit "Start a battle!", class: 'btn btn-primary' -->
-
-<!--       <div class="radio">
-        <label>
-
-          level.name
-        </label>
-      </div> -->
-
-<div class="user_team">
-  <h2 class="the_obvious">Your Current Team</h2>
-  <div class="party_portraits">
-    <% @monsters.each do |mon| %>
-      <%= image_tag(mon.mon_portrait(current_user), class: "user_party_portrait") %>
-    <% end %>              
-  </div>
-  <%= link_to "Change your team", battle_preparation_path, class: "btn btn-info party_edit_button"  %>
-</div>
-
 <div class="battle_level">
   <%= form_for(Battle.new) do |f| %>
     <% BattleLevel.all.limit(5).each do |level| %> 
-      <div class="form-group">
         <%= f.button "#{level.name}", :name => "battle[battle_level_id]", :value => "#{level.id}", 
         class: "btn btn-primary map-level", id: "#{level.name.delete(' ')}" %>
-      </div>
     <% end %>
   <% end %>
 </div>
 
 <div class="level-description">
-  
 </div>
 
 

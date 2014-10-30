@@ -3,6 +3,11 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
+  $(document).on "mouseover", ".king-roll", ->
+    $(this).attr("src", "../assets/special_summon_hover.png")
+  $(document).on "mouseleave", ".king-roll", ->
+    $(this).attr("src", "../assets/special_summon.png")
+
   $.ajax 
     url: "http://localhost:3000/store"
     method: "get"
@@ -13,7 +18,7 @@ $ ->
       window.latest_abilities = response
   $(document).on "click", ".king-roll", ->
     $.ajax 
-      url: "http://localhost:3000/home/roll"
+      url: "http://localhost:3000/home/roll_treasure"
       method: "get"
       dataType: "json"
       error: ->
@@ -21,11 +26,9 @@ $ ->
       success: (response) ->
         overlay = document.getElementsByClassName("store-overlay")[0]
         gp = document.getElementById("summoner_gp")
-        mp = document.getElementById("summoner_mp")
         message = document.getElementsByClassName("roll-message")[0]
         overlay.className += " fadeIn-1s"
         gp.innerHTML = response.gp 
-        mp.innerHTML = response.mp 
         message.innerHTML = response.message
     $(document).on "click", ->
       overlay = document.getElementsByClassName("store-overlay")[0]

@@ -7,7 +7,7 @@ class PartiesController < ApplicationController
     @party = Party.new
     @parties = Party.where(user_id: User.find_by_user_name("NPC").id)
     @battle_level = BattleLevel.new
-    @battle_levels = BattleLevel.all
+    @battle_levels = policy_scope(BattleLevel.all)
   end
 
   def create

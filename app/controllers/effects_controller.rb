@@ -3,7 +3,7 @@ class EffectsController < ApplicationController
 
   def index
     @effect = Effect.new
-    @effects = Effect.all
+    @effects = policy_scope(Effect.all)
   end
 
   def create
