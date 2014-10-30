@@ -1,4 +1,4 @@
-class RollTreasure
+class User::RollTreasure
   include Virtus.model
 
   attribute :user, User
@@ -8,7 +8,7 @@ class RollTreasure
   def call
     @summoner = user.summoner
     if @summoner.gp <= 5
-      self.message = "You ain't got no vortex key. Get more to roll."
+      self.message = "You ain't got no gp. Get more to roll."
       return self.message
     else
       @summoner.gp -= 5

@@ -14,6 +14,9 @@ class Monster < ActiveRecord::Base
   has_many :monster_skin_equipped_skins, through: :monster_skin_equippings, source: :monster_skin
   has_many :monster_skin_equipped_users, through: :monster_skin_equippings, source: :user
 
+  has_many :monster_assignments
+  has_many :battle_levels, through: :monster_assignments
+
   has_many :ability_equippings, through: :monster_unlocks
   has_many :monster_unlocks, dependent: :destroy
   has_many :users, through: :monster_unlocks
@@ -62,6 +65,9 @@ class Monster < ActiveRecord::Base
   def self.base_mon
     where(evolved_from_id: 0)
   end
+
+
+
 
   def find_default_skin_id(skin_name)
     MonsterSkin.find_by(name: skin_name).id

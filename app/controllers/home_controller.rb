@@ -13,12 +13,8 @@ class HomeController < ApplicationController
     end
   end
 
-  def show
-  end
-
   def store
-    @ability_purchases =
-    @abilities = Ability.all.order(:created_at).limit(4)
+    @abilities = Ability.all.order("created_at DESC").limit(4)
     respond_to do |format|
       format.html
       format.json { render json: @abilities }
@@ -35,15 +31,14 @@ class HomeController < ApplicationController
   def illegal_access
   end
 
-  def roll
-    rolling = RollTreasure.new(user: current_user)
+  def roll_trash
+    rolling = User::RollTrash.new(user: current_user)
     rolling.call
-    @treasure = rolling
+    @trash = rolling
     @summoner = current_user.summoner
     if rolling.message
       render :json => {
-        message: @treasure.message,
-        gp: @summoner.gp,
+        message: @trash.message,
         mp: @summoner.mp
       }
     else
@@ -52,6 +47,20 @@ class HomeController < ApplicationController
     end
   end
 
-  private
+  def roll_treasure
+    rolling = User::RollTreasure.new(user: current_user)
+    rolling.call
+    @treasure = rolling
+    @summoner = current_user.summoner
+    if rolling.message
+      render :json => {
+        message: @treasure.message,
+        gp: @summoner.gp
+      }
+    else
+      flash[:alert] = "Something went wrong. It's your fault."
+      redirect_to device_store_path
+    end
+  end
 
 end

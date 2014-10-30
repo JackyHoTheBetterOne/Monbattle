@@ -13,12 +13,12 @@
 };
 
 .mon-front {
-  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%) !important);
+  @include background-image(linear-gradient(top,  #606060 0%, #131313 100%) !important);
 };
 
 .fb-nav {
   position: relative;
-  top: 12px;
+  top: 8px;
   font-weight: bold;
 };
 
@@ -55,11 +55,12 @@
 .extra-information {
   position: fixed;
   bottom: 20px;
-  left: 585px;
+  left: 598px;
 };
 
 .currency {
   position: absolute;
+  text-align: right;
   top: 6px;
   left: -24px;
   color: #CCCCCC;
@@ -75,13 +76,12 @@
   top: 65px !important;
 };
 
+a.fb-nav:hover {
+  background: #4B0082 !important;
+};
 
-/////////////////////////////////////////////////// Parallax magic
-// .parallax {
-//   perspective: 1px;
-//   height: 100vh;
-//   overflow-x: hidden;
-//   overflow-y: auto;
-// };
-
-
+.active {
+  a {
+    background: #4B0082 !important;
+  };
+};

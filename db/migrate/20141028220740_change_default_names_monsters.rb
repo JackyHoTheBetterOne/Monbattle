@@ -6,6 +6,5 @@ class ChangeDefaultNamesMonsters < ActiveRecord::Migration
     add_column :monsters, :default_skin_id, :integer
     add_column :monsters, :default_sock1_id, :integer
     add_column :monsters, :default_sock2_id, :integer
-
   end
 end
