@@ -38,5 +38,8 @@
           =f.input :mp_cost
           =f.input :gp_cost
           =f.input :summon_cost
+          h4=f.label "Level Assignment"
+          = select_tag "monster[battle_level_ids][]", options_for_select(@levels.collect{|level| [level.name, level.id]}, :selected => @monster.battle_levels.ids), {:multiple => true, :size => 5, class: "form-control"}
           =f.hidden_field :evolved_from_id, value: "0"
+          = hidden_field_tag "monster[battle_level_ids][]", ""
           hr=f.submit class: 'btn btn-primary'

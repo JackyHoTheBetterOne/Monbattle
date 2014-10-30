@@ -5,6 +5,7 @@ class MonstersController < ApplicationController
     @monster_unlock = MonsterUnlock.new
     @rarity = Rarity.new
     @rarities = Rarity.all
+    @levels = BattleLevel.all
     @job = Job.new
     @jobs = Job.all
     @element = Element.new
@@ -14,7 +15,7 @@ class MonstersController < ApplicationController
     @abilities = Ability.includes(:abil_socket).includes(:ability_restrictions)
     @monster_skins = MonsterSkin.includes(:skin_restrictions)
     @monster = Monster.new
-    @monsters = policy_scope(Monster.includes(:job, :element, :personality).search(params[:keyword]).
+    @monsters = policy_scope(Monster.includes(:job, :element, :personality, :battle_levels).search(params[:keyword]).
                 paginate(:page => params[:page], :per_page => 15))
 
     respond_to do |format|
@@ -87,7 +88,7 @@ class MonstersController < ApplicationController
                                     :name, :max_hp, :monster_skin_id, :job_id, :element_id, :description, :rarity_id,
                                     :personality_id, :evolved_from_id, :hp_modifier, :dmg_modifier, :summon_cost,
                                     :evolve_animation, :gp_cost, :mp_cost, :default_skin_id, :default_sock1_id,
-                                    :default_abil_sock2
+                                    :default_abil_sock2, { battle_level_ids: []}
                                     )
   end
 
