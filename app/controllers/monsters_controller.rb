@@ -14,8 +14,8 @@ class MonstersController < ApplicationController
     @abilities = Ability.includes(:abil_socket).includes(:ability_restrictions)
     @monster_skins = MonsterSkin.includes(:skin_restrictions)
     @monster = Monster.new
-    @monsters = Monster.includes(:job, :element, :personality).search(params[:keyword]).
-                paginate(:page => params[:page], :per_page => 15)
+    @monsters = policy_scope(Monster.includes(:job, :element, :personality).search(params[:keyword]).
+                paginate(:page => params[:page], :per_page => 15))
 
     respond_to do |format|
       format.html

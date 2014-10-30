@@ -3,7 +3,7 @@ class BattlesController < ApplicationController
   impressionist :unique => [:controller_name, :action_name, :session_hash]
 
   def index
-    @battles = Battle.all
+    @battles = policy_scope(Battle.all)
     @fights = Fight.all
   end
 
@@ -29,9 +29,9 @@ class BattlesController < ApplicationController
       @battle.parties.push(
         Party.where(user: User.find_by_user_name("NPC")).
         where(name: @battle.battle_level.name).
-        where(enemy: @user.email).last
+        where(enemy: @user.user_name).last
         )
-      redirect_to @battle, notice: "Battle Starting!"
+      redirect_to @battle
     else
       render :new
     end
@@ -60,6 +60,7 @@ class BattlesController < ApplicationController
   end
 
   def destroy
+    authorize @battle
     if @battle.destroy
       redirect_to battles_path, notice: "Destroyed"
     end

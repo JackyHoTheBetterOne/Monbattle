@@ -2,9 +2,9 @@ class PersonalitiesController < ApplicationController
 
   def index
     @personality = Personality.new
-    @personalities = Personality.all
+    @personalities = policy_scope(Personality.all)
     @thought = Thought.new
-    @thoughts = Thought.all
+    @thoughts = policy_scope(Thought.all)
   end
 
   def create

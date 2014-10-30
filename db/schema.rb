@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141028220740) do
+ActiveRecord::Schema.define(version: 20141029231034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(version: 20141028220740) do
     t.datetime "updated_at"
     t.integer  "battle_level_id"
     t.integer  "round_taken"
-    t.string   "time_taken",      limit: nil
+    t.string   "time_taken"
     t.string   "id_code"
     t.string   "slug"
     t.string   "victor"
@@ -309,6 +309,7 @@ ActiveRecord::Schema.define(version: 20141028220740) do
     t.integer  "default_skin_id"
     t.integer  "default_sock1_id"
     t.integer  "default_sock2_id"
+    t.string   "stage"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree

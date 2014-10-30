@@ -89,11 +89,11 @@ class Party < ActiveRecord::Base
 
   def self.generate(user)
     BattleLevel.all.each do |level|
-      Party.where("user_id = 2").where(name: level.name).where(enemy: user.email).destroy_all
+      Party.where("user_id = 2").where(name: level.name).where(enemy: user.user_name).destroy_all
       party = Party.create!(
         user_id: 2,
         name: level.name,
-        enemy: user.email
+        enemy: user.user_name
         )
       npc_mons = MonsterUnlock.where("user_id = 2")
       party.mons = npc_mons.shuffle[0..3]
