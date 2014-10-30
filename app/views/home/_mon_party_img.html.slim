@@ -1,3 +1,3 @@
 -@base_mons.each do |mon|
   -if mon.parties.exists?
-    =image_tag mon.mon_portrait(current_user), class: "monSet monPartyImg shadowed2 btn", id: dom_id(mon)
+    =image_tag mon.mon_portrait(@user), class: "monSet monPartyImg shadowed2 btn", id: dom_id(mon)

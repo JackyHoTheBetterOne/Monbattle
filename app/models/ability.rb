@@ -42,10 +42,6 @@ class Ability < ActiveRecord::Base
   validates :rarity_id, presence: {message: 'Must be entered'}
   # validates :min_level, presence: {message: 'Must be entered'}
 
-  # delegate :name, :ap_cost, :description, :min_level, :target_id, :stat_target_id, :element_id,
-  #          :stat_change, :abil_socket_id, :image,
-  #          to: :monster, prefix: true
-
   delegate :name, to: :ability_equipping, prefix: true
 
   default_scope { order('abil_socket_id') }
@@ -75,14 +71,78 @@ class Ability < ActiveRecord::Base
     end
   }
 
+  scope :find_abilities_for_socket, -> (socket_num) {
+    @socket_id = find_socket_id(socket_num)
+    where(abil_socket_id: @socket_id)
+  }
+
   scope :find_default_abilities_available, -> (socket_num, job_id) {
     @socket_id                = find_socket_id(socket_num)
     @job_restricted_abil_ids  = find_abil_ids_through_ability_restriction(job_id)
     where(abil_socket_id: @socket_id, id: @job_restricted_abil_ids)
   }
 
+  scope :abilities_purchased, -> (user) {
+    @abil_ids = find_abils_through_ability_purchase(user).pluck(:ability_id)
+    where(id: @abil_ids)
+  }
+
+  scope :can_win, -> (rarity) {
+    @socket_ids = find_socket([1,2]).pluck(:id)
+    @rarity_id   = Rarity.worth(rarity)
+    where(abil_socket_id: @socket_ids, rarity_id: @rarity_id)
+  }
+
+  scope :worth, -> (rarity) {
+    where(rarity_id: Rarity.worth(rarity))
+  }
+
+  ####################
+
+  def number_of_self_owned(user)
+    ability_purchase_records_of_self(user).count
+  end
+
+  def number_of_self_equipped(user)
+    @abil_purchase_ids = ability_purchase_records_of_self(user).pluck(:id)
+    ability_equipping_records_of_self(@abil_purchase_ids).count
+  end
+
+  def ability_purchase_records_of_self(user)
+    AbilityPurchase.number_of_ability_owned(user, self.id)
+  end
+
+  def ability_equipping_records_of_self(abil_purchase_ids)
+    AbilityEquipping.find_times_abil_is_equipped(abil_purchase_ids)
+  end
+
+  def find_first_abil_purchase_id_not_in_use(user)
+    @abil_purchase_ids           = ability_purchase_records_of_self(user).pluck(:id)
+    @abil_purchase_ids_in_use    = ability_equipping_records_of_self(@abil_purchase_ids).pluck(:ability_purchase_id)
+    @abil_purchase_ids_available = @abil_purchase_ids - @abil_purchase_ids_in_use
+    @abil_purchase_ids_available.first
+  end
+
+  def number_of_self_available(user)
+    number_of_self_owned(user) - number_of_self_equipped(user)
+  end
+
+  def self.find_abils_through_ability_purchase(user)
+    AbilityPurchase.where(user_id: user)
+  end
+
   def self.find_abil_ids_through_ability_restriction(job_id)
     AbilityRestriction.find_abilities_avail_for_job_id(job_id)
+  end
+
+  ###################
+
+  def self.abil_portrait(sock_num)
+    find_abilities_for_socket(sock_num).first.portrait.url(:small)
+  end
+
+  def self.find_socket(socket_num)
+    AbilSocket.where(socket_num: socket_num)
   end
 
   def self.find_socket_id(sock_num)
@@ -93,17 +153,9 @@ class Ability < ActiveRecord::Base
     AbilSocket.find(socket_id).socket_num
   end
 
-  def self.worth(rarity)
-    where(rarity_id: Rarity.worth(rarity))
-  end
 
   def self.find_name(id)
     where(id: id).pluck(:name)
-  end
-
-  def self.abil_avail_for_sock(user, socket_num)
-    where(id: AbilityPurchase.abils_purchased(user).pluck(:ability_id),
-               abil_socket_id: AbilSocket.socket(socket_num))
   end
 
   def self.abils_for_mon(monster)
@@ -152,15 +204,6 @@ class Ability < ActiveRecord::Base
 
   private
 
-  # def change_default_ability_name_for_monsters
-  #   if self.former_name == self.name
-  #   else
-  #     @socket_id = self.abil_socket_id
-  #     @socket_num = find_socket_num(@socket_id)
-  #     Monster.update_default_abil_name(socket_num: @socket_num, former_name: self.former_name, new_name: self.name)
-  #   end
-  # end
-
   def set_keywords
     self.keywords = [name, description, self.targeta, self.stat_target.name, self.element.name].map(&:downcase).
                       concat([ap_cost, stat_change]).join(" ")
@@ -171,7 +214,6 @@ class Ability < ActiveRecord::Base
       unlock = AbilityPurchase.new
       unlock.user_id = 1
       unlock.ability_id = self.id
-      unlock.amount_owned = 99
       unlock.save
     end
   end
@@ -181,14 +223,8 @@ class Ability < ActiveRecord::Base
       unlock = AbilityPurchase.new
       unlock.user_id = 2
       unlock.ability_id = self.id
-      unlock.amount_owned = 99
       unlock.save
     end
   end
-
-  # def set_former_name_field
-  #   self.former_name = self.name
-  #   self.save
-  # end
 
 end

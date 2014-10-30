@@ -2,11 +2,12 @@ class HomeController < ApplicationController
   layout "facebook_landing", except: [:index]
 
   def index
-    @base_mons = MonsterUnlock.base_mons(current_user)
-    @abilities = Ability.all
-    @ability_equippings = AbilityEquipping.all
-    if current_user
-      @members = current_user.parties.first.members
+    @user      = params[:user] || current_user
+    @base_mons = MonsterUnlock.base_mons(@user)
+    @abilities = Ability.abilities_purchased(@user)
+    @ability_equippings = AbilityEquipping.monster_unlocks(@base_mons)
+    @members = @user.parties.first.members
+    if @user
     else
       render layout: "facebook_landing"
     end

@@ -1,4 +1,4 @@
--if current_user
+-if @user
   .master-bg
     .top-section.shadowed1
       .party-title
@@ -9,7 +9,7 @@
         =render partial: "battle_start"
 
     .monsters-display-area
-      -current_user.monster_unlocks.each do |mon|
+      -@user.monster_unlocks.each do |mon|
         .monster-info-area id="#{dom_id(mon)}-info-pane"
           =render partial: "monster_display", locals: {mon: mon}
 

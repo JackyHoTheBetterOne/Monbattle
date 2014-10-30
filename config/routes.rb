@@ -29,7 +29,7 @@ resources :personalities, only: [:create, :destroy, :edit, :index] do
   resources :thoughts, only: [:create, :destroy]
 end
 
-resources :ability_equipping_for_users, only:[:create, :update]
+resources :ability_equipping_for_users, only:[:update]
 
 post "/facebook" => "battles#new"
 get "/cannot" => "home#illegal_access", as: :illegal

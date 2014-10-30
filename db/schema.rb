@@ -11,6 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20141030021802) do
 
   # These are extensions that must be enabled in order to support this database
@@ -66,13 +67,13 @@ ActiveRecord::Schema.define(version: 20141030021802) do
   add_index "ability_effects", ["effect_id"], name: "index_ability_effects_on_effect_id", using: :btree
 
   create_table "ability_equippings", force: true do |t|
-    t.integer  "ability_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "monster_unlock_id"
+    t.integer  "ability_purchase_id"
   end
 
-  add_index "ability_equippings", ["ability_id"], name: "index_ability_equippings_on_ability_id", using: :btree
+  add_index "ability_equippings", ["ability_purchase_id"], name: "index_ability_equippings_on_ability_purchase_id", using: :btree
   add_index "ability_equippings", ["monster_unlock_id"], name: "index_ability_equippings_on_monster_unlock_id", using: :btree
 
   create_table "ability_purchases", force: true do |t|
@@ -80,7 +81,6 @@ ActiveRecord::Schema.define(version: 20141030021802) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "amount_owned", default: 1
   end
 
   add_index "ability_purchases", ["ability_id"], name: "index_ability_purchases_on_ability_id", using: :btree

@@ -1,12 +1,5 @@
 class Monster < ActiveRecord::Base
 
-  # default_scope{ order('updated_at desc') }
-
-  scope :search, -> (keyword) {
-    if keyword.present?
-      where("keywords LIKE ?", "%#{keyword.downcase}%")
-    end
-  }
 
   belongs_to :job
   belongs_to :element
@@ -26,7 +19,7 @@ class Monster < ActiveRecord::Base
 
   has_many :ability_equippings, through: :monster_unlocks
   has_many :monster_unlocks, dependent: :destroy
-  has_many :monster_unlocked_users, through: :monster_unlocks, source: :user
+  has_many :users, through: :monster_unlocks
   has_many :members, through: :monster_unlocks, dependent: :destroy
   has_many :thoughts, through: :personality
 
@@ -50,7 +43,28 @@ class Monster < ActiveRecord::Base
 
   before_save :set_keywords
   after_create :set_defaults
-  after_create :unlock_for_admins
+  after_update :unlock_for_admins
+
+  # default_scope{ order('updated_at desc') }
+
+  scope :search, -> (keyword) {
+    if keyword.present?
+      where("keywords LIKE ?", "%#{keyword.downcase}%")
+    end
+  }
+
+  scope :worth, -> (rarity) {
+    where(rarity_id: Rarity.worth(rarity))
+  }
+
+  scope :can_win, -> (rarity) {
+    @rarity_id   = Rarity.worth(rarity)
+    where(evolved_from_id: 0, rarity_id: @rarity_id)
+  }
+
+  def self.base_mon
+    where(evolved_from_id: 0)
+  end
 
 
 
@@ -62,39 +76,6 @@ class Monster < ActiveRecord::Base
   def find_default_abil_id(abil_name)
     Ability.find_by(name: abil_name).id
   end
-
-  # def self.update_default_abil_name(params = {})
-  #   @socket_num  = params[:socket_num]
-  #   @former_name = params[:former_name]
-  #   @new_name    = params[:new_name]
-
-  #   if @socket_num == 1
-  #     @mons_to_update_default_abil = where(default_abil_socket1: @former_name)
-  #     @mons_to_update_default_abil.each do |mon|
-  #       mon.default_abil_socket1 = @new_name
-  #       mon.save
-  #     end
-
-  #   elsif @socket_num == 2
-  #     @mons_to_update_default_abil = where(default_abil_socket2: @former_name)
-  #     @mons_to_update_default_abil.each do |mon|
-  #       mon.default_abil_socket2 = @new_name
-  #       mon.save
-  #     end
-
-  #   end
-  # end
-
-  # def self.update_default_skin_name(params = {})
-  #   @new_name    = params[:new_name]
-  #   @former_name = params[:former_name]
-
-  #   @mons_to_update = where(default_skin: @former_name)
-  #   @mons_to_update.each do |mon|
-  #     mon.default_skin = @new_name
-  #     mon.save
-  #   end
-  # end
 
   def default_skin_img
     MonsterSkin.find(self.default_skin_id).portrait.url(:thumb)
@@ -109,7 +90,7 @@ class Monster < ActiveRecord::Base
   end
 
   def self.find_default_monster_ids
-    @default_monster_names = ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira"]
+    @default_monster_names = ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira", "Eviganon"]
     where(name: @default_monster_names).pluck(:id)
   end
 
@@ -121,17 +102,11 @@ class Monster < ActiveRecord::Base
     find_by_id(monster).job.abilities
   end
 
-  def self.worth(rarity)
-    where(rarity_id: Rarity.worth(rarity))
-  end
 
   def self.find_name(id)
     where(id: id).pluck(:name)
   end
 
-  def self.base_mon
-    where(evolved_from_id: 0)
-  end
 
   def self.evolved
     self.joins(:evolved_from)
@@ -176,18 +151,14 @@ class Monster < ActiveRecord::Base
   end
 
   def unlock_for_admins
-    case
-      when MonsterSkin.all.empty?
-      when Ability.all.empty?
-      else
-        if rarity == "NPC"
-          @user = find_user("NPC")
-        else
-          @user = find_user("admin")
-        end
-
-        MonsterUnlock.create(user_id: @user.id, monster_id: self.id)
-
+    if self.rarity.try(:name) == "npc"
+      @user = find_user("NPC")
+    else
+      @user = find_user("admin")
+    end
+    if self.users.where(id: @user).exists?
+    else
+      MonsterUnlock.create(user_id: @user.id, monster_id: self.id)
     end
   end
 
