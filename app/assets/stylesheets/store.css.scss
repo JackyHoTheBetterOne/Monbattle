@@ -77,13 +77,15 @@ div.store-front {
   transition: opacity 1s;
 };
 
-.roll-popup {
+.roll-message {
   position: relative;
+  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
   top: 248px;
-  height: 100px;
-  width: 250px;
+  height: 70px;
+  width: 330px;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 5px;
 };
 
 
