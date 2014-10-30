@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(version: 20141030021802) do
     t.datetime "updated_at"
     t.integer  "battle_level_id"
     t.integer  "round_taken"
-    t.string   "time_taken"
+    t.string   "time_taken",      limit: nil
     t.string   "id_code"
     t.string   "slug"
     t.string   "victor"
@@ -316,7 +316,6 @@ ActiveRecord::Schema.define(version: 20141030021802) do
     t.integer  "default_skin_id"
     t.integer  "default_sock1_id"
     t.integer  "default_sock2_id"
-    t.string   "stage"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
