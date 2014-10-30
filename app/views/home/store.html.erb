@@ -1,15 +1,30 @@
 <% if current_user %>
   <div class="store-front">
+    <%= image_tag("premium_summon_logo.png", class: "premium-summon-logo") %>
     <div class="panel-body ability-detail hide">
       latest shit
     </div>
-    <button class="king-roll">Rolling in the deep</button>
+    <input type="image" src="../assets/special_summon.png" alt="Submit" class="king-roll">
+    <div class="premium-showcase">
+      <% @abilities.each do |a| %>
+        <% case a.targeta %>
+          <% when "targetally", "aoeally" %>
+            <%= image_tag("heal.png", size: "150", class: "latest-ability", id: @abilities.index(a)) %>
+          <% when "attack" %>
+            <%= image_tag("attack.png", size: "150", class: "latest-ability", id: @abilities.index(a)) %>
+          <% when "ability" %>
+            <%= image_tag("attack.png", size: "150", class: "latest-ability", id: @abilities.index(a)) %>
+          <% when "targetenemy", "aoeenemy" %>
+            <%= image_tag("ability.png", size: "150", class: "latest-ability", id: @abilities.index(a)) %>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 
   <div class="store-overlay">
     <div class="panel panel-default roll-popup">
       <div class="panel-body roll-message">
-        Fuck yeah
+        Fuck Yeah
       </diV>
     </div>
   </div>

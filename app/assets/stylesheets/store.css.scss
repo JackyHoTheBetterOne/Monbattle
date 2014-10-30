@@ -23,61 +23,46 @@ div.store-front {
   top: -5px;
   margin-bottom: 20px;
   border-radius: 5px;
+  .king-roll {
+    position: absolute;
+    top: 470px;
+    left: 120px;
+    width: 182px;
+    height: 70px;
+  };
+
+  .ability-detail {
+    position: absolute;
+    text-align: center;
+    top: 152px;
+    left: 356px;
+    background: #BFEFFF;
+    height: 120px;
+    width: 240px;
+  };
+
+  .premium-showcase {
+    position: absolute;
+    height: 300px;
+    width: 350px;
+    top: 120px;
+    left: 36px;
+  };
+
+  .latest-ability {
+    margin-left: 10px;
+    margin-top: 10px;
+  };
+
+  .premium-summon-logo {
+    position: absolute;
+    height: 100px;
+    width: 250px;
+    left: 80px;
+    top: 10px;
+  };
 };
 
-div.ability-showoff {
-  position: relative;
-  background: #BFEFFF;
-  height: 450px;
-  width: 450px;
-  top: 81px;
-  left: 495px;
-};
-
-div.ability-latest {
-  position: absolute;
-  background: #BFEFFF;
-  height: 160px;
-  width: 775px;
-  top: 296px;
-  left: 90px;
-};
-
-.showcase {
-  text-align: center;
-  display: inline-block;
-  height: 130px;
-  width: 150px;
-  margin: 10px 20px 0px;
-};
-
-.king-roll {
-  position: relative;
-  top: 470px;
-  left: 385px;
-  width: 182px;
-  height: 70px;
-};
-
-.ability-detail {
-  position: absolute;
-  text-align: center;
-  top: 152px;
-  left: 356px;
-  background: #BFEFFF;
-  height: 120px;
-  width: 240px;
-};
-
-.announcement {
-  position: absolute;
-  text-align: center;
-  background: #BFEFFF;
-  height: 60px;
-  width: 500px;
-  top: 52px;
-  left: 225px;
-};
 
 .store-overlay {
   background:rgba(0,0,0,0.9);
