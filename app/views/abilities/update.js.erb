@@ -9,7 +9,7 @@ $.ajax({
     window.ability = response;
     $(".modal-header span").trigger("click");
     $("#ability_" + ability.id + "-name").text(ability.name);
-    $("#ability_" + ability.id + "-row").effect("highlight");
+    $("#ability_" + ability.id + "-row").fadeOut(100).fadeIn(800);
     $("#ability_" + ability.id + "-row" + " " + ".ap-cost").text(ability.ap_cost);
     $("#ability_" + ability.id + "-row" + " " + ".description").text(ability.description);
     $("#ability_" + ability.id + "-row" + " " + ".element").text(ability.elementa);
