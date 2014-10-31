@@ -16,7 +16,7 @@ class MonstersController < ApplicationController
     @monster_skins = MonsterSkin.includes(:skin_restrictions)
     @monster = Monster.new
     @monsters = policy_scope(Monster.includes(:job, :element, :personality, :battle_levels).search(params[:keyword]).
-                paginate(:page => params[:page], :per_page => 15))
+                paginate(:page => params[:page], :per_page => 20))
 
     respond_to do |format|
       format.html

@@ -25,41 +25,41 @@ div.store-front {
   border-radius: 5px;
   .king-roll {
     position: absolute;
-    top: 470px;
-    left: 120px;
+    top: 508px;
+    left: 155px;
     width: 182px;
     height: 70px;
-  };
-
-  .ability-detail {
-    position: absolute;
-    text-align: center;
-    top: 152px;
-    left: 356px;
-    background: #BFEFFF;
-    height: 120px;
-    width: 240px;
   };
 
   .premium-showcase {
     position: absolute;
     height: 300px;
-    width: 350px;
-    top: 120px;
-    left: 36px;
+    width: 360px;
+    top: 114px;
+    left: 65px;
   };
 
   .latest-ability {
-    margin-left: 10px;
-    margin-top: 10px;
+    margin-left: 40px;
+    margin-top: 20px;
+    display: inline-block;
   };
 
   .premium-summon-logo {
     position: absolute;
     height: 100px;
     width: 250px;
-    left: 80px;
+    left: 133px;
     top: 10px;
+  };
+
+  .latest-ability-name {
+    margin-bottom: 2px;
+  };
+
+  .latest-ability-name, .latest-ability-ap-cost {
+    position: relative;
+    left: 5px;
   };
 };
 

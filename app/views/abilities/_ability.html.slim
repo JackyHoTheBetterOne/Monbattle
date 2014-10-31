@@ -3,7 +3,7 @@
   .panel.panel-primary
     .panel-heading
       h3.panel-title
-        a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseOne#{dom_id(ability)}"
+        a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseOne#{dom_id(ability)}" id="#{dom_id(ability)}-name"
           | #{ability.name}
     .panel-collapse.collapse.in id="collapseOne#{dom_id(ability)}"
       .panel-body
@@ -27,23 +27,23 @@
               th Edit
               th Lock/Unlock
           tbody
-            tr
+            tr id="#{dom_id(ability)}-row"
               td
                 -ability.jobs.each do |job|
                   h5 #{job.name + " / Elvl " + job.evolve_lvl}
-              td=ability.ap_cost
-              td=ability.description
+              td.ap-cost=ability.ap_cost
+              td.description=ability.description
               / td=ability.min_level
-              td=ability.element.name
-              td=ability.target.name
-              td=ability.stat_target.name
-              td=ability.stat_change
+              td.element=ability.element.name
+              td.target=ability.target.name
+              td.stat-target=ability.stat_target.name
+              td.stat-change=ability.stat_change
               td=ability.abil_socket.socket_num
-              td=image_tag ability.image.url(:thumb)
-              td=image_tag ability.portrait.url(:thumb)
-              td=ability.mp_cost
-              td=ability.gp_cost
-              td=ability.rarity.try(:name)
+              td.image=image_tag ability.image.url(:thumb)
+              td.portrait=image_tag ability.portrait.url(:thumb)
+              td.mp-cost=ability.mp_cost
+              td.gp-cost=ability.gp_cost
+              td.rarity=ability.rarity.try(:name)
               td
                 =render partial: "admin/modal_button", locals: {modal_label: "abilityLabel_#{dom_id(ability)}", modal_id: "abilityModal_#{dom_id(ability)}", form_is_for: "abilities/form", button_name: "Edit", form_title: "Edit Ability"}
                 / br=link_to "Delete", ability, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger"

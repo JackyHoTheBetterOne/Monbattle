@@ -4,7 +4,7 @@ class AbilitiesController < ApplicationController
   def index
     @abilities = policy_scope(Ability.includes(:effects, :stat_target, :target, :abil_socket, :jobs).search(params[:keyword]).
                   ap_cost_search(params[:cost]).effect_search(params[:effect]).
-                  paginate(:page => params[:page], :per_page => 10).name_alphabetical)
+                  paginate(:page => params[:page], :per_page => 20).name_alphabetical)
     @abil_socket = AbilSocket.new
     @abil_sockets = AbilSocket.all
     @stat_target = StatTarget.new
@@ -43,17 +43,28 @@ class AbilitiesController < ApplicationController
   #   end
   # end
 
+  def show 
+    if current_user.admin == true
+      respond_to do |format| 
+        format.json { render json: @ability.as_json }
+      end
+    end
+  end
+
   def edit
   end
 
   def update
     authorize @ability
     @ability.update_attributes(ability_params)
-    if @ability.save
-      # @ability.ability_equippings.destroy_all #(Temp removed)
-      redirect_to abilities_path, notice: "Updated"
-    else
-      render :new
+    respond_to do |format|
+      if @ability.save
+        # @ability.ability_equippings.destroy_all #(Temp removed)
+        format.js
+      else
+        format.js
+        render :new
+      end
     end
   end
 

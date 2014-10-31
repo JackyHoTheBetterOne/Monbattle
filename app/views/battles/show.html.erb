@@ -45,7 +45,7 @@
 
   <div id="first-stop"></div>
 
-  <div class="1 enemy mon-slot" id="tutorial-end" data-team="1">hide
+  <div class="1 enemy mon-slot" id="tutorial-end" data-team="1">
     <% @pc_party.mons.each do |mon| %>
       <div class="mon mon<%= @pc_party.mon_dex(mon) %>" data-index="<%= @pc_party.mon_dex(mon) %>">
         <%= render :partial => "team", :locals => { :mon => mon, party: @pc_party } %>
