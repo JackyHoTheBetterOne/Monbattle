@@ -1,4 +1,4 @@
-=simple_form_for(@monster, remote: true) do |f|
+=simple_form_for(Monster.new, remote: true) do |f|
   div class='form-group' id="monsterForm"
     -case true
       -when Element.all.empty?

@@ -190,6 +190,16 @@ class Ability < ActiveRecord::Base
     self.image.url(:medium)
   end
 
+  def port
+    self.portrait.url(:thumb)
+  end
+
+  def as_json(options={})
+    super(
+      :methods => [:targeta, :elementa, :stat, :img, :port],
+      )
+  end
+
   private
 
   def capitalize_name

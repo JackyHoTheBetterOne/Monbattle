@@ -160,6 +160,7 @@ $distance-between-pane-top-pane-info: 15px;
 .monsters-display-area {
   @include abs-div(100%, 75%);
   bottom: 0;
+  text-weight: bold;
   .monster-info-area {
     p {
       font-family: $home-font;
@@ -214,6 +215,7 @@ $distance-between-pane-top-pane-info: 15px;
           bottom: 5%;
           left: 1%;
           background: $grey-fade;
+          color: black;
         }
         .equip1 {
           @include abs-div(10%, 60%);
@@ -275,10 +277,12 @@ $distance-between-pane-top-pane-info: 15px;
             border: 0px;
             p {
               margin-left: 0px;
+              color: white;
             }
           }
           p {
-            text-align: center
+            text-align: center;
+            color: black;
           }
         }
         .ability-equip {

@@ -104,7 +104,7 @@ window.isTurnOver = (object, index, array) ->
 window.noApLeft = (object, index, array) ->
   $(object).data("apcost") > battle.players[0].ap
 window.nothingToDo = (object, index, array) ->
-  $(object).attr("disabled") is "disabled"
+  $(object).css("opacity") is "0"
 
 window.setAll = (array, attr, value) ->
   n = array.length
