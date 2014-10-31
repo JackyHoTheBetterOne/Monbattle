@@ -55,6 +55,8 @@ class Battle < ActiveRecord::Base
   def build_json
     battle_json = {}
     battle_json[:background] = self.background
+    battle_json[:start_cutscene] = self.start_cutscene
+    battle_json[:end_cutscene] = self.end_cutscene
     battle_json[:id] = self.id_code
     battle_json[:reward] = self.battle_level.mp_reward
     battle_json[:players] = []
@@ -78,7 +80,23 @@ class Battle < ActiveRecord::Base
   end
 
   def background
-    self.battle_level.background.url(:large)
+    self.battle_level.background.url(:cool)
+  end
+
+  def start_cutscene
+    if !self.battle_level.start_cutscene.blank?
+      self.battle_level.start_cutscene.url(:cool)
+    else
+      "none"
+    end
+  end
+
+  def end_cutscene
+    if !self.battle_level.end_cutscene.blank?
+      self.battle_level.end_cutscene.url(:cool)
+    else
+      "none"
+    end
   end
 
   private

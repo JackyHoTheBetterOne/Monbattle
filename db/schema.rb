@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141030213513) do
+ActiveRecord::Schema.define(version: 20141031211050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,9 +104,17 @@ ActiveRecord::Schema.define(version: 20141030213513) do
     t.string   "background_content_type"
     t.integer  "background_file_size"
     t.datetime "background_updated_at"
-    t.integer  "mp_reward",               default: 0
-    t.integer  "gp_reward",               default: 0
-    t.integer  "vk_reward",               default: 0
+    t.integer  "mp_reward",                   default: 0
+    t.integer  "gp_reward",                   default: 0
+    t.integer  "vk_reward",                   default: 0
+    t.string   "start_cutscene_file_name"
+    t.string   "start_cutscene_content_type"
+    t.integer  "start_cutscene_file_size"
+    t.datetime "start_cutscene_updated_at"
+    t.string   "end_cutscene_file_name"
+    t.string   "end_cutscene_content_type"
+    t.integer  "end_cutscene_file_size"
+    t.datetime "end_cutscene_updated_at"
   end
 
   create_table "battles", force: true do |t|
@@ -310,8 +318,8 @@ ActiveRecord::Schema.define(version: 20141030213513) do
     t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
-    t.integer  "physical_resistance", default: 0
-    t.integer  "ability_resistance", default: 0
+    t.integer  "physical_resistance"
+    t.integer  "ability_resistance"
     t.integer  "default_skin_id"
     t.integer  "default_sock1_id"
     t.integer  "default_sock2_id"

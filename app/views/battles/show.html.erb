@@ -9,7 +9,7 @@
   <div class="panel-body message">
     Time to take out the trash!
   </div>
-  <%= image_tag("cutscene.png", class: "cutscene") %>
+    <%= image_tag(@battle.start_cutscene, class: "cutscene") %>
 </div>
 
 <div class="battle" data-index="<%= @battle.id %>">

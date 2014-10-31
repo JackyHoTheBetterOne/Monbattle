@@ -34,7 +34,7 @@ gem 'hirb'
 gem 'simple_form', github: "plataformatec/simple_form"
 # gem "better_errors"
 gem "binding_of_caller"
-gem "paperclip"
+gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
 gem "aasm"
 
 # Use jquery as the JavaScript library

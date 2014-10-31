@@ -317,10 +317,6 @@ window.outcome = ->
     $(".message").text("You lost, but here's " + battle.reward*0.1 + " MP because we pity you. Try harder next time!").
       append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>")
     $("#overlay").fadeIn(1000)
-    $(".battle-message").fadeOut(1000)
-    $("body").on "click", ->
-      $("#overlay").fadeOut(500)
-      disable($(".end-turn"))
     $.ajax
       url: "http://localhost:3000/battles/" + battle.id
       method: "patch"
@@ -329,13 +325,21 @@ window.outcome = ->
         "loser": battle.players[0].username
       }
   else if battle.players[1].mons.every(isTeamDead) is true
-    $(".message").text("You won" + " " + battle.reward + " " + "MP!" + "Go kill more monsters!").
+    $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
       append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
-    $("#overlay").fadeIn(1000)
-    $(".battle-message").fadeOut(1000)
-    $("body").on "click", ->
-      $("#overlay").fadeOut(500)
-      disable($(".end-turn"))
+    if battle.end_cutscene is "none"
+      $("#overlay").fadeIn(1000)
+      $("body").on "click", ->
+        $("#overlay").fadeOut(500)
+        disable($(".end-turn"))
+    else 
+      $(".message").hide()
+      $(".cutscene").attr("src", battle.end_cutscene).css("visibility", "visible")
+      $("#overlay").fadeIn(1000)
+      setTimeout (->
+        $(".cutscene").fadeOut 500, ->
+          $(".message").fadeIn 500
+        ), 4000
     $.ajax
       url: "http://localhost:3000/battles/" + battle.id
       method: "patch"
@@ -735,21 +739,36 @@ $ ->
     error: ->
       alert("This battle cannot be loaded!")
     success: (data) ->
-      setTimeout (->
-        $("#overlay").fadeOut 500, ->
-          $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
-          $(".message").css("visibility", "visible")
-          $(".cutscene").css("visibility", "hidden")
-          return
-      ), 4000
-      setTimeout (->
-        $("#battle-tutorial").joyride({'tipLocation': 'top'})
-        $("#battle-tutorial").joyride({})
-        $(".user .img").each ->
-          $(this).effect("bounce", {distance: 80, times: 5}, 1500)
-      ), 6000
-############################################################################################### Battle logic
       window.battle = data
+      if battle.start_cutscene isnt "none"
+        setTimeout (->
+          $("#overlay").fadeOut 500, ->
+            $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
+            $(".message").css("visibility", "visible")
+            $(".cutscene").css("visibility", "hidden")
+            return
+        ), 4000
+        setTimeout (->
+          $("#battle-tutorial").joyride({'tipLocation': 'top'})
+          $("#battle-tutorial").joyride({})
+          $(".user .img").each ->
+            $(this).effect("bounce", {distance: 80, times: 5}, 1500)
+        ), 6000
+      else
+        $(".cutscene").css("visibility", "hidden")
+        $(".message").css("visibility", "visible")
+        setTimeout (->
+          $("#overlay").fadeOut 500, ->
+            $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
+            return
+        ), 1500
+        setTimeout (->
+          $("#battle-tutorial").joyride({'tipLocation': 'top'})
+          $("#battle-tutorial").joyride({})
+          $(".user .img").each ->
+            $(this).effect("bounce", {distance: 80, times: 5}, 1500)
+        ), 3333
+############################################################################################### Battle logic
       $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
       battle.round = 1
       battle.maxAP = 40
