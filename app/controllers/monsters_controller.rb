@@ -70,9 +70,17 @@ class MonstersController < ApplicationController
       # p @monster.errors.full_messages
       # p "==============="
       if @monster.save
-        format.html { redirect_to monsters_path, notice: "Updated!" }
+        format.js
       else
         format.html { render :new }
+      end
+    end
+  end
+
+  def show
+    if current_user.admin
+      respond_to do |format|
+        format.json {render json: @monster}
       end
     end
   end

@@ -44,7 +44,7 @@ class AbilitiesController < ApplicationController
   # end
 
   def show 
-    if current_user.admin == true
+    if current_user.admin
       respond_to do |format| 
         format.json { render json: @ability.as_json }
       end

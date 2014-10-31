@@ -3,12 +3,12 @@ $.ajax({
   method: "get",
   dataType: "json",
   error: function() {
-    return alert("Cannot get the latest abilities");
+    return alert("No AJAX for you Frank");
   },
   success: function(response) {
     window.ability = response;
     $(".modal-header span").trigger("click");
-    $("#ability_" + ability.id + "-name").text(ability.name).effect("highlight");
+    $("#ability_" + ability.id + "-name").text(ability.name);
     $("#ability_" + ability.id + "-row").effect("highlight");
     $("#ability_" + ability.id + "-row" + " " + ".ap-cost").text(ability.ap_cost);
     $("#ability_" + ability.id + "-row" + " " + ".description").text(ability.description);

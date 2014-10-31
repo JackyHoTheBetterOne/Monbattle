@@ -310,8 +310,8 @@ ActiveRecord::Schema.define(version: 20141030213513) do
     t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
-    t.integer  "physical_resistance"
-    t.integer  "ability_resistance"
+    t.integer  "physical_resistance", default: 0
+    t.integer  "ability_resistance", default: 0
     t.integer  "default_skin_id"
     t.integer  "default_sock1_id"
     t.integer  "default_sock2_id"

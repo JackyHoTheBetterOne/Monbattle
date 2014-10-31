@@ -1,0 +1,20 @@
+$.ajax({
+  url: "http://localhost:3000/monsters/" + <%= @monster.id %>,
+  method: "get",
+  dataType: "json",
+  error: function() {
+    return alert("No AJAX for you Frank");
+  },
+  success: function(response) {
+    window.monster = response;
+    $("#monster_" + monster.id).fadeOut(100).fadeIn(800);
+    $(".modal-header span").trigger("click");
+    $("#monster_" + monster.id + " " + "td h3.name").text(monster.name);
+    $("#monster_" + monster.id + " " + "td.description").text(monster.description);
+    $("#monster_" + monster.id + " " + "td.max_hp").text(monster.max_hp);
+    $("#monster_" + monster.id + " " + "td.mp_cost").text(monster.mp_cost);
+    $("#monster_" + monster.id + " " + "td.gp_cost").text(monster.gp_cost);
+    $("#monster_" + monster.id + " " + "td.physical_resistance").text(monster.physical_resistance);
+    $("#monster_" + monster.id + " " + "td.ability_resistance").text(monster.ability_resistance)
+  }
+});
