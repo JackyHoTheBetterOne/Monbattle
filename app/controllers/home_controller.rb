@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     @user      = params[:user] || current_user
     @base_mons = MonsterUnlock.base_mons(@user)
     @abilities = Ability.abilities_purchased(@user)
-    @ability_equippings = AbilityEquipping.monster_unlocks(@base_mons)
+    @ability_equippings = AbilityEquipping.monsters_owned(@user)
     @members = @user.parties.first.members
     if @user
     else

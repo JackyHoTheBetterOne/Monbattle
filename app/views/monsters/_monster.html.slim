@@ -1,7 +1,7 @@
 -@monster = monster
 tr id=dom_id(monster)
   td
-    h3 =monster.name
+    h3.name =monster.name
     hr
     -if monster.evolved_from.blank?
       =render partial: "admin/modal_button", locals: {monster: monster, modal_label: "monsterTemplateLabel_#{dom_id(monster)}", modal_id: "monsterTemplateModal_#{dom_id(monster)}", form_is_for: "monsters/form", button_name: "Edit Monster", form_title: "Edit Monster"}
@@ -18,14 +18,16 @@ tr id=dom_id(monster)
       ="Base Monster"
     -else
       =monster.evolved_from.name
-  td=monster.description
-  td=monster.max_hp
-  td=monster.summon_cost
+  td.description=monster.description
+  td.max_hp=monster.max_hp
+  td.summon_cost=monster.summon_cost
   td=image_tag monster.evolve_animation.url(:thumb)
   td=monster.personality.try(:name)
   td=monster.rarity.try(:name)
-  td=monster.mp_cost
-  td=monster.gp_cost
+  td.mp_cost=monster.mp_cost
+  td.gp_cost=monster.gp_cost
+  td.physical_resistance=monster.physical_resistance
+  td.ability_resistance=monster.ability_resistance
   td
     -if monster.default_skin_id.nil?
       ="Not Set"

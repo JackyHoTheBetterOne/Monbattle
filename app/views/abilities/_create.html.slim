@@ -1,0 +1,53 @@
+=simple_form_for(Ability.new) do |f|
+  div class="form-group"
+    -case true
+      -when Job.all.empty?
+        h1 Make some Jobs First
+      -when Target.all.empty?
+        h1 Make some Targets First!
+      -when StatTarget.all.empty?
+        h1 Make some Stat Targets First!
+      -when AbilSocket.all.empty?
+        h1 Make some Ability Socket #'s First!
+      -else
+        .form-group
+          =f.input :name
+          h4=f.label "Secondary effects"
+          =hidden_field_tag "ability[effect_ids][]", nil
+          -Effect.all.each do |effect|
+            =check_box_tag "ability[effect_ids][]", effect.id, @ability.effect_ids.include?(effect.id), id: dom_id(effect)
+            =label_tag dom_id(effect), effect.name
+          h4=f.label "Job restrictions for this Ability"
+          input type="checkbox" class="abil_form_check_all"
+            | Select All
+          .ability_job_check_boxes
+            =hidden_field_tag "ability[job_ids][]", nil
+            .row
+              -Job.all.each do |job|
+                .col-md-6
+                  li
+                    =check_box_tag "ability[job_ids][]", job.id, @ability.job_ids.include?(job.id), id: dom_id(job)
+                    =label_tag dom_id(job), job.name
+          h4=f.label "Select a Target for this Ability"
+          .form-control =f.collection_select :target_id, Target.all, :id, :name
+          h4=f.label "Select the Element for this Ability"
+          .form-control =f.collection_select :element_id, Element.all, :id, :name
+          h4=f.label "Select Stat targeted by this ability"
+          .form-control =f.collection_select :stat_target_id, StatTarget.all, :id, :name
+          h4=f.label "Rarity of this ability"
+          .form-control =f.collection_select :rarity_id, Rarity.all, :id, :name
+          h4=f.label "Select Socket Number that this ability is for"
+          -if @ability.abil_socket_id.nil?
+            .form-control =f.collection_select :abil_socket_id, AbilSocket.all, :id, :socket_num
+          -else
+            .form-control ="Currently set to socket #{@ability.abil_socket.socket_num} *Can Not Change*"
+          =f.label "How much the stat is Changed(Format must be + or - and then integer)"
+          =f.text_field :stat_change, class: 'form-control'
+          =f.input :image
+          =f.input :portrait
+          =f.input :ap_cost
+          =f.input :mp_cost
+          =f.input :gp_cost
+          =f.input :description
+          =f.hidden_field :former_name, value: @ability.name
+          hr=f.submit class: 'btn btn-primary'

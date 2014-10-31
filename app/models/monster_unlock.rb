@@ -18,12 +18,6 @@ class MonsterUnlock < ActiveRecord::Base
 
   scope :lvl1_evolves, -> { joins(:job).where('job')}
 
-  # def abilities
-  #   @ap_ids = AbilityEquipping.where(monster_unlock_id: self.id).pluck(:ability_purchase_id)
-  #   @a_ids = AbilityPurchase.where(id: @ap_ids).pluck(:ability_id)
-  #   Abilities.where(id: @a_ids)
-  # end
-
   def find_abil_purchases_in_socket(socket_num)
     ability_purchases.find_ability_purchases_for_socket(socket_num)
   end
@@ -192,9 +186,9 @@ class MonsterUnlock < ActiveRecord::Base
                                       abil_id: @default_sock2_id,
                                       monster_unlock_id: @monster_unlock_id
                                       )
-    MonsterSkinPurchase.on_monster_unlock(user_id: @user_id,
-                                          mon_skin_id: @default_skin_id
-                                          )
+    # MonsterSkinPurchase.on_monster_unlock(user_id: @user_id,
+    #                                       mon_skin_id: @default_skin_id
+    #                                       )
     MonsterSkinEquipping.create(monster_id: @monster_id, user_id: @user_id,
                                 monster_skin_id: @default_skin_id
                                 )

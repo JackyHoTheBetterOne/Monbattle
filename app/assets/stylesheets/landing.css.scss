@@ -29,13 +29,9 @@
 };
 
 .sweet-home {
-  color: #446e9b !important;
-  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%) !important);
-  text-align: center;
   border-radius: 5px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 300px;
+  height: 310px;
+  width: 100%;
 };
 
 .logo {
@@ -84,4 +80,16 @@ a.fb-nav:hover {
   a {
     background: #4B0082 !important;
   };
+};
+
+.journey-start {
+  position: relative;
+  top: -80px;
+  left: 500px;
+};
+
+.donation-button {
+  position: relative;
+  top: -12px;
+  left: 646px;
 };

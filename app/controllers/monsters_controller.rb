@@ -16,7 +16,7 @@ class MonstersController < ApplicationController
     @monster_skins = MonsterSkin.includes(:skin_restrictions)
     @monster = Monster.new
     @monsters = policy_scope(Monster.includes(:job, :element, :personality, :battle_levels).search(params[:keyword]).
-                paginate(:page => params[:page], :per_page => 15))
+                paginate(:page => params[:page], :per_page => 20))
 
     respond_to do |format|
       format.html
@@ -70,9 +70,17 @@ class MonstersController < ApplicationController
       # p @monster.errors.full_messages
       # p "==============="
       if @monster.save
-        format.html { redirect_to monsters_path, notice: "Updated!" }
+        format.js
       else
         format.html { render :new }
+      end
+    end
+  end
+
+  def show
+    if current_user.admin
+      respond_to do |format|
+        format.json {render json: @monster}
       end
     end
   end
@@ -93,5 +101,3 @@ class MonstersController < ApplicationController
   end
 
 end
-
-
