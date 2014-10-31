@@ -51,7 +51,7 @@ class AbilityEquippingForUsersController < ApplicationController
   end
 
   def find_ability_equippings
-    @ability_equippings = AbilityEquipping.monster_unlocks(@base_mons)
+    @ability_equippings = AbilityEquipping.monsters_owned(@user)
   end
 
   def ability_equipping_params
