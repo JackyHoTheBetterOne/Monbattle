@@ -2,8 +2,5 @@
   | $("##{dom_id(mon_unlock)}-socket#{@socket_num}").html("#{j render partial: "/home/abilities_display_area", locals: {socket_num: @socket_num, mon: mon_unlock}}");
 
 | $("##{dom_id(@monster_unlock)}-info-pane").html("#{j render partial: "/home/monster_display", locals: {mon: @monster_unlock}}");
-/ | $(".abilities-display-area").hide();
-/ | $("##{dom_id(@monster_unlock)}-socket#{@socket_num}").show().effect("highlight");
-
-
-
+| $(".abilities-display-area").hide();
+| $("##{dom_id(@monster_unlock)}-socket#{@socket_num}").show().effect("highlight");
