@@ -37,7 +37,7 @@ class AbilityPurchasesController < ApplicationController
   end
 
   def ability_purchase_params
-    params.require(:ability_purchase).permit(:user_id, :ability_id)
+    params.require(:ability_purchase).permit(:user_id, :ability_id, :monster_unlock_id)
   end
 
 end

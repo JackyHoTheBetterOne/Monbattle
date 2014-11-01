@@ -2,9 +2,9 @@ class MonsterUnlock < ActiveRecord::Base
   belongs_to :user
   belongs_to :monster
   has_one    :job, through: :monster
+  has_many :ability_purchases
 
-  has_many :ability_equippings, dependent: :destroy
-  has_many :ability_purchases, through: :ability_equippings
+  # has_many :ability_purchases, through: :ability_equippings
   has_many :abilities, through: :ability_purchases
   has_many :members, dependent: :destroy
   has_many :parties, through: :members
@@ -15,6 +15,7 @@ class MonsterUnlock < ActiveRecord::Base
 
 ##############################
   after_create :default_equips
+  before_destroy :clear_ability_purchase
 
   scope :lvl1_evolves, -> { joins(:job).where('job')}
 
@@ -26,8 +27,16 @@ class MonsterUnlock < ActiveRecord::Base
     self.where(user_id: user).where(monster_id: Monster.base_mon.pluck(:id))
   end
 
-  def abil_in_sock(socket_num)
-    self.abilities.find_abilities_for_socket(socket_num)
+  def abil_in_sock(socket_num, ability)
+    if ability_purchases.find_by_socket_num(socket_num).ability == ability
+      true
+    else
+      false
+    end
+  end
+
+  def abil_purch_in_sock(socket_num)
+    ability_purchases.find_by_socket_num(socket_num)
   end
 
   def abil_portrait(sock_num)
@@ -170,6 +179,10 @@ class MonsterUnlock < ActiveRecord::Base
   end
 
   private
+
+  def clear_ability_purchase
+    self.ability_purchases.update_all(monster_unlock_id: 0)
+  end
 
   def default_equips
     @monster_unlock_id  = self.id

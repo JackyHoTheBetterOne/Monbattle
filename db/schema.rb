@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141030233648) do
+ActiveRecord::Schema.define(version: 20141031214757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,9 +80,12 @@ ActiveRecord::Schema.define(version: 20141030233648) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "monster_unlock_id", default: 0
+    t.integer  "socket_num"
   end
 
   add_index "ability_purchases", ["ability_id"], name: "index_ability_purchases_on_ability_id", using: :btree
+  add_index "ability_purchases", ["monster_unlock_id"], name: "index_ability_purchases_on_monster_unlock_id", using: :btree
   add_index "ability_purchases", ["user_id"], name: "index_ability_purchases_on_user_id", using: :btree
 
   create_table "ability_restrictions", force: true do |t|
@@ -310,8 +313,8 @@ ActiveRecord::Schema.define(version: 20141030233648) do
     t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
-    t.integer  "physical_resistance", default: 0
-    t.integer  "ability_resistance", default: 0
+    t.integer  "physical_resistance"
+    t.integer  "ability_resistance"
     t.integer  "default_skin_id"
     t.integer  "default_sock1_id"
     t.integer  "default_sock2_id"
