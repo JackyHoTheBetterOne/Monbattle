@@ -5,4 +5,8 @@ tr
   td =battle_level.vk_reward
   td =battle_level.exp_given
   td
-    =battle_level.background.blank? ? "No background Set" : "#{battle_level.background.name}"
+    =battle_level.background.blank? ? "No background Set" : image_tag("#{battle_level.background.url(:thumb)}")
+  td
+    =battle_level.start_cutscene.blank? ? "No start cutscene" : image_tag("#{battle_level.background.url(:thumb)}")
+  td
+    =battle_level.end_cutscene.blank? ? "No end cutscene" : image_tag("#{battle_level.background.url(:thumb)}")

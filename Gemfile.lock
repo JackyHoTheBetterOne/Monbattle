@@ -7,6 +7,16 @@ GIT
       activemodel (~> 4.0)
 
 GIT
+  remote: git://github.com/thoughtbot/paperclip.git
+  revision: 17cae0e7956e4c78891875ede83f1c4f173bc9ce
+  specs:
+    paperclip (4.2.0)
+      activemodel (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      cocaine (~> 0.5.3)
+      mime-types
+
+GIT
   remote: https://github.com/stripe/stripe-ruby
   revision: 2c6f4caa99916c33d3f9af57f66422ff5ea913cf
   specs:
@@ -147,11 +157,6 @@ GEM
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
-    paperclip (4.2.0)
-      activemodel (>= 3.0.0)
-      activesupport (>= 3.0.0)
-      cocaine (~> 0.5.3)
-      mime-types
     pg (0.17.1)
     polyglot (0.3.5)
     pundit (0.3.0)
@@ -256,7 +261,7 @@ DEPENDENCIES
   jquery-ui-rails
   omniauth
   omniauth-facebook
-  paperclip
+  paperclip!
   pg
   pundit
   quiet_assets

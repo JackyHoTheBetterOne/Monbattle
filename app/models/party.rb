@@ -65,28 +65,6 @@ class Party < ActiveRecord::Base
     )
   end
 
-  #   def as_json(options={})
-
-  #   super(
-  #     :only => [:user_id, :name],
-  #     :methods => [:username, :isNPC],
-  #     :include => { :monsters => {
-  #       :only => [:id, :name, :max_hp, :hp => :max_hp],
-  #       :methods => :hp,
-  #       :include => { :abilities => {
-  #         :only => [:id, :name, :ap_cost, :stat_change],
-  #         :methods => [:stat, :targeta, :elementa, :change, :modifier, :img, :slot],
-  #         :include => {
-  #           :effects => {
-  #             :only => [:id, :name, :stat_change],
-  #             :methods => [:stat, :targeta, :change, :modifier],
-  #           }
-  #         }
-  #       }}
-  #     }}
-  #   )
-  # end
-
   def self.generate(user)
     BattleLevel.all.each do |level|
       Party.where("user_id = 2").where(name: level.name).where(enemy: user.user_name).destroy_all
