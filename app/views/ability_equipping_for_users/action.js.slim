@@ -18,14 +18,16 @@
 
 /Slows down performance after this
 
-/ -@abilities = Ability.abilities_purchased(@user)
-/ | $("##{dom_id(@monster_unlock)}-socket#{@socket_num}-info").html("#{j render partial: "/home/abil_portrait", locals: {socket_num: @socket_num, mon: @monster_unlock}}");
-/ | $("##{dom_id(@monster_unlock)}-socket#{@socket_num}").html("#{j render partial: "/home/abilities_display_area", locals: {socket_num: @socket_num, mon: @monster_unlock}}");
-/ | $("##{dom_id(@monster_unlock)}-socket#{@socket_num}").show().effect("highlight");
+-@abilities = Ability.abilities_purchased(@user)
+| $("##{dom_id(@monster_unlock)}-socket#{@socket_num}-info").html("#{j render partial: "/home/abil_portrait", locals: {socket_num: @socket_num, mon: @monster_unlock}}");
+| $("##{dom_id(@monster_unlock)}-socket#{@socket_num}").html("#{j render partial: "/home/abilities_display_area", locals: {socket_num: @socket_num, mon: @monster_unlock}}");
+| $("##{dom_id(@monster_unlock)}-socket#{@socket_num}").show().effect("highlight");
 
--@current_abil_purchase = @ability_purchase
--Ability.abilities_purchased(@user).find_default_abilities_available(@socket_num, @monster_unlock.job).excluding([@ability, @old_ability]).each do |abil|
-  -@available = @ability_purchases.not_equipped(abil)
-  | $("##{dom_id(@monster_unlock)+"_"+dom_id(abil)+"_equip"}").html("#{j render partial: "/home/equip", locals: {socket_num: @socket_num, mon: @monster_unlock}}");
+/ -@current_abil_purchase = @ability_purchase
+/ -Ability.abilities_purchased(@user).find_default_abilities_available(@socket_num, @monster_unlock.job).each do |abil|
+/   -if abil == @ability || @old_ability
+/   -else
+/     -@available = @ability_purchases.not_equipped(abil)
+/     | $("##{dom_id(@monster_unlock)+"_"+dom_id(abil)+"_equip"}").html("#{j render partial: "/home/equip", locals: {socket_num: @socket_num, mon: @monster_unlock}}");
 
-  / | $("##{dom_id(@monster_unlock)}-socket#{@socket_num}-info").html("#{j render partial: "/home/abil_portrait", locals: {socket_num: @socket_num, mon: @monster_unlock}}");
+/   | $("##{dom_id(@monster_unlock)}-socket#{@socket_num}-info").html("#{j render partial: "/home/abil_portrait", locals: {socket_num: @socket_num, mon: @monster_unlock}}");
