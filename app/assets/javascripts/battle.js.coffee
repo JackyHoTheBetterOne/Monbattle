@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-########################################################################################### Evolution dressing (not very dry now)
+######################################################################################################## Monster logics
 window.fixEvolMon = (monster, player) ->
   monster.team = battle.players.indexOf(player)
   monster.index = player.mons.indexOf(monster)
@@ -15,6 +15,7 @@ window.fixEvolMon = (monster, player) ->
   monster.useAbility = (abilityIndex, abilityTargets) ->
     ability = @abilities[abilityIndex]
     ability.use(abilityTargets)
+######################################################################################################## Ability logics
   $(monster.abilities).each ->
     ability = @
     ability.use = (abilitytargets) ->
@@ -72,28 +73,19 @@ window.fixEvolMon = (monster, player) ->
               effect.activate effectTargets
           i++
       return
+######################################################################################################### Effect logics
     $(ability.effects).each ->
       @activate = (effectTargets) ->
         e = this
         i = 0
-        if typeof e.random isnt "undefined"
-          while i < effectTargets.length
-            monTarget = effectTargets[i]
-            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + randomNumRange(e.max, e.min).toString())
-            checkMin()
-            checkMax()
-            monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
-            i++
-          return
-        else
-          while i < effectTargets.length
-            monTarget = effectTargets[i]
-            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-            checkMin()
-            checkMax()
-            monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
-            i++
-          return
+        while i < effectTargets.length
+          monTarget = effectTargets[i]
+          monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+          checkMin()
+          checkMax()
+          monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
+          i++
+        return
 
 
 ################################################################################################# Battle logic helpers
@@ -839,101 +831,9 @@ $ ->
           else
             alert("You do not have enough ap to use this ability")
           return
-#################################################################################################  Monster logic
         $(player.mons).each ->
           monster = @
-          monster.team = battle.players.indexOf(player)
-          monster.index = player.mons.indexOf(monster)
-          monster.isAlive = ->
-            if @hp <= 0
-              return false
-            else
-              return true
-            return
-          monster.useAbility = (abilityIndex, abilityTargets) ->
-            ability = @abilities[abilityIndex]
-            ability.use(abilityTargets)
-##################################################################################################  Ability logic
-          $(monster.abilities).each ->
-            ability = @
-            ability.use = (abilitytargets) ->
-              a = this
-              i = 0
-              while i < abilitytargets.length
-                monTarget = abilitytargets[i]
-                monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
-                monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
-                i++
-              if ability.effects.length isnt 0
-                i = 0
-                while i < ability.effects.length
-                  effect = a.effects[i]
-                  switch effect.targeta
-                    when "self"
-                      effect.activate [monster]
-                    when "selfbuffattack"
-                      effect.activate [monster.abilities[0]]
-                    when "tworandomfoes"
-                      effectTargets = []
-                      findAliveEnemies()
-                      effectTargets.push liveFoes[0]
-                      effectTargets.push liveFoes[1] if typeof liveFoes[1] isnt "undefined"
-                      effect.activate effectTargets
-                    when "onerandomfoe"
-                      effectTargets = []
-                      findAliveEnemies()
-                      effectTargets.push liveFoes[0]
-                      effect.activate effectTargets
-                    when "tworandommons"
-                      findAliveEnemies()
-                      findAliveFriends()
-                      findAliveMons()
-                      effectTargets = []
-                      effectTargets.push liveMons[0]
-                      effectTargets.push liveMons[1] if typeof liveMons[1] isnt "undefined"
-                      effect.activate effectTargets
-                    when "foebuffattack"
-                      effectTargets = []
-                      i = 0
-                      while i < abilitytargets.length
-                        index = getRandom([0,1,2,3])
-                        effectTargets.push abilitytargets[i].abilities[index]
-                        i++
-                      effect.activate effectTargets
-                    when "tworandomallies"
-                      effectTargets = []
-                      findAliveFriends()
-                      effectTargets.push liveFriends[0]
-                      effectTargets.push liveFriends[1] if typeof liveFriends[1] isnt "undefined"
-                      effect.activate effectTargets
-                    when "randomap"
-                      effectTargets = [player]
-                      effect.activate effectTargets
-                  i++
-              return
-##################################################################################################### Effect logic
-            $(ability.effects).each ->
-              @activate = (effectTargets) ->
-                e = this
-                i = 0
-                if typeof e.random isnt "undefined"
-                  while i < effectTargets.length
-                    monTarget = effectTargets[i]
-                    monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + randomNumRange(e.max, e.min).toString())
-                    checkMin()
-                    checkMax()
-                    monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
-                    i++
-                  return
-                else
-                  while i < effectTargets.length
-                    monTarget = effectTargets[i]
-                    monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-                    checkMin()
-                    checkMax()
-                    monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
-                    i++
-                  return
+          fixEvolMon(monster, player)
 ###############################################################################################  Battle interaction
       window.feed = ->
         targets.shift()

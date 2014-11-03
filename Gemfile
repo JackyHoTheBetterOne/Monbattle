@@ -54,13 +54,13 @@ gem 'spring',        group: :development
 
 gem 'friendly_id'
 
-if ENV['RAILS_ENV']
-  require 'rubygems'
-  require 'hirb'
-  require 'active_record'
-  # Hirb.enable
-  ActiveRecord::Base.logger = Logger.new(STDOUT)
-end
+# if ENV['RAILS_ENV']
+#   require 'rubygems'
+#   require 'hirb'
+#   require 'active_record'
+#   # Hirb.enable
+#   ActiveRecord::Base.logger = Logger.new(STDOUT)
+# end
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

@@ -26,8 +26,6 @@ tr id=dom_id(monster)
   td=monster.rarity.try(:name)
   td.mp_cost=monster.mp_cost
   td.gp_cost=monster.gp_cost
-  td.physical_resistance=monster.physical_resistance
-  td.ability_resistance=monster.ability_resistance
   td
     -if monster.default_skin_id.nil?
       ="Not Set"
