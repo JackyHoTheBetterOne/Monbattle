@@ -5,7 +5,8 @@ class AbilityPurchase < ActiveRecord::Base
 
   validates :user_id, presence: {message: 'Must be entered'}
   validates :ability_id, presence: {message: 'Must be entered'}
-  # validates :socket_num, uniqueness: {scope: :monster_unlock_id}, :unless => self.user_id == 0
+                         # uniqueness: {scope: :monster_unlock_id}, :unless => :monster_unlock_id == 0
+  # validates :socket_num, uniqueness: {scope: :monster_unlock_id}, :unless => :monster_unlock_id == 0
   after_create :set_socket
 
   def self.on_monster_unlock(params = {})
@@ -27,26 +28,9 @@ class AbilityPurchase < ActiveRecord::Base
     where(monster_unlock_id: 0, ability_id: ability)
   }
 
-  # scope :available, -> (monster_unlock, ability) {
-  #   where('monster_unlock_id not in (?) AND ability_id in (?)', monster_unlock, ability)
-  # }
-
   def available(monster_unlock, ability)
     ability_owned(ability).not_equipped(monster_unlock).count
   end
-
-
-  # scope :find_ability_purchases_for_socket, -> (socket_num) {
-  #   @ability_ids = Ability.find_abilities_for_socket(socket_num)
-  #   where(ability_id: @ability_ids)
-  # }
-
-  # def self.check_for_equipped_ability
-
-  # end
-
-  # def self.create_default_abil_purchase(user_id, abil_id)
-  # end
 
   def self.abils_purchased(user)
     self.where(user_id: user)
