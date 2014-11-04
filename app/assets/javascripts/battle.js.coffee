@@ -4,6 +4,9 @@
 
 ######################################################################################################## Monster logics
 window.fixEvolMon = (monster, player) ->
+  monster.physical_resistance = 0
+  monster.special_resistance = 0
+  monster.fucked_up = {}
   monster.team = battle.players.indexOf(player)
   monster.index = player.mons.indexOf(monster)
   monster.isAlive = ->
@@ -23,7 +26,14 @@ window.fixEvolMon = (monster, player) ->
       i = 0
       while i < abilitytargets.length
         monTarget = abilitytargets[i]
-        monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
+        if a.modifier is "-" and a.targeta is "attack"
+          change = eval(a.change + "-" + monTarget["physical_resistance"])
+          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
+        else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
+          change = eval(a.change + "-" + monTarget["special_resistance"])
+          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
+        else 
+          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
         monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
       if ability.effects.length isnt 0
@@ -31,6 +41,8 @@ window.fixEvolMon = (monster, player) ->
         while i < ability.effects.length
           effect = a.effects[i]
           switch effect.targeta
+            when "round-based-health", "round-based-resistance"
+              effect.activate [abilitytargets]
             when "self"
               effect.activate [monster]
             when "selfbuffattack"
@@ -68,9 +80,6 @@ window.fixEvolMon = (monster, player) ->
               effectTargets.push liveFriends[0]
               effectTargets.push liveFriends[1] if typeof liveFriends[1] isnt "undefined"
               effect.activate effectTargets
-            when "randomap"
-              effectTargets = [player]
-              effect.activate effectTargets
           i++
       return
 ######################################################################################################### Effect logics
@@ -78,15 +87,25 @@ window.fixEvolMon = (monster, player) ->
       @activate = (effectTargets) ->
         e = this
         i = 0
-        while i < effectTargets.length
-          monTarget = effectTargets[i]
-          monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-          checkMin()
-          checkMax()
-          monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
-          i++
-        return
-
+        if e.targeta.indexOf("round") is -1
+          while i < effectTargets.length
+            monTarget = effectTargets[i]
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+            checkMin()
+            checkMax()
+            monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
+            i++
+          return
+        else 
+          while i < effectTargets.length
+            monTarget = effectTargets[i]
+            status = monTarget.fucked_up
+            status[e.name] = {}
+            status[e.name]["stat"] = e.stat
+            status[e.name]["impact"] = e.modifier + e.change
+            status[e.name]["end"] = battle.round + e.duration
+            i++
+          return
 
 ################################################################################################# Battle logic helpers
 window.isTeamDead = (monster, index, array) ->
@@ -145,7 +164,6 @@ window.checkEnemyDeath = (index) ->
 
 window.shuffle = (array) ->
   i = array.length - 1
-
   while i > 0
     j = Math.floor(Math.random() * (i + 1))
     temp = array[i]
@@ -373,7 +391,7 @@ window.singleTargetAbilityAfterActionDisplay = ->
 
 
 
-################################################################################################### Battle display variable helpers
+############################################################################################### Battle display variable helpers
 window.singleTargetAbilityDisplayVariable = ->
   window.enemyHurt = battle.players[targets[0]].enemies[targets[3]]
   window.monsterUsed = battle.players[targets[0]].mons[targets[1]]
@@ -392,7 +410,6 @@ window.multipleTargetAbilityDisplayVariable = ->
 
 ################################################################################################### Battle interaction helpers
 window.mouseOverMon = ->
-  console.log($(this))
   $(this).addClass("controlling")
   $(this).prev().css "visibility", "visible"
   mon = $(this).closest(".mon").data("index")
@@ -407,25 +424,6 @@ window.mouseOverMon = ->
 window.mouseLeaveMon = ->
   $(".user .monBut").css "visibility","hidden"
   $(".user .img").removeClass("controlling")
-
-window.control = ->
-  button = $(this).prev().css("visibility")
-  if button is "visible"
-    $(".user .monBut").css "visibility","hidden"
-    $(".user .img").removeClass("controlling")
-  else
-    $(".user .img").removeClass("controlling")
-    $(".user .monBut").css "visibility","hidden"
-    $(this).addClass("controlling")
-    $(this).prev().css "visibility", "visible"
-    mon = $(this).closest(".mon").data("index")
-    team = $(this).closest(".mon-slot").data("team")
-    window.currentMon = $(this)
-    window.targets = [
-      team
-      mon
-    ]
-  return
 
 window.turnOnCommandA = ->
   $(document).on "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
@@ -481,6 +479,13 @@ window.toggleEnemyClick = ->
       $(this).prop("disabled", false)
     else
       $(this).prop("disabled", true)
+
+
+###################################################################################################### Round based mechanic helpers
+window.roundEffectHappening = (team) ->
+  
+
+
 
 
 
@@ -574,7 +579,7 @@ window.feedAiTargets = ->
 
 
 
-############################################################################################################ AI action helpers
+################################################################################################ AI action helpers(not very dry)
 window.controlAI = (monIndex) ->
   monster = battle.players[1].mons[monIndex]
   if monster.hp > 0
@@ -664,10 +669,6 @@ window.controlAI = (monIndex) ->
             return
           ), 1200
           return
-
-window.AiObj = init: (monIndex) ->
-  promise = controlAI(monIndex)
-  promise
 
 
 
@@ -760,7 +761,7 @@ $ ->
           $(".user .img").each ->
             $(this).effect("bounce", {distance: 80, times: 5}, 1500)
         ), 3333
-############################################################################################### Battle logic
+################################################################################################################ Battle logic
       $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
       battle.round = 1
       battle.maxAP = 40
@@ -878,7 +879,7 @@ $ ->
         ability = $(this)
         if window.battle.players[0].ap >= ability.data("apcost")
           $(".abilityDesc").css "visibility", "hidden"
-          $(".user .monBut").css("visibility","hidden")
+          $(".user .monBut").css "visibility","hidden"
           toggleImg()
           $(document).on "click.cancel",".cancel", ->
             $(".user .img").removeClass("controlling")
@@ -927,12 +928,7 @@ $ ->
                       else
                         targetMon.effect "shake", 750
                   ).animate backPosition, 250, ->
-                    apChange()
-                    hpChangeBattle()
-                    showDamageSingle()
-                    checkMonHealthAfterEffect()
-                    toggleImg()
-                    flashEndButton()
+                    singleTargetAbilityAfterActionDisplay()
                     toggleEnemyClick()
                     return
                   return
@@ -1002,7 +998,7 @@ $ ->
                       return
                     ), 1200
                     return
-              when "aoeenemy"
+              when "aoeenemy", "aoepr", "aoesr"
                 $(document).off "click.cancel", ".cancel"
                 disable(ability)
                 $(".user .img").removeClass("controlling")
@@ -1079,11 +1075,8 @@ $ ->
                   return
                 ), 2000
                 return
-              else
-                alert(".")
         else
-          $(this).effect("highlight", {color: "red"}, 500)
-          $(".ap").effect("highlight", {color: "red"}, 500)
+          $(this).add(".ap").effect("highlight", {color: "red"}, 100)
           $(".end-turn").prop("disabled", false)
 
 
