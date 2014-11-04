@@ -1,2 +1,3 @@
 | $("#unlock_#{dom_id(@ability)}").effect("highlight");
-| $("#unlock_#{dom_id(@ability)}").html("#{j render partial: "/ability_purchases/ability_purchase", locals: {ability: @ability, ability_purchase: AbilityPurchase.new}}");
+-@ability_purchase = AbilityPurchase.new
+| $("#unlock_#{dom_id(@ability)}").html("#{j render partial: "/ability_purchases/ability_purchase", locals: {ability: @ability}}");

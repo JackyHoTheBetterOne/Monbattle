@@ -48,7 +48,7 @@
                 =render partial: "admin/modal_button", locals: {modal_label: "abilityLabel_#{dom_id(ability)}", modal_id: "abilityModal_#{dom_id(ability)}", form_is_for: "abilities/form", button_name: "Edit", form_title: "Edit Ability"}
                 / br=link_to "Delete", ability, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger"
               td id="unlock_#{dom_id(ability)}"
-                =render partial: "ability_purchases/ability_purchase", locals: {ability: ability, ability_purchase: @ability_purchase}
+                =render partial: "ability_purchases/ability_purchase", locals: {ability: ability}
 
   -if ability.effects.empty?
   -else

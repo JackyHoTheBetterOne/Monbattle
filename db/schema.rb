@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141031214757) do
+ActiveRecord::Schema.define(version: 20141102200715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -321,8 +321,6 @@ ActiveRecord::Schema.define(version: 20141031214757) do
     t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
-    t.integer  "physical_resistance"
-    t.integer  "ability_resistance"
     t.integer  "default_skin_id"
     t.integer  "default_sock1_id"
     t.integer  "default_sock2_id"
