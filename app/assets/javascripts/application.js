@@ -14,8 +14,9 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require jquery-ui
-//= require_tree .
 //= require turbolinks
+//= require_tree .
+
 
 
 window.fbAsyncInit = function() {
