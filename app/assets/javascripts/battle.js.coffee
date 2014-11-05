@@ -7,6 +7,9 @@ window.fixEvolMon = (monster, player) ->
   monster.physical_resistance = 0
   monster.special_resistance = 0
   monster.fucking_up = []
+  monster.fucked_up = []
+  monster.taunted = {}
+  monster.taunted.target = undefined
   monster.team = battle.players.indexOf(player)
   monster.index = player.mons.indexOf(monster)
   monster.isAlive = ->
@@ -41,7 +44,7 @@ window.fixEvolMon = (monster, player) ->
         while i < ability.effects.length
           effect = a.effects[i]
           switch effect.targeta
-            when "round-poison-health", "round-poison-resistance"
+            when "round-poison-health", "round-poison-resistance", "round-timed-resistance", "taunt"
               effect.activate [abilitytargets]
             when "self"
               effect.activate [monster]
@@ -87,16 +90,13 @@ window.fixEvolMon = (monster, player) ->
       @activate = (effectTargets) ->
         e = this
         i = 0
-        if e.targeta.indexOf("poison") is -1
+        if e.targeta.indexOf("taunt") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
-            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-            checkMin()
-            checkMax()
-            monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
+            monTarget.taunted.target = battle.players[0].indexOf(monster)
+            monTarget.taunted.end = battle.round + e.duration
             i++
-          return
-        else 
+        else if e.targeta.indexOf("poison") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
             status = {}
@@ -105,6 +105,27 @@ window.fixEvolMon = (monster, player) ->
             status["impact"] = e.modifier + e.change
             status["end"] = battle.round + e.duration
             monTarget.fucking_up.push(status)
+            i++
+          return      
+        else if e.targeta.indexOf("timed") isnt -1
+          while i < effectTargets.length
+            monTarget = effectTargets[i]
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+            status = {}
+            status["name"] = e.name
+            status["stat"] = e.stat
+            status["restore"] = e.restore
+            status["end"] = battle.round + e.duration
+            monTarget.fucked_up.push(status)
+            i++
+          return
+        else 
+          while i < effectTargets.length
+            monTarget = effectTargets[i]
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+            checkMin()
+            checkMax()
+            monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             i++
           return
 
@@ -488,7 +509,7 @@ window.roundEffectHappening = (team) ->
   n = battle.players[team].mons.count
   while i < n 
     mon = battle.players[team].mons[i]
-    if mon.fucking_up.length isnt 0 
+    if mon.fucking_up.length isnt 0 and mon.isAlive()
       ii = 0 
       nn = mon.fucking_up.length
       while ii < nn
@@ -502,7 +523,16 @@ window.roundEffectHappening = (team) ->
           mon.isAlive() if typeof monTarget.isAlive isnt "undefined"
         ii++
       return
-      $("." + team + " " + ".mon" + i + " " + ".img" ).effect("shake")
+    if mon.fucked_up.length isnt 0 and mon.isAlive()
+      iii = 0 
+      nnn = mon.fucked_up.length
+      while iii < nnn 
+        e = mon.fucked_up[iii]
+        if battle.round is e.end
+          mon[e.stat] = eval(mon[e.stat] + e.restore)
+          delete mon.fucked_up[iii]
+        iii++
+      return
     i++
   return
   hpChangeBattle()
@@ -606,9 +636,14 @@ window.controlAI = (monIndex) ->
     $(".battle-message").text(
       monster.name + ":" + " " + getRandom(monster.speech)).
       effect("highlight", 500)
-    battle.players[1].ap = 1000000000
     abilityIndex = getRandom(aiAbilities)
-    targetIndex = getRandom(aiTargets)
+    if monster.taunted.target is undefined 
+      window.targetIndex = getRandom(aiTargets)
+    else if battle.round is monster.taunted.end 
+      window.targetIndex = getRandom(aiTargets)
+      monster.taunted.target = undefined
+    else 
+      window.targetIndex = monster.taunted.target
     ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
     switch ability.targeta
       when "attack"
@@ -692,7 +727,7 @@ window.controlAI = (monIndex) ->
 
 
 
-############################################################################################################### AI actions
+############################################################################################################### AI action happening
 window.ai = ->
   roundEffectHappening(1)
   $(".img").removeClass("controlling")
@@ -703,6 +738,7 @@ window.ai = ->
   disable($(".end-turn"))
   battle.players[0].ap = 0
   battle.players[0].turn = false
+  battle.players[1].ap = 1000000000
   enemyTimer()
   setTimeout (->
     feedAiTargets()
@@ -745,7 +781,7 @@ window.ai = ->
 
 
 
-############################################################################################## Start of Ajax
+####################################################################################################### Start of Ajax
 $ ->
   $.ajax if $(".battle").length > 0
     url: "http://localhost:3000/battles/" + $(".battle").data("index") + ".json"
@@ -814,9 +850,9 @@ $ ->
             targets = [ player.enemies[targetIndex] ]
           when "targetally"
             targets = [ player.mons[targetIndex] ]
-          when "aoeenemy"
+          when "aoeenemy", "aoeprenemy", "aoesrenemy"
             targets = player.enemies
-          when "aoeally"
+          when "aoeally", "aoeprally", "aoesrally"
             targets = player.mons
           when "ability"
             targets = [player.mons[targetIndex].abilities[0]]
@@ -840,7 +876,7 @@ $ ->
           $(monDiv + " " + ".ability").data("target", evolved_mon.abilities[1].targeta)
           $(monDiv + " " + ".ability").data("apcost", evolved_mon.abilities[1].ap_cost)
           hpChangeBattle()
-#################################################################################################  Player logic
+################################################################################################################  Player logic
       $(battle.players).each ->
         player = @
         player.turn = true
@@ -857,7 +893,7 @@ $ ->
         $(player.mons).each ->
           monster = @
           fixEvolMon(monster, player)
-###############################################################################################  Battle interaction
+#################################################################################################################  Battle interaction
       window.feed = ->
         targets.shift()
       window.currentBut = undefined
@@ -895,7 +931,7 @@ $ ->
         $(this).css("background-image", "-webkit-linear-gradient(top, #606060 0%, #131313 100%)")
         return
       $(document).on("click.endTurn", "button.end-turn", ai)
-#####################################################################################################  User move interaction
+##########################################################################################################  User move interaction
       $(document).on "click.button", ".user.mon-slot .monBut button", ->
         $(".end-turn").prop("disabled", true)
         ability = $(this)
@@ -921,7 +957,7 @@ $ ->
           window.targets = targets.concat(ability.data("index"))  if targets.length isnt 3
           if targets.length isnt 0
             switch ability.data("target")
-#################################################################################################  Player ability interaction
+########################################################################################################  Player ability interaction
               when "attack"
                 toggleEnemyClick()
                 $(".battle-guide.guide").text("Select an enemy target")
@@ -1020,7 +1056,7 @@ $ ->
                       return
                     ), 1200
                     return
-              when "aoeenemy", "aoepr", "aoesr"
+              when "aoeenemy", "aoeprenemy", "aoesrenemy"
                 $(document).off "click.cancel", ".cancel"
                 disable(ability)
                 $(".user .img").removeClass("controlling")
@@ -1045,7 +1081,7 @@ $ ->
                     return
                   ), 1200
                   return
-              when "aoeally"
+              when "aoeally", "aoeprally", "aoesrally"
                 toggleImg()
                 $(document).off "click.cancel", ".cancel"
                 disable(ability)
