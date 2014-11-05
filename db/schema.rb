@@ -323,6 +323,7 @@ ActiveRecord::Schema.define(version: 20141031211050) do
     t.integer  "default_skin_id"
     t.integer  "default_sock1_id"
     t.integer  "default_sock2_id"
+    t.string   "stage"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
