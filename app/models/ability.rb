@@ -10,14 +10,11 @@ class Ability < ActiveRecord::Base
   has_many :jobs, through: :ability_restrictions
 
   has_many :ability_purchases, dependent: :destroy
-  has_many :ability_purchased_users, through: :ability_purchases, source: :user
+  # has_many :ability_purchased_users, through: :ability_purchases, source: :user
   has_many :ability_effects, dependent: :destroy
   has_many :effects, through: :ability_effects
 
-  has_many :ability_equippings, dependent: :destroy
-  has_many :monster_unlocks, through: :ability_equippings
-  has_many :equipped_monsters, through: :ability_equippings, source: :monster
-  has_many :equipped_users, through: :ability_equippings, source: :user
+  has_many :monster_unlocks, through: :ability_purchases
 
   has_attached_file :image,
                     styles: { large: "300 x 375>",
@@ -83,7 +80,7 @@ class Ability < ActiveRecord::Base
   }
 
   scope :abilities_purchased, -> (user) {
-    @abil_ids = find_abils_through_ability_purchase(user).pluck(:ability_id)
+    @abil_ids = find_purchased(user).pluck(:ability_id).uniq
     where(id: @abil_ids)
   }
 
@@ -97,37 +94,41 @@ class Ability < ActiveRecord::Base
     where(rarity_id: Rarity.worth(rarity))
   }
 
+  scope :excluding, -> (abil) {
+    where('id not in (?)', abil)
+  }
+
   ####################
 
-  def number_of_self_owned(user)
-    ability_purchase_records_of_self(user).count
-  end
+  # def number_of_self_owned(user)
+  #   purchased_abilities.pluck(:user_id).count
+  # end
 
-  def number_of_self_equipped(user)
-    @abil_purchase_ids = ability_purchase_records_of_self(user).pluck(:id)
-    ability_equipping_records_of_self(@abil_purchase_ids).count
-  end
+  # def number_of_self_equipped(user)
+  #   @abil_purchase_ids = ability_purchase_records_of_self(user).pluck(:id)
+  #   ability_equipping_records_of_self(@abil_purchase_ids).count
+  # end
 
-  def ability_purchase_records_of_self(user)
-    AbilityPurchase.number_of_ability_owned(user, self.id)
-  end
+  # def ability_purchase_records_of_self(user)
+  #   AbilityPurchase.number_of_ability_owned(user, self.id)
+  # end
 
-  def ability_equipping_records_of_self(abil_purchase_ids)
-    AbilityEquipping.find_times_abil_is_equipped(abil_purchase_ids)
-  end
+  # def ability_equipping_records_of_self(abil_purchase_ids)
+  #   AbilityEquipping.find_times_abil_is_equipped(abil_purchase_ids)
+  # end
 
-  def find_first_abil_purchase_id_not_in_use(user)
-    @abil_purchase_ids           = ability_purchase_records_of_self(user).pluck(:id)
-    @abil_purchase_ids_in_use    = ability_equipping_records_of_self(@abil_purchase_ids).pluck(:ability_purchase_id)
-    @abil_purchase_ids_available = @abil_purchase_ids - @abil_purchase_ids_in_use
-    @abil_purchase_ids_available.first
-  end
+  # def find_first_abil_purchase_id_not_in_use(user)
+  #   @abil_purchase_ids           = ability_purchase_records_of_self(user).pluck(:id)
+  #   @abil_purchase_ids_in_use    = ability_equipping_records_of_self(@abil_purchase_ids).pluck(:ability_purchase_id)
+  #   @abil_purchase_ids_available = @abil_purchase_ids - @abil_purchase_ids_in_use
+  #   @abil_purchase_ids_available.first
+  # end
 
-  def number_of_self_available(user)
-    number_of_self_owned(user) - number_of_self_equipped(user)
-  end
+  # def number_of_self_available(user)
+  #   number_of_self_owned(user) - number_of_self_equipped(user)
+  # end
 
-  def self.find_abils_through_ability_purchase(user)
+  def self.find_purchased(user)
     AbilityPurchase.where(user_id: user)
   end
 
@@ -153,6 +154,9 @@ class Ability < ActiveRecord::Base
     AbilSocket.find(socket_id).socket_num
   end
 
+  def socket
+    self.abil_socket.socket_num
+  end
 
   def self.find_name(id)
     where(id: id).pluck(:name)

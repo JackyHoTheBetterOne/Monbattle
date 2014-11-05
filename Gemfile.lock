@@ -58,6 +58,11 @@ GEM
     animate-rails (1.0.7)
       rails
     arel (5.0.1.20140414130214)
+    aws-sdk (1.57.0)
+      aws-sdk-v1 (= 1.57.0)
+    aws-sdk-v1 (1.57.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -246,6 +251,7 @@ PLATFORMS
 DEPENDENCIES
   aasm
   animate-rails
+  aws-sdk
   binding_of_caller
   bootstrap-sass
   cocoon

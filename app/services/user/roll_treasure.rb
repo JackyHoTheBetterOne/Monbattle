@@ -63,8 +63,7 @@ class User::RollTreasure
           @summoner.save
           @abilities = Ability.can_win(@rarity)
           @abil_array = @abilities.pluck(:id)
-          @abil_position = Random.new.rand(@abil_array.count)
-          @abil_id_won = @abil_array[@abil_position]
+          @abil_id_won = @abil_array.sample
           @abil_won_name = @abilities.find_name(@abil_id_won)
 
           AbilityPurchase.create(user_id: @user.id, ability_id: @abil_id_won)
@@ -90,8 +89,7 @@ class User::RollTreasure
           @summoner.save
           @monsters     = Monster.can_win(@rarity)
           @mon_array    = @monsters.pluck(:id)
-          @mon_position = Random.new.rand(@mon_array.count)
-          @mon_id_won   = @mon_array[@mon_position]
+          @mon_id_won   = @mon_array.sample
           @mon_won_name = @monsters.find_name(@mon_id_won)
 
           if MonsterUnlock.unlock_check(@user, @mon_id_won).exists?

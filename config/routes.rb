@@ -21,15 +21,14 @@ resources :monster_skins, except: [:destroy] do
   resources :monster_skin_purchases, only: [:create, :destroy]
 end
 
-resources :abilities, except: [:destroy] do
-  resources :ability_purchases, only: [:create, :destroy]
-end
 
 resources :personalities, only: [:create, :destroy, :edit, :index] do
   resources :thoughts, only: [:create, :destroy]
 end
 
 resources :ability_equipping_for_users, only:[:update]
+resources :abilities, except: [:destroy]
+resources :ability_purchases, only: [:create, :edit]
 
 post "/facebook" => "battles#new"
 get "/cannot" => "home#illegal_access", as: :illegal

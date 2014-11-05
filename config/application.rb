@@ -27,5 +27,17 @@ module Monbattle
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.autoload_paths += Dir[Rails.root.join('app', 'services', '*').to_s]
+
+
+
+    config.paperclip_defaults = {
+      :preserve_files => false,
+      :storage => :s3,
+      :s3_host_name => "s3-us-west-2.amazonaws.com",
+      :default_url => "/images/:style/missing.png",
+      :s3_credentials => {:bucket => "monbattle", 
+        :access_key_id => Rails.application.secrets.amazon_access_key,
+        :secret_access_key => Rails.application.secrets.amazon_secret}
+    }
   end
 end

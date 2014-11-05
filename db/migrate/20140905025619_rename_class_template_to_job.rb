@@ -1,5 +1,7 @@
 class RenameClassTemplateToJob < ActiveRecord::Migration
   def change
-    rename_table :class_templates, :jobs
+    create_table :jobs do |t|
+      t.string :name
+    end
   end
 end
