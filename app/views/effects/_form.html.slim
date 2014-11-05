@@ -17,4 +17,6 @@
           .form-control=f.collection_select :stat_target_id, StatTarget.all, :id, :name
           =f.input :name
           =f.input :stat_change
+          =f.input :duration
+          =f.input :restore
           hr=f.submit class: 'btn btn-primary'

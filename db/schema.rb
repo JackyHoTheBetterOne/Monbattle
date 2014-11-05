@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102200715) do
+ActiveRecord::Schema.define(version: 20141105212330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,6 +146,8 @@ ActiveRecord::Schema.define(version: 20141102200715) do
     t.string   "stat_change"
     t.integer  "stat_target_id"
     t.text     "keywords"
+    t.integer  "duration",       default: 0
+    t.string   "restore",        default: "0"
   end
 
   add_index "effects", ["element_id"], name: "index_effects_on_element_id", using: :btree
