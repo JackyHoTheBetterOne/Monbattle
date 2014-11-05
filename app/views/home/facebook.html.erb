@@ -1,10 +1,10 @@
 <%= image_tag("first_banner.png", class: "sweet-home") %>
-<button class="btn btn-primary donation-button" data-toggle="modal" data-target="#myModal">
-  Donate
-</button>
-<p></p>
-<br/>
-<%= link_to "Start your journey", new_battle_path, class: "btn btn-success journey-start"%>
+<div class="landing-game-buttons">
+  <%= link_to "Start your journey", new_battle_path, class: "btn btn-success journey-start"%>
+  <button class="btn btn-primary donation-button" data-toggle="modal" data-target="#myModal">
+    Donate
+  </button>
+</div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
