@@ -17,8 +17,6 @@
 //= require turbolinks
 //= require_tree .
 
-
-
 window.fbAsyncInit = function() {
   FB.init({
     appId      : '1514420408809454',
@@ -26,5 +24,23 @@ window.fbAsyncInit = function() {
     version    : 'v2.1'
   });
 };
+
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1499816460269327',
+    xfbml      : true,
+    version    : 'v2.2'
+  });
+
+  // ADD ADDITIONAL FACEBOOK CODE HERE
+};
+
+(function(d, s, id){
+   var js, fjs = d.getElementsByTagName(s)[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement(s); js.id = id;
+   js.src = "//connect.facebook.net/en_US/sdk.js";
+   fjs.parentNode.insertBefore(js, fjs);
+ }(document, 'script', 'facebook-jssdk'));
 
 
