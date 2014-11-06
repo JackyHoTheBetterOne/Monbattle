@@ -350,7 +350,7 @@ window.outcome = ->
       append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>")
     $("#overlay").fadeIn(1000)
     $.ajax
-      url: "http://localhost:3000/battles/" + battle.id
+      url: "/battles/" + battle.id
       method: "patch"
       data: {
         "victor": battle.players[1].username,
@@ -373,7 +373,7 @@ window.outcome = ->
           $(".message").fadeIn 500
         ), 4000
     $.ajax
-      url: "http://localhost:3000/battles/" + battle.id
+      url: "/battles/" + battle.id
       method: "patch"
       data: {
         "victor": battle.players[0].username,
@@ -784,7 +784,7 @@ window.ai = ->
 ####################################################################################################### Start of Ajax
 $ ->
   $.ajax if $(".battle").length > 0
-    url: "http://localhost:3000/battles/" + $(".battle").data("index") + ".json"
+    url: "/battles/" + $(".battle").data("index") + ".json"
     dataType: "json"
     method: "get"
     error: ->

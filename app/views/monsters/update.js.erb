@@ -1,5 +1,5 @@
 $.ajax({
-  url: "http://localhost:3000/monsters/" + <%= @monster.id %>,
+  url: "/monsters/" + <%= @monster.id %>,
   method: "get",
   dataType: "json",
   error: function() {

@@ -8,7 +8,6 @@
 /.bundle
 /app/views/battles/.DS_Store
 /locales/secrets.yml
-/config/secrets.yml
 .DS_Store
 
 # Ignore the default SQLite database.
@@ -18,3 +17,6 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Ignore application configuration
+/config/application.yml

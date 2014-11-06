@@ -36,8 +36,8 @@ module Monbattle
       :s3_host_name => "s3-us-west-2.amazonaws.com",
       :default_url => "/images/:style/missing.png",
       :s3_credentials => {:bucket => "monbattle", 
-        :access_key_id => Rails.application.secrets.amazon_access_key,
-        :secret_access_key => Rails.application.secrets.amazon_secret}
+        :access_key_id => ENV["AMAZON_ACCESS_KEY"],
+        :secret_access_key => ENV["AMAZON_SECRET"]}
     }
   end
 end

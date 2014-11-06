@@ -9,7 +9,7 @@
         h1 Make some Stat Targets First!
       -else
         .form-group
-          h4=f.label "Select an Element for this Effect"
+          h4=f.label "Select an Element for this Effect: element needs to be gone"
           .form-control=f.collection_select :element_id, Element.all, :id, :name
           h4=f.label "Select a Target for this Effect"
           .form-control=f.collection_select :target_id, Target.all, :id, :name
