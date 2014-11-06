@@ -9,7 +9,7 @@ $ ->
     $(this).attr("src", "../assets/special_summon.png")
 
   $.ajax 
-    url: "http://localhost:3000/store"
+    url: "/store"
     method: "get"
     dataType: "json"
     error: ->
