@@ -30,7 +30,7 @@ resources :ability_equipping_for_users, only:[:update]
 resources :abilities, except: [:destroy]
 resources :ability_purchases, only: [:create, :edit]
 
-post "/facebook" => "battles#new"
+post "/facebook" => "home#facebook"
 get "/cannot" => "home#illegal_access", as: :illegal
 get "/home" => "home#index", as: :battle_preparation
 get "/store" => "home#store", as: :device_store

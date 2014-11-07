@@ -11,7 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141106180206) do
+
+ActiveRecord::Schema.define(version: 20141107001815) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -145,6 +147,12 @@ ActiveRecord::Schema.define(version: 20141106180206) do
     t.string   "stat_change"
     t.integer  "stat_target_id"
     t.text     "keywords"
+    t.integer  "duration",          default: 0
+    t.string   "restore",           default: "0"
+    t.string   "icon_file_name"
+    t.string   "icon_content_type"
+    t.integer  "icon_file_size"
+    t.datetime "icon_updated_at"
   end
 
   add_index "effects", ["element_id"], name: "index_effects_on_element_id", using: :btree
@@ -320,6 +328,8 @@ ActiveRecord::Schema.define(version: 20141106180206) do
     t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
+    t.integer  "physical_resistance"
+    t.integer  "ability_resistance"
     t.integer  "default_skin_id"
     t.integer  "default_sock1_id"
     t.integer  "default_sock2_id"

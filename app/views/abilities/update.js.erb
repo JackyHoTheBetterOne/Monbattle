@@ -1,11 +1,11 @@
-| $("#edit_#{dom_id(@ability)}").html("#{j render partial: "/abilities/ability", locals: {ability: @ability}}");
-
-
-
-
+$("#edit_#{dom_id(@ability)}").html("#{j render partial: "/abilities/ability", locals: {ability: @ability}}");
 
 <!-- $.ajax({
   url: "http://localhost:3000/abilities/" + <%= @ability.id %>,
+=======
+$.ajax({
+  url: "/abilities/" + <%= @ability.id %>,
+>>>>>>> d417bfd7b096abb2cf80d0a0c95e9cabf66cd2b7
   method: "get",
   dataType: "json",
   error: function() {
