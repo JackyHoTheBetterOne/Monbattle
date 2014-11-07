@@ -1,72 +1,131 @@
--@ability = ability
-.panel-group id="accordian#{dom_id(ability)}"
-  .panel.panel-primary
-    .panel-heading
-      h3.panel-title
-        a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseOne#{dom_id(ability)}" id="#{dom_id(ability)}-name"
-          | #{ability.name}
-    .panel-collapse.collapse.in id="collapseOne#{dom_id(ability)}"
-      .panel-body
-        table.table border="1"
-          thead
-            tr
-              th Available to
-              th Ap Cost
-              th Description
-              / th Lvl Required
-              th Element
-              th Target
-              th Stat Effected
-              th Stat Change
-              th Socket #
-              th Animation
-              th Portrait
-              th MP Cost
-              th GP Cost
-              th Rarity
-              th Edit
-              th Lock/Unlock
-          tbody
-            tr id="#{dom_id(ability)}-row"
-              td
-                -ability.jobs.each do |job|
-                  h5 #{job.name + " / Elvl " + job.evolve_lvl}
-              td.ap-cost=ability.ap_cost
-              td.description=ability.description
-              / td=ability.min_level
-              td.element=ability.element.name
-              td.target=ability.target.name
-              td.stat-target=ability.stat_target.name
-              td.stat-change=ability.stat_change
-              td=ability.abil_socket.socket_num
-              td.image=image_tag ability.image.url(:thumb)
-              td.portrait=image_tag ability.portrait.url(:thumb)
-              td.mp-cost=ability.mp_cost
-              td.gp-cost=ability.gp_cost
-              td.rarity=ability.rarity.try(:name)
-              td
-                =render partial: "admin/modal_button", locals: {modal_label: "abilityLabel_#{dom_id(ability)}", modal_id: "abilityModal_#{dom_id(ability)}", form_is_for: "abilities/form", button_name: "Edit", form_title: "Edit Ability"}
-                / br=link_to "Delete", ability, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger"
-              td id="unlock_#{dom_id(ability)}"
-                =render partial: "ability_purchases/ability_purchase", locals: {ability: ability}
+=simple_form_for(ability, remote: true) do |f|
+  .abil-desc-box.abil-boxes id="#{dom_id(ability)}-desc-box"
+    =f.input :description, rows: 1
+    =f.label "Ability Element"
+    =f.collection_select :element_id, Element.all, :id, :name
+  .abil-effects-box.abil-boxes id="#{dom_id(ability)}-effects-box"
+    -@ability.effects.each do |effect|
+      p=effect.name
+  .abil-images-box.abil-boxes id="#{dom_id(ability)}-images-box"
+    p Animation
+      =f.file_field :image
+    p Thumb
+      =f.file_field :portrait
+  .abil-adds-box.abil-boxes id="#{dom_id(ability)}-adds-box"
+    p Add for Admin
+    p Add for NPC
 
-  -if ability.effects.empty?
-  -else
-    .panel.panel-danger
-      .panel-heading
-        h3.panel-title
-          a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseTwo#{dom_id(ability)}"
-            | #{ability.name} Effects
-      .panel-collapse.collapse.in id="collapseTwo#{dom_id(ability)}"
-        .panel-body
-          table.table.table-striped border="1"
-            thead
-              tr
-                th Effect Name
-                th Element
-                th Target
-                th Stat Effected
-                th Stat Change
-                th Delete/Edit
-            tbody
-              =render ability.effects
+  tr id=dom_id(ability) class="abil-row"
+    td=f.submit "Save", class: 'btn btn-primary'
+    td
+      =f.text_field :name
+      br
+      br
+      =f.collection_select :rarity_id, Rarity.all, :id, :name
+    td=f.text_field :ap_cost
+    td
+      =f.collection_select :target_id, Target.all, :id, :name
+      br
+      =f.collection_select :stat_target_id, StatTarget.all,:id, :name
+      br
+      =f.text_field :stat_change
+    td=ability.abil_socket.try(:socket_num)
+    td=image_tag ability.image.url(:thumb)
+    td=image_tag ability.portrait.url(:thumb)
+    td
+      p MP:
+      =f.text_field :mp_cost
+      p GP:
+      =f.text_field :gp_cost
+    td
+      .abil-effects id="#{dom_id(ability)}-effects"
+        =ability.effects.empty? ? "Add Effect" : "Edit Effects"
+      .abil-desc id="#{dom_id(ability)}-desc" Description
+      .abil-images id="#{dom_id(ability)}-images" Images
+      .abil-adds id="#{dom_id(ability)}-adds" +1 To User
+      /Animation
+      /Portrait
+
+
+
+
+
+
+
+
+
+
+
+
+/ -@ability = ability
+/ .panel-group id="accordian#{dom_id(ability)}"
+/   .panel.panel-primary
+/     .panel-heading
+/       h3.panel-title
+/         a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseOne#{dom_id(ability)}" id="#{dom_id(ability)}-name"
+/           | #{ability.name}
+/     .panel-collapse.collapse.in id="collapseOne#{dom_id(ability)}"
+/       .panel-body
+/         table.table border="1"
+/           thead
+/             tr
+/               th Available to
+/               th Ap Cost
+/               th Description
+/               / th Lvl Required
+/               th Element
+/               th Target
+/               th Stat Effected
+/               th Stat Change
+/               th Socket #
+/               th Animation
+/               th Portrait
+/               th MP Cost
+/               th GP Cost
+/               th Rarity
+/               th Edit
+/               th Lock/Unlock
+/           tbody
+/             tr id="#{dom_id(ability)}-row"
+/               td
+/                 -ability.jobs.each do |job|
+/                   h5 #{job.name + " / Elvl " + job.evolve_lvl}
+/               td.ap-cost=ability.ap_cost
+/               td.description=ability.description
+/               / td=ability.min_level
+/               td.element=ability.element.name
+/               td.target=ability.target.name
+/               td.stat-target=ability.stat_target.name
+/               td.stat-change=ability.stat_change
+/               td=ability.abil_socket.try(:socket_num)
+/               td.image=image_tag ability.image.url(:thumb)
+/               td.portrait=image_tag ability.portrait.url(:thumb)
+/               td.mp-cost=ability.mp_cost
+/               td.gp-cost=ability.gp_cost
+/               td.rarity=ability.rarity.try(:name)
+/               td
+/                 =render partial: "admin/modal_button", locals: {modal_label: "abilityLabel_#{dom_id(ability)}", modal_id: "abilityModal_#{dom_id(ability)}", form_is_for: "abilities/form", button_name: "Edit", form_title: "Edit Ability"}
+/                 / br=link_to "Delete", ability, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger"
+/               td id="unlock_#{dom_id(ability)}"
+/                 =render partial: "ability_purchases/ability_purchase", locals: {ability: ability}
+
+/   -if ability.effects.empty?
+/   -else
+/     .panel.panel-danger
+/       .panel-heading
+/         h3.panel-title
+/           a data-parent="#accordion#{dom_id(ability)}" data-toggle="collapse" href="#collapseTwo#{dom_id(ability)}"
+/             | #{ability.name} Effects
+/       .panel-collapse.collapse.in id="collapseTwo#{dom_id(ability)}"
+/         .panel-body
+/           table.table.table-striped border="1"
+/             thead
+/               tr
+/                 th Effect Name
+/                 th Element
+/                 th Target
+/                 th Stat Effected
+/                 th Stat Change
+/                 th Delete/Edit
+/             tbody
+/               =render ability.effects

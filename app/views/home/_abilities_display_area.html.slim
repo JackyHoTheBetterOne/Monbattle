@@ -1,7 +1,4 @@
 .scroll-wrapper
   -@abilities.find_default_abilities_available(socket_num, mon.job).each do |abil|
     .ability-pane id="#{dom_id(mon)+"_"+dom_id(abil)}"
-      -@own = @ability_purchases.owned(abil).count
-      -@available = @ability_purchases.not_equipped(abil)
-      -@available_count = @available.count
       =render partial: "home/abil_pane", locals: {socket_num: socket_num, mon: mon, abil: abil}

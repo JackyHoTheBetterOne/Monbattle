@@ -1,4 +1,10 @@
-$.ajax({
+| $("#edit_#{dom_id(@ability)}").html("#{j render partial: "/abilities/ability", locals: {ability: @ability}}");
+
+
+
+
+
+<!-- $.ajax({
   url: "http://localhost:3000/abilities/" + <%= @ability.id %>,
   method: "get",
   dataType: "json",
@@ -21,4 +27,4 @@ $.ajax({
     $("#ability_" + ability.id + "-row" + " " + ".mp-cost").text(ability.mp_cost);
     $("#ability_" + ability.id + "-row" + " " + ".gp-cost").text(ability.gp_cost)
   }
-});
+}); -->

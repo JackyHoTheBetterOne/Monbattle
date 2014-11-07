@@ -10,12 +10,12 @@ $ ->
       $(".ability_job_check_boxes input").prop("checked", false)
     return
 
-# $('.abil_form_check_all').click(function(event){ $('.ability_job_check_boxes input').prop("checked", true);  });
+  $(document).on "click", ".abil-effects, .abil-desc, .abil-images, .abil-adds", ->
+    abil = $(this).attr("id")
+    $("#" + abil + "-box").show("slide", { direction: "up" }, 300)
+    # if any value within .abil-boxes has show, hide them.
+    # else
+      # show the one clicked
 
-  # $('#abil_form_check_all').click(function(event){
-  #     if(this.checked) {
-  #       $(".ability_job_check_boxes input").prop("checked", true);
-  #     }else {
-  #       $(".ability_job_check_boxes input").prop("checked", false);
-  #       }
-  # });
+  $(document).on "click", ".abil-boxes", ->
+    $(".abil-boxes").hide("slide", { direction: "up" }, 300)

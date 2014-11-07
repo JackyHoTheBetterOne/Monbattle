@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102200715) do
+ActiveRecord::Schema.define(version: 20141106180206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 20141102200715) do
     t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
-    t.text     "former_name",           default: ""
   end
 
   add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree

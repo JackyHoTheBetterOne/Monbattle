@@ -1,5 +1,5 @@
 =simple_form_for(@ability, remote: true) do |f|
-  = hidden_field_tag :authenticity_token, form_authenticity_token
+  / = hidden_field_tag :authenticity_token, form_authenticity_token
   div class="form-group"
     -case true
       -when Job.all.empty?
@@ -50,5 +50,5 @@
           =f.input :mp_cost
           =f.input :gp_cost
           =f.input :description
-          =f.hidden_field :former_name, value: @ability.name
+          / =f.hidden_field :former_name, value: @ability.name
           hr=f.submit class: 'btn btn-primary'
