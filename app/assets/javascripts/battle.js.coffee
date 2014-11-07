@@ -372,13 +372,13 @@ window.outcome = ->
         $(".cutscene").fadeOut 500, ->
           $(".message").fadeIn 500
         ), 4000
-    $.ajax
-      url: "/battles/" + battle.id
-      method: "patch"
-      data: {
-        "victor": battle.players[0].username,
-        "loser": battle.players[1].username
-      }
+      $.ajax
+        url: "/battles/" + battle.id
+        method: "patch"
+        data: {
+          "victor": battle.players[0].username,
+          "loser": battle.players[1].username
+        }
   return
 
 window.checkApAvailbility = ->

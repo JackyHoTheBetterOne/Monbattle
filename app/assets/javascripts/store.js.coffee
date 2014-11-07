@@ -18,7 +18,7 @@ $ ->
       window.latest_abilities = response
   $(document).on "click", ".king-roll", ->
     $.ajax 
-      url: "http://localhost:3000/home/roll_treasure"
+      url: "/home/roll_treasure"
       method: "get"
       dataType: "json"
       error: ->

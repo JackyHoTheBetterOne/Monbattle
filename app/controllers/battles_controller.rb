@@ -41,7 +41,7 @@ class BattlesController < ApplicationController
     impressionist(@battle)
     @user_party = @battle.parties[0]
     @pc_party   = @battle.parties[1]
-    if @battle.impressionist_count <= 2
+    if @battle.impressionist_count <= 1000
       respond_to do |format|
         format.html { render layout: "facebook_landing" if current_user.admin == false }
         format.json { render json: @battle.build_json  }
