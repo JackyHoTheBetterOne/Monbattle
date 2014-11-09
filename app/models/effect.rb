@@ -14,9 +14,8 @@ class Effect < ActiveRecord::Base
 
   before_save :set_keywords
 
-  has_attached_file :icon, :styles => { :cool => "40x40>", :thumb => "100x100>" }, 
-                    :default_url => "/images/:style/missing.png"
-  validates_attachment_content_type :background, :content_type => /\Aimage\/.*\Z/
+  has_attached_file :icon, :styles => { :cool => "40x40>", :thumb => "100x100>" }
+  validates_attachment_content_type :icon, :content_type => /\Aimage\/.*\Z/
 
   def stat
     self.stat_target.name.downcase

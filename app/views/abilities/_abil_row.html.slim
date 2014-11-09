@@ -1,0 +1,30 @@
+.col-md-2
+  p Name: &nbsp #{f.text_field :name}
+  p +/- Val: &nbsp #{f.text_field :stat_change}
+  =f.submit "Save", class: 'btn btn-primary btn-sm btn-save', id: "#{dom_id(ability)}-save"
+.col-md-1
+  p AP: &nbsp #{f.text_field :ap_cost, class: "cost-input"}
+  p MP: &nbsp #{f.text_field :mp_cost, class: "cost-input"}
+  p GP: &nbsp #{f.text_field :gp_cost, class: "cost-input"}
+.col-md-2
+  p Rarity: &nbsp #{f.collection_select :rarity_id, Rarity.all, :id, :name, class: "abil-drop"}
+  p Target: &nbsp #{f.collection_select :target_id, Target.all, :id, :name, class: "abil-drop"}
+  p Stat: &nbsp &nbsp #{f.collection_select :stat_target_id, StatTarget.all,:id, :name, class: "abil-drop"}
+.col-md-1 class="abil-imgs"
+  =image_tag ability.image.url(:thumb), class: "abil-img"
+  =image_tag ability.portrait.url(:thumb), class: "abil-img"
+  br
+  br
+  p Sock#: &nbsp #{ability.abil_socket.socket_num}
+.col-md-1
+  .abil-effects id="#{dom_id(ability)}-effects"
+    =ability.effects.empty? ? "Add Effect" : "Add/Rem Eft"
+  .abil-desc id="#{dom_id(ability)}-desc" Description
+  .abil-images id="#{dom_id(ability)}-images" Images
+  .abil-adds id="#{dom_id(ability)}-adds" +1 To User
+.col-md-4
+  .effects
+    -ability.effects.each do |effect|
+      .effect_div
+        / =render partial: "", locals: {ability: ability, effect: effect}
+        =effect.name

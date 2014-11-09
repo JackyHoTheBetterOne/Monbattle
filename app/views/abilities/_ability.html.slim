@@ -1,11 +1,29 @@
 =simple_form_for(ability, remote: true) do |f|
+
   .abil-desc-box.abil-boxes id="#{dom_id(ability)}-desc-box"
-    =f.input :description, rows: 1
-    =f.label "Ability Element"
+    / =render partial: "abilities/abil_desc_box", locals: {ability: ability}
+    =f.input :description, rows: 2
+    =f.label "Element"
     =f.collection_select :element_id, Element.all, :id, :name
+    h4=f.label "Job restrictions for this Ability"
+    input type="checkbox" class="abil_form_check_all"
+      | Select All
+    .ability_job_check_boxes
+      =hidden_field_tag "ability[job_ids][]", nil
+      .row
+        -Job.all.each do |job|
+          .col-md-6
+            li
+              =check_box_tag "ability[job_ids][]", job.id, @ability.job_ids.include?(job.id), id: dom_id(job)
+              =label_tag dom_id(job), job.name
   .abil-effects-box.abil-boxes id="#{dom_id(ability)}-effects-box"
-    -@ability.effects.each do |effect|
-      p=effect.name
+    / =render partial: "abilities/abil_effect_box", locals: {ability: ability}
+    h4=f.label "Secondary effects"
+    =hidden_field_tag "ability[effect_ids][]", nil
+    -Effect.all.each do |effect|
+      =check_box_tag "ability[effect_ids][]", effect.id, @ability.effect_ids.include?(effect.id), id: dom_id(effect)
+      =label_tag dom_id(effect), effect.name
+
   .abil-images-box.abil-boxes id="#{dom_id(ability)}-images-box"
     p Animation
       =f.file_field :image
@@ -15,36 +33,9 @@
     p Add for Admin
     p Add for NPC
 
-  tr id=dom_id(ability) class="abil-row"
-    td=f.submit "Save", class: 'btn btn-primary'
-    td
-      =f.text_field :name
-      br
-      br
-      =f.collection_select :rarity_id, Rarity.all, :id, :name
-    td=f.text_field :ap_cost
-    td
-      =f.collection_select :target_id, Target.all, :id, :name
-      br
-      =f.collection_select :stat_target_id, StatTarget.all,:id, :name
-      br
-      =f.text_field :stat_change
-    td=ability.abil_socket.try(:socket_num)
-    td=image_tag ability.image.url(:thumb)
-    td=image_tag ability.portrait.url(:thumb)
-    td
-      p MP:
-      =f.text_field :mp_cost
-      p GP:
-      =f.text_field :gp_cost
-    td
-      .abil-effects id="#{dom_id(ability)}-effects"
-        =ability.effects.empty? ? "Add Effect" : "Edit Effects"
-      .abil-desc id="#{dom_id(ability)}-desc" Description
-      .abil-images id="#{dom_id(ability)}-images" Images
-      .abil-adds id="#{dom_id(ability)}-adds" +1 To User
-      /Animation
-      /Portrait
+  .row.abil-row id=dom_id(ability)
+    =render partial: "abilities/abil-row", locals: {ability: ability}
+
 
 
 

@@ -21,7 +21,6 @@ resources :monster_skins, except: [:destroy] do
   resources :monster_skin_purchases, only: [:create, :destroy]
 end
 
-
 resources :personalities, only: [:create, :destroy, :edit, :index] do
   resources :thoughts, only: [:create, :destroy]
 end
@@ -62,7 +61,6 @@ resources :targets, only: [:create, :destroy]
 resources :stat_targets, only: [:create, :destroy]
 resources :abil_sockets, only: [:create, :destroy]
 resources :monster_skin_equippings, only: [:create, :destroy, :update]
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

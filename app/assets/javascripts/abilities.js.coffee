@@ -10,6 +10,10 @@ $ ->
       $(".ability_job_check_boxes input").prop("checked", false)
     return
 
+  $(document).on "click", ".abil-row", ->
+    abil = $(this).attr("id")
+    $("#" + abil + "-save").show().effect('highlight')
+
   $(document).on "click", ".abil-effects, .abil-desc, .abil-images, .abil-adds", ->
     abil = $(this).attr("id")
     $("#" + abil + "-box").show("slide", { direction: "up" }, 300)

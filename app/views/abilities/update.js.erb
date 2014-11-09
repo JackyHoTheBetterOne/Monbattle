@@ -1,3 +1,13 @@
+=simple_form_for(@ability, remote: true) do |f|
+
+
+
+
+
+
+
+
+
 $("#edit_#{dom_id(@ability)}").html("#{j render partial: "/abilities/ability", locals: {ability: @ability}}");
 
 <!-- $.ajax({
