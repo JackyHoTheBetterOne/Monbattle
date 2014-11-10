@@ -1,8 +1,8 @@
-.ability
-  =simple_form_for(ability, remote: true) do |f|
+.ability id="#{dom_id(ability)}-abil-rows"
 
-    .abil-row id=dom_id(ability)
-      =render partial: "abilities/abil_row", locals: {ability: ability, f: f}
+
+  .abil-row id=dom_id(ability)
+    =render partial: "abilities/abil_row", locals: {ability: ability}
 
   .row.abil-effects-row id="#{dom_id(ability)}-effects-row"
     =render partial: "abilities/abil_effects", locals: {ability: ability}

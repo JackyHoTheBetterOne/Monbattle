@@ -1,45 +1,25 @@
-// Make all inputs within this page nested
-// @mixin abs-div-top($width) {
-//   position: absolute;
-//   width: $width;
-//   height: 250px;
-//   top: 0;
-//   right: 0;
-//   left: 0;
-//   background: black;
-//   display: none;
-//   z-index: 1;
-//   font-size: 12px;
-//   padding-left: 15px;
-//   padding-right: 15px;
-//   padding-top: 15px;
-//   overflow-y: scroll;
-//   .close-top-display{
-//     background: red;
-//     bottom: 0;
-//     width: 100%;
-//     position: absolute;
-//   }
-// }
+@mixin row-set($font-size) {
+  font-size: $font-size;
+  padding-top: 3px;
+  overflow: hidden;
+  white-space: nowrap;
+  .col-abils {
+    border: 1px solid black;
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-bottom: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    p {
+      margin: 0px;
+    }
+  }
+}
 
-// @mixin rel-div($width, $height) {
-//   position: relative;
-//   width: $width;
-//   height: $height;
-// }
-
-// .abil-effects-box {
-//   @include abs-div-top(100%);
-// }
-// .abil-desc-box {
-//   @include abs-div-top(100%);
-// }
-// .abil-images-box {
-//   @include abs-div-top(100%);
-// }
-// .abil-adds-box {
-//   @include abs-div-top(100%);
-// }
+@mixin dimensions($width, $height) {
+    width: $width;
+    height: $height;
+}
 
 .nav-admin {
   .nav-title {
@@ -70,24 +50,10 @@
   overflow: scroll;
   border: 2px solid black;
   .abil-row {
-    font-size: 10px;
-    padding-top: 3px;
-    overflow: hidden;
-    white-space: nowrap;
+    @include row-set(10px);
     .cost-input {
       width: 45px;
       height: 20px;
-    }
-    .col-abils {
-      border: 1px solid black;
-      padding-left: 1px;
-      padding-right: 1px;
-      padding-bottom: 5px;
-      overflow: hidden;
-      white-space: nowrap;
-      p {
-        margin: 0px;
-      }
     }
     .costs-row {
       display: none;
@@ -126,27 +92,25 @@
 }
 
 .abil-effects-row {
+  @include row-set(8px);
+  padding-left: 15px;
   display: none;
-  .effects-div {
-    font-size: 10px;
-    // overflow: scroll;
+  .effect-div {
     .eff-name {
-      width: 110px;
-      height: 15px;
+      @include dimensions(85px, 15px);
     }
     .eff-cost-input {
-      width: 45px;
-      height: 15px;
+      @include dimensions(40px, 15px);
     }
     select {
-      width: 60px;
+      background-color: black;
+      width: 50px;
       height: 15px;
     }
     .eff-save {
-    width: 40px;
-    height: 20px;
-    font-size: 8px;
-    // display: none;
+      @include dimensions(40px, 20px);
+      font-size: 8px;
+      // display: none;
     }
   }
 }

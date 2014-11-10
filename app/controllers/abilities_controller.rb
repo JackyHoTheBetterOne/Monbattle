@@ -72,8 +72,8 @@ class AbilitiesController < ApplicationController
       if @ability.save
         format.js
       else
-        flash[:error] = "You fucked up"
-        alert.now[:error] = "Error read console and refresh page"
+        format.js
+        # alert.now[:error] = "Error read console and refresh page"
         @ability.errors.full_messages.each { |msg| p msg }
       end
     end

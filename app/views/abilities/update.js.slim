@@ -1,14 +1,14 @@
--errors = @ability.errors.full_messages
+-if @ability.errors.any?
+  | $("##{dom_id(@ability)}-abil-rows").html("You fucked up bad this time Frank, check console for error").effect("pulsate", 2000).effect("highlight").hide("explode", {pieces: 24 }, 2000)
+-else
+  | $("##{dom_id(@ability)}-abil-rows").effect("highlight");
+  | $("##{dom_id(@ability)}-save").hide();
 
-| $("##{dom_id(@ability)}-effects-row").html("#{j render partial: "abilities/abil_effects", locals: {ability: @ability}}").hide("slide", { direction: "up" }, 300)
+  | $("##{dom_id(@ability)}-effects-row").html("#{j render partial: "abilities/abil_effects", locals: {ability: @ability}}")
 
-=simple_form_for(@ability, remote: true) do |f|
-  | $("##{dom_id(@ability)}").html("#{j render partial: "abilities/abil_row", locals: {ability: @ability, f: f, errors: errors}}");
+  / | $("##{dom_id(@ability)}").html("#{j render partial: "abilities/abil_row", locals: {ability: @ability}}");
 
-| $("##{dom_id(@ability)}-save").hide();
-
-
--@ability = Ability.new
+  -@ability = Ability.new
 
 
 
