@@ -64,7 +64,6 @@ class AbilitiesController < ApplicationController
     @stat_targets = StatTarget.all
     @target = Target.new
     @targets = Target.all
-    @ability = Ability.new
     @ability_purchase = AbilityPurchase.new
 
     authorize @ability
@@ -73,8 +72,9 @@ class AbilitiesController < ApplicationController
       if @ability.save
         format.js
       else
-        format.js
-        render :new
+        flash[:error] = "You fucked up"
+        alert.now[:error] = "Error read console and refresh page"
+        @ability.errors.full_messages.each { |msg| p msg }
       end
     end
   end

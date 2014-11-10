@@ -1,40 +1,11 @@
-=simple_form_for(ability, remote: true) do |f|
+.ability
+  =simple_form_for(ability, remote: true) do |f|
 
-  .abil-desc-box.abil-boxes id="#{dom_id(ability)}-desc-box"
-    / =render partial: "abilities/abil_desc_box", locals: {ability: ability}
-    =f.input :description, rows: 2
-    =f.label "Element"
-    =f.collection_select :element_id, Element.all, :id, :name
-    h4=f.label "Job restrictions for this Ability"
-    input type="checkbox" class="abil_form_check_all"
-      | Select All
-    .ability_job_check_boxes
-      =hidden_field_tag "ability[job_ids][]", nil
-      .row
-        -Job.all.each do |job|
-          .col-md-6
-            li
-              =check_box_tag "ability[job_ids][]", job.id, @ability.job_ids.include?(job.id), id: dom_id(job)
-              =label_tag dom_id(job), job.name
-  .abil-effects-box.abil-boxes id="#{dom_id(ability)}-effects-box"
-    / =render partial: "abilities/abil_effect_box", locals: {ability: ability}
-    h4=f.label "Secondary effects"
-    =hidden_field_tag "ability[effect_ids][]", nil
-    -Effect.all.each do |effect|
-      =check_box_tag "ability[effect_ids][]", effect.id, @ability.effect_ids.include?(effect.id), id: dom_id(effect)
-      =label_tag dom_id(effect), effect.name
+    .abil-row id=dom_id(ability)
+      =render partial: "abilities/abil_row", locals: {ability: ability, f: f}
 
-  .abil-images-box.abil-boxes id="#{dom_id(ability)}-images-box"
-    p Animation
-      =f.file_field :image
-    p Thumb
-      =f.file_field :portrait
-  .abil-adds-box.abil-boxes id="#{dom_id(ability)}-adds-box"
-    p Add for Admin
-    p Add for NPC
-
-  .row.abil-row id=dom_id(ability)
-    =render partial: "abilities/abil-row", locals: {ability: ability}
+  .row.abil-effects-row id="#{dom_id(ability)}-effects-row"
+    =render partial: "abilities/abil_effects", locals: {ability: ability}
 
 
 

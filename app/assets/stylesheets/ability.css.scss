@@ -1,33 +1,47 @@
 // Make all inputs within this page nested
-@mixin abs-div-top($width) {
-  position: absolute;
-  width: $width;
-  top: 0;
-  right: 0;
-  left: 0;
-  background: black;
-  display: none;
-  z-index: 1;
-}
-@mixin rel-div($width, $height) {
-  position: relative;
-  width: $width;
-  height: $height;
-}
-.abil-effects-box {
-  @include abs-div-top(100%);
-}
-.abil-desc-box {
-  @include abs-div-top(100%);
-}
-.abil-images-box {
-  @include abs-div-top(100%);
-}
-.abil-adds-box {
-  @include abs-div-top(100%);
-}
+// @mixin abs-div-top($width) {
+//   position: absolute;
+//   width: $width;
+//   height: 250px;
+//   top: 0;
+//   right: 0;
+//   left: 0;
+//   background: black;
+//   display: none;
+//   z-index: 1;
+//   font-size: 12px;
+//   padding-left: 15px;
+//   padding-right: 15px;
+//   padding-top: 15px;
+//   overflow-y: scroll;
+//   .close-top-display{
+//     background: red;
+//     bottom: 0;
+//     width: 100%;
+//     position: absolute;
+//   }
+// }
 
-.navbar {
+// @mixin rel-div($width, $height) {
+//   position: relative;
+//   width: $width;
+//   height: $height;
+// }
+
+// .abil-effects-box {
+//   @include abs-div-top(100%);
+// }
+// .abil-desc-box {
+//   @include abs-div-top(100%);
+// }
+// .abil-images-box {
+//   @include abs-div-top(100%);
+// }
+// .abil-adds-box {
+//   @include abs-div-top(100%);
+// }
+
+.nav-admin {
   .nav-title {
     h4 {
       font-size: 10px;
@@ -44,39 +58,95 @@
   }
 }
 
+.ability {
+  border: 2px solid red;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
 .abilities {
   width: 100%;
-  height: 900px;
+  height: 425px;
   overflow: scroll;
+  border: 2px solid black;
   .abil-row {
-      font-size: 10px;
+    font-size: 10px;
+    padding-top: 3px;
+    overflow: hidden;
+    white-space: nowrap;
+    .cost-input {
+      width: 45px;
+      height: 20px;
+    }
+    .col-abils {
       border: 1px solid black;
-      padding: 3px;
+      padding-left: 1px;
+      padding-right: 1px;
+      padding-bottom: 5px;
       overflow: hidden;
       white-space: nowrap;
-    .btn-save {
-      width: 100%;
-      height: 5%;
-      font-size: 8px;
-      display: none;
-    }
-    .cost-input {
-      width: 60%;
-    }
-    .abil-drop {
-      width: 50%;
-      height: 10%;
-    }
-    .abil-imgs {
-      .abil-img {
-        width: 50%;
-        height: 50%;
+      p {
+        margin: 0px;
       }
     }
-    .effects {
-      width: 100%;
-      height: 100%;
-      overflow: scroll;
+    .costs-row {
+      display: none;
+      .abil-imgs {
+        .abil-img {
+          width: 50%;
+          height: 50%;
+        }
+      }
+    }
+    .eff-sel-row, .jobs-row, .images-row {
+      border: 1px solid grey;
+      display: none;
+    }
+    .default-display-row {
+      .btn-save {
+        width: 60px;
+        height: 20px;
+        font-size: 10px;
+        display: none;
+      }
+      // .cost-input {
+      //   width: 60%;
+      //   height: 15px;
+      // }
+      .val-input {
+        width: 60%;
+        height: 15px;
+      }
+      .abil-drop {
+        width: 50%;
+        height: 10%;
+      }
+    }
+  }
+}
+
+.abil-effects-row {
+  display: none;
+  .effects-div {
+    font-size: 10px;
+    // overflow: scroll;
+    .eff-name {
+      width: 110px;
+      height: 15px;
+    }
+    .eff-cost-input {
+      width: 45px;
+      height: 15px;
+    }
+    select {
+      width: 60px;
+      height: 15px;
+    }
+    .eff-save {
+    width: 40px;
+    height: 20px;
+    font-size: 8px;
+    // display: none;
     }
   }
 }
