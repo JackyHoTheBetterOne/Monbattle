@@ -38,6 +38,10 @@ class Effect < ActiveRecord::Base
     self.stat_change.split("").drop(1).join("")
   end
 
+  def img
+    self.icon.url(:cool)
+  end
+
   private
   def set_keywords
     self.keywords = [name, stat_change, self.targeta, self.element.name].map(&:downcase).join(" ")
