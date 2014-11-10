@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141107001815) do
+ActiveRecord::Schema.define(version: 20141110191009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20141107001815) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "description"
-    t.string   "stat_change"
+    t.string   "stat_change",           default: ""
     t.integer  "target_id"
     t.integer  "element_id"
     t.integer  "stat_target_id"
@@ -143,7 +143,7 @@ ActiveRecord::Schema.define(version: 20141107001815) do
     t.datetime "updated_at"
     t.integer  "target_id"
     t.integer  "element_id"
-    t.string   "stat_change"
+    t.string   "stat_change",       default: ""
     t.integer  "stat_target_id"
     t.text     "keywords"
     t.integer  "duration",          default: 0
