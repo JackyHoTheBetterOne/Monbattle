@@ -1,3 +1,6 @@
+-@own = @ability_purchases.owned(abil).count
+-@available = @ability_purchases.not_equipped(abil)
+-@available_count = @available.count
 .ability-icon.shadowed2
   =image_tag abil.portrait.url(:small)
 .ability-info.shadowed2
