@@ -111,6 +111,7 @@ window.fixEvolMon = (monster, player) ->
       return
 ######################################################################################################### Effect logics
     $(ability.effects).each ->
+      @name = @name.replace(/\s+/g, '')
       @activate = (effectTargets) ->
         e = this
         i = 0
@@ -460,7 +461,7 @@ window.checkMonHealthAfterEffect = ->
     i++
 
 window.addEffectIcon = (monster, effect) -> 
-  $("<img src = '#{effect.icon}' class = '#{effect.name} #{effect.targeta}' >").prependTo(
+  $("<img src = '#{effect.img}' class = '#{effect.name} #{effect.targeta}' >").prependTo(
     "." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").effect("highlight", 300).
     data("description", effect.description).data("duration", effect.duration)
 
@@ -479,6 +480,7 @@ window.singleTargetAbilityAfterClickDisplay = ->
 
 window.singleTargetAbilityAfterActionDisplay = ->
   apChange()
+
   hpChangeBattle()
   checkMonHealthAfterEffect()
   toggleImg()
@@ -584,7 +586,7 @@ window.roundEffectHappening = (team) ->
   while i < n 
     mon = battle.players[team].mons[i]
     if mon.taunted.target isnt undefined and battle.round is monster.taunted.end
-      $( "." + team + " " + "." + mon.index + " " + "." + mon.taunted.name).fadeOut(400).remove()
+      $( "." + team + " " + "." + mon.index + " " + "." + mon.taunted.name).fadeOut(300).remove()
       mon.taunted.target = undefined
     if mon.fucking_up.length isnt 0 and mon.isAlive()
       ii = 0 
@@ -592,7 +594,7 @@ window.roundEffectHappening = (team) ->
       while ii < nn
         e = mon.fucking_up[ii]
         if battle.round is e.end
-          $( "." + team + " " + "." + mon.index + " " + "." + mon.fucking_up[ii].name).fadeOut(400).remove()
+          $( "." + team + " " + "." + mon.index + " " + "." + mon.fucking_up[ii].name).fadeOut(300).remove()
           delete mon.fucking_up[ii]
         else
           mon[e.stat] = eval(mon[e.stat] + e.impact)
@@ -1096,6 +1098,7 @@ $ ->
                     setTimeout (->
                       element.toggleClass "ability-on"
                       element.attr("src", "")
+                      showDamageSingle()
                       singleTargetAbilityAfterActionDisplay()
                       toggleEnemyClick()
                       return
