@@ -55,7 +55,7 @@ class Party < ActiveRecord::Base
               :include => {
                 :effects => {
                   :only => [:name, :stat_change],
-                  :methods => [:stat, :targeta, :change, :modifier],
+                  :methods => [:stat, :targeta, :change, :modifier, :img],
                 }
               }
             }
