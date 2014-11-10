@@ -4,6 +4,8 @@
 
 ######################################################################################################## Monster logics
 window.fixEvolMon = (monster, player) ->
+  monster.team = (if (player.name is "NPC") then 1 else 0)
+  monster.index = player.mons.indexOf(monster)
   monster.physical_resistance = 0
   monster.special_resistance = 0
   monster.fucking_up = []
@@ -29,7 +31,18 @@ window.fixEvolMon = (monster, player) ->
       i = 0
       while i < abilitytargets.length
         monTarget = abilitytargets[i]
-        if a.modifier is "-" and a.targeta is "attack"
+        if a.targeta is "cleanseally" or a.targeta is "aoecleanse"
+          ii = 0 
+          iii = 0
+          while ii < monTarget.fucking_up.length
+            e = monTarget.fucking_up[ii]
+            delete monTarget.fucking_up[ii]  if e.impact.indexOf("-") isnt -1 
+            ii++
+          while iii < monTarget.fucked_up.length
+            e = monTarget.fucked_up[iii]
+            delete monTarget.fucked_up[iii] if e.restore.indexOf("+") isnt -1
+            iii++
+        else if a.modifier is "-" and a.targeta is "attack"
           change = eval(a.change + "-" + monTarget["physical_resistance"])
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
         else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
@@ -37,15 +50,24 @@ window.fixEvolMon = (monster, player) ->
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
         else 
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
-        monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
+          monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
       if ability.effects.length isnt 0
         i = 0
         while i < ability.effects.length
           effect = a.effects[i]
           switch effect.targeta
-            when "round-poison-health", "round-poison-resistance", "round-timed-resistance", "taunt"
-              effect.activate [abilitytargets]
+            when "poison-health", "poison-resistance", "taunt", "timed-resistance-buff", "timed-resistance-debuff"
+              effect.activate abilitytargets
+            when "timed-attack-buff"
+              i = 0 
+              n = abilitytargets.length
+              while i < n 
+                window.teamAttackAbilities = []
+                teamAttackAbilities.push(abilitytargets[i].abilities[0])
+                i++
+              targets = teamAttackAbilities
+              effect.activate targets
             when "self"
               effect.activate [monster]
             when "selfbuffattack"
@@ -93,43 +115,79 @@ window.fixEvolMon = (monster, player) ->
         if e.targeta.indexOf("taunt") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
+            if monTarget.taunted.end is undefined
+              addEffectIcon(monTarget, e)
+            else 
+              removeEffectIcon(monTarget, e)
+              addEffectIcon(monTarget, e)
+            monTarget.taunted.name = e.name
             monTarget.taunted.target = battle.players[0].indexOf(monster)
             monTarget.taunted.end = battle.round + e.duration
             i++
         else if e.targeta.indexOf("poison") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
-            status = {}
-            status["name"] = e.name
-            status["stat"] = e.stat
-            status["impact"] = e.modifier + e.change
-            status["end"] = battle.round + e.duration
-            monTarget.fucking_up.push(status)
+            findObjectInArray(monTarget.fucking_up, "name", e.name)
+            if usefulArray.length is 0 
+              status = {}
+              status["name"] = e.name
+              status["stat"] = e.stat
+              status["impact"] = e.modifier + e.change
+              status["end"] = battle.round + e.duration
+              monTarget.fucking_up.push(status)
+              addEffectIcon(monTarget, e)
+            else 
+              old_effect = usefulArray[0]
+              removeEffectIcon(monTarget, old_effect)
+              addEffectIcon(monTarget, e)
+              old_effect.name = e.name
+              old_effect.impact = e.modifier + e.change
+              old_effect.end = battle.round + e.duration
             i++
-          return      
         else if e.targeta.indexOf("timed") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
-            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-            status = {}
-            status["name"] = e.name
-            status["stat"] = e.stat
-            status["restore"] = e.restore
-            status["end"] = battle.round + e.duration
-            monTarget.fucked_up.push(status)
+            findObjectInArray(monTarget.fucked_up, "name", e.name)
+            if usefulArray.length is 0
+              monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+              status = {}
+              status["name"] = e.name
+              status["stat"] = e.stat
+              status["restore"] = e.restore
+              status["end"] = battle.round + e.duration
+              monTarget.fucked_up.push(status)
+              addEffectIcon(monTarget, e)
+            else 
+              old_effect = usefulArray[0]
+              monTarget[old_effect.stat] = eval(monTarget[old_effect.stat] + e.restore)
+              monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+              usefulArray[0]["restore"] = e.restore
+              usefulArray[0]["end"] = battle.round + e.duration
+              removeEffectIcon(monTarget, e)
+              addEffectIcon(monTarget, e)
             i++
-          return
         else 
           while i < effectTargets.length
             monTarget = effectTargets[i]
+            addEffectIcon(monTarget, e)
+            setTimeout (->
+              removeEffectIcon(monTarget, e)
+              ), 100
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
             checkMin()
             checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             i++
-          return
 
-################################################################################################# Battle logic helpers
+################################################################################################################ Logic helpers
+window.findObjectInArray = (array, field, value) ->
+  window.usefulArray = []
+  i = 0 
+  while i < array.length
+    if array[i][field].indexOf(value) isnt -1
+      usefulArray.push(array[i])
+    i++
+
 window.isTeamDead = (monster, index, array) ->
   monster.isAlive() is false
 window.isTurnOver = (object, index, array) ->
@@ -148,7 +206,7 @@ window.setAll = (array, attr, value) ->
   return
 
 window.checkMax = ->
-  n = battle.players[0].mons.length
+  n = playerMonNum
   i = 0
   while i < n
     mon = battle.players[0].mons[i]
@@ -157,7 +215,7 @@ window.checkMax = ->
   return
 
 window.checkMin = ->
-  n = battle.players[0].mons.length
+  n = playerMonNum
   i = 0
   while i < n
     mon = battle.players[0].mons[i]
@@ -174,9 +232,9 @@ window.userMon = (index) ->
 
 window.numOfDeadFoe = ->
   num = 0
-  n = 3
+  n = pcMonNum
   i = 0
-  while i <= n
+  while i < n
     if battle.players[1].mons[i].isAlive() is false
       num += 1
     i++
@@ -196,9 +254,9 @@ window.shuffle = (array) ->
 
 window.findAliveEnemies =  ->
   window.liveFoes = []
-  n = 3
+  n = playerMonNum
   i = 0
-  while i <= n
+  while i < n
     if battle.players[0].enemies[i].isAlive() is true
       liveFoes.push battle.players[0].enemies[i]
     i++
@@ -206,9 +264,9 @@ window.findAliveEnemies =  ->
 
 window.findAliveFriends = ->
   window.liveFriends = []
-  n = 3
+  n = playerMonNum
   i = 0
-  while i <= n
+  while i < n
     if battle.players[0].mons[i].isAlive() is true
       liveFriends.push battle.players[0].mons[i]
     i++
@@ -224,39 +282,39 @@ window.randomNumRange = (max, min)->
 
 #########################################################################################################  AI timer
 window.enemyTimer = ->
-  window.timer1 = 800
+  window.timer1 = 1000
 ######################################################################
   if checkEnemyDeath(1) is true
-    window.timer3 = 800
+    window.timer3 = 1000
   else
-    window.timer3 = 3000
+    window.timer3 = 3200
 ######################################################################
   if checkEnemyDeath(1) is true && checkEnemyDeath(3) is true
-    window.timer2 = 800
+    window.timer2 = 1000
   else if checkEnemyDeath(1) is true || checkEnemyDeath(3) is true
-    window.timer2 = 3000
+    window.timer2 = 3200
   else
-    window.timer2 = 5200
+    window.timer2 = 5400
 ######################################################################
   if checkEnemyDeath(1) && checkEnemyDeath(3) && checkEnemyDeath(2)
-    window.timer0 = 800
+    window.timer0 = 1000
   else if ( ( checkEnemyDeath(1) && checkEnemyDeath(2) ) || ( checkEnemyDeath(1) && checkEnemyDeath(3) ) ) ||
           ( checkEnemyDeath(2) && checkEnemyDeath(3) )
-    window.timer0 = 3000
+    window.timer0 = 3200
   else if ( checkEnemyDeath(1) || checkEnemyDeath(2) ) || checkEnemyDeath(3)
-    window.timer0 = 5200
+    window.timer0 = 5400
   else
-    window.timer0 = 7400
+    window.timer0 = 7600
 ######################################################################
   switch numOfDeadFoe()
     when 0
-      window.timerRound = 9600
+      window.timerRound = 9800
     when 1
-      window.timerRound = 7400
+      window.timerRound = 7600
     when 2
-      window.timerRound = 5200
+      window.timerRound = 5400
     when 3
-      window.timerRound = 3000
+      window.timerRound = 3200
 
 
 
@@ -288,21 +346,23 @@ window.hpBarChange = (side, index) ->
   "." + side + " " + ".mon" + index + " " + ".hp .bar"
 
 window.hpChangeBattle = ->
-  i = undefined
-  n = undefined
-  n = 3
+  n = playerMonNum
   i = 0
-  while i <= n
+  while i < n
     battle.players[0].mons[i].hp = (if (battle.players[0].mons[i].hp < 0) then 0 else battle.players[0].mons[i].hp)
-    battle.players[1].mons[i].hp = (if (battle.players[1].mons[i].hp < 0) then 0 else battle.players[1].mons[i].hp)
-    $(hpBarChange("0", i)).animate barChange(battle.players[0].mons[i].hp, battle.players[0].mons[i].max_hp), 200 if battle.
+    $(hpBarChange("0", i)).css barChange(battle.players[0].mons[i].hp, battle.players[0].mons[i].max_hp) if battle.
                     players[0].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i + " " + ".current-hp").text()
-
-    $(hpBarChange("1", i)).animate barChange(battle.players[1].mons[i].hp, battle.players[1].mons[i].max_hp), 200 if battle.
-                    players[1].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i + " " + ".current-hp").text()
     $(hpChange("0", i)).text battle.players[0].mons[i].hp
+    i++
+  n = pcMonNum
+  i = 0
+  while i < n 
+    battle.players[1].mons[i].hp = (if (battle.players[1].mons[i].hp < 0) then 0 else battle.players[1].mons[i].hp)
+    $(hpBarChange("1", i)).css barChange(battle.players[1].mons[i].hp, battle.players[1].mons[i].max_hp) if battle.
+                    players[1].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i + " " + ".current-hp").text()
     $(hpChange("1", i)).text battle.players[1].mons[i].hp
     i++
+
 
 window.damageBoxAnime= (team, target, damage, color) ->
   $("." + team + " " + ".mon" + target + " " + "p.dam").text(damage).animate({"color":color, "font-weight":"bold"}, 1).
@@ -327,9 +387,9 @@ window.showHealSingle = ->
 window.showDamageTeam = (index) ->
   i = undefined
   n = undefined
-  n = 3
+  n = battle.players[index].mons.length
   i = 0
-  while i <= n
+  while i < n
     if parseInt($("." + index + " " + ".mon" + i + " " + ".current-hp").text()) > 0
       damageBoxAnime(index, i, ability.modifier + ability.change, "rgba(255, 0, 0)")
     i++
@@ -337,9 +397,9 @@ window.showDamageTeam = (index) ->
 window.showHealTeam = (index) ->
   i = undefined
   n = undefined
-  n = 3
+  n = battle.players[index].length
   i = 0
-  while i <= n
+  while i < n
     if battle.players[index].mons[i].hp > 0
       damageBoxAnime(index, i, ability.modifier + ability.change, "rgba(50, 205, 50)")
     i++
@@ -372,27 +432,38 @@ window.outcome = ->
         $(".cutscene").fadeOut 500, ->
           $(".message").fadeIn 500
         ), 4000
-    $.ajax
-      url: "/battles/" + battle.id
-      method: "patch"
-      data: {
-        "victor": battle.players[0].username,
-        "loser": battle.players[1].username
-      }
+      $.ajax
+        url: "/battles/" + battle.id
+        method: "patch"
+        data: {
+          "victor": battle.players[0].username,
+          "loser": battle.players[1].username
+        }
   return
 
 window.checkApAvailbility = ->
   $(".monBut button").each ->
     disable($(this)) if $(this).data("apcost") > battle.players[0].ap
 
-
 window.checkMonHealthAfterEffect = ->
   i = 0
-  n = 3
-  while i <= n
+  n = playerMonNum
+  while i < n
     $(".0 .mon" + i + " " + ".img").fadeOut(500) if battle.players[0].mons[i].hp <= 0
+    i++
+  i = 0 
+  n = pcMonNum
+  while i < n
     $(".1 .mon" + i + " " + ".img").fadeOut(500) if battle.players[1].mons[i].hp <= 0
     i++
+
+window.addEffectIcon = (monster, effect) -> 
+  $("<img src = '#{effect.icon}' class = '#{effect.name} #{effect.targeta}' >").prependTo(
+    "." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").effect("highlight", 300).
+    data("description", effect.description)
+
+window.removeEffectIcon = (monster, effect) ->
+  $("." + monster.team + " " + ".mon" + monster.index + " " + "." + effect.name).fadeOut(300).remove()
 
 
 
@@ -505,16 +576,21 @@ window.toggleEnemyClick = ->
 
 ###################################################################################################### Round based mechanic helpers
 window.roundEffectHappening = (team) ->
+  $("." + team + " " + ".effect-box").effect("shake", 400)
   i = 0
   n = battle.players[team].mons.count
   while i < n 
     mon = battle.players[team].mons[i]
+    if mon.taunted.target isnt undefined and battle.round is monster.taunted.end
+      $( "." + team + " " + "." + mon.index + " " + "." + mon.taunted.name).fadeOut(400).remove()
+      mon.taunted.target = undefined
     if mon.fucking_up.length isnt 0 and mon.isAlive()
       ii = 0 
       nn = mon.fucking_up.length
       while ii < nn
         e = mon.fucking_up[ii]
         if battle.round is e.end
+          $( "." + team + " " + "." + mon.index + " " + "." + mon.fucking_up[ii].name).fadeOut(400).remove()
           delete mon.fucking_up[ii]
         else
           mon[e.stat] = eval(mon[e.stat] + e.impact)
@@ -530,11 +606,10 @@ window.roundEffectHappening = (team) ->
         e = mon.fucked_up[iii]
         if battle.round is e.end
           mon[e.stat] = eval(mon[e.stat] + e.restore)
+          $( "." + team + " " + ".mon" + mon.index + " " + "." + mon.fucked_up[iii].name).fadeOut(400).remove()
           delete mon.fucked_up[iii]
         iii++
-      return
     i++
-  return
   hpChangeBattle()
   checkMonHealthAfterEffect()
 
@@ -543,43 +618,40 @@ window.roundEffectHappening = (team) ->
 window.findTargetsBelowPct = (pct) ->
   i = undefined
   n = undefined
-  n = 3
+  n = playerMonNum
   i = 0
   window.aiTargets = []
-  while i <= n
+  while i < n
     aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp/battle.players[0].mons[i].max_hp <= pct &&
                                                       battle.players[0].mons[i].hp > 0
     i++
-  return
 window.findTargetsAbovePct = (pct) ->
   i = undefined
   n = undefined
-  n = 3
+  n = playerMonNum
   i = 0
   window.aiTargets = []
-  while i <= n
+  while i < n
     aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp/battle.players[0].mons[i].max_hp >= pct &&
                                                       battle.players[0].mons[i].hp > 0
     i++
-  return
 window.findTargets = (hp) ->
   i = undefined
   n = undefined
-  n = 3
+  n = playerMonNum
   i = 0
   window.aiTargets = []
-  while i <= n
+  while i < n
     aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp <= hp &&
                                                       battle.players[0].mons[i].hp > 0
     i++
-  return
 window.totalUserHp = ->
   i = undefined
   n = undefined
   totalCurrentHp = 0
-  n = 3
+  n = playerMonNum
   i = 0
-  while i <= n
+  while i < n
     totalCurrentHp += battle.players[0].mons[i].hp
     i++
   return totalCurrentHp
@@ -587,9 +659,9 @@ window.teamPct = ->
   i = undefined
   n = undefined
   totalMaxHp = 0
-  n = 3
+  n = playerMonNum
   i = 0
-  while i <= n
+  while i < n
     totalMaxHp += battle.players[0].mons[i].max_hp
     i++
   return totalUserHp()/totalMaxHp
@@ -639,9 +711,6 @@ window.controlAI = (monIndex) ->
     abilityIndex = getRandom(aiAbilities)
     if monster.taunted.target is undefined 
       window.targetIndex = getRandom(aiTargets)
-    else if battle.round is monster.taunted.end 
-      window.targetIndex = getRandom(aiTargets)
-      monster.taunted.target = undefined
     else 
       window.targetIndex = monster.taunted.target
     ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
@@ -821,6 +890,8 @@ $ ->
         ), 3333
 ################################################################################################################ Battle logic
       $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
+      window.playerMonNum = battle.players[0].mons.length
+      window.pcMonNum = battle.players[1].mons.length
       battle.round = 1
       battle.maxAP = 40
       battle.calculateAP = ->
@@ -848,14 +919,20 @@ $ ->
         switch ability.targeta
           when "targetenemy", "attack"
             targets = [ player.enemies[targetIndex] ]
-          when "targetally"
+          when "targetally", "cleanseally"
             targets = [ player.mons[targetIndex] ]
-          when "aoeenemy", "aoeprenemy", "aoesrenemy"
+          when "aoeenemy"
             targets = player.enemies
-          when "aoeally", "aoeprally", "aoesrally"
+          when "aoeally", "aoecleanse"
             targets = player.mons
-          when "ability"
-            targets = [player.mons[targetIndex].abilities[0]]
+          when "aoebuffattack"
+            i = 0 
+            n = playerMonNum
+            while i < n 
+              window.teamAttackAbilities = []
+              teamAttackAbilities.push(player.mons[i].abilities[0])
+              i++
+            targets = teamAttackAbilities
         @players[playerIndex].commandMon(monIndex, abilityIndex, targets)
         @checkRound()
       battle.evolve = (playerIndex, monIndex, evolveIndex) ->
@@ -985,6 +1062,7 @@ $ ->
                         targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
                       else
                         targetMon.effect "shake", 750
+                    showDamageSingle()
                   ).animate backPosition, 250, ->
                     singleTargetAbilityAfterActionDisplay()
                     toggleEnemyClick()
@@ -1016,13 +1094,12 @@ $ ->
                     setTimeout (->
                       element.toggleClass "ability-on"
                       element.attr("src", "")
-                      showDamageSingle()
                       singleTargetAbilityAfterActionDisplay()
                       toggleEnemyClick()
                       return
                     ), 1200
                     return
-              when "targetally", "ability"
+              when "targetally"
                 turnOffCommandA()
                 toggleImg()
                 $(".battle-guide.guide").text("Select an ally target")
@@ -1056,7 +1133,7 @@ $ ->
                       return
                     ), 1200
                     return
-              when "aoeenemy", "aoeprenemy", "aoesrenemy"
+              when "aoeenemy"
                 $(document).off "click.cancel", ".cancel"
                 disable(ability)
                 $(".user .img").removeClass("controlling")
@@ -1081,7 +1158,7 @@ $ ->
                     return
                   ), 1200
                   return
-              when "aoeally", "aoeprally", "aoesrally"
+              when "aoeally", "aoebuffattack"
                 toggleImg()
                 $(document).off "click.cancel", ".cancel"
                 disable(ability)
