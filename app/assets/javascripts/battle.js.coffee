@@ -4,8 +4,6 @@
 
 ######################################################################################################## Monster logics
 window.fixEvolMon = (monster, player) ->
-  monster.team = (if (player.name is "NPC") then 1 else 0)
-  monster.index = player.mons.indexOf(monster)
   monster.physical_resistance = 0
   monster.special_resistance = 0
   monster.fucking_up = []
@@ -36,12 +34,16 @@ window.fixEvolMon = (monster, player) ->
           iii = 0
           while ii < monTarget.fucking_up.length
             e = monTarget.fucking_up[ii]
-            delete monTarget.fucking_up[ii]  if e.impact.indexOf("-") isnt -1 
+            delete monTarget.fucking_up[ii]  if e.impact.indexOf("-") isnt -1
+            removeEffectIcon(monTarget, e) 
             ii++
           while iii < monTarget.fucked_up.length
             e = monTarget.fucked_up[iii]
             delete monTarget.fucked_up[iii] if e.restore.indexOf("+") isnt -1
+            removeEffectIcon(monTarget, e)
             iii++
+          if a.modifier isnt ""
+            monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
         else if a.modifier is "-" and a.targeta is "attack"
           change = eval(a.change + "-" + monTarget["physical_resistance"])
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
@@ -460,7 +462,7 @@ window.checkMonHealthAfterEffect = ->
 window.addEffectIcon = (monster, effect) -> 
   $("<img src = '#{effect.icon}' class = '#{effect.name} #{effect.targeta}' >").prependTo(
     "." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").effect("highlight", 300).
-    data("description", effect.description)
+    data("description", effect.description).data("duration", effect.duration)
 
 window.removeEffectIcon = (monster, effect) ->
   $("." + monster.team + " " + ".mon" + monster.index + " " + "." + effect.name).fadeOut(300).remove()
@@ -1181,7 +1183,8 @@ $ ->
                   setTimeout (->
                     element.toggleClass "ability-on aoePositionUser"
                     element.attr("src", "")
-                    showHealTeam(0)
+                    if ability.modifier isnt ""
+                      showHealTeam(0)
                     singleTargetAbilityAfterActionDisplay()
                     toggleImg()
                     return
