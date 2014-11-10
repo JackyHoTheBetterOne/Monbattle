@@ -29,12 +29,12 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
 };
 
 .aoePositionUser {
-  top: -10px;
+  top: 20px;
   left: 595px;
 };
 
 .aoePositionFoe {
-  top: -10px;
+  top: 20px;
   left: 2px;
 };
 
@@ -95,13 +95,6 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
   width: 420px;
   height: 300px;
 
-  .effect-box {
-    z-index: 100;
-    height: 125px;
-    width: 50px;
-    overflow: scroll;
-  };
-
   .mon {
     display: inline-block;
     margin-left: 10%;
@@ -129,16 +122,17 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
 
   .mon {
     @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+    position: relative;
     display: inline-block;
-    width: 153px;
-    height: 40px;
-    margin-top: 4px;
+    width: 170px;
+    height: 62px;
+    margin-top: 22px;
     margin-left: 4px;
     border-radius: 5px;
 
     .num {
-      position: relative;
-      top: -36px;
+      position: absolute;
+      top: 36px;
       right: 7px;
       text-align: right;
     };
@@ -148,7 +142,8 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
       position: relative;
       display: inline-block;
       font-weight: bold;
-      font-size: 75%;
+      font-size: 85%;
+      text-shadow: 1.5px 1.5px #000000;
     };
 
 
@@ -164,28 +159,29 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
       position: relative;
       top: -1px;
       display: inline-block;
-      margin-top: 3px;
+      margin-top: 7px;
       margin-left: 3px;
-      height: 35px;
-      width: 35px;
+      height: 46px;
+      width: 46px;
       border-radius: 5px;
     };
 
     .hp {
       display: inline-block;
-      height: 15px;
-      width: 106px;
+      height: 20px;
+      width: 116px;
       float: left;
-      margin-top: 20px;
-      margin-left: 3px;
       background-color: black;
       position: absolute;
+      top: 38px;
+      left: 52px;
       border-radius: 5px;
       border: 0px solid;
       .bar {
         width: 100%;
         border-radius: 5px;
         border: 1px solid black;
+        transition: 0.2s;
         margin: 0 0 0;
         height: 100%;
         position: absolute;
@@ -326,7 +322,7 @@ body {
     position: absolute;
     z-index: -1000;
     height: 188px;
-    top: 202px;
+    top: 240px;
     left: 5px;
     width: 945px;
     opacity: 0.20;
@@ -372,36 +368,57 @@ body {
 /////////////////////////////////////////////////////////////////////////////////////////////////// Info boxes
 .user.info {
   @include info();
-  right: -10%;
-  top: .5%;
+  right: -7%;
+  top: -2.5%;
+  .mon {
+    .effect-box {
+      position: absolute;
+      background: red;
+      width: 100px;
+      height: 25px;
+      top: 6px;
+      left: 64px;
+      overflow: scroll;
+    };
+  };
 };
 
 .enemy.info {
   @include info();
-  top: 79%;
+  top: 70%;
   left: 2%;
   width: 400px;
   .mon {
     width: 130px;
-    height: 51px;
+    height: 76px;
+    margin-top: 18px;
+    .effect-box {
+      position: absolute;
+      height: 25px;
+      width: 125px;
+      background: red;
+      top: 22px;
+      left: 3px;
+    };
     .hp {
       display: inline-block;
-      height: 12px;
+      height: 20px;
       width: 120px;
-      margin-left: -33px;
       float: left;
-      margin-top: 36px;
+      top: 50.5px;
+      left: 5px;
       background-color: black;
       position: absolute;
     };
     .num {
-      position: relative;
+      position: absolute;
       text-align: right;
-      margin-top: -1px;
+      top: 49px;
+      left: 10px;
       .name {
         position: absolute;
         right: 2%;
-        bottom: 16px;
+        bottom: 48px;
       };
     };
   };
@@ -434,15 +451,8 @@ body {
 .enemy.mon-slot {
   @include monIcon();
   position: absolute;
-  top: 94px;
+  top: 135px;
   left: -10px;
-
-  .effect-box {
-    position: absolute;
-    background: red;
-    top: 12px;
-    left: -24px;
-  };
 
   .mon {
     position: relative;
@@ -478,17 +488,10 @@ body {
 .user.mon-slot {
   @include monIcon();
   display: inline-block;
-  top: 112px;
-  right: -30px;
+  top: 150px;
+  right: -60px;
   width: 530px;
   height: 800px;
-
-  .effect-box {
-    position: absolute;
-    top: 28px;
-    left: 330px;
-    background: red;
-  };
 
   .mon {
     position: relative;
