@@ -187,11 +187,9 @@ window.findObjectInArray = (array, field, value) ->
   window.usefulArray = []
   i = 0 
   while i < array.length
-    console.log(array)
-    console.log(field)
-    console.log(value)
-    if array[i][field].indexOf(value) isnt -1
-      usefulArray.push(array[i])
+    if array[i][field] isnt undefined               
+      if array[i][field].indexOf(value) isnt -1
+        usefulArray.push(array[i])
     i++
 
 window.isTeamDead = (monster, index, array) ->

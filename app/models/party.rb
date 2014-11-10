@@ -54,7 +54,7 @@ class Party < ActiveRecord::Base
               :methods => [:stat, :targeta, :elementa, :change, :modifier, :img, :slot],
               :include => {
                 :effects => {
-                  :only => [:name, :stat_change],
+                  :only => [:name, :stat_change, :restore, :duration],
                   :methods => [:stat, :targeta, :change, :modifier, :img],
                 }
               }
