@@ -45,10 +45,10 @@ window.fixEvolMon = (monster, player) ->
           if a.modifier isnt ""
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
         else if a.modifier is "-" and a.targeta is "attack"
-          change = eval(a.change + "-" + monTarget["physical_resistance"])
+          change = eval(a.change - monTarget["physical_resistance"])
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
         else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
-          change = eval(a.change + "-" + monTarget["special_resistance"])
+          change = eval(a.change - monTarget["special_resistance"])
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
         else 
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + a.change)
@@ -111,7 +111,7 @@ window.fixEvolMon = (monster, player) ->
       return
 ######################################################################################################### Effect logics
     $(ability.effects).each ->
-      @name = @name.replace(/\s+/g, '')
+      @name = @m
       @activate = (effectTargets) ->
         e = this
         i = 0
