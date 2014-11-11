@@ -132,8 +132,12 @@ window.fixEvolMon = (monster, player) ->
         else if e.targeta.indexOf("poison") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+            checkMin()
+            checkMax()
+            monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             findObjectInArray(monTarget.fucking_up, "name", e.name)
-            if usefulArray.length is 0 
+            if usefulArray.length is 0 and monTarget.isAlive()
               status = {}
               status["name"] = e.name
               status["stat"] = e.stat
@@ -141,7 +145,7 @@ window.fixEvolMon = (monster, player) ->
               status["end"] = battle.round + e.duration
               monTarget.fucking_up.push(status)
               addEffectIcon(monTarget, e)
-            else 
+            else if monTarget.isAlive()
               old_effect = usefulArray[0]
               removeEffectIcon(monTarget, old_effect)
               addEffectIcon(monTarget, e)
@@ -467,10 +471,10 @@ window.checkMonHealthAfterEffect = ->
     i++
 
 window.addEffectIcon = (monster, effect) -> 
-  $("<img src = '#{effect.img}' class = '#{monster.name} #{effect.name} #{effect.targeta}'>").prependTo(
-    "." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box")
-  $(".#{monster.name} .#{effect.name}").data("description", effect.description)
-  $(".#{monster.name} .#{effect.name}").data("duration", effect.duration)
+  effectBin.push(effect)
+  index = effectBin.indexOf(effect)
+  $("<img src = '#{effect.img}' class = 'effect #{monster.name} #{effect.name} #{effect.targeta}' id='#{index}' >").
+    prependTo("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box")
 
 
 window.removeEffectIcon = (monster, effect) ->
@@ -586,7 +590,7 @@ window.toggleEnemyClick = ->
 
 ###################################################################################################### Effect helpers
 window.roundEffectHappening = (team) ->
-  $("." + team + " " + ".effect-box").effect("shake", 400)
+  $("." + team + " " + ".effect-box").effect("pulsate",{times: 3}, 300)
   i = 0
   n = battle.players[team].mons.length
   while i < n 
@@ -606,7 +610,7 @@ window.roundEffectHappening = (team) ->
           mon[e.stat] = eval(mon[e.stat] + e.impact)
           checkMin()
           checkMax()
-          mon.isAlive() if typeof monTarget.isAlive isnt "undefined"
+          mon.isAlive() if typeof mon.isAlive isnt "undefined"
         ii++
       return
     if mon.fucked_up.length isnt 0 and mon.isAlive()
@@ -621,8 +625,6 @@ window.roundEffectHappening = (team) ->
           mon.fucked_up.splice(iii, 1)
         iii++
     i++
-  hpChangeBattle()
-  checkMonHealthAfterEffect()
 
 
 ################################################################################################################ AI logic helpers
@@ -849,6 +851,8 @@ window.ai = ->
       battle.checkRound()
       roundEffectHappening(0)
       roundEffectHappening(1)
+      hpChangeBattle()
+      checkMonHealthAfterEffect()
       apChange()
       enable($("button"))
       $(".ap").effect("pulsate", {times: 5}, 1500)
@@ -863,6 +867,7 @@ window.ai = ->
 
 ####################################################################################################### Start of Ajax
 $ ->
+  window.effectBin = []
   $.ajax if $(".battle").length > 0
     url: "/battles/" + $(".battle").data("index") + ".json"
     dataType: "json"

@@ -397,6 +397,10 @@ body {
       width: 125px;
       top: 22px;
       left: 3px;
+      .effect {
+        height: 25px;
+        width: 25px;
+      };
     };
     .hp {
       display: inline-block;
