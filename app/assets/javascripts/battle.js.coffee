@@ -47,10 +47,10 @@ window.fixEvolMon = (monster, player) ->
             window.change = a.change
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
         else if a.modifier is "-" and a.targeta is "attack"
-          window.change = eval(a.change - monTarget["physical_resistance"])
+          window.change = eval(a.change - monTarget["phy-resist"])
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
         else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
-          window.change = eval(a.change - monTarget["special_resistance"])
+          window.change = eval(a.change - monTarget["spe-resist"])
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
         else
           window.change = a.change 
