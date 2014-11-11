@@ -47,11 +47,12 @@ window.fixEvolMon = (monster, player) ->
             window.change = a.change
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
         else if a.modifier is "-" and a.targeta is "attack"
-          window.change = eval(a.change - monTarget["phy-resist"])
+          window.change = eval(a.change - monTarget["phy_resist"])
+          window.change = 0 if window.change.toString().indexOf("-") isnt -1
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
         else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
-          window.change = eval(a.change - monTarget["spe-resist"])
-          change 
+          window.change = eval(a.change - monTarget["spe_resist"])
+          window.change = 0 if window.change.toString().indexOf("-") isnt -1
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
         else
           window.change = a.change 
@@ -116,6 +117,8 @@ window.fixEvolMon = (monster, player) ->
       return
 ######################################################################################################### Effect logics
     $(ability.effects).each ->
+      @monDex = monster.index 
+      @teamDex = monster.team
       @name = @name.replace(/\s+/g, '')
       @activate = (effectTargets) ->
         e = this
@@ -145,6 +148,7 @@ window.fixEvolMon = (monster, player) ->
               status["name"] = e.name
               status["stat"] = e.stat
               status["impact"] = e.modifier + e.change
+              status["targeta"] = e.targeta
               status["end"] = battle.round + e.duration
               monTarget.fucking_up.push(status)
               addEffectIcon(monTarget, e)
@@ -166,6 +170,7 @@ window.fixEvolMon = (monster, player) ->
               status["name"] = e.name
               status["stat"] = e.stat
               status["restore"] = e.restore
+              status["targeta"] = e.targeta
               status["end"] = battle.round + e.duration
               monTarget.fucked_up.push(status)
               addEffectIcon(monTarget, e)
@@ -178,13 +183,23 @@ window.fixEvolMon = (monster, player) ->
               removeEffectIcon(monTarget, e)
               addEffectIcon(monTarget, e)
             i++
-        else 
+        else if e.targeta.indexOf("attack") isnt -1
+          while i < effectTargets.length
+            monTarget = effectTargets[i]
+            monster = battle.players[e.teamDex].mons[e.monDex]
+            addEffectIcon(monster, e)
+            setTimeout (->
+              removeEffectIcon(monster, e)
+              ), 500
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+            i++
+        else
           while i < effectTargets.length
             monTarget = effectTargets[i]
             addEffectIcon(monTarget, e)
             setTimeout (->
               removeEffectIcon(monTarget, e)
-              ), 500
+              ), 5000
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
             checkMin()
             checkMax()
@@ -740,12 +755,10 @@ window.controlAI = (monIndex) ->
       window.targetIndex = getRandom(aiTargets)
     else 
       window.targetIndex = monster.taunted.target
-
     ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
     switch ability.targeta
       when "attack"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
-        action()
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
         currentPosition = currentMon.offset()
         targetMon = userMon(targetIndex)
@@ -753,11 +766,14 @@ window.controlAI = (monIndex) ->
         backPosition = currentMon.position()
         topMove = targetPosition.top - currentPosition.top
         leftMove = targetPosition.left - currentPosition.left - 60
+        setTimeout (->  
+          action()
+          checkMax()
+          ), 400
         currentMon.animate(
           "left": "+=" + leftMove.toString() + "px"
           "top": "+=" + topMove.toString() + "px"
         , 400, ->
-          checkMax
           singleTargetAbilityDisplayVariable()
           if targetMon.css("display") isnt "none"
             if enemyHurt.isAlive() is false
@@ -1105,12 +1121,14 @@ $ ->
                   backPosition = currentMon.position()
                   topMove = targetPosition.top - currentPosition.top
                   leftMove = targetPosition.left - currentPosition.left + 60
+                  setTimeout (->
+                    action()
+                    checkMax()
+                    ), 390
                   currentMon.animate(
                    "left": "+=" + leftMove.toString()  + "px"
                    "top": "+=" + topMove.toString()  + "px"
                   , 400, ->
-                    action()
-                    checkMax()
                     singleTargetAbilityDisplayVariable()
                     if targetMon.css("display") isnt "none"
                       if enemyHurt.isAlive() is false
