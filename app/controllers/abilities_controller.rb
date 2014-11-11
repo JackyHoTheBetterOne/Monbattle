@@ -31,7 +31,6 @@ class AbilitiesController < ApplicationController
     @targets = Target.all
     @ability = Ability.new
     @ability_purchase = AbilityPurchase.new
-
     authorize @ability
     @ability = Ability.new ability_params
     respond_to do |format|
