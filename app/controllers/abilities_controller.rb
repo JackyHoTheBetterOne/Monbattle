@@ -22,15 +22,24 @@ class AbilitiesController < ApplicationController
   end
 
   def create
-    # render text: params.to_s
-    @ability = Ability.new ability_params
+    @abilities = Ability.all
+    @abil_socket = AbilSocket.new
+    @abil_sockets = AbilSocket.all
+    @stat_target = StatTarget.new
+    @stat_targets = StatTarget.all
+    @target = Target.new
+    @targets = Target.all
+    @ability = Ability.new
+    @ability_purchase = AbilityPurchase.new
+
     authorize @ability
+    @ability = Ability.new ability_params
     respond_to do |format|
       if @ability.save
         format.html { redirect_to abilities_path, notice: "Ability Created" }
         format.js { render }
       else
-        format.html { render :new }
+        format.js { render }
       end
     end
   end

@@ -4,24 +4,25 @@
 
 $ ->
   # $(".abil_form_check_all").click (event) ->
+  #   targ = $(this).attr("id")
   #   if @checked
-  #     $(".ability_job_check_boxes input").prop("checked", true)
+  #     $("." + targ).prop("checked", true)
   #   else
-  #     $(".ability_job_check_boxes input").prop("checked", false)
+  #     $("." + targ).prop("checked", false)
   #   return
+
+  $(document).on "click", ".abil_form_check_all", ->
+    targ = $(this).attr("id")
+    if @checked
+      $("." + targ).prop("checked", true)
+    else
+      $("." + targ).prop("checked", false)
+    return
 
   $(document).on "click", ".abil-row", ->
     abil = $(this).attr("id")
     $("#" + abil + "-save").show()
 
-  $(document).on "click", ".row-2-on, .add-rem-effects-on, .show-edit-effects-on, .change-jobs-on, .edit-images-on", ->
+  $(document).on "click", ".row-2-on, .add-rem-effects-on, .show-jobs-on, .show-edit-effects-on, .change-jobs-on, .edit-images-on", ->
     targ = $(this).attr("id")
     $("." + targ).show()
-
-  # $(document).on "click", ".abil-effects, .abil-desc, .abil-images, .abil-adds", ->
-  #   $(".abil-boxes").hide()
-  #   abil = $(this).attr("id")
-  #   $("#" + abil + "-box").show("slide", { direction: "up" }, 300)
-
-  # $(document).on "click", ".close-top-display", ->
-  #   $(".abil-boxes").hide()

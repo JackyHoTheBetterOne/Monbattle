@@ -19,15 +19,14 @@
             =check_box_tag "ability[effect_ids][]", effect.id, @ability.effect_ids.include?(effect.id), id: dom_id(effect)
             =label_tag dom_id(effect), effect.name
           h4=f.label "Job restrictions for this Ability"
-          input type="checkbox" class="abil_form_check_all"
-            | Select All
+          input type="checkbox" class="abil_form_check_all" id="new-job-sel-all" Select All
           .ability_job_check_boxes
             =hidden_field_tag "ability[job_ids][]", nil
             .row
               -Job.all.each do |job|
                 .col-md-6
                   li
-                    =check_box_tag "ability[job_ids][]", job.id, @ability.job_ids.include?(job.id), id: dom_id(job)
+                    =check_box_tag "ability[job_ids][]", job.id, @ability.job_ids.include?(job.id), id: dom_id(job), class: "new-job-sel-all"
                     =label_tag dom_id(job), job.name
           h4=f.label "Select a Target for this Ability"
           .form-control =f.collection_select :target_id, Target.all, :id, :name

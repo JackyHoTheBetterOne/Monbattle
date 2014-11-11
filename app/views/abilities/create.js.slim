@@ -1,0 +1,10 @@
+-if @ability.errors.any?
+  -error_array = @ability.errors.map { |k, v| k.to_s + " : " + v.to_s}
+  | $(".abilities").html("There are Errors: #{error_array}").effect("pulsate", 2000).effect("highlight");
+-else
+  | $(".abilities").html("#{j render @abilities}").effect("highlight");
+  | $(".new_ability .form-control").val("");
+  | $(".new_ability :checkbox").prop("checked", false);
+  -@ability = Ability.new
+
+  / | $(".abilities").prepend("#{j render partial: "abilities/abil_rows", locals: {ability: @ability}}")

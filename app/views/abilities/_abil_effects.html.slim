@@ -1,9 +1,12 @@
 -ability.effects.each do |effect|
   .col-md-4.effect-div.col-abils id="#{dom_id(effect)}-eff"
     / =render partial: "", locals: {ability: ability, effect: effect}
-    =simple_form_for(effect, remote: true) do |f|
-      =f.text_field :name, class: "eff-name"
-      =f.text_field :stat_change, class: "eff-cost-input"
-      =f.collection_select :target_id, Target.all, :id, :name
-      =f.collection_select :stat_target_id, StatTarget.all,:id, :name
-      =f.submit "Save", class: 'btn btn-primary btn-sm eff-save', id: "#{dom_id(effect)}-save"
+    .span
+      =simple_form_for(effect, remote: true) do |f|
+        =f.submit "Save", class: 'btn btn-primary btn-sm eff-save', id: "#{dom_id(effect)}-save"
+        =f.text_field :name, class: "eff-name"
+        =f.text_field :stat_change, class: "eff-cost-input"
+        ="DR"
+        =f.text_field :duration, class: "dur-input"
+        =f.collection_select :target_id, Target.all, :id, :name
+        =f.collection_select :stat_target_id, StatTarget.all,:id, :name

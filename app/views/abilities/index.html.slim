@@ -1,13 +1,17 @@
 .filter-search
-  p Search and Filters here
   .row
-    .btn-group
-      .btn.btn-sm.row-2-on id="costs-row" Row 2
-      .btn.btn-sm.add-rem-effects-on id="eff-sel-row" Add/Rem Effects
-      .btn.btn-sm.show-edit-effects-on id="abil-effects-row" Show/Edit Effects
-      .btn.btn-sm.change-jobs-on id="jobs-row" Change Jobs
-      .btn.btn-sm.show-jobs-on Show Jobs
-      .btn.btn-sm.edit-images-on id="images-row" Edit Images
+    .pull-left
+      p Search and Filters here
+    .pull-right.ability-mod-temp
+      = render partial: "admin/modal_button", locals: {modal_label: "abilityTemplateLabel", modal_id: "abilityTemplateModal", form_is_for: "abilities/form", button_name: "New Abil", form_title: "Create New Ability"}
+  .row.btn-filt
+    .btn.btn-sm.btn-on.row-2-on id="costs-row" Row 2
+    =" "
+    .btn.btn-sm.btn-on.add-rem-effects-on id="eff-sel-row" Add/Rem Effects
+    .btn.btn-sm.btn-on.show-edit-effects-on id="abil-effects-row" Show/Edit Effects
+    .btn.btn-sm.btn-on.change-jobs-on id="jobs-row" Change Jobs
+    .btn.btn-sm.btn-on.show-jobs-on id="show-jobs-row" Show Jobs
+    .btn.btn-sm.btn-on.edit-images-on id="images-row" Edit Images
 
 .abilities
   =render @abilities

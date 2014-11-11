@@ -7,8 +7,8 @@ class NoticesController < ApplicationController
   end
 
   def create
-    authorize @notice
     @notice = Notice.new(notice_params)
+    authorize @notice
     respond_to do |format|
       if @notice.save
         format.js

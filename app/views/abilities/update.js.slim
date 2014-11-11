@@ -1,5 +1,6 @@
 -if @ability.errors.any?
-  | $("##{dom_id(@ability)}-abil-rows").html("You fucked up bad this time Frank, check console for error").effect("pulsate", 2000).effect("highlight").hide("explode", {pieces: 24 }, 2000)
+  -error_array = @ability.errors.map { |k, v| k.to_s + " : " + v.to_s}
+  | $("##{dom_id(@ability)}-abil-rows").html("There are Errors: #{error_array}").effect("pulsate", 2000).effect("highlight")
 -else
   | $("##{dom_id(@ability)}-abil-rows").effect("highlight");
   | $("##{dom_id(@ability)}-save").hide();
