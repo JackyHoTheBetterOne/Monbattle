@@ -39,7 +39,8 @@ class EffectsController < ApplicationController
 private
 
   def effect_params
-    params.require(:effect).permit(:name, :target_id, :element_id, :stat_target_id, :stat_change, :icon)
+    params.require(:effect).permit(:name, :target_id, :element_id, :stat_target_id, :stat_change,
+                                   :icon, :duration, :restore)
   end
 
   def find_effect

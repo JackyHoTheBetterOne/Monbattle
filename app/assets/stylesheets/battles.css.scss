@@ -29,12 +29,12 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
 };
 
 .aoePositionUser {
-  top: 20px;
+  top: 5px;
   left: 595px;
 };
 
 .aoePositionFoe {
-  top: 20px;
+  top: 5px;
   left: 2px;
 };
 
@@ -373,7 +373,6 @@ body {
   .mon {
     .effect-box {
       position: absolute;
-      background: red;
       width: 100px;
       height: 25px;
       top: 6px;
@@ -396,9 +395,12 @@ body {
       position: absolute;
       height: 25px;
       width: 125px;
-      background: red;
       top: 22px;
       left: 3px;
+      .effect {
+        height: 25px;
+        width: 25px;
+      };
     };
     .hp {
       display: inline-block;
