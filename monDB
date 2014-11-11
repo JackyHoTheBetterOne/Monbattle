@@ -92,8 +92,7 @@ CREATE TABLE abilities (
     keywords text,
     rarity_id integer,
     mp_cost integer,
-    gp_cost integer,
-    former_name text DEFAULT ''::text
+    gp_cost integer
 );
 
 
@@ -1649,39 +1648,40 @@ SELECT pg_catalog.setval('abil_sockets_id_seq', 4, true);
 -- Data for Name: abilities; Type: TABLE DATA; Schema: public; Owner: Frank
 --
 
-COPY abilities (id, name, ap_cost, min_level, created_at, updated_at, description, stat_change, target_id, element_id, stat_target_id, image_file_name, image_content_type, image_file_size, image_updated_at, abil_socket_id, portrait_file_name, portrait_content_type, portrait_file_size, portrait_updated_at, keywords, rarity_id, mp_cost, gp_cost, former_name) FROM stdin;
-10	Needle Strike	20	1	2014-09-30 20:58:12.680668	2014-10-26 05:43:25.864262	500 to target enemy.	-500	2	3	1	needle-strike.gif	image/gif	12185	2014-09-30 20:58:11.905023	2	needle-strike.gif	image/gif	6685	2014-10-09 21:20:08.918439	needle strike 500 to target enemy. targetenemy hp thunder 20 -500	4	\N	\N	
-20	Recover	20	\N	2014-10-01 01:26:21.983686	2014-10-26 05:43:55.497396	Heal target 800 HP. 	+800	3	2	1	heal_modified.gif	image/gif	45759	2014-10-01 01:38:29.986785	2	single-heal-avatar.gif	image/gif	10404	2014-10-09 21:06:40.439256	recover heal target 800 hp.  targetally hp water 20 +800	4	\N	\N	
-14	Spike	20	1	2014-09-30 21:38:31.317022	2014-10-26 05:44:51.018526	Deal 400 to target enemy.	-400	2	1	1	aoe-1-final.gif	image/gif	278463	2014-10-08 22:55:40.705689	2	spike-avatar.gif	image/gif	16033	2014-10-09 21:24:22.730584	spike deal 400 to target enemy. targetenemy hp fire 20 -400	4	\N	\N	
-13	Summon Bahmut	40	1	2014-09-30 21:27:24.960014	2014-10-26 05:45:07.690932	Does 450 to all enemies.	-450	5	2	1	summon-dragon-0.gif	image/gif	540622	2014-09-30 21:27:20.589038	2	summon-bahmut-avatar.gif	image/gif	13376	2014-10-09 21:15:50.131163	summon bahmut does 450 to all enemies. aoeenemy hp water 40 -450	4	\N	\N	
-32	Sword Smash	-20	\N	2014-10-09 22:37:14.76436	2014-10-26 05:45:47.471298	200 damage to all enemies. 	-200	5	1	1	sword-smash-final.gif	image/gif	672253	2014-10-09 22:39:12.885948	2	sword-smash-avatar.gif	image/gif	10135	2014-10-09 22:39:16.776065	sword smash 200 damage to all enemies.  aoeenemy hp fire -20 -200	4	\N	\N	
-12	Downfall	20	1	2014-09-30 21:19:22.955762	2014-10-14 22:59:01.436277	750 to target enemy. 	-750	2	2	1	downfall-4.gif	image/gif	79891	2014-09-30 21:19:21.488242	2	downfall-avatar.gif	image/gif	9285	2014-10-09 21:25:49.597657	downfall 750 to target enemy.  targetenemy hp water 20 -750 1	\N	\N	\N	
-31	Summon Undine	30	\N	2014-10-09 20:35:20.051712	2014-10-19 04:49:38.640125	600 damage to all enemies.	-300	5	2	1	test8.gif	image/gif	1242386	2014-10-09 20:35:15.574941	2	summon-undine-avatar.gif	image/gif	13808	2014-10-09 21:12:02.723826	summon undine 600 damage to all enemies. aoeenemy hp water 30 -300 	1	\N	\N	
-35	Bulk Up More 	10	\N	2014-10-17 00:14:11.736874	2014-10-30 20:11:20.869558	225 damage to target. Increase attack damage by 25. 	-225	1	1	1	\N	\N	\N	\N	1	ability-icon-buff.png	image/png	13647	2014-10-30 20:11:20.606565	bulk up more  225 damage to target. increase attack damage by 25.  attack hp fire 10 -225	4	\N	\N	Bulk Up More 
-21	Tackle	10	\N	2014-10-01 01:28:31.715298	2014-10-30 20:20:06.918751	300 damage to target.	-300	1	3	1	aoe-1-final.gif	image/gif	278463	2014-10-08 22:53:18.358553	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:20:06.712389	tackle 300 damage to target. attack hp thunder 10 -300	1	\N	\N	Tackle
-2	Recklessness	40	1	2014-09-30 20:09:37.64975	2014-10-30 20:21:14.070067	700 to target. 300 to self.	-700	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:09:36.620306	4	ability-icon-special.png	image/png	14569	2014-10-30 20:21:13.867508	recklessness 700 to target. 300 to self. targetenemy hp thunder 40 -700	1	\N	\N	Recklessness
-30	Vortex Shot	-10	\N	2014-10-09 20:12:39.841207	2014-10-30 23:31:23.600968	600 damage to all enemies.	-200	5	1	1	aoe-6-use-final.gif	image/gif	330920	2014-10-09 20:12:37.410315	4	ability-icon-special.png	image/png	14569	2014-10-30 20:21:28.680765	vortex shot 600 damage to all enemies. aoeenemy hp fire -10 -200	1	\N	\N	Vortex Shot
-3	Stab	10	1	2014-09-30 20:14:10.055504	2014-10-30 20:24:04.436613	250 damage to target enemy.	-250	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:14:09.04192	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:24:04.229114	stab 250 damage to target enemy. targetenemy hp thunder 10 -250	1	\N	\N	Stab
-36	Sharpen	10	\N	2014-10-17 00:33:27.795759	2014-10-30 20:25:45.574203	Increase Attack Damage by 30.	+30	3	1	3	\N	\N	\N	\N	2	ability-icon-buff.png	image/png	13647	2014-10-30 20:25:45.393238	sharpen increase attack damage by 30. targetally change fire 10 +30	4	\N	\N	Sharpen
-34	Vampire Hit	10	\N	2014-10-17 00:07:52.797045	2014-10-30 20:25:25.402892	200 damage to target. Heal 50 hp. 	-200	1	1	1	\N	\N	\N	\N	1	ability-icon-special.png	image/png	14569	2014-10-30 20:25:25.242094	vampire hit 200 damage to target. heal 50 hp.  attack hp fire 10 -200	1	\N	\N	Vampire Hit
-18	Omega Slash 2	30	1	2014-09-30 23:15:09.099317	2014-10-30 23:32:10.639246	Does 75 to all enemies.	-75	5	3	1	aoe-2-use-final.gif	image/gif	580848	2014-10-09 03:35:56.818716	3	ability-icon-special.png	image/png	14569	2014-10-30 20:30:41.244135	omega slash 2 does 75 to all enemies. aoeenemy hp thunder 30 -75	1	\N	\N	Omega Slash 2
-8	Omega Slash	40	1	2014-09-30 20:51:19.726385	2014-10-30 20:26:52.585168	A huge slash that hits everything in its path.	-500	5	1	1	omega_slash.gif	image/gif	159225	2014-09-30 20:51:18.117781	3	ability-icon-special.png	image/png	14569	2014-10-30 20:26:52.38006	omega slash a huge slash that hits everything in its path. aoeenemy hp fire 40 -500	1	\N	\N	Omega Slash
-16	Evo Attack	10	1	2014-09-30 22:34:01.47143	2014-10-30 20:27:35.51672	Does 400 to target.	-400	1	2	1	\N	\N	\N	\N	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:27:35.322329	evo attack does 400 to target. attack hp water 10 -400	1	\N	\N	Evo Attack
-33	Vampire Strike	10	\N	2014-10-16 23:54:51.826008	2014-10-30 20:27:58.363983	Attack 	-175	1	1	1	\N	\N	\N	\N	1	ability-icon-special.png	image/png	14569	2014-10-30 20:27:58.193896	vampire strike attack  attack hp fire 10 -175	4	\N	\N	Vampire Strike
-6	Thrust	20	1	2014-09-30 20:43:15.49733	2014-10-30 20:29:31.357313	200 damage to target enemy.	-200	1	1	1	slash.gif	image/gif	49124	2014-09-30 20:43:14.385443	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:29:31.140464	thrust 200 damage to target enemy. attack hp fire 20 -200	1	\N	\N	Thrust
-4	Double Stab	20	1	2014-09-30 20:15:00.162119	2014-10-30 20:29:54.455857	300 to target.	-300	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:15:11.981627	2	ability-icon-attack.png	image/png	16480	2014-10-30 20:29:54.292485	double stab 300 to target. targetenemy hp thunder 20 -300	4	\N	\N	Double Stab
-11	Discharge	10	1	2014-09-30 21:03:42.491408	2014-10-30 20:30:20.80404	Does 200 to all enemies.	-200	5	4	1	discharge.gif	image/gif	321683	2014-09-30 21:03:38.866905	4	ability-icon-special.png	image/png	14569	2014-10-30 20:30:20.624336	discharge does 200 to all enemies. aoeenemy hp earth 10 -200	5	\N	\N	Discharge
-5	Strike 	10	1	2014-09-30 20:39:47.647934	2014-10-30 21:39:56.363581	275 damage to target enemy.	-275	5	1	1	needle-strike.gif	image/gif	12117	2014-09-30 20:39:46.831773	1	ability-icon-special.png	image/png	14569	2014-10-30 20:23:09.722539	strike  275 damage to target enemy. aoeenemy hp fire 10 -275	4	\N	\N	Strike 
-25	Bulk Up	10	\N	2014-10-02 20:50:05.206252	2014-10-30 21:37:25.381032	Increase own attack damage by 25.	-200	2	3	1	needle-strike.gif	image/gif	12185	2014-10-02 20:55:51.951882	1	ability-icon-attack.png	image/png	16480	2014-10-30 21:37:25.212462	bulk up increase own attack damage by 25. targetenemy hp thunder 10 -200	4	\N	\N	Bulk Up
-23	Dynamite Throw	20	\N	2014-10-02 18:24:44.200239	2014-10-26 05:42:49.284367	500 damage to two random monsters including your own.	-0	5	1	1	tinder.gif	image/gif	35854	2014-10-02 18:25:48.260397	2	dynamite-throw-avatar.gif	image/gif	6156	2014-10-09 21:32:01.490626	dynamite throw 500 damage to two random monsters including your own. aoeenemy hp fire 20 -0	4	\N	\N	
-38	Kick	20	\N	2014-10-25 23:50:14.387224	2014-10-31 18:57:20.1981	Default Ability for Socket 2	-100	2	1	1	shot-use.gif	image/gif	12117	2014-10-26 00:12:32.129483	2	shot-avatar.png	image/png	13693	2014-10-26 00:12:32.980751	kick default ability for socket 2 targetenemy hp fire 20 -100	4	\N	\N	Groin Kick
-19	Healing Circle	20	\N	2014-10-01 00:08:28.800442	2014-10-31 18:57:41.892095	Heals party 600 HP.	+600	6	4	1	mass-heal-3.gif	image/gif	479054	2014-10-10 00:25:05.343814	2	mass-heal-avatar.gif	image/gif	14216	2014-10-09 21:05:13.934179	healing circle heals party 600 hp. aoeally hp earth 20 +600	1	\N	\N	Healing Circle
-15	Admin Attack	10	1	2014-09-30 22:32:49.73003	2014-10-31 23:15:56.231267	Does 3000 to target. 	-3000	5	1	1	\N	\N	\N	\N	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:20:21.931094	admin attack does 3000 to target.  aoeenemy hp fire 10 -3000	4	\N	\N	Attack
-17	NPC Base Attack	10	1	2014-09-30 22:35:02.910878	2014-10-30 20:22:18.292434	250 damage to target enemy. 	-250	1	1	1	\N	\N	\N	\N	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:22:18.088144	npc base attack 250 damage to target enemy.  attack hp fire 10 -250	5	\N	\N	NPC Base Attack
-24	Scattershot	20	\N	2014-10-02 19:15:25.059578	2014-10-30 20:28:22.836945	100 to target monsters. 300 to two random allies and two random monsters.	-100	2	3	1	needle-strike.gif	image/gif	12117	2014-10-02 19:15:24.185359	2	ability-icon-special.png	image/png	14569	2014-10-30 20:28:22.672442	scattershot 100 to target monsters. 300 to two random allies and two random monsters. targetenemy hp thunder 20 -100	1	\N	\N	Scattershot
-1	Aggression	30	0	2014-09-30 20:02:45.778212	2014-10-30 20:29:15.673056	500 to target. 300 to self.	-500	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:06:32.55202	3	ability-icon-special.png	image/png	14569	2014-10-30 20:29:15.461665	aggression 500 to target. 300 to self. targetenemy hp thunder 30 -500	1	\N	\N	Aggression
-27	Super Heal	20	\N	2014-10-04 23:58:15.8834	2014-10-30 21:39:32.363398	Target heals 1200HP.	+1200	3	3	1	heal_modified.gif	image/gif	45759	2014-10-04 23:58:14.586159	2	ability-icon-heal.png	image/png	12746	2014-10-30 21:39:32.189096	super heal target heals 1200hp. targetally hp thunder 20 +1200	1	\N	\N	Super Heal
-37	Slap	10	\N	2014-10-25 23:49:10.702675	2014-11-06 21:30:59.959733	Socket 1 Default Ability	-99	1	1	3	shot-use.gif	image/gif	12117	2014-10-26 00:11:32.618769	1	ability-icon-attack.png	image/png	16480	2014-10-30 21:37:51.577794	slap socket 1 default ability attack change fire 10 -99	1	99	99	Slap
+COPY abilities (id, name, ap_cost, min_level, created_at, updated_at, description, stat_change, target_id, element_id, stat_target_id, image_file_name, image_content_type, image_file_size, image_updated_at, abil_socket_id, portrait_file_name, portrait_content_type, portrait_file_size, portrait_updated_at, keywords, rarity_id, mp_cost, gp_cost) FROM stdin;
+32	Sword Smash	-20	\N	2014-10-09 22:37:14.76436	2014-10-26 05:45:47.471298	200 damage to all enemies. 	-200	5	1	1	sword-smash-final.gif	image/gif	672253	2014-10-09 22:39:12.885948	2	sword-smash-avatar.gif	image/gif	10135	2014-10-09 22:39:16.776065	sword smash 200 damage to all enemies.  aoeenemy hp fire -20 -200	4	\N	\N
+12	Downfall	20	1	2014-09-30 21:19:22.955762	2014-10-14 22:59:01.436277	750 to target enemy. 	-750	2	2	1	downfall-4.gif	image/gif	79891	2014-09-30 21:19:21.488242	2	downfall-avatar.gif	image/gif	9285	2014-10-09 21:25:49.597657	downfall 750 to target enemy.  targetenemy hp water 20 -750 1	\N	\N	\N
+31	Summon Undine	30	\N	2014-10-09 20:35:20.051712	2014-10-19 04:49:38.640125	600 damage to all enemies.	-300	5	2	1	test8.gif	image/gif	1242386	2014-10-09 20:35:15.574941	2	summon-undine-avatar.gif	image/gif	13808	2014-10-09 21:12:02.723826	summon undine 600 damage to all enemies. aoeenemy hp water 30 -300 	1	\N	\N
+21	Tackle	10	\N	2014-10-01 01:28:31.715298	2014-10-30 20:20:06.918751	300 damage to target.	-300	1	3	1	aoe-1-final.gif	image/gif	278463	2014-10-08 22:53:18.358553	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:20:06.712389	tackle 300 damage to target. attack hp thunder 10 -300	1	\N	\N
+2	Recklessness	40	1	2014-09-30 20:09:37.64975	2014-10-30 20:21:14.070067	700 to target. 300 to self.	-700	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:09:36.620306	4	ability-icon-special.png	image/png	14569	2014-10-30 20:21:13.867508	recklessness 700 to target. 300 to self. targetenemy hp thunder 40 -700	1	\N	\N
+30	Vortex Shot	-10	\N	2014-10-09 20:12:39.841207	2014-10-30 23:31:23.600968	600 damage to all enemies.	-200	5	1	1	aoe-6-use-final.gif	image/gif	330920	2014-10-09 20:12:37.410315	4	ability-icon-special.png	image/png	14569	2014-10-30 20:21:28.680765	vortex shot 600 damage to all enemies. aoeenemy hp fire -10 -200	1	\N	\N
+3	Stab	10	1	2014-09-30 20:14:10.055504	2014-10-30 20:24:04.436613	250 damage to target enemy.	-250	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:14:09.04192	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:24:04.229114	stab 250 damage to target enemy. targetenemy hp thunder 10 -250	1	\N	\N
+36	Sharpen	10	\N	2014-10-17 00:33:27.795759	2014-10-30 20:25:45.574203	Increase Attack Damage by 30.	+30	3	1	3	\N	\N	\N	\N	2	ability-icon-buff.png	image/png	13647	2014-10-30 20:25:45.393238	sharpen increase attack damage by 30. targetally change fire 10 +30	4	\N	\N
+34	Vampire Hit	10	\N	2014-10-17 00:07:52.797045	2014-10-30 20:25:25.402892	200 damage to target. Heal 50 hp. 	-200	1	1	1	\N	\N	\N	\N	1	ability-icon-special.png	image/png	14569	2014-10-30 20:25:25.242094	vampire hit 200 damage to target. heal 50 hp.  attack hp fire 10 -200	1	\N	\N
+18	Omega Slash 2	30	1	2014-09-30 23:15:09.099317	2014-10-30 23:32:10.639246	Does 75 to all enemies.	-75	5	3	1	aoe-2-use-final.gif	image/gif	580848	2014-10-09 03:35:56.818716	3	ability-icon-special.png	image/png	14569	2014-10-30 20:30:41.244135	omega slash 2 does 75 to all enemies. aoeenemy hp thunder 30 -75	1	\N	\N
+8	Omega Slash	40	1	2014-09-30 20:51:19.726385	2014-10-30 20:26:52.585168	A huge slash that hits everything in its path.	-500	5	1	1	omega_slash.gif	image/gif	159225	2014-09-30 20:51:18.117781	3	ability-icon-special.png	image/png	14569	2014-10-30 20:26:52.38006	omega slash a huge slash that hits everything in its path. aoeenemy hp fire 40 -500	1	\N	\N
+16	Evo Attack	10	1	2014-09-30 22:34:01.47143	2014-10-30 20:27:35.51672	Does 400 to target.	-400	1	2	1	\N	\N	\N	\N	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:27:35.322329	evo attack does 400 to target. attack hp water 10 -400	1	\N	\N
+6	Thrust	20	1	2014-09-30 20:43:15.49733	2014-10-30 20:29:31.357313	200 damage to target enemy.	-200	1	1	1	slash.gif	image/gif	49124	2014-09-30 20:43:14.385443	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:29:31.140464	thrust 200 damage to target enemy. attack hp fire 20 -200	1	\N	\N
+4	Double Stab	20	1	2014-09-30 20:15:00.162119	2014-10-30 20:29:54.455857	300 to target.	-300	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:15:11.981627	2	ability-icon-attack.png	image/png	16480	2014-10-30 20:29:54.292485	double stab 300 to target. targetenemy hp thunder 20 -300	4	\N	\N
+11	Discharge	10	1	2014-09-30 21:03:42.491408	2014-10-30 20:30:20.80404	Does 200 to all enemies.	-200	5	4	1	discharge.gif	image/gif	321683	2014-09-30 21:03:38.866905	4	ability-icon-special.png	image/png	14569	2014-10-30 20:30:20.624336	discharge does 200 to all enemies. aoeenemy hp earth 10 -200	5	\N	\N
+5	Strike 	10	1	2014-09-30 20:39:47.647934	2014-10-30 21:39:56.363581	275 damage to target enemy.	-275	5	1	1	needle-strike.gif	image/gif	12117	2014-09-30 20:39:46.831773	1	ability-icon-special.png	image/png	14569	2014-10-30 20:23:09.722539	strike  275 damage to target enemy. aoeenemy hp fire 10 -275	4	\N	\N
+25	Bulk Up	10	\N	2014-10-02 20:50:05.206252	2014-10-30 21:37:25.381032	Increase own attack damage by 25.	-200	2	3	1	needle-strike.gif	image/gif	12185	2014-10-02 20:55:51.951882	1	ability-icon-attack.png	image/png	16480	2014-10-30 21:37:25.212462	bulk up increase own attack damage by 25. targetenemy hp thunder 10 -200	4	\N	\N
+23	Dynamite Throw	20	\N	2014-10-02 18:24:44.200239	2014-10-26 05:42:49.284367	500 damage to two random monsters including your own.	-0	5	1	1	tinder.gif	image/gif	35854	2014-10-02 18:25:48.260397	2	dynamite-throw-avatar.gif	image/gif	6156	2014-10-09 21:32:01.490626	dynamite throw 500 damage to two random monsters including your own. aoeenemy hp fire 20 -0	4	\N	\N
+19	Healing Circle	20	\N	2014-10-01 00:08:28.800442	2014-10-31 18:57:41.892095	Heals party 600 HP.	+600	6	4	1	mass-heal-3.gif	image/gif	479054	2014-10-10 00:25:05.343814	2	mass-heal-avatar.gif	image/gif	14216	2014-10-09 21:05:13.934179	healing circle heals party 600 hp. aoeally hp earth 20 +600	1	\N	\N
+17	NPC Base Attack	10	1	2014-09-30 22:35:02.910878	2014-10-30 20:22:18.292434	250 damage to target enemy. 	-250	1	1	1	\N	\N	\N	\N	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:22:18.088144	npc base attack 250 damage to target enemy.  attack hp fire 10 -250	5	\N	\N
+35	Bulk Up More 	10	\N	2014-10-17 00:14:11.736874	2014-11-10 22:15:54.053556	225 damage to target. Increase attack damage by 25. 	-	1	1	1	\N	\N	\N	\N	1	ability-icon-buff.png	image/png	13647	2014-10-30 20:11:20.606565	bulk up more  225 damage to target. increase attack damage by 25.  attack hp fire 10 -	4	\N	\N
+14	Test Ability Phy Resist Up 200	20	1	2014-09-30 21:38:31.317022	2014-11-11 21:18:27.457894	Deal 400 to target enemy.	-400	2	1	1	aoe-1-final.gif	image/gif	278463	2014-10-08 22:55:40.705689	2	spike-avatar.gif	image/gif	16033	2014-10-09 21:24:22.730584	test ability phy resist up 200 deal 400 to target enemy. targetenemy hp fire 20 -400	4	\N	\N
+15	Admin Mass DMG Attack	10	1	2014-09-30 22:32:49.73003	2014-11-11 21:30:31.416875	Does 3000 to target. 	-3000	5	1	1	\N	\N	\N	\N	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:20:21.931094	admin mass dmg attack does 3000 to target.  aoeenemy hp fire 10 -3000	4	\N	\N
+10	Test abil phy spe resist up	20	1	2014-09-30 20:58:12.680668	2014-11-11 21:37:21.055082	500 to target enemy.	-500	2	3	1	needle-strike.gif	image/gif	12185	2014-09-30 20:58:11.905023	2	needle-strike.gif	image/gif	6685	2014-10-09 21:20:08.918439	test abil phy spe resist up 500 to target enemy. targetenemy hp thunder 20 -500	4	\N	\N
+33	Test Atk Phy Debuff 300	10	\N	2014-10-16 23:54:51.826008	2014-11-11 21:32:16.950308	Attack 	-100	1	1	1	\N	\N	\N	\N	1	ability-icon-special.png	image/png	14569	2014-10-30 20:27:58.193896	test atk phy debuff 300 attack  attack hp fire 10 -100	4	\N	\N
+20	Special Recover	20	\N	2014-10-01 01:26:21.983686	2014-11-11 21:41:07.789898	Heal target 800 HP and increases special resistance by 300 for 2 turns.	+800	3	2	1	heal_modified.gif	image/gif	45759	2014-10-01 01:38:29.986785	2	single-heal-avatar.gif	image/gif	10404	2014-10-09 21:06:40.439256	special recover heal target 800 hp and increases special resistance by 300 for 2 turns. targetally hp water 20 +800	4	\N	\N
+24	Scattershot	20	\N	2014-10-02 19:15:25.059578	2014-10-30 20:28:22.836945	100 to target monsters. 300 to two random allies and two random monsters.	-100	2	3	1	needle-strike.gif	image/gif	12117	2014-10-02 19:15:24.185359	2	ability-icon-special.png	image/png	14569	2014-10-30 20:28:22.672442	scattershot 100 to target monsters. 300 to two random allies and two random monsters. targetenemy hp thunder 20 -100	1	\N	\N
+1	Aggression	30	0	2014-09-30 20:02:45.778212	2014-10-30 20:29:15.673056	500 to target. 300 to self.	-500	2	3	1	slash.gif	image/gif	49124	2014-09-30 20:06:32.55202	3	ability-icon-special.png	image/png	14569	2014-10-30 20:29:15.461665	aggression 500 to target. 300 to self. targetenemy hp thunder 30 -500	1	\N	\N
+27	Super Heal	20	\N	2014-10-04 23:58:15.8834	2014-10-30 21:39:32.363398	Target heals 1200HP.	+1200	3	3	1	heal_modified.gif	image/gif	45759	2014-10-04 23:58:14.586159	2	ability-icon-heal.png	image/png	12746	2014-10-30 21:39:32.189096	super heal target heals 1200hp. targetally hp thunder 20 +1200	1	\N	\N
+13	Summon Bahmut	40	1	2014-09-30 21:27:24.960014	2014-11-10 22:15:21.406034	Does 450 to all enemies.	-500	5	2	1	summon-dragon-0.gif	image/gif	540622	2014-09-30 21:27:20.589038	2	summon-bahmut-avatar.gif	image/gif	13376	2014-10-09 21:15:50.131163	summon bahmut does 450 to all enemies. aoeenemy hp water 40 -500	4	\N	\N
+37	Slap	10	\N	2014-10-25 23:49:10.702675	2014-11-10 23:52:44.891822	Socket 1 Default Ability	-100	1	1	1	shot-use.gif	image/gif	12117	2014-10-26 00:11:32.618769	1	ability-icon-attack.png	image/png	16480	2014-10-30 21:37:51.577794	slap socket 1 default ability attack hp fire 10 -100	1	99	99
+42	Test Atk Phy Up 200	10	\N	2014-11-11 03:26:08.196148	2014-11-11 21:30:10.954108	Test	-10	1	1	1	\N	\N	\N	\N	1	\N	\N	\N	\N	test atk phy up 200 test attack hp fire 10 -10	4	1	1
+38	Test Abil Resist Down 300	20	\N	2014-10-25 23:50:14.387224	2014-11-11 21:34:10.227231	Default Ability for Socket 2	-100	2	1	1	shot-use.gif	image/gif	12117	2014-10-26 00:12:32.129483	2	shot-avatar.png	image/png	13693	2014-10-26 00:12:32.980751	test abil resist down 300 default ability for socket 2 targetenemy hp fire 20 -100	4	\N	\N
 \.
 
 
@@ -1689,7 +1689,7 @@ COPY abilities (id, name, ap_cost, min_level, created_at, updated_at, descriptio
 -- Name: abilities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('abilities_id_seq', 41, true);
+SELECT pg_catalog.setval('abilities_id_seq', 42, true);
 
 
 --
@@ -1699,11 +1699,18 @@ SELECT pg_catalog.setval('abilities_id_seq', 41, true);
 COPY ability_effects (id, ability_id, effect_id, created_at, updated_at) FROM stdin;
 2	23	2	2014-10-02 18:24:44.219098	2014-10-02 18:24:44.219098
 4	24	6	2014-10-02 19:15:57.406664	2014-10-02 19:15:57.406664
-5	25	3	2014-10-02 20:50:05.217153	2014-10-02 20:50:05.217153
 7	24	2	2014-10-05 00:03:39.912506	2014-10-05 00:03:39.912506
-9	33	8	2014-10-16 23:54:51.851523	2014-10-16 23:54:51.851523
 10	34	8	2014-10-17 00:07:52.823907	2014-10-17 00:07:52.823907
 11	35	3	2014-10-17 00:15:29.023941	2014-10-17 00:15:29.023941
+21	21	11	2014-11-11 20:46:16.467108	2014-11-11 20:46:16.467108
+24	37	11	2014-11-11 20:47:31.247189	2014-11-11 20:47:31.247189
+27	14	14	2014-11-11 21:18:27.448955	2014-11-11 21:18:27.448955
+28	42	14	2014-11-11 21:24:32.534174	2014-11-11 21:24:32.534174
+29	33	15	2014-11-11 21:32:09.989092	2014-11-11 21:32:09.989092
+31	38	16	2014-11-11 21:34:10.21514	2014-11-11 21:34:10.21514
+32	10	17	2014-11-11 21:37:21.033186	2014-11-11 21:37:21.033186
+33	10	14	2014-11-11 21:37:21.036894	2014-11-11 21:37:21.036894
+34	20	17	2014-11-11 21:40:27.316946	2014-11-11 21:40:27.316946
 \.
 
 
@@ -1711,7 +1718,7 @@ COPY ability_effects (id, ability_id, effect_id, created_at, updated_at) FROM st
 -- Name: ability_effects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('ability_effects_id_seq', 11, true);
+SELECT pg_catalog.setval('ability_effects_id_seq', 34, true);
 
 
 --
@@ -1826,7 +1833,6 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at, monster
 259	38	1	2014-11-10 21:41:40.820712	2014-11-10 21:41:40.820712	0	2
 260	21	1	2014-11-10 21:41:41.074241	2014-11-10 21:41:41.074241	0	1
 261	38	1	2014-11-10 21:41:41.101627	2014-11-10 21:41:41.101627	0	2
-264	37	1	2014-11-10 21:41:41.460822	2014-11-10 21:41:41.460822	0	1
 265	38	1	2014-11-10 21:41:41.491832	2014-11-10 21:41:41.491832	0	2
 267	37	1	2014-11-10 21:41:42.548719	2014-11-10 21:41:42.548719	0	1
 268	38	1	2014-11-10 21:41:42.571757	2014-11-10 21:41:42.571757	0	2
@@ -1843,7 +1849,7 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at, monster
 303	37	1	2014-11-10 21:47:30.242457	2014-11-10 21:47:30.242457	220	1
 271	13	1	2014-11-10 21:41:43.682472	2014-11-10 22:00:07.997791	220	2
 299	38	1	2014-11-10 21:47:29.252135	2014-11-10 22:00:24.424403	0	2
-306	38	1	2014-11-10 21:47:32.079649	2014-11-10 21:47:32.079649	221	2
+278	20	1	2014-11-10 21:41:46.839084	2014-11-11 21:41:46.7175	221	2
 307	38	1	2014-11-10 21:47:32.46738	2014-11-10 21:47:32.46738	0	2
 308	36	1	2014-11-10 21:47:32.791091	2014-11-10 21:47:32.791091	0	2
 309	37	1	2014-11-10 21:47:32.896333	2014-11-10 21:47:32.896333	222	1
@@ -1885,18 +1891,17 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at, monster
 338	30	2	2014-11-10 21:57:03.159519	2014-11-10 21:57:03.159519	231	4
 305	37	1	2014-11-10 21:47:32.069569	2014-11-10 21:59:03.781015	0	1
 270	4	1	2014-11-10 21:41:43.526955	2014-11-10 21:41:43.526955	0	2
+274	15	1	2014-11-10 21:41:44.443054	2014-11-10 22:33:47.084524	0	1
 273	38	1	2014-11-10 21:41:44.209529	2014-11-10 21:41:44.209529	0	2
 275	35	1	2014-11-10 21:41:45.053216	2014-11-10 21:59:03.791889	221	1
 263	20	1	2014-11-10 21:41:41.328356	2014-11-10 22:00:24.434467	219	2
 276	34	1	2014-11-10 21:41:45.296381	2014-11-10 21:41:45.296381	0	1
 277	14	1	2014-11-10 21:41:46.767362	2014-11-10 21:41:46.767362	0	2
-278	20	1	2014-11-10 21:41:46.839084	2014-11-10 21:41:46.839084	0	2
 304	38	1	2014-11-10 21:47:30.267739	2014-11-10 22:00:07.986875	0	2
 280	13	1	2014-11-10 21:41:47.43895	2014-11-10 21:41:47.43895	0	2
 281	36	1	2014-11-10 21:41:47.677114	2014-11-10 21:41:47.677114	0	2
 282	38	1	2014-11-10 21:41:47.7892	2014-11-10 21:41:47.7892	0	2
 294	21	1	2014-11-10 21:47:28.534403	2014-11-10 22:00:29.601519	0	1
-274	15	1	2014-11-10 21:41:44.443054	2014-11-10 22:00:29.612056	218	1
 341	34	1	2014-11-10 22:06:02.609404	2014-11-10 22:06:02.609404	0	1
 342	16	1	2014-11-10 22:06:02.791219	2014-11-10 22:06:02.791219	0	1
 343	36	1	2014-11-10 22:06:03.019651	2014-11-10 22:06:03.019651	0	2
@@ -1912,6 +1917,7 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at, monster
 353	33	1	2014-11-10 22:06:06.700615	2014-11-10 22:06:06.700615	0	1
 354	31	1	2014-11-10 22:06:06.805697	2014-11-10 22:06:06.805697	0	2
 322	19	1	2014-11-10 21:51:23.109167	2014-11-10 22:06:38.804965	0	2
+264	37	1	2014-11-10 21:41:41.460822	2014-11-10 22:33:47.095541	218	1
 355	14	1	2014-11-10 22:06:06.934004	2014-11-10 22:06:06.934004	0	2
 356	14	1	2014-11-10 22:06:07.634422	2014-11-10 22:06:07.634422	0	2
 357	10	1	2014-11-10 22:06:07.743683	2014-11-10 22:06:07.743683	0	2
@@ -1935,6 +1941,8 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at, monster
 375	10	1	2014-11-10 22:06:13.585098	2014-11-10 22:06:13.585098	0	2
 376	36	1	2014-11-10 22:06:13.903654	2014-11-10 22:06:13.903654	0	2
 377	35	1	2014-11-10 22:06:14.137597	2014-11-10 22:06:14.137597	0	1
+378	42	1	2014-11-11 03:26:08.207444	2014-11-11 03:26:08.207444	0	1
+306	38	1	2014-11-10 21:47:32.079649	2014-11-11 21:41:46.709742	0	2
 \.
 
 
@@ -1942,7 +1950,7 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at, monster
 -- Name: ability_purchases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('ability_purchases_id_seq', 377, true);
+SELECT pg_catalog.setval('ability_purchases_id_seq', 378, true);
 
 
 --
@@ -2110,6 +2118,7 @@ COPY ability_restrictions (id, job_id, ability_id, created_at, updated_at) FROM 
 254	11	40	2014-10-31 17:50:40.726057	2014-10-31 17:50:40.726057
 255	14	41	2014-10-31 17:55:13.382373	2014-10-31 17:55:13.382373
 256	16	41	2014-10-31 17:55:13.384045	2014-10-31 17:55:13.384045
+257	9	42	2014-11-11 03:26:08.199657	2014-11-11 03:26:08.199657
 \.
 
 
@@ -2117,7 +2126,7 @@ COPY ability_restrictions (id, job_id, ability_id, created_at, updated_at) FROM 
 -- Name: ability_restrictions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('ability_restrictions_id_seq', 256, true);
+SELECT pg_catalog.setval('ability_restrictions_id_seq', 257, true);
 
 
 --
@@ -2561,6 +2570,41 @@ COPY battles (id, outcome, created_at, updated_at, battle_level_id, round_taken,
 418	complete	2014-11-10 22:00:33.626626	2014-11-10 22:01:19.813957	18	\N	\N	bab5173b-b175-421c-bca5-bae5970342e3	\N	admin	NPC	complete
 419	complete	2014-11-10 22:01:55.144663	2014-11-10 22:04:45.36211	18	\N	\N	e30586bf-2e9e-42ab-94f0-5a63bc27282c	\N	admin	NPC	complete
 420	complete	2014-11-10 22:05:10.479367	2014-11-10 22:05:48.96207	18	\N	\N	e1d7d331-b20a-49c6-aacc-2d4169938a01	\N	NPC	admin	complete
+421	\N	2014-11-10 22:33:55.970534	2014-11-10 22:33:55.970534	18	\N	\N	a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	\N	\N	\N	battling
+422	\N	2014-11-11 00:00:27.582268	2014-11-11 00:00:27.582268	18	\N	\N	a428b508-91a3-4deb-99a2-40f8d8e0016f	\N	\N	\N	battling
+423	complete	2014-11-11 00:03:09.5079	2014-11-11 00:12:46.213965	18	\N	\N	f7c3815a-b5f9-459e-8ed2-f1070af657f3	\N	NPC	admin	complete
+425	\N	2014-11-11 00:25:23.45081	2014-11-11 00:25:23.45081	18	\N	\N	aaf5d71b-2bd7-425f-beb3-31631a9a16c7	\N	\N	\N	battling
+424	complete	2014-11-11 00:14:22.650234	2014-11-11 01:21:24.922075	18	\N	\N	f9886361-5192-489c-9328-aa84aa201954	\N	NPC	admin	complete
+426	complete	2014-11-11 01:22:47.422628	2014-11-11 01:23:36.852094	18	\N	\N	8bb6ed8d-a0cd-4445-86c3-dc74cf1688e2	\N	NPC	admin	complete
+427	complete	2014-11-11 01:29:43.825663	2014-11-11 01:32:08.27387	18	\N	\N	40881833-20ab-4944-9039-b2204acdf37d	\N	NPC	admin	complete
+428	\N	2014-11-11 01:41:54.434006	2014-11-11 01:41:54.434006	18	\N	\N	98276176-ad6c-4ff1-a92c-222c08d0a0b6	\N	\N	\N	battling
+429	\N	2014-11-11 02:32:31.724238	2014-11-11 02:32:31.724238	18	\N	\N	59a971bb-7e18-4bff-a4c7-ffbd5314d9aa	\N	\N	\N	battling
+430	\N	2014-11-11 02:41:27.193765	2014-11-11 02:41:27.193765	18	\N	\N	ceeca394-d314-449d-9851-e1b6647261c6	\N	\N	\N	battling
+431	\N	2014-11-11 03:20:47.950388	2014-11-11 03:20:47.950388	18	\N	\N	9ff37ed9-e379-4fa4-a854-b94715d572d0	\N	\N	\N	battling
+432	\N	2014-11-11 06:42:44.268573	2014-11-11 06:42:44.268573	18	\N	\N	72455218-af5f-47b7-adfd-cc265dffdbf1	\N	\N	\N	battling
+433	\N	2014-11-11 20:12:29.406033	2014-11-11 20:12:29.406033	18	\N	\N	bc2e8da7-7089-41b9-be5c-29746c54c88d	\N	\N	\N	battling
+434	\N	2014-11-11 20:12:29.466282	2014-11-11 20:12:29.466282	18	\N	\N	82f69865-0862-4c28-8fb2-09bfb2543e5a	\N	\N	\N	battling
+435	\N	2014-11-11 20:12:29.502119	2014-11-11 20:12:29.502119	18	\N	\N	ba91a960-7b2e-4a90-958f-65d9418ede0d	\N	\N	\N	battling
+436	\N	2014-11-11 20:12:29.534424	2014-11-11 20:12:29.534424	18	\N	\N	9e8d45a2-f9c2-4f02-a364-91ca14d84d6f	\N	\N	\N	battling
+437	\N	2014-11-11 20:12:29.792191	2014-11-11 20:12:29.792191	18	\N	\N	538846ff-b27b-472f-a372-2fc0c1277d3f	\N	\N	\N	battling
+438	\N	2014-11-11 20:12:29.831087	2014-11-11 20:12:29.831087	18	\N	\N	d11ff0f8-1651-470c-8b5f-93ee9b8e0452	\N	\N	\N	battling
+439	\N	2014-11-11 20:12:29.862823	2014-11-11 20:12:29.862823	18	\N	\N	c26de588-b237-4e62-984b-f3d4e072eeda	\N	\N	\N	battling
+440	\N	2014-11-11 20:12:29.911276	2014-11-11 20:12:29.911276	18	\N	\N	5715d447-2d1a-4105-b0d3-ed1adcf9537b	\N	\N	\N	battling
+441	\N	2014-11-11 20:12:29.938351	2014-11-11 20:12:29.938351	18	\N	\N	e89f71a1-12d9-4f75-8922-a27153c3c084	\N	\N	\N	battling
+442	\N	2014-11-11 20:12:30.157227	2014-11-11 20:12:30.157227	18	\N	\N	206f3a0e-4852-4a80-995d-4a227a8d8189	\N	\N	\N	battling
+443	\N	2014-11-11 20:12:30.192806	2014-11-11 20:12:30.192806	18	\N	\N	c946270c-e6e7-40a5-94ff-87b640de32d2	\N	\N	\N	battling
+444	\N	2014-11-11 20:12:30.218583	2014-11-11 20:12:30.218583	18	\N	\N	4ff7099b-3411-4b11-bfcb-0fd3299db2d8	\N	\N	\N	battling
+445	\N	2014-11-11 20:12:30.251335	2014-11-11 20:12:30.251335	18	\N	\N	5c91de01-8711-4f10-8897-7248a861262b	\N	\N	\N	battling
+446	\N	2014-11-11 20:12:30.472738	2014-11-11 20:12:30.472738	18	\N	\N	62e8b235-4f0e-430d-8279-ba2005ab7ead	\N	\N	\N	battling
+447	\N	2014-11-11 20:12:30.520264	2014-11-11 20:12:30.520264	18	\N	\N	9ce3d08b-55b9-40dd-b314-66d2be6ec1b5	\N	\N	\N	battling
+448	\N	2014-11-11 20:12:30.549626	2014-11-11 20:12:30.549626	18	\N	\N	89eef474-7656-4499-b8ec-8f6790e87af8	\N	\N	\N	battling
+449	\N	2014-11-11 20:12:30.829474	2014-11-11 20:12:30.829474	18	\N	\N	6e2383e1-085e-4121-86e4-bd73734ea75e	\N	\N	\N	battling
+450	\N	2014-11-11 20:12:30.868959	2014-11-11 20:12:30.868959	18	\N	\N	2be3a195-f7a2-4c63-a25e-988118416115	\N	\N	\N	battling
+451	\N	2014-11-11 20:12:30.895262	2014-11-11 20:12:30.895262	18	\N	\N	0a393a53-0648-48e4-8059-a0c2c12277f8	\N	\N	\N	battling
+452	\N	2014-11-11 20:46:25.755797	2014-11-11 20:46:25.755797	18	\N	\N	e531da8b-905d-4098-b6e7-4b395cf5de72	\N	\N	\N	battling
+453	\N	2014-11-11 20:47:40.628695	2014-11-11 20:47:40.628695	18	\N	\N	83c7ab32-be9f-408f-a96f-b2c2adcb274c	\N	\N	\N	battling
+454	\N	2014-11-11 20:59:14.002633	2014-11-11 20:59:14.002633	18	\N	\N	cd95ea7d-a755-4570-8ccd-4d659e865d9c	\N	\N	\N	battling
+455	\N	2014-11-11 21:41:49.63268	2014-11-11 21:41:49.63268	18	\N	\N	6a810cba-87f4-43db-811a-7276a4e15778	\N	\N	\N	battling
 \.
 
 
@@ -2568,7 +2612,7 @@ COPY battles (id, outcome, created_at, updated_at, battle_level_id, round_taken,
 -- Name: battles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('battles_id_seq', 420, true);
+SELECT pg_catalog.setval('battles_id_seq', 455, true);
 
 
 --
@@ -2583,6 +2627,11 @@ COPY effects (id, name, created_at, updated_at, target_id, element_id, stat_chan
 7	buff-foe-attack-400	2014-10-02 19:13:12.747643	2014-10-17 00:19:58.33087	12	4	+400	3	buff-foe-attack-400 +400 foebuffattack earth	0	0	\N	\N	\N	\N
 5	one-random-foe-600	2014-10-02 19:11:56.084881	2014-10-17 00:21:00.521418	10	1	-600	1	one-random-foe-600 -600 onerandomfoe fire	0	0	\N	\N	\N	\N
 1	self-inflict-200	2014-09-30 19:58:53.375236	2014-10-17 00:21:14.938175	7	1	-200	1	self-inflict-200 -200 self fire	0	0	\N	\N	\N	\N
+11	poison-100	2014-11-11 20:43:06.621172	2014-11-11 21:16:08.080158	21	4	-100	1	poison-100 -100 poison-hp earth	\N		poison-icon.png	image/png	22664	2014-11-11 20:43:06.309418
+16	spe-resist-debuff-300	2014-11-11 21:25:52.158294	2014-11-11 21:28:12.8901	25	1	-300	8	spe-resist-debuff-300 -300 timed-spe-resist-debuff fire	2	+300	special-weakness-icon.png	image/png	33992	2014-11-11 21:25:51.917262
+17	spe-resist-buff-300	2014-11-11 21:26:42.585906	2014-11-11 21:28:31.81896	24	1	+300	8	spe-resist-buff-300 +300 timed-spe-resist-buff fire	2	-300	special-resistance-icon.png	image/png	33920	2014-11-11 21:26:42.347369
+15	phy-resist-debuff-300	2014-11-11 21:16:54.478696	2014-11-11 21:28:45.625146	23	1	-300	9	phy-resist-debuff-300 -300 timed-phy-resist-debuff fire	2	+300	physical-weakness-icon.png	image/png	25952	2014-11-11 21:16:54.241152
+14	phy-resist-buff-200	2014-11-11 21:15:55.069981	2014-11-11 21:29:01.543253	22	1	+200	9	phy-resist-buff-200 +200 timed-phy-resist-buff fire	2	-200	physical-resistance-icon.png	image/png	12468	2014-11-11 21:15:54.740446
 \.
 
 
@@ -2590,7 +2639,7 @@ COPY effects (id, name, created_at, updated_at, target_id, element_id, stat_chan
 -- Name: effects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('effects_id_seq', 8, true);
+SELECT pg_catalog.setval('effects_id_seq', 17, true);
 
 
 --
@@ -3020,9 +3069,45 @@ COPY fights (id, battle_id, created_at, updated_at, party_id, winner) FROM stdin
 800	417	2014-11-10 21:57:16.304206	2014-11-10 21:57:16.304206	4	f
 802	418	2014-11-10 22:00:33.638927	2014-11-10 22:00:33.638927	4	f
 804	419	2014-11-10 22:01:55.160428	2014-11-10 22:01:55.160428	4	f
-805	419	2014-11-10 22:01:55.166655	2014-11-10 22:01:55.166655	112	f
 806	420	2014-11-10 22:05:10.496619	2014-11-10 22:05:10.496619	4	f
-807	420	2014-11-10 22:05:10.504828	2014-11-10 22:05:10.504828	112	f
+808	421	2014-11-10 22:33:55.988471	2014-11-10 22:33:55.988471	4	f
+810	422	2014-11-11 00:00:27.607422	2014-11-11 00:00:27.607422	4	f
+812	423	2014-11-11 00:03:09.522594	2014-11-11 00:03:09.522594	4	f
+814	424	2014-11-11 00:14:22.665292	2014-11-11 00:14:22.665292	4	f
+816	425	2014-11-11 00:25:23.466039	2014-11-11 00:25:23.466039	4	f
+818	426	2014-11-11 01:22:47.441899	2014-11-11 01:22:47.441899	4	f
+820	427	2014-11-11 01:29:43.839749	2014-11-11 01:29:43.839749	4	f
+822	428	2014-11-11 01:41:54.43824	2014-11-11 01:41:54.43824	4	f
+824	429	2014-11-11 02:32:31.728361	2014-11-11 02:32:31.728361	4	f
+826	430	2014-11-11 02:41:27.217243	2014-11-11 02:41:27.217243	4	f
+828	431	2014-11-11 03:20:47.963787	2014-11-11 03:20:47.963787	4	f
+830	432	2014-11-11 06:42:44.293812	2014-11-11 06:42:44.293812	4	f
+832	433	2014-11-11 20:12:29.426768	2014-11-11 20:12:29.426768	4	f
+834	434	2014-11-11 20:12:29.472541	2014-11-11 20:12:29.472541	4	f
+836	435	2014-11-11 20:12:29.509175	2014-11-11 20:12:29.509175	4	f
+838	436	2014-11-11 20:12:29.538523	2014-11-11 20:12:29.538523	4	f
+840	437	2014-11-11 20:12:29.796713	2014-11-11 20:12:29.796713	4	f
+842	438	2014-11-11 20:12:29.835366	2014-11-11 20:12:29.835366	4	f
+844	439	2014-11-11 20:12:29.867753	2014-11-11 20:12:29.867753	4	f
+846	440	2014-11-11 20:12:29.916303	2014-11-11 20:12:29.916303	4	f
+848	441	2014-11-11 20:12:29.94449	2014-11-11 20:12:29.94449	4	f
+850	442	2014-11-11 20:12:30.169438	2014-11-11 20:12:30.169438	4	f
+852	443	2014-11-11 20:12:30.196702	2014-11-11 20:12:30.196702	4	f
+854	444	2014-11-11 20:12:30.222397	2014-11-11 20:12:30.222397	4	f
+856	445	2014-11-11 20:12:30.255992	2014-11-11 20:12:30.255992	4	f
+858	446	2014-11-11 20:12:30.487645	2014-11-11 20:12:30.487645	4	f
+860	447	2014-11-11 20:12:30.525853	2014-11-11 20:12:30.525853	4	f
+862	448	2014-11-11 20:12:30.553972	2014-11-11 20:12:30.553972	4	f
+864	449	2014-11-11 20:12:30.83979	2014-11-11 20:12:30.83979	4	f
+866	450	2014-11-11 20:12:30.872776	2014-11-11 20:12:30.872776	4	f
+868	451	2014-11-11 20:12:30.899762	2014-11-11 20:12:30.899762	4	f
+870	452	2014-11-11 20:46:25.763303	2014-11-11 20:46:25.763303	4	f
+872	453	2014-11-11 20:47:40.63729	2014-11-11 20:47:40.63729	4	f
+873	453	2014-11-11 20:47:40.644955	2014-11-11 20:47:40.644955	118	f
+874	454	2014-11-11 20:59:14.016063	2014-11-11 20:59:14.016063	4	f
+875	454	2014-11-11 20:59:14.023818	2014-11-11 20:59:14.023818	118	f
+876	455	2014-11-11 21:41:49.662361	2014-11-11 21:41:49.662361	4	f
+877	455	2014-11-11 21:41:49.674366	2014-11-11 21:41:49.674366	118	f
 \.
 
 
@@ -3030,7 +3115,7 @@ COPY fights (id, battle_id, created_at, updated_at, party_id, winner) FROM stdin
 -- Name: fights_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('fights_id_seq', 807, true);
+SELECT pg_catalog.setval('fights_id_seq', 877, true);
 
 
 --
@@ -3228,7 +3313,207 @@ COPY impressions (id, impressionable_type, impressionable_id, user_id, controlle
 173	Battle	419	1	battles	show	\N	e605147bd7bbabd761e455d8a6eb70d5fae25cbdd342ddafa24a9e7360242bc7	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-10 22:01:55.196377	2014-11-10 22:01:55.196377
 174	Battle	419	1	battles	show	\N	631c300db4abdd5f9224ff28c698df894bef9002e444052d4f9002652a9fc0e1	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/e30586bf-2e9e-42ab-94f0-5a63bc27282c	2014-11-10 22:01:56.223521	2014-11-10 22:01:56.223521
 175	Battle	420	1	battles	show	\N	58c15c27c523488db18d607c7e5b7c91ad3efb91414a3543284c75ae8c26897d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-10 22:05:10.525219	2014-11-10 22:05:10.525219
+211	Battle	421	1	battles	show	\N	8eb14ec6f0b46c8ebf4eff0625c15867a1c792686bbe328d868953b3da9a3ef9	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:51:35.885067	2014-11-10 23:51:35.885067
 176	Battle	420	1	battles	show	\N	e19528629bfcb7c11dd9a06b4c7100b7e7ba86b55fab1d7072e20fe70355f964	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/e1d7d331-b20a-49c6-aacc-2d4169938a01	2014-11-10 22:05:11.54963	2014-11-10 22:05:11.54963
+177	Battle	421	1	battles	show	\N	28be79c11c0e2b8f2bc3087ccde17ceeb29a89756dd64143fcecb124111b15b6	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-10 22:33:56.038876	2014-11-10 22:33:56.038876
+178	Battle	421	1	battles	show	\N	bbbb626e649ee0cfa2cb56146a95e0c559403b0fc603a9c1737a9681210816c8	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 22:33:57.19814	2014-11-10 22:33:57.19814
+179	Battle	421	1	battles	show	\N	803f538ae08c7022b6a22031c1618ffac2b7a0ae3516567dc5dd5da050199d17	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-10 22:35:14.135471	2014-11-10 22:35:14.135471
+180	Battle	421	1	battles	show	\N	0a05d3f2559f2dd640f6d0b73231284399c603cdf032cec3bb490b55a4ea5e7a	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 22:35:15.380009	2014-11-10 22:35:15.380009
+181	Battle	421	1	battles	show	\N	6f3f2e56d553e46a899e9648d29a93b8a4395facbb65ea0d0a9b6472d0b2bd8b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 22:36:08.230456	2014-11-10 22:36:08.230456
+182	Battle	421	1	battles	show	\N	7a077f8186965f05fb576e2f54e8e911097d497e83f9772babb94d7de6e87ae4	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 22:36:09.363173	2014-11-10 22:36:09.363173
+183	Battle	421	1	battles	show	\N	ba034fb827987d2d6dd56109e5b17e4bac71041bbca37c0540fc0ce9006e1f6c	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 22:36:21.207982	2014-11-10 22:36:21.207982
+184	Battle	421	1	battles	show	\N	fce78d381be4a4fb11dacd95a3d830e51195e084fd00c1fd312f38e03c5785bc	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 22:36:22.645356	2014-11-10 22:36:22.645356
+185	Battle	421	1	battles	show	\N	3842774754fbd7dd5f141449423d76bd98159badf60fcaa48a6cda8ccebd4fee	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 22:48:17.977701	2014-11-10 22:48:17.977701
+186	Battle	421	1	battles	show	\N	c3ca42ced3f80c3dde45bc534f6fe90b100d236f9aa7d13e52fbe3dd3bcbbd3b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 22:48:20.885814	2014-11-10 22:48:20.885814
+187	Battle	421	1	battles	show	\N	7d1dd022db857d0e395b4686bb583c95d642cd197ae40ede1fe20fa1f6b35213	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 22:49:46.077099	2014-11-10 22:49:46.077099
+188	Battle	421	1	battles	show	\N	8026b4f1caec57a52acd64edf6f2633dc2bbae1c7e877de637e4192ad7b54b68	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 22:49:47.620482	2014-11-10 22:49:47.620482
+189	Battle	421	1	battles	show	\N	cd538611633b3453abd488e19882005ea313d48573f59d18f9ff5da1fd330dc5	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 22:52:10.346138	2014-11-10 22:52:10.346138
+190	Battle	421	1	battles	show	\N	7ea19b1c2e2f6dfd2bb3e8b784d9999f3a30a77fe399401ae573e73619ad2336	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 22:52:12.330971	2014-11-10 22:52:12.330971
+191	Battle	421	1	battles	show	\N	a0abe8c6aa9ec8414b24888cbf3aeec54d07d031852117a67e5f6c3976701650	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:00:43.252701	2014-11-10 23:00:43.252701
+192	Battle	421	1	battles	show	\N	d13f584ceb4833c417501d3ed38905e8000bbfac6fef1047435302a3588cc577	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 23:00:44.451362	2014-11-10 23:00:44.451362
+193	Battle	421	1	battles	show	\N	775240f9e0b4e20886ef62972ad3db11bf75c6c32f35833c83f2ec24f57b6444	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:02:56.676749	2014-11-10 23:02:56.676749
+194	Battle	421	1	battles	show	\N	eaeb3b8f24e8e9572759317d8b4d582fefe06791c529b5a8564c0cf60869c34e	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:06:55.904002	2014-11-10 23:06:55.904002
+195	Battle	421	1	battles	show	\N	135950e8b988c8365ceac663be3e70d2d56ade70c6cdce7c7e53443e2ce462b5	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 23:06:58.775918	2014-11-10 23:06:58.775918
+196	Battle	421	1	battles	show	\N	b362c676e0ef5323acdd8e2c96c52fc8eb1282d4a5d2d54d230a992be824c10d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:14:48.499717	2014-11-10 23:14:48.499717
+197	Battle	421	1	battles	show	\N	c1bff6c9241fec4c2caf1982f6e963955a941962fa530062e69bb239768cb597	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 23:14:50.304835	2014-11-10 23:14:50.304835
+198	Battle	421	1	battles	show	\N	0d5c03b66c7ac030ba07c01ac2315396b85ef23254f66c88af4c406d14d800ee	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:16:14.295258	2014-11-10 23:16:14.295258
+199	Battle	421	1	battles	show	\N	d2ce1b9d5033f7be57b39931f5f728c37443fc27065243fecb2a4e755576fc98	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 23:16:15.560341	2014-11-10 23:16:15.560341
+200	Battle	421	1	battles	show	\N	46ce0f9176db379da83a5caac7c03926b940c444f321fa0f6b919955c4795f11	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:21:06.425127	2014-11-10 23:21:06.425127
+201	Battle	421	1	battles	show	\N	20fe4bfefc3cedf66032c6fde115e3c39f1a48f6f385814a92ee6061802b229f	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 23:21:08.229601	2014-11-10 23:21:08.229601
+202	Battle	421	1	battles	show	\N	b43f54d6f9ee80ef7d7e7ab447e7d73aa4c12ef2bd773725c73793d2f859357b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:21:28.536287	2014-11-10 23:21:28.536287
+203	Battle	421	1	battles	show	\N	dd2facc8429267d6f676bb23ede87492f42629aa57624e6c36f4115c8f316dbb	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 23:21:30.134405	2014-11-10 23:21:30.134405
+204	Battle	421	1	battles	show	\N	e5f814539c292d17ae985b3718602856c642222f12da0290ddb221226453e502	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:23:42.838822	2014-11-10 23:23:42.838822
+205	Battle	421	1	battles	show	\N	255ccc0cf66f2fd16d591bc43c7c6bbfefacc8034cd118f11ef20b71f03878aa	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 23:23:45.568746	2014-11-10 23:23:45.568746
+206	Battle	421	1	battles	show	\N	81135df6da4e955d5343e140d19286e75fe6bcd47d0edf961ba5455207d9d54b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:25:18.767403	2014-11-10 23:25:18.767403
+207	Battle	421	1	battles	show	\N	d94cd2b7064a009b14023891caf0cac526044cbd2cabe63d4bfc0cd018601eca	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 23:25:20.428986	2014-11-10 23:25:20.428986
+208	Battle	421	1	battles	show	\N	a1e477a3a377aa1cf36bd8f5e530274e91d8edb10d9f17dc1de235756a5335bc	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:25:25.808123	2014-11-10 23:25:25.808123
+209	Battle	421	1	battles	show	\N	26c00be07edf89b402218d49e21201207850799a5becd497c4a2b88df32fc198	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:35:38.515648	2014-11-10 23:35:38.515648
+210	Battle	421	1	battles	show	\N	872af46714d5df424dcd469d62c7b5a3fd256af3e950d7a7fbe06ea6dc1cb77f	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 23:35:40.142883	2014-11-10 23:35:40.142883
+212	Battle	421	1	battles	show	\N	621f66f33b5edb01decf9e17f09ff97f2084c59f10ca293bdcb914abba8f4d9b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 23:51:36.983898	2014-11-10 23:51:36.983898
+213	Battle	421	1	battles	show	\N	d7f07d85f98a6489d5519353ae46ca08bb9ab65dec4a4adb275bd7f3e5d5501f	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:52:50.958111	2014-11-10 23:52:50.958111
+214	Battle	421	1	battles	show	\N	c9d740da3260f355c790424894e96ff291ac800aebe0135d293e2eb0643069c0	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a7f30fd8-ad4e-4da6-b5e8-551a8f53268e	2014-11-10 23:52:52.061776	2014-11-10 23:52:52.061776
+215	Battle	421	1	battles	show	\N	bb4a2dc552925b8b07ec5492ce43441dc7f8410f3c0c3fde9f86cb538a7c6fde	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-10 23:57:44.096457	2014-11-10 23:57:44.096457
+216	Battle	422	1	battles	show	\N	3c92596ae8d2f90cded2c5b6f0b89870c02aa42ec6811cc9f54712065f0a7b48	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 00:00:27.701664	2014-11-11 00:00:27.701664
+217	Battle	422	1	battles	show	\N	a28343ce7c4ed956c571f4e73ca3f16cdf672a0b1dd9288231ff2c973550f2b6	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a428b508-91a3-4deb-99a2-40f8d8e0016f	2014-11-11 00:00:28.95194	2014-11-11 00:00:28.95194
+218	Battle	422	1	battles	show	\N	ec6b892c924d6e12c99bd9aa42dfb90d960b8c475881efd4eba42dcb4eb76a2a	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:00:42.586535	2014-11-11 00:00:42.586535
+219	Battle	422	1	battles	show	\N	7aa10215159a1343e7fbd5f8f49794236900fd5943d2a6e0a2036ffe52ca4fe5	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/a428b508-91a3-4deb-99a2-40f8d8e0016f	2014-11-11 00:00:43.641454	2014-11-11 00:00:43.641454
+220	Battle	422	1	battles	show	\N	e21da19266514d4bacc4f7c20f7c0bc26d5e1b3a3ce56705938f2885e824a548	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:02:11.716706	2014-11-11 00:02:11.716706
+221	Battle	423	1	battles	show	\N	49e9a7dd321083518c1356c5e94d9b2e8b09cc0069ac6d398e427d6d04cca96c	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 00:03:09.556459	2014-11-11 00:03:09.556459
+222	Battle	423	1	battles	show	\N	04299adb5c3b9a47068b19e088d1533d85a7eb85feaf30a5a69eecac71c62db8	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f7c3815a-b5f9-459e-8ed2-f1070af657f3	2014-11-11 00:03:10.423894	2014-11-11 00:03:10.423894
+223	Battle	423	1	battles	show	\N	4a9f852261f9c89325a137d8d756be5e94d7b33977e9e87cbe91f2481c88ee6f	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:03:54.584336	2014-11-11 00:03:54.584336
+224	Battle	423	1	battles	show	\N	3b70fb3e71e4e48091d18fbeb9408f5fd5c2f84efa98d158afad2d0344936e14	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f7c3815a-b5f9-459e-8ed2-f1070af657f3	2014-11-11 00:03:55.608976	2014-11-11 00:03:55.608976
+225	Battle	\N	1	battles	index	\N	d7d4abb4c77417064c8494fafd59a5f51a0b50647ace738425b55bf5c560a8f9	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:13:46.056575	2014-11-11 00:13:46.056575
+226	Battle	424	1	battles	show	\N	460d0844ce931a419e9e50dfb12c6cc556dcff269cebd36fb6eefb1949e445a6	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 00:14:22.699027	2014-11-11 00:14:22.699027
+227	Battle	424	1	battles	show	\N	124f9c7e24f3658b3336ec1313db34c0e3e620497fb4d43f270ddf2c51e716b9	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 00:14:23.880048	2014-11-11 00:14:23.880048
+228	Battle	424	1	battles	show	\N	d963796793c387de932f78367bf2be4b85df80d835351e5f553ae096ce081ea4	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:15:53.274179	2014-11-11 00:15:53.274179
+229	Battle	424	1	battles	show	\N	bf220b4478db7fb877ee17985a6792a415269f7980c8e0f2e8358012d0e4d946	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 00:15:54.470642	2014-11-11 00:15:54.470642
+230	Battle	424	1	battles	show	\N	c78462693b33f97bba8970b9e60de3de8b81e60472db8509ea3675fec6aa80be	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:22:01.402162	2014-11-11 00:22:01.402162
+231	Battle	424	1	battles	show	\N	1b8ee57fba613af476cebe8124a7100115e404fa9c4ff55574b4c95aed7c546c	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 00:22:02.499373	2014-11-11 00:22:02.499373
+232	Battle	421	1	battles	show	\N	db7b6f180da2ece0c06b1198622c70d4083d251a630955cdccaea78e23572ace	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:25:16.777656	2014-11-11 00:25:16.777656
+233	Battle	425	1	battles	show	\N	f88136e1d35cbd27398ec5eed904615fb6d4de77b8a693af17bc6615bfca8fa3	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 00:25:23.500903	2014-11-11 00:25:23.500903
+234	Battle	425	1	battles	show	\N	d094da6a4f26302e2b31b967c612f8121213e96a13dfab2f9102972cd587802b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/aaf5d71b-2bd7-425f-beb3-31631a9a16c7	2014-11-11 00:25:24.582425	2014-11-11 00:25:24.582425
+235	Battle	425	1	battles	show	\N	dbd67d5f4541842644080e7883b19ff4af32e5f03da3161db793c5a8f963774b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:26:46.066153	2014-11-11 00:26:46.066153
+236	Battle	425	1	battles	show	\N	7947e3d93171a1851c19677402b440609c90b582b994cad4c8e74d35b9b67bff	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/aaf5d71b-2bd7-425f-beb3-31631a9a16c7	2014-11-11 00:26:47.915168	2014-11-11 00:26:47.915168
+237	Battle	425	1	battles	show	\N	63fb8ad5fc0e177f3d908f3ad899634b3c7037df045847d0af402e22e3ff142b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:28:26.323616	2014-11-11 00:28:26.323616
+238	Battle	425	1	battles	show	\N	154a2a30e31004460a2bd01c92d26056b21fb848d3f212f768c948aca704a09f	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/aaf5d71b-2bd7-425f-beb3-31631a9a16c7	2014-11-11 00:28:28.039905	2014-11-11 00:28:28.039905
+239	Battle	424	1	battles	show	\N	c95325c0c2b66d62a0c3028861467294e73e72d5d2f42be7d0749877f954a56b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:31:08.669998	2014-11-11 00:31:08.669998
+240	Battle	424	1	battles	show	\N	5e0fd352bb0425ab69966181a2bdd3e910c5d7262dec851148d246f661654d2d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 00:31:10.336274	2014-11-11 00:31:10.336274
+241	Battle	424	1	battles	show	\N	46d2ed37c28475298949158a6d4ca2fffc9b4ebeeae1f74c1cea8a90c34bde0c	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:34:15.296547	2014-11-11 00:34:15.296547
+242	Battle	424	1	battles	show	\N	638e650339a877024a9ce0724f8457caf3c9956234c543db0919038d5df9e3cb	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 00:34:17.076639	2014-11-11 00:34:17.076639
+243	Battle	424	1	battles	show	\N	100d2fb00b86e0373d471061d2971d489495f5a5346eb78a886b5a991fcdf33e	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:36:03.525596	2014-11-11 00:36:03.525596
+244	Battle	424	1	battles	show	\N	77b74f1cfc2844a3fae973c153a842914a0cbaab3d968d195b37175c39c48d1d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 00:36:05.401413	2014-11-11 00:36:05.401413
+245	Battle	424	1	battles	show	\N	36489bb0b10d40af37d5e01dafa13eb1ba598fb6dca08582c3d53e581a00ac4a	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 00:43:42.997835	2014-11-11 00:43:42.997835
+246	Battle	424	1	battles	show	\N	bff0210d25e66cc6c2bd29929a7625c5aaa3f8a185795d920ba9389abee66f77	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 00:43:44.942648	2014-11-11 00:43:44.942648
+247	Battle	425	1	battles	show	\N	6251066ff999d834ce6c5e11c260fc516b228c9264a85484aadeacd1c4911877	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:07:35.257929	2014-11-11 01:07:35.257929
+248	Battle	425	1	battles	show	\N	0aa5c5dbef51c0542c16cf607e5b7be4f127eea792f5bba7aea5be83a45c8ffb	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/aaf5d71b-2bd7-425f-beb3-31631a9a16c7	2014-11-11 01:07:37.133083	2014-11-11 01:07:37.133083
+249	Battle	425	1	battles	show	\N	9e45d0cd4c0260af2e028bf1ec8591225babffc1231512efb663b1bdbca70f17	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:11:26.711549	2014-11-11 01:11:26.711549
+250	Battle	425	1	battles	show	\N	c7a396e1ab5123b8c119a51455092e32462b56ab211e39a0c0d314c10574ae3d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/aaf5d71b-2bd7-425f-beb3-31631a9a16c7	2014-11-11 01:11:28.381996	2014-11-11 01:11:28.381996
+251	Battle	424	1	battles	show	\N	a5210fa9fd0ae766cd093641b0c7052bd87df0e5f891e9dbfda4a85c28ad645d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:12:28.900218	2014-11-11 01:12:28.900218
+252	Battle	424	1	battles	show	\N	1e233c65a30df45875b8769661f0e79ecf93f81876e73a8ff2ef575602e4bb71	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 01:12:31.301633	2014-11-11 01:12:31.301633
+253	Battle	424	1	battles	show	\N	fce2566e93d7dce6a32b66ec01cd31f993393d54623b5b1763716335c0fb1630	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:12:50.535469	2014-11-11 01:12:50.535469
+254	Battle	424	1	battles	show	\N	c8a923b3c0594565e016af2f56cf2b39f383fe5d8edb5961f6e46a58c7d2c3f8	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 01:12:52.548263	2014-11-11 01:12:52.548263
+255	Battle	424	1	battles	show	\N	9a62058cc41168f2280d35815e8717f585bee06cfb4a81c8d7f47c5264223a82	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:14:49.680658	2014-11-11 01:14:49.680658
+256	Battle	424	1	battles	show	\N	46dd37dde745011014f9d548faf444f941c95fc9e0f25f7ab53dc10b12547fb9	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 01:14:50.953622	2014-11-11 01:14:50.953622
+257	Battle	424	1	battles	show	\N	f1c6b6994ee01f57034557c0a9148f8ccf22bb2507e38bda79e543a33064a47d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:17:49.078103	2014-11-11 01:17:49.078103
+258	Battle	424	1	battles	show	\N	7c16b852933a46f080c821b1e2c51737dcc5714a7b4bd506838a089e2f4e0980	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 01:17:51.859071	2014-11-11 01:17:51.859071
+259	Battle	424	1	battles	show	\N	3356cc42d90c4e2359c3c8d94754076da8d8e446b4523f1dfdf26f8838862b72	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:18:38.119099	2014-11-11 01:18:38.119099
+260	Battle	424	1	battles	show	\N	a3886e8df19bc46c15bd658bb5818b1d29c5cac9ca143a8af12b8c534ac90bd5	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 01:18:40.172838	2014-11-11 01:18:40.172838
+261	Battle	424	1	battles	show	\N	71c3ac82c23c41ae799c66d6691eb3fb3bcad5918c4f2d4100bcf492614d8273	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:19:44.353647	2014-11-11 01:19:44.353647
+262	Battle	424	1	battles	show	\N	89c6b16ea18ac5724fdf028aae08e117bf0fc3b4775469c52564f6149ac49b93	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/f9886361-5192-489c-9328-aa84aa201954	2014-11-11 01:19:45.631735	2014-11-11 01:19:45.631735
+263	Battle	426	1	battles	show	\N	6d4e65448913abf81ef5925acded563d8ff0657353c77b37dc4272afb4bccf96	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 01:22:47.471108	2014-11-11 01:22:47.471108
+264	Battle	426	1	battles	show	\N	9aca0c20c39b1c134c728dad8f3b104550a399d7a0b284d3afbd2be3f1c0c72f	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/8bb6ed8d-a0cd-4445-86c3-dc74cf1688e2	2014-11-11 01:22:49.775781	2014-11-11 01:22:49.775781
+265	Battle	427	1	battles	show	\N	eee73b3129d7222be718a11219c3e644b5a921a715d3b3c9efa6aad16edda897	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 01:29:43.8835	2014-11-11 01:29:43.8835
+266	Battle	427	1	battles	show	\N	2f3cb16fb36df20e42d42251b87b374c95f9ea80f8da7389a091178ed903a6a6	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/40881833-20ab-4944-9039-b2204acdf37d	2014-11-11 01:29:45.030576	2014-11-11 01:29:45.030576
+267	Battle	427	1	battles	show	\N	53c1f4d18a2bc49f7b72d3858c1da8b3656d5e3895e8937cb983d13e84c99a15	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:30:26.928872	2014-11-11 01:30:26.928872
+268	Battle	427	1	battles	show	\N	ea1e22a55bbb796168f7df8d0c4480bcb0ad29894792edf3737d4e380c1e6549	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/40881833-20ab-4944-9039-b2204acdf37d	2014-11-11 01:30:28.350782	2014-11-11 01:30:28.350782
+269	Battle	428	1	battles	show	\N	d21cc5fa236060e658fc57c657efaddc5ad6c3cd257c337405cd8a7629f1329e	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 01:41:54.47649	2014-11-11 01:41:54.47649
+270	Battle	428	1	battles	show	\N	b911c9ae647ed9174536199aba00eb1ba85b77e378ed7a87e115fae93b14045b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 01:41:56.092194	2014-11-11 01:41:56.092194
+271	Battle	428	1	battles	show	\N	8da79739720ae37b7fe5201e19c8e6c5d3e8515e9343103b16a3791a195fe0e5	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:54:18.837035	2014-11-11 01:54:18.837035
+272	Battle	428	1	battles	show	\N	dcedc1d1597f81e9577f50773eb0bc3d5117e8c7656eebcb0ea216d302620170	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 01:54:20.527418	2014-11-11 01:54:20.527418
+273	Battle	428	1	battles	show	\N	28cee3e48c69b8e515e13759e49289bb157e327c0c345ffa504a86f72c794f6c	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:55:25.552906	2014-11-11 01:55:25.552906
+274	Battle	428	1	battles	show	\N	1d2945b8468b0d4de9471a1ed67897166e07d7d5ce8fd1540dea67a7c0a646e5	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 01:55:26.697865	2014-11-11 01:55:26.697865
+275	Battle	428	1	battles	show	\N	cc5afeb5997562a4cb6f42fb724cc9a7d151b3c6fc9ca40cec4770a37227f414	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:55:40.652492	2014-11-11 01:55:40.652492
+276	Battle	428	1	battles	show	\N	a4a0a33cf9701ab817112783d947f7964cec89be13ed03c836f68e4532927af0	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 01:55:41.737579	2014-11-11 01:55:41.737579
+277	Battle	428	1	battles	show	\N	056902b9b2de069d925e33a5eb3047d658453f3291119025e474b675a01dd26e	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:57:47.624547	2014-11-11 01:57:47.624547
+278	Battle	428	1	battles	show	\N	387729ebe8602969f02d3197c1a301206393a5e202c59d9f1a54270d22e05ed1	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 01:57:48.707419	2014-11-11 01:57:48.707419
+279	Battle	428	1	battles	show	\N	ad4d0fb58673eeb02882277688a58f2a4aeb20c7135fbc5f84d96303072d773d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 01:59:14.031753	2014-11-11 01:59:14.031753
+280	Battle	428	1	battles	show	\N	c7a19dc76afec6ab037c4cc9dae8f83c41b9522731ece81753550de403e5a86d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 01:59:15.119	2014-11-11 01:59:15.119
+281	Battle	428	1	battles	show	\N	efe5276fb166d0e335faba893da06d09f80c16b947f66ffd7ca9e491a0f67988	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:00:24.964758	2014-11-11 02:00:24.964758
+282	Battle	428	1	battles	show	\N	da60a95580b7a4dd521de9a813f76758897f2447fe903a6df4d7fb463987c89b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 02:00:26.055735	2014-11-11 02:00:26.055735
+283	Battle	428	1	battles	show	\N	089cb33218168051e151897e67c107beb7efed424140f7fec334e7104a7595e1	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:00:43.189283	2014-11-11 02:00:43.189283
+284	Battle	428	1	battles	show	\N	5e1ba33ca3d6d1d5f85ef7cea6dc2b51e042f6f0159c386c5254c640f47c350b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 02:00:44.240389	2014-11-11 02:00:44.240389
+285	Battle	428	1	battles	show	\N	205fe86aadd8021657e15d36651132e2bc6c6a2b2bb595b88e3d6d7437064d85	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:01:15.857057	2014-11-11 02:01:15.857057
+286	Battle	428	1	battles	show	\N	bfb73f2b8b089a4947da4f494b481f56f824daadf227ba28c57695a758c77f7b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 02:01:16.925427	2014-11-11 02:01:16.925427
+287	Battle	428	1	battles	show	\N	ce3f102f52113f62dd0a816e74ccc2ad0da1ad1ddd5433e532e410ccfad2fe49	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:01:38.232604	2014-11-11 02:01:38.232604
+288	Battle	428	1	battles	show	\N	010081520231b941a7f9e98916bd446f75ea4360f758ea1549e08170d3991c16	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 02:01:39.313083	2014-11-11 02:01:39.313083
+289	Battle	428	1	battles	show	\N	7c58a5098058f49b2f122f05144c94e3f447e6785165c948cc8c351ba783e071	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:04:09.141982	2014-11-11 02:04:09.141982
+290	Battle	428	1	battles	show	\N	1893bf77c05e0c247756e27e32c50f31d46b3c2d10486f1ea64a6c0a4f03d2b0	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 02:04:10.333111	2014-11-11 02:04:10.333111
+291	Battle	428	1	battles	show	\N	75f907039bb4e30fd9789aafd289fc96afd8aa303b951e7de5e7a70683767125	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:30:42.21122	2014-11-11 02:30:42.21122
+292	Battle	428	1	battles	show	\N	d254953b25db0e2f0add969d37ab5d831d22f93158ee907658063c84b0e9822b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 02:30:43.358213	2014-11-11 02:30:43.358213
+293	Battle	428	1	battles	show	\N	ed6fce0f15295569a769f291fffbfaeded187efad56d0bae99039976df8cc84e	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:31:03.709113	2014-11-11 02:31:03.709113
+294	Battle	428	1	battles	show	\N	3fcc1c22ac5614e0143f5b4acc78e242c75ec6414834ce0cd24cd97b62687073	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/98276176-ad6c-4ff1-a92c-222c08d0a0b6	2014-11-11 02:31:04.838146	2014-11-11 02:31:04.838146
+295	Battle	429	1	battles	show	\N	371a64e841c75239980ce55c2b014e1bc8c4d9faa1741d08b8cb5d159f56efd7	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 02:32:31.764441	2014-11-11 02:32:31.764441
+296	Battle	429	1	battles	show	\N	2eae98cf486b1605631c23e21fb204dafea57c640b20c22bae8628e091d705d6	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/59a971bb-7e18-4bff-a4c7-ffbd5314d9aa	2014-11-11 02:32:32.921869	2014-11-11 02:32:32.921869
+297	Battle	429	1	battles	show	\N	399c4e3005c5e0a6fabda5b06c50584d38686e28592aabf9fd81773efc5ad16c	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:33:40.372878	2014-11-11 02:33:40.372878
+298	Battle	429	1	battles	show	\N	cc315e0b25fe183070b337663aa18b59276d71e3ddbf146b310e6b366dc7c354	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/59a971bb-7e18-4bff-a4c7-ffbd5314d9aa	2014-11-11 02:33:41.485907	2014-11-11 02:33:41.485907
+299	Battle	429	1	battles	show	\N	70606b07e85bc0b8a6c03699e8b731928b8f26bf7e3a7f50bd192ffaaeffd78a	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:35:00.490812	2014-11-11 02:35:00.490812
+300	Battle	429	1	battles	show	\N	8699d0f9f11d07ab179ec5362dd846b2043b2aca42a26e3d4f0805ff9ec2a34b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/59a971bb-7e18-4bff-a4c7-ffbd5314d9aa	2014-11-11 02:35:01.745789	2014-11-11 02:35:01.745789
+301	Battle	430	1	battles	show	\N	1984ee7071a5147d23118bb57641ef7870f4ffc9ec8242c8eae4dff82b52a7b8	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 02:41:27.276159	2014-11-11 02:41:27.276159
+302	Battle	430	1	battles	show	\N	1c7500d7f172a7b03f19f7c72f335c3ecba22c76c9ff0b005eca959d27b51e9d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 02:41:28.415992	2014-11-11 02:41:28.415992
+303	Battle	430	1	battles	show	\N	1d494bc826c910fc0739c09b8db2b483838121528b56151e919e5629201dabef	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:43:34.925613	2014-11-11 02:43:34.925613
+304	Battle	430	1	battles	show	\N	f23c78d44fbea8bf4609252669d5da7fd0f0fdc05d9bbf14ff6a410d6f0fd220	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 02:43:38.108128	2014-11-11 02:43:38.108128
+305	Battle	430	1	battles	show	\N	56f1db91bdb0be2d73bb06d7be359a64d4071926870a91821a73bd962fa393ad	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:48:28.121337	2014-11-11 02:48:28.121337
+306	Battle	430	1	battles	show	\N	fd2b16a4eab2a1bb0c38220133c47bf56e58a6f23c143e0a5c98d826f5ade756	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 02:48:29.78185	2014-11-11 02:48:29.78185
+307	Battle	430	1	battles	show	\N	361af2992842ff0f17f75f14a067a3363ae775bd6be4a3867843b64a25e6ed64	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:57:02.722565	2014-11-11 02:57:02.722565
+308	Battle	430	1	battles	show	\N	d4ed5f50a1b1352d6abf78e4f5b139aab054ee6966af70c17203f6857cd0c370	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 02:57:04.680555	2014-11-11 02:57:04.680555
+309	Battle	430	1	battles	show	\N	6d6629eefb9b28ae8e25efa4c0dffc23eebaacdac99811c9d57f9472d4c04f41	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:57:23.215601	2014-11-11 02:57:23.215601
+310	Battle	430	1	battles	show	\N	aa38aedc01f1e609d25db4522242248ea05fa830effaafc678ad797520ab4c8b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 02:57:24.404409	2014-11-11 02:57:24.404409
+311	Battle	430	1	battles	show	\N	8185d8b930a6d610d16904e882862ef86d44160733b5042b9ed9982fdb83674b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 02:57:55.565141	2014-11-11 02:57:55.565141
+312	Battle	430	1	battles	show	\N	b821b8637e348f4c6646ab70997282f4832eb9605da75af43b6e858b87ecfb9c	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 02:57:56.882787	2014-11-11 02:57:56.882787
+313	Battle	430	1	battles	show	\N	f4844aa38789a6f185a7c4b0873ae44627626f9cc5b645466236a1e9d04a8a1d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 03:01:14.721846	2014-11-11 03:01:14.721846
+314	Battle	430	1	battles	show	\N	ba4ce6320ef10108ebe2b1ce0c6d57901dc5d067f9bb4a0e68d8caa34fa3b38c	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 03:01:29.261535	2014-11-11 03:01:29.261535
+315	Battle	430	1	battles	show	\N	2f6f848f339c1f54cc2b8ce836fc052dd9a39d9fcce367519d8c00a146968eef	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 03:01:31.752363	2014-11-11 03:01:31.752363
+316	Battle	430	1	battles	show	\N	4dad7e8fcc714e9762effd2eafa7639ec10e31c880f5ddda04ae6b50e713a7b5	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 03:01:52.443858	2014-11-11 03:01:52.443858
+317	Battle	430	1	battles	show	\N	179440c073b8e9df9d0765effc7989c80af235574b4990123f0f1543d68539e1	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 03:01:53.81743	2014-11-11 03:01:53.81743
+318	Battle	430	1	battles	show	\N	f75838ab395a39ad25ad55bc81d418ea91448d3316936ea0acc72bf92d72a1fe	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 03:02:24.531032	2014-11-11 03:02:24.531032
+319	Battle	430	1	battles	show	\N	bfe1e2735c41ee7b92cb955e6308ed949ba5f3fab2eb52720de63f5daa41857c	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 03:02:26.425805	2014-11-11 03:02:26.425805
+320	Battle	430	1	battles	show	\N	69964732f21e24e46700d59d102a265553cbd147d9e4460e9b6543837230fed1	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 03:05:30.853693	2014-11-11 03:05:30.853693
+321	Battle	430	1	battles	show	\N	0afc8d3ab9f2face77ed28d6000f9505e4462d011bc97df76f236b57ce748289	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 03:05:32.516317	2014-11-11 03:05:32.516317
+322	Battle	430	1	battles	show	\N	554224a4d709e529da0627c1f20f00de38bb717e88eda36beb387d7ae68096f5	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 03:13:54.529827	2014-11-11 03:13:54.529827
+323	Battle	430	1	battles	show	\N	4be8da0c7fbb471b53836153d63adcd1b29c2f571df7b8adae63f736a847943c	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 03:13:56.171773	2014-11-11 03:13:56.171773
+324	Battle	430	1	battles	show	\N	5f5657b2914f4a7377651ceab557460616d4b51de88e65ed6d04d20313333463	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 03:15:34.793315	2014-11-11 03:15:34.793315
+325	Battle	430	1	battles	show	\N	de9e0318f67608d55b9b1a6d6fa4613032977fc64c5225aefd633aea52da9dbf	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 03:15:36.564796	2014-11-11 03:15:36.564796
+326	Battle	430	1	battles	show	\N	234caf8ee333dd81d6b3da04fc76b63bd077cd6fe63ce0f252eecc3c400d0f8c	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 03:16:12.004238	2014-11-11 03:16:12.004238
+327	Battle	430	1	battles	show	\N	7eabfab108e6d5e6a0d983ce1b5f1b7ac51041ce5d40675b2d5f312ea3e12d6d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 03:16:14.131028	2014-11-11 03:16:14.131028
+328	Battle	430	1	battles	show	\N	6259de949b8365fc4ead523c490c3186735e0bdf613fb995eac6a4ca13ba132f	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 03:16:40.921024	2014-11-11 03:16:40.921024
+329	Battle	430	1	battles	show	\N	aa9664f5c06068c98aefbf88cfbe69ac135eeac24b53e603da82e24fc199f80f	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 03:16:42.854516	2014-11-11 03:16:42.854516
+330	Battle	430	1	battles	show	\N	8ded60c6b65d1792b1459766da198dbac4a63422ce0a0c89168dc3849f9032b3	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 03:17:35.422954	2014-11-11 03:17:35.422954
+331	Battle	430	1	battles	show	\N	ece2ea0eb3b8734f5fbff9c9f5a7448a45e93e5829d12645ecc55b991c1fb38d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/ceeca394-d314-449d-9851-e1b6647261c6	2014-11-11 03:17:37.895012	2014-11-11 03:17:37.895012
+332	Battle	431	1	battles	show	\N	ed700c88170759d595ead88946917fd552fc2e32856981f944418c9c0201c01b	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 03:20:48.013119	2014-11-11 03:20:48.013119
+333	Battle	431	1	battles	show	\N	62498878ecfcc21ebfd2bb3f75b9969506c4a0d38df9e3e0db12e48b095df1b0	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/9ff37ed9-e379-4fa4-a854-b94715d572d0	2014-11-11 03:20:50.466865	2014-11-11 03:20:50.466865
+334	Battle	432	1	battles	show	\N	08a4b45f202dea9ff6c651ea76f16c0dc828b51fa2f11dcb96c3747b55f91496	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 06:42:44.331895	2014-11-11 06:42:44.331895
+335	Battle	432	1	battles	show	\N	d932466ac3f2371f47af34c18cd6bafcc40fd5897ebb881dfdc36f32d512051d	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/72455218-af5f-47b7-adfd-cc265dffdbf1	2014-11-11 06:42:45.562899	2014-11-11 06:42:45.562899
+336	Battle	432	1	battles	show	\N	b153950819dffeae8dcac8cd475b24ddb6fd80a2ea289466bf9f427b8b178506	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 06:55:51.169401	2014-11-11 06:55:51.169401
+337	Battle	432	1	battles	show	\N	25817362d580e874f6027584bb8018fd78b51de777dd15013360e023fc14364f	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/72455218-af5f-47b7-adfd-cc265dffdbf1	2014-11-11 06:55:52.602587	2014-11-11 06:55:52.602587
+338	Battle	432	1	battles	show	\N	b9a8b5bb857dec0d9ca403233e76d77a82a0ff388699ede9be0955195e556134	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 07:40:50.524371	2014-11-11 07:40:50.524371
+339	Battle	432	1	battles	show	\N	a651b657adc977a7640440b912dd2674e75c172b871a5e359574b0c69acb46b0	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/72455218-af5f-47b7-adfd-cc265dffdbf1	2014-11-11 07:40:51.729298	2014-11-11 07:40:51.729298
+340	Battle	\N	1	battles	create	\N	2ab2db641b5563eeb242a8882aa04d0d1b3350bd141c89fa99fdb2a599f6e4b0	127.0.0.1	e7736f5925b4de6e1bcf1aef1350280a	\N	http://0.0.0.0:3000/battles/new	2014-11-11 20:12:29.388563	2014-11-11 20:12:29.388563
+341	Battle	9	1	battles	show	\N	b91b6127d530466bfc1269c4aab3ba88c00e8944ff434759918da1ad6bac6102	127.0.0.1	e7736f5925b4de6e1bcf1aef1350280a	\N	http://0.0.0.0:3000/battles/new	2014-11-11 20:12:29.57257	2014-11-11 20:12:29.57257
+342	Battle	436	1	battles	show	\N	b91b6127d530466bfc1269c4aab3ba88c00e8944ff434759918da1ad6bac6102	127.0.0.1	e7736f5925b4de6e1bcf1aef1350280a	\N	http://0.0.0.0:3000/battles/new	2014-11-11 20:12:29.577956	2014-11-11 20:12:29.577956
+343	Battle	441	1	battles	show	\N	45892776af6526b01a4925c6eaf0fcd8c1952af98537c8f38e49bc34627a8f4c	127.0.0.1	e7736f5925b4de6e1bcf1aef1350280a	\N	http://0.0.0.0:3000/battles/new	2014-11-11 20:12:29.972336	2014-11-11 20:12:29.972336
+344	Battle	445	1	battles	show	\N	5bb475439842e0af8950f961151df11944c92b25639a46ca5fcaecbba403ef3d	127.0.0.1	e7736f5925b4de6e1bcf1aef1350280a	\N	http://0.0.0.0:3000/battles/new	2014-11-11 20:12:30.286344	2014-11-11 20:12:30.286344
+345	Battle	448	1	battles	show	\N	1c658274ffcab534dd0afaeb1fe4da7b47ff7544d11dde5850846439fbdc0b58	127.0.0.1	e7736f5925b4de6e1bcf1aef1350280a	\N	http://0.0.0.0:3000/battles/new	2014-11-11 20:12:30.589524	2014-11-11 20:12:30.589524
+346	Battle	451	1	battles	show	\N	8521e9b3d7786447daeb4bb82ceee67b149867d8e175037cb19966b9912e68eb	127.0.0.1	e7736f5925b4de6e1bcf1aef1350280a	\N	http://0.0.0.0:3000/battles/new	2014-11-11 20:12:30.932861	2014-11-11 20:12:30.932861
+347	Battle	451	1	battles	show	\N	63fddf88433726c34f0cc3af5f3fcdeaf145fdfc0cac5cf4655ae91a95a57c57	127.0.0.1	e7736f5925b4de6e1bcf1aef1350280a	\N	http://0.0.0.0:3000/battles/0a393a53-0648-48e4-8059-a0c2c12277f8	2014-11-11 20:12:31.284223	2014-11-11 20:12:31.284223
+348	Battle	452	1	battles	show	\N	2f1fa9199421a806e4df826f3262256c5dd2b93c158055e3a0cb21dfba3eaa9a	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 20:46:25.884368	2014-11-11 20:46:25.884368
+349	Battle	452	1	battles	show	\N	323176f5c7ab82499c4ba6d2a362c5fea427c6f64474f1bb9ab01df5e8323967	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/e531da8b-905d-4098-b6e7-4b395cf5de72	2014-11-11 20:46:27.165481	2014-11-11 20:46:27.165481
+350	Battle	453	1	battles	show	\N	55616f7c112cd6a55d0935b0a1265c062563136a4952d2aa9e9ecfc63ddd660f	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 20:47:40.674291	2014-11-11 20:47:40.674291
+351	Battle	453	1	battles	show	\N	3d484e5af0907313f278d72ebce159cc19edb95657c592b518f22e6c5468a3d6	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/83c7ab32-be9f-408f-a96f-b2c2adcb274c	2014-11-11 20:47:41.93496	2014-11-11 20:47:41.93496
+352	Battle	453	1	battles	show	\N	a90c0749c8c0fbe52edcee66399e12e4366bd3aa30ad960a1359c2583f4d3007	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 20:48:00.907698	2014-11-11 20:48:00.907698
+353	Battle	453	1	battles	show	\N	5e0fdb7bc36d1f0e466d76dcd4bc619fe1e60c66b79c72da3c1dde4a28fe0f4f	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/83c7ab32-be9f-408f-a96f-b2c2adcb274c	2014-11-11 20:48:02.271361	2014-11-11 20:48:02.271361
+354	Battle	453	1	battles	show	\N	69f4203085a8f69952a04588533b3426c9114f42f9a0ab83ae8049a44542f95f	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 20:50:07.098605	2014-11-11 20:50:07.098605
+355	Battle	453	1	battles	show	\N	9fd0ea6771c86ae06f44bba257493f69f8dcb594b0d41ad94cdd11acc57f8798	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/83c7ab32-be9f-408f-a96f-b2c2adcb274c	2014-11-11 20:50:08.364808	2014-11-11 20:50:08.364808
+356	Battle	454	1	battles	show	\N	c777f414bf670b7c91271f545c8aa517550108d036802999e7b875089a5d9e75	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 20:59:14.047974	2014-11-11 20:59:14.047974
+357	Battle	454	1	battles	show	\N	08fd641c261b490e6446fd2d944df015832acbb6016aa330ca8e27f7053ec3a1	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/cd95ea7d-a755-4570-8ccd-4d659e865d9c	2014-11-11 20:59:15.336164	2014-11-11 20:59:15.336164
+358	Battle	454	1	battles	show	\N	a037bd34d1e25038e3434e0ac231fbebf332c648b9345c86c245af6d82d132cf	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 20:59:36.883104	2014-11-11 20:59:36.883104
+359	Battle	454	1	battles	show	\N	0e6d5369a40d9f014064b4f45e2e1d5b3952bc4a9d5b1e15f9395c4faea0d689	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/cd95ea7d-a755-4570-8ccd-4d659e865d9c	2014-11-11 20:59:38.151677	2014-11-11 20:59:38.151677
+360	Battle	454	1	battles	show	\N	173977b22fcc551b6daa84e385918e790cbe01ec5528959228982007ebab7f61	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 20:59:53.331991	2014-11-11 20:59:53.331991
+361	Battle	454	1	battles	show	\N	a08f36eec1e280938a58e69dc5c57d0adcb216363021de8f00d1a164c6411c5a	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/cd95ea7d-a755-4570-8ccd-4d659e865d9c	2014-11-11 20:59:54.58054	2014-11-11 20:59:54.58054
+362	Battle	454	1	battles	show	\N	6b88c9c84310dcd7b69507517ae2d97cfbda1d1f83e11cdae01d59d7278967f4	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 21:00:08.855442	2014-11-11 21:00:08.855442
+363	Battle	454	1	battles	show	\N	ec3e5d1049b69d0054ba17c92fdc7c72fd6432799c7c0427481786d707d010ee	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/cd95ea7d-a755-4570-8ccd-4d659e865d9c	2014-11-11 21:00:10.112579	2014-11-11 21:00:10.112579
+364	Battle	454	1	battles	show	\N	b0dad895486015b2df2f5a292f5650f01ffc68a0cad83d1419e56728844c357e	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 21:04:46.656122	2014-11-11 21:04:46.656122
+365	Battle	454	1	battles	show	\N	39ecfa6945e414f7b737c728c07fe46104a6185a84d6ebd8459fd70d741b7613	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/cd95ea7d-a755-4570-8ccd-4d659e865d9c	2014-11-11 21:04:47.937539	2014-11-11 21:04:47.937539
+366	Battle	454	1	battles	show	\N	92fa43659b8aa89b86bb98e4d8f12c7028a9cdd1f01764d4fb7c34f6d69501c2	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 21:05:59.882898	2014-11-11 21:05:59.882898
+367	Battle	454	1	battles	show	\N	8ebb761f207e2c702c7cb102b874248453dea39b3c3c42c1aa8d2c8d1ba706e2	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/cd95ea7d-a755-4570-8ccd-4d659e865d9c	2014-11-11 21:06:01.115004	2014-11-11 21:06:01.115004
+368	Battle	454	1	battles	show	\N	37b58a37ba16761726aedb336038bea1d9bb116774c9e80d0255ea618b90d218	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 21:08:07.340743	2014-11-11 21:08:07.340743
+369	Battle	454	1	battles	show	\N	e01ec8d2b00d1d6977f3873ea778fe5c93c252e7db5d5393259b226dccb016be	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 21:08:22.984865	2014-11-11 21:08:22.984865
+370	Battle	454	1	battles	show	\N	839e779beef5e87d6a080d3f5c31b7f3b3e1d339ad2c55af2ff6e9205ade21b0	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/cd95ea7d-a755-4570-8ccd-4d659e865d9c	2014-11-11 21:08:25.189079	2014-11-11 21:08:25.189079
+371	Battle	454	1	battles	show	\N	d66d7234357990204a885b09292c0b2ac06655fabce1acb05bbab30ec39467b3	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 21:11:15.052079	2014-11-11 21:11:15.052079
+372	Battle	454	1	battles	show	\N	fdc2dc07e19402fd5564dd546234b0ea0b44679b26733ed1a723a75a81b9faa3	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/cd95ea7d-a755-4570-8ccd-4d659e865d9c	2014-11-11 21:11:17.270598	2014-11-11 21:11:17.270598
+373	Battle	454	1	battles	show	\N	49f323f84da3f1d986b281e48e2d4e07ef0ec84cbae7cba052b2094b36689bc5	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	\N	2014-11-11 21:21:46.738155	2014-11-11 21:21:46.738155
+374	Battle	454	1	battles	show	\N	80bfa189ea2d5e0f62abe9e8936946b920716886c80ee3ce89fc51bc379b10d2	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/cd95ea7d-a755-4570-8ccd-4d659e865d9c	2014-11-11 21:21:48.199614	2014-11-11 21:21:48.199614
+375	Battle	455	1	battles	show	\N	b8629ff5a75d3e542c23c8ab979161d6a8bd3d2d95036db6aa97609e0b4216e0	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/new	2014-11-11 21:41:49.707536	2014-11-11 21:41:49.707536
+376	Battle	455	1	battles	show	\N	6dac6cd77a95f516cf926fca306fa54aa7f10f77b91a22afb83f136b3dea5351	127.0.0.1	d3e81726cf4034e3f0639305a64f025d	\N	http://localhost:3000/battles/6a810cba-87f4-43db-811a-7276a4e15778	2014-11-11 21:41:51.29237	2014-11-11 21:41:51.29237
 \.
 
 
@@ -3236,7 +3521,7 @@ COPY impressions (id, impressionable_type, impressionable_id, user_id, controlle
 -- Name: impressions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('impressions_id_seq', 176, true);
+SELECT pg_catalog.setval('impressions_id_seq', 376, true);
 
 
 --
@@ -3278,10 +3563,10 @@ COPY members (id, party_id, created_at, updated_at, monster_unlock_id) FROM stdi
 562	4	2014-11-10 21:47:46.780856	2014-11-10 21:47:46.780856	220
 563	4	2014-11-10 21:47:47.798137	2014-11-10 21:47:47.798137	219
 564	4	2014-11-10 21:47:48.777305	2014-11-10 21:47:48.777305	218
-573	112	2014-11-10 22:01:52.819314	2014-11-10 22:01:52.819314	229
-574	112	2014-11-10 22:01:52.821485	2014-11-10 22:01:52.821485	231
-575	112	2014-11-10 22:01:52.823518	2014-11-10 22:01:52.823518	230
-576	112	2014-11-10 22:01:52.825725	2014-11-10 22:01:52.825725	228
+597	118	2014-11-11 20:47:38.863357	2014-11-11 20:47:38.863357	231
+598	118	2014-11-11 20:47:38.865832	2014-11-11 20:47:38.865832	230
+599	118	2014-11-11 20:47:38.868252	2014-11-11 20:47:38.868252	228
+600	118	2014-11-11 20:47:38.870524	2014-11-11 20:47:38.870524	229
 \.
 
 
@@ -3289,7 +3574,7 @@ COPY members (id, party_id, created_at, updated_at, monster_unlock_id) FROM stdi
 -- Name: members_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('members_id_seq', 576, true);
+SELECT pg_catalog.setval('members_id_seq', 600, true);
 
 
 --
@@ -3599,7 +3884,7 @@ COPY parties (id, user_id, name, created_at, updated_at, npc, enemy) FROM stdin;
 32	5	Your Party	2014-10-26 03:36:27.147274	2014-10-26 03:36:27.147274	f	\N
 86	17	Your Party	2014-10-31 00:33:09.135652	2014-10-31 00:33:09.135652	f	\N
 108	2	stage 1	2014-11-10 21:53:54.020592	2014-11-10 21:53:54.020592	t	\N
-112	2	Stage 1	2014-11-10 22:01:52.814147	2014-11-10 22:01:52.814147	t	admin
+118	2	Stage 1	2014-11-11 20:47:38.857643	2014-11-11 20:47:38.857643	t	admin
 \.
 
 
@@ -3607,7 +3892,7 @@ COPY parties (id, user_id, name, created_at, updated_at, npc, enemy) FROM stdin;
 -- Name: parties_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('parties_id_seq', 112, true);
+SELECT pg_catalog.setval('parties_id_seq', 118, true);
 
 
 --
@@ -3840,6 +4125,7 @@ COPY schema_migrations (version) FROM stdin;
 20141105212330
 20141107001815
 20141110191009
+20141106180206
 \.
 
 
@@ -3932,8 +4218,8 @@ SELECT pg_catalog.setval('skin_restrictions_id_seq', 112, true);
 COPY stat_targets (id, name, created_at, updated_at) FROM stdin;
 1	hp	2014-09-30 19:56:32.066064	2014-09-30 19:56:32.066064
 3	change	2014-10-02 19:09:24.037767	2014-10-02 19:09:24.037767
-4	physical_resistance	2014-11-10 21:27:20.529594	2014-11-10 21:27:20.529594
-5	special_resistance	2014-11-10 21:28:04.757839	2014-11-10 21:28:04.757839
+8	spe_resist	2014-11-11 21:13:45.971382	2014-11-11 21:13:45.971382
+9	phy_resist	2014-11-11 21:14:34.395288	2014-11-11 21:14:34.395288
 \.
 
 
@@ -3941,7 +4227,7 @@ COPY stat_targets (id, name, created_at, updated_at) FROM stdin;
 -- Name: stat_targets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('stat_targets_id_seq', 5, true);
+SELECT pg_catalog.setval('stat_targets_id_seq', 9, true);
 
 
 --
@@ -3998,12 +4284,13 @@ COPY targets (id, created_at, updated_at, name) FROM stdin;
 11	2014-10-02 18:18:49.38664	2014-10-02 18:18:49.38664	twoRandomMons
 12	2014-10-02 18:19:00.343326	2014-10-02 18:19:00.343326	foeBuffAttack
 13	2014-10-02 18:19:26.742677	2014-10-02 18:19:26.742677	twoRandomAllies
-15	2014-11-10 21:30:32.475996	2014-11-10 21:30:32.475996	poison-health
-16	2014-11-10 21:30:45.064434	2014-11-10 21:30:45.064434	poison-resistance
-17	2014-11-10 21:31:23.217059	2014-11-10 21:31:23.217059	timed-resistance-buff
-18	2014-11-10 21:32:09.677914	2014-11-10 21:32:09.677914	timed-resistance-debuff
-19	2014-11-10 21:32:33.103747	2014-11-10 21:32:33.103747	timed-attack-buff
 20	2014-11-10 21:32:48.68856	2014-11-10 21:32:48.68856	taunt
+21	2014-11-11 20:23:59.394036	2014-11-11 20:23:59.394036	poison-hp
+28	2014-11-11 20:31:36.589811	2014-11-11 20:31:36.589811	atk-buff
+25	2014-11-11 20:27:26.150001	2014-11-11 20:53:32.951547	timed-spe-resist-debuff
+22	2014-11-11 20:24:45.991806	2014-11-11 20:57:03.54576	timed-phy-resist-buff
+23	2014-11-11 20:25:25.663795	2014-11-11 20:57:51.788798	timed-phy-resist-debuff
+24	2014-11-11 20:26:57.63621	2014-11-11 20:58:43.099148	timed-spe-resist-buff
 \.
 
 
@@ -4011,7 +4298,7 @@ COPY targets (id, created_at, updated_at, name) FROM stdin;
 -- Name: targets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('targets_id_seq', 20, true);
+SELECT pg_catalog.setval('targets_id_seq', 28, true);
 
 
 --
