@@ -4,8 +4,8 @@
 
 ######################################################################################################## Monster logics
 window.fixEvolMon = (monster, player) ->
-  monster.physical_resistance = 0
-  monster.special_resistance = 0
+  monster.phy_resist = 0
+  monster.spe_resist = 0
   monster.fucking_up = []
   monster.fucked_up = []
   monster.taunted = {}
@@ -51,6 +51,7 @@ window.fixEvolMon = (monster, player) ->
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
         else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
           window.change = eval(a.change - monTarget["spe-resist"])
+          change 
           monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
         else
           window.change = a.change 
@@ -62,9 +63,10 @@ window.fixEvolMon = (monster, player) ->
         while i < ability.effects.length
           effect = a.effects[i]
           switch effect.targeta
-            when "poison-hp", "taunt", "phy-resist-buff", "phy-resist-debuff", "spe-resist-buff", "spe-resist-debuff"
+            when "taunt", "poison-hp", "timed-phy-resist-buff", "timed-phy-resist-debuff"
+                  , "timed-spe-resist-buff", "timed-spe-resist-debuff"
               effect.activate abilitytargets
-            when "atk-buff"
+            when "timed-atk-buff"
               i = 0 
               n = abilitytargets.length
               while i < n 
