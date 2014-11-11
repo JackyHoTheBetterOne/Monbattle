@@ -62,9 +62,9 @@ window.fixEvolMon = (monster, player) ->
         while i < ability.effects.length
           effect = a.effects[i]
           switch effect.targeta
-            when "poison-health", "poison-resistance", "taunt", "timed-resistance-buff", "timed-resistance-debuff"
+            when "poison-hp", "taunt", "phy-resist-buff", "phy-resist-debuff", "spe-resist-buff", "spe-resist-debuff"
               effect.activate abilitytargets
-            when "timed-attack-buff"
+            when "atk-buff"
               i = 0 
               n = abilitytargets.length
               while i < n 
