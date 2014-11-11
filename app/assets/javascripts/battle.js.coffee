@@ -741,7 +741,7 @@ window.controlAI = (monIndex) ->
         currentMon.animate(
           "left": "+=" + leftMove.toString() + "px"
           "top": "+=" + topMove.toString() + "px"
-        , 350, ->
+        , 400, ->
           checkMax
           singleTargetAbilityDisplayVariable()
           if targetMon.css("display") isnt "none"
@@ -749,7 +749,7 @@ window.controlAI = (monIndex) ->
               targetMon.effect("explode", {pieces: 30}, 1000).hide()
             else
               targetMon.effect "shake", 750
-        ).animate backPosition, 350, ->
+        ).animate backPosition, 400, ->
           showDamageSingle()
           hpChangeBattle()
           checkMonHealthAfterEffect()
@@ -1069,7 +1069,7 @@ $ ->
                   currentMon.animate(
                    "left": "+=" + leftMove.toString()  + "px"
                    "top": "+=" + topMove.toString()  + "px"
-                  , 250, ->
+                  , 333, ->
                     action()
                     checkMax()
                     singleTargetAbilityDisplayVariable()
@@ -1079,7 +1079,7 @@ $ ->
                       else
                         targetMon.effect "shake", 750
                     showDamageSingle()
-                  ).animate backPosition, 250, ->
+                  ).animate backPosition, 333, ->
                     singleTargetAbilityAfterActionDisplay()
                     toggleEnemyClick()
                     return
