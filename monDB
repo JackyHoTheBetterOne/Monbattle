@@ -890,8 +890,6 @@ CREATE TABLE monsters (
     rarity_id integer,
     mp_cost integer,
     gp_cost integer,
-    physical_resistance integer,
-    ability_resistance integer,
     default_skin_id integer,
     default_sock1_id integer,
     default_sock2_id integer,
@@ -3810,25 +3808,25 @@ SELECT pg_catalog.setval('monster_unlocks_id_seq', 231, true);
 -- Data for Name: monsters; Type: TABLE DATA; Schema: public; Owner: Frank
 --
 
-COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_modifier, dmg_modifier, evolved_from_id, description, summon_cost, evolve_animation_file_name, evolve_animation_content_type, evolve_animation_file_size, evolve_animation_updated_at, personality_id, keywords, rarity_id, mp_cost, gp_cost, physical_resistance, ability_resistance, default_skin_id, default_sock1_id, default_sock2_id, stage) FROM stdin;
-9	Keets	1250	2014-09-30 20:23:39.443142	2014-10-31 18:09:25.146891	9	4	1	1	0	A rogue bird.	1	\N	\N	\N	\N	7	keets a rogue bird. npc-rogue-0005 earth 1250 1	5	\N	\N	0	0	21	17	38	\N
-12	Kakeeto	2100	2014-09-30 20:32:57.303379	2014-10-31 18:09:25.161123	22	4	1	1	9	A bigger rogue bird.	0	tinder.gif	image/gif	35854	2014-09-30 21:35:44.771173	\N	kakeeto a bigger rogue bird. rogue-0003-e1 earth keets keets 2100 0	5	\N	\N	0	0	22	16	38	\N
-15	Yellow Bubbles	1100	2014-10-09 04:06:43.604328	2014-10-31 18:09:25.172118	15	3	\N	\N	0	A yellow bubbles.	0	\N	\N	\N	\N	10	yellow bubbles a yellow bubbles. rogue-0003 thunder 1100 0	4	\N	\N	0	0	29	37	38	\N
-24	Snake Bubbles	2600	2014-10-10 23:47:11.634389	2014-10-31 18:09:25.187306	22	3	\N	\N	15	A snake bubbles	40	tinder.gif	image/gif	35854	2014-10-10 23:47:10.507253	\N	snake bubbles a snake bubbles rogue-0003-e1 thunder yellow bubbles yellow bubbles 2600 40	1	\N	\N	0	0	31	37	38	\N
-8	DeadWhale	2500	2014-09-30 20:22:20.010067	2014-10-31 18:09:25.200776	20	2	1	1	7	Ghost whale evolved.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:58.48608	\N	deadwhale ghost whale evolved. healer-0002-e1 water ghostwhale ghostwhale 2500 40	1	\N	\N	0	0	16	37	38	\N
-2	Loki	1350	2014-09-30 18:06:10.640735	2014-10-31 18:09:25.215388	15	1	1	1	0	I've got a mad legit spear	0	\N	\N	\N	\N	6	loki i've got a mad legit spear rogue-0003 fire 1350 0	4	\N	\N	0	0	24	37	38	\N
-10	FoxTrot	1200	2014-09-30 20:25:52.948533	2014-10-31 18:09:25.228082	14	3	1	1	0	A fox with magic. Yeah.	1	\N	\N	\N	\N	9	foxtrot a fox with magic. yeah. mage-0004 thunder 1200 1	4	\N	\N	0	0	17	37	38	\N
-5	Saphira	1450	2014-09-30 18:46:57.985514	2014-10-31 18:09:25.238531	11	2	1	1	0	Blue Dragon	0	\N	\N	\N	\N	9	saphira blue dragon warrior-0001 water 1450 0	6	\N	\N	0	0	19	37	10	\N
-7	GhostWhale	1500	2014-09-30 20:21:22.196954	2014-10-31 18:09:25.266344	12	2	1	1	0	A ghost whale.	1	\N	\N	\N	\N	6	ghostwhale a ghost whale. healer-0002 water 1500 1	4	\N	\N	0	0	15	37	38	\N
-22	King Bubbles	2350	2014-10-10 23:28:02.991097	2014-10-31 18:09:25.279883	20	4	\N	\N	4	A big bubbles	40	\N	\N	\N	\N	\N	king bubbles a big bubbles healer-0002-e1 earth green bubbles green bubbles 2350 40	1	\N	\N	0	0	33	37	38	\N
-11	FoxRage	2150	2014-09-30 20:29:11.596906	2014-10-31 18:09:25.302913	21	3	1	1	10	A mad fox with magic. Shouldn't have pissed him off.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:33.265983	\N	foxrage a mad fox with magic. shouldn't have pissed him off. mage-0004-e1 thunder foxtrot foxtrot 2150 40	1	\N	\N	0	0	18	37	38	\N
-25	Super Loki	2450	2014-10-10 23:50:00.894536	2014-10-31 18:09:25.332373	19	1	\N	\N	2	Loki supped up. 	40	tinder.gif	image/gif	35854	2014-10-10 23:49:59.868373	\N	super loki loki supped up.  warrior-0001-e1 fire loki loki 2450 40	1	\N	\N	0	0	34	37	38	\N
-4	Green Bubbles	1100	2014-09-30 18:34:52.037132	2014-10-31 18:54:47.957375	12	4	1	1	0	A green bubbles.	0	\N	\N	\N	\N	7	green bubbles a green bubbles. healer-0002 earth 1100 0	6	5	5	0	0	2	37	14	\N
-21	Blue Bubbles	1500	2014-10-10 22:40:54.841088	2014-10-31 18:55:04.605975	16	2	\N	\N	0	A water bubbles.	0	\N	\N	\N	\N	7	blue bubbles a water bubbles. npc-mage-0006 water 1500 0	6	\N	\N	0	0	32	17	14	\N
-26	Red Bubbles	950	2014-10-26 02:55:44.059487	2014-10-31 18:55:59.783812	11	1	\N	\N	0	A red bubbles. Nuf said.	0	\N	\N	\N	\N	4	red bubbles a red bubbles. nuf said. warrior-0001 fire 950 0	4	\N	\N	0	0	37	21	38	\N
-1	Kagura new	1200	2014-09-30 17:45:35.816134	2014-11-01 00:08:53.889619	5	1	1	1	0	Demon wielding a scythe.	0	\N	\N	\N	\N	6	kagura new demon wielding a scythe. npc-warrior-0001 fire 1200 0	5	\N	\N	0	0	23	5	32	\N
-3	Red Rattle	1250	2014-09-30 18:29:02.744568	2014-11-10 21:42:30.044839	6	2	1	1	0	A red snake	0	\N	\N	\N	\N	8	red rattle a red snake npc-rogue-0002 water 1250 0	5	\N	\N	0	0	5	17	4	\N
-6	Eviganon	2200	2014-09-30 18:53:20.718158	2014-11-10 21:50:05.670273	19	2	1	1	5	Bigger Blue Dragon	40	evo-animation-new.gif	image/gif	301911	2014-09-30 18:53:17.695736	\N	eviganon bigger blue dragon warrior-0001-e1 water saphira saphira 2200 40	1	\N	\N	0	0	20	37	19	\N
+COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_modifier, dmg_modifier, evolved_from_id, description, summon_cost, evolve_animation_file_name, evolve_animation_content_type, evolve_animation_file_size, evolve_animation_updated_at, personality_id, keywords, rarity_id, mp_cost, gp_cost, default_skin_id, default_sock1_id, default_sock2_id, stage) FROM stdin;
+9	Keets	1250	2014-09-30 20:23:39.443142	2014-10-31 18:09:25.146891	9	4	1	1	0	A rogue bird.	1	\N	\N	\N	\N	7	keets a rogue bird. npc-rogue-0005 earth 1250 1	5	\N	\N	21	17	38	\N
+12	Kakeeto	2100	2014-09-30 20:32:57.303379	2014-10-31 18:09:25.161123	22	4	1	1	9	A bigger rogue bird.	0	tinder.gif	image/gif	35854	2014-09-30 21:35:44.771173	\N	kakeeto a bigger rogue bird. rogue-0003-e1 earth keets keets 2100 0	5	\N	\N	22	16	38	\N
+15	Yellow Bubbles	1100	2014-10-09 04:06:43.604328	2014-10-31 18:09:25.172118	15	3	\N	\N	0	A yellow bubbles.	0	\N	\N	\N	\N	10	yellow bubbles a yellow bubbles. rogue-0003 thunder 1100 0	4	\N	\N	29	37	38	\N
+24	Snake Bubbles	2600	2014-10-10 23:47:11.634389	2014-10-31 18:09:25.187306	22	3	\N	\N	15	A snake bubbles	40	tinder.gif	image/gif	35854	2014-10-10 23:47:10.507253	\N	snake bubbles a snake bubbles rogue-0003-e1 thunder yellow bubbles yellow bubbles 2600 40	1	\N	\N	31	37	38	\N
+8	DeadWhale	2500	2014-09-30 20:22:20.010067	2014-10-31 18:09:25.200776	20	2	1	1	7	Ghost whale evolved.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:58.48608	\N	deadwhale ghost whale evolved. healer-0002-e1 water ghostwhale ghostwhale 2500 40	1	\N	\N	16	37	38	\N
+2	Loki	1350	2014-09-30 18:06:10.640735	2014-10-31 18:09:25.215388	15	1	1	1	0	I've got a mad legit spear	0	\N	\N	\N	\N	6	loki i've got a mad legit spear rogue-0003 fire 1350 0	4	\N	\N	24	37	38	\N
+10	FoxTrot	1200	2014-09-30 20:25:52.948533	2014-10-31 18:09:25.228082	14	3	1	1	0	A fox with magic. Yeah.	1	\N	\N	\N	\N	9	foxtrot a fox with magic. yeah. mage-0004 thunder 1200 1	4	\N	\N	17	37	38	\N
+5	Saphira	1450	2014-09-30 18:46:57.985514	2014-10-31 18:09:25.238531	11	2	1	1	0	Blue Dragon	0	\N	\N	\N	\N	9	saphira blue dragon warrior-0001 water 1450 0	6	\N	\N	19	37	10	\N
+7	GhostWhale	1500	2014-09-30 20:21:22.196954	2014-10-31 18:09:25.266344	12	2	1	1	0	A ghost whale.	1	\N	\N	\N	\N	6	ghostwhale a ghost whale. healer-0002 water 1500 1	4	\N	\N	15	37	38	\N
+22	King Bubbles	2350	2014-10-10 23:28:02.991097	2014-10-31 18:09:25.279883	20	4	\N	\N	4	A big bubbles	40	\N	\N	\N	\N	\N	king bubbles a big bubbles healer-0002-e1 earth green bubbles green bubbles 2350 40	1	\N	\N	33	37	38	\N
+11	FoxRage	2150	2014-09-30 20:29:11.596906	2014-10-31 18:09:25.302913	21	3	1	1	10	A mad fox with magic. Shouldn't have pissed him off.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:33.265983	\N	foxrage a mad fox with magic. shouldn't have pissed him off. mage-0004-e1 thunder foxtrot foxtrot 2150 40	1	\N	\N	18	37	38	\N
+25	Super Loki	2450	2014-10-10 23:50:00.894536	2014-10-31 18:09:25.332373	19	1	\N	\N	2	Loki supped up. 	40	tinder.gif	image/gif	35854	2014-10-10 23:49:59.868373	\N	super loki loki supped up.  warrior-0001-e1 fire loki loki 2450 40	1	\N	\N	34	37	38	\N
+4	Green Bubbles	1100	2014-09-30 18:34:52.037132	2014-10-31 18:54:47.957375	12	4	1	1	0	A green bubbles.	0	\N	\N	\N	\N	7	green bubbles a green bubbles. healer-0002 earth 1100 0	6	5	5	2	37	14	\N
+21	Blue Bubbles	1500	2014-10-10 22:40:54.841088	2014-10-31 18:55:04.605975	16	2	\N	\N	0	A water bubbles.	0	\N	\N	\N	\N	7	blue bubbles a water bubbles. npc-mage-0006 water 1500 0	6	\N	\N	32	17	14	\N
+26	Red Bubbles	950	2014-10-26 02:55:44.059487	2014-10-31 18:55:59.783812	11	1	\N	\N	0	A red bubbles. Nuf said.	0	\N	\N	\N	\N	4	red bubbles a red bubbles. nuf said. warrior-0001 fire 950 0	4	\N	\N	37	21	38	\N
+1	Kagura new	1200	2014-09-30 17:45:35.816134	2014-11-01 00:08:53.889619	5	1	1	1	0	Demon wielding a scythe.	0	\N	\N	\N	\N	6	kagura new demon wielding a scythe. npc-warrior-0001 fire 1200 0	5	\N	\N	23	5	32	\N
+3	Red Rattle	1250	2014-09-30 18:29:02.744568	2014-11-10 21:42:30.044839	6	2	1	1	0	A red snake	0	\N	\N	\N	\N	8	red rattle a red snake npc-rogue-0002 water 1250 0	5	\N	\N	5	17	4	\N
+6	Eviganon	2200	2014-09-30 18:53:20.718158	2014-11-10 21:50:05.670273	19	2	1	1	5	Bigger Blue Dragon	40	evo-animation-new.gif	image/gif	301911	2014-09-30 18:53:17.695736	\N	eviganon bigger blue dragon warrior-0001-e1 water saphira saphira 2200 40	1	\N	\N	20	37	19	\N
 \.
 
 
@@ -4126,6 +4124,7 @@ COPY schema_migrations (version) FROM stdin;
 20141107001815
 20141110191009
 20141106180206
+20141111215627
 \.
 
 
