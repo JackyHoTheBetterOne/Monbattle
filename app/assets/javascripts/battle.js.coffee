@@ -28,12 +28,12 @@ window.fixEvolMon = (monster, player) ->
         index = monTarget.index
         if a.targeta is "cleanseally" or a.targeta is "aoecleanse"
           ii = 0 
-          iii = 0
           while ii < monTarget.fucking_up.length
             e = monTarget.fucking_up[ii]
             monTarget.fucking_up.splice(ii, 1)  if e.impact.indexOf("-") isnt -1
             removeEffectIcon(monTarget, e) 
             ii++
+          iii = 0
           while iii < monTarget.fucked_up.length
             e = monTarget.fucked_up[iii]
             monTarget.fucked_up.splice(iii, 1) if e.restore.indexOf("+") isnt -1
@@ -757,6 +757,7 @@ window.controlAI = (monIndex) ->
     else 
       window.targetIndex = monster.taunted.target
     ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
+    $(".wtfman").text(abilityIndex)
     switch ability.targeta
       when "attack"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
