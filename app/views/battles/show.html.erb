@@ -36,6 +36,13 @@
     <% end %>
   </div>
 
+  <div class="0 user effect-info panel panel-default">
+    <div class="panel-body">
+      Effect description
+    </div>
+    <div class="panel-heading">Effect name</div>
+  </div>
+
   <div class="0 user mon-slot" id="control-tip" data-team="0">
     <% @user_party.mons.each do |mon| %>
       <div class="mon mon<%= @user_party.mon_dex(mon) %>" data-index="<%= @user_party.mon_dex(mon) %>">
@@ -63,6 +70,13 @@
         <%= render :partial => "pcTeamInfo", :locals => {:mon => mon}  %>
       </div>
     <% end %>
+  </div>
+
+  <div class="1 enemy effect-info panel panel-default">
+    <div class="panel-body">
+      Effect description
+    </div>
+    <div class="panel-heading">Effect name</div>
   </div>
 
   <div class="ap" id="ap-tip">
