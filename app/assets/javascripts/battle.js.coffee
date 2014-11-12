@@ -488,6 +488,7 @@ window.addEffectIcon = (monster, effect) ->
   effectBin.push(effect)
   index = effectBin.indexOf(effect)
   effectBin[index].enemyDex = monster.team
+  effectBin[index].end = effect.duration + battle.round
   $("<img src = '#{effect.img}' class = 'effect #{monster.name} #{effect.name} #{effect.targeta}' id='#{index}' >").
     prependTo("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").addClass("tada animated")
   setTimeout (->
@@ -1095,7 +1096,8 @@ $ ->
         e = effectBin[index]
         $("." + e.enemyDex + ".effect-info").css("visibility", "visible")
         $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text(e.name)
-        $("." + e.enemyDex + ".effect-info" + " " + ".panel-heading").text("Duration:" + " " + e.duration + " " + "round(s)")
+        $("." + e.enemyDex + ".effect-info" + " " + ".panel-heading").text(
+          "Expires in" + " " + (e.end - battle.round) + " " + "turn(s)")
       ).on "mouseleave", ".effect", -> 
         index = @id
         e = effectBin[index]
