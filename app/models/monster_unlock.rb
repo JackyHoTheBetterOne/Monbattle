@@ -152,7 +152,8 @@ class MonsterUnlock < ActiveRecord::Base
                           stat:        effect.stat,
                           targeta:     effect.targeta,
                           change:      effect.change,
-                          modifier:    effect.modifier
+                          modifier:    effect.modifier,
+                          duration:    effect.duration
                         }
           effect_array.push(effect_hash)
         end
