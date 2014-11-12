@@ -1,9 +1,8 @@
 -ability.effects.each do |effect|
-  .col-md-4.effect-div.col-abils id="#{dom_id(effect)}-eff"
+  .col-md-6.effect-div.col-abils id="#{dom_id(effect)}-eff"
     / =render partial: "", locals: {ability: ability, effect: effect}
-    .span
-      =simple_form_for(effect, remote: true) do |f|
-        =f.submit "Save", class: 'btn btn-primary btn-sm eff-save', id: "#{dom_id(effect)}-save"
+    =simple_form_for(effect, remote: true) do |f|
+        =f.submit "Effect", class: 'btn btn-primary btn-sm eff-save', id: "#{dom_id(effect)}-save"
         =f.text_field :name, class: "eff-name"
         =f.text_field :stat_change, class: "eff-cost-input"
         ="DR"

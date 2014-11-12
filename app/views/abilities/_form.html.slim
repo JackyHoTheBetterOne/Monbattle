@@ -16,7 +16,7 @@
           h4=f.label "Secondary effects"
           =hidden_field_tag "ability[effect_ids][]", nil
           -Effect.all.each do |effect|
-            =check_box_tag "ability[effect_ids][]", effect.id, @ability.effect_ids.include?(effect.id), id: dom_id(effect)
+            =check_box_tag "ability[effect_ids][]", effect.id, @ability.effect_ids.include?(effect.id), id: dom_id(effect), class: "clear-save"
             =label_tag dom_id(effect), effect.name
           h4=f.label "Job restrictions for this Ability"
           input type="checkbox" class="abil_form_check_all" id="new-job-sel-all" Select All

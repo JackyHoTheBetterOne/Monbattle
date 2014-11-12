@@ -1,7 +1,7 @@
 =simple_form_for(ability, remote: true) do |f|
   .row.default-display-row
     .col-md-1.col-abils
-      =f.submit "Save", class: 'btn btn-primary btn-sm btn-save', id: "#{dom_id(ability)}-save"
+      =f.submit "Save", class: 'btn btn-primary btn-sm btn-save', id: "#{dom_id(ability)}-abil-rows-save"
     .col-md-2.col-abils
         =f.text_field :name, class: "abil-name"
     .col-md-1.col-abils
@@ -32,16 +32,9 @@
     .col-md-1.col-abils
       p #{f.collection_select :element_id, Element.all, :id, :name}
 
-
-    / .col-md-1
-    /   .abil-effects id="#{dom_id(ability)}-effects"
-    /     =ability.effects.empty? ? "Add Effect" : "Add/Rem Eft"
-    /   .abil-desc id="#{dom_id(ability)}-desc" Description
-    /   .abil-images id="#{dom_id(ability)}-images" Images
-    /   .abil-adds id="#{dom_id(ability)}-adds" +1 To User
   .row.eff-sel-row
     .col-md-2
-      ="Secondary Effects:"
+      .abil-heading="Secondary Effects:"
     =hidden_field_tag "ability[effect_ids][]", nil
     -Effect.all.each do |effect|
       .col-md-2
@@ -50,7 +43,7 @@
 
   .row.jobs-row
     .col-md-2
-      ="Jobs that can use this abil:"
+      .abil-heading="Jobs that can use this abil:"
     .col-md-2
       input type="checkbox" class="abil_form_check_all" id="#{dom_id(ability)}-job-sel-all" Select All
     =hidden_field_tag "ability[job_ids][]", nil
@@ -61,17 +54,18 @@
 
   .row.images-row
     .col-md-1
-      p Animation
+      p.abil-heading Animation
       =f.file_field :image
     .col-md-5
       =image_tag ability.image.url(:small)
     .col-md-1
-      p Thumb
+      p.abil-heading Thumb
       =f.file_field :portrait
     .col-md-5
       =image_tag ability.portrait.url(:small)
 
   .row.show-jobs-row
+    .col-md-2.abil-heading Usable by:
     -ability.jobs.each do |job|
       .col-md-2
         li=job.name
