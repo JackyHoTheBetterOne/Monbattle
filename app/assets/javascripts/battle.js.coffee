@@ -14,7 +14,8 @@ window.fixEvolMon = (monster, player) ->
   monster.index = player.mons.indexOf(monster)
   monster.isAlive = ->
     if @hp <= 0
-      $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300).remove()
+      $("." + monster.team + ".info" + " " + ".mon" + monster.index).css("visibility", "hidden")
+      $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").remove()
       return false
     else
       return true
@@ -24,12 +25,15 @@ window.fixEvolMon = (monster, player) ->
     ability.use(abilityTargets)
 ######################################################################################################## Ability logics
   $(monster.abilities).each ->
+    @team = monster.team
+    @index = monster.index
     ability = @
     ability.use = (abilitytargets) ->
       a = this
       i = 0
       while i < abilitytargets.length
         monTarget = abilitytargets[i]
+        index = monTarget.index
         if a.targeta is "cleanseally" or a.targeta is "aoecleanse"
           ii = 0 
           iii = 0
@@ -44,19 +48,19 @@ window.fixEvolMon = (monster, player) ->
             removeEffectIcon(monTarget, e)
             iii++
           if a.modifier isnt ""
-            window.change = a.change
-            monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
+            window["change" + index] = a.change
+            monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
         else if a.modifier is "-" and a.targeta is "attack"
-          window.change = eval(a.change - monTarget["phy_resist"])
-          window.change = 0 if window.change.toString().indexOf("-") isnt -1
-          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
+          window["change" + index] = eval(a.change - monTarget["phy_resist"])
+          window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
+          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
         else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
-          window.change = eval(a.change - monTarget["spe_resist"])
-          window.change = 0 if window.change.toString().indexOf("-") isnt -1
-          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
+          window["change" + index] = eval(a.change - monTarget["spe_resist"])
+          window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
+          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
         else
-          window.change = a.change 
-          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + change)
+          window["change" + index] = a.change 
+          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
       if ability.effects.length isnt 0
@@ -186,11 +190,11 @@ window.fixEvolMon = (monster, player) ->
         else if e.targeta.indexOf("attack") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
-            monster = battle.players[e.teamDex].mons[e.monDex]
+            monster = battle.players[monTarget.team].mons[monTarget.index]
             addEffectIcon(monster, e)
             setTimeout (->
               removeEffectIcon(monster, e)
-              ), 500
+              ), 1500
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
             i++
         else
@@ -199,7 +203,7 @@ window.fixEvolMon = (monster, player) ->
             addEffectIcon(monTarget, e)
             setTimeout (->
               removeEffectIcon(monTarget, e)
-              ), 5000
+              ), 1500
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
             checkMin()
             checkMax()
@@ -410,10 +414,10 @@ window.damageBoxAnime= (team, target, damage, color) ->
       ), 100
 
 window.showDamageSingle = ->
-  damageBoxAnime(enemyHurt.team, enemyHurt.index, ability.modifier + change, "rgba(255, 0, 0)")
+  damageBoxAnime(enemyHurt.team, enemyHurt.index, ability.modifier + window["change" + enemyHurt.index], "rgba(255, 0, 0)")
 
 window.showHealSingle = ->
-  damageBoxAnime(allyHealed.team, allyHealed.index, ability.modifier + change, "rgba(50,205,50)")
+  damageBoxAnime(allyHealed.team, allyHealed.index, ability.modifier + window["change" + allyHealed.index], "rgba(50,205,50)")
 
 window.showDamageTeam = (index) ->
   i = undefined
@@ -422,7 +426,7 @@ window.showDamageTeam = (index) ->
   i = 0
   while i < n
     if parseInt($("." + index + " " + ".mon" + i + " " + ".current-hp").text()) > 0
-      damageBoxAnime(index, i, ability.modifier + change, "rgba(255, 0, 0)")
+      damageBoxAnime(index, i, ability.modifier + window["change" + i], "rgba(255, 0, 0)")
     i++
 
 window.showHealTeam = (index) ->
@@ -432,7 +436,7 @@ window.showHealTeam = (index) ->
   i = 0
   while i < n
     if battle.players[index].mons[i].hp > 0
-      damageBoxAnime(index, i, ability.modifier + change, "rgba(50, 205, 50)")
+      damageBoxAnime(index, i, ability.modifier + window["change" + i], "rgba(50, 205, 50)")
     i++
 
 window.outcome = ->
@@ -625,7 +629,7 @@ window.roundEffectHappening = (team) ->
       while ii < nn
         e = mon.fucking_up[ii]
         if battle.round is e.end
-          $( "." + team + " " + "." + mon.index + " " + "." + mon.fucking_up[ii].name).fadeOut(300).remove()
+          $("." + team + " " + ".mon" + mon.index + " " + "." + e.name).fadeOut(300).remove()
           mon.fucking_up.splice(ii, 1)
         else
           mon[e.stat] = eval(mon[e.stat] + e.impact)
@@ -633,7 +637,6 @@ window.roundEffectHappening = (team) ->
           checkMax()
           mon.isAlive() if typeof mon.isAlive isnt "undefined"
         ii++
-      return
     if mon.fucked_up.length isnt 0 and mon.isAlive()
       iii = 0 
       nnn = mon.fucked_up.length
@@ -641,7 +644,7 @@ window.roundEffectHappening = (team) ->
         e = mon.fucked_up[iii]
         if battle.round is e.end
           mon[e.stat] = eval(mon[e.stat] + e.restore)
-          $( "." + team + " " + ".mon" + mon.index + " " + "." + mon.fucked_up[iii].name).fadeOut(300).remove()
+          $("." + team + " " + ".mon" + mon.index + " " + "." + e.name).fadeOut(300).remove()
           mon.fucked_up.splice(iii, 1)
         iii++
     i++
@@ -769,7 +772,7 @@ window.controlAI = (monIndex) ->
         setTimeout (->  
           action()
           checkMax()
-          ), 400
+          ), 350
         currentMon.animate(
           "left": "+=" + leftMove.toString() + "px"
           "top": "+=" + topMove.toString() + "px"
@@ -1124,7 +1127,7 @@ $ ->
                   setTimeout (->
                     action()
                     checkMax()
-                    ), 390
+                    ), 350
                   currentMon.animate(
                    "left": "+=" + leftMove.toString()  + "px"
                    "top": "+=" + topMove.toString()  + "px"
