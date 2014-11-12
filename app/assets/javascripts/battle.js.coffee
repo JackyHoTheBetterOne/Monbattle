@@ -642,10 +642,11 @@ window.roundEffectHappening = (team) ->
       nnn = mon.fucked_up.length
       while iii < nnn 
         e = mon.fucked_up[iii]
-        if battle.round is e.end
-          mon[e.stat] = eval(mon[e.stat] + e.restore)
-          $("." + team + " " + ".mon" + mon.index + " " + "." + e.name).fadeOut(300).remove()
-          mon.fucked_up.splice(iii, 1)
+        if typeof e isnt "undefined"
+          if battle.round is e.end
+            mon[e.stat] = eval(mon[e.stat] + e.restore)
+            $("." + team + " " + ".mon" + mon.index + " " + "." + e.name).fadeOut(300).remove()
+            mon.fucked_up.splice(iii, 1)
         iii++
     i++
 
@@ -769,10 +770,8 @@ window.controlAI = (monIndex) ->
         backPosition = currentMon.position()
         topMove = targetPosition.top - currentPosition.top
         leftMove = targetPosition.left - currentPosition.left - 60
-        setTimeout (->  
-          action()
-          checkMax()
-          ), 350
+        action()
+        checkMax()
         currentMon.animate(
           "left": "+=" + leftMove.toString() + "px"
           "top": "+=" + topMove.toString() + "px"
@@ -982,10 +981,6 @@ $ ->
           battle.calculateAP()
           setAll(battle.players, "turn", true)
           setAll(battle.players, "ap", battle.maxAP)
-          console.log("This round is over.")
-        else
-          console.log("This ain't over.")
-        return
       battle.monAbility = (playerIndex, monIndex, abilityIndex, targetIndex) ->
         ability = @players[playerIndex].mons[monIndex].abilities[abilityIndex]
         player = @players[playerIndex]
@@ -1124,10 +1119,8 @@ $ ->
                   backPosition = currentMon.position()
                   topMove = targetPosition.top - currentPosition.top
                   leftMove = targetPosition.left - currentPosition.left + 60
-                  setTimeout (->
-                    action()
-                    checkMax()
-                    ), 350
+                  action()
+                  checkMax()
                   currentMon.animate(
                    "left": "+=" + leftMove.toString()  + "px"
                    "top": "+=" + topMove.toString()  + "px"
