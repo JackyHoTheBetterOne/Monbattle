@@ -1,4 +1,5 @@
-.abil-row id=dom_id(ability)
+.row.abil-errors id="#{dom_id(ability)}-abil-error-row"
+.abil-row id="#{dom_id(ability)}-ability-info-row"
   =render partial: "abilities/abil_row", locals: {ability: ability}
 .row.abil-effects-row id="#{dom_id(ability)}-effects-row"
   =render partial: "abilities/abil_effects", locals: {ability: ability}

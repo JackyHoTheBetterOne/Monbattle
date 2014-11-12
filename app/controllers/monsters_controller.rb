@@ -37,7 +37,9 @@ class MonstersController < ApplicationController
         format.html { redirect_to monsters_path, notice: "Monster saved" }
         format.js { render }
       else
-        format.html { render :new }
+        @monster.errors.full_messages.each do |msg|
+          p msg
+        end
       end
     end
   end
@@ -72,7 +74,9 @@ class MonstersController < ApplicationController
       if @monster.save
         format.js
       else
-        format.html { render :new }
+        @monster.errors.full_messages.each do |msg|
+          p msg
+        end
       end
     end
   end

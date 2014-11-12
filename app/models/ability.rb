@@ -29,14 +29,17 @@ class Ability < ActiveRecord::Base
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
   validates_attachment_content_type :portrait, :content_type => /\Aimage\/.*\Z/
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
-  validates :ap_cost, presence: {message: 'Must be entered'}
+  validates :ap_cost, presence: {message: 'Must be entered'}, numericality: {greater_than_or_equal_to: 0}
   validates :description, presence: {message: 'Must be entered'}
   validates :target_id, presence: {message: 'Must be entered'}
   validates :stat_target_id, presence: {message: 'Must be entered'}
   validates :element_id, presence: {message: 'Must be entered'}
-  validates :stat_change, presence: {message: 'Must be entered'}
+  validates :stat_change, presence: {message: 'Must be entered'}, numericality: {only_integer: true}
   validates :abil_socket_id, presence: {message: 'Must be entered'}
   validates :rarity_id, presence: {message: 'Must be entered'}
+  # validates :mp_cost, numericality: {greater_than_or_equal_to: 0}
+  # validates :gp_cost, numericality: {greater_than_or_equal_to: 0}
+
   # validates :min_level, presence: {message: 'Must be entered'}
 
   delegate :name, to: :ability_equipping, prefix: true
