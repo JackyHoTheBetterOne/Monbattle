@@ -51,6 +51,18 @@ class Ability < ActiveRecord::Base
   # after_create :set_former_name_field
   # after_update :change_default_ability_name_for_monsters
 
+  filterrific(
+  default_settings: { sorted_by: 'created_at_desc' },
+  filter_names: [
+    :search_query,
+    :sorted_by,
+    :with_country_id,
+    :with_created_at_gte
+  ]
+)
+
+  scope :abilities_by_socket, -> { order('abil_socket_id') }
+
   scope :name_alphabetical, -> { order('name') }
 
   scope :search, -> (keyword) {
