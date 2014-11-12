@@ -1,20 +1,14 @@
 -if @ability.errors.any?
   -error_array = @ability.errors.map { |k, v| k.to_s + " : " + v.to_s}
-  | $("##{dom_id(@ability)}-abil-rows").html("There are Errors: #{error_array}").effect("pulsate", 2000).effect("highlight")
--else
+  | $("##{dom_id(@ability)}-abil-error-row").css("padding-left", 20).html("There are Errors: #{error_array}").effect("pulsate", 2000).effect("highlight");
   | $("##{dom_id(@ability)}-abil-rows").effect("highlight");
+-else
+  | $("##{dom_id(@ability)}-abil-error-row").html("");
+  | $("##{dom_id(@ability)}-ability-info-row").html("#{j render partial: "abilities/abil_row", locals: {ability: @ability}}");
+  | $("##{dom_id(@ability)}-effects-row").html("#{j render partial: "abilities/abil_effects", locals: {ability: @ability}}");
   | $("##{dom_id(@ability)}-save").hide();
-
-  | $("##{dom_id(@ability)}-effects-row").html("#{j render partial: "abilities/abil_effects", locals: {ability: @ability}}")
-
-  / | $("##{dom_id(@ability)}").html("#{j render partial: "abilities/abil_row", locals: {ability: @ability}}");
-
+  | $("##{dom_id(@ability)}-abil-rows").effect("highlight");
   -@ability = Ability.new
-
-
-
-
-
 
 / <!-- $("#edit_#{dom_id(@ability)}").html("#{j render partial: "/abilities/ability", locals: {ability: @ability}}"); -->
 

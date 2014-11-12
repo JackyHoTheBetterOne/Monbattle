@@ -63,6 +63,9 @@
   @include dimensions(100%, 425px);
   overflow-y: scroll;
   border: 2px solid black;
+  .abil-heading {
+    color: red;
+  }
   .abil-row {
     padding-left: 15px;
     @include row-set(12px);
@@ -84,6 +87,8 @@
     .default-display-row {
       .abil-name {
         @include dimensions(100%, 20px);
+        color: blue;
+        font-weight: bold;
       }
       .btn-save {
         @include dimensions(100%, 20px);
@@ -92,6 +97,7 @@
         right: 0;
         font-size: 10px;
         display: none;
+        color: black;
       }
       .val-input {
         @include dimensions(60%, 15px);
@@ -104,27 +110,29 @@
 }
 
 .abil-effects-row {
-  @include row-set(10px);
+  @include row-set(12px);
   border: 1px solid grey;
   padding-left: 15px;
+  padding-top: 10px;
   display: none;
   .effect-div {
     .eff-name {
-      @include dimensions(85px, 15px);
+      color: red;
+      @include dimensions(150px, 20px);
     }
     .eff-cost-input {
-      @include dimensions(40px, 15px);
-    }
-    select {
-      @include dimensions(60px, 15px);
+      @include dimensions(50px, 20px);
     }
     .eff-save {
-      @include dimensions(40px, 20px);
+      @include dimensions(40px, 25px);
       font-size: 8px;
       // display: none;
     }
     .dur-input {
-      @include dimensions(25px, 15px);
+      @include dimensions(25px, 20px);
+    }
+    select {
+      @include dimensions(100px, 20px);
     }
   }
 }

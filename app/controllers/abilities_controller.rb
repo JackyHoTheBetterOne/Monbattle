@@ -5,15 +5,16 @@ class AbilitiesController < ApplicationController
     # @abilities = policy_scope(Ability.includes(:effects, :stat_target, :target, :abil_socket, :jobs).search(params[:keyword]).
     #               ap_cost_search(params[:cost]).effect_search(params[:effect]).
     #               paginate(:page => params[:page], :per_page => 20).name_alphabetical)
+
     @abilities = Ability.all
-    @abil_socket = AbilSocket.new
-    @abil_sockets = AbilSocket.all
-    @stat_target = StatTarget.new
-    @stat_targets = StatTarget.all
-    @target = Target.new
-    @targets = Target.all
+    # @abil_socket = AbilSocket.new
+    # @abil_sockets = AbilSocket.all
+    # @stat_target = StatTarget.new
+    # @stat_targets = StatTarget.all
+    # @target = Target.new
+    # @targets = Target.all
+    # @ability_purchase = AbilityPurchase.new
     @ability = Ability.new
-    @ability_purchase = AbilityPurchase.new
 
     # respond_to do |format|
     #   format.html
@@ -23,19 +24,19 @@ class AbilitiesController < ApplicationController
 
   def create
     @abilities = Ability.all
-    @abil_socket = AbilSocket.new
-    @abil_sockets = AbilSocket.all
-    @stat_target = StatTarget.new
-    @stat_targets = StatTarget.all
-    @target = Target.new
-    @targets = Target.all
+    # @abil_socket = AbilSocket.new
+    # @abil_sockets = AbilSocket.all
+    # @stat_target = StatTarget.new
+    # @stat_targets = StatTarget.all
+    # @target = Target.new
+    # @targets = Target.all
+    # @ability_purchase = AbilityPurchase.new
     @ability = Ability.new
-    @ability_purchase = AbilityPurchase.new
+
     authorize @ability
     @ability = Ability.new ability_params
     respond_to do |format|
       if @ability.save
-        format.html { redirect_to abilities_path, notice: "Ability Created" }
         format.js { render }
       else
         format.js { render }

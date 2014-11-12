@@ -19,7 +19,7 @@ $ ->
       $("." + targ).prop("checked", false)
     return
 
-  $(document).on "click", ".abil-row", ->
+  $(document).on "click", ".ability", ->
     abil = $(this).attr("id")
     $("#" + abil + "-save").show()
 

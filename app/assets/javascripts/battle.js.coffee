@@ -4,14 +4,6 @@
 
 ######################################################################################################## Monster logics
 window.fixEvolMon = (monster, player) ->
-  monster.phy_resist = 0
-  monster.spe_resist = 0
-  monster.fucking_up = []
-  monster.fucked_up = []
-  monster.taunted = {}
-  monster.taunted.target = undefined
-  monster.team = battle.players.indexOf(player)
-  monster.index = player.mons.indexOf(monster)
   monster.isAlive = ->
     if @hp <= 0
       $("." + monster.team + ".info" + " " + ".mon" + monster.index).css("visibility", "hidden")
@@ -495,8 +487,12 @@ window.checkMonHealthAfterEffect = ->
 window.addEffectIcon = (monster, effect) -> 
   effectBin.push(effect)
   index = effectBin.indexOf(effect)
+  effectBin[index].enemyDex = monster.team
   $("<img src = '#{effect.img}' class = 'effect #{monster.name} #{effect.name} #{effect.targeta}' id='#{index}' >").
     prependTo("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").addClass("tada animated")
+  setTimeout (->
+    $(".tada.animated").removeClass("tada animated")
+  ), 1000
 
 
 window.removeEffectIcon = (monster, effect) ->
@@ -647,7 +643,7 @@ window.roundEffectHappening = (team) ->
             mon[e.stat] = eval(mon[e.stat] + e.restore)
             $("." + team + " " + ".mon" + mon.index + " " + "." + e.name).fadeOut(300).remove()
             mon.fucked_up.splice(iii, 1)
-        iii++
+          iii++
     i++
 
 
@@ -1011,8 +1007,17 @@ $ ->
         evolved_hp = current_mon.hp + added_hp
         if battle.players[playerIndex].ap >= better_mon.ap_cost
           battle.players[playerIndex].ap -= better_mon.ap_cost
+          old_mon = battle.players[playerIndex].mons[monIndex]
           battle.players[playerIndex].mons[monIndex] = better_mon
-          fixEvolMon(battle.players[playerIndex].mons[monIndex], battle.players[playerIndex])
+          new_mon = battle.players[playerIndex].mons[monIndex]
+          new_mon.phy_resist = old_mon.phy_resist
+          new_mon.spe_resist = old_mon.spe_resist
+          new_mon.fucking_up = old_mon.fucking_up
+          new_mon.fucked_up = old_mon.fucked_up
+          new_mon.taunted = old_mon.taunted
+          new_mon.team = old_mon.team
+          new_mon.index = old_mon.index
+          fixEvolMon(new_mon, battle.players[playerIndex])
           evolved_mon = battle.players[playerIndex].mons[monIndex]
           battle.players[playerIndex].mons[monIndex].hp = evolved_hp
           damageBoxAnime(0, targets[1], "+" + added_hp.toString(), "rgba(50,205,50)")
@@ -1038,6 +1043,14 @@ $ ->
           return
         $(player.mons).each ->
           monster = @
+          monster.phy_resist = 0
+          monster.spe_resist = 0
+          monster.fucking_up = []
+          monster.fucked_up = []
+          monster.taunted = {}
+          monster.taunted.target = undefined
+          monster.team = battle.players.indexOf(player)
+          monster.index = player.mons.indexOf(monster)
           fixEvolMon(monster, player)
 #################################################################################################################  Battle interaction
       window.feed = ->
@@ -1077,6 +1090,17 @@ $ ->
         $(this).css("background-image", "-webkit-linear-gradient(top, #606060 0%, #131313 100%)")
         return
       $(document).on("click.endTurn", "button.end-turn", ai)
+      $(document).on("mouseover", ".effect", ->
+        index = @id
+        e = effectBin[index]
+        $("." + e.enemyDex + ".effect-info").css("visibility", "visible")
+        $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text(e.name)
+        $("." + e.enemyDex + ".effect-info" + " " + ".panel-heading").text("Duration:" + " " + e.duration + " " + "round(s)")
+      ).on "mouseleave", ".effect", -> 
+        index = @id
+        e = effectBin[index]
+        $("." + e.enemyDex + ".effect-info").css("visibility", "hidden")
+
 ##########################################################################################################  User move interaction
       $(document).on "click.button", ".user.mon-slot .monBut button", ->
         $(".end-turn").prop("disabled", true)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141111215627) do
+ActiveRecord::Schema.define(version: 20141112222251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 20141111215627) do
     t.string   "icon_content_type"
     t.integer  "icon_file_size"
     t.datetime "icon_updated_at"
+    t.text     "description"
   end
 
   add_index "effects", ["element_id"], name: "index_effects_on_element_id", using: :btree

@@ -31,12 +31,12 @@ class Monster < ActiveRecord::Base
 
   validates_attachment_content_type :evolve_animation, :content_type => /\Aimage\/.*\Z/
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
-  validates :max_hp, presence: {message: 'Must be entered'}
+  validates :max_hp, numericality: {greater_than_or_equal_to: 0}
   validates :element_id, presence: {message: 'Must be entered'}
   validates :job_id, presence: {message: 'Must be entered'}
   validates :description, presence: {message: 'Must be entered'}
   validates :evolved_from_id, presence: {message: 'Must be entered'}
-  validates :summon_cost, presence: {message: 'Must be entered'}
+  validates :summon_cost, numericality: {greater_than_or_equal_to: 0}
   validates :rarity_id, presence: {message: 'Must be entered'}
   # validates :dmg_modifier, presence: {message: 'Must be entered'}
   # validates :hp_modifier, presence: {message: 'Must be entered'}
