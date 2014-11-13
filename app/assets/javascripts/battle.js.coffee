@@ -520,7 +520,7 @@ window.singleTargetAbilityAfterActionDisplay = ->
   checkMonHealthAfterEffect()
   setTimeout (->
     toggleImg()
-  ), 800
+  ), 500
   flashEndButton()
 
 
@@ -1286,7 +1286,7 @@ $ ->
                     singleTargetAbilityAfterActionDisplay()
                     setTimeout (->
                       toggleImg()
-                    ), 800
+                    ), 500
                     return
                   ), 1200
                   return
@@ -1310,7 +1310,7 @@ $ ->
                   apChange()
                   setTimeout (->
                     toggleImg()
-                  ), 800
+                  ), 500
                   flashEndButton()
                   return
                 ), 2000
