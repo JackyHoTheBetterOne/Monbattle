@@ -519,7 +519,7 @@ window.singleTargetAbilityAfterActionDisplay = ->
   checkMonHealthAfterEffect()
   setTimeout (->
     toggleImg()
-  ), 500
+  ), 800
   flashEndButton()
 
 
@@ -602,7 +602,7 @@ window.flashEndButton = ->
     setTimeout (->
       $(".end-turn").trigger("click")
       return
-    ), 800
+    ), 1000
     return
 
 window.toggleEnemyClick = ->
@@ -1286,7 +1286,7 @@ $ ->
                     singleTargetAbilityAfterActionDisplay()
                     setTimeout (->
                       toggleImg()
-                    ), 500
+                    ), 800
                     return
                   ), 1200
                   return
@@ -1310,7 +1310,7 @@ $ ->
                   apChange()
                   setTimeout (->
                     toggleImg()
-                  ), 500
+                  ), 800
                   flashEndButton()
                   return
                 ), 2000
