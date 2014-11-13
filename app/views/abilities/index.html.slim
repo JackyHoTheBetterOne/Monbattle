@@ -1,5 +1,13 @@
 .filter-search
   .row
+    / =form_for @super_filter do |f|
+    /   .abil-search
+    /     ="Search"
+    /     =f.text_field(:search_query, class: 'filterrific-periodically-observed')
+    /   .filter-1
+    /     ="Filter By"(:rarity_id, @filterrific.select_options[:with_rarity_id], { include_blank: '- Any -' })
+    /     =f.submit "Submit", class: "btn btn-sm"
+  .row
     .pull-left
       p Search and Filters here
     .pull-right.ability-mod-temp
