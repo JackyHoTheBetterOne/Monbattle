@@ -26,34 +26,36 @@ window.fixEvolMon = (monster, player) ->
       while i < abilitytargets.length
         monTarget = abilitytargets[i]
         index = monTarget.index
-        if a.targeta is "cleanseally" or a.targeta is "aoecleanse"
-          ii = 0 
-          while ii < monTarget.fucking_up.length
-            e = monTarget.fucking_up[ii]
-            monTarget.fucking_up.splice(ii, 1)  if e.impact.indexOf("-") isnt -1
-            removeEffectIcon(monTarget, e) 
-            ii++
-          iii = 0
-          while iii < monTarget.fucked_up.length
-            e = monTarget.fucked_up[iii]
-            monTarget.fucked_up.splice(iii, 1) if e.restore.indexOf("+") isnt -1
-            removeEffectIcon(monTarget, e)
-            iii++
-          if a.modifier isnt ""
-            window["change" + index] = a.change
+        monTarget.isAlive()
+        if monTarget.isAlive()
+          if a.targeta is "cleanseally" or a.targeta is "aoecleanse"
+            ii = 0 
+            while ii < monTarget.fucking_up.length
+              e = monTarget.fucking_up[ii]
+              monTarget.fucking_up.splice(ii, 1)  if e.impact.indexOf("-") isnt -1
+              removeEffectIcon(monTarget, e) 
+              ii++
+            iii = 0
+            while iii < monTarget.fucked_up.length
+              e = monTarget.fucked_up[iii]
+              monTarget.fucked_up.splice(iii, 1) if e.restore.indexOf("+") isnt -1
+              removeEffectIcon(monTarget, e)
+              iii++
+            if a.modifier isnt ""
+              window["change" + index] = a.change
+              monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
+          else if a.modifier is "-" and a.targeta is "attack"
+            window["change" + index] = eval(a.change - monTarget["phy_resist"])
+            window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
-        else if a.modifier is "-" and a.targeta is "attack"
-          window["change" + index] = eval(a.change - monTarget["phy_resist"])
-          window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
-          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
-        else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
-          window["change" + index] = eval(a.change - monTarget["spe_resist"])
-          window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
-          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
-        else
-          window["change" + index] = a.change 
-          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
-          monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
+          else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
+            window["change" + index] = eval(a.change - monTarget["spe_resist"])
+            window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
+            monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
+          else
+            window["change" + index] = a.change 
+            monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
+            monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
       if ability.effects.length isnt 0
         i = 0
