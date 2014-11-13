@@ -648,7 +648,7 @@ window.roundEffectHappening = (team) ->
             mon[e.stat] = eval(mon[e.stat] + e.restore)
             $("." + team + " " + ".mon" + mon.index + " " + "." + e.name).fadeOut(300).remove()
             mon.fucked_up.splice(iii, 1)
-          iii++
+        iii++
     i++
 
 
@@ -915,7 +915,6 @@ window.ai = ->
       toggleImg()
       $(".enemy .img").removeAttr("disabled")
       toggleEnemyClick()
-      return
   ), timerRound
 
 
@@ -1148,10 +1147,7 @@ $ ->
                   leftMove = targetPosition.left - currentPosition.left + 60
                   action()
                   checkMax()
-                  currentMon.animate(
-                   "left": "+=" + leftMove.toString()  + "px"
-                   "top": "+=" + topMove.toString()  + "px"
-                  , 400, ->
+                  setTimeout (->
                     singleTargetAbilityDisplayVariable()
                     if targetMon.css("display") isnt "none"
                       if enemyHurt.isAlive() is false
@@ -1159,11 +1155,13 @@ $ ->
                       else
                         targetMon.effect "shake", 750
                     showDamageSingle()
-                  ).animate backPosition, 400, ->
+                  ), 390
+                  currentMon.animate(
+                    left: "+=" + leftMove.toString() + "px"
+                    top: "+=" + topMove.toString() + "px"
+                  , 400).animate backPosition, 400, ->
                     singleTargetAbilityAfterActionDisplay()
                     toggleEnemyClick()
-                    return
-                  return
               when "targetenemy"
                 toggleEnemyClick()
                 $(".battle-guide.guide").text("Select an enemy target")
