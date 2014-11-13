@@ -26,34 +26,36 @@ window.fixEvolMon = (monster, player) ->
       while i < abilitytargets.length
         monTarget = abilitytargets[i]
         index = monTarget.index
-        if a.targeta is "cleanseally" or a.targeta is "aoecleanse"
-          ii = 0 
-          while ii < monTarget.fucking_up.length
-            e = monTarget.fucking_up[ii]
-            monTarget.fucking_up.splice(ii, 1)  if e.impact.indexOf("-") isnt -1
-            removeEffectIcon(monTarget, e) 
-            ii++
-          iii = 0
-          while iii < monTarget.fucked_up.length
-            e = monTarget.fucked_up[iii]
-            monTarget.fucked_up.splice(iii, 1) if e.restore.indexOf("+") isnt -1
-            removeEffectIcon(monTarget, e)
-            iii++
-          if a.modifier isnt ""
-            window["change" + index] = a.change
+        monTarget.isAlive()
+        if monTarget.isAlive()
+          if a.targeta is "cleanseally" or a.targeta is "aoecleanse"
+            ii = 0 
+            while ii < monTarget.fucking_up.length
+              e = monTarget.fucking_up[ii]
+              monTarget.fucking_up.splice(ii, 1)  if e.impact.indexOf("-") isnt -1
+              removeEffectIcon(monTarget, e) 
+              ii++
+            iii = 0
+            while iii < monTarget.fucked_up.length
+              e = monTarget.fucked_up[iii]
+              monTarget.fucked_up.splice(iii, 1) if e.restore.indexOf("+") isnt -1
+              removeEffectIcon(monTarget, e)
+              iii++
+            if a.modifier isnt ""
+              window["change" + index] = a.change
+              monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
+          else if a.modifier is "-" and a.targeta is "attack"
+            window["change" + index] = eval(a.change - monTarget["phy_resist"])
+            window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
-        else if a.modifier is "-" and a.targeta is "attack"
-          window["change" + index] = eval(a.change - monTarget["phy_resist"])
-          window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
-          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
-        else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
-          window["change" + index] = eval(a.change - monTarget["spe_resist"])
-          window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
-          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
-        else
-          window["change" + index] = a.change 
-          monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
-          monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
+          else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
+            window["change" + index] = eval(a.change - monTarget["spe_resist"])
+            window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
+            monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
+          else
+            window["change" + index] = a.change 
+            monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
+            monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
       if ability.effects.length isnt 0
         i = 0
@@ -110,7 +112,6 @@ window.fixEvolMon = (monster, player) ->
               effectTargets.push liveFriends[1] if typeof liveFriends[1] isnt "undefined"
               effect.activate effectTargets
           i++
-      return
 ######################################################################################################### Effect logics
     $(ability.effects).each ->
       @monDex = monster.index 
@@ -122,14 +123,15 @@ window.fixEvolMon = (monster, player) ->
         if e.targeta.indexOf("taunt") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
-            if monTarget.taunted.end is undefined
-              addEffectIcon(monTarget, e)
-            else 
-              removeEffectIcon(monTarget, e)
-              addEffectIcon(monTarget, e)
-            monTarget.taunted.name = e.name
-            monTarget.taunted.target = battle.players[0].indexOf(monster)
-            monTarget.taunted.end = battle.round + e.duration
+            if monTarget.isAlive()
+              if monTarget.taunted.end is undefined
+                addEffectIcon(monTarget, e)
+              else 
+                removeEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e)
+              monTarget.taunted.name = e.name
+              monTarget.taunted.target = battle.players[0].indexOf(monster)
+              monTarget.taunted.end = battle.round + e.duration
             i++
         else if e.targeta.indexOf("poison") isnt -1
           while i < effectTargets.length
@@ -138,46 +140,48 @@ window.fixEvolMon = (monster, player) ->
             checkMin()
             checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
-            findObjectInArray(monTarget.fucking_up, "targeta", e.targeta)
-            if usefulArray.length is 0 and monTarget.isAlive()
-              status = {}
-              status["name"] = e.name
-              status["stat"] = e.stat
-              status["impact"] = e.modifier + e.change
-              status["targeta"] = e.targeta
-              status["end"] = battle.round + e.duration
-              monTarget.fucking_up.push(status)
-              addEffectIcon(monTarget, e)
-            else if monTarget.isAlive()
-              old_effect = usefulArray[0]
-              removeEffectIcon(monTarget, old_effect)
-              addEffectIcon(monTarget, e)
-              old_effect.name = e.name
-              old_effect.impact = e.modifier + e.change
-              old_effect.end = battle.round + e.duration
+            if monTarget.isAlive()
+              findObjectInArray(monTarget.fucking_up, "targeta", e.targeta)
+              if usefulArray.length is 0
+                status = {}
+                status["name"] = e.name
+                status["stat"] = e.stat
+                status["impact"] = e.modifier + e.change
+                status["targeta"] = e.targeta
+                status["end"] = battle.round + e.duration
+                monTarget.fucking_up.push(status)
+                addEffectIcon(monTarget, e)
+              else
+                old_effect = usefulArray[0]
+                removeEffectIcon(monTarget, old_effect)
+                addEffectIcon(monTarget, e)
+                old_effect.name = e.name
+                old_effect.impact = e.modifier + e.change
+                old_effect.end = battle.round + e.duration
             i++
         else if e.targeta.indexOf("timed") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
             findObjectInArray(monTarget.fucked_up, "targeta", e.targeta)
-            if usefulArray.length is 0 and monTarget.isAlive()
-              monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-              status = {}
-              status["name"] = e.name
-              status["stat"] = e.stat
-              status["restore"] = e.restore
-              status["targeta"] = e.targeta
-              status["end"] = battle.round + e.duration
-              monTarget.fucked_up.push(status)
-              addEffectIcon(monTarget, e)
-            else if monTarget.isAlive()
-              old_effect = usefulArray[0]
-              monTarget[old_effect.stat] = eval(monTarget[old_effect.stat] + e.restore)
-              monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-              usefulArray[0]["restore"] = e.restore
-              usefulArray[0]["end"] = battle.round + e.duration
-              removeEffectIcon(monTarget, e)
-              addEffectIcon(monTarget, e)
+            if monTarget.isAlive()
+              if usefulArray.length is 0
+                monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+                status = {}
+                status["name"] = e.name
+                status["stat"] = e.stat
+                status["restore"] = e.restore
+                status["targeta"] = e.targeta
+                status["end"] = battle.round + e.duration
+                monTarget.fucked_up.push(status)
+                addEffectIcon(monTarget, e)
+              else 
+                old_effect = usefulArray[0]
+                monTarget[old_effect.stat] = eval(monTarget[old_effect.stat] + e.restore)
+                monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+                usefulArray[0]["restore"] = e.restore
+                usefulArray[0]["end"] = battle.round + e.duration
+                removeEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e)
             i++
         else if e.targeta.indexOf("attack") isnt -1
           while i < effectTargets.length
@@ -880,25 +884,21 @@ window.ai = ->
     feedAiTargets()
     if teamPct() isnt 0
       controlAI 1
-      return
   ), timer1
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
       controlAI 3
-      return
   ), timer3
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
       controlAI 2
-      return
   ), timer2
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
       controlAI 0
-      return
   ), timer0
   setTimeout (->
     if teamPct() isnt 0
