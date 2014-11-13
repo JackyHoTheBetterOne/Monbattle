@@ -428,9 +428,10 @@ window.showDamageTeam = (index) ->
 window.showHealTeam = (index) ->
   i = undefined
   n = undefined
-  n = battle.players[index].length
+  n = battle.players[index].mons.length
   i = 0
   while i < n
+    console.log(battle.players[index].mons[i])
     if battle.players[index].mons[i].hp > 0
       damageBoxAnime(index, i, ability.modifier + window["change" + i], "rgba(50, 205, 50)")
     i++
@@ -600,7 +601,7 @@ window.flashEndButton = ->
     setTimeout (->
       $(".end-turn").trigger("click")
       return
-    ), 800
+    ), 1000
     return
 
 window.toggleEnemyClick = ->
@@ -1279,7 +1280,8 @@ $ ->
                   setTimeout (->
                     element.toggleClass "ability-on aoePositionUser"
                     element.attr("src", "")
-                    if ability.stat isnt "cleanse"
+                    console.log(ability.data("target").indexOf("cleanse") is -1)
+                    if ability.data("target").indexOf("cleanse") is -1
                       showHealTeam(0)
                     singleTargetAbilityAfterActionDisplay()
                     toggleImg()
