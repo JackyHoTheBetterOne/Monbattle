@@ -6,8 +6,8 @@
 window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
     if @hp <= 0
-      $("." + monster.team + ".info" + " " + ".mon" + monster.index).css("visibility", "hidden")
-      $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").remove()
+      $("." + monster.team + ".info" + " " + ".mon" + monster.index + " " + ".hp .bar").css({"width": "0%"})
+      $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300).remove()
       return false
     else
       return true
@@ -776,20 +776,23 @@ window.controlAI = (monIndex) ->
         leftMove = targetPosition.left - currentPosition.left - 60
         action()
         checkMax()
-        currentMon.animate(
-          "left": "+=" + leftMove.toString() + "px"
-          "top": "+=" + topMove.toString() + "px"
-        , 400, ->
-          singleTargetAbilityDisplayVariable()
+        singleTargetAbilityDisplayVariable()
+        setTimeout (->
           if targetMon.css("display") isnt "none"
             if enemyHurt.isAlive() is false
               targetMon.effect("explode", {pieces: 30}, 1000).hide()
             else
               targetMon.effect "shake", 750
-        ).animate backPosition, 400, ->
+          ), 400
+        currentMon.animate(
+          "left": "+=" + leftMove.toString() + "px"
+          "top": "+=" + topMove.toString() + "px"
+        , 400 ).animate backPosition, 400
+        setTimeout (->
           showDamageSingle()
           hpChangeBattle()
           checkMonHealthAfterEffect()
+          ), 800
       when "targetenemy"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
@@ -1106,7 +1109,6 @@ $ ->
         index = @id
         e = effectBin[index]
         $("." + e.enemyDex + ".effect-info").css("visibility", "hidden")
-
 ##########################################################################################################  User move interaction
       $(document).on "click.button", ".user.mon-slot .monBut button", ->
         $(".end-turn").prop("disabled", true)
@@ -1159,7 +1161,7 @@ $ ->
                       else
                         targetMon.effect "shake", 750
                     showDamageSingle()
-                  ), 360
+                  ), 400
                   currentMon.animate(
                     left: "+=" + leftMove.toString() + "px"
                     top: "+=" + topMove.toString() + "px"
@@ -1167,7 +1169,7 @@ $ ->
                   setTimeout (->
                     singleTargetAbilityAfterActionDisplay()
                     toggleEnemyClick()
-                    ), 820
+                    ), 800
               when "targetenemy"
                 toggleEnemyClick()
                 $(".battle-guide.guide").text("Select an enemy target")
@@ -1275,11 +1277,11 @@ $ ->
                   element = $(this)
                   element.attr("src", callAbilityImg).toggleClass("ability-on")
                   $(".user.mon-slot .img").each ->
-                      if battle.players[0].mons[$(this).data("index")].hp > 0
-                        $(this).effect "bounce",
-                          distance: 100
-                          times: 1
-                        , 800
+                    if battle.players[0].mons[$(this).data("index")].hp > 0
+                      $(this).effect "bounce",
+                        distance: 100
+                        times: 1
+                      , 800
                   setTimeout (->
                     element.toggleClass "ability-on aoePositionUser"
                     element.attr("src", "")
