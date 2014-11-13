@@ -1248,7 +1248,7 @@ $ ->
                     return
               when "aoeenemy"
                 enemyAbilityBeforeClickDisplay()
-                $(document).on "click.boom", ".user.mon-slot .img", ->
+                $(document).on "click.boom", ".enemy.mon-slot .img", ->
                   singleTargetAbilityAfterClickDisplay(ability)
                   ability.parent().parent().children(".abilityDesc").css "visibility", "hidden"
                   abilityAnime = $(".ability-img")
