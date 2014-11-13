@@ -239,11 +239,13 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
 };
 
 .battle-guide {
-  top: 220px;
-  left: 395px;
-  width: 150px;
+  top: 0px;
+  left: 0px;
+  width: 155px;
   color: white;
   @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+  margin-bottom: 1px;
+  box-shadow: 4px 4px 4px #000000;
 };
 
 .battle-message {
@@ -252,14 +254,21 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
 };
 
 .cancel {
-  background: rgba(235, 22, 22, 0.9) !important;
-  border-color: rgba(235, 22, 22, 0.9) !important;
+  background: rgba(235, 22, 22, 0.95) !important;
+  border-color: rgba(235, 22, 22, 0.95) !important;
+  box-shadow: 2px 3px 4px #000000;
   border-radius: 5px;
   position: absolute;
-  top: 289px;
-  left: 395px;
+  top: 70px;
 };
 
+.battle-helper {
+  width: 150px;
+  height: 300px;
+  position: absolute;
+  top: 255px;
+  left: 400px;
+};
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// Battle
