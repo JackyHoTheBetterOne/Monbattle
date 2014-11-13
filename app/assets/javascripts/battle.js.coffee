@@ -1281,8 +1281,7 @@ $ ->
                   setTimeout (->
                     element.toggleClass "ability-on aoePositionUser"
                     element.attr("src", "")
-                    if ability.stat isnt "cleanse"
-                      showHealTeam(0)
+                    showHealTeam(0) if ability.stat isnt "cleanse"
                     singleTargetAbilityAfterActionDisplay()
                     setTimeout (->
                       toggleImg()
