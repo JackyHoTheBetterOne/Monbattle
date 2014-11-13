@@ -912,9 +912,11 @@ window.ai = ->
       enable($("button"))
       $(".ap").effect("pulsate", {times: 5}, 1500)
       $(".battle-message").fadeOut(100)
-      toggleImg()
       $(".enemy .img").removeAttr("disabled")
       toggleEnemyClick()
+      setTimeout (->
+        toggleImg()
+        ), 500
   ), timerRound
 
 
@@ -1277,7 +1279,7 @@ $ ->
                   setTimeout (->
                     element.toggleClass "ability-on aoePositionUser"
                     element.attr("src", "")
-                    if ability.modifier isnt ""
+                    if ability.stat isnt "cleanse"
                       showHealTeam(0)
                     singleTargetAbilityAfterActionDisplay()
                     toggleImg()
