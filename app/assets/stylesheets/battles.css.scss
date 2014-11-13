@@ -107,8 +107,8 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
       font-size: 150%;
     };
     .img {
-      width: 130px;
-      height: 130px;
+      width: 140px;
+      height: 140px;
     };
   };
 };
@@ -458,7 +458,7 @@ body {
 .enemy.mon-slot {
   @include monIcon();
   position: absolute;
-  top: 135px;
+  top: 130px;
   left: -10px;
 
   .mon {
@@ -495,7 +495,7 @@ body {
 .user.mon-slot {
   @include monIcon();
   display: inline-block;
-  top: 150px;
+  top: 145px;
   right: -60px;
   width: 530px;
   height: 800px;

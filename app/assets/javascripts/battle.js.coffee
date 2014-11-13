@@ -32,13 +32,13 @@ window.fixEvolMon = (monster, player) ->
             ii = 0 
             while ii < monTarget.fucking_up.length
               e = monTarget.fucking_up[ii]
-              monTarget.fucking_up.splice(ii, 1)  if e.impact.indexOf("-") isnt -1
+              delete monTarget.fucking_up(ii)  if e.impact.indexOf("-") isnt -1
               removeEffectIcon(monTarget, e) 
               ii++
             iii = 0
             while iii < monTarget.fucked_up.length
               e = monTarget.fucked_up[iii]
-              monTarget.fucked_up.splice(iii, 1) if e.restore.indexOf("+") isnt -1
+              delete monTarget.fucked_up[iii] if e.restore.indexOf("+") isnt -1
               removeEffectIcon(monTarget, e)
               iii++
             if a.modifier isnt ""
@@ -212,9 +212,10 @@ window.fixEvolMon = (monster, player) ->
 window.findObjectInArray = (array, field, value) ->
   window.usefulArray = []
   i = 0 
-  while i < array.length             
-    if array[i][field].indexOf(value) isnt -1
-      usefulArray.push(array[i])
+  while i < array.length 
+    if typeof array[i] isnt "undefined"         
+      if array[i][field].indexOf(value) isnt -1
+        usefulArray.push(array[i])
     i++
 
 window.isTeamDead = (monster, index, array) ->
@@ -406,8 +407,8 @@ window.damageBoxAnime= (team, target, damage, color) ->
             setTimeout (->
               $("p.dam").promise().done ->
                 outcome()
-            ), 100
-      ), 100
+            ), 250
+      ), 250
 
 window.showDamageSingle = ->
   damageBoxAnime(enemyHurt.team, enemyHurt.index, ability.modifier + window["change" + enemyHurt.index], "rgba(255, 0, 0)")
@@ -428,7 +429,7 @@ window.showDamageTeam = (index) ->
 window.showHealTeam = (index) ->
   i = undefined
   n = undefined
-  n = battle.players[index].length
+  n = battle.players[index].mons.length
   i = 0
   while i < n
     if battle.players[index].mons[i].hp > 0
@@ -519,7 +520,7 @@ window.singleTargetAbilityAfterActionDisplay = ->
   checkMonHealthAfterEffect()
   setTimeout (->
     toggleImg()
-  ), 500
+  ), 200
   flashEndButton()
 
 
@@ -623,34 +624,38 @@ window.roundEffectHappening = (team) ->
   n = battle.players[team].mons.length
   while i < n 
     mon = battle.players[team].mons[i]
-    if mon.taunted.target isnt undefined and battle.round is monster.taunted.end
-      $( "." + team + " " + "." + mon.index + " " + "." + mon.taunted.name).fadeOut(300).remove()
-      mon.taunted.target = undefined
-    if mon.fucking_up.length isnt 0 and mon.isAlive() 
-      ii = 0 
-      nn = mon.fucking_up.length
-      while ii < nn
-        e = mon.fucking_up[ii]
-        if battle.round is e.end
-          $("." + team + " " + ".mon" + mon.index + " " + "." + e.name).fadeOut(300).remove()
-          mon.fucking_up.splice(ii, 1)
-        else
-          mon[e.stat] = eval(mon[e.stat] + e.impact)
-          checkMin()
-          checkMax()
-          mon.isAlive() if typeof mon.isAlive isnt "undefined"
-        ii++
-    if mon.fucked_up.length isnt 0 and mon.isAlive()
-      iii = 0 
-      nnn = mon.fucked_up.length
-      while iii < nnn 
-        e = mon.fucked_up[iii]
-        if typeof e isnt "undefined"
-          if battle.round is e.end
-            mon[e.stat] = eval(mon[e.stat] + e.restore)
-            $("." + team + " " + ".mon" + mon.index + " " + "." + e.name).fadeOut(300).remove()
-            mon.fucked_up.splice(iii, 1)
-        iii++
+    if mon.isAlive()
+      if mon.taunted.target isnt undefined and battle.round is monster.taunted.end
+        $( "." + team + " " + ".mon" + mon.index + " " + "." + mon.taunted.name).fadeOut(300).remove()
+        mon.taunted.target = undefined
+      if mon.fucking_up.length isnt 0
+        ii = 0 
+        nn = mon.fucking_up.length
+        while ii < nn
+          e = mon.fucking_up[ii]
+          if typeof e isnt "undefined"
+            if battle.round is e.end
+              $("." + team + " " + ".mon" + mon.index + " " + "." + e.name).fadeOut(300).remove()
+              delete mon.fucking_up[ii]
+            else
+              mon[e.stat] = eval(mon[e.stat] + e.impact)
+              checkMin()
+              checkMax()
+              mon.isAlive() if typeof mon.isAlive isnt "undefined"
+          ii++
+      if mon.fucked_up.length isnt 0
+        iii = 0 
+        nnn = mon.fucked_up.length
+        console.log(mon.fucked_up)
+        while iii < nnn 
+          e = mon.fucked_up[iii]
+          console.log(e)
+          if typeof e isnt "undefined"
+            if battle.round is e.end
+              mon[e.stat] = eval(mon[e.stat] + e.restore)
+              $("." + team + " " + ".mon" + mon.index + " " + "." + e.name).fadeOut(300).remove()
+              delete mon.fucked_up[iii]
+          iii++
     i++
 
 
@@ -782,17 +787,17 @@ window.controlAI = (monIndex) ->
             if enemyHurt.isAlive() is false
               targetMon.effect("explode", {pieces: 30}, 1000).hide()
             else
-              targetMon.effect "shake", 750
-          ), 400
+              targetMon.effect "shake", 800
+          ), 500
         currentMon.animate(
           "left": "+=" + leftMove.toString() + "px"
           "top": "+=" + topMove.toString() + "px"
-        , 400 ).animate backPosition, 400
+        , 500 ).animate backPosition, 500
         setTimeout (->
           showDamageSingle()
           hpChangeBattle()
           checkMonHealthAfterEffect()
-          ), 800
+          ), 1000
       when "targetenemy"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
@@ -915,13 +920,12 @@ window.ai = ->
       checkMonHealthAfterEffect()
       apChange()
       enable($("button"))
-      $(".ap").effect("pulsate", {times: 5}, 800)
+      $(".ap").effect("pulsate", {times: 5}, 500)
       $(".battle-message").fadeOut(100)
       $(".enemy .img").removeAttr("disabled")
       toggleEnemyClick()
-      setTimeout (->
-        toggleImg()
-      ), 500
+      $(".monBut button").trigger("mouseleave")
+      toggleImg()
   ), timerRound
 
 
@@ -1159,7 +1163,7 @@ $ ->
                       if enemyHurt.isAlive() is false
                         targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
                       else
-                        targetMon.effect "shake", 750
+                        targetMon.effect "shake", 800
                     showDamageSingle()
                   ), 400
                   currentMon.animate(
@@ -1289,7 +1293,7 @@ $ ->
                     singleTargetAbilityAfterActionDisplay()
                     setTimeout (->
                       toggleImg()
-                    ), 500
+                    ), 200
                     return
                   ), 1200
                   return
@@ -1313,7 +1317,7 @@ $ ->
                   apChange()
                   setTimeout (->
                     toggleImg()
-                  ), 500
+                  ), 200
                   flashEndButton()
                   return
                 ), 2000
