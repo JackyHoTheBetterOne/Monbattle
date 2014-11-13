@@ -1314,6 +1314,12 @@ $ ->
                 abilityAnime = $(".single-ability-img")
                 targetMon = $(".0 .mon" + targets[1] + " " + ".img")
                 betterMon = battle.players[0].mons[targets[1]].mon_evols[0]
+                oldMon = battle.players[0].mons[targets[1]]
+                findObjectInArray(effectBin, "target", oldMon.name)
+                i = 0
+                while i < usefulArray.length
+                  usefulArray[i].target = betterMon.name
+                  i++
                 abilityAnime.css(targetMon.offset())
                 abilityAnime.finish().attr("src", betterMon.animation).toggleClass "ability-on", ->
                   $(".battle").effect("shake")
