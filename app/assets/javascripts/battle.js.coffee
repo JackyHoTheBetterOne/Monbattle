@@ -912,7 +912,7 @@ window.ai = ->
       checkMonHealthAfterEffect()
       apChange()
       enable($("button"))
-      $(".ap").effect("pulsate", {times: 5}, 1500)
+      $(".ap").effect("pulsate", {times: 5}, 800)
       $(".battle-message").fadeOut(100)
       $(".enemy .img").removeAttr("disabled")
       toggleEnemyClick()
@@ -1159,13 +1159,15 @@ $ ->
                       else
                         targetMon.effect "shake", 750
                     showDamageSingle()
-                  ), 390
+                  ), 360
                   currentMon.animate(
                     left: "+=" + leftMove.toString() + "px"
                     top: "+=" + topMove.toString() + "px"
-                  , 400).animate backPosition, 400, ->
+                  , 400).animate backPosition, 400
+                  setTimeout (->
                     singleTargetAbilityAfterActionDisplay()
                     toggleEnemyClick()
+                    ), 820
               when "targetenemy"
                 toggleEnemyClick()
                 $(".battle-guide.guide").text("Select an enemy target")
@@ -1180,8 +1182,8 @@ $ ->
                   abilityAnime = $(".single-ability-img")
                   singleTargetAbilityDisplayVariable()
                   abilityAnime.css(targetPosition)
+                  action()
                   abilityAnime.attr("src", callAbilityImg).toggleClass "ability-on", ->
-                    action()
                     if targetMon.css("display") isnt "none"
                       if enemyHurt.isAlive() is false
                         targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
@@ -1215,14 +1217,14 @@ $ ->
                   abilityAnime = $(".single-ability-img")
                   singleHealTargetAbilityDisplayVariable()
                   abilityAnime.css(targetPosition)
+                  action()
+                  checkMax()
                   abilityAnime.attr("src", callAbilityImg).toggleClass "ability-on", ->
                     targetMon.effect "bounce",
                         distance: 100
                         times: 1
                       , 800
                     element = $(this)
-                    action()
-                    checkMax()
                     setTimeout (->
                       element.toggleClass "ability-on"
                       element.attr("src", "")
