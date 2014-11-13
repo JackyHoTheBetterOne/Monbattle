@@ -198,6 +198,7 @@ window.fixEvolMon = (monster, player) ->
             monTarget = effectTargets[i]
             addEffectIcon(monTarget, e)
             setTimeout (->
+              $(".effect").trigger("mouseleave")
               removeEffectIcon(monTarget, e)
               ), 1500
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
