@@ -583,12 +583,6 @@ window.turnOffCommandA = ->
   $(document).off "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
   $(document).off "mouseover.command, mousemove.command", ".user.mon-slot .img", mouseOverMon
 
-window.turnOnCommand = (funk) ->
-  $(document).on "click.command", ".user.mon-slot .img", funk
-
-window.turnOffCommand = (funk) ->
-  $(document).off "click.command", ".user.mon-slot .img", funk
-
 window.turnOff = (name, team) ->
   $(document).off name, team + ".mon-slot .img"
 
@@ -1145,12 +1139,12 @@ $ ->
             $(document).off "click.boom", ".enemy.mon-slot .img"
             $(document).off "click.help", ".user.mon-slot .img"
             $(document).off "click.cancel", ".cancel"
+            turnOnCommandA()
             $(".enemy .img").each ->
               $(this).prop("disabled", true)
             toggleImg()
             if ability.data("target").indexOf("ally") isnt -1 || ability.data("target") is "ability"
               toggleImg()
-              turnOnCommandA()
             targets = []
             return
           window.targets = targets.concat(ability.data("index"))  if targets.length isnt 3
