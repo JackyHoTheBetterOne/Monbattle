@@ -917,7 +917,7 @@ window.ai = ->
       toggleEnemyClick()
       setTimeout (->
         toggleImg()
-        ), 500
+      ), 1000
   ), timerRound
 
 
