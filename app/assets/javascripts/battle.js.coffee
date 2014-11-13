@@ -130,7 +130,7 @@ window.fixEvolMon = (monster, player) ->
                 removeEffectIcon(monTarget, e)
                 addEffectIcon(monTarget, e)
               monTarget.taunted.name = e.name
-              monTarget.taunted.target = battle.players[0].indexOf(monster)
+              monTarget.taunted.target = monster.index
               monTarget.taunted.end = battle.round + e.duration
             i++
         else if e.targeta.indexOf("poison") isnt -1
@@ -492,6 +492,7 @@ window.checkMonHealthAfterEffect = ->
 window.addEffectIcon = (monster, effect) -> 
   effectBin.push(effect)
   index = effectBin.indexOf(effect)
+  effectBin[index].target = battle.players[effect.teamDex].mons[effect.monDex].name if effect.targeta is "taunt"
   effectBin[index].enemyDex = monster.team
   effectBin[index].end = effect.duration + battle.round
   $("<img src = '#{effect.img}' class = 'effect #{monster.name} #{effect.name} #{effect.targeta}' id='#{index}' >").
@@ -634,7 +635,7 @@ window.roundEffectHappening = (team) ->
   while i < n 
     mon = battle.players[team].mons[i]
     if mon.isAlive()
-      if mon.taunted.target isnt undefined and battle.round is monster.taunted.end
+      if mon.taunted.target isnt undefined and battle.round is mon.taunted.end
         $( "." + team + " " + ".mon" + mon.index + " " + "." + mon.taunted.name).fadeOut(300).remove()
         mon.taunted.target = undefined
       if mon.fucking_up.length isnt 0
@@ -772,7 +773,7 @@ window.controlAI = (monIndex) ->
       monster.name + ":" + " " + getRandom(monster.speech)).
       effect("highlight", 500)
     abilityIndex = getRandom(aiAbilities)
-    if monster.taunted.target is undefined 
+    if monster.taunted.target is undefined || battle.players[0].mons[monster.taunted.target].hp <= 0 
       window.targetIndex = getRandom(aiTargets)
     else 
       window.targetIndex = monster.taunted.target
@@ -1116,7 +1117,10 @@ $ ->
         index = @id
         e = effectBin[index]
         $("." + e.enemyDex + ".effect-info").css("visibility", "visible")
-        $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text(e.name)
+        if typeof e.target isnt "undefined" 
+          $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text("This unit wants to fuck up " + e.target + ".")
+        else
+          $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text(e.name)
         $("." + e.enemyDex + ".effect-info" + " " + ".panel-heading").text(
           "Expires in" + " " + (e.end - battle.round) + " " + "turn(s)")
       ).on "mouseleave", ".effect", -> 
