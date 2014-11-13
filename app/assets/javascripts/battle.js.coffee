@@ -517,7 +517,9 @@ window.singleTargetAbilityAfterActionDisplay = ->
   apChange()
   hpChangeBattle()
   checkMonHealthAfterEffect()
-  toggleImg()
+  setTimeout (->
+    toggleImg()
+  ), 500
   flashEndButton()
 
 
@@ -1282,7 +1284,9 @@ $ ->
                     if ability.stat isnt "cleanse"
                       showHealTeam(0)
                     singleTargetAbilityAfterActionDisplay()
-                    toggleImg()
+                    setTimeout (->
+                      toggleImg()
+                    ), 500
                     return
                   ), 1200
                   return
@@ -1304,7 +1308,9 @@ $ ->
                   abilityAnime.toggleClass "ability-on"
                   abilityAnime.attr("src", "")
                   apChange()
-                  toggleImg()
+                  setTimeout (->
+                    toggleImg()
+                  ), 500
                   flashEndButton()
                   return
                 ), 2000
