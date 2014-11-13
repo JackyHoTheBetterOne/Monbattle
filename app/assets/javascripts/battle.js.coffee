@@ -1282,9 +1282,7 @@ $ ->
                   setTimeout (->
                     element.toggleClass "ability-on aoePositionUser"
                     element.attr("src", "")
-                    console.log(ability.data("target").indexOf("cleanse") is -1)
-                    if ability.data("target").indexOf("cleanse") is -1
-                      showHealTeam(0)
+                    showHealTeam(0) if ability.stat isnt "cleanse"
                     singleTargetAbilityAfterActionDisplay()
                     setTimeout (->
                       toggleImg()
