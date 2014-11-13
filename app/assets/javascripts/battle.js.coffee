@@ -213,9 +213,10 @@ window.findObjectInArray = (array, field, value) ->
   window.usefulArray = []
   i = 0 
   while i < array.length 
-    if typeof array[i] isnt "undefined"         
-      if array[i][field].indexOf(value) isnt -1
-        usefulArray.push(array[i])
+    if typeof array[i] isnt "undefined"
+      if typeof array[i][field] isnt "undefined"         
+        if array[i][field].indexOf(value) isnt -1
+          usefulArray.push(array[i])
     i++
 
 window.isTeamDead = (monster, index, array) ->
