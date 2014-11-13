@@ -634,10 +634,11 @@ window.roundEffectHappening = (team) ->
   n = battle.players[team].mons.length
   while i < n 
     mon = battle.players[team].mons[i]
-    if mon.isAlive()
-      if mon.taunted.target isnt undefined and battle.round is mon.taunted.end
-        $( "." + team + " " + ".mon" + mon.index + " " + "." + mon.taunted.name).fadeOut(300).remove()
-        mon.taunted.target = undefined
+    if mon.isAlive() 
+      if mon.taunted.target isnt undefined
+        if battle.round is mon.taunted.end || battle.players[0].mons[mon.taunted.target].hp <= 0
+          $( "." + team + " " + ".mon" + mon.index + " " + "." + mon.taunted.name).fadeOut(300).remove()
+          mon.taunted.target = undefined
       if mon.fucking_up.length isnt 0
         ii = 0 
         nn = mon.fucking_up.length
@@ -888,6 +889,14 @@ window.controlAI = (monIndex) ->
             return
           ), 1200
           return
+      when "targetally"
+        window.targets = [1].concat [monIndex, abilityIndex, minimumHpPC()]
+        currentMon = $(".enemy .mon" + monIndex + " " + ".img")
+        currentMon.effect("bounce", {distance: 50, times: 1}, 800)
+
+
+
+
 
 ############################################################################################################### AI action happening
 window.ai = ->
