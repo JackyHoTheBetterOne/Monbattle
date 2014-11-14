@@ -1,15 +1,24 @@
 .filter-search
   .row
-    / =form_for @super_filter do |f|
-    /   .abil-search
-    /     ="Search"
-    /     =f.text_field(:search_query, class: 'filterrific-periodically-observed')
-    /   .filter-1
-    /     ="Filter By"(:rarity_id, @filterrific.select_options[:with_rarity_id], { include_blank: '- Any -' })
-    /     =f.submit "Submit", class: "btn btn-sm"
-  .row
-    .pull-left
-      p Search and Filters here
+    .pull-left.abil-filters
+      =form_tag( abilities_path, method: :get, remote: true)
+        .col-md-2
+          p Search
+          =search_field_tag "filter[name]", value = nil
+        .col-md-2
+          p Target
+          =collection_select :filter, :target_id, Target.all, :id, :name, { include_blank: '- Any -' }
+        .col-md-2
+          p Socket
+          =collection_select :filter, :abil_socket_id, AbilSocket.all, :id, :socket_num, { include_blank: '- Any -' }
+        .col-md-2
+          p Stat Targ
+          =collection_select :filter, :stat_target_id, StatTarget.all, :id, :name, { include_blank: '- Any -' }
+        .col-md-2
+          p Rarity
+          =collection_select :filter, :rarity_id, Rarity.all, :id, :name, { include_blank: '- Any -' }
+        =submit_tag "Search"
+        =link_to "Reset", abilities_path, class: "btn btn-sm"
     .pull-right.ability-mod-temp
       = render partial: "admin/modal_button", locals: {modal_label: "abilityTemplateLabel", modal_id: "abilityTemplateModal", form_is_for: "abilities/form", button_name: "New Abil", form_title: "Create New Ability"}
   .row.btn-filt

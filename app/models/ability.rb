@@ -51,12 +51,21 @@ class Ability < ActiveRecord::Base
   # after_create :set_former_name_field
   # after_update :change_default_ability_name_for_monsters
 
-# superfilter(
-#   filter_names: [
-#     :search_query,
-#     :rarity_filter
-#     ]
-# )
+def self.superfilter
+  {filters: [:search_query, :rarity_filter]}
+end
+
+# {"name"=>"slap", "target_id"=>"2", "abil_socket_id"=>"2", "stat_target_id"=>"", "rarity_id"=>""}
+scope :filter_it, -> (filter = {}) {
+  query = self
+  query = query.where("name ILIKE ?", "%#{filter["name"]}%")
+  query = query.where(rarity_id: filter["rarity_id"]) if filter["rarity_id"].present?
+  query = query.where(target_id: filter["target_id"]) if filter["target_id"].present?
+  query = query.where(abil_socket_id: filter["abil_socket_id"]) if filter["abil_socket_id"].present?
+  query = query.where(stat_target_id: filter["stat_target_id"]) if filter["stat_target_id"].present?
+  return query
+}
+
 
 # filterrific(
 #   filter_names: [

@@ -16,7 +16,7 @@ class AbilityPolicy < ApplicationPolicy
     end
   end
 
-  
+
   attr_reader :user, :ability
 
   def initialize(user, ability)

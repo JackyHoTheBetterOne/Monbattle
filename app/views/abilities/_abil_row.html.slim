@@ -1,4 +1,4 @@
-=simple_form_for(ability, remote: true) do |f|
+=form_for(ability, remote: true) do |f|
   .row.default-display-row
     .col-md-1.col-abils
       =f.submit "Save", class: 'btn btn-primary btn-sm btn-save', id: "#{dom_id(ability)}-abil-rows-save"
