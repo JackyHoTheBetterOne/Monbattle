@@ -402,6 +402,9 @@ window.apChange = ->
 window.hpChange = (side, index) ->
   "." + side + ".info" + " " + ".mon" + index + " " + ".current-hp"
 
+window.maxHpChange = (side, index) ->
+  "." + side + ".info" + " " + ".mon" + index + " " + ".max-hp"
+
 window.hpBarChange = (side, index) ->
   "." + side + " " + ".mon" + index + " " + ".hp .bar"
 
@@ -413,6 +416,7 @@ window.hpChangeBattle = ->
     $(hpBarChange("0", i)).css barChange(battle.players[0].mons[i].hp, battle.players[0].mons[i].max_hp) if battle.
                     players[0].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i + " " + ".current-hp").text()
     $(hpChange("0", i)).text battle.players[0].mons[i].hp
+    $(hpChange("0", i)).text battle.players[0].mons[i].max_hp
     i++
   n = pcMonNum
   i = 0
@@ -421,6 +425,7 @@ window.hpChangeBattle = ->
     $(hpBarChange("1", i)).css barChange(battle.players[1].mons[i].hp, battle.players[1].mons[i].max_hp) if battle.
                     players[1].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i + " " + ".current-hp").text()
     $(hpChange("1", i)).text battle.players[1].mons[i].hp
+    $(hpChange("1", i)).text battle.players[1].mons[i].max_hp
     i++
 
 
@@ -667,7 +672,7 @@ window.roundEffectHappening = (team) ->
     mon = battle.players[team].mons[i]
     if mon.isAlive() 
       if typeof mon.shield.end isnt "undefined"
-        shieldy = mon.shield.old_hp - mon.hp - mon.shield.extra_hp
+        shieldy = mon.shield.extra_hp - (mon.shield.old_hp - mon.hp)
         if battle.round is mon.shield.end || (mon.shield.old_hp - (mon.hp + mon.shield.true_damage)) > mon.shield.extra_hp
           removeEffectIcon(mon, mon.shield)
           mon.shield.end = undefined
@@ -819,7 +824,6 @@ window.controlAI = (monIndex) ->
     else 
       window.targetIndex = monster.taunted.target
     ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
-    $(".wtfman").text(abilityIndex)
     switch ability.targeta
       when "attack"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
