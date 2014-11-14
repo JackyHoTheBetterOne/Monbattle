@@ -14,7 +14,11 @@ class MonsterSkinsController < ApplicationController
     if @monster_skin.save
       redirect_to monster_skins_path, notice: "Skin Added!"
     else
-      redirect_to monster_skins_path, notice: "You fail"
+      err_msg = @monster_skin.errors.map { |k, v| k.to_s + " : " + v.to_s}
+      redirect_to monster_skins_path, notice: "#{err_msg}"
+      # @monster_skin.errors.full_messages.each do |msg|
+      #   p msg
+      # end
     end
   end
 

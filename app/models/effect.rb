@@ -14,10 +14,13 @@ class Effect < ActiveRecord::Base
 
   before_save :set_keywords
 
-
   has_attached_file :icon, :styles => { :cool => "40x40>", :thumb => "100x100>" }
 
   validates_attachment_content_type :icon, :content_type => /\Aimage\/.*\Z/
+
+  scope :alphabetical, -> {
+    order("lower(name)")
+  }
 
   def stat
     self.stat_target.name.downcase
