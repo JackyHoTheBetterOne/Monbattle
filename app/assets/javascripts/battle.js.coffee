@@ -159,6 +159,7 @@ window.fixEvolMon = (monster, player) ->
           while i < effectTargets.length
             monTarget = effectTargets[i]
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+            monTarget.shield.true_damage += parseInt(e.change) if monTarget.shield.end isnt "undefined"
             checkMin()
             checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
@@ -169,6 +170,7 @@ window.fixEvolMon = (monster, player) ->
                 status["name"] = e.name
                 status["stat"] = e.stat
                 status["impact"] = e.modifier + e.change
+                status["change"] = e.change
                 status["targeta"] = e.targeta
                 status["end"] = battle.round + e.duration
                 monTarget.fucking_up.push(status)
@@ -179,9 +181,8 @@ window.fixEvolMon = (monster, player) ->
                 addEffectIcon(monTarget, e)
                 old_effect.description = e.description
                 old_effect.impact = e.modifier + e.change
+                old_effect.change = e.change
                 old_effect.end = battle.round + e.duration
-              if monTarget.shield.end isnt "undefined"
-                monTarget.shield.poison += e.change
             i++
         else if e.targeta.indexOf("timed") isnt -1
           while i < effectTargets.length
@@ -525,11 +526,13 @@ window.checkMonHealthAfterEffect = ->
     i++
 
 window.addEffectIcon = (monster, effect) -> 
-  effectBin.push(effect)
-  index = effectBin.indexOf(effect)
-  effectBin[index].target = battle.players[effect.teamDex].mons[effect.monDex].name if effect.targeta is "taunt"
-  effectBin[index].enemyDex = monster.team
-  effectBin[index].end = effect.duration + battle.round
+  e = Object.create(effect)
+  e.target = battle.players[effect.teamDex].mons[effect.monDex].name if effect.targeta is "taunt"
+  e.enemyDex = monster.team
+  e.enemyMonDex = monster.index
+  e.end = effect.duration + battle.round
+  effectBin.push(e)
+  index = effectBin.indexOf(e)
   $("<img src = '#{effect.img}' class = 'effect #{monster.name} #{effect.name} #{effect.targeta}' id='#{index}' >").
     prependTo("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").addClass("tada animated")
   setTimeout (->
@@ -671,14 +674,13 @@ window.roundEffectHappening = (team) ->
     mon = battle.players[team].mons[i]
     if mon.isAlive() 
       if typeof mon.shield.end isnt "undefined"
-        shieldy = mon.shield.extra_hp - (mon.shield.old_hp - mon.hp)
-        console.log("shield: " + shieldy)
+        shieldy = parseInt(mon.shield.extra_hp) + mon.shield.true_damage - (mon.shield.old_hp - mon.hp)
         if battle.round is mon.shield.end || (mon.shield.old_hp - (mon.hp + mon.shield.true_damage)) > mon.shield.extra_hp
           removeEffectIcon(mon, mon.shield)
           mon.shield.end = undefined
           mon.max_hp = mon.max_hp - mon.shield.extra_hp
           if shieldy > 0 
-            mon.hp = mon.hp - shieldy - mon.shield.true_damage
+            mon.hp = mon.hp - shieldy
             mon.shield.true_damage = 0
       if mon.taunted.target isnt undefined
         if battle.round is mon.taunted.end || battle.players[0].mons[mon.taunted.target].hp <= 0
@@ -698,6 +700,8 @@ window.roundEffectHappening = (team) ->
               checkMin()
               checkMax()
               mon.isAlive() if typeof mon.isAlive isnt "undefined"
+            if e.targeta.indexOf("poison") isnt -1
+              mon.shield.true_damage += parseInt(e.change)
           ii++
       if mon.fucked_up.length isnt 0
         iii = 0 
@@ -817,7 +821,7 @@ window.controlAI = (monIndex) ->
       monster.name + ":" + " " + getRandom(monster.speech)).
       effect("highlight", 500)
     abilityIndex = getRandom(aiAbilities)
-    if monster.taunted.target is undefined || battle.players[0].mons[monster.taunted.target].hp <= 0 
+    if monster.taunted.target is undefined || parseInt(battle.players[0].mons[monster.taunted.target].hp) <= 0 
       window.targetIndex = getRandom(aiTargets)
     else 
       window.targetIndex = monster.taunted.target
@@ -926,8 +930,7 @@ window.controlAI = (monIndex) ->
           setTimeout (->
             element.toggleClass "ability-on aoePositionFoe"
             element.attr("src", "")
-            if ability.stat isnt "cleanse"
-              showHealTeam(1)
+            showHealTeam(1) if ability.stat isnt "cleanse"
             hpChangeBattle()
             checkMonHealthAfterEffect()
             return
@@ -952,7 +955,7 @@ window.controlAI = (monIndex) ->
             , 800
           element = $(this)
           setTimeout (->
-            showHealSingle()
+            showHealSingle() if ability.stat isnt "cleanse"
             element.toggleClass "ability-on"
             element.attr("src", "")
             hpChangeBattle()
@@ -997,8 +1000,8 @@ window.ai = ->
       battle.checkRound()
       roundEffectHappening(0)
       roundEffectHappening(1)
-      hpChangeBattle()
       checkMonHealthAfterEffect()
+      hpChangeBattle()
       apChange()
       enable($("button"))
       $(".ap").effect("pulsate", {times: 5}, 500)
@@ -1191,10 +1194,17 @@ $ ->
         index = @id
         e = effectBin[index]
         $("." + e.enemyDex + ".effect-info").css("visibility", "visible")
-        if typeof e.target isnt "undefined" 
+        if e.targeta is "taunt" 
           $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text("This unit wants to fuck up " + e.target + ".")
+        else if e.targeta is "shield"
+          monster = battle.players[e.enemyDex].mons[e.enemyMonDex]
+          shield = parseInt(monster.shield.extra_hp) + monster.shield.true_damage - (monster.shield.old_hp - monster.hp)
+          if shield <= 0 
+            $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text("This shield is broken!")
+          else
+            $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text("This unit has a shield of " + shield + "HP.")
         else
-          $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text(e.name)
+          $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text(e.description)
         $("." + e.enemyDex + ".effect-info" + " " + ".panel-heading").text(
           "Expires in" + " " + (e.end - battle.round) + " " + "turn(s)")
       ).on "mouseleave", ".effect", -> 
