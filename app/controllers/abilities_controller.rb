@@ -31,15 +31,14 @@ class AbilitiesController < ApplicationController
     # @target = Target.new
     # @targets = Target.all
     # @ability_purchase = AbilityPurchase.new
-    @ability = Ability.new
 
-    authorize @ability
     @ability = Ability.new ability_params
+    authorize @ability
     respond_to do |format|
       if @ability.save
-        format.js { render }
+        format.js
       else
-        format.js { render }
+        format.js
       end
     end
   end
