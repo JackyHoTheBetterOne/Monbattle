@@ -207,8 +207,8 @@ class MonsterUnlock < ActiveRecord::Base
                                 monster_skin_id: @default_skin_id
                                 )
     if self.monster.rarity.name == "npc"
-      @default_sock3_id = 18
-      @default_sock4_id = 30
+      @default_sock3_id = self.monster.default_sock3_id
+      @default_sock4_id = self.monster.default_sock4_id
 
       AbilityPurchase.on_monster_unlock(user_id: @user_id,
                                         abil_id: @default_sock3_id,

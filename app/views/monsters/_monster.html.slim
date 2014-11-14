@@ -31,8 +31,10 @@ tr id=dom_id(monster)
       ="Not Set"
     -else
       =image_tag monster.default_skin_img
-  td=monster.default_sock1_id.nil? ? "Not Set" : "#{monster.default_sock1_name}"
-  td=monster.default_sock2_id.nil? ? "Not Set" : "#{monster.default_sock2_name}"
+  td=monster.default_sock1_id.nil? ? "Not Set" : monster.default_sock_name(monster.default_sock1_id)
+  td=monster.default_sock2_id.nil? ? "Not Set" : monster.default_sock_name(monster.default_sock2_id)
+  td=monster.default_sock3_id.nil? ? "Not Set" : monster.default_sock_name(monster.default_sock3_id)
+  td=monster.default_sock4_id.nil? ? "Not Set" : monster.default_sock_name(monster.default_sock4_id)
 
   td id="unlock_#{dom_id(monster)}"
     =render partial: "monster_unlocks/monster_unlock", locals: {monster: @monster, monster_unlock: @monster_unlock}

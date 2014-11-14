@@ -1,6 +1,5 @@
 class Monster < ActiveRecord::Base
 
-
   belongs_to :job
   belongs_to :element
   belongs_to :personality
@@ -89,6 +88,10 @@ class Monster < ActiveRecord::Base
     Ability.find(self.default_sock2_id).name
   end
 
+  def default_sock_name(sock_id)
+    Ability.find_name(sock_id).first
+  end
+
   def self.find_default_monster_ids
     @default_monster_names = ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira", "Eviganon"]
     where(name: @default_monster_names).pluck(:id)
@@ -147,6 +150,10 @@ class Monster < ActiveRecord::Base
     self.default_skin_id  = find_default_skin_id("Sack")
     self.default_sock1_id = find_default_abil_id("Slap")
     self.default_sock2_id = find_default_abil_id("Groin Kick")
+    if self.rarity.name == "npc"
+      self.default_sock3_id = find_default_abil_id("Omega Slash")
+      self.default_sock4_id = find_default_abil_id("Discharge")
+    end
     self.save
   end
 
