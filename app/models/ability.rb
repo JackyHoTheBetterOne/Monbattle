@@ -51,15 +51,32 @@ class Ability < ActiveRecord::Base
   # after_create :set_former_name_field
   # after_update :change_default_ability_name_for_monsters
 
-  filterrific(
-  default_settings: { sorted_by: 'created_at_desc' },
-  filter_names: [
-    :search_query,
-    :sorted_by,
-    :with_country_id,
-    :with_created_at_gte
-  ]
-)
+# superfilter(
+#   filter_names: [
+#     :search_query,
+#     :rarity_filter
+#     ]
+# )
+
+# filterrific(
+#   filter_names: [
+#     :with_rarity_id,
+#   ]
+# )
+
+#   scope :with_rarity_id, ->(rarity_id) {
+#     where(rarity_id: [*rarity_id])
+#   }
+
+  scope :search_query, -> (search) {
+    where("name ILIKE ?", "%#{search}%")
+  }
+
+  scope :rarity_filter, -> (rarity) {
+    where(rarity_id: rarity)
+  }
+
+  scope :direct_dmg, -> { order('stat_change')}
 
   scope :abilities_by_socket, -> { order('abil_socket_id') }
 

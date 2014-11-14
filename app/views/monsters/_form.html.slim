@@ -31,6 +31,18 @@
             .form-control="No Abil Avail for Job of this Mon for Sock 2, setting default as Groin Kick"
           -else
             .form-control =f.collection_select :default_sock2_id, @abilities.find_default_abilities_available(2, @monster.job_id), :id, :name
+          -if @monster.try(:rarity_id)
+            -if @monster.rarity.name == "npc"
+              h4=f.label "Default Ability for Socket 3"
+              -if @abilities.find_default_abilities_available(3, @monster.job_id).empty?
+                .form-control="No Abil Avail for Job of this Mon for Sock 3, setting default as Omega Slash"
+              -else
+                .form-control =f.collection_select :default_sock3_id, @abilities.find_default_abilities_available(3, @monster.job_id), :id, :name
+              h4=f.label "Default Ability for Socket 4"
+              -if @abilities.find_default_abilities_available(4, @monster.job_id).empty?
+                .form-control="No Abil Avail for Job of this Mon for Sock 4, setting default as Discharge"
+              -else
+                .form-control =f.collection_select :default_sock4_id, @abilities.find_default_abilities_available(4, @monster.job_id), :id, :name
           =f.input :description
           =f.input :max_hp
           / =f.input :hp_modifier
