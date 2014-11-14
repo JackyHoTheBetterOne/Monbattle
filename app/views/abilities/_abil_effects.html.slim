@@ -1,4 +1,4 @@
--ability.effects.each do |effect|
+-ability.effects.alphabetical.each do |effect|
   .col-md-6.effect-div.col-abils id="#{dom_id(effect)}-eff"
     / =render partial: "", locals: {ability: ability, effect: effect}
     =simple_form_for(effect, remote: true) do |f|
