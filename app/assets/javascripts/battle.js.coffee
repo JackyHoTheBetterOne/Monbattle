@@ -416,7 +416,7 @@ window.hpChangeBattle = ->
     $(hpBarChange("0", i)).css barChange(battle.players[0].mons[i].hp, battle.players[0].mons[i].max_hp) if battle.
                     players[0].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i + " " + ".current-hp").text()
     $(hpChange("0", i)).text battle.players[0].mons[i].hp
-    $(hpChange("0", i)).text battle.players[0].mons[i].max_hp
+    $(maxHpChange("0", i)).text " " + "/" + " " + battle.players[0].mons[i].max_hp
     i++
   n = pcMonNum
   i = 0
@@ -425,7 +425,7 @@ window.hpChangeBattle = ->
     $(hpBarChange("1", i)).css barChange(battle.players[1].mons[i].hp, battle.players[1].mons[i].max_hp) if battle.
                     players[1].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i + " " + ".current-hp").text()
     $(hpChange("1", i)).text battle.players[1].mons[i].hp
-    $(hpChange("1", i)).text battle.players[1].mons[i].max_hp
+    $(maxHpChange("1", i)).text " " + "/" + " " + battle.players[1].mons[i].max_hp
     i++
 
 
@@ -538,7 +538,7 @@ window.addEffectIcon = (monster, effect) ->
 
 
 window.removeEffectIcon = (monster, effect) ->
-  $("." + monster.team + " " + ".mon" + monster.index + " " + "." + effect.targeta).fadeOut(300).remove()
+  $("." + monster.team + " " + ".mon" + monster.index + " " + "." + effect.targeta).fadeOut(300).trigger("mouseleave").remove()
 
 
 
@@ -672,6 +672,7 @@ window.roundEffectHappening = (team) ->
     if mon.isAlive() 
       if typeof mon.shield.end isnt "undefined"
         shieldy = mon.shield.extra_hp - (mon.shield.old_hp - mon.hp)
+        console.log("shield: " + shieldy)
         if battle.round is mon.shield.end || (mon.shield.old_hp - (mon.hp + mon.shield.true_damage)) > mon.shield.extra_hp
           removeEffectIcon(mon, mon.shield)
           mon.shield.end = undefined
@@ -701,10 +702,8 @@ window.roundEffectHappening = (team) ->
       if mon.fucked_up.length isnt 0
         iii = 0 
         nnn = mon.fucked_up.length
-        console.log(mon.fucked_up)
         while iii < nnn 
           e = mon.fucked_up[iii]
-          console.log(e)
           if typeof e isnt "undefined"
             if battle.round is e.end
               mon[e.stat] = eval(mon[e.stat] + e.restore)
