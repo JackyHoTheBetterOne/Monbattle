@@ -36,7 +36,7 @@
     .col-md-2
       .abil-heading="Secondary Effects:"
     =hidden_field_tag "ability[effect_ids][]", nil
-    -Effect.all.each do |effect|
+    -Effect.alphabetical.each do |effect|
       .col-md-2
         =check_box_tag "ability[effect_ids][]", effect.id, ability.effect_ids.include?(effect.id), id: dom_id(effect)
         =label_tag dom_id(effect), effect.name
@@ -47,7 +47,7 @@
     .col-md-2
       input type="checkbox" class="abil_form_check_all" id="#{dom_id(ability)}-job-sel-all" Select All
     =hidden_field_tag "ability[job_ids][]", nil
-    -Job.all.each do |job|
+    -Job.alphabetical.each do |job|
       .col-md-2
         =check_box_tag "ability[job_ids][]", job.id, ability.job_ids.include?(job.id), id: dom_id(job), class: "#{dom_id(ability)}-job-sel-all"
         =label_tag dom_id(job), job.name
@@ -66,6 +66,6 @@
 
   .row.show-jobs-row
     .col-md-2.abil-heading Usable by:
-    -ability.jobs.each do |job|
+    -ability.jobs.alphabetical.each do |job|
       .col-md-2
         li=job.name

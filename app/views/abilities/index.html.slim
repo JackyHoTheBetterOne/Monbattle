@@ -17,6 +17,11 @@
         .col-md-2
           p Rarity
           =collection_select :filter, :rarity_id, Rarity.all, :id, :name, { include_blank: '- Any -' }
+        p Order by
+        select name="filter[order_by]"
+          -Ability.order_options.each do |k, v|
+            <option value="#{v}">#{k}</option>
+
         =submit_tag "Search"
         =link_to "Reset", abilities_path, class: "btn btn-sm"
     .pull-right.ability-mod-temp

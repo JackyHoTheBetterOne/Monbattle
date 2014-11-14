@@ -51,31 +51,17 @@ class Ability < ActiveRecord::Base
   # after_create :set_former_name_field
   # after_update :change_default_ability_name_for_monsters
 
-def self.superfilter
-  {filters: [:search_query, :rarity_filter]}
-end
-
-# {"name"=>"slap", "target_id"=>"2", "abil_socket_id"=>"2", "stat_target_id"=>"", "rarity_id"=>""}
-scope :filter_it, -> (filter = {}) {
-  query = self
-  query = query.where("name ILIKE ?", "%#{filter["name"]}%")
-  query = query.where(rarity_id: filter["rarity_id"]) if filter["rarity_id"].present?
-  query = query.where(target_id: filter["target_id"]) if filter["target_id"].present?
-  query = query.where(abil_socket_id: filter["abil_socket_id"]) if filter["abil_socket_id"].present?
-  query = query.where(stat_target_id: filter["stat_target_id"]) if filter["stat_target_id"].present?
-  return query
-}
-
-
-# filterrific(
-#   filter_names: [
-#     :with_rarity_id,
-#   ]
-# )
-
-#   scope :with_rarity_id, ->(rarity_id) {
-#     where(rarity_id: [*rarity_id])
-#   }
+# {"name"=>"slap", "target_id"=>"2", "abil_socket_id"=>"2", "stat_target_id"=>"", "rarity_id"=>"", "order_by"=>"name"}
+  scope :filter_it, -> (filter = {}) {
+    query = self
+    query = query.where("name ILIKE ?", "%#{filter["name"]}%")
+    query = query.where(rarity_id: filter["rarity_id"]) if filter["rarity_id"].present?
+    query = query.where(target_id: filter["target_id"]) if filter["target_id"].present?
+    query = query.where(abil_socket_id: filter["abil_socket_id"]) if filter["abil_socket_id"].present?
+    query = query.where(stat_target_id: filter["stat_target_id"]) if filter["stat_target_id"].present?
+    query = query.order(filter["order_by"])
+    return query
+  }
 
   scope :search_query, -> (search) {
     where("name ILIKE ?", "%#{search}%")
@@ -139,35 +125,18 @@ scope :filter_it, -> (filter = {}) {
     where('id not in (?)', abil)
   }
 
-  ####################
-
-  # def number_of_self_owned(user)
-  #   purchased_abilities.pluck(:user_id).count
-  # end
-
-  # def number_of_self_equipped(user)
-  #   @abil_purchase_ids = ability_purchase_records_of_self(user).pluck(:id)
-  #   ability_equipping_records_of_self(@abil_purchase_ids).count
-  # end
-
-  # def ability_purchase_records_of_self(user)
-  #   AbilityPurchase.number_of_ability_owned(user, self.id)
-  # end
-
-  # def ability_equipping_records_of_self(abil_purchase_ids)
-  #   AbilityEquipping.find_times_abil_is_equipped(abil_purchase_ids)
-  # end
-
-  # def find_first_abil_purchase_id_not_in_use(user)
-  #   @abil_purchase_ids           = ability_purchase_records_of_self(user).pluck(:id)
-  #   @abil_purchase_ids_in_use    = ability_equipping_records_of_self(@abil_purchase_ids).pluck(:ability_purchase_id)
-  #   @abil_purchase_ids_available = @abil_purchase_ids - @abil_purchase_ids_in_use
-  #   @abil_purchase_ids_available.first
-  # end
-
-  # def number_of_self_available(user)
-  #   number_of_self_owned(user) - number_of_self_equipped(user)
-  # end
+  def self.order_options
+    {
+    "Alphabetic"  => "lower(name)",
+    "Damage -"    => "stat_change DESC",
+    "Damage +"    => "stat_change",
+    "AP Cost"     => "ap_cost",
+    "Socket"      => "abil_socket_id",
+    "Rarity"      => "rarity_id",
+    "Target"      => "target_id",
+    "Stat Target" => "stat_target_id",
+    }
+  end
 
   def self.find_purchased(user)
     AbilityPurchase.where(user_id: user)
@@ -176,8 +145,6 @@ scope :filter_it, -> (filter = {}) {
   def self.find_abil_ids_through_ability_restriction(job_id)
     AbilityRestriction.find_abilities_avail_for_job_id(job_id)
   end
-
-  ###################
 
   def self.abil_portrait(sock_num)
     find_abilities_for_socket(sock_num).first.portrait.url(:small)

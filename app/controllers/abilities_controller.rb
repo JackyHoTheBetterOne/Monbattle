@@ -1,5 +1,6 @@
 class AbilitiesController < ApplicationController
   before_action :find_ability, only: [:update]
+  before_action :find_abilities, except: [:update]
 
   def index
     # @super_filter = SuperFilter.new(Ability.superfilter)
@@ -19,13 +20,8 @@ class AbilitiesController < ApplicationController
     # @ability_purchase = AbilityPurchase.new
 
     # render text: params.to_s
-    if params[:filter]
-      @abilities = Ability.unscoped.filter_it(params[:filter]).includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity)
-    else
-      @abilities = Ability.unscoped.includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity)
-    end
-    @ability = Ability.new
 
+    @ability = Ability.new
     respond_to do |format|
       format.html
       format.js
@@ -35,7 +31,6 @@ class AbilitiesController < ApplicationController
 
 
   def create
-    @abilities = Ability.all.includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity)
     # @abil_socket = AbilSocket.new
     # @abil_sockets = AbilSocket.all
     # @stat_target = StatTarget.new
@@ -79,6 +74,14 @@ class AbilitiesController < ApplicationController
   end
 
   private
+
+  def find_abilities
+    if params[:filter]
+      @abilities = Ability.unscoped.filter_it(params[:filter]).includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity)
+    else
+      @abilities = Ability.reorder("lower(name)").includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity)
+    end
+  end
 
   def find_ability
     @ability = Ability.find params[:id]
