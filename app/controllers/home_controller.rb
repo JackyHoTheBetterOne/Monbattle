@@ -5,12 +5,9 @@ class HomeController < ApplicationController
     @user      = params[:user] || current_user
     @base_mons = MonsterUnlock.base_mons(@user)
     @abilities = Ability.includes(:ability_purchases).includes(:abil_socket).includes(:jobs).abilities_purchased(@user)
-    # @abilities = @user.abilities --- 100ms slower than other way
-    # @ability_equippings = AbilityEquipping.monsters_owned(@user)
     @ability_purchases = @user.ability_purchases
     @members = @user.parties.first.members
-    if @user
-    else
+    if !@user
       render layout: "facebook_landing"
     end
   end
