@@ -261,6 +261,8 @@ window.multipleAction = ->
   battle.monAbility(targets[0], targets[1], targets[2])
 window.userMon = (index) ->
   $(".user .mon" + index + " " + ".img")
+window.pcMon = (index) ->
+  $(".enemy .mon" + index + " " + ".img")
 
 window.numOfDeadFoe = ->
   num = 0
@@ -733,8 +735,8 @@ window.minimumHpPC = ->
   window.healPC = liveFoes[0]
   i = 0
   while i < liveFoes.length
-    if healPC.hp > liveFoes[i].hp + randomNumRange(300, 0)
-      healPC = liveFoes[i]
+    if healPC.hp > liveFoes[i].hp + randomNumRange(400, 0)
+      window.healPC = liveFoes[i]
     i++
   return healPC.index
 
@@ -817,7 +819,7 @@ window.controlAI = (monIndex) ->
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
         currentMon.effect("bounce", {distance: 50, times: 1}, 800)
         targetMon = userMon(targetIndex)
-        targetPosition = targetMon.data("position")
+        targetPosition = targetMon.offset()
         abilityAnime = $(".single-ability-img")
         singleTargetAbilityDisplayVariable()
         abilityAnime.css(targetPosition)
@@ -865,7 +867,7 @@ window.controlAI = (monIndex) ->
             return
           ), 1200
           return
-      when "aoeally"
+      when "aoeally", "aoecleanse"
         window.targets = [1].concat [monIndex, abilityIndex]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
         currentMon.effect("bounce", {distance: 50, times: 1}, 800)
@@ -886,19 +888,38 @@ window.controlAI = (monIndex) ->
           setTimeout (->
             element.toggleClass "ability-on aoePositionFoe"
             element.attr("src", "")
-            showHealTeam(1)
-            singleTargetAbilityAfterActionDisplay()
+            if ability.stat isnt "cleanse"
+              showHealTeam(1)
+            hpChangeBattle()
+            checkMonHealthAfterEffect()
             return
           ), 1200
           return
       when "targetally"
-        window.targets = [1].concat [monIndex, abilityIndex, minimumHpPC()]
+        index = minimumHpPC()
+        window.targets = [1].concat [monIndex, abilityIndex, index]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
         currentMon.effect("bounce", {distance: 50, times: 1}, 800)
-
-
-
-
+        targetMon = pcMonNum(index)
+        targetPosition = targetMon.offset()
+        abilityAnime = $(".single-ability-img")
+        singleHealTargetAbilityDisplayVariable()
+        abilityAnime.css(targetPosition)
+        action()
+        checkMax()
+        abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
+          targetMon.effect "bounce",
+            distance: 100
+            times: 1
+            , 800
+          element = $(this)
+          setTimeout (->
+            showHealSingle()
+            element.toggleClass "ability-on"
+            element.attr("src", "")
+            hpChangeBattle()
+            checkMonHealthAfterEffect()
+          ), 1200
 
 ############################################################################################################### AI action happening
 window.ai = ->
@@ -1247,7 +1268,7 @@ $ ->
                       , 800
                     element = $(this)
                     setTimeout (->
-                      if ability.modifier isnt ""
+                      if ability.stat isnt "cleanse"
                         showHealSingle()
                       element.toggleClass "ability-on"
                       element.attr("src", "")
