@@ -1,5 +1,6 @@
 class MonstersController < ApplicationController
   before_action :find_monster, except: [:index, :create]
+  before_action :name_check, only: [:update]
 
   def index
     @monster_unlock = MonsterUnlock.new
@@ -90,6 +91,12 @@ class MonstersController < ApplicationController
   end
 
   private
+
+  def name_check
+    if Monster.default_monsters.include? @monster.name
+      params[:monster][:name] = @monster.name
+    end
+  end
 
   def find_monster
     @monster = Monster.find params[:id]

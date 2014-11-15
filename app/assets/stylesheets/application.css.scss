@@ -25,15 +25,36 @@
   margin-right: 10px;
   background-color: #3366AA;
   text-shadow: none;
+  .nav-title {
+    color: #E0E05D;
+    padding-left: 15px;
+  }
+
+  .nav-btn-group {
+    padding: 5px 0 5px 20px;
+  }
 }
 
-.nav-title {
-  color: #E0E05D;
-  padding-left: 15px;
-}
 
-.nav-btn-group {
-  padding: 5px 0 5px 20px;
+.nav-admin {
+  margin-top: 5px !important;
+  margin-right: 5px !important;
+  margin-bottom: 10px !important;
+  margin-left: 5px !important;
+  .nav-title {
+    h4 {
+      font-size: 10px;
+    }
+  }
+  .container-fluid {
+    .nav-btn-group {
+      .btn-group {
+        .btn-default {
+          font-size: 10px
+        }
+      }
+    }
+  }
 }
 
 

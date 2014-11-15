@@ -24,45 +24,54 @@
     height: $height;
 }
 
-.nav-admin {
-  .nav-title {
-    h4 {
-      font-size: 10px;
-    }
+.filter-search {
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 12px;
+  .col-md-1, .col-md-2, .col-md-3 {
+    padding: 0px 0px 0px 0px;
+    overflow: hidden;
+    white-space: nowrap;
   }
-  .container-fluid {
-    .nav-btn-group {
-      .btn-group {
-        .btn-default {
-          font-size: 10px
-        }
-      }
-    }
+  .btn-reset {
+    @include dimensions(95%, 40px);
+    margin: auto;
+  }
+  select {
+    @include dimensions(100%, 20px);
+  }
+  p {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  input {
+    @include dimensions(98%, 20px);
+  }
+  .search-row {
+    margin-bottom: 5px;
+  }
+  .btn-filt {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+  .btn-on {
+    box-shadow: 2px 2px 2px 0px black;
+    border: 1px solid black;
+    border-radius: 3px;
   }
 }
 
-.ability {
-  border: 2px solid blue;
-  padding-left: 3px;
-  padding-right: 3px;
-}
-
-.btn-filt {
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-}
-
-.btn-on {
-  box-shadow: 2px 2px 2px 0px black;
-  border: 1px solid black;
-  border-radius: 3px;
-}
 
 .abilities {
-  @include dimensions(100%, 425px);
+  @include dimensions(100%, 400px);
   overflow-y: scroll;
   border: 2px solid black;
+  .ability {
+    border: 2px solid blue;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
   .abil-heading {
     color: red;
   }
