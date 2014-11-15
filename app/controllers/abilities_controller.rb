@@ -38,22 +38,14 @@ class AbilitiesController < ApplicationController
     # @target = Target.new
     # @targets = Target.all
     # @ability_purchase = AbilityPurchase.new
-<<<<<<< HEAD
-
-=======
->>>>>>> 370dadd5d2560872095b5cd007d7e1cd47afdb85
     @ability = Ability.new ability_params
     authorize @ability
     respond_to do |format|
       if @ability.save
         format.js
       else
-<<<<<<< HEAD
         format.js
-=======
-        format.js { render }
         format.html { redirect_to abilities_path }
->>>>>>> 370dadd5d2560872095b5cd007d7e1cd47afdb85
       end
     end
   end
