@@ -1,0 +1,26 @@
+<div class="panel panel-primary" id="<%= dom_id(cut_scene)%>">
+  <div class="panel-heading">
+    <%= notice.title %> - <%= notice.category %>
+  </div>
+  <div class="panel-body">
+    <%= notice.body %>
+  </div>
+  <div class="panel-footer">
+    <%= dateTime(notice.created_at) %>
+  </div>
+  <div class="panel-footer">
+    <a data-toggle="collapse" data-parent="#accordion" href="#<%= dom_id(notice) %>-edit" class="btn btn-default <%= dom_id(notice) %>-edit">
+      Edit
+    </a>
+    <%= link_to "Destroy", notice, method: :delete, class: "btn btn-danger", remote: true %>
+  </div>
+  <div class="panel-footer">
+    <div id="<%= dom_id(notice) %>-edit" class="panel-collapse collapse">
+      <%= simple_form_for(notice) do |f| %>
+        <%= f.input :title %>
+        <%= f.input :body, input_html: {rows: "5"} %>
+        <%= f.button :submit %>
+      <% end %>
+    </div>
+  </div>
+</div>

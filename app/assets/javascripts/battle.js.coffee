@@ -20,7 +20,18 @@ window.fixEvolMon = (monster, player) ->
     @team = monster.team
     @index = monster.index
     ability = @
+    a = @
     ability.use = (abilitytargets) ->
+      if a.targeta.indexOf("aoe") isnt -1 && findObjectInArray(monster.cursed, "targeta", "aoe-curse") > 0
+        e = usefulArray[0]
+        monster[e.stat] = eval(monster[e.stat] + e.modifier + e.change)
+      else if (a.targeta.indexOf("ally") isnt -1 || a.targeta.indexOf("cleanse") isnt -1) &&
+              findObjectInArray(monster.cursed, "targeta", "help-curse") > 0
+        e = usefulArray[0]
+        monster[e.stat] = eval(monster[e.stat] + e.modifier + e.change)
+      else if a.targeta.indexOf("attack") isnt -1 && findObjectInArray(monster.cursed, "targeta", "atk-curse") > 0
+        e = usefulArray[0]
+        monster[e.stat] = eval(monster[e.stat] + e.modifier + e.change)
       a = this
       i = 0
       while i < abilitytargets.length
@@ -63,7 +74,7 @@ window.fixEvolMon = (monster, player) ->
           effect = a.effects[i]
           switch effect.targeta
             when "taunt", "poison-hp", "timed-phy-resist-buff", "timed-phy-resist-debuff"
-                  , "timed-spe-resist-buff", "timed-spe-resist-debuff", "shield"
+                  , "timed-spe-resist-buff", "timed-spe-resist-debuff", "shield", "curse-aoe"
               effect.activate abilitytargets
             when "timed-atk-buff"
               i = 0 
@@ -120,7 +131,22 @@ window.fixEvolMon = (monster, player) ->
       @activate = (effectTargets) ->
         e = this
         i = 0
-        if e.targeta.indexOf("shield") isnt -1
+        if e.targeta.indexOf("curse") isnt -1 
+          while i < effectTargets.length
+            monTarget = effectTargets[i]
+            if monTarget.isAlive()
+              findObjectInArray(monTarget.cursed, "targeta", e.targeta)
+              if usefulArray.length isnt 0 
+                status = Object.create(e)
+                monTarget.cursed.push(status)
+                addEffectIcon(monTarget, e)
+              else
+                status = Object.create(e)
+                usefulArray[0] = status
+                removeEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e)
+            i++
+        else if e.targeta.indexOf("shield") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
             if monTarget.isAlive()
@@ -246,6 +272,7 @@ window.findObjectInArray = (array, field, value) ->
         if array[i][field].indexOf(value) isnt -1
           usefulArray.push(array[i])
     i++
+  return usefulArray.length
 
 window.isTeamDead = (monster, index, array) ->
   monster.isAlive() is false
@@ -714,6 +741,16 @@ window.roundEffectHappening = (team) ->
               removeEffectIcon(mon, e)
               delete mon.fucked_up[iii]
           iii++
+      if mon.cursed.length isnt 0 
+        iiii = 0
+        nnnn = mon.cursed.length
+        while iiii < nnnn
+          e = mon.cursed[iiii]
+          if typeof e isnt "undefined"
+            if battle.round is e.end
+              removeEffectIcon(mon, e)
+              delete mon.cursed[iiii]
+          iiii++
     i++
 
 
@@ -829,7 +866,7 @@ window.controlAI = (monIndex) ->
     switch ability.targeta
       when "attack"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
-        currentMon = $(".enemy .mon" + monIndex + " " + ".img")
+        currentMon = pcMon(monIndex)
         currentPosition = currentMon.offset()
         targetMon = userMon(targetIndex)
         targetPosition = targetMon.offset()
@@ -1144,6 +1181,7 @@ $ ->
           monster.spe_resist = 0
           monster.fucking_up = []
           monster.fucked_up = []
+          monster.cursed = []
           monster.taunted = {}
           monster.shield = {}
           monster.shield.end = undefined

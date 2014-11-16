@@ -1,4 +1,4 @@
-class BattlesController < ApplicationController
+ class BattlesController < ApplicationController
   before_action :find_battle, except: [:create, :index, :new, :generate_field]
   impressionist :unique => [:controller_name, :action_name, :session_hash]
 
