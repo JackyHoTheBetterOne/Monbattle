@@ -1,0 +1,2 @@
+module CutScenesHelper
+end

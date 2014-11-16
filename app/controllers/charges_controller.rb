@@ -1,7 +1,5 @@
 class ChargesController < ApplicationController
   layout "facebook_landing"
-
-
   def new 
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141113214324) do
+ActiveRecord::Schema.define(version: 20141116025311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,12 @@ ActiveRecord::Schema.define(version: 20141113214324) do
   add_index "ability_restrictions", ["ability_id"], name: "index_ability_restrictions_on_ability_id", using: :btree
   add_index "ability_restrictions", ["job_id"], name: "index_ability_restrictions_on_job_id", using: :btree
 
+  create_table "arcs", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "battle_levels", force: true do |t|
     t.integer  "exp_given"
     t.datetime "created_at"
@@ -125,6 +131,32 @@ ActiveRecord::Schema.define(version: 20141113214324) do
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
   add_index "battles", ["slug"], name: "index_battles_on_slug", unique: true, using: :btree
+
+  create_table "chapters", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "arc_id"
+  end
+
+  add_index "chapters", ["arc_id"], name: "index_chapters_on_arc_id", using: :btree
+
+  create_table "cut_scenes", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.boolean  "to_start"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.integer  "chapter_id"
+    t.integer  "battle_level_id"
+  end
+
+  add_index "cut_scenes", ["battle_level_id"], name: "index_cut_scenes_on_battle_level_id", using: :btree
+  add_index "cut_scenes", ["chapter_id"], name: "index_cut_scenes_on_chapter_id", using: :btree
 
   create_table "effects", force: true do |t|
     t.string   "name"

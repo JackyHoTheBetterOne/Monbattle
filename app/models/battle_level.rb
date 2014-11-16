@@ -3,16 +3,13 @@ class BattleLevel < ActiveRecord::Base
 
   validates :name, presence: {message: 'Must be entered'}, uniqueness: :true
 
-  has_attached_file :background, :styles => { :cool => "960x600>", :thumb => "100x100>" }, 
-                    :default_url => "/images/:style/missing.png"
+  has_attached_file :background, :styles => { :cool => "960x600>", :thumb => "100x100>" }
   validates_attachment_content_type :background, :content_type => /\Aimage\/.*\Z/
 
-  has_attached_file :start_cutscene, :styles => { :cool => "960x600>", :thumb => "100x100>"}, 
-                    :default_url => "/images/:style/missing.png"
+  has_attached_file :start_cutscene, :styles => { :cool => "960x600>", :thumb => "100x100>"}
   validates_attachment_content_type :start_cutscene, :content_type => /\Aimage\/.*\Z/
 
-  has_attached_file :end_cutscene, :styles => { :cool => "960x600>", :thumb => "100x100>"}, 
-                    :default_url => "/images/:style/missing.png"
+  has_attached_file :end_cutscene, :styles => { :cool => "960x600>", :thumb => "100x100>"}
   validates_attachment_content_type :end_cutscene, :content_type => /\Aimage\/.*\Z/
 
 

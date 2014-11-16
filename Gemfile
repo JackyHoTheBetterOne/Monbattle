@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'remotipart', '~> 1.2'
 gem 'filterrific'
 gem "thin"
 gem "figaro"

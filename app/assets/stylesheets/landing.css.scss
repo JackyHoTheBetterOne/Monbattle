@@ -13,13 +13,24 @@
 };
 
 .mon-front {
-  @include background-image(linear-gradient(top,  #606060 0%, #131313 100%) !important);
+  @include background-image(linear-gradient(to right, #595959 0%,#2b2b2b 100%) !important);
 };
 
 .fb-nav {
   position: relative;
-  top: 8px;
+  top: 14px;
+  right: 6px;
   font-weight: bold;
+  font-size: 96%;
+  text-align: center;
+  height: 38px;
+  width: 65px;
+  margin-left: 0px !important;
+};
+
+a.fb-nav {
+  padding: 8px 12px !important;
+  border: 2px solid black;
 };
 
 .forest {
@@ -55,11 +66,10 @@
 };
 
 .currency {
-  position: absolute;
   text-align: right;
   top: 6px;
-  left: -24px;
-  color: #CCCCCC;
+  left: 140px;
+  color: white;
   font-weight: bold;
 };
 
@@ -73,12 +83,12 @@
 };
 
 a.fb-nav:hover {
-  background: #4B0082 !important;
+  background: #0888C4 !important;
 };
 
 .active {
   a {
-    background: #4B0082 !important;
+    background: #0888C4 !important;
   };
 };
 
@@ -87,4 +97,11 @@ a.fb-nav:hover {
   left: 505px;
   top: -10px;
 };
+
+.door {
+  position: absolute;
+  top: 5px;
+  left: 1160px;
+};
+
 
