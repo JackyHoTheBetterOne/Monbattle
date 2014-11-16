@@ -92,9 +92,12 @@ class Monster < ActiveRecord::Base
     Ability.find_name(sock_id).first
   end
 
+  def self.default_monsters
+    default_monsters = ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira", "Eviganon"]
+  end
+
   def self.find_default_monster_ids
-    @default_monster_names = ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira", "Eviganon"]
-    where(name: @default_monster_names).pluck(:id)
+    where(name: default_monsters).pluck(:id)
   end
 
   def find_user(user_name)

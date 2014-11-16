@@ -1,5 +1,6 @@
 class MonsterSkinsController < ApplicationController
   before_action :find_monster_skin, except: [:create, :index]
+  before_action :name_check, only: [:update]
 
   def index
     @monster_skin = MonsterSkin.new
@@ -44,11 +45,18 @@ class MonsterSkinsController < ApplicationController
 
   private
 
+  def find_monster_skin
+    @monster_skin = MonsterSkin.find params[:id]
+  end
+
+  def name_check
+    if @monster_skin.name == "Sack"
+      params[:monster_skin][:name] = @monster_skin.name
+    end
+  end
+
   def monster_skin_params
     params.require(:monster_skin).permit(:avatar, :name, :portrait, :rarity_id, :former_name, {job_ids: []})
   end
 
-  def find_monster_skin
-    @monster_skin = MonsterSkin.find params[:id]
-  end
 end

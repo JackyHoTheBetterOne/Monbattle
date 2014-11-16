@@ -1,15 +1,11 @@
 class AbilitiesController < ApplicationController
-  before_action :find_ability, only: [:update]
+  before_action :find_ability, :name_check, only: [:update]
   before_action :find_abilities, except: [:update]
 
   def index
-    # @super_filter = SuperFilter.new(Ability.superfilter)
     # @abilities = policy_scope(Ability.includes(:effects, :stat_target, :target, :abil_socket, :jobs).search(params[:keyword]).
     #               ap_cost_search(params[:cost]).effect_search(params[:effect]).
     #               paginate(:page => params[:page], :per_page => 20).name_alphabetical)
-
-    # @filterrific = Filterrific.new(Ability, params[:filterrific])
-    # @abilities = Ability.unscoped.filterrific_find(@filterrific).page(params[:page])
 
     # @abil_socket = AbilSocket.new
     # @abil_sockets = AbilSocket.all
@@ -27,8 +23,6 @@ class AbilitiesController < ApplicationController
       format.js
     end
   end
-
-
 
   def create
     # @abil_socket = AbilSocket.new
@@ -75,16 +69,22 @@ class AbilitiesController < ApplicationController
 
   private
 
+  def find_ability
+    @ability = Ability.find params[:id]
+  end
+
+  def name_check
+    if ["Slap", "Groin Kick", "Omega Slash", "Discharge"].include? @ability.name
+      params[:ability][:name] = @ability.name
+    end
+  end
+
   def find_abilities
     if params[:filter]
       @abilities = Ability.unscoped.filter_it(params[:filter]).includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity)
     else
       @abilities = Ability.reorder("lower(name)").includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity)
     end
-  end
-
-  def find_ability
-    @ability = Ability.find params[:id]
   end
 
   def ability_params

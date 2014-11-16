@@ -45,13 +45,11 @@ class Ability < ActiveRecord::Base
   delegate :name, to: :ability_equipping, prefix: true
 
   default_scope { order('abil_socket_id') }
-  before_save :set_keywords
-  after_create :unlock_for_admin
-  after_create :unlock_for_npc
+  before_save   :set_keywords
+  after_create  :unlock_for_admin, :unlock_for_npc
   # after_create :set_former_name_field
   # after_update :change_default_ability_name_for_monsters
 
-# {"name"=>"slap", "target_id"=>"2", "abil_socket_id"=>"2", "stat_target_id"=>"", "rarity_id"=>"", "order_by"=>"name"}
   scope :filter_it, -> (filter = {}) {
     query = self
     query = query.where("name ILIKE ?", "%#{filter["name"]}%")
