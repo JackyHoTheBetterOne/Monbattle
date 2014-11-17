@@ -1,26 +1,23 @@
 <div class="panel panel-primary" id="<%= dom_id(cut_scene)%>">
   <div class="panel-heading">
-    <%= notice.title %> - <%= notice.category %>
+    <%= cut_scene.name %> - <%= cut_scene.chapter.name if cut_scene.chapter %> - 
+    <%= cut_scene.chapter.arc.name if cut_scene.chapter.arc %>
   </div>
   <div class="panel-body">
-    <%= notice.body %>
+    <%= cut_scene.description %>
+    <br />
+    <br />
+    <%= image_tag(cut_scene.image.url(:thumb)) %>
   </div>
   <div class="panel-footer">
-    <%= dateTime(notice.created_at) %>
-  </div>
-  <div class="panel-footer">
-    <a data-toggle="collapse" data-parent="#accordion" href="#<%= dom_id(notice) %>-edit" class="btn btn-default <%= dom_id(notice) %>-edit">
+    <a data-toggle="collapse" data-parent="#accordion" href="#<%= dom_id(cut_scene) %>-edit" class="btn btn-default <%= dom_id(cut_scene) %>-edit">
       Edit
     </a>
-    <%= link_to "Destroy", notice, method: :delete, class: "btn btn-danger", remote: true %>
+    <%= link_to "Destroy", cut_scene, method: :delete, class: "btn btn-danger", remote: true %>
   </div>
   <div class="panel-footer">
-    <div id="<%= dom_id(notice) %>-edit" class="panel-collapse collapse">
-      <%= simple_form_for(notice) do |f| %>
-        <%= f.input :title %>
-        <%= f.input :body, input_html: {rows: "5"} %>
-        <%= f.button :submit %>
-      <% end %>
+    <div id="<%= dom_id(cut_scene) %>-edit" class="panel-collapse collapse">
+      <%= render partial: "form", locals: {cut_scene: cut_scene} %>
     </div>
   </div>
 </div>

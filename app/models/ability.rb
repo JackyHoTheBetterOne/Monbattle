@@ -46,9 +46,7 @@ class Ability < ActiveRecord::Base
 
   default_scope { order('abil_socket_id') }
   before_save   :set_keywords
-  after_create  :unlock_for_admin, :unlock_for_npc
-  # after_create :set_former_name_field
-  # after_update :change_default_ability_name_for_monsters
+  after_create  :unlock_for_admins
 
   scope :filter_it, -> (filter = {}) {
     query = self
@@ -210,10 +208,8 @@ class Ability < ActiveRecord::Base
       )
   end
 
-  private
-
-  def capitalize_name
-    self.name.capitalize!
+  def find_user(user_name)
+    User.find_by(user_name: user_name)
   end
 
   protected
@@ -224,27 +220,18 @@ class Ability < ActiveRecord::Base
 
   private
 
+  def capitalize_name
+    self.name.capitalize!
+  end
+
   def set_keywords
     self.keywords = [name, description, self.targeta, self.stat_target.name, self.element.name].map(&:downcase).
                       concat([ap_cost, stat_change]).join(" ")
   end
 
-  def unlock_for_admin
-    if AbilityPurchase.where(user_id: 1, ability_id: self.id).count == 0
-      unlock = AbilityPurchase.new
-      unlock.user_id = 1
-      unlock.ability_id = self.id
-      unlock.save
-    end
-  end
-
-  def unlock_for_npc
-    if AbilityPurchase.where(user_id: 1, ability_id: self.id).count == 0
-      unlock = AbilityPurchase.new
-      unlock.user_id = 2
-      unlock.ability_id = self.id
-      unlock.save
-    end
+  def unlock_for_admins
+    4.times{AbilityPurchase.create(user_id: find_user("admin").id, ability_id: self.id)}
+    8.times{AbilityPurchase.create(user_id: find_user("NPC").id, ability_id: self.id)}
   end
 
 end

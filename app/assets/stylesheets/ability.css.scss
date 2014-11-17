@@ -28,27 +28,34 @@
   margin-left: 20px;
   margin-right: 20px;
   font-size: 12px;
-  .col-md-1, .col-md-2, .col-md-3 {
-    padding: 0px 0px 0px 0px;
-    overflow: hidden;
-    white-space: nowrap;
+  .search-row {
+    margin-bottom: 5px;
+    .col-md-1, .col-md-2, .col-md-3 {
+      padding: 0px 0px 0px 0px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .new-abil-button {
+      input {
+        width: 5px;
+        height: 20px;
+      }
+    }
+    select {
+      @include dimensions(100%, 20px);
+    }
+    p {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input {
+      @include dimensions(98%, 30px);
+      margin: auto;
+    }
   }
   .btn-reset {
     @include dimensions(95%, 40px);
     margin: auto;
-  }
-  select {
-    @include dimensions(100%, 20px);
-  }
-  p {
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  input {
-    @include dimensions(98%, 20px);
-  }
-  .search-row {
-    margin-bottom: 5px;
   }
   .btn-filt {
     margin-left: 5px;
@@ -61,6 +68,7 @@
     border-radius: 3px;
   }
 }
+
 
 
 .abilities {

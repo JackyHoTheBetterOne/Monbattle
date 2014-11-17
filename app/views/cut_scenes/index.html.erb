@@ -1,22 +1,15 @@
 <div class="jumbotron">
   <h1>This is where the story is made</h1>
-  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default notice-form-unfold">
+  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default cut-scene-form-unfold">
     Cut-scene form
   </a>
   <p></p>
   <div id="collapseOne" class="panel-collapse collapse">
-    <%= simple_form_for(CutScene.new) do |f| %>
-      <%= f.input :name %>
-      <%= f.input :to_start %>
-      <%= f.input :description, input_html: {rows: "3"} %>
-      <%= f.association :chapter %>
-      <%= f.association :battle_level %>
-      <%= f.label :image %>
-      <%= f.file_field :image %>
-      <p></p>
-      <%= f.button :submit %>
-    <% end %>
+    <%= render partial: "form", locals: {cut_scene: @cut_scene} %>
   </div>
 </div>
 <p></p>
+<div class="cut_scenes">
+  <%= render @cut_scenes %>
+</div>
 
