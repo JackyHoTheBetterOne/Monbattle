@@ -3,20 +3,6 @@ class AbilitiesController < ApplicationController
   before_action :find_abilities, except: [:update]
 
   def index
-    # @abilities = policy_scope(Ability.includes(:effects, :stat_target, :target, :abil_socket, :jobs).search(params[:keyword]).
-    #               ap_cost_search(params[:cost]).effect_search(params[:effect]).
-    #               paginate(:page => params[:page], :per_page => 20).name_alphabetical)
-
-    # @abil_socket = AbilSocket.new
-    # @abil_sockets = AbilSocket.all
-    # @stat_target = StatTarget.new
-    # @stat_targets = StatTarget.all
-    # @target = Target.new
-    # @targets = Target.all
-    # @ability_purchase = AbilityPurchase.new
-
-    # render text: params.to_s
-
     @ability = Ability.new
     respond_to do |format|
       format.html
@@ -25,13 +11,6 @@ class AbilitiesController < ApplicationController
   end
 
   def create
-    # @abil_socket = AbilSocket.new
-    # @abil_sockets = AbilSocket.all
-    # @stat_target = StatTarget.new
-    # @stat_targets = StatTarget.all
-    # @target = Target.new
-    # @targets = Target.all
-    # @ability_purchase = AbilityPurchase.new
     @ability = Ability.new ability_params
     authorize @ability
     respond_to do |format|
@@ -45,15 +24,6 @@ class AbilitiesController < ApplicationController
   end
 
   def update
-    # render text: params.to_s
-
-    # @abil_socket = AbilSocket.new
-    # @abil_sockets = AbilSocket.all
-    # @stat_target = StatTarget.new
-    # @stat_targets = StatTarget.all
-    # @target = Target.new
-    # @targets = Target.all
-    # @ability_purchase = AbilityPurchase.new
     @user = current_user
     authorize @ability
     @ability.update_attributes(ability_params)
