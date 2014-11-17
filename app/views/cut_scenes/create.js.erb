@@ -1,0 +1,8 @@
+<% if @cut_scene.new_record? %>
+  $(".new_cut_scene").effect("highlight", {color: "red"});
+<% else %>
+  $(".new_cut_scene")[0].reset();
+  $(".cut-scene-form-unfold").click();
+  $(".cut_scenes").prepend("<%= j render @cut_scene %>");
+  $("div#<%= dom_id(@cut_scene) %>").effect("highlight");
+<% end %>

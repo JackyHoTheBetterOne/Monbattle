@@ -1,0 +1,7 @@
+<% if @cut_scene.save %>
+  document.getElementById("<%= dom_id(@cut_scene) %>").remove();
+  $(".cut_scenes").prepend("<%= j render @cut_scene %>");
+  $("div#<%= dom_id(@cut_scene) %>").effect("highlight");
+<% else %>
+  $("#<%= dom_id(@cut_scene) %>-edit").effect("highlight", {color: "red"});
+<% end %>
