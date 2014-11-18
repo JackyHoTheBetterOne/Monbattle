@@ -4,7 +4,6 @@ class AbilitiesController < ApplicationController
   before_action :find_targets, :find_stat_targets, :find_abil_sockets, :find_rarities,
                 :find_jobs, :find_effects, :find_elements
 
-
   def index
     @ability = Ability.new
     respond_to do |format|

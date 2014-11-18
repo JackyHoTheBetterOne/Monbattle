@@ -38,8 +38,8 @@
     =hidden_field_tag "ability[effect_ids][]", nil
     -@effects.alphabetical.each do |effect|
       .col-md-2
-        =check_box_tag "ability[effect_ids][]", effect.id, ability.effect_ids.include?(effect.id), id: dom_id(effect)
-        =label_tag dom_id(effect), effect.name
+        =check_box_tag "ability[effect_ids][]", effect.id, ability.effect_ids.include?(effect.id), id: dom_id(ability)+dom_id(effect)
+        =label_tag dom_id(ability)+dom_id(effect), effect.name
 
   .row.jobs-row
     .col-md-2
@@ -49,8 +49,8 @@
     =hidden_field_tag "ability[job_ids][]", nil
     -@jobs.alphabetical.each do |job|
       .col-md-2
-        =check_box_tag "ability[job_ids][]", job.id, ability.job_ids.include?(job.id), id: dom_id(job), class: "#{dom_id(ability)}-job-sel-all"
-        =label_tag dom_id(job), job.name
+        =check_box_tag "ability[job_ids][]", job.id, ability.job_ids.include?(job.id), id: dom_id(ability)+dom_id(job), class: "#{dom_id(ability)}-job-sel-all"
+        =label_tag dom_id(ability)+dom_id(job), job.name
 
   .row.images-row
     .col-md-1
