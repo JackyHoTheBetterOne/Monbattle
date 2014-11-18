@@ -204,11 +204,12 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
   top:0;
   left:0;
   text-align: center;
-  z-index: 10000;
+  z-index: 10000000000000000;
   .message {
     color: white;
     position: absolute;
-    visibility: hidden;
+    transition: opacity 0.5s;
+    opacity: 0;
     width: 400px;
     top: 37.5%;
     left: 30%;
@@ -219,12 +220,27 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
 
   .cutscene {
     position: absolute;
+    display: none;;
+    opacity: 1;
+    transition: opacity 0.3s;
     height: 600px;
     width: 960px;
     top: 20px;
     left: 110px;
     border-radius: 5px;
   };
+
+  .next-scene {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.4s;
+    z-index: 10;
+    top: 282px;
+    left: 984px;
+    height: 80px;
+    width: 80px;
+  };
+
 };
 
 .battle-message, .battle-guide {

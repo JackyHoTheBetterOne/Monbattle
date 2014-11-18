@@ -22,6 +22,12 @@ class Effect < ActiveRecord::Base
     order("lower(name)")
   }
 
+  scope :search, -> (keyword) {
+    if keyword.present?
+      where("keywords LIKE ?", "%#{keyword.downcase}%")
+    end
+  }
+
   def stat
     self.stat_target.name.downcase
   end
@@ -48,6 +54,10 @@ class Effect < ActiveRecord::Base
 
   private
   def set_keywords
-    self.keywords = [name, stat_change, self.targeta, self.element.name].map(&:downcase).join(" ")
+    self.keywords = [name, stat_change, self.targeta, self.element.name, self.stat].map(&:downcase).join(" ")
   end
 end
+
+
+
+

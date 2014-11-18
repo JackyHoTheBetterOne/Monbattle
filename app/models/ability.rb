@@ -50,7 +50,7 @@ class Ability < ActiveRecord::Base
 
   scope :filter_it, -> (filter = {}) {
     query = self
-    query = query.where("name ILIKE ?", "%#{filter["name"]}%")
+    query = query.where("keywords LIKE ?", "%#{filter["name"].downcase}%")
     query = query.where(rarity_id: filter["rarity_id"]) if filter["rarity_id"].present?
     query = query.where(target_id: filter["target_id"]) if filter["target_id"].present?
     query = query.where(abil_socket_id: filter["abil_socket_id"]) if filter["abil_socket_id"].present?

@@ -6,6 +6,7 @@
 -else
   | $(".monsters").prepend("#{j render partial: "/monsters/monster", locals: {monster: @monster}}");
   | $("##{dom_id(@monster)}").effect("highlight");
+  | $('body').scrollTo('#<%= dom_id(@monster) %>');
 
   -@monster = Monster.new
 

@@ -11,11 +11,6 @@
     <nav class="navbar mon-front" role="navigation">
       <ul class="nav nav-pills main-nav" id="navigation">
         <%= link_to image_tag("monbattle-logo.png", class: "navbar-logo"), home_sweet_home_path %>
-        <% if !user_signed_in? %>
-          <li class="pull-right fb-nav">
-            <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), id: "user_session", class: "fb-nav" %>
-          </li>
-        <% end %>
         <li class="<%= 'active' if current_page?(new_charge_path) %> pull-right fb-nav forum">
           <a href="http://monbattle.boards.net/" target="_blank" class="fb-nav">Forum</a>
         </li>
@@ -28,6 +23,11 @@
         <li class="<%= 'active' if current_page?(home_sweet_home_path) || current_page?(root_path) %> pull-right fb-nav">
           <%= link_to "Home", home_sweet_home_path, class: "fb-nav"%>
         </li>
+        <% if !user_signed_in? %>
+          <li class="pull-right fb-nav sign-in">
+            <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), id: "user_session", class: "fb-nav sign-in" %>
+          </li>
+        <% end %>
         <% if current_user %>
           <li class= "currency pull-right">
             <%= current_user.user_name %> |

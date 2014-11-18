@@ -501,7 +501,9 @@ window.showHealTeam = (index) ->
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
-    $(".message").text("You lost, but here's " + battle.reward*0.1 + " MP because we pity you. Try harder next time!").
+    toggleImg()
+    document.getElementById('battle').style.pointerEvents = 'none'
+    $(".message").text("You lost, but here's " + battle.reward*0.1 + " MP because we pity you, not. Try harder next time!").
       append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>")
     $("#overlay").fadeIn(1000)
     $.ajax
@@ -512,30 +514,33 @@ window.outcome = ->
         "loser": battle.players[0].username
       }
   else if battle.players[1].mons.every(isTeamDead) is true
-    $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
-      append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
-    if battle.end_cutscene is "none"
-      $("#overlay").fadeIn(1000)
-      $("body").on "click", ->
-        $("#overlay").fadeOut(500)
-        disable($(".end-turn"))
-    else
-      $(".message").hide()
-      $(".cutscene").attr("src", battle.end_cutscene).css("visibility", "visible")
-      $("#overlay").fadeIn(1000)
-      setTimeout (->
-        $(".cutscene").fadeOut 500, ->
-          $(".message").fadeIn 500
-        ), 4000
-      $.ajax
-        url: "/battles/" + battle.id
-        method: "patch"
-        data: {
-          "victor": battle.players[0].username,
-          "loser": battle.players[1].username
-        }
-  return
-
+    toggleImg()
+    document.getElementById('battle').style.pointerEvents = 'none'
+    $(".message").css("opacity", "0")
+    $.ajax
+      url: "/battles/" + battle.id
+      method: "patch"
+      data: {
+        "victor": battle.players[0].username,
+        "loser": battle.players[1].username
+      }
+    $(".cutscene").attr("src", battle.end_cut_scenes[0])
+    $(".cutscene").css("opacity", "1")
+    $("#overlay").fadeIn(1000)
+    nextSceneInitial()
+    $(document).on "click.cutscene", "#overlay", ->
+      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
+        $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
+          append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
+        $(".cutscene").hide(500)
+        endCutScene()
+        setTimeout (->
+          $(".message").css("opacity", "1")
+        ), 500
+      else 
+        new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
+        window.new_scene = battle.end_cut_scenes[new_index]
+        nextScene()
 window.checkApAvailbility = ->
   $(".monBut button").each ->
     disable($(this)) if $(this).data("apcost") > battle.players[0].ap
@@ -624,6 +629,33 @@ window.multipleTargetAbilityDisplayVariable = ->
 
 
 ################################################################################################### Battle interaction helpers
+window.endCutScene = ->
+  $(document).off "click.cutscene", "#overlay"
+  $(".cutscene").css("opacity", "0")
+  $(".next-scene").css("opacity", "0")
+
+window.nextSceneInitial = ->
+  document.getElementById('overlay').style.pointerEvents = 'none'
+  setTimeout (->
+    $(".next-scene").css("opacity", "0.9")
+    document.getElementById('overlay').style.pointerEvents = 'auto'
+  ), 1000
+
+window.nextScene = ->
+  document.getElementById('overlay').style.pointerEvents = 'none'
+  $(".cutscene").css("opacity", "0")
+  $(".next-scene").css("opacity", "0")
+  setTimeout (->
+    $(".cutscene").attr("src", new_scene)
+  ), 300
+  setTimeout (->
+    $(".cutscene").css("opacity", "1")
+  ), 600
+  setTimeout (->
+    $(".next-scene").css("opacity", "0.9")
+    document.getElementById('overlay').style.pointerEvents = 'auto'
+  ), 1600
+
 window.mouseOverMon = ->
   $(this).addClass("controlling")
   $(this).prev().css "visibility", "visible"
@@ -1062,34 +1094,31 @@ $ ->
       alert("This battle cannot be loaded!")
     success: (data) ->
       window.battle = data
-      if battle.start_cutscene isnt "none"
-        setTimeout (->
-          $("#overlay").fadeOut 500, ->
-            $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
-            $(".message").css("visibility", "visible")
-            $(".cutscene").css("visibility", "hidden")
-            return
-        ), 4000
-        setTimeout (->
-          $("#battle-tutorial").joyride({'tipLocation': 'top'})
-          $("#battle-tutorial").joyride({})
-          $(".user .img").each ->
-            $(this).effect("bounce", {distance: 80, times: 5}, 1500)
-        ), 6000
-      else
-        $(".cutscene").css("visibility", "hidden")
-        $(".message").css("visibility", "visible")
-        setTimeout (->
-          $("#overlay").fadeOut 500, ->
-            $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
-            return
-        ), 1500
-        setTimeout (->
-          $("#battle-tutorial").joyride({'tipLocation': 'top'})
-          $("#battle-tutorial").joyride({})
-          $(".user .img").each ->
-            $(this).effect("bounce", {distance: 80, times: 5}, 1500)
-        ), 3333
+      $(".cutscene").show(500)
+      document.getElementById('battle').style.pointerEvents = 'none'
+      toggleImg()
+      nextSceneInitial()
+      $(document).on "click.cutscene", "#overlay", ->
+        if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1]
+          endCutScene()
+          $(".message").css("opacity", "0")
+          setTimeout (->
+            $("#overlay").fadeOut 500, ->
+              $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
+              return
+            ), 1000
+          setTimeout (->
+            $("#battle-tutorial").joyride({'tipLocation': 'top'})
+            $("#battle-tutorial").joyride({})
+            toggleImg()
+            $(".user .img").each ->
+              $(this).effect("bounce", {distance: 80, times: 5}, 1500)
+          ), 2500
+        else 
+          new_index = battle.start_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
+          window.new_scene = battle.start_cut_scenes[new_index]
+          nextScene()
+          document.getElementById('battle').style.pointerEvents = 'auto'
 ################################################################################################################ Battle logic
       $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
       window.playerMonNum = battle.players[0].mons.length

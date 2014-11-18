@@ -7,6 +7,12 @@
   <div id="collapseOne" class="panel-collapse collapse">
     <%= render partial: "form", locals: {cut_scene: @cut_scene} %>
   </div>
+  <p></p>
+</div>
+<div>
+  <%= form_tag cut_scenes_path, :method => "get", remote: true %>
+  <%= text_field_tag :keyword, params[:keyword] %>
+  <%= submit_tag "Search like a bitch", class: "btn btn-default" %>
 </div>
 <p></p>
 <div class="cut_scenes">
