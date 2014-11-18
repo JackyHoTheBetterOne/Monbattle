@@ -51,9 +51,11 @@ class AbilitiesController < ApplicationController
 
   def find_abilities
     if params[:filter]
-      @abilities = Ability.unscoped.filter_it(params[:filter]).includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity)
+      @abilities = policy_scope(Ability.unscoped.filter_it(params[:filter]).
+                    includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity))
     else
-      @abilities = Ability.reorder("lower(name)").includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity)
+      @abilities = policy_scope(Ability.reorder("lower(name)").
+                    includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity))
     end
   end
 

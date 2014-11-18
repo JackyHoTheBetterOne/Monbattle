@@ -2,6 +2,10 @@
   <div class="panel-heading">
     <%= cut_scene.name %> - <%= cut_scene.chapter.name if cut_scene.chapter %> - 
     <%= cut_scene.chapter.arc.name if cut_scene.chapter.arc %>
+    <br />
+    Order: <%= cut_scene.order %>
+    <br />
+    Starting: <%= cut_scene.to_start %>
   </div>
   <div class="panel-body">
     <%= cut_scene.description %>

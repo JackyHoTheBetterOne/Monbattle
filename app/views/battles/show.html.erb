@@ -7,12 +7,13 @@
 
 <div id="overlay">
   <div class="panel-body message">
-    Time to take out the trash!
+    Click anywhere to 
   </div>
-    <%= image_tag(@battle.start_cutscene, class: "cutscene") %>
+  <%= image_tag(@battle.battle_level.start_cut_scenes[0], class: "cutscene") %>
+  <%= image_tag("right_arrow.jpg", class: "next-scene") %>
 </div>
 
-<div class="battle" data-index="<%= @battle.id %>">
+<div class="battle" data-index="<%= @battle.id %>" id="battle">
   <div class="panel-body battle-message">
     Time to Die!!!
   </div>

@@ -6,6 +6,7 @@ $.ajax({
     return alert("No AJAX for you Frank");
   },
   success: function(response) {
+    $('body').scrollTo('#<%= dom_id(@monster) %>');
     window.monster = response;
     $("#monster_" + monster.id).fadeOut(100).fadeIn(800);
     $(".modal-header span").trigger("click");
