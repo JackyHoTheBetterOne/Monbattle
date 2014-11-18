@@ -7,20 +7,20 @@
         =link_to "Reset", abilities_path, class: "btn btn-reset"
       .col-md-2
         p Target
-        =collection_select :filter, :target_id, Target.all, :id, :name, { include_blank: '- Any -' }
+        =collection_select :filter, :target_id, @targets, :id, :name, { include_blank: '- Any -' }
       .col-md-1
         p Socket
-        =collection_select :filter, :abil_socket_id, AbilSocket.all, :id, :socket_num, { include_blank: '- Any -' }
+        =collection_select :filter, :abil_socket_id, @abil_sockets, :id, :socket_num, { include_blank: '- Any -' }
       .col-md-1
         p Stat Targ
-        =collection_select :filter, :stat_target_id, StatTarget.all, :id, :name, { include_blank: '- Any -' }
+        =collection_select :filter, :stat_target_id, @stat_targets, :id, :name, { include_blank: '- Any -' }
       .col-md-1
         p Rarity
-        =collection_select :filter, :rarity_id, Rarity.all, :id, :name, { include_blank: '- Any -' }
+        =collection_select :filter, :rarity_id, @rarities, :id, :name, { include_blank: '- Any -' }
       .col-md-1
         p Order by
         select name="filter[order_by]"
-          -Ability.order_options.each do |k, v|
+          -@abilities.order_options.each do |k, v|
             <option value="#{v}">#{k}</option>
       .col-md-1
         =submit_tag "Search", class: "search-btn"
@@ -43,25 +43,3 @@
 
 .abilities
   =render @abilities
-
-/ - if user_signed_in? == false
-/   h1 Sign in First
-/ - else
-/   = render partial: "admin/modal_button", locals: {modal_label: "abilityLabel", modal_id: "abilityModal", form_is_for: "abilities/create", button_name: "Create New Ability", form_title: "New Ability"}
-/   p
-/   = form_tag abilities_path, :method => "get", remote: true
-/     = text_field_tag :keyword, params[:keyword]
-/     = submit_tag "Search as your heart desires", class: "btn btn-default"
-/   p
-/   = form_tag abilities_path, :method => "get", remote: true
-/     = text_field_tag :cost, params[:cost]
-/     = submit_tag "Search by ap cost", class: "btn btn-default"
-/   p
-/   = form_tag abilities_path, :method => "get", remote: true
-/     = text_field_tag :effect, params[:effect]
-/     = submit_tag "Search by effect(s)", class: "btn btn-default"
-/   p
-/   .abilities
-/     = will_paginate @abilities
-/     hr = render @abilities
-/     = will_paginate @abilities

@@ -9,5 +9,5 @@
         =f.text_field :duration, class: "dur-input"
         ="R"
         =f.text_field :restore, class: "dur-input"
-        =f.collection_select :target_id, Target.all, :id, :name
-        =f.collection_select :stat_target_id, StatTarget.all,:id, :name
+        =f.collection_select :target_id, @targets, :id, :name
+        =f.collection_select :stat_target_id, @stat_targets, :id, :name

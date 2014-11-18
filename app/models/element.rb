@@ -5,4 +5,6 @@ class Element < ActiveRecord::Base
 
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
 
+  scope :alphabetical, -> { order("lower(name)") }
+
 end

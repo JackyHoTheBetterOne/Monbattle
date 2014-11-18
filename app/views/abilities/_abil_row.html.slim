@@ -7,11 +7,11 @@
     .col-md-1.col-abils
       p +/-: #{f.text_field :stat_change}
     .col-md-1.col-abils
-      =f.collection_select :target_id, Target.all, :id, :name, class: "abil-drop"
+      =f.collection_select :target_id, @targets, :id, :name, class: "abil-drop"
     .col-md-1.col-abils
-      =f.collection_select :stat_target_id, StatTarget.all,:id, :name, class: "abil-drop"
+      =f.collection_select :stat_target_id, @stat_targets,:id, :name, class: "abil-drop"
     .col-md-1.col-abils
-      =f.collection_select :rarity_id, Rarity.all, :id, :name, class: "abil-drop"
+      =f.collection_select :rarity_id, @rarities, :id, :name, class: "abil-drop"
     .col-md-1.col-abils
       .pull-right
         p S# #{ability.abil_socket.socket_num}
@@ -30,13 +30,13 @@
     .col-md-2.col-abils
       p Desc:#{f.text_field :description}
     .col-md-1.col-abils
-      p #{f.collection_select :element_id, Element.all, :id, :name}
+      p #{f.collection_select :element_id, @elements, :id, :name}
 
   .row.eff-sel-row
     .col-md-2
       .abil-heading="Secondary Effects:"
     =hidden_field_tag "ability[effect_ids][]", nil
-    -Effect.alphabetical.each do |effect|
+    -@effects.alphabetical.each do |effect|
       .col-md-2
         =check_box_tag "ability[effect_ids][]", effect.id, ability.effect_ids.include?(effect.id), id: dom_id(effect)
         =label_tag dom_id(effect), effect.name
@@ -47,7 +47,7 @@
     .col-md-2
       input type="checkbox" class="abil_form_check_all" id="#{dom_id(ability)}-job-sel-all" Select All
     =hidden_field_tag "ability[job_ids][]", nil
-    -Job.alphabetical.each do |job|
+    -@jobs.alphabetical.each do |job|
       .col-md-2
         =check_box_tag "ability[job_ids][]", job.id, ability.job_ids.include?(job.id), id: dom_id(job), class: "#{dom_id(ability)}-job-sel-all"
         =label_tag dom_id(job), job.name

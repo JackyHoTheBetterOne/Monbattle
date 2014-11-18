@@ -5,6 +5,8 @@ class Rarity < ActiveRecord::Base
 
   validates :name, presence: {message: 'Must be entered'}
 
+  scope :alphabetical, -> { order('name') }
+
   def self.worth(rarity)
     where(name: rarity)
   end

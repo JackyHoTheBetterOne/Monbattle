@@ -1,6 +1,9 @@
 class AbilitiesController < ApplicationController
   before_action :find_ability, :name_check, only: [:update]
   before_action :find_abilities, except: [:update]
+  before_action :find_targets, :find_stat_targets, :find_abil_sockets, :find_rarities,
+                :find_jobs, :find_effects, :find_elements
+
 
   def index
     @ability = Ability.new
@@ -39,21 +42,49 @@ class AbilitiesController < ApplicationController
 
   private
 
-  def find_ability
-    @ability = Ability.find params[:id]
-  end
-
-  def name_check
-    if ["Slap", "Groin Kick", "Omega Slash", "Discharge"].include? @ability.name
-      params[:ability][:name] = @ability.name
-    end
-  end
-
   def find_abilities
     if params[:filter]
       @abilities = Ability.unscoped.filter_it(params[:filter]).includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity)
     else
       @abilities = Ability.reorder("lower(name)").includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity)
+    end
+  end
+
+  def find_ability
+    @ability = Ability.find params[:id]
+  end
+
+  def find_targets
+    @targets = Target.alphabetical
+  end
+
+  def find_stat_targets
+    @stat_targets = StatTarget.all
+  end
+
+  def find_abil_sockets
+    @abil_sockets = AbilSocket.all
+  end
+
+  def find_rarities
+    @rarities = Rarity.alphabetical
+  end
+
+  def find_effects
+    @effects = Effect.alphabetical
+  end
+
+  def find_jobs
+    @jobs = Job.alphabetical
+  end
+
+  def find_elements
+    @elements = Element.alphabetical
+  end
+
+  def name_check
+    if ["Slap", "Groin Kick", "Omega Slash", "Discharge"].include? @ability.name
+      params[:ability][:name] = @ability.name
     end
   end
 
