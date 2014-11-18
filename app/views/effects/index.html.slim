@@ -2,6 +2,10 @@
   h1 Sign in First
 - else
   =render partial: "admin/modal_button", locals: {modal_label: "effectLabel", modal_id: "effectModal", form_is_for: "effects/form", button_name: "Create New Effect", form_title: "New Effect"}
+  p
+  = form_tag effects_path, :method => "get", remote: true
+  = text_field_tag :keyword, params[:keyword]
+  = submit_tag "Search like a bitch", class: "btn btn-default"
   hr
   table.table.table-striped border="1"
     thead
@@ -16,7 +20,7 @@
         td Restore
         th Icon
         th Delete/Edit
-    tbody
+    tbody.effects
       -if @effects.empty?
       -else
         =render @effects
