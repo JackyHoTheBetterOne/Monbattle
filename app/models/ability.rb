@@ -71,7 +71,7 @@ class Ability < ActiveRecord::Base
 
   scope :abilities_by_socket, -> { order('abil_socket_id') }
 
-  scope :name_alphabetical, -> { order('name') }
+  scope :alphabetical, -> { reorder("lower(name)") }
 
   scope :search, -> (keyword) {
     if keyword.present?

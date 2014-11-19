@@ -5,7 +5,7 @@ class Summoner < ActiveRecord::Base
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :user_id, presence: {message: 'Must be entered'}, uniqueness: true
 
-def self.find_victorious_summoner(user_name)
+def self.find_summoner(user_name)
   @user = find_user(user_name)
   Summoner.where(user_id: @user).first
 end

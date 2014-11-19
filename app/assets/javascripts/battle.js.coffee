@@ -530,7 +530,8 @@ window.outcome = ->
     $("#overlay").fadeIn(1000)
     nextSceneInitial()
     $(document).on "click.cutscene", "#overlay", ->
-      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
+      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] ||
+          battle.end_cut_scenes.length is 0
         $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
           append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
         $(".cutscene").hide(500)
@@ -1096,11 +1097,11 @@ $ ->
     success: (data) ->
       window.battle = data
       $(".cutscene").show(500)
-      document.getElementById('battle').style.pointerEvents = 'none'
       toggleImg()
       nextSceneInitial()
       $(document).on "click.cutscene", "#overlay", ->
-        if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1]
+        if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1] || 
+            battle.start_cut_scenes.length is 0
           endCutScene()
           $(".message").css("opacity", "0")
           setTimeout (->
@@ -1119,7 +1120,6 @@ $ ->
           new_index = battle.start_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
           window.new_scene = battle.start_cut_scenes[new_index]
           nextScene()
-          document.getElementById('battle').style.pointerEvents = 'auto'
 ################################################################################################################ Battle logic
       $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
       window.playerMonNum = battle.players[0].mons.length

@@ -10,8 +10,6 @@ class Job < ActiveRecord::Base
   validates :evolve_lvl, presence: {message: 'Must be entered'}
   validates :evolve_lvl, numericality: true
 
-  scope :alphabetical, -> {
-    order("lower(name)")
-  }
+  scope :alphabetical, -> { order("lower(name)") }
 
 end

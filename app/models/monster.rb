@@ -41,8 +41,9 @@ class Monster < ActiveRecord::Base
   # validates :hp_modifier, presence: {message: 'Must be entered'}
 
   before_save :set_keywords
-  after_create :set_defaults
+  before_destroy :check_for_default
   after_update :unlock_for_admins
+
 
   # default_scope{ order('updated_at desc') }
 
@@ -64,9 +65,6 @@ class Monster < ActiveRecord::Base
   def self.base_mon
     where(evolved_from_id: 0)
   end
-
-
-
 
   def find_default_skin_id(skin_name)
     MonsterSkin.find_by(name: skin_name).id
@@ -93,7 +91,7 @@ class Monster < ActiveRecord::Base
   end
 
   def self.default_monsters
-    default_monsters = ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira", "Eviganon"]
+    ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira", "Eviganon"]
   end
 
   def self.find_default_monster_ids
@@ -107,7 +105,6 @@ class Monster < ActiveRecord::Base
   def self.mon_abils(monster)
     find_by_id(monster).job.abilities
   end
-
 
   def self.find_name(id)
     where(id: id).pluck(:name)
@@ -138,6 +135,16 @@ class Monster < ActiveRecord::Base
     self.monster_skin_equippings.where(user_id: user).first.monster_skin.avatar.url(:small)
   end
 
+  def set_defaults
+    self.default_skin_id  = find_default_skin_id("Sack")
+    self.default_sock1_id = find_default_abil_id("Slap")
+    self.default_sock2_id = find_default_abil_id("Groin Kick")
+    if self.rarity.name == "npc"
+      self.default_sock3_id = find_default_abil_id("Omega Slash")
+      self.default_sock4_id = find_default_abil_id("Discharge")
+    end
+  end
+
   private
   def set_keywords
     if self.evolved_from != nil
@@ -149,15 +156,10 @@ class Monster < ActiveRecord::Base
     end
   end
 
-  def set_defaults
-    self.default_skin_id  = find_default_skin_id("Sack")
-    self.default_sock1_id = find_default_abil_id("Slap")
-    self.default_sock2_id = find_default_abil_id("Groin Kick")
-    if self.rarity.name == "npc"
-      self.default_sock3_id = find_default_abil_id("Omega Slash")
-      self.default_sock4_id = find_default_abil_id("Discharge")
+  def check_for_default
+    if Monster.default_monsters.include? self.name
+      false
     end
-    self.save
   end
 
   def unlock_for_admins

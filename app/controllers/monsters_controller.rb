@@ -1,24 +1,11 @@
 class MonstersController < ApplicationController
   before_action :find_monster, except: [:index, :create]
   before_action :name_check, only: [:update]
+  before_action :find_monsters, :new_monster_unlock, :find_rarities, :find_levels, :find_jobs, :find_elements,
+                :find_personalities, :find_abilities, :find_monster_skins
 
   def index
-    @monster_unlock = MonsterUnlock.new
-    @rarity = Rarity.new
-    @rarities = Rarity.all
-    @levels = BattleLevel.all
-    @job = Job.new
-    @jobs = Job.all
-    @element = Element.new
-    @elements = Element.all
-    @personality = Personality.new
-    @personalities = Personality.all
-    @abilities = Ability.includes(:abil_socket).includes(:ability_restrictions)
-    @monster_skins = MonsterSkin.includes(:skin_restrictions)
     @monster = Monster.new
-    @monsters = policy_scope(Monster.includes(:job, :element, :personality, :battle_levels).search(params[:keyword]).
-                paginate(:page => params[:page], :per_page => 20))
-
     respond_to do |format|
       format.html
       format.js
@@ -27,11 +14,7 @@ class MonstersController < ApplicationController
 
   def create
     @monster = Monster.new monster_params
-    @monsters = Monster.all
-    @job = Job.new
-    @jobs = Job.all
-    @element = Element.new
-    @elements = Element.all
+    @monster.set_defaults
     authorize @monster
     respond_to do |format|
       if @monster.save
@@ -57,13 +40,6 @@ class MonstersController < ApplicationController
     end
   end
 
-  # def clone
-  #   # render text: params.to_s
-  #   @monster = Monster.find(params[:id])
-  #   @monster = Monster.new(@monster.attributes)
-  #   render :clone
-  # end
-
   def update
     authorize @monster
     @monster.update_attributes(monster_params)
@@ -82,15 +58,52 @@ class MonstersController < ApplicationController
     end
   end
 
-  def show
-    if current_user.admin
-      respond_to do |format|
-        format.json {render json: @monster}
-      end
-    end
-  end
+  # def show
+  #   if current_user.admin
+  #     respond_to do |format|
+  #       format.json {render json: @monster}
+  #     end
+  #   end
+  # end
 
   private
+
+  def find_monsters
+    @monsters = policy_scope(Monster.includes(:job, :element, :personality, :battle_levels, :rarity).search(params[:keyword]).
+            paginate(:page => params[:page], :per_page => 20))
+  end
+
+  def new_monster_unlock
+    @monster_unlock = MonsterUnlock.new
+  end
+
+  def find_rarities
+    @rarities = Rarity.alphabetical
+  end
+
+  def find_levels
+    @levels = BattleLevel.all
+  end
+
+  def find_jobs
+    @jobs = Job.alphabetical
+  end
+
+  def find_elements
+    @elements = Element.alphabetical
+  end
+
+  def find_personalities
+    @personalities = Personality.all
+  end
+
+  def find_abilities
+    @abilities = Ability.alphabetical.includes(:abil_socket).includes(:ability_restrictions)
+  end
+
+  def find_monster_skins
+    @monster_skins = MonsterSkin.includes(:skin_restrictions)
+  end
 
   def name_check
     if Monster.default_monsters.include? @monster.name

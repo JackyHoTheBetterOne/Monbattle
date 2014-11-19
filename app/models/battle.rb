@@ -33,6 +33,9 @@ class Battle < ActiveRecord::Base
 
   def victor_check
     if @victor == "NPC"
+      @loser = Summoner.find_summoner(self.loser)
+      @loser.losses += 1 
+      @loser.save
     else
       give_reward
     end
@@ -42,8 +45,9 @@ class Battle < ActiveRecord::Base
     @mp_reward           = self.battle_level.mp_reward
     @gp_reward           = self.battle_level.gp_reward
     @vk_reward           = self.battle_level.vk_reward
-    @victorious_summoner = Summoner.find_victorious_summoner(@victor)
+    @victorious_summoner = Summoner.find_summoner(@victor)
 
+    @victorious_summoner.wins += 1 
     @victorious_summoner.mp += @mp_reward
     @victorious_summoner.gp += @gp_reward
     @victorious_summoner.vortex_key += @vk_reward
