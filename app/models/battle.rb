@@ -11,12 +11,12 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_save :generate_code
-  before_update :to_finish
-  before_update :update_date
+  before_update :to_finish, :update_date, :quest_update
   before_create :update_date
+  after_update :quest_update
 
   scope :find_matching_date, -> (date) {
-    where("updated_on = #{date}")
+    where(updated_on: date)
   }
 
   aasm do
@@ -27,7 +27,6 @@ class Battle < ActiveRecord::Base
       transitions :from => :battling, :to => :complete, :on_transition => :battle_complete
     end
   end
-
 
 
 ############################################# End Battle Update
@@ -111,7 +110,7 @@ class Battle < ActiveRecord::Base
 
   private
   def update_date
-    self.updated_on = self.updated_at
+    self.updated_on = self.created_at
   end
 
 
@@ -126,4 +125,11 @@ class Battle < ActiveRecord::Base
       self.done
     end
   end
+
+  def quest_update
+    if self.victor && self.loser
+      @victor = Summoner.find_summoner()
+    end
+  end
+
 end
