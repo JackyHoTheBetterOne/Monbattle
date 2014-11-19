@@ -87,15 +87,13 @@ class User < ActiveRecord::Base
   end
 
   def unlock_default_monsters
-    if Monster.all.empty?
-    else
+    unless Monster.all.empty?
       @default_monster_ids = Monster.find_default_monster_ids
       @user_id = self.id
 
       @default_monster_ids.each do |id|
         MonsterUnlock.create(user_id: @user_id, monster_id: id)
       end
-
     end
   end
 
