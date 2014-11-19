@@ -15,7 +15,6 @@
             .form-control =f.collection_select :evolved_from_id, @monsters.base_mon, :id, :name
           h4=f.label "The job of this evolved state"
           .form-control =f.collection_select :job_id, @jobs.where(evolve_lvl: "1"), :id, :name
-          h4=f.label "The element of this evolved state"
 
           =render partial: "form_shared", locals: {f: f}
 

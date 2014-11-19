@@ -42,7 +42,6 @@ class Monster < ActiveRecord::Base
 
   before_save :set_keywords
   before_destroy :check_for_default
-  after_create :set_defaults
   after_update :unlock_for_admins
 
 
@@ -136,6 +135,16 @@ class Monster < ActiveRecord::Base
     self.monster_skin_equippings.where(user_id: user).first.monster_skin.avatar.url(:small)
   end
 
+  def set_defaults
+    self.default_skin_id  = find_default_skin_id("Sack")
+    self.default_sock1_id = find_default_abil_id("Slap")
+    self.default_sock2_id = find_default_abil_id("Groin Kick")
+    if self.rarity.name == "npc"
+      self.default_sock3_id = find_default_abil_id("Omega Slash")
+      self.default_sock4_id = find_default_abil_id("Discharge")
+    end
+  end
+
   private
   def set_keywords
     if self.evolved_from != nil
@@ -145,17 +154,6 @@ class Monster < ActiveRecord::Base
       self.keywords = [name, description, self.job.name, self.element.name]
                         .map(&:downcase).concat([max_hp, summon_cost]).join(" ")
     end
-  end
-
-  def set_defaults
-    self.default_skin_id  = find_default_skin_id("Sack")
-    self.default_sock1_id = find_default_abil_id("Slap")
-    self.default_sock2_id = find_default_abil_id("Groin Kick")
-    if self.rarity.name == "npc"
-      self.default_sock3_id = find_default_abil_id("Omega Slash")
-      self.default_sock4_id = find_default_abil_id("Discharge")
-    end
-    self.save
   end
 
   def check_for_default

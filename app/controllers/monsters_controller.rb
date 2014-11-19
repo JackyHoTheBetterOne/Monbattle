@@ -14,6 +14,7 @@ class MonstersController < ApplicationController
 
   def create
     @monster = Monster.new monster_params
+    @monster.set_defaults
     authorize @monster
     respond_to do |format|
       if @monster.save
