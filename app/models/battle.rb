@@ -11,11 +11,15 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_save :generate_code
-  before_update :to_finish, :update_date, :quest_update
+  before_update :to_finish, :update_date
   before_create :update_date
   after_update :quest_update
 
-  scope :find_matching_date, -> (date) {
+  scope :find_matching_date, -> (date, party) {
+    joins(:fights).where(updated_on: date, "fights.party_id" => party.id)
+  }
+
+  scope :find_battles_on_date, -> (date) {
     where(updated_on: date)
   }
 
@@ -128,7 +132,23 @@ class Battle < ActiveRecord::Base
 
   def quest_update
     if self.victor && self.loser
-      @victor = Summoner.find_summoner()
+      @victor = Summoner.find_summoner(self.victor)
+      @victor_party = @victor.party
+      @loser = Summoner.find_summoner(self.loser)
+      @loser_party = @loser.party
+      @date = Time.now.utc.to_date
+
+      if Battle.find_matching_date(@date, @victor_party).count == 0
+        @victor.quest_begin
+      else 
+        @victor.check_quest
+      end
+
+      if Battle.find_matching_date(@date, @loser_party).count == 0
+        @loser.quest_begin
+      else 
+        @loser.check_quest
+      end
     end
   end
 

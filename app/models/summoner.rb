@@ -14,18 +14,36 @@ class Summoner < ActiveRecord::Base
     User.where(user_name: user_name)
   end
 
-  # def self.quest_begin
-  #   puts ">>>>>>>> STARTING QUEST BEGIN #{Time.now}"
-  #   Summoner.all.each do |s|
-  #     s.starting_status = s.serializable_hash 
-  #     s.save
-  #   end
-  # end
+  def battles
+    self.user.parties[0].fights.each do |f|
+      battles = []
+      battles << f.battle
+      return battles  
+    end
+  end
+
+  def party
+    self.user.parties[0]
+  end
 
   def quest_begin
     unless self.name == "NPC"
-      self.starting_status = self.serializable_hash
+      @summoner = self.clone
+      @summoner.starting_status = {}
+      @summoner.ending_status = {}
+      self.starting_status = @summoner.serializable_hash
       self.save
     end
   end
+
+  def check_quest
+    unless self.name == "NPC"
+      @summoner = self.clone
+      @summoner.starting_status = {}
+      @summoner.ending_status = {}
+      self.ending_status = @summoner.serializable_hash
+      self.save
+    end
+  end
+
 end
