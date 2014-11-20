@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141119195528) do
+ActiveRecord::Schema.define(version: 20141120045820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -390,6 +390,22 @@ ActiveRecord::Schema.define(version: 20141119195528) do
     t.datetime "updated_at"
   end
 
+  create_table "quests", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "type"
+    t.string   "stat"
+    t.integer  "requirement"
+    t.boolean  "is_active",     default: true
+    t.string   "bonus"
+    t.string   "reward_type"
+    t.integer  "reward_amount"
+    t.datetime "end_date"
+    t.datetime "refresh_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "rarities", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -432,8 +448,8 @@ ActiveRecord::Schema.define(version: 20141119195528) do
     t.integer  "current_lvl",       default: 1
     t.integer  "current_exp",       default: 0
     t.integer  "vortex_key",        default: 0
-    t.integer  "wins"
-    t.integer  "losses"
+    t.integer  "wins",              default: 0
+    t.integer  "losses",            default: 0
     t.hstore   "starting_status"
     t.hstore   "ending_status"
   end
