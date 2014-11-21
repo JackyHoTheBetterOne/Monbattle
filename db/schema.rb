@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141120045820) do
+ActiveRecord::Schema.define(version: 20141121001317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -390,23 +390,38 @@ ActiveRecord::Schema.define(version: 20141120045820) do
     t.datetime "updated_at"
   end
 
-  create_table "quests", force: true do |t|
+  create_table "quest_types", force: true do |t|
     t.string   "name"
-    t.text     "description"
-    t.string   "type"
-    t.string   "stat"
-    t.integer  "requirement"
-    t.boolean  "is_active",     default: true
-    t.string   "bonus"
-    t.string   "reward_type"
-    t.integer  "reward_amount"
-    t.datetime "end_date"
-    t.datetime "refresh_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  create_table "quests", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "stat"
+    t.integer  "requirement"
+    t.boolean  "is_active",          default: true
+    t.string   "bonus"
+    t.integer  "reward_amount"
+    t.datetime "end_date",           default: '2015-11-20 20:00:42'
+    t.datetime "refresh_date",       default: '2015-11-20 20:00:42'
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "quest_type_id"
+    t.integer  "reward_category_id"
+  end
+
+  add_index "quests", ["quest_type_id"], name: "index_quests_on_quest_type_id", using: :btree
+  add_index "quests", ["reward_category_id"], name: "index_quests_on_reward_category_id", using: :btree
+
   create_table "rarities", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reward_categories", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -443,15 +458,18 @@ ActiveRecord::Schema.define(version: 20141120045820) do
     t.integer  "summoner_level_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "mp",                default: 0
-    t.integer  "gp",                default: 0
-    t.integer  "current_lvl",       default: 1
-    t.integer  "current_exp",       default: 0
-    t.integer  "vortex_key",        default: 0
-    t.integer  "wins",              default: 0
-    t.integer  "losses",            default: 0
+    t.integer  "mp",                      default: 0
+    t.integer  "gp",                      default: 0
+    t.integer  "current_lvl",             default: 1
+    t.integer  "current_exp",             default: 0
+    t.integer  "vortex_key",              default: 0
+    t.integer  "wins",                    default: 0
+    t.integer  "losses",                  default: 0
     t.hstore   "starting_status"
     t.hstore   "ending_status"
+    t.text     "completed_daily_quests",              array: true
+    t.text     "completed_weekly_quests",             array: true
+    t.text     "completed_quests",                    array: true
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree

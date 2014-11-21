@@ -17,6 +17,7 @@
             = link_to "Misc Buttons", admin_index_path, class: "btn btn-default", type: "button"
             = link_to "Notice", notices_path, class: "btn btn-default"
             = link_to "Cut-scene", cut_scenes_path, class: "btn btn-default"
+            = link_to "Quest", quests_path, class: "btn btn-default"
         - if user_signed_in?
           = link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-default"
         - else

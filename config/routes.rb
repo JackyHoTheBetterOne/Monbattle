@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
 resources :notices
 
+resources :quests
+
 resources :cut_scenes
 
 devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }

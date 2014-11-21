@@ -79,7 +79,8 @@ class User < ActiveRecord::Base
   private
 
   def create_summoner
-    Summoner.create(user_id: self.id, name: self.user_name, vortex_key: 25, gp: 100, mp: 100)
+    Summoner.create(user_id: self.id, name: self.user_name, vortex_key: 25, gp: 100, mp: 100,
+                     completed_daily_quests: [], completed_weekly_quests: [], completed_quests: [])
   end
 
   def create_party

@@ -41,9 +41,36 @@ class Summoner < ActiveRecord::Base
       @summoner = self.clone
       @summoner.starting_status = {}
       @summoner.ending_status = {}
+      @summoner.completed_daily_quests = []
       self.ending_status = @summoner.serializable_hash
       self.save
     end
   end
 
+
+  def get_reward
+    @questing_summoner = self
+    Quest.all.each do |q|
+      if q.type == "Daily-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) && 
+          @questing_summoner.name != "NPC"
+        p "=========================================================================="
+        p @questing_summoner.ending_status
+        p @questing_summoner.starting_status
+        p "=========================================================================="
+        if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) == 
+            q.requirement
+          @questing_summoner[q.reward] += q.reward_amount
+          array = @questing_summoner.completed_daily_quests.clone
+          array.push(q.name)
+          @questing_summoner.completed_daily_quests = array
+        end
+      end
+    end
+    @questing_summoner.save
+  end
+
+  def clear_daily_achievement
+    self.completed_daily_quests = Array.new
+    self.save
+  end
 end
