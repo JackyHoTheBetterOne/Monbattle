@@ -1,0 +1,20 @@
+<div class="panel panel-primary" id="<%= dom_id(quest)%>">
+  <div class="panel-heading">
+    <%= quest.name %> - <%= quest.type %> - Active: <%= quest.is_active %>
+  </div>
+  <div class="panel-body">
+    <%= quest.description %>
+  </div>
+  <div class="panel-body">
+    Stat requirement- <%= quest.stat %> : <%= quest.requirement %>
+    <br/>
+    Reward: <%= quest.reward %>
+    <br/>
+    Amount: <%= quest.reward_amount %>, Bonus: <%= quest.bonus %>
+  </div>
+  <div class="panel-footer">
+    End: <%= quest.end_date.in_time_zone("Pacific Time (US & Canada)") %>
+    <br />
+    Refresh: <%= quest.refresh_date.in_time_zone("Pacific Time (US & Canada)") %>
+  </div>
+</div>

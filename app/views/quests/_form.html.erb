@@ -1,0 +1,15 @@
+<%= simple_form_for(quest) do |f| %>
+  <%= f.input :name %>
+  <%= f.input :description, input_html: {rows: "3"} %>
+  <%= f.association :quest_type %>
+  <%= f.input :is_active %>
+  <%= f.input :stat %>
+  <%= f.input :requirement %>
+  <%= f.association :reward_category %>
+  <%= f.input :reward_amount %>
+  <%= f.input :bonus %>
+  <%= f.input :end_date %>
+  <%= f.input :refresh_date %>
+  <p></p>
+  <%= f.button :submit %>
+<% end %>

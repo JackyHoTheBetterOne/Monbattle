@@ -1,6 +1,7 @@
 require 'aasm'
 
 class Battle < ActiveRecord::Base
+
   is_impressionable
   include AASM
   extend FriendlyId
@@ -11,9 +12,8 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_save :generate_code
-  before_update :to_finish, :update_date, :quest_update
+  before_update :to_finish, :update_date
   before_create :update_date
-  after_update :distribute_quest_reward   
 
   scope :find_matching_date, -> (date, party) {
     joins(:fights).where(updated_on: date, "fights.party_id" => party.id)
@@ -25,17 +25,17 @@ class Battle < ActiveRecord::Base
 
   aasm do
     state :battling, :initial => true
-    state :complete
-
-    event :done do
-      transitions :from => :battling, :to => :complete, :on_transition => :battle_complete
+    state :complete, :before_enter => :battle_complete
+    event :done, :after => :distribute_quest_reward do
+      transitions :from => :battling, :to => :complete
     end
   end
 
 
-############################################# End Battle Update
+########################################################################################### End Battle Update
 
   def battle_complete
+    self.quest_update
     @victor = self.victor
     victor_check
   end
@@ -48,6 +48,7 @@ class Battle < ActiveRecord::Base
     else
       give_reward
     end
+    self.quest_update
   end
 
   def give_reward
@@ -63,7 +64,28 @@ class Battle < ActiveRecord::Base
     @victorious_summoner.save
   end
 
-#############################################
+  def distribute_quest_reward
+    if self.victor && self.loser
+      @victor = Summoner.find_summoner(self.victor)
+      @loser = Summoner.find_summoner(self.loser)
+    end
+    @victor.get_achievement
+    @victor.get_login_bonus
+    @loser.get_achievement
+  end
+
+  def quest_update
+    if self.victor && self.loser
+      @victor = Summoner.find_summoner(self.victor)
+      @victor_party = @victor.party
+      @loser = Summoner.find_summoner(self.loser)
+      @loser_party = @loser.party
+      @victor.check_quest
+      @loser.check_quest
+    end
+  end
+
+##############################################################################################################
 
   def build_json
     battle_json = {}
@@ -73,9 +95,6 @@ class Battle < ActiveRecord::Base
     battle_json[:id] = self.id_code
     battle_json[:reward] = self.battle_level.mp_reward
     battle_json[:players] = []
-    # self.users.each do |user|
-    #   battle_json[:"#{user.user_name}"] = user.as_json
-    # end
 
     self.parties.order(:npc).each do |party|
       battle_json[:players] << party.as_json
@@ -128,25 +147,5 @@ class Battle < ActiveRecord::Base
     if self.aasm_state == "battling"
       self.done
     end
-  end
-
-  def quest_update
-    if self.victor && self.loser
-      @victor = Summoner.find_summoner(self.victor)
-      @victor_party = @victor.party
-      @loser = Summoner.find_summoner(self.loser)
-      @loser_party = @loser.party
-      @victor.check_quest
-      @loser.check_quest
-    end
-  end
-
-  def distribute_quest_reward
-    if self.victor && self.loser
-      @victor = Summoner.find_summoner(self.victor)
-      @loser = Summoner.find_summoner(self.loser)
-    end
-    @victor.get_reward
-    @loser.get_reward
   end
 end
