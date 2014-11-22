@@ -1,4 +1,4 @@
 | $(".party-pane").hide().html("#{j render partial: "/home/mon_party_img"}").show("slide", { direction: "left" }, 300);
 | $(".monsters-image-display").html( "#{j render partial: "home/mon_image_display"}");
--if @members.count == 4
-  | $(".start-battle").html("#{j render partial: "home/battle_start"}").effect("pulsate")
+/ -if @members.count == 4
+/   | $(".start-battle").html("#{j render partial: "home/battle_start"}").effect("pulsate")

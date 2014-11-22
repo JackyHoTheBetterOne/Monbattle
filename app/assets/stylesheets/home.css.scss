@@ -24,11 +24,13 @@ $distance-between-pane-top-pane-info: 15px;
   position: absolute;
   width: $width;
   height: $height;
+  border: 1px solid blue;
 }
 @mixin rel-div($width, $height) {
   position: relative;
   width: $width;
   height: $height;
+  border: 1px solid red;
 }
 @mixin portrait-img($width, $height) {
   @include abs-div($width, $height);
@@ -39,10 +41,6 @@ $distance-between-pane-top-pane-info: 15px;
 }
 .body {
   position: relative;
-}
-.master-bg {
-  @include abs-div(100%, 100%);
-  background: $bottom-bg;
 }
 .btn:active {
   position:relative;
@@ -59,13 +57,20 @@ $distance-between-pane-top-pane-info: 15px;
 }
 
 ///////////////////////////////////
+.master-bg {
+  @include abs-div(960px, 500px);
+  background: $bottom-bg;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
 .top-section {
-  @include abs-div(99%, 25%);
+  @include abs-div(40%, 25%);
   background: $top-bg;
-  top: $screen-gap-top;
-  right: $screen-gap-right;
+  top: 0;
+  left: 0;
   .party-title {
-    @include abs-div(50%, 30%);
+    @include abs-div(100%, 30%);
     p {
       font-family: $home-font;
       font-size: 22px;
@@ -74,11 +79,10 @@ $distance-between-pane-top-pane-info: 15px;
     }
   }
   .party-pane {
-    @include abs-div(50%, 70%);
+    @include abs-div(100%, 70%);
     top: 23%;
     left: 0;
     img {
-      // @include rel-div(100px, 100px);
       @include rel-div(20%, 100%);
       padding: 0px;
       margin-left: 5px;
@@ -88,81 +92,81 @@ $distance-between-pane-top-pane-info: 15px;
       max-width: 100;
     }
   }
-  .start-battle {
-    @include abs-div(30%,60%);
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin-bottom: auto;
-    margin-top: auto;
-    margin-right: 6%;
-    .battle-button {
-      box-shadow: 5px 5px 0px 1px slateGray;
-      background:$grey-fade-hover;
-      border-radius:28px;
-      border:3px solid darkGrey;
-      display:inline-block;
-      cursor:pointer;
-      color:black;
-      font-family: $home-font;
-      font-size:17px;
-      font-weight:bold;
-      font-style:italic;
-      padding:25px 67px;
-      text-decoration:none;
-    }
-    .battle-button:hover {
-      background:Yellow;
-      text-decoration:none;
-    }
-  }
 }
+  // .start-battle {
+  //   @include abs-div(30%,60%);
+  //   right: 0;
+  //   top: 0;
+  //   bottom: 0;
+  //   margin-bottom: auto;
+  //   margin-top: auto;
+  //   margin-right: 6%;
+  //   .battle-button {
+  //     box-shadow: 5px 5px 0px 1px slateGray;
+  //     background:$grey-fade-hover;
+  //     border-radius:28px;
+  //     border:3px solid darkGrey;
+  //     display:inline-block;
+  //     cursor:pointer;
+  //     color:black;
+  //     font-family: $home-font;
+  //     font-size:17px;
+  //     font-weight:bold;
+  //     font-style:italic;
+  //     padding:25px 67px;
+  //     text-decoration:none;
+  //   }
+  //   .battle-button:hover {
+  //     background:Yellow;
+  //     text-decoration:none;
+  //   }
+  // }
 
 ///////////////////////////////////
-.monsters-display-area {
-  @include abs-div(100%, 75%);
+
+.monster-info-area {
+  @include abs-div(60%, 100%);
   bottom: 0;
-  text-weight: bold;
-  .monster-info-area {
-    p {
-      font-family: $home-font;
-      margin-left: 5px;
-      margin-bottom: 1px;
-    }
-    .btn {
-      font-family: $home-font
-    }
-    @include abs-div(65%, 100%);
-    bottom: $screen-gap-bottom;
-    right: $screen-gap-right;
-    display: none;
+  right: 0;
+  display: none;
+  p {
+    font-family: $home-font;
+    margin-left: 5px;
+    margin-bottom: 1px;
   }
-}
-    .btn-box {
-      @include abs-div(25%, 22%);
-      top: 0;
-      left: 1%;
-      .btn {
-        background: $grey-fade;
-        position: relative;
-        max-width: 100%;
-        max-height: 100%;
-        width: 50%;
-      }
-      .btn-default:hover {
-        background: $grey-fade-hover
-      }
+  .btn {
+    font-family: $home-font
+  }
+  .btn-box {
+    @include abs-div(25%, 22%);
+    top: 0;
+    left: 1%;
+    .btn {
+      background: $grey-fade;
+      position: relative;
+      max-width: 100%;
+      max-height: 100%;
+      width: 50%;
     }
-    .info-display-area {
-      @include abs-div(100%, 32%);
-      top: $distance-between-pane-top-pane-info;
+    .btn-default:hover {
+      background: $grey-fade-hover
+    }
+  }
+  .info-display-area {
+    @include abs-div(100%, 32%);
+    top: $distance-between-pane-top-pane-info;
+    right: 0;
+    .info-pane {
+      @include abs-div(100%, 74%);
+      bottom: 0;
       right: 0;
-    }
-      .info-pane {
-        @include abs-div(100%, 74%);
-        bottom: 0;
-        right: 0;
-        background: $ability-display;
+      background: $ability-display;
+      .monster-info {
+        @include abs-div(35%, 90%);
+        bottom: 5%;
+        left: 1%;
+        background: $grey-fade;
+        color: black;
         .monster-portrait {
           @include abs-div(38%, 92%);
           right: 0;
@@ -172,49 +176,40 @@ $distance-between-pane-top-pane-info: 15px;
           }
         }
       }
-        .monster-info {
-          @include abs-div(35%, 90%);
-          bottom: 5%;
-          left: 1%;
-          background: $grey-fade;
-          color: black;
-        }
-        .equip1 {
-          @include abs-div(10%, 60%);
-          bottom: 5%;
-          right: 13%;
-          cursor: pointer;
-          img {
-            @include portrait-img(100%, 100%);
-          }
-        }
-        .equip2 {
-          @extend .equip1;
-          right: 1%;
-        }
-/////////////////////////////////////
-    .abilities-display-area {
-      @include abs-div(100%, 62%);
-      bottom: 0;
-      right: 0;
-      background: $ability-display;
-      padding-top: 8px;
-      padding-bottom: 8px;
-      padding-left: 5px;
-      padding-right: 5px;
-      .scroll-wrapper {
-        @include rel-div(100%, 100%);
-        display: block;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        .ability-pane {
-          @include rel-div(90%, 35%);
-          right: 0;
-          left: 0;
-          margin: 2.5% auto 2.5% auto;
+      .equip1 {
+        @include abs-div(10%, 60%);
+        bottom: 5%;
+        right: 13%;
+        cursor: pointer;
+        img {
+          @include portrait-img(100%, 100%);
         }
       }
+      .equip2 {
+        @extend .equip1;
+        right: 1%;
+      }
     }
+  }
+  .abilities-display-area {
+    @include abs-div(100%, 62%);
+    bottom: 0;
+    right: 0;
+    background: $ability-display;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+    .scroll-wrapper {
+      @include rel-div(100%, 100%);
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      .ability-pane {
+        @include rel-div(90%, 35%);
+        right: 0;
+        left: 0;
+        margin: 2.5% auto 2.5% auto;
         .ability-icon {
           @include abs-div(15%, 100%);
           left: 0;
@@ -254,9 +249,13 @@ $distance-between-pane-top-pane-info: 15px;
             @include portrait-img(100%, 100%);
           }
         }
-///////////////////////////////////
+      }
+    }
+  }
+}
+/////////////////////////////////////
   .monsters-image-area {
-    @include abs-div(34%, 100%);
+    @include abs-div(40%, 75%);
     bottom: 0;
     left: 0;
     .monster-title-area {
@@ -278,6 +277,7 @@ $distance-between-pane-top-pane-info: 15px;
       bottom: 0;
       left: 0;
       padding-left: 6px;
+      overflow-y: scroll;
     }
       .monster-thumb {
         @include rel-div(22%, 22%);

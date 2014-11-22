@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  layout "facebook_landing", except: [:index]
+  layout "facebook_landing"
 
   def index
     @user      = params[:user] || current_user
@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     @abilities = Ability.includes(:ability_purchases).includes(:abil_socket).includes(:jobs).abilities_purchased(@user)
     @ability_purchases = @user.ability_purchases
     @members = @user.parties.first.members
-    if !@user
+    unless @user
       render layout: "facebook_landing"
     end
   end
