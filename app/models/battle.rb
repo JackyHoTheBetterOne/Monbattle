@@ -32,7 +32,7 @@ class Battle < ActiveRecord::Base
   end
 
 
-########################################################################################### End Battle Update
+####################################################################### End Battle Update
 
   def battle_complete
     self.quest_update

@@ -52,7 +52,6 @@ class Summoner < ActiveRecord::Base
     end
   end
 
-
   def get_achievement
     @questing_summoner = self
     Quest.all.each do |q|
