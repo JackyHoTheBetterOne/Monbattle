@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141123223009) do
+ActiveRecord::Schema.define(version: 20141124053355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -415,6 +415,7 @@ ActiveRecord::Schema.define(version: 20141123223009) do
     t.string   "icon_content_type"
     t.integer  "icon_file_size"
     t.datetime "icon_updated_at"
+    t.integer  "stat_requirement"
   end
 
   add_index "quests", ["quest_type_id"], name: "index_quests_on_quest_type_id", using: :btree
@@ -475,6 +476,7 @@ ActiveRecord::Schema.define(version: 20141123223009) do
     t.text     "completed_daily_quests",              array: true
     t.text     "completed_weekly_quests",             array: true
     t.text     "completed_quests",                    array: true
+    t.text     "daily_battles",                       array: true
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree

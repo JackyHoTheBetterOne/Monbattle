@@ -9,6 +9,7 @@ class Fight < ActiveRecord::Base
     if Battle.find_matching_date(@date, @party).count == 1 
       @party.user.summoner.quest_begin 
       @party.user.summoner.clear_daily_achievement
+      @party.user.summoner.clear_daily_battles
     end
   end
 end

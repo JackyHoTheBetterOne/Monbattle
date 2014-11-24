@@ -9,7 +9,7 @@ window.fixEvolMon = (monster, player) ->
       setTimeout (->
         $("." + monster.team + ".info" + " " + ".mon" + monster.index + " " + ".hp .bar").css({"width": "0%"})
         $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300).remove()
-      ), 1000
+      ), 750
       return false
     else
       return true
@@ -513,7 +513,8 @@ window.outcome = ->
       method: "patch"
       data: {
         "victor": battle.players[1].username,
-        "loser": battle.players[0].username
+        "loser": battle.players[0].username,
+        "round_taken": parseInt(battle.round)
       }
   else if battle.players[1].mons.every(isTeamDead) is true
     toggleImg()
@@ -524,7 +525,8 @@ window.outcome = ->
       method: "patch"
       data: {
         "victor": battle.players[0].username,
-        "loser": battle.players[1].username
+        "loser": battle.players[1].username,
+        "round_taken": parseInt(battle.round)
       }
     $(".cutscene").attr("src", battle.end_cut_scenes[0])
     $(".cutscene").css("opacity", "1")
@@ -1268,7 +1270,7 @@ $ ->
         e = effectBin[index]
         $("." + e.enemyDex + ".effect-info").css("visibility", "visible")
         if e.targeta is "taunt" 
-          $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text("This unit wants to fuck up " + e.target + ".")
+          $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text("This unit wants to kill " + e.target + ".")
         else if e.targeta is "shield"
           monster = battle.players[e.enemyDex].mons[e.enemyMonDex]
           shield = parseInt(monster.shield.extra_hp) + monster.shield.true_damage - (monster.shield.old_hp - monster.hp)

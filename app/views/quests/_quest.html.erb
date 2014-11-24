@@ -8,7 +8,9 @@
     <%= image_tag(quest.icon.url(:medium)) %>
   </div>
   <div class="panel-body">
-    Stat requirement- <%= quest.stat %> : <%= quest.requirement %>
+    Times achieved to unlock : <%= quest.requirement %>
+    <br/>
+    Stat requirement- <%= quest.stat %> : <%= quest.stat_requirement %>
     <br/>
     Reward: <%= quest.reward %>
     <br/>

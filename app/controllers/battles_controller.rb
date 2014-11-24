@@ -72,14 +72,18 @@ class BattlesController < ApplicationController
     end
   end
 
+  def validation
+
+  end
+
   private
 
   def battle_params
-    params.require(:battle).permit(:outcome, :battle_level_id, :victor, :loser)
+    params.require(:battle).permit(:battle_level_id)
   end
 
   def update_params
-    params.permit(:victor, :loser)
+    params.permit(:victor, :loser, :round_taken)
   end
 
   def find_battle

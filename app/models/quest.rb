@@ -29,7 +29,7 @@ class Quest < ActiveRecord::Base
 
   def set_keywords
     self.keywords = [name, description, self.type, self.reward].map(&:downcase).
-                      concat([reward_amount, requirement, stat, bonus]).join(" ")
+                      concat([reward_amount, requirement, stat, bonus, stat_requirement]).join(" ")
 
   end
 

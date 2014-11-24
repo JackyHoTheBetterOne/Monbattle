@@ -11,9 +11,8 @@ class Battle < ActiveRecord::Base
   has_many :parties, through: :fights
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
-  before_save :generate_code
-  before_update :to_finish, :update_date
-  before_create :update_date
+  before_save :generate_code, :update_date
+  after_update :to_finish
 
   scope :find_matching_date, -> (date, party) {
     joins(:fights).where(updated_on: date, "fights.party_id" => party.id)
@@ -33,9 +32,7 @@ class Battle < ActiveRecord::Base
 
 
 ####################################################################### End Battle Update
-
   def battle_complete
-    self.quest_update
     @victor = self.victor
     victor_check
   end
@@ -64,6 +61,19 @@ class Battle < ActiveRecord::Base
     @victorious_summoner.save
   end
 
+  def quest_update
+    if self.victor && self.loser
+      @victor = Summoner.find_summoner(self.victor)
+      @victor_party = @victor.party
+      @loser = Summoner.find_summoner(self.loser)
+      @loser_party = @loser.party
+      @victor.check_quest
+      @loser.check_quest
+      @victor.add_daily_battle(self.id)
+      @loser.add_daily_battle(self.id)
+    end
+  end
+
   def distribute_quest_reward
     if self.victor && self.loser
       @victor = Summoner.find_summoner(self.victor)
@@ -74,16 +84,6 @@ class Battle < ActiveRecord::Base
     @loser.get_achievement
   end
 
-  def quest_update
-    if self.victor && self.loser
-      @victor = Summoner.find_summoner(self.victor)
-      @victor_party = @victor.party
-      @loser = Summoner.find_summoner(self.loser)
-      @loser_party = @loser.party
-      @victor.check_quest
-      @loser.check_quest
-    end
-  end
 
 ##############################################################################################################
 

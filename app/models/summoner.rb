@@ -58,7 +58,32 @@ class Summoner < ActiveRecord::Base
       if q.type == "Daily-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) && 
           @questing_summoner.name != "NPC" && q.is_active
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) == 
-            q.requirement
+            q.stat_requirement
+          @questing_summoner[q.reward] += q.reward_amount
+          array = @questing_summoner.completed_daily_quests.clone
+          array.push(q.name)
+          @questing_summoner.completed_daily_quests = array
+        end
+      elsif q.type == "Daily-Turn-Based-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) &&
+        @questing_summoner.name != "NPC" && q.is_active
+        successful_entries = []
+        p "==================================================================================="
+        p self.daily_battles
+        p "==================================================================================="
+        self.daily_battles.each do |b|
+          p Battle.find(b)[q.stat]
+          p Battle.find(b)[q.stat].class
+          p q.stat_requirement
+          battle = Battle.find(b)
+          successful_entries.push(battle.id) if battle[q.stat].to_i < q.stat_requirement
+        end
+        p "==================================================================================="
+        p successful_entries.count
+        p q.requirement
+        p "wtf"
+        p "==================================================================================="
+        if successful_entries.count == q.requirement
+          p "suck my dick"
           @questing_summoner[q.reward] += q.reward_amount
           array = @questing_summoner.completed_daily_quests.clone
           array.push(q.name)
@@ -75,7 +100,7 @@ class Summoner < ActiveRecord::Base
       if q.type == "Daily-Login-Bonus" && (!@questing_summoner.completed_daily_quests.include?q.name) &&
         @questing_summoner.name != "NPC" && q.is_active
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) <= 
-            q.requirement
+            q.stat_requirement
           @questing_summoner[q.reward] += q.reward_amount
         else
           array = @questing_summoner.completed_daily_quests.clone
@@ -90,6 +115,18 @@ class Summoner < ActiveRecord::Base
 
   def clear_daily_achievement
     self.completed_daily_quests = Array.new
+    self.save
+  end
+
+  def clear_daily_battles
+    self.daily_battles = Array.new
+    self.save
+  end
+
+  def add_daily_battle(battle_id)
+    array = self.daily_battles.clone
+    array.push(battle_id)
+    self.daily_battles = array 
     self.save
   end
 end
