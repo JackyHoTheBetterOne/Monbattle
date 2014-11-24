@@ -594,7 +594,7 @@ window.battleStartDisplay = (time) ->
     toggleImg()
     $(".user .img").each ->
       $(this).effect("bounce", {distance: 80, times: 5}, 1500)
-  ), 2500
+  ), (time + 1500)
 
 ################################################################################################### Display function-calling helpers
 window.singleTargetAbilityAfterClickDisplay = (ability) ->
@@ -666,14 +666,14 @@ window.nextScene = ->
   $(".next-scene").css("opacity", "0")
   setTimeout (->
     $(".cutscene").attr("src", new_scene)
-  ), 300
+  ), 400
   setTimeout (->
     $(".cutscene").css("opacity", "1")
-  ), 600
+  ), 800
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 1600
+  ), 1800
 
 window.mouseOverMon = ->
   $(this).addClass("controlling")
@@ -1116,14 +1116,14 @@ $ ->
       if battle.start_cut_scenes.length isnt 0 
         $(".cutscene").show(500)
         toggleImg()
-        nextSceneInitial()
+        nextSceneInitial(1000)
       else 
         $(document).off "click.cutscene", "#overlay"
-        battleStartDisplay()
+        battleStartDisplay(500)
       $(document).on "click.cutscene", "#overlay", ->
         if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1]
           endCutScene()
-          battleStartDisplay()
+          battleStartDisplay(1000)
         else 
           new_index = battle.start_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
           window.new_scene = battle.start_cut_scenes[new_index]
