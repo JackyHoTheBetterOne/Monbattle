@@ -67,9 +67,6 @@ class Summoner < ActiveRecord::Base
       elsif q.type == "Daily-Turn-Based-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) &&
         @questing_summoner.name != "NPC" && q.is_active
         successful_entries = []
-        p "==================================================================================="
-        p self.daily_battles
-        p "==================================================================================="
         self.daily_battles.each do |b|
           p Battle.find(b)[q.stat]
           p Battle.find(b)[q.stat].class
@@ -77,11 +74,6 @@ class Summoner < ActiveRecord::Base
           battle = Battle.find(b)
           successful_entries.push(battle.id) if battle[q.stat].to_i < q.stat_requirement
         end
-        p "==================================================================================="
-        p successful_entries.count
-        p q.requirement
-        p "wtf"
-        p "==================================================================================="
         if successful_entries.count == q.requirement
           p "suck my dick"
           @questing_summoner[q.reward] += q.reward_amount
