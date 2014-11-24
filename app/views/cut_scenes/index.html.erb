@@ -5,7 +5,9 @@
   </a>
   <p></p>
   <div id="collapseOne" class="panel-collapse collapse">
-    <%= render partial: "form", locals: {cut_scene: @cut_scene} %>
+    <%= simple_form_for(@cut_scene, remote: true) do |f| %>
+      <%= render partial: "form", locals: {f: f}%>
+    <% end %>
   </div>
   <p></p>
 </div>

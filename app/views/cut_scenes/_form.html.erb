@@ -1,12 +1,10 @@
-<%= simple_form_for(cut_scene, remote: true) do |f| %>
-  <%= f.input :name %>
-  <%= f.input :to_start %>
-  <%= f.input :description, input_html: {rows: "3"} %>
-  <%= f.input :order %>
-  <%= f.association :chapter %>
-  <%= f.association :battle_level %>
-  <%= f.label :image %>
-  <%= f.file_field :image, id: "cut_scene_image_field" %>
-  <p></p>
-  <%= f.button :submit %>
-<% end %>
+<%= f.input :name %>
+<%= f.input :to_start %>
+<%= f.input :description, input_html: {rows: "3"} %>
+<%= f.input :order %>
+<%= f.association :chapter %>
+<%= f.association :battle_level %>
+<%= f.label :image %>
+<%= f.file_field :image, id: "cut_scene_image_field" %>
+<p></p>
+<%= f.button :submit %>
