@@ -1,6 +1,7 @@
 -@base_mons.each do |mon|
   .monster-thumb.btn.shadowed2
-    =image_tag mon.mon_skin(@user), id: "#{dom_id(mon)}", class: "monSet monThumb"
+    =link_to image_tag(mon.mon_skin(@user)), home_abilities_for_mon_path(mon: mon, socket: 1), id: "#{dom_id(mon)}", class: "monSet monThumb", remote: true
+    / =image_tag mon.mon_skin(@user), id: "#{dom_id(mon)}", class: "monSet monThumb"
     -if @user.can_add_to_party?(mon)
       =link_to fa_icon("plus-square 1x"), monster_unlock_member_for_users_path(mon, {member: {user_id: @user}}), method: :post, remote: true
     -if @user.can_remove_from_party?(mon)

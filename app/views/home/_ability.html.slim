@@ -1,0 +1,23 @@
+-own = @ability_purchases.owned(ability).count
+-available = @ability_purchases.not_equipped(ability)
+-available_count = available.count
+.ability-pane id=dom_id(ability)
+  .ability-icon.shadowed2
+    =image_tag ability.portrait.url(:small)
+  .ability-info.shadowed2
+    .well
+      .col-md-4
+        p =ability.name
+      .col-md-2
+        p AP: #{ability.ap_cost}
+      .col-md-3 id="#{dom_id(ability)}-own"
+        p Own: #{own}
+      .col-md-3 id="#{dom_id(ability)}-avail"
+        p Avail: #{available_count}
+    p=ability.description
+  .ability-equip.shadowed2 id="#{dom_id(ability)}-none"
+    ="Cannot Equip, 0 Available!"
+  .ability-equip.shadowed2 id="#{dom_id(ability)}-equip"
+    =link_to image_tag("ability-equip-avatar.png")
+  .ability-equip.shadowed2 id="#{dom_id(ability)}-equipped"
+    p Equipped Image

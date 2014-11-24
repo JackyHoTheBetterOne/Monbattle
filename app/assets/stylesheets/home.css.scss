@@ -64,6 +64,8 @@ $distance-between-pane-top-pane-info: 15px;
   right: 0;
   margin: auto;
 }
+///////////////////////////////////////////
+
 .top-section {
   @include abs-div(40%, 25%);
   background: $top-bg;
@@ -93,40 +95,75 @@ $distance-between-pane-top-pane-info: 15px;
     }
   }
 }
-  // .start-battle {
-  //   @include abs-div(30%,60%);
-  //   right: 0;
-  //   top: 0;
-  //   bottom: 0;
-  //   margin-bottom: auto;
-  //   margin-top: auto;
-  //   margin-right: 6%;
-  //   .battle-button {
-  //     box-shadow: 5px 5px 0px 1px slateGray;
-  //     background:$grey-fade-hover;
-  //     border-radius:28px;
-  //     border:3px solid darkGrey;
-  //     display:inline-block;
-  //     cursor:pointer;
-  //     color:black;
-  //     font-family: $home-font;
-  //     font-size:17px;
-  //     font-weight:bold;
-  //     font-style:italic;
-  //     padding:25px 67px;
-  //     text-decoration:none;
-  //   }
-  //   .battle-button:hover {
-  //     background:Yellow;
-  //     text-decoration:none;
-  //   }
-  // }
 
 ///////////////////////////////////
-
-.monster-info-area {
-  @include abs-div(60%, 100%);
+.abilities-display-area {
+  @include abs-div(60%, 68%);
   bottom: 0;
+  right: 0;
+  background: $ability-display;
+  display: none;
+  .ability-list-word {
+    @include abs-div(100%, 10%);
+  }
+  .scroll-wrapper {
+    @include rel-div(100%, 90%);
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    .ability-pane {
+      @include rel-div(95%, 35%);
+      right: 0;
+      left: 0;
+      margin: 2.5% auto 2.5% auto;
+      .ability-icon {
+        @include abs-div(15%, 100%);
+        left: 0;
+        img {
+          @include portrait-img(100%, 100%);
+        }
+      }
+      .ability-info {
+        @include abs-div(67%, 100%);
+        display: block;
+        overflow: none;
+        right: 0;
+        left: 0;
+        margin-left: auto;
+        margin-right: auto;
+        background: $grey-fade;
+        .well {
+          margin-bottom: 10px;
+          padding: 2px;
+          font-weight: bold;
+          border: 0px;
+          p {
+            margin-left: 0px;
+            color: white;
+          }
+        }
+        p {
+          text-align: center;
+          color: black;
+        }
+      }
+      .ability-equip {
+        @include abs-div(15%, 100%);
+        right: 0;
+        a {
+          @include abs-div(100%, 100%);
+          img {
+            @include portrait-img(100%, 100%);
+          }
+        }
+      }
+    }
+  }
+}
+////////////////////////////////////////////
+.monster-info-area {
+  @include abs-div(60%, 32%);
+  top: 0;
   right: 0;
   display: none;
   p {
@@ -152,165 +189,104 @@ $distance-between-pane-top-pane-info: 15px;
       background: $grey-fade-hover
     }
   }
-  .info-display-area {
-    @include abs-div(100%, 32%);
-    top: $distance-between-pane-top-pane-info;
+  // .info-display-area {
+  //   @include abs-div(100%, 32%);
+  //   top: 0;
+  //   right: 0;
+  .info-pane {
+    @include abs-div(100%, 74%);
+    bottom: 0;
     right: 0;
-    .info-pane {
-      @include abs-div(100%, 74%);
-      bottom: 0;
-      right: 0;
-      background: $ability-display;
-      .monster-info {
-        @include abs-div(35%, 90%);
-        bottom: 5%;
-        left: 1%;
-        background: $grey-fade;
-        color: black;
-        .monster-portrait {
-          @include abs-div(38%, 92%);
-          right: 0;
-          top: 0;
-          img {
-            @include portrait-img(100%, 100%);
-          }
-        }
-      }
-      .equip1 {
-        @include abs-div(10%, 60%);
-        bottom: 5%;
-        right: 13%;
-        cursor: pointer;
+    background: $ability-display;
+    .monster-info {
+      @include abs-div(35%, 90%);
+      bottom: 5%;
+      left: 1%;
+      background: $grey-fade;
+      color: black;
+      .monster-portrait {
+        @include abs-div(38%, 92%);
+        right: 0;
+        top: 0;
         img {
           @include portrait-img(100%, 100%);
         }
       }
-      .equip2 {
-        @extend .equip1;
-        right: 1%;
+    }
+    .equip1 {
+      @include abs-div(10%, 60%);
+      bottom: 5%;
+      right: 13%;
+      cursor: pointer;
+      img {
+        @include portrait-img(100%, 100%);
       }
     }
-  }
-  .abilities-display-area {
-    @include abs-div(100%, 62%);
-    bottom: 0;
-    right: 0;
-    background: $ability-display;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: 5px;
-    padding-right: 5px;
-    .scroll-wrapper {
-      @include rel-div(100%, 100%);
-      display: block;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      .ability-pane {
-        @include rel-div(90%, 35%);
-        right: 0;
-        left: 0;
-        margin: 2.5% auto 2.5% auto;
-        .ability-icon {
-          @include abs-div(15%, 100%);
-          left: 0;
-          img {
-            @include portrait-img(100%, 100%);
-          }
-        }
-        .ability-info {
-          @include abs-div(67%, 100%);
-          display: block;
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          right: 0;
-          left: 0;
-          margin-left: auto;
-          margin-right: auto;
-          background: $grey-fade;
-          .well {
-            margin-bottom: 10px;
-            padding: 2px;
-            font-weight: bold;
-            border: 0px;
-            p {
-              margin-left: 0px;
-              color: white;
-            }
-          }
-          p {
-            text-align: center;
-            color: black;
-          }
-        }
-        .ability-equip {
-          @include abs-div(15%, 100%);
-          right: 0;
-          img {
-            @include portrait-img(100%, 100%);
-          }
-        }
-      }
+    .equip2 {
+      @extend .equip1;
+      right: 1%;
+      // }
     }
   }
 }
 /////////////////////////////////////
-  .monsters-image-area {
-    @include abs-div(40%, 75%);
-    bottom: 0;
-    left: 0;
-    .monster-title-area {
-      @include abs-div(100%, 15%);
-      top: 0;
-      p {
-        font-family: $home-font;
-        color: azure;
-        font-size: 28px;
-        font-weight: bold;
-        margin-top: 25px;
-        text-align: center;
-        vertical-align: middle;
-      }
+.monsters-image-area {
+  @include abs-div(40%, 70%);
+  bottom: 0;
+  left: 0;
+  .monster-title-area {
+    @include abs-div(100%, 15%);
+    top: 0;
+    p {
+      font-family: $home-font;
+      color: azure;
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 25px;
+      text-align: center;
+      vertical-align: middle;
     }
   }
-    .monsters-image-display {
-      @include abs-div(100%, 80%);
-      bottom: 0;
-      left: 0;
-      padding-left: 6px;
-      overflow-y: scroll;
-    }
-      .monster-thumb {
-        @include rel-div(22%, 22%);
-        background: $grey-fade;
-        border-radius:6px;
-        display:inline-block;
-        cursor:pointer;
-        color:#ffffff;
-        padding:5px 5px;
-        text-decoration:none;
+}
+  .monsters-image-display {
+    @include abs-div(100%, 80%);
+    bottom: 0;
+    left: 0;
+    padding-left: 6px;
+    overflow-y: scroll;
+  }
+    .monster-thumb {
+      @include rel-div(22%, 22%);
+      background: $grey-fade;
+      border-radius:6px;
+      display:inline-block;
+      cursor:pointer;
+      color:#ffffff;
+      padding:5px 5px;
+      text-decoration:none;
+      margin: 5px;
+      float: left;
+      .monThumb {
         margin: 5px;
-        float: left;
-        .monThumb {
-          margin: 5px;
-          position: absolute;
-          @include portrait-img(100%, 100%);
-        }
-        .fa {
-          color: black;
-          position: absolute;
-          margin-right: 10px;
-          margin-top: 5px;
-          right: 0;
-          top: 0;
-        }
-        .fa:hover {
-          background:red;
-        }
+        position: absolute;
+        @include portrait-img(100%, 100%);
       }
-      .monster-thumb:hover {
-        background: $grey-fade-hover;
-        text-decoration:none;
+      .fa {
+        color: black;
+        position: absolute;
+        margin-right: 10px;
+        margin-top: 5px;
+        right: 0;
+        top: 0;
       }
+      .fa:hover {
+        background:red;
+      }
+    }
+    .monster-thumb:hover {
+      background: $grey-fade-hover;
+      text-decoration:none;
+    }
 
 #topcontrol {
   bottom: -10px !important;

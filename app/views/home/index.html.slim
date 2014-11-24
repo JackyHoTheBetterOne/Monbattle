@@ -5,17 +5,20 @@
         p Party Members
       .party-pane
         =render partial: "mon_party_img"
-      / .start-battle
-      /   =render partial: "battle_start"
-
-    -@user.monster_unlocks.each do |mon|
-      .monster-info-area id="#{dom_id(mon)}-info-pane"
-        =render partial: "monster_display", locals: {mon: mon}
-
     .monsters-image-area
       .monster-title-area
         p Monster Box
       .monsters-image-display
         =render partial: "mon_image_display"
+    .abilities-display-area
+      .ability-list
+        p Abilities List
+      .scroll-wrapper
+        -@abilities.each do |ability|
+          =render partial: "ability", locals: {ability: ability}
+    -@monster_unlocks.each do |mon|
+      .monster-info-area id="#{dom_id(mon)}-info-pane"
+        =render partial: "monster_display", locals: {mon: mon}
+
 -else
   = render partial: "no_user"

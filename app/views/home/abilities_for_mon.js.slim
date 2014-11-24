@@ -1,0 +1,20 @@
+| $(".monster-info-area").hide();
+| $("##{dom_id(@mon)}-info-pane").show("slide", { direction: "left" }, 300 );
+| $(".abilities-display-area").show();
+
+| $(".ability-pane").hide();
+-@abilities.each do |ability|
+  | $("##{dom_id(ability)}").show();
+  | $("##{dom_id(ability)} .ability-equip").hide();
+
+  -available = @ability_purchases.not_equipped(ability)
+  -available_count = available.count
+  -case
+    -when @mon.abil_in_sock(@socket, ability)
+      | $("##{dom_id(ability)}-equipped").show();
+    -when available_count < 1
+      | $("##{dom_id(ability)}-none").show();
+    -when available_count >= 1
+      | $("##{dom_id(ability)}-equip").show();
+    -else
+      ="Error"

@@ -15,10 +15,12 @@
       .monster-portrait
         =image_tag mon.mon_portrait(@user), class: "portrait"
     .equip1.shadowed2 id="#{dom_id(mon)}-socket1-info"
-      =render partial: "home/abil_portrait", locals: {socket_num: 1, mon: mon}
+      ="abil in Sock"
+      / =render partial: "home/abil_portrait", locals: {socket_num: 1, mon: mon}
     .equip2.shadowed2 id="#{dom_id(mon)}-socket2-info"
-      =render partial: "home/abil_portrait", locals: {socket_num: 2, mon: mon}
-.abilities-display-area.shadowed1 id="#{dom_id(mon)}-socket1"
-  =render partial: "/home/abilities_display_area", locals: {socket_num: 1, mon: mon}
-.abilities-display-area.shadowed1 id="#{dom_id(mon)}-socket2"
-  =render partial: "/home/abilities_display_area", locals: {socket_num: 2, mon: mon}
+      ="abil in Sock"
+      / =render partial: "home/abil_portrait", locals: {socket_num: 2, mon: mon}
+/ .abilities-display-area.shadowed1 id="#{dom_id(mon)}-socket1"
+/   =render partial: "/home/abilities_display_area", locals: {socket_num: 1, mon: mon}
+/ .abilities-display-area.shadowed1 id="#{dom_id(mon)}-socket2"
+/   =render partial: "/home/abilities_display_area", locals: {socket_num: 2, mon: mon}
