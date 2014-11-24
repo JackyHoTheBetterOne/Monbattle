@@ -24,6 +24,9 @@ class CutScenesController < ApplicationController
     authorize @cut_scene
     @cut_scene.update_attributes(cut_scene_params)
     @cut_scene.save
+    respond_to do |format|
+      format.js
+    end
   end
 
   def destroy
