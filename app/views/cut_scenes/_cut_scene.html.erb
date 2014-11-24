@@ -3,6 +3,8 @@
     <%= cut_scene.name %> - <%= cut_scene.chapter.name if cut_scene.chapter %> - 
     <%= cut_scene.chapter.arc.name if cut_scene.chapter.arc %>
     <br />
+    Level assigned: <%= cut_scene.battle_level.name %>
+    <br />
     Order: <%= cut_scene.order %>
     <br />
     Starting: <%= cut_scene.to_start %>
