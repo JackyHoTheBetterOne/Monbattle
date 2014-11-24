@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141118002503) do
+ActiveRecord::Schema.define(version: 20141119195528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "abil_sockets", force: true do |t|
     t.integer  "socket_num"
@@ -119,6 +120,7 @@ ActiveRecord::Schema.define(version: 20141118002503) do
     t.string   "victor"
     t.string   "loser"
     t.string   "aasm_state"
+    t.date     "updated_on"
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
@@ -430,6 +432,10 @@ ActiveRecord::Schema.define(version: 20141118002503) do
     t.integer  "current_lvl",       default: 1
     t.integer  "current_exp",       default: 0
     t.integer  "vortex_key",        default: 0
+    t.integer  "wins"
+    t.integer  "losses"
+    t.hstore   "starting_status"
+    t.hstore   "ending_status"
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree
@@ -464,7 +470,6 @@ ActiveRecord::Schema.define(version: 20141118002503) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "user_name"
-    t.integer  "rank"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "admin",                  default: false
