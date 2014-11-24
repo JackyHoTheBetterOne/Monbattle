@@ -582,13 +582,13 @@ window.removeEffectIcon = (monster, effect) ->
   $("." + monster.team + " " + ".mon" + monster.index + " " + "." + effect.targeta).fadeOut(300).trigger("mouseleave").remove()
 
 
-window.battleStartDisplay = ->
+window.battleStartDisplay = (time) ->
   $(".message").css("opacity", "0")
   setTimeout (->
     $("#overlay").fadeOut 500, ->
       $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
       return
-    ), 1000
+    ), time
   setTimeout (->
     $("#battle-tutorial").joyride({'tipLocation': 'top'})
     $("#battle-tutorial").joyride({})
@@ -596,9 +596,6 @@ window.battleStartDisplay = ->
     $(".user .img").each ->
       $(this).effect("bounce", {distance: 80, times: 5}, 1500)
   ), 2500
-
-
-
 
 ################################################################################################### Display function-calling helpers
 window.singleTargetAbilityAfterClickDisplay = (ability) ->
@@ -1123,23 +1120,11 @@ $ ->
         nextSceneInitial()
       else 
         $(document).off "click.cutscene", "#overlay"
-
+        battleStartDisplay()
       $(document).on "click.cutscene", "#overlay", ->
         if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1]
           endCutScene()
-          $(".message").css("opacity", "0")
-          setTimeout (->
-            $("#overlay").fadeOut 500, ->
-              $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
-              return
-            ), 1000
-          setTimeout (->
-            $("#battle-tutorial").joyride({'tipLocation': 'top'})
-            $("#battle-tutorial").joyride({})
-            toggleImg()
-            $(".user .img").each ->
-              $(this).effect("bounce", {distance: 80, times: 5}, 1500)
-          ), 2500
+          battleStartDisplay()
         else 
           new_index = battle.start_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
           window.new_scene = battle.start_cut_scenes[new_index]
