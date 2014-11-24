@@ -21,7 +21,7 @@
   </div>
   <div class="panel-footer">
     <div id="<%= dom_id(cut_scene) %>-edit" class="panel-collapse collapse">
-      <%= render partial: "form", locals: {cut_scene: cut_scene} %>
+      <%= render partial: "form", locals: {cut_scene: cut_scene, method: :patch} %>
     </div>
   </div>
 </div>
