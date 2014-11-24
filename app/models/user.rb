@@ -39,14 +39,6 @@ class User < ActiveRecord::Base
     end
   }
 
-  def battles
-    self.parties[0].fights.each do |f|
-      battles = []
-      battles << f.battle
-      return battles  
-    end
-  end
-
   def can_add_to_party?(mon_unlock)
     if self.members.count == 0 || self.members.count < 4 && self.members.where(monster_unlock_id: mon_unlock).empty?
       return true
@@ -87,7 +79,8 @@ class User < ActiveRecord::Base
   private
 
   def create_summoner
-    Summoner.create(user_id: self.id, name: self.user_name, vortex_key: 25, gp: 100, mp: 100)
+    Summoner.create(user_id: self.id, name: self.user_name, vortex_key: 25, gp: 100, mp: 100,
+                     completed_daily_quests: [], completed_weekly_quests: [], completed_quests: [])
   end
 
   def create_party

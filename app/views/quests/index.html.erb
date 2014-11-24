@@ -1,0 +1,14 @@
+<div class="jumbotron">
+  <h1>Quests are forged here</h1>
+  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default quest-form-unfold">
+    Quest form
+  </a>
+  <p></p>
+  <div id="collapseOne" class="panel-collapse collapse">
+    <%= render partial: "form", locals: {quest: @quest} %>
+  </div>
+  <p></p>
+</div>
+<div class="quests">
+  <%= render @quests %>
+</div>

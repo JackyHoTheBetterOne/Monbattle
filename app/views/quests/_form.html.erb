@@ -1,0 +1,18 @@
+<%= simple_form_for(quest, remote: true) do |f| %>
+  <%= f.input :name %>
+  <%= f.input :description, input_html: {rows: "3"} %>
+  <%= f.association :quest_type %>
+  <%= f.input :is_active %>
+  <%= f.input :requirement %>
+  <%= f.input :stat %>
+  <%= f.input :stat_requirement %>
+  <%= f.association :reward_category %>
+  <%= f.input :reward_amount %>
+  <%= f.input :bonus %>
+  <%= f.input :end_date %>
+  <%= f.input :refresh_date %>
+  <%= f.label :icon %>
+  <%= f.file_field :icon %>
+  <p></p>
+  <%= f.button :submit %>
+<% end %>
