@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141121001317) do
+ActiveRecord::Schema.define(version: 20141123223009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -410,6 +410,11 @@ ActiveRecord::Schema.define(version: 20141121001317) do
     t.datetime "updated_at"
     t.integer  "quest_type_id"
     t.integer  "reward_category_id"
+    t.text     "keywords"
+    t.string   "icon_file_name"
+    t.string   "icon_content_type"
+    t.integer  "icon_file_size"
+    t.datetime "icon_updated_at"
   end
 
   add_index "quests", ["quest_type_id"], name: "index_quests_on_quest_type_id", using: :btree

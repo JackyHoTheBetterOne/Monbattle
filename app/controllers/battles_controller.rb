@@ -14,14 +14,12 @@ class BattlesController < ApplicationController
       @monsters = @user.parties.first.monster_unlocks
     end
     respond_to do |format|
-      # format.html {render :layout => "facebook_landing" if current_user.admin == false}
       format.html {render :layout => "facebook_landing"}
       format.js
     end
   end
 
   def create
-    # render text: params.to_s
     @battle = Battle.new battle_params
     @user = current_user
     if @battle.save

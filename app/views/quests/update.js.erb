@@ -1,0 +1,7 @@
+<% if @quest.save %>
+  $("<%= dom_id(@quest) %>-edit").click()
+  $("div#<%= dom_id(@quest) %>").html("<%= j render @quest %>").effect("highlight");
+  $('body').scrollTo('#<%= dom_id(@quest) %>');
+<% else %>
+  $("#<%= dom_id(@quest) %>-edit").effect("highlight", {color: "red"});
+<% end %>

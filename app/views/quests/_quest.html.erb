@@ -4,6 +4,8 @@
   </div>
   <div class="panel-body">
     <%= quest.description %>
+    <br />
+    <%= image_tag(quest.icon.url(:medium)) %>
   </div>
   <div class="panel-body">
     Stat requirement- <%= quest.stat %> : <%= quest.requirement %>
@@ -13,8 +15,19 @@
     Amount: <%= quest.reward_amount %>, Bonus: <%= quest.bonus %>
   </div>
   <div class="panel-footer">
-    End: <%= quest.end_date.in_time_zone("Pacific Time (US & Canada)") %>
+    End: <%= dateTime(quest.end_date.in_time_zone("Pacific Time (US & Canada)")) %>
     <br />
-    Refresh: <%= quest.refresh_date.in_time_zone("Pacific Time (US & Canada)") %>
+    Refresh: <%= dateTime(quest.refresh_date.in_time_zone("Pacific Time (US & Canada)")) %>
+  </div>
+  <div class="panel-footer">
+    <a data-toggle="collapse" data-parent="#accordion" href="#<%= dom_id(quest) %>-edit" class="btn btn-default <%= dom_id(quest) %>-edit">
+      Edit
+    </a>
+    <%= link_to "Destroy", quest, method: :delete, remote: true, class: "btn btn-danger" %>
+  </div>
+  <div class="panel-footer">
+    <div id="<%= dom_id(quest) %>-edit" class="panel-collapse collapse">
+      <%= render partial: "form", locals: { quest: quest} %>
+    </div>
   </div>
 </div>

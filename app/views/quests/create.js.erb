@@ -1,0 +1,11 @@
+<% if @quest.new_record? %>
+  $(".new_quest").effect("highlight", {color: "red"});
+<% else %>
+  $(".new_quest")[0].reset();
+  $(".quest-form-unfold").click();
+  $(".quests").prepend("<%= j render @quest %>");
+  $("div#<%= dom_id(@quest) %>").effect("highlight");
+  setTimeout((function() {
+    return $('body').scrollTo('#<%= dom_id(@quest) %>');
+  }), 500);
+<% end %>
