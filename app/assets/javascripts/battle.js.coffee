@@ -43,17 +43,17 @@ window.fixEvolMon = (monster, player) ->
         if monTarget.isAlive()
           if a.targeta is "cleanseally" or a.targeta is "aoecleanse"
             ii = 0 
-            while ii < monTarget.fucking_up.length
-              e = monTarget.fucking_up[ii]
-              delete monTarget.fucking_up(ii)  if e.impact.indexOf("-") isnt -1
+            while ii < monTarget.poisoned.length
+              e = monTarget.poisoned[ii]
+              delete monTarget.poisoned(ii)  if e.impact.indexOf("-") isnt -1
               removeEffectIcon(monTarget, e) 
               ii++
-            iii = 0
-            while iii < monTarget.fucked_up.length
-              e = monTarget.fucked_up[iii]
-              delete monTarget.fucked_up[iii] if e.restore.indexOf("+") isnt -1
+            i3 = 0
+            while i3 < monTarget.weakened.length
+              e = monTarget.weakened[i3]
+              delete monTarget.weakened[i3] if e.restore.indexOf("+") isnt -1
               removeEffectIcon(monTarget, e)
-              iii++
+              i3++
             if a.modifier isnt ""
               window["change" + index] = a.change
               monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
@@ -192,7 +192,7 @@ window.fixEvolMon = (monster, player) ->
             checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             if monTarget.isAlive()
-              findObjectInArray(monTarget.fucking_up, "targeta", e.targeta)
+              findObjectInArray(monTarget.poisoned, "targeta", e.targeta)
               if usefulArray.length is 0
                 status = {}
                 status["name"] = e.name
@@ -201,7 +201,7 @@ window.fixEvolMon = (monster, player) ->
                 status["change"] = e.change
                 status["targeta"] = e.targeta
                 status["end"] = battle.round + e.duration
-                monTarget.fucking_up.push(status)
+                monTarget.poisoned.push(status)
                 addEffectIcon(monTarget, e)
               else
                 old_effect = usefulArray[0]
@@ -215,7 +215,7 @@ window.fixEvolMon = (monster, player) ->
         else if e.targeta.indexOf("timed") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
-            findObjectInArray(monTarget.fucked_up, "targeta", e.targeta)
+            findObjectInArray(monTarget.weakened, "targeta", e.targeta)
             if monTarget.isAlive()
               if usefulArray.length is 0
                 monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
@@ -225,7 +225,7 @@ window.fixEvolMon = (monster, player) ->
                 status["restore"] = e.restore
                 status["end"] = battle.round + e.duration
                 status["targeta"] = e.targeta
-                monTarget.fucked_up.push(status)
+                monTarget.weakened.push(status)
                 addEffectIcon(monTarget, e)
               else 
                 old_effect = usefulArray[0]
@@ -506,7 +506,7 @@ window.outcome = ->
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $(".message").text("You lost, but here's " + battle.reward*0.1 + " MP because we pity you, not. Try harder next time!").
-      append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>")
+      append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>").css("opacity", 1)
     $("#overlay").fadeIn(1000)
     $.ajax
       url: "/battles/" + battle.id
@@ -528,13 +528,20 @@ window.outcome = ->
         "loser": battle.players[1].username,
         "round_taken": parseInt(battle.round)
       }
-    $(".cutscene").attr("src", battle.end_cut_scenes[0])
-    $(".cutscene").css("opacity", "1")
-    $("#overlay").fadeIn(1000)
-    nextSceneInitial()
+    if battle.end_cut_scenes.length isnt 0
+      $(".cutscene").attr("src", battle.end_cut_scenes[0])
+      $(".cutscene").css("opacity", "1")
+      $("#overlay").fadeIn(1000)
+      nextSceneInitial()
+    else 
+      $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
+        append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
+      $(".message").css("opacity", "1")
+      $(".message").promise().done ->
+        $("#overlay").fadeIn(1000)
+      $(document).off "click.cutscene", "#overlay"
     $(document).on "click.cutscene", "#overlay", ->
-      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] ||
-          battle.end_cut_scenes.length is 0
+      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
         $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
           append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
         $(".cutscene").hide(500)
@@ -666,7 +673,7 @@ window.nextScene = ->
   $(".next-scene").css("opacity", "0")
   setTimeout (->
     $(".cutscene").attr("src", new_scene)
-  ), 400
+  ), 300
   setTimeout (->
     $(".cutscene").css("opacity", "1")
   ), 800
@@ -764,15 +771,15 @@ window.roundEffectHappening = (team) ->
         if battle.round is mon.taunted.end || battle.players[0].mons[mon.taunted.target].hp <= 0
           removeEffectIcon(mon, mon.taunted)
           mon.taunted.target = undefined
-      if mon.fucking_up.length isnt 0
+      if mon.poisoned.length isnt 0
         ii = 0 
-        nn = mon.fucking_up.length
+        nn = mon.poisoned.length
         while ii < nn
-          e = mon.fucking_up[ii]
+          e = mon.poisoned[ii]
           if typeof e isnt "undefined"
             if battle.round is e.end
               removeEffectIcon(mon, e)
-              delete mon.fucking_up[ii]
+              delete mon.poisoned[ii]
             else
               mon[e.stat] = eval(mon[e.stat] + e.impact)
               checkMin()
@@ -781,27 +788,27 @@ window.roundEffectHappening = (team) ->
             if e.targeta.indexOf("poison") isnt -1
               mon.shield.true_damage += parseInt(e.change)
           ii++
-      if mon.fucked_up.length isnt 0
-        iii = 0 
-        nnn = mon.fucked_up.length
-        while iii < nnn 
-          e = mon.fucked_up[iii]
+      if mon.weakened.length isnt 0
+        i3 = 0 
+        n3 = mon.weakened.length
+        while i3 < n3 
+          e = mon.weakened[i3]
           if typeof e isnt "undefined"
             if battle.round is e.end
               mon[e.stat] = eval(mon[e.stat] + e.restore)
               removeEffectIcon(mon, e)
-              delete mon.fucked_up[iii]
-          iii++
+              delete mon.weakened[i3]
+          i3++
       if mon.cursed.length isnt 0 
-        iiii = 0
-        nnnn = mon.cursed.length
-        while iiii < nnnn
-          e = mon.cursed[iiii]
+        i4 = 0
+        n4 = mon.cursed.length
+        while i4 < n4
+          e = mon.cursed[i4]
           if typeof e isnt "undefined"
             if battle.round is e.end
               removeEffectIcon(mon, e)
-              delete mon.cursed[iiii]
-          iiii++
+              delete mon.cursed[weakened]
+          i4++
     i++
 
 
@@ -1120,6 +1127,7 @@ $ ->
       else 
         $(document).off "click.cutscene", "#overlay"
         battleStartDisplay(500)
+        toggleImg()
       $(document).on "click.cutscene", "#overlay", ->
         if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1]
           endCutScene()
@@ -1184,8 +1192,8 @@ $ ->
           new_mon = battle.players[playerIndex].mons[monIndex]
           new_mon.phy_resist = old_mon.phy_resist
           new_mon.spe_resist = old_mon.spe_resist
-          new_mon.fucking_up = old_mon.fucking_up
-          new_mon.fucked_up = old_mon.fucked_up
+          new_mon.poisoned = old_mon.poisoned
+          new_mon.weakened = old_mon.weakened
           new_mon.taunted = old_mon.taunted
           new_mon.shield = old_mon.shield
           new_mon.cursed = old_mon.cursed
@@ -1221,8 +1229,8 @@ $ ->
           monster.shield = 0
           monster.phy_resist = 0
           monster.spe_resist = 0
-          monster.fucking_up = []
-          monster.fucked_up = []
+          monster.poisoned = []
+          monster.weakened = []
           monster.cursed = []
           monster.taunted = {}
           monster.shield = {}
