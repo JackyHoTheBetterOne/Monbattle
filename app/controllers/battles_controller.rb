@@ -2,11 +2,6 @@ class BattlesController < ApplicationController
   before_action :find_battle, except: [:create, :index, :new, :generate_field]
   impressionist :unique => [:controller_name, :action_name, :session_hash]
 
-  def index
-    @battles = policy_scope(Battle.all)
-    @fights = Fight.all
-  end
-
   def new
     @battle = Battle.new
     @user = current_user

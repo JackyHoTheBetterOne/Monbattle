@@ -1,6 +1,12 @@
 class BattleLevelsController < ApplicationController
-  # before_action :authenticate_user!
-  before_action :find_battle_level, except: [:create]
+  before_action :find_battle_level, except: [:index, :create]
+
+  def index
+    @battle_level = BattleLevel.new
+    @battle_levels = policy_scope(BattleLevel.all)
+    @region = Region.new
+    @region.areas.build
+  end
 
   def create
     @battle_level = BattleLevel.new battle_level_params
@@ -19,9 +25,6 @@ class BattleLevelsController < ApplicationController
     else
       redirect_to parties_path, notice: "Failure"
     end
-  end
-
-  def edit
   end
 
   def update

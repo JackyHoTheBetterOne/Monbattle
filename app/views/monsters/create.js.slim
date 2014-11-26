@@ -1,5 +1,3 @@
-/ | $(document).ready (function() {
-
 -if @monster.errors.any?
   | $(".monster-form").html("#{j render (@monster.evolved_from.blank? ? "/monsters/form" : "monsters/evolved_form") }")
 
@@ -9,5 +7,3 @@
   | $('body').scrollTo('#<%= dom_id(@monster) %>');
   | $(".new_monster .form-group").val("");
   -@monster = Monster.new
-
-/ | });

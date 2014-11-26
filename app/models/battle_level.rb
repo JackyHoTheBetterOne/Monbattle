@@ -1,16 +1,19 @@
 class BattleLevel < ActiveRecord::Base
   has_many :battles
-  
-  validates :name, presence: {message: 'Must be entered'}, uniqueness: :true
+  belongs_to :area
+  belongs_to :unlock, class_name: "BattleLevel"
+
+  validates :name, presence: {message: 'Must be entered'}, uniqueness: true
 
   has_attached_file :background, :styles => { :cool => "960x600>", :thumb => "100x100>" }
   validates_attachment_content_type :background, :content_type => /\Aimage\/.*\Z/
 
-  has_many :cut_scenes
+  has_many :cut_scenes, dependent: :destroy
   has_many :monster_assignments
   has_many :monsters, through: :monster_assignments
 
   after_destroy :delete_party
+  before_save :set_keywords
 
   def start_cut_scenes
     array = []
@@ -28,9 +31,31 @@ class BattleLevel < ActiveRecord::Base
     return array
   end
 
+  def area_name
+    if self.area
+      self.area.name
+    else
+      ""
+    end
+  end
+
+  def region_name
+    if self.area
+      if self.area.region
+        self.area.region.name
+      else
+        ""
+      end
+    else
+      ""
+    end
+  end
   private
   def delete_party
     Party.where("user_id = 2").where(name: self.name).destroy_all
   end
 
+  def set_keywords
+    self.keywords = [name, self.area_name, self.region_name].map(&:downcase).join(" ")
+  end
 end

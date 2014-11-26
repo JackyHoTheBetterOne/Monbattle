@@ -610,7 +610,6 @@ window.singleTargetAbilityAfterClickDisplay = (ability) ->
   $(document).off "click.cancel", ".cancel"
   $(".user .img").removeClass("controlling")
   $(".battle-guide").hide()
-  disable(ability)
 
 window.singleTargetAbilityAfterActionDisplay = ->
   apChange()
