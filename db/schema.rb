@@ -404,8 +404,8 @@ ActiveRecord::Schema.define(version: 20141124053355) do
     t.boolean  "is_active",          default: true
     t.string   "bonus"
     t.integer  "reward_amount"
-    t.datetime "end_date",           default: '2015-11-20 20:00:42'
-    t.datetime "refresh_date",       default: '2015-11-20 20:00:42'
+    t.datetime "end_date",           default: '2015-11-24 06:45:56'
+    t.datetime "refresh_date",       default: '2015-11-24 06:45:56'
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "quest_type_id"
