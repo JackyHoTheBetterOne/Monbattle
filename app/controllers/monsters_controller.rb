@@ -58,13 +58,13 @@ class MonstersController < ApplicationController
     end
   end
 
-  # def show
-  #   if current_user.admin
-  #     respond_to do |format|
-  #       format.json {render json: @monster}
-  #     end
-  #   end
-  # end
+  def show
+    if current_user.admin
+      respond_to do |format|
+        format.json {render json: @monster}
+      end
+    end
+  end
 
   private
 

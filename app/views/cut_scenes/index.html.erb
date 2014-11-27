@@ -1,12 +1,12 @@
 <div class="jumbotron">
-  <h1>This is where the story is made</h1>
+  <h1>This is where the story is made!</h1>
   <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default cut-scene-form-unfold">
     Cut-scene form
   </a>
   <p></p>
   <div id="collapseOne" class="panel-collapse collapse">
-    <%= simple_form_for(@cut_scene, remote: true) do |f| %>
-      <%= render partial: "form", locals: {f: f}%>
+    <%= simple_form_for(@cut_scene, remote: true, method: :post) do |f| %>
+      <%= render partial: "form", locals: {f: f} %>
     <% end %>
   </div>
   <p></p>

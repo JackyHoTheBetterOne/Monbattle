@@ -1,0 +1,13 @@
+<%= f.input :name %>
+<%= f.label :map %>
+<%= f.file_field :map %>
+<br/>
+<h3>Areas</h3>
+<%= f.simple_fields_for :areas do |a| %>
+  <%= a.input :name %>
+  <%= a.link_to_remove "Remove this area" %>
+  <p></p>
+<% end %>
+<%= f.link_to_add "Add an area", :areas %>
+<br />
+<%= f.button :submit %>

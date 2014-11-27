@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   
 resources :notices
 
+resources :areas
+
+resources :regions
+
 resources :quests
 
 resources :cut_scenes

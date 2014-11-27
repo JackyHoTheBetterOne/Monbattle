@@ -1,0 +1,19 @@
+<div class="jumbotron">
+  <h1>Areas and Regions are forged here!</h1>
+  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default level-form-unfold">
+    Area/Region form
+  </a>
+  <p></p>
+  <div id="collapseOne" class="panel-collapse collapse">
+    <%= simple_nested_form_for(@region) do |f| %>
+      <%= render partial: "form", locals: {f: f} %>
+    <% end %>
+  </div>
+  <p></p>
+</div>
+
+<div class="regions">
+  <%= render @regions %>
+</div>
+
+

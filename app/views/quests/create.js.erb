@@ -4,8 +4,8 @@
   $(".new_quest")[0].reset();
   $(".quest-form-unfold").click();
   $(".quests").prepend("<%= j render @quest %>");
-  $("div#<%= dom_id(@quest) %>").effect("highlight");
   setTimeout((function() {
-    return $('body').scrollTo('#<%= dom_id(@quest) %>');
+    $('body').scrollTo('#<%= dom_id(@quest) %>');
+    $("div#<%= dom_id(@quest) %>").effect("highlight");
   }), 500);
 <% end %>

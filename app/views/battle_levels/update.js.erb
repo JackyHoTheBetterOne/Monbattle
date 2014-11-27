@@ -1,0 +1,15 @@
+<% if @battle_level.save %>
+  $(".modal-header button span").trigger("click");
+  setTimeout((function() {
+    $("#<%= dom_id(@battle_level) %>").remove();
+  }), 250);
+  setTimeout((function() {
+    $(".battle_levels").prepend("<%= j render @battle_level %>");
+  }), 350);
+  setTimeout((function() {
+    $("#<%= dom_id(@battle_level) %>").effect("highlight");
+    $('body').scrollTo('#<%= dom_id(@battle_level) %>');
+  }), 500);
+<% else %>
+  $("#edit_battle_level").effect("highlight", {color: "red"});
+<% end %>

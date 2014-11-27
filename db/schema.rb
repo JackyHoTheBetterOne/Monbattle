@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141124053355) do
+ActiveRecord::Schema.define(version: 20141125213315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,17 @@ ActiveRecord::Schema.define(version: 20141124053355) do
     t.datetime "updated_at"
   end
 
+  create_table "areas", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "unlock_id"
+    t.integer  "region_id"
+    t.text     "keywords"
+  end
+
+  add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
+
   create_table "battle_levels", force: true do |t|
     t.integer  "exp_given"
     t.datetime "created_at"
@@ -106,7 +117,12 @@ ActiveRecord::Schema.define(version: 20141124053355) do
     t.integer  "mp_reward",               default: 0
     t.integer  "gp_reward",               default: 0
     t.integer  "vk_reward",               default: 0
+    t.integer  "unlock_id"
+    t.integer  "area_id"
+    t.text     "keywords"
   end
+
+  add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
 
   create_table "battles", force: true do |t|
     t.string   "outcome"
@@ -425,6 +441,17 @@ ActiveRecord::Schema.define(version: 20141124053355) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "regions", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "unlock_id"
+    t.string   "map_file_name"
+    t.string   "map_content_type"
+    t.integer  "map_file_size"
+    t.datetime "map_updated_at"
   end
 
   create_table "reward_categories", force: true do |t|

@@ -11,7 +11,6 @@ class PartiesController < ApplicationController
   end
 
   def create
-    # render text: params.to_s
     @party = Party.new party_params
     if @party.save
       if @party.isNPC
@@ -28,7 +27,6 @@ class PartiesController < ApplicationController
   end
 
   def show
-    # render text: params.to_s
     @member = Member.new
     @ability_equipping = AbilityEquipping.new
   end
