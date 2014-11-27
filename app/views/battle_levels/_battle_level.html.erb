@@ -1,0 +1,33 @@
+<tr id="<%= dom_id(battle_level) %>">
+  <td><%= battle_level.id %></td>
+  <td><%= battle_level.name %></td>
+  <td><%= battle_level.mp_reward %></td>
+  <td><%= battle_level.gp_reward %></td>
+  <td><%= battle_level.exp_given %></td>
+  <td><%= battle_level.area_name %></td>
+  <td><%= battle_level.region_name %></td>
+  <td><%= image_tag(battle_level.background.url(:thumb)) %></td>
+  <td><%= battle_level.unlock.name if battle_level.unlock %></td>
+  <td> 
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit_<%= dom_id(battle_level) %>">
+      Edit
+    </button>
+    <div class="modal fade" id="edit_<%= dom_id(battle_level) %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Edit <%= battle_level.name %></h4>
+          </div>
+          <div class="modal-body">
+            <%= simple_form_for(battle_level, remote: true, method: :patch) do |f| %>
+              <%= render partial: "form", locals: {f: f} %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%= link_to "Destroy", battle_level, method: :delete, remote: true, class: "btn btn-danger" %> 
+  </td>
+</tr>
+

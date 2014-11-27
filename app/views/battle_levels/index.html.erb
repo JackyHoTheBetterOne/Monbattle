@@ -1,0 +1,40 @@
+<div class="jumbotron">
+  <h1>Battle levels are forged here!</h1>
+  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default level-form-unfold">
+    Battle level form
+  </a>
+  <p></p>
+  <div id="collapseOne" class="panel-collapse collapse">
+    <%= simple_form_for(@battle_level, remote: true, method: :post) do |f| %>
+      <%= render partial: "form", locals: {f: f} %>
+    <% end %>
+  </div>
+  <p></p>
+</div>
+<div>
+  <%= form_tag battle_levels_path, :method => "get", remote: true %>
+  <%= text_field_tag :keyword, params[:keyword] %>
+  <%= submit_tag "Search like a bitch", class: "btn btn-default" %>
+</div>
+<p></p>
+<div>
+  <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>mp_reward</th>
+          <th>gp_reward</th>
+          <th>exp_given</th>
+          <th>Area</th>
+          <th>Region</th>
+          <th>Background</th>
+          <th>Unlock</th>
+        </tr>
+      </thead>
+      <tbody class="battle_levels">
+        <%= render @battle_levels %>
+      </tbody>
+    </table>
+</div>
+

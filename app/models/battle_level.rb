@@ -15,6 +15,12 @@ class BattleLevel < ActiveRecord::Base
   after_destroy :delete_party
   before_save :set_keywords
 
+  scope :search, -> (keyword) {
+    if keyword.present?
+      where("keywords LIKE ?", "%#{keyword.downcase}%")
+    end
+  }
+
   def start_cut_scenes
     array = []
     self.cut_scenes.where("cut_scenes.to_start is true").order("cut_scenes.order ASC").each do |c|
@@ -50,6 +56,7 @@ class BattleLevel < ActiveRecord::Base
       ""
     end
   end
+  
   private
   def delete_party
     Party.where("user_id = 2").where(name: self.name).destroy_all

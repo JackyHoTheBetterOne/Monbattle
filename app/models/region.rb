@@ -4,7 +4,7 @@ class Region < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true
 
-  accepts_nested_attributes_for :areas, :allow_destroy => true
+  accepts_nested_attributes_for :areas, :allow_destroy => true, :reject_if => lambda { |a| a[:name].blank? }
 
   has_attached_file :map, :styles => { :cool => "600x400>", :thumb => "100x100>" }
   validates_attachment_content_type :map, :content_type => /\Aimage\/.*\Z/

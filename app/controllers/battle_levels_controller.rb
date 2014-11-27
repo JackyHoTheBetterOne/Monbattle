@@ -3,45 +3,35 @@ class BattleLevelsController < ApplicationController
 
   def index
     @battle_level = BattleLevel.new
-    @battle_levels = policy_scope(BattleLevel.all)
-    @region = Region.new
-    @region.areas.build
+    @battle_levels = policy_scope(BattleLevel.search(params[:keyword]))
   end
 
   def create
     @battle_level = BattleLevel.new battle_level_params
     authorize @battle_level
-    if @battle_level.save
-      redirect_to parties_path, notice: "Battle Level Created"
-    else
-      render :new
-    end
+    @battle_level.save
   end
 
   def destroy
     authorize @battle_level
-    if @battle_level.destroy
-      redirect_to parties_path, notice: "Battle Level Removed"
-    else
-      redirect_to parties_path, notice: "Failure"
-    end
+    @battle_level.destroy
   end
 
   def update
     authorize @battle_level
     @battle_level.update_attributes(battle_level_params)
     if @battle_level.save
-      redirect_to parties_path, notice: "Success!"
-    else
-      render :new
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
 private
 
   def battle_level_params
-    params.require(:battle_level).permit(:name, :item_given, :exp_given, :background, :gp_reward, :mp_reward, :vk_reward,
-                                         :start_cutscene, :end_cutscene)
+    params.require(:battle_level).permit(:name, :background, :exp_given, :gp_reward, :mp_reward,
+                                          :unlock_id, :area_id)
   end
 
   def find_battle_level

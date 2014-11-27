@@ -1,0 +1,11 @@
+<% if @battle_level.new_record? %>
+  $(".new_battle_level").effect("highlight", {color: "red"});
+<% else %>
+  $(".new_battle_level")[0].reset();
+  $(".level-form-unfold").click();
+  $(".battle_levels").prepend("<%= j render @battle_level %>");
+  setTimeout((function() {
+    $('body').scrollTo('#<%= dom_id(@battle_level) %>');
+    $("#<%= dom_id(@battle_level) %>").effect("highlight", 1000);
+  }), 500);
+<% end %>

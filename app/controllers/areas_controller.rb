@@ -1,5 +1,5 @@
 class AreasController < ApplicationController
-  before_action :find_area, except: [:create]
+  before_action :find_area, except: [:create, :index]
 
   def create
     @area = Area.new area_params
@@ -16,7 +16,7 @@ class AreasController < ApplicationController
 
   def update
     authorize @area
-    @area.update_attributes(battle_level_params)
+    @area.update_attributes(area_params)
     @area.save
     render nothing: true
   end

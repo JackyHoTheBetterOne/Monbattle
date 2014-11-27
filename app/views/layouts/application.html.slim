@@ -7,10 +7,7 @@ html
     = csrf_meta_tags
   body
     .main-content
-      -if params[:controller] == 'home'
-        / =render partial: "nav_bars/user"
-      -else
-        =render partial: "nav_bars/admin"
+      =render partial: "layouts/admin"
       -if flash[:notice]
         div class='alert alert-success'
           =flash[:notice]

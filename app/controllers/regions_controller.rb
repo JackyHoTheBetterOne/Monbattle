@@ -1,9 +1,11 @@
 class RegionsController < ApplicationController
   # before_action :authenticate_user!
-  before_action :find_area, except: [:create]
+  before_action :find_area, except: [:index, :create]
 
   def index
-    @regions = policy_scope(Region.all)
+    @areas = Area.all
+    @regions = Region.all
+    @region = Region.new
   end
 
   def create
@@ -11,26 +13,26 @@ class RegionsController < ApplicationController
     authorize @region
     @region.save
     p @region.errors.full_messages
-    render nothing: true
+    redirect_to regions_path
   end
 
   def destroy
     authorize @region
     @region.destroy
-    render nothing: true
+    redirect_to regions_path
   end
 
   def update
     authorize @region
     @region.update_attributes(region_params)
     @region.save
-    render nothing: true
+    redirect_to regions_path
   end
 
 private
 
   def region_params
-    params.require(:region).permit(:name, :map, {areas_attributes: [:name]})
+    params.require(:region).permit(:id, :name, :map, {areas_attributes: [:id, :name, :_destroy]})
   end
 
   def find_area
