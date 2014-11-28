@@ -1,6 +1,6 @@
 <div class="battle_level">
   <%= form_for(Battle.new) do |f| %>
-    <% BattleLevel.all.limit(5).each do |level| %> 
+    <% BattleLevel.unlocked_levels(@summoner.beaten_levels).each do |level| %> 
         <%= f.button "#{level.name}", :name => "battle[battle_level_id]", :value => "#{level.id}", 
         class: "btn btn-primary map-level", id: "#{level.name.delete(' ')}" %>
     <% end %>

@@ -58,7 +58,7 @@ class Party < ActiveRecord::Base
   end
 
   def self.generate(user)
-    BattleLevel.all.each do |level|
+    BattleLevel.unlocked_levels(user.summoner.beaten_levels).each do |level|
       Party.where("user_id = 2").where(name: level.name).where(enemy: user.user_name).destroy_all
       party = Party.create!(
         user_id: 2,

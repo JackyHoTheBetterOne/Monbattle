@@ -19,8 +19,6 @@
           = link_to "Form a team", battle_preparation_path, class: "btn btn-info party_edit_button"
       -else
         div class="level-select"
-          = form_tag generate_field_battles_path, remote: true, :method => "get", class: "field-generation" do
-              = submit_tag "Generate your battlefield", class: "btn btn-danger btn-lg"
           .user_team
             h2.the_obvious Your Current Team
             .party_portraits

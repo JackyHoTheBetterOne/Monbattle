@@ -5,6 +5,8 @@ class BattlesController < ApplicationController
   def new
     @battle = Battle.new
     @user = current_user
+    Party.generate(@user)
+    @summoner = current_user.summoner
     if current_user
       @monsters = @user.parties.first.monster_unlocks
     end
@@ -64,15 +66,7 @@ class BattlesController < ApplicationController
       redirect_to battles_path, notice: "Destroyed"
     end
   end
-
-  def generate_field
-    @user = current_user
-    Party.generate(@user)
-    respond_to do |format|
-      format.js
-    end
-  end
-
+  
   def validation
 
   end
