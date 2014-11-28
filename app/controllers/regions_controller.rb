@@ -3,8 +3,8 @@ class RegionsController < ApplicationController
   before_action :find_area, except: [:index, :create]
 
   def index
-    @areas = Area.all
-    @regions = Region.all
+    @areas = policy_scope(Area.all)
+    @regions = policy_scope(Region.search(params[:keyword]))
     @region = Region.new
   end
 
@@ -12,21 +12,17 @@ class RegionsController < ApplicationController
     @region = Region.new region_params
     authorize @region
     @region.save
-    p @region.errors.full_messages
-    redirect_to regions_path
   end
 
   def destroy
     authorize @region
     @region.destroy
-    redirect_to regions_path
   end
 
   def update
     authorize @region
     @region.update_attributes(region_params)
     @region.save
-    redirect_to regions_path
   end
 
 private

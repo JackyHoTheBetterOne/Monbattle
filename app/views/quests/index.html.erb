@@ -7,8 +7,14 @@
   <div id="collapseOne" class="panel-collapse collapse">
     <%= render partial: "form", locals: {quest: @quest} %>
   </div>
-  <p></p>
 </div>
+<p></p>
+<div>
+  <%= form_tag quests_path, :method => "get", remote: true %>
+  <%= text_field_tag :keyword, params[:keyword] %>
+  <%= submit_tag "Bitch Search", class: "btn btn-default" %>
+</div>
+<p></p>
 <div class="quests">
   <%= render @quests %>
 </div>

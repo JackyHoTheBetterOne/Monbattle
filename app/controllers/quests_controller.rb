@@ -3,7 +3,7 @@ class QuestsController < ApplicationController
 
 
   def index
-    @quests = policy_scope(Quest.all)
+    @quests = policy_scope(Quest.search(params[:keyword]))
     @quest = Quest.new
   end
 

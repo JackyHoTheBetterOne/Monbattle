@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141125213315) do
+ActiveRecord::Schema.define(version: 20141127230957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -387,6 +387,7 @@ ActiveRecord::Schema.define(version: 20141125213315) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "notice_type_id"
+    t.text     "keywords"
   end
 
   create_table "parties", force: true do |t|
@@ -452,6 +453,7 @@ ActiveRecord::Schema.define(version: 20141125213315) do
     t.string   "map_content_type"
     t.integer  "map_file_size"
     t.datetime "map_updated_at"
+    t.text     "keywords"
   end
 
   create_table "reward_categories", force: true do |t|

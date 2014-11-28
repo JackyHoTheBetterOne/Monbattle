@@ -1,0 +1,10 @@
+<% if @region.save %>
+  $(".<%= dom_id(@region) %>-edit").trigger("click");
+  $("#<%= dom_id(@region) %>").html("<%= j render @region %>");
+  setTimeout((function() {
+    $("#<%= dom_id(@region) %>").effect("highlight");
+    $('body').scrollTo('#<%= dom_id(@region) %>');
+  }), 500);
+<% else %>
+  $("#edit_region").effect("highlight", {color: "red"});
+<% end %>
