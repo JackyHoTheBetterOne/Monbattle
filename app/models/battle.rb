@@ -55,6 +55,10 @@ class Battle < ActiveRecord::Base
     @victorious_summoner = Summoner.find_summoner(@victor)
 
     @victorious_summoner.wins += 1 
+    level_array = @victorious_summoner.beaten_levels.clone
+    level_array.push(self.battle_level.name) if !level_array.include?self.battle_level.name
+
+    @victorious_summoner.beaten_levels = level_array
     @victorious_summoner.mp += @mp_reward
     @victorious_summoner.gp += @gp_reward
     @victorious_summoner.vortex_key += @vk_reward

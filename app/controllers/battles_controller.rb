@@ -15,18 +15,24 @@ class BattlesController < ApplicationController
   end
 
   def create
-    @battle = Battle.new battle_params
-    @user = current_user
-    if @battle.save
+    if current_user.parties[0].battles.count == 0
+      @battle = Battle.new 
+      @battle.battle_level_id = 1000000000000000000000
+      @battle.parties.push(Party.where(name: "ur sister dead")[0])
+      @battle.parties.push(Party.where(name: "me raping ur sister")[0])
+      @battle.save
+      redirect_to @battle
+    else
+      @battle = Battle.new battle_params
+      @user = current_user
       @battle.parties.push(Party.find_by_user_id(current_user.id))
       @battle.parties.push(
         Party.where(user: User.find_by_user_name("NPC")).
         where(name: @battle.battle_level.name).
         where(enemy: @user.user_name).last
         )
+      @battle.save
       redirect_to @battle
-    else
-      render :new
     end
   end
 
@@ -74,7 +80,7 @@ class BattlesController < ApplicationController
   private
 
   def battle_params
-    params.require(:battle).permit(:battle_level_id)
+    params.require(:battle).permit(:battle_level_id, {party_ids: []})
   end
 
   def update_params

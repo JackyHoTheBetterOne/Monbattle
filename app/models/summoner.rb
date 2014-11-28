@@ -5,7 +5,7 @@ class Summoner < ActiveRecord::Base
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :user_id, presence: {message: 'Must be entered'}, uniqueness: true
 
-  include ActiveModel::Dirty
+  before_create :set_beaten_levels
 
   def self.find_summoner(user_name)
     @user = find_user(user_name)
@@ -120,5 +120,11 @@ class Summoner < ActiveRecord::Base
     array.push(battle_id)
     self.daily_battles = array 
     self.save
+  end
+
+  private
+
+  def set_beaten_levels
+    self.beaten_levels = []
   end
 end

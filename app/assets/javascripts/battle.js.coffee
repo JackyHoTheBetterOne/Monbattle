@@ -1001,7 +1001,7 @@ window.controlAI = (monIndex) ->
             hpChangeBattle()
             checkMonHealthAfterEffect()
             return
-          ), 1200
+          ), 1500
           return
       when "aoeally", "aoecleanse"
         window.targets = [1].concat [monIndex, abilityIndex]
@@ -1028,7 +1028,7 @@ window.controlAI = (monIndex) ->
             hpChangeBattle()
             checkMonHealthAfterEffect()
             return
-          ), 1200
+          ), 1500
           return
       when "targetally"
         index = minimumHpPC()
@@ -1439,7 +1439,7 @@ $ ->
                       showDamageTeam(1)
                       singleTargetAbilityAfterActionDisplay()
                       return
-                    ), 1200
+                    ), 1500
                     return
               when "aoeally", "aoebuffattack", "aoecleanse"
                 allyAbilityBeforeClickDisplay()
@@ -1467,7 +1467,7 @@ $ ->
                       showHealTeam(0) if ability.stat isnt "cleanse"
                       singleTargetAbilityAfterActionDisplay()
                       return
-                    ), 1200
+                    ), 1500
                     return
               when "evolve"
                 $(document).off "click.cancel", ".cancel"
