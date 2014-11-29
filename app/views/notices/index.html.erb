@@ -17,7 +17,7 @@
 <div>
   <%= form_tag notices_path, :method => "get", remote: true %>
   <%= text_field_tag :keyword, params[:keyword] %>
-  <%= submit_tag "Search like a dog", class: "btn btn-default" %>
+  <%= submit_tag "Search like a dog", class: "btn btn-default notice-search" %>
 </div>
 <p></p>
 <div class="notices">

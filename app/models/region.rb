@@ -17,6 +17,17 @@ class Region < ActiveRecord::Base
 
   before_save :set_keywords
 
+  def as_json(options={})
+    super(
+      :methods => :icon,
+      )
+  end
+
+  def icon
+    self.map.url(:thumb)
+  end
+
+
   private
   def set_keywords
     area_names = []

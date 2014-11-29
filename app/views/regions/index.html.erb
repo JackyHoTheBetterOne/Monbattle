@@ -7,6 +7,7 @@
   <div id="collapseOne" class="panel-collapse collapse">
     <%= simple_nested_form_for(@region, remote: true, method: :post) do |f| %>
       <%= render partial: "form", locals: {f: f} %>
+      <%= f.button :submit %>
     <% end %>
   </div>
   <p></p>
@@ -15,7 +16,7 @@
 <div>
   <%= form_tag regions_path, :method => "get", remote: true %>
   <%= text_field_tag :keyword, params[:keyword] %>
-  <%= submit_tag "Search like a little girl", class: "btn btn-default level-search" %>
+  <%= submit_tag "Search like a little girl", class: "btn btn-default region-search" %>
 </div>
 
 <p></p>

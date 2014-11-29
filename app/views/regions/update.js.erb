@@ -1,10 +1,16 @@
-<% if @region.save %>
-  $(".<%= dom_id(@region) %>-edit").trigger("click");
-  $("#<%= dom_id(@region) %>").html("<%= j render @region %>");
-  setTimeout((function() {
-    $("#<%= dom_id(@region) %>").effect("highlight");
-    $('body').scrollTo('#<%= dom_id(@region) %>');
-  }), 500);
-<% else %>
-  $("#edit_region").effect("highlight", {color: "red"});
-<% end %>
+$.ajax({
+  url: "/regions/" + <%= @region.id %>,
+  method: "get",
+  dataType: "json",
+  error: function() {
+   return alert("No AJAX for you Frank");
+  },
+  success: function(response) {
+    window.region = response;
+    $(".region_" + region.id + "-edit").trigger("click");
+    $("#region_" + region.id).effect("highlight");
+    $("#region_" + region.id + " .panel-heading").text(region.name);
+    $("#region_" + region.id + " .panel-body img").attr("src", region.icon);
+    $('body').scrollTo('#region_' + region.id);
+   }
+ });

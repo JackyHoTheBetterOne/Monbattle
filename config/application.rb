@@ -32,7 +32,7 @@ module Monbattle
       :preserve_files => false,
       :storage => :s3,
       :s3_host_name => "s3-us-west-2.amazonaws.com",
-      :default_url => "/images/:style/missing.png",
+      :default_url => "/assets/frank.jpg",
       :s3_credentials => {:bucket => "monbattle",
         :access_key_id => ENV["AMAZON_ACCESS_KEY"],
         :secret_access_key => ENV["AMAZON_SECRET"]}

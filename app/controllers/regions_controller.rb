@@ -12,6 +12,7 @@ class RegionsController < ApplicationController
     @region = Region.new region_params
     authorize @region
     @region.save
+    @regions = policy_scope(Region.search(params[:keyword]))
   end
 
   def destroy
@@ -23,12 +24,21 @@ class RegionsController < ApplicationController
     authorize @region
     @region.update_attributes(region_params)
     @region.save
+    @regions = policy_scope(Region.search(params[:keyword]))
+  end
+
+  def show
+    if current_user.admin
+      respond_to do |format|
+        format.json {render json: @region}
+      end
+    end
   end
 
 private
 
   def region_params
-    params.require(:region).permit(:id, :name, :map, {areas_attributes: [:id, :name, :_destroy]})
+    params.require(:region).permit(:id, :name, :map, :unlock_id, {areas_attributes: [:id, :name, :_destroy, :unlock_id]})
   end
 
   def find_area

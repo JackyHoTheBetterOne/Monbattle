@@ -1,0 +1,11 @@
+<% if @monster.new_record? %>
+  $(".new_monster").effect("highlight", {color: "red"});
+<% else %>
+  $(".new_monster")[0].reset();
+  $(".modal-header button span").trigger("click");
+  $(".monsters").prepend("<%= j render @monster %>");
+  setTimeout((function() {
+    $("#<%= dom_id(@monster) %>").effect("highlight", 1000);
+    $('body').scrollTo('#<%= dom_id(@monster) %>');
+  }), 500);
+<% end %>
