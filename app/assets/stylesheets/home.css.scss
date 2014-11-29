@@ -147,14 +147,20 @@ $distance-between-pane-top-pane-info: 15px;
           color: black;
         }
       }
+      .ability-equip-link {
+        @include abs-div(15%, 100%);
+        right: 0;
+        opacity: 0;
+        .abil-link {
+          @include abs-div(100%, 100%);
+          opacity: 0;
+        }
+      }
       .ability-equip {
         @include abs-div(15%, 100%);
         right: 0;
-        a {
-          @include abs-div(100%, 100%);
-          img {
-            @include portrait-img(100%, 100%);
-          }
+        img {
+          @include portrait-img(100%, 100%);
         }
       }
     }

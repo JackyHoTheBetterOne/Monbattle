@@ -1,4 +1,0 @@
-.scroll-wrapper
-  -@abilities.find_default_abilities_available(socket_num, mon.job).each do |abil|
-    .ability-pane id="#{dom_id(mon)+"_"+dom_id(abil)}"
-      =render partial: "home/abil_pane", locals: {socket_num: socket_num, mon: mon, abil: abil}

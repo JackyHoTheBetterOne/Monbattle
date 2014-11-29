@@ -13,11 +13,11 @@
       .col-md-3 id="#{dom_id(ability)}-own"
         p Own: #{own}
       .col-md-3 id="#{dom_id(ability)}-avail"
-        p Avail: #{available_count}
+        =render partial: "/home/avail", locals: {available_count: available_count}
     p=ability.description
   .ability-equip.shadowed2 id="#{dom_id(ability)}-none"
     ="Cannot Equip, 0 Available!"
-  .ability-equip.shadowed2 id="#{dom_id(ability)}-equip"
-    =link_to image_tag("ability-equip-avatar.png")
+  =image_tag "ability-equip-avatar.png", class: "ability-equip shadowed2", id: "#{dom_id(ability)}-equip"
   .ability-equip.shadowed2 id="#{dom_id(ability)}-equipped"
     p Equipped Image
+  .ability-equip-link

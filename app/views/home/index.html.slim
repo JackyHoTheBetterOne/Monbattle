@@ -19,6 +19,5 @@
     -@monster_unlocks.each do |mon|
       .monster-info-area id="#{dom_id(mon)}-info-pane"
         =render partial: "monster_display", locals: {mon: mon}
-
 -else
   = render partial: "no_user"

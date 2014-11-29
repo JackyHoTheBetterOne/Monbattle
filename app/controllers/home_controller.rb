@@ -6,7 +6,8 @@ class HomeController < ApplicationController
     @monster_unlocks = @user.monster_unlocks
     @base_mons = @monster_unlocks.base_mons(@user)
     @members = @user.parties.first.members
-    @abilities = Ability.includes(:ability_purchases).includes(:abil_socket).includes(:jobs).abilities_purchased(@user)
+    @abilities = Ability.includes(:ability_purchases).includes(:abil_socket).
+                 includes(:jobs).abilities_purchased(@user).alphabetical
     unless @user
       render layout: "facebook_landing"
     end
@@ -15,7 +16,7 @@ class HomeController < ApplicationController
   def abilities_for_mon
     @mon = MonsterUnlock.find params[:mon]
     @socket = params[:socket]
-    # @abilities = Ability.includes(:ability_purchases).includes(:abil_socket).includes(:jobs).abilities_purchased(@user)
+    @current_abil_purchase = @mon.abil_purch_in_sock(@socket)
     @abilities = Ability.find_default_abilities_available(@socket, @mon.job).abilities_purchased(@user)
     render :abilities_for_mon
   end

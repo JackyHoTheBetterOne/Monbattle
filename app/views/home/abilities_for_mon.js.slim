@@ -3,8 +3,9 @@
 | $(".abilities-display-area").show();
 
 | $(".ability-pane").hide();
+
 -@abilities.each do |ability|
-  | $("##{dom_id(ability)}").show();
+  | $("##{dom_id(ability)}").show("slide", { direction: "left" }, 300 );
   | $("##{dom_id(ability)} .ability-equip").hide();
 
   -available = @ability_purchases.not_equipped(ability)
@@ -12,9 +13,12 @@
   -case
     -when @mon.abil_in_sock(@socket, ability)
       | $("##{dom_id(ability)}-equipped").show();
+      | $("##{dom_id(ability)} .ability-equip-link").html("");
     -when available_count < 1
       | $("##{dom_id(ability)}-none").show();
+      | $("##{dom_id(ability)} .ability-equip-link").html("");
     -when available_count >= 1
       | $("##{dom_id(ability)}-equip").show();
+      | $("##{dom_id(ability)} .ability-equip-link").html("#{j render partial: "/home/abil_equip_link", locals: {available: available}}");
     -else
       ="Error"
