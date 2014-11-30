@@ -54,12 +54,7 @@ resources :effects
 resources :parties
 resources :battle_levels
 resources :users
-
-resources :battles do
-  collection do
-    get :generate_field
-  end
-end
+resources :battles 
 
 resources :ability_equippings, only: [:create, :update]
 resources :rarities, only: [:create, :destroy]

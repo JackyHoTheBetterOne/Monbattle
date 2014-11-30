@@ -56,6 +56,18 @@ class BattleLevel < ActiveRecord::Base
       ""
     end
   end
+
+  def self.unlocked_levels(summoner)
+    available_levels = []
+    BattleLevel.all.each do |b|
+      if b.unlock == nil
+        available_levels << b 
+      else 
+        available_levels << b if summoner.include?b.unlock.name 
+      end
+    end
+    return available_levels
+  end
   
   private
   def delete_party

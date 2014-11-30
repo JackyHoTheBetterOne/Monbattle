@@ -13,10 +13,10 @@
 //= require jquery
 //= require jquery_nested_form
 //= require jquery_ujs
+//= require jquery.remotipart
 //= require bootstrap-sprockets
 //= require jquery-ui
 //= require turbolinks
-//= require jquery.remotipart
 //= require_tree .
 
 window.fbAsyncInit = function() {

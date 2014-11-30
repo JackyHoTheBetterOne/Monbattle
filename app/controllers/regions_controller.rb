@@ -3,8 +3,8 @@ class RegionsController < ApplicationController
   before_action :find_area, except: [:index, :create]
 
   def index
-    @areas = Area.all
-    @regions = Region.all
+    @areas = policy_scope(Area.all)
+    @regions = policy_scope(Region.search(params[:keyword]))
     @region = Region.new
   end
 
@@ -12,27 +12,33 @@ class RegionsController < ApplicationController
     @region = Region.new region_params
     authorize @region
     @region.save
-    p @region.errors.full_messages
-    redirect_to regions_path
+    @regions = policy_scope(Region.search(params[:keyword]))
   end
 
   def destroy
     authorize @region
     @region.destroy
-    redirect_to regions_path
   end
 
   def update
     authorize @region
     @region.update_attributes(region_params)
     @region.save
-    redirect_to regions_path
+    @regions = policy_scope(Region.search(params[:keyword]))
+  end
+
+  def show
+    if current_user.admin
+      respond_to do |format|
+        format.json {render json: @region}
+      end
+    end
   end
 
 private
 
   def region_params
-    params.require(:region).permit(:id, :name, :map, {areas_attributes: [:id, :name, :_destroy]})
+    params.require(:region).permit(:id, :name, :map, :unlock_id, {areas_attributes: [:id, :name, :_destroy, :unlock_id]})
   end
 
   def find_area

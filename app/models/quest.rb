@@ -16,6 +16,11 @@ class Quest < ActiveRecord::Base
 
   validates_attachment_content_type :icon, :content_type => /\Aimage\/.*\Z/
 
+  scope :search, -> (keyword) {
+    if keyword.present?
+      where("keywords LIKE ?", "%#{keyword.downcase}%")
+    end
+  }
 
   def type
     self.quest_type.name

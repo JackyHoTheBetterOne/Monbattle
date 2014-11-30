@@ -1,21 +1,14 @@
-$.ajax({
-  url: "/monsters/" + <%= @monster.id %>,
-  method: "get",
-  dataType: "json",
-  error: function() {
-    return alert("No AJAX for you Frank");
-  },
-  success: function(response) {
-    $('body').scrollTo('#<%= dom_id(@monster) %>');
-    window.monster = response;
-    $("#monster_" + monster.id).fadeOut(100).fadeIn(800);
-    $(".modal-header span").trigger("click");
-    $("#monster_" + monster.id + " " + "td h3.name").text(monster.name);
-    $("#monster_" + monster.id + " " + "td.description").text(monster.description);
-    $("#monster_" + monster.id + " " + "td.max_hp").text(monster.max_hp);
-    $("#monster_" + monster.id + " " + "td.mp_cost").text(monster.mp_cost);
-    $("#monster_" + monster.id + " " + "td.gp_cost").text(monster.gp_cost);
-    $("#monster_" + monster.id + " " + "td.physical_resistance").text(monster.physical_resistance);
-    $("#monster_" + monster.id + " " + "td.ability_resistance").text(monster.ability_resistance);
-  }
-});
+<% if @monster.save %>
+  $(".modal-header button span").trigger("click");
+  setTimeout((function() {
+    $("#<%= dom_id(@monster) %>").remove();
+  }), 250);
+  setTimeout((function() {
+    $(".monsters").prepend("<%= j render @monster %>");
+  }), 350);
+  setTimeout((function() {
+    $(window).scrollTop(100);
+  }), 500);
+<% else %>
+  $("#edit_battle_level").effect("highlight", {color: "red"});
+<% end %>
