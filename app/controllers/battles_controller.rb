@@ -4,9 +4,11 @@ class BattlesController < ApplicationController
 
   def new
     @battle = Battle.new
+    @regions = Region.all
     @user = current_user
     Party.generate(@user)
     @summoner = current_user.summoner
+    @levels = BattleLevel.filter(params[:filter])
     if current_user
       @monsters = @user.parties.first.monster_unlocks
     end

@@ -6,6 +6,7 @@ window.reloadObjects = (obj, but) ->
 
 window.fixTurbo = () ->
   reloadObjects("regions", ".region-search")
+  reloadObjects("battle_levels", ".level-search")
   reloadObjects("cut_scenes", ".scene-search")
   reloadObjects("quests", ".quest-search")
   reloadObjects("notices", ".notice-search")

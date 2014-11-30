@@ -19,6 +19,8 @@
           = link_to "Form a team", battle_preparation_path, class: "btn btn-info party_edit_button"
       -else
         div class="level-select"
+          -@regions.each do |r|
+            button.btn-info= r.name
           .user_team
             h2.the_obvious Your Current Team
             .party_portraits
@@ -26,5 +28,5 @@
                 = image_tag(mon.mon_portrait(current_user), class: "user_party_portrait")
             = link_to "Change your team", battle_preparation_path, class: "btn btn-info party_edit_button"
           div class="battle_map"
-            = render "/battles/form"
+            = render "form"
 

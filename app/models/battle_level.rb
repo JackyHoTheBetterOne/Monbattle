@@ -21,6 +21,12 @@ class BattleLevel < ActiveRecord::Base
     end
   }
 
+  scope :filter, -> (filter) {
+    if filter.present?
+      joins(:area).where("areas.name = ?", "#{filter}")
+    end
+  }
+
   def start_cut_scenes
     array = []
     self.cut_scenes.where("cut_scenes.to_start is true").order("cut_scenes.order ASC").each do |c|
@@ -57,13 +63,13 @@ class BattleLevel < ActiveRecord::Base
     end
   end
 
-  def self.unlocked_levels(summoner)
+  def self.unlocked_levels(beaten_levels)
     available_levels = []
     BattleLevel.all.each do |b|
       if b.unlock == nil
         available_levels << b 
       else 
-        available_levels << b if summoner.include?b.unlock.name 
+        available_levels << b if beaten_levels.include?b.unlock.name 
       end
     end
     return available_levels

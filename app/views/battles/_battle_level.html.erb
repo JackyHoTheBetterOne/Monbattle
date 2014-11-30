@@ -1,0 +1,6 @@
+<%= form_for(Battle.new) do |f| %>
+  <% @levels.each do |level| %> 
+      <%= f.button "#{level.name}", :name => "battle[battle_level_id]", :value => "#{level.id}", 
+      class: "btn btn-primary level_selection", id: "#{level.name.delete(' ')}" %>
+  <% end %>
+<% end %>
