@@ -37,15 +37,11 @@ class Monster < ActiveRecord::Base
   validates :evolved_from_id, presence: {message: 'Must be entered'}
   validates :summon_cost, numericality: {greater_than_or_equal_to: 0}
   validates :rarity_id, presence: {message: 'Must be entered'}
-  # validates :dmg_modifier, presence: {message: 'Must be entered'}
-  # validates :hp_modifier, presence: {message: 'Must be entered'}
 
   before_save :set_keywords
   before_destroy :check_for_default
   after_update :unlock_for_admins
 
-
-  # default_scope{ order('updated_at desc') }
 
   scope :search, -> (keyword) {
     if keyword.present?

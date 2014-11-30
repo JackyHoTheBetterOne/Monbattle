@@ -1,13 +1,17 @@
 <div class="battle_level">
-  <%= form_for(Battle.new) do |f| %>
-    <% BattleLevel.unlocked_levels(@summoner.beaten_levels).each do |level| %> 
-        <%= f.button "#{level.name}", :name => "battle[battle_level_id]", :value => "#{level.id}", 
-        class: "btn btn-primary map-level", id: "#{level.name.delete(' ')}" %>
-    <% end %>
+  <% Area.all.each do |a| %>
+    <%= link_to a.name, new_battle_path(filter: a.name), remote: true, class: "btn btn-primary map-level", 
+        id: a.name.delete(" ") %>
   <% end %>
 </div>
 
 <div class="level-description">
+  <%= form_for(Battle.new) do |f| %>
+    <% @levels.each do |level| %> 
+        <%= f.button "#{level.name}", :name => "battle[battle_level_id]", :value => "#{level.id}", 
+        class: "btn btn-primary", id: "#{level.name.delete(' ')}" %>
+    <% end %>
+  <% end %>
 </div>
 
 
