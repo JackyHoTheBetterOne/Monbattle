@@ -20,7 +20,7 @@
       -else
         div class="level-select"
           -@regions.each do |r|
-            button.btn-info= r.name
+            =link_to r.name, new_battle_path(area_filter: r.name), remote: true, class: "btn btn-primary region-select", id: r.name
           .user_team
             h2.the_obvious Your Current Team
             .party_portraits

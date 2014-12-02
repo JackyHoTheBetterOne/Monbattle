@@ -65,11 +65,13 @@ class BattleLevel < ActiveRecord::Base
 
   def self.unlocked_levels(beaten_levels)
     available_levels = []
-    BattleLevel.all.each do |b|
-      if b.unlock == nil
-        available_levels << b 
-      else 
-        available_levels << b if beaten_levels.include?b.unlock.name 
+    if self != []
+      self.all.each do |b|
+        if b.unlock == nil
+          available_levels << b 
+        else 
+          available_levels << b if beaten_levels.include?b.unlock.name 
+        end
       end
     end
     return available_levels

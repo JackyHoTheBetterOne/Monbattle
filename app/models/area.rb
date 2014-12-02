@@ -6,6 +6,12 @@ class Area < ActiveRecord::Base
   before_save :set_keywords
   validates :name, presence: true
 
+  scope :filter, -> (filter) {
+    if filter.present?
+      joins(:region).where("regions.name = ?", "#{filter}")
+    end
+  }
+
 
   def region_name
     self.region.name

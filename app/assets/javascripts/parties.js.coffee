@@ -8,11 +8,3 @@ $ ->
   else
     $(".ability_job_check_boxes [id^=\"ability_\"]").prop "checked", false
   return
-
-# $('#abil_form_check_all').click(function(event){
-#     if(this.checked) {
-#       $('.ability_job_check_boxes [id^="ability_"]').prop('checked', true);
-#     }else {
-#       $('.ability_job_check_boxes [id^="ability_"]').prop('checked', false);
-#       }
-# });
