@@ -13,7 +13,7 @@ window.xadBuk = ->
     data: {
       before_action_state: JSON.stringify(battle)
     },
-    success:  (data) ->
+    success: (data) ->
       if data.indexOf("fucked") isnt -1
         setTimeout (->
           alert("You motherfucker")
@@ -23,6 +23,9 @@ window.vitBop = ->
   $.ajax
     url: "/battles/" + battle.id + "/judgement",
     method: "patch",
+    data: {
+      before_action_state: JSON.stringify(battle)
+    },
     success: (data) ->
       if data.indexOf("fucked") isnt -1
         setTimeout (->

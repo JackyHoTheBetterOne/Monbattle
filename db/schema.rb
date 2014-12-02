@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141201233942) do
+ActiveRecord::Schema.define(version: 20141202033154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,6 +120,9 @@ ActiveRecord::Schema.define(version: 20141201233942) do
     t.integer  "unlock_id"
     t.integer  "area_id"
     t.text     "keywords"
+    t.text     "description"
+    t.text     "victory_message"
+    t.text     "ability_reward",          default: [], array: true
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree

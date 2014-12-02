@@ -13,8 +13,10 @@ class BattlesController < ApplicationController
 
     if params[:area_filter]
       @areas = Area.filter(params[:area_filter])
-    else
+    elsif session[:area_filter]
       @areas = Area.filter(session[:area_filter])
+    else
+      @areas = Area.where("name = ?", "")
     end
 
     if params[:level_filter]
@@ -73,7 +75,7 @@ class BattlesController < ApplicationController
   def update
     @battle.outcome = "complete"
     @battle.update_attributes(update_params)
-    @battle_level.to_finish
+    @battle.to_finish
     @battle.save
     render nothing: true
   end
@@ -92,7 +94,7 @@ class BattlesController < ApplicationController
   end
 
   def judgement
-    judgement = Battle::Judgement.new(battle: @battle)
+    judgement = Battle::Judgement.new(battle: @battle, params: validation_params)
     judgement.call
     render text: judgement.message
   end

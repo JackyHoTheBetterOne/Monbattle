@@ -2,7 +2,7 @@ window.reloadObjects = (obj, but) ->
   if window.location.href.indexOf(obj) isnt -1
     setTimeout (->
       $(but).trigger "click"
-      ), 800
+      ), 100
 
 window.fixTurbo = () ->
   reloadObjects("regions", ".region-search")
