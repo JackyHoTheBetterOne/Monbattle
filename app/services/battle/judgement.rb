@@ -17,3 +17,4 @@ class Battle::Judgement
     battle.save
   end
 end
+

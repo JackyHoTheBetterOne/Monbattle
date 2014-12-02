@@ -72,6 +72,14 @@ class Battle < ActiveRecord::Base
     @victorious_summoner.mp += @mp_reward
     @victorious_summoner.gp += @gp_reward
     @victorious_summoner.vortex_key += @vk_reward
+
+    self.battle_level.ability_reward.each do |r|
+      ability = Ability.find_by_name(r)
+      ability_id = ability.id
+      user_id = @victorious_summoner.id
+      AbilityPurchase.create(ability_id: ability_id, user_id: user_id)
+    end
+
     @victorious_summoner.save
   end
 
