@@ -4,10 +4,8 @@
     Battle level form
   </a>
   <p></p>
-  <div id="collapseOne" class="panel-collapse collapse">
-    <%= simple_form_for(@battle_level, remote: true, method: :post) do |f| %>
-      <%= render partial: "form", locals: {f: f} %>
-    <% end %>
+  <div id="collapseOne" class="panel-collapse collapse battle_level_creation">
+    <%= render partial: "create_form", locals: {battle_level: @battle_level} %>
   </div>
   <p></p>
 </div>

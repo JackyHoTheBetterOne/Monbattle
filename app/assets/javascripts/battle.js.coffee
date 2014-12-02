@@ -545,18 +545,6 @@ window.outcome = ->
           "round_taken": parseInt(battle.round)
         }
     ), 500
-    if battle.end_cut_scenes.length isnt 0
-      $(".cutscene").attr("src", battle.end_cut_scenes[0])
-      $(".cutscene").css("opacity", "1")
-      $("#overlay").fadeIn(1000)
-      nextSceneInitial()
-    else 
-      $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
-        append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
-      $(".message").css("opacity", "1")
-      $(".message").promise().done ->
-        $("#overlay").fadeIn(1000)
-      $(document).off "click.cutscene", "#overlay"
     $(document).on "click.cutscene", "#overlay", ->
       if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
         $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
@@ -570,6 +558,19 @@ window.outcome = ->
         new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
         window.new_scene = battle.end_cut_scenes[new_index]
         nextScene()
+    if battle.end_cut_scenes.length isnt 0
+      $(".cutscene").attr("src", battle.end_cut_scenes[0])
+      $(".cutscene").css("opacity", "1")
+      $("#overlay").fadeIn(1000)
+      nextSceneInitial()
+    else 
+      $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
+        append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
+      $(".message").css("opacity", "1")
+      $(".cutscene, .next-scene").css("opacity", "0")
+      $(".message").promise().done ->
+        $("#overlay").fadeIn(1000)
+      $(document).off "click.cutscene", "#overlay"
 window.checkApAvailbility = ->
   $(".monBut button").each ->
     disable($(this)) if $(this).data("apcost") > battle.players[0].ap

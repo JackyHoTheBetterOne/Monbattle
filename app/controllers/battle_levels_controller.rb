@@ -3,7 +3,6 @@ class BattleLevelsController < ApplicationController
 
   def index
     @battle_levels = policy_scope(BattleLevel.search(params[:keyword]))
-    @battle_level = BattleLevel.new
   end
 
   def create
