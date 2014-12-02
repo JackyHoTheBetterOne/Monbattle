@@ -3,7 +3,6 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-
   $(document).on "click", ".abil_form_check_all", ->
     targ = $(this).attr("id")
     if @checked

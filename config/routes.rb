@@ -54,7 +54,11 @@ resources :effects
 resources :parties
 resources :battle_levels
 resources :users
-resources :battles 
+
+resources :battles do
+  patch :validation, on: :member
+  patch :judgement, on: :member
+end
 
 resources :ability_equippings, only: [:create, :update]
 resources :rarities, only: [:create, :destroy]

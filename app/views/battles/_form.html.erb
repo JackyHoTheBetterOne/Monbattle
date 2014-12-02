@@ -1,7 +1,7 @@
 <div class="battle_level">
-  <% Area.all.each do |a| %>
-    <%= link_to a.name, new_battle_path(filter: a.name), remote: true, class: "btn btn-primary map-level", 
-        id: a.name.delete(" ") %>
+  <% @areas.each do |a| %>
+    <%= link_to a.name, new_battle_path(level_filter: a.name), remote: true, 
+        class: "btn btn-primary map-level #{a.region_name}", id: a.name.delete(" ") %>
   <% end %>
 </div>
 
@@ -13,5 +13,4 @@
     <% end %>
   <% end %>
 </div>
-
 

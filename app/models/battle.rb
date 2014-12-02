@@ -12,7 +12,6 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_save :generate_code, :update_date
-  after_update :to_finish
 
   scope :find_matching_date, -> (date, party) {
     joins(:fights).where(updated_on: date, "fights.party_id" => party.id)
@@ -28,10 +27,21 @@ class Battle < ActiveRecord::Base
     event :done, :after => :distribute_quest_reward do
       transitions :from => :battling, :to => :complete
     end
+    event :ruined do 
+      transitions :from => :battling, :to => :complete
+    end
   end
 
 
 ####################################################################### End Battle Update
+  def to_finish
+    if self.aasm_state == "battling" && self.is_hacked == false
+      self.done
+    elsif self.is_hacked == true
+      self.ruined
+    end
+  end
+  
   def battle_complete
     @victor = self.victor
     victor_check
@@ -147,9 +157,4 @@ class Battle < ActiveRecord::Base
     end
   end
 
-  def to_finish
-    if self.aasm_state == "battling"
-      self.done
-    end
-  end
 end

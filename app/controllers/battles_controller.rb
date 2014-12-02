@@ -1,5 +1,5 @@
 class BattlesController < ApplicationController
-  before_action :find_battle, except: [:create, :index, :new, :generate_field]
+  before_action :find_battle, except: [:create, :index, :new]
   impressionist :unique => [:controller_name, :action_name, :session_hash]
 
   def new
@@ -8,7 +8,22 @@ class BattlesController < ApplicationController
     @user = current_user
     Party.generate(@user)
     @summoner = current_user.summoner
-    @levels = BattleLevel.filter(params[:filter])
+    params[:area_filter] ||= session[:area_filter]
+    session[:area_filter] = params[:area_filter]
+
+    if params[:area_filter]
+      @areas = Area.filter(params[:area_filter])
+    else
+      @areas = Area.filter(session[:area_filter])
+    end
+
+    if params[:level_filter]
+      @levels = BattleLevel.filter(params[:level_filter]).unlocked_levels(@summoner.beaten_levels)
+    else
+      @levels = BattleLevel.where("name = ?", "")
+    end
+
+
     if current_user
       @monsters = @user.parties.first.monster_unlocks
     end
@@ -58,6 +73,7 @@ class BattlesController < ApplicationController
   def update
     @battle.outcome = "complete"
     @battle.update_attributes(update_params)
+    @battle_level.to_finish
     @battle.save
     render nothing: true
   end
@@ -68,9 +84,17 @@ class BattlesController < ApplicationController
       redirect_to battles_path, notice: "Destroyed"
     end
   end
-  
-  def validation
 
+  def validation
+    validation = Battle::Validation.new(battle: @battle, params: validation_params)
+    validation.call
+    render text: validation.message
+  end
+
+  def judgement
+    judgement = Battle::Judgement.new(battle: @battle)
+    judgement.call
+    render text: judgement.message
   end
 
   private
@@ -81,6 +105,10 @@ class BattlesController < ApplicationController
 
   def update_params
     params.permit(:victor, :loser, :round_taken)
+  end
+
+  def validation_params
+    params.permit(:after_action_state, :before_action_state)
   end
 
   def find_battle

@@ -1,5 +1,5 @@
 window.reloadObjects = (obj, but) -> 
-  if window.location.href.indexOf(obj) isnt "-1"
+  if window.location.href.indexOf(obj) isnt -1
     setTimeout (->
       $(but).trigger "click"
       ), 800
