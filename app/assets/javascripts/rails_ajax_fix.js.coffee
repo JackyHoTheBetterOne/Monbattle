@@ -5,11 +5,13 @@ window.reloadObjects = (obj, but) ->
       ), 100
 
 window.fixTurbo = () ->
-  reloadObjects("regions", ".region-search")
-  reloadObjects("battle_levels", ".level-search")
-  reloadObjects("cut_scenes", ".scene-search")
-  reloadObjects("quests", ".quest-search")
-  reloadObjects("notices", ".notice-search")
+  setTimeout (->
+    reloadObjects("regions", ".region-search")
+    reloadObjects("battle_levels", ".level-search")
+    reloadObjects("cut_scenes", ".scene-search")
+    reloadObjects("quests", ".quest-search")
+    reloadObjects("notices", ".notice-search")
+  ), 300
 
 $ ->
   fixTurbo()
