@@ -1,0 +1,15 @@
+<%= simple_form_for(battle_level, remote: true, method: :patch) do |f| %>
+  <%= f.input :name %>
+  <%= f.input :description %>
+  <%= f.input :victory_message %>
+  <%= f.input :ability_reward %>
+  <%= f.input :mp_reward %>
+  <%= f.input :gp_reward %>
+  <%= f.input :exp_given %>
+  <%= f.label :background %>
+  <%= f.file_field :background %>
+  <p></p>
+  <%= f.association :area %>
+  <%= f.association :unlock %>
+  <%= f.button :submit %>
+<% end %>

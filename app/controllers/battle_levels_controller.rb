@@ -1,9 +1,9 @@
 class BattleLevelsController < ApplicationController
   before_action :find_battle_level, except: [:index, :create]
+  after_action :update_unlock_status, only: [:create, :update]
 
   def index
     @battle_levels = policy_scope(BattleLevel.search(params[:keyword]))
-    @battle_level = BattleLevel.new
   end
 
   def create
@@ -32,6 +32,10 @@ private
 
   def find_battle_level
     @battle_level = BattleLevel.find params[:id]
+  end
+
+  def update_unlock_status
+    @battle_level.check_default
   end
 
 end

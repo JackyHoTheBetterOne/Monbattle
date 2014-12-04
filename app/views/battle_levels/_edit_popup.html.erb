@@ -6,9 +6,7 @@
         <h4 class="modal-title" id="myModalLabel">Edit <%= battle_level.name %></h4>
       </div>
       <div class="modal-body">
-        <%= simple_form_for(battle_level, remote: true, method: :patch) do |f| %>
-          <%= render partial: "form", locals: {f: f} %>
-        <% end %>
+        <%= render partial: "edit_form", locals: {battle_level: battle_level} %>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

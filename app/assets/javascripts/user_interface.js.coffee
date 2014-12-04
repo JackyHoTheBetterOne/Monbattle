@@ -1,3 +1,12 @@
+window.setQuestBox = ->
+  count = $(".quest").length
+  quest_box_height = 66.67 * count
+  quest_outline_height = 69 * count
+  console.log(quest_box_height.toString() + "px")
+  console.log(quest_outline_height.toString() + "px")
+  $(".quests-info").css("height", quest_box_height.toString() + "px")
+  $(".quests-outline").css("height", quest_outline_height.toString() + "px")
+
 window.zetBut = ->
   $.ajax
     url: "/battles/" + battle.id + "/validation",
@@ -46,6 +55,7 @@ setDonationButton = ->
   ")
 
 $ ->
+  setQuestBox()
   $(".donation-action").hide()
   $(document).on "keyup", ".donation", ->
     setDonationAmount()
@@ -53,5 +63,23 @@ $ ->
   $(document).on "click.donate", ".donation-click", (event) ->
     event.preventDefault()
     $(".stripe-button-el").trigger("click")
+  $(document).on "click", ".quest-show", (event) ->
+    event.preventDefault()
+    if $(".quests-info").css("opacity") is "0"
+      $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "1")
+    else 
+      $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0")
+  $(document).on "click", ".for-real", ->
+      $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0")
+  $(document).on "click", ".fb-nav :not('.quest-show')", ->
+    setTimeout (->
+      setQuestBox()
+      ), 250    
+
+
+
+
+
+
 
 

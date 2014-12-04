@@ -15,6 +15,7 @@ Bundler.require(*Rails.groups)
 
 module Monbattle
   class Application < Rails::Application
+    config.time_zone = 'Pacific Time (US & Canada)'
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -27,7 +28,6 @@ module Monbattle
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.autoload_paths += Dir[Rails.root.join('app', 'services', '*').to_s]
-
     config.paperclip_defaults = {
       :preserve_files => false,
       :storage => :s3,

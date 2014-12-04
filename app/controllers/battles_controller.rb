@@ -25,6 +25,14 @@ class BattlesController < ApplicationController
       @levels = BattleLevel.where("name = ?", "")
     end
 
+    if @summoner.recently_unlocked_level != nil
+      new_level = BattleLevel.find_by_name(@summoner.recently_unlocked_level)
+      area_name = new_level.area_name
+      region_name = new_level.region_name
+      flash.now[:success] = "You have unlocked a new level in #{area_name} of #{region_name}!"
+      @summoner.clear_recent_level
+    end
+
 
     if current_user
       @monsters = @user.parties.first.monster_unlocks

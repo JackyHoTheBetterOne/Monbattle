@@ -66,7 +66,10 @@ class Battle < ActiveRecord::Base
 
     @victorious_summoner.wins += 1 
     level_array = @victorious_summoner.beaten_levels.clone
-    level_array.push(self.battle_level.name) if !level_array.include?self.battle_level.name
+    if !level_array.include?self.battle_level.name
+      level_array.push(self.battle_level.name) 
+      @victorious_summoner.recently_unlocked_level = self.battle_level.unlock.name if self.battle_level.unlock
+    end
 
     @victorious_summoner.beaten_levels = level_array
     @victorious_summoner.mp += @mp_reward
@@ -155,7 +158,7 @@ class Battle < ActiveRecord::Base
 
   private
   def update_date
-    self.updated_on = self.created_at
+    self.updated_on = self.created_at.localtime if self.created_at
   end
 
 

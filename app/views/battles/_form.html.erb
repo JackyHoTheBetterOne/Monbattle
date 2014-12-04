@@ -8,8 +8,8 @@
 <div class="level-description">
   <%= form_for(Battle.new) do |f| %>
     <% @levels.each do |level| %> 
-        <%= f.button "#{level.name}", :name => "battle[battle_level_id]", :value => "#{level.id}", 
-        class: "btn btn-primary", id: "#{level.name.delete(' ')}" %>
+      <%= f.button "#{level.name}", :name => "battle[battle_level_id]", :value => "#{level.id}", 
+      class: "btn btn-primary", id: "#{level.name.delete(' ')}" %>
     <% end %>
   <% end %>
 </div>

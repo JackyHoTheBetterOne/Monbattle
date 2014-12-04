@@ -1,5 +1,10 @@
 @import "compass";
 
+
+.container-fluid {
+  position: relative;
+};
+
 .navbar-logo {
   height: 50px;
   width: 160px;
@@ -34,6 +39,7 @@
 a.fb-nav {
   padding: 8px 12px !important;
   border: 2px solid black;
+  z-index: 100;
 };
 
 .forest {
@@ -105,11 +111,89 @@ a.fb-nav:hover {
   width: 100%;
   position: absolute;
   top: 0px;
-  left: 102px;
+  left: 166px;
+  .quest-arrow {
+    position: absolute;
+    height: 27px;
+    width: 45px;
+    left: -140px;
+    top: 59px;
+    opacity: 0;
+    transition: 0.2s;
+    z-index: 100;
+  };
+  .quests-info {
+    z-index: 10;
+    box-shadow: 5px 5px 5px #000000;
+    position: relative;
+    opacity: 0;
+    transition: 0.2s;
+    height: 200px;
+    width: 280px;
+    background: black;
+    left: -255px;
+    top: 63px;
+    border: 3px solid #757575;
+    border-radius: 5px;
+    .quest {
+      background: #0D47A1;
+      border-radius: 5px;
+      position: relative;
+      border: 2px solid black;
+      height: 64px;
+      .quest-detail {
+        position: absolute;
+        width: 100%;
+        left: 6px;
+        text-align: left;
+        top: 4px;
+      };
+      .quest-reward {
+        text-align: left;
+        position: absolute;
+        top: 40px;
+        width: 50%;
+        left: 132px;
+      };
+      .quest-time {
+        text-align: left;
+        position: absolute;
+        left: 40px;
+        top: 40px;
+      };
+      .quest-clock {
+        height: 16px;
+        position: absolute;
+        top: 42px;
+        left: 12px;
+      };
+    };
+  };
 };
 
 .sign-in {
   width: 165px;
 };
 
+
+.for-real {
+  z-index: 100;
+};
+
+
+.quests-outline {
+  height: 205px;
+  width: 286px;
+  content: " ";
+  position: absolute;
+  top: 81px;
+  left: -258px;
+  right: 5px;
+  bottom: 5px;
+  border: 5px solid black;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+  z-index: 5;
+};
 

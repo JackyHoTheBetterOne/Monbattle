@@ -4,7 +4,7 @@ class Fight < ActiveRecord::Base
   after_create :quest_start
 
   def quest_start
-    @date = Time.now.utc.to_date
+    @date = Time.now
     @party = self.party
     if Battle.find_matching_date(@date, @party).count == 1 
       @party.user.summoner.quest_begin 
