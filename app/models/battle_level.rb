@@ -67,14 +67,21 @@ class BattleLevel < ActiveRecord::Base
     available_levels = []
     if self != []
       self.all.each do |b|
-        if b.unlock == nil
-          available_levels << b 
-        else 
-          available_levels << b if beaten_levels.include?b.unlock.name 
+        available_levels << b if b.unlocked_by_default == true
+        if b.unlock
+          available_levels << BattleLevel.find(b.unlock.id) if beaten_levels.include?b.name
         end
       end
     end
     return available_levels
+  end
+
+  def check_default
+    if BattleLevel.where(unlock: self.id).length != 0 
+      self.unlocked_by_default = false
+    else 
+      self.unlocked_by_default = true
+    end
   end
   
   private

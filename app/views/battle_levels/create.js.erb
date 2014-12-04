@@ -6,7 +6,7 @@
   $(".battle_levels").prepend("<%= j render @battle_level %>");
   setTimeout((function() {
     $('body').scrollTo('#<%= dom_id(@battle_level) %>');
-    $("#<%= dom_id(@battle_level) %>").effect("highlight", 1000);
+    $("#<%= dom_id(@battle_level) %>").effect("highlight");
   }), 500);
   $(".battle_level_creation").html("<%= j render "create_form" %>");
 <% end %>
