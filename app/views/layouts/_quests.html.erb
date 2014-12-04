@@ -1,0 +1,22 @@
+<% Quest.all.each do |q| %>
+  <% if q.is_active %>
+    <div class="quest">
+      <span class="quest-detail">
+        <% if q.stat == "wins" && q.type == "Daily-Achievement" %>
+          <%= q.name.gsub(/\d+/, (q.stat_requirement - 
+              current_user.summoner.num_of_daily_wins).to_s) %>
+        <% elsif q.stat == "wins" && q.type == "Daily-Login-Bonus" %>
+          <%= q.name.gsub(/\d+/, (q.stat_requirement - 
+            current_user.summoner.num_of_daily_wins).to_s) %>
+        <% end %>
+      </span>
+      <span class="quest-reward"><%= q.reward %>: <%= q.reward_amount %></span>
+      <span class="quest-time">
+        <%= seconds_to_time((Time.now.end_of_day - Time.now).to_i) %>
+      </span>
+      <%= image_tag("clock.png", class: "quest-clock") %>
+    </div>
+  <% end %>
+<% end %>
+
+<p><%= current_user.summoner.num_of_daily_wins %></p>

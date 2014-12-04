@@ -29,7 +29,7 @@ class Summoner < ActiveRecord::Base
   end
 
 
-################################################################################################### Quest logic
+##################################################################################################### Quest logic
 
   def quest_begin
     unless self.name == "NPC"
@@ -122,7 +122,33 @@ class Summoner < ActiveRecord::Base
     self.save
   end
 
-######################################################################################################
+###################################################################################################### Quest display helpers
+  def num_of_daily_wins
+    count = 0 
+    self.daily_battles.each do |b|
+      battle = Battle.find(b)
+      if battle.victor == self.name
+        count += 1
+      end
+    end
+    return count
+  end
+
+  def num_of_daily_wins_under_round(round)
+    count = 0
+    self.daily_battles.each do |b|
+      battle = Battle.find(b)
+      if battle.victor == self.name && battle.round <= round 
+        count += 1
+      end
+    end
+    return count 
+  end
+
+
+
+
+#############################################################################################################
 
   def add_daily_battle(battle_id)
     array = self.daily_battles.clone

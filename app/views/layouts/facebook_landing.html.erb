@@ -7,6 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="forest">
+  <%= render "battles/single_ability_img" %>
   <div class="container-fluid">
     <nav class="navbar mon-front" role="navigation">
       <ul class="nav nav-pills main-nav" id="navigation">
@@ -43,16 +44,7 @@
                 <div class="quests-outline">
                 </div>
                 <div class="quests-info">
-                  <% Quest.all.each do |q| %>
-                    <% if q.is_active %>
-                      <div class="quest">
-                        <span class="quest-detail"><%= q.name %></span>
-                        <span class="quest-reward"><%= q.reward %>: <%= q.reward_amount %></span>
-                        <span class="quest-time"><%= Time.now.strftime("%I:%M:%S") %></span>
-                        <%= image_tag("clock.png", class: "quest-clock") %>
-                      </div>
-                    <% end %>
-                  <% end %>
+                  <%= render "layouts/quests" %>
                 </div>
               <% end %>
             </span>
@@ -83,9 +75,6 @@
     <div class="for-real">
       <%= yield %>
     </div>
-    <% if current_page?(home_sweet_home_path) || current_page?(root_path)  %>
-      <%= render "home/footer" %>
-    <% end %>
   </div>
 </body>
 </html>

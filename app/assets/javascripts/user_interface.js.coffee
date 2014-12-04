@@ -69,7 +69,7 @@ $ ->
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "1")
     else 
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0")
-  $(document).on "click", ".for-real", ->
+  $(document).on "click", ".for-real, .close-quest, .quest-close-footer", ->
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0")
   $(document).on "click", ".fb-nav :not('.quest-show')", ->
     setTimeout (->

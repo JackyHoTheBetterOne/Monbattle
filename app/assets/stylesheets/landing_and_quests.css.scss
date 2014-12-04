@@ -66,12 +66,14 @@ a.fb-nav {
 .contact-footer {
   position: fixed;
   bottom: 20px;
+  z-index: 1;
 };
 
 .extra-information {
   position: fixed;
   bottom: 20px;
   left: 598px;
+  z-index: 1;
 };
 
 .currency {
@@ -143,10 +145,11 @@ a.fb-nav:hover {
       height: 64px;
       .quest-detail {
         position: absolute;
-        width: 100%;
+        width: 97%;
+        line-height: 100%;
         left: 6px;
         text-align: left;
-        top: 4px;
+        top: 6px;
       };
       .quest-reward {
         text-align: left;
@@ -195,5 +198,23 @@ a.fb-nav:hover {
   opacity: 0;
   transition: 0.2s;
   z-index: 5;
+};
+
+.close-quest {
+  position: absolute;
+  width: 54%;
+  height: 114px;
+  top: 3px;
+  left: 197px;
+  z-index: 1;
+};
+
+
+.quest-close-footer {
+  width: 100%;
+  height: 180px;
+  position: fixed;
+  bottom: 0;
+  z-index: 0;
 };
 

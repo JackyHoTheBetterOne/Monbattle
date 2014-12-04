@@ -6,6 +6,7 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   body
+    =render "battles/single_ability_img"
     .main-content
       =render partial: "layouts/admin"
       -if flash[:notice]
