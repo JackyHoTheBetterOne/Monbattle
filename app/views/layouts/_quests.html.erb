@@ -1,5 +1,5 @@
 <% Quest.all.each do |q| %>
-  <% if q.is_active %>
+  <% if q.is_active && current_user.summoner.check_completed_daily_quest(q.name) %>
     <div class="quest">
       <span class="quest-detail">
         <% if q.stat == "wins" && q.type == "Daily-Achievement" %>

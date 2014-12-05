@@ -26,6 +26,14 @@
         </li>
         <li class="pull-right fb-nav">
           <a href="#" class="fb-nav quest-show">Quest</a>
+          <%= image_tag("quest-arrow.png", class: "quest-arrow") %>
+          <div class="quests-outline">
+          </div>
+          <div class="quests-info">
+            <% if current_user %>
+              <%= render "layouts/quests" %>
+            <% end %>
+          </div>
         </li>
         <% if !user_signed_in? %>
           <li class="pull-right fb-nav sign-in">
@@ -40,12 +48,6 @@
             <span class="door">        
               <% if user_signed_in? %>
                 <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
-                <%= image_tag("quest-arrow.png", class: "quest-arrow") %>
-                <div class="quests-outline">
-                </div>
-                <div class="quests-info">
-                  <%= render "layouts/quests" %>
-                </div>
               <% end %>
             </span>
           </li>

@@ -90,7 +90,9 @@ class Summoner < ActiveRecord::Base
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) <= 
             q.stat_requirement
           @questing_summoner[q.reward] += q.reward_amount
-        else
+        end
+        if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) == 
+            q.stat_requirement
           array = @questing_summoner.completed_daily_quests.clone
           array.push(q.name)
           @questing_summoner.completed_daily_quests = array
@@ -124,7 +126,6 @@ class Summoner < ActiveRecord::Base
 
 #################################################################################################### Quest display helpers
   def num_of_daily_wins
-    self.clear_daily_battles()
     count = 0 
     self.daily_battles.each do |b|
       battle = Battle.find(b)
@@ -136,7 +137,6 @@ class Summoner < ActiveRecord::Base
   end
 
   def num_of_daily_wins_under_round(round)
-    self.clear_daily_battles()
     count = 0
     self.daily_battles.each do |b|
       battle = Battle.find(b)
@@ -147,15 +147,9 @@ class Summoner < ActiveRecord::Base
     return count 
   end
 
-  def clear_daily_battles
-    @date = Time.now
-    @party = Summoner.first.user.parties[0]
-    if Battle.find_matching_date(@date, @party).count == 1 
-      self.daily_battles = []
-      self.save
-    end
+  def check_completed_daily_quest(name)
+    !self.completed_daily_quests.include?name
   end
-
 
 
 #############################################################################################################
