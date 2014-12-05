@@ -79,7 +79,7 @@ a.fb-nav {
 .currency {
   text-align: right;
   top: 6px;
-  left: 140px;
+  left: 73px;
   color: white;
   font-weight: bold;
 };
@@ -109,16 +109,20 @@ a.fb-nav:hover {
   top: -10px;
 };
 
+
+///////////////////////////////////////////////////////////////////////////// Quest panel styles
+
+
 .door {
   width: 100%;
   position: absolute;
   top: 0px;
-  left: 166px;
+  left: 235px;
   .quest-arrow {
     position: absolute;
     height: 27px;
     width: 45px;
-    left: -140px;
+    left: -165px;
     top: 59px;
     opacity: 0;
     transition: 0.2s;
@@ -133,7 +137,7 @@ a.fb-nav:hover {
     height: 200px;
     width: 280px;
     background: black;
-    left: -255px;
+    left: -280px;
     top: 63px;
     border: 3px solid #757575;
     border-radius: 5px;
@@ -189,8 +193,8 @@ a.fb-nav:hover {
   width: 286px;
   content: " ";
   position: absolute;
-  top: 81px;
-  left: -258px;
+  top: 80px;
+  left: -283px;
   right: 5px;
   bottom: 5px;
   border: 5px solid black;

@@ -8,15 +8,16 @@
         <% elsif q.stat == "wins" && q.type == "Daily-Login-Bonus" %>
           <%= q.name.gsub(/\d+/, (q.stat_requirement - 
             current_user.summoner.num_of_daily_wins).to_s) %>
+        <% elsif q.stat = "round_taken" && q.type == "Daily-Turn-Based-Achievement" %>
+          <%= q.name.gsub(/\d+/, (q.requirement - 
+            current_user.summoner.num_of_daily_wins_under_round(q.stat_requirement)).to_s) %>
         <% end %>
       </span>
       <span class="quest-reward"><%= q.reward %>: <%= q.reward_amount %></span>
       <span class="quest-time">
-        <%= seconds_to_time((Time.now.end_of_day - Time.now).to_i) %>
+        <%= (Time.now.end_of_day - Time.now).to_i %>
       </span>
       <%= image_tag("clock.png", class: "quest-clock") %>
     </div>
   <% end %>
 <% end %>
-
-<p><%= current_user.summoner.num_of_daily_wins %></p>

@@ -82,7 +82,7 @@ class Summoner < ActiveRecord::Base
     @questing_summoner.save
   end
 
-  def get_login_bonus
+  def get_login_bonus_for_wins
     @questing_summoner = self
     Quest.all.each do |q|
       if q.type == "Daily-Login-Bonus" && (!@questing_summoner.completed_daily_quests.include?q.name) &&
@@ -122,8 +122,9 @@ class Summoner < ActiveRecord::Base
     self.save
   end
 
-###################################################################################################### Quest display helpers
+#################################################################################################### Quest display helpers
   def num_of_daily_wins
+    self.clear_daily_battles()
     count = 0 
     self.daily_battles.each do |b|
       battle = Battle.find(b)
@@ -135,16 +136,25 @@ class Summoner < ActiveRecord::Base
   end
 
   def num_of_daily_wins_under_round(round)
+    self.clear_daily_battles()
     count = 0
     self.daily_battles.each do |b|
       battle = Battle.find(b)
-      if battle.victor == self.name && battle.round <= round 
+      if battle.victor == self.name && battle.round_taken <= round 
         count += 1
       end
     end
     return count 
   end
 
+  def clear_daily_battles
+    @date = Time.now
+    @party = Summoner.first.user.parties[0]
+    if Battle.find_matching_date(@date, @party).count == 1 
+      self.daily_battles = []
+      self.save
+    end
+  end
 
 
 
