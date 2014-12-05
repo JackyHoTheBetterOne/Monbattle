@@ -2,6 +2,8 @@ class BattlesController < ApplicationController
   before_action :find_battle, except: [:create, :index, :new]
   impressionist :unique => [:controller_name, :action_name, :session_hash]
 
+  before_action :quest_start, only: :new
+
   def new
     @battle = Battle.new
     @regions = Region.all
@@ -71,7 +73,7 @@ class BattlesController < ApplicationController
     @pc_party   = @battle.parties[1]
     if @battle.impressionist_count <= 2 || current_user.admin
       respond_to do |format|
-        format.html { render layout: "facebook_landing" if current_user.admin == false }
+        format.html { render layout: "facebook_landing" }
         format.json { render json: @battle.build_json  }
       end
     else
@@ -124,6 +126,18 @@ class BattlesController < ApplicationController
   def find_battle
     @battle = Battle.friendly.find params[:id]
     @battle.parties = @battle.parties.order(:npc)
+  end
+
+  def quest_start
+    if current_user
+      @date = Time.now.localtime
+      @party = current_user.parties[0]
+      if Battle.find_matching_date(@date, @party).count == 0
+        @party.user.summoner.quest_begin 
+        @party.user.summoner.clear_daily_achievement
+        @party.user.summoner.clear_daily_battles
+      end
+    end
   end
 
 end

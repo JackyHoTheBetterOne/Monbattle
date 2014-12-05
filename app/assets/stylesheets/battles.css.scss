@@ -558,7 +558,7 @@ body {
     visibility: hidden;
     opacity: 0.9;
     width: 260px;
-    z-index: 1500;
+    z-index: 6000;
     border-color: black;
     @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
     span p {
@@ -597,7 +597,7 @@ body {
     position: absolute;
     top: 20px;
     left: 200px;
-    z-index: 1000;
+    z-index: 5000;
     border-color: transparent;
     outline: 0;
   };

@@ -29,7 +29,7 @@ class Summoner < ActiveRecord::Base
   end
 
 
-################################################################################################### Quest logic
+##################################################################################################### Quest logic
 
   def quest_begin
     unless self.name == "NPC"
@@ -82,7 +82,7 @@ class Summoner < ActiveRecord::Base
     @questing_summoner.save
   end
 
-  def get_login_bonus
+  def get_login_bonus_for_wins
     @questing_summoner = self
     Quest.all.each do |q|
       if q.type == "Daily-Login-Bonus" && (!@questing_summoner.completed_daily_quests.include?q.name) &&
@@ -90,7 +90,9 @@ class Summoner < ActiveRecord::Base
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) <= 
             q.stat_requirement
           @questing_summoner[q.reward] += q.reward_amount
-        else
+        end
+        if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) == 
+            q.stat_requirement
           array = @questing_summoner.completed_daily_quests.clone
           array.push(q.name)
           @questing_summoner.completed_daily_quests = array
@@ -122,7 +124,35 @@ class Summoner < ActiveRecord::Base
     self.save
   end
 
-######################################################################################################
+#################################################################################################### Quest display helpers
+  def num_of_daily_wins
+    count = 0 
+    self.daily_battles.each do |b|
+      battle = Battle.find(b)
+      if battle.victor == self.name
+        count += 1
+      end
+    end
+    return count
+  end
+
+  def num_of_daily_wins_under_round(round)
+    count = 0
+    self.daily_battles.each do |b|
+      battle = Battle.find(b)
+      if battle.victor == self.name && battle.round_taken <= round 
+        count += 1
+      end
+    end
+    return count 
+  end
+
+  def check_completed_daily_quest(name)
+    !self.completed_daily_quests.include?name
+  end
+
+
+#############################################################################################################
 
   def add_daily_battle(battle_id)
     array = self.daily_battles.clone

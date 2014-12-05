@@ -23,12 +23,13 @@ class Battle < ActiveRecord::Base
 
   aasm do
     state :battling, :initial => true
+    state :hacked
     state :complete, :before_enter => :battle_complete
     event :done, :after => :distribute_quest_reward do
       transitions :from => :battling, :to => :complete
     end
     event :ruined do 
-      transitions :from => :battling, :to => :complete
+      transitions :from => :battling, :to => :hacked
     end
   end
 
@@ -100,12 +101,15 @@ class Battle < ActiveRecord::Base
   end
 
   def distribute_quest_reward
+    p "==============================================================================="
+    p "Delivering quest rewards if any"
+    p "==================================================================================="
     if self.victor && self.loser
       @victor = Summoner.find_summoner(self.victor)
       @loser = Summoner.find_summoner(self.loser)
     end
     @victor.get_achievement
-    @victor.get_login_bonus
+    @victor.get_login_bonus_for_wins
     @loser.get_achievement
   end
 

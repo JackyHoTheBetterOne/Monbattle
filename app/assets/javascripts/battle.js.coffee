@@ -520,6 +520,9 @@ window.outcome = ->
     document.getElementById('battle').style.pointerEvents = 'none'
     $(".message").text("You lost, but here's " + battle.reward*0.1 + " MP because we pity you, not. Try harder next time!").
       append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>").css("opacity", 1)
+    setTimeout (->
+      $(".btn.btn-danger").addClass("battle-fin")
+      ),250
     $("#overlay").fadeIn(1000)
     setTimeout (->
       $.ajax
@@ -549,10 +552,11 @@ window.outcome = ->
     $(document).on "click.cutscene", "#overlay", ->
       if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
         $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
-          append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
+          append("<br/><br/><a href='/battles/new' class='btn btn-success battle-fin'>Continue your journey</a>")
         $(".cutscene").hide(500)
         endCutScene()
         setTimeout (->
+          $(".btn.btn-success").addClass("battle-fin")
           $(".message").css("opacity", "1")
         ), 500
       else 
@@ -570,6 +574,7 @@ window.outcome = ->
       $(".message").css("opacity", "1")
       $(".cutscene, .next-scene").css("opacity", "0")
       $(".message").promise().done ->
+        $(".btn.btn-success").addClass("battle-fin")
         $("#overlay").fadeIn(1000)
       $(document).off "click.cutscene", "#overlay"
 window.checkApAvailbility = ->
@@ -1168,6 +1173,10 @@ $ ->
     error: ->
       alert("This battle cannot be loaded!")
     success: (data) ->
+      $(".quest-show").trigger("click")
+      setTimeout (->
+        $(".quest-show").trigger("click")
+        ),100
       window.battle = data
       if battle.start_cut_scenes.length isnt 0 
         $(".cutscene").show(500)

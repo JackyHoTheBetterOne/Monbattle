@@ -66,18 +66,20 @@ a.fb-nav {
 .contact-footer {
   position: fixed;
   bottom: 20px;
+  z-index: 1;
 };
 
 .extra-information {
   position: fixed;
   bottom: 20px;
   left: 598px;
+  z-index: 1;
 };
 
 .currency {
   text-align: right;
   top: 6px;
-  left: 140px;
+  left: 73px;
   color: white;
   font-weight: bold;
 };
@@ -111,64 +113,7 @@ a.fb-nav:hover {
   width: 100%;
   position: absolute;
   top: 0px;
-  left: 166px;
-  .quest-arrow {
-    position: absolute;
-    height: 27px;
-    width: 45px;
-    left: -140px;
-    top: 59px;
-    opacity: 0;
-    transition: 0.2s;
-    z-index: 100;
-  };
-  .quests-info {
-    z-index: 10;
-    box-shadow: 5px 5px 5px #000000;
-    position: relative;
-    opacity: 0;
-    transition: 0.2s;
-    height: 200px;
-    width: 280px;
-    background: black;
-    left: -255px;
-    top: 63px;
-    border: 3px solid #757575;
-    border-radius: 5px;
-    .quest {
-      background: #0D47A1;
-      border-radius: 5px;
-      position: relative;
-      border: 2px solid black;
-      height: 64px;
-      .quest-detail {
-        position: absolute;
-        width: 100%;
-        left: 6px;
-        text-align: left;
-        top: 4px;
-      };
-      .quest-reward {
-        text-align: left;
-        position: absolute;
-        top: 40px;
-        width: 50%;
-        left: 132px;
-      };
-      .quest-time {
-        text-align: left;
-        position: absolute;
-        left: 40px;
-        top: 40px;
-      };
-      .quest-clock {
-        height: 16px;
-        position: absolute;
-        top: 42px;
-        left: 12px;
-      };
-    };
-  };
+  left: 235px;
 };
 
 .sign-in {
@@ -181,19 +126,5 @@ a.fb-nav:hover {
 };
 
 
-.quests-outline {
-  height: 205px;
-  width: 286px;
-  content: " ";
-  position: absolute;
-  top: 81px;
-  left: -258px;
-  right: 5px;
-  bottom: 5px;
-  border: 5px solid black;
-  border-radius: 5px;
-  opacity: 0;
-  transition: 0.2s;
-  z-index: 5;
-};
+
 

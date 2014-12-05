@@ -7,6 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="forest">
+  <%= render "battles/single_ability_img" %>
   <div class="container-fluid">
     <nav class="navbar mon-front" role="navigation">
       <ul class="nav nav-pills main-nav" id="navigation">
@@ -25,6 +26,14 @@
         </li>
         <li class="pull-right fb-nav">
           <a href="#" class="fb-nav quest-show">Quest</a>
+          <%= image_tag("quest-arrow.png", class: "quest-arrow") %>
+          <div class="quests-outline">
+          </div>
+          <div class="quests-info">
+            <% if current_user %>
+              <%= render "layouts/quests" %>
+            <% end %>
+          </div>
         </li>
         <% if !user_signed_in? %>
           <li class="pull-right fb-nav sign-in">
@@ -39,21 +48,6 @@
             <span class="door">        
               <% if user_signed_in? %>
                 <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
-                <%= image_tag("quest-arrow.png", class: "quest-arrow") %>
-                <div class="quests-outline">
-                </div>
-                <div class="quests-info">
-                  <% Quest.all.each do |q| %>
-                    <% if q.is_active %>
-                      <div class="quest">
-                        <span class="quest-detail"><%= q.name %></span>
-                        <span class="quest-reward"><%= q.reward %>: <%= q.reward_amount %></span>
-                        <span class="quest-time"><%= Time.now.strftime("%I:%M:%S") %></span>
-                        <%= image_tag("clock.png", class: "quest-clock") %>
-                      </div>
-                    <% end %>
-                  <% end %>
-                </div>
               <% end %>
             </span>
           </li>
@@ -83,9 +77,6 @@
     <div class="for-real">
       <%= yield %>
     </div>
-    <% if current_page?(home_sweet_home_path) || current_page?(root_path)  %>
-      <%= render "home/footer" %>
-    <% end %>
   </div>
 </body>
 </html>
