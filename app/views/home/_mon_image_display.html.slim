@@ -1,7 +1,0 @@
--@base_mons.each do |mon|
-  .monster-thumb.btn.shadowed2
-    =render partial: "abils_for_mon", locals: {mon: mon, socket: 1, class_info: "monster-thumb btn shadowed2", link_info: image_tag(mon.mon_skin(@user))}
-    -if @user.can_add_to_party?(mon)
-      =link_to fa_icon("plus-square 1x"), monster_unlock_member_for_users_path(mon, {member: {user_id: @user}}), method: :post, remote: true
-    -if @user.can_remove_from_party?(mon)
-      =link_to fa_icon("minus-square 1x"), monster_unlock_member_for_user_path(mon, mon.members.first, {member: {user_id: @user, portrait_destroy: "member_#{mon.members.first.id}"}}), method: :delete, remote: true

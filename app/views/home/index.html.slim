@@ -1,6 +1,6 @@
 -if @user
   .master-bg
-    .top-section.shadowed1
+    .top-section
       .party-title
         p Party Members
       .party-pane
@@ -9,15 +9,23 @@
       .monster-title-area
         p Monster Box
       .monsters-image-display
-        =render partial: "mon_image_display"
-    .abilities-display-area
-      .ability-list
-        p Abilities List
-      .scroll-wrapper
-        -@abilities.each do |ability|
-          =render partial: "ability", locals: {ability: ability}
-    -@monster_unlocks.each do |mon|
-      .monster-info-area id="#{dom_id(mon)}-info-pane"
-        =render partial: "monster_display", locals: {mon: mon}
+        -@base_mons.each do |mon|
+          .monster-thumb.btn.shadowed2
+            =render partial: "home/abils_for_mon", locals: {mon: mon, socket: 1, class_info: "mon-thumb", link_info: image_tag(mon.mon_portrait(@user))}
+            .add-rem-icon
+              -if @user.can_add_to_party?(mon)
+                =render partial: "home/add_icon", locals: {mon: mon}
+              -if @user.can_remove_from_party?(mon)
+                =render partial: "home/remove_icon", locals: {mon: mon}
+    .monster-display
+      .abilities-display-area
+        .ability-list
+          p Abilities List
+        .scroll-wrapper
+          -@abilities.each do |ability|
+            =render partial: "ability", locals: {ability: ability}
+      -@monster_unlocks.each do |mon|
+        .monster-info-area id="#{dom_id(mon)}-info-pane"
+          =render partial: "monster_display", locals: {mon: mon}
 -else
   = render partial: "no_user"

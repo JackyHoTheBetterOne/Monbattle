@@ -13,11 +13,7 @@ tr id=dom_id(monster)
       br=link_to "Delete Template", monster, method: :delete, data: {confirm: "Will delete this monster from all users"}, class: "btn btn-std btn-danger", remote: true
   td=monster.job.name + "/" + monster.job.evolve_lvl
   td=monster.element.name
-  td
-    -if monster.evolved_from_id == 0
-      ="Base Monster"
-    -else
-      =monster.evolved_from.name
+  td=monster.evolved_from_id == 0 ? "Base Monster" : monster.evolved_from.name
   td.description=monster.description
   td.max_hp=monster.max_hp
   td.summon_cost=monster.summon_cost
@@ -26,17 +22,10 @@ tr id=dom_id(monster)
   td=monster.rarity.try(:name)
   td.mp_cost=monster.mp_cost
   td.gp_cost=monster.gp_cost
-  td
-    -if monster.default_skin_id.nil?
-      ="Not Set"
-    -else
-      =image_tag monster.default_skin_img
+  td=monster.default_skin_id.nil? ? "Not Set" : image_tag(monster.default_skin_img)
   td=monster.default_sock1_id.nil? ? "Not Set" : monster.default_sock_name(monster.default_sock1_id)
   td=monster.default_sock2_id.nil? ? "Not Set" : monster.default_sock_name(monster.default_sock2_id)
   td=monster.default_sock3_id.nil? ? "Not Set" : monster.default_sock_name(monster.default_sock3_id)
   td=monster.default_sock4_id.nil? ? "Not Set" : monster.default_sock_name(monster.default_sock4_id)
-
   td id="unlock_#{dom_id(monster)}"
     =render partial: "monster_unlocks/monster_unlock", locals: {monster: @monster, monster_unlock: @monster_unlock}
-
-

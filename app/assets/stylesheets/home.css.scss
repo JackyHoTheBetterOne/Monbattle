@@ -4,33 +4,35 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat+Alternates");
 
 $home-font: 'Montserrat Alternates', sans-serif;
-$top-bg: linear-gradient(to bottom, #111624 5%, #3d94f6 100%);
-$ability-display: linear-gradient(to bottom, #111624 5%, #3d94f6 100%);
-$bottom-bg: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
+$main-bg: #4b4b4b;
+$panel-bg: #757575;
+$frame-bg: #353434;
+$abil-desc-bg: 0D47A1;
+
+$divide-margin: 5px;
+$middle-margin: 2.5px;
+$bottom-margin: 5px;
+$top-margin: 5px;
+$left-margin: 5px;
+$right-margin: 5px;
+
+$mon-thumb-dim: 72px;
+$border-radius: 6px;
 
 $grey-fade: linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
 $grey-fade-hover: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
-
-$screen-gap-right: 8px;
-$screen-gap-bottom: 5px;
-$screen-gap-top: 5px;
-$distance-between-pane-top-pane-info: 15px;
-
-.panel-heading {
-  background: $ability-display;
-}
 
 @mixin abs-div($width, $height) {
   position: absolute;
   width: $width;
   height: $height;
-  border: 1px solid blue;
+  // border: 1px solid blue;
 }
 @mixin rel-div($width, $height) {
   position: relative;
   width: $width;
   height: $height;
-  border: 1px solid red;
+  // border: 1px solid red;
 }
 @mixin portrait-img($width, $height) {
   @include abs-div($width, $height);
@@ -39,12 +41,21 @@ $distance-between-pane-top-pane-info: 15px;
   max-width: 100%;
   max-height: 100%;
 }
-.body {
-  position: relative;
+@mixin add-rem-img($width, $height) {
+  @include abs-div($width, $height);
+  top: 0;
+  right: 0;
+  max-width: 100%;
+  max-height: 100%;
 }
-.btn:active {
-  position:relative;
-  top: 1px;
+@mixin p-text($font-size, $margin-top, $margin-right, $margin-bottom, $margin-left) {
+  font-family: $home-font;
+  font-size: $font-size;
+  margin-left: $margin-left;
+  margin-right: $margin-right;
+  margin-top: $margin-top;
+  margin-bottom: $margin-bottom;
+  color: azure;
 }
 .shadowed1 {
   box-shadow: 3px 3px 3px 0px #111624;
@@ -55,67 +66,98 @@ $distance-between-pane-top-pane-info: 15px;
   border: 1px solid black;
   border-radius: 3px;
 }
+%thumb-setting {
+  @include portrait-img(100%, 100%);
+  img {
+    @include portrait-img(100%, 100%);
+  }
+}
+%add-rem-setting {
+  margin-right: -5px;
+  margin-top: -5px;
+  @include add-rem-img(25px, 25px);
+  img {
+    @include add-rem-img(100%, 100%);
+  }
+}
 
 ///////////////////////////////////
 .master-bg {
   @include abs-div(960px, 500px);
-  background: $bottom-bg;
+  background: $main-bg;
   left: 0;
   right: 0;
   margin: auto;
 }
+.monster-display {
+  @include abs-div(573px, 490px);
+  background: $panel-bg;
+  bottom: 0;
+  right: 0;
+  margin: $top-margin $right-margin $bottom-margin $middle-margin;
+  border-radius: $border-radius;
+}
 ///////////////////////////////////////////
 
 .top-section {
-  @include abs-div(40%, 25%);
-  background: $top-bg;
+  @include abs-div(370px, 128px);
+  background: $panel-bg;
+  border-radius: $border-radius;
   top: 0;
   left: 0;
+  margin: $top-margin $middle-margin $divide-margin $left-margin;
   .party-title {
-    @include abs-div(100%, 30%);
+    height: 30px;
     p {
-      font-family: $home-font;
-      font-size: 22px;
-      margin-left: 60px;
-      color: azure;
+      @include p-text(16px, 0, 0, 0, 0);
     }
   }
   .party-pane {
     @include abs-div(100%, 70%);
     top: 23%;
     left: 0;
-    img {
-      @include rel-div(20%, 100%);
+    .party-member {
+      @include rel-div($mon-thumb-dim, $mon-thumb-dim);
       padding: 0px;
+      border: 4px;
       margin-left: 5px;
       float: left;
       bottom: 0;
-      max-height: 100%;
-      max-width: 100;
+      border: 4px solid $frame-bg;
+      .mon-thumb {
+        @extend %thumb-setting
+      }
+      .add-rem-icon {
+        @extend %add-rem-setting
+      }
     }
   }
 }
-
 ///////////////////////////////////
 .abilities-display-area {
-  @include abs-div(60%, 68%);
+  @include abs-div(100%, 375px);
   bottom: 0;
   right: 0;
-  background: $ability-display;
+  background: $panel-bg;
   display: none;
-  .ability-list-word {
-    @include abs-div(100%, 10%);
+  .ability-list {
+    p {
+      @include p-text(16px, 0, 0, 0, 0);
+    }
   }
   .scroll-wrapper {
-    @include rel-div(100%, 90%);
+    @include rel-div(100%, 353px);
     display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+    overflow-x: hidden;
     .ability-pane {
-      @include rel-div(95%, 35%);
+      @include rel-div(95%, 82px);
       right: 0;
       left: 0;
-      margin: 2.5% auto 2.5% auto;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      margin-left: auto;
+      margin-right: auto;
       .ability-icon {
         @include abs-div(15%, 100%);
         left: 0;
@@ -131,7 +173,6 @@ $distance-between-pane-top-pane-info: 15px;
         left: 0;
         margin-left: auto;
         margin-right: auto;
-        background: $grey-fade;
         .well {
           margin-bottom: 10px;
           padding: 2px;
@@ -168,15 +209,11 @@ $distance-between-pane-top-pane-info: 15px;
 }
 ////////////////////////////////////////////
 .monster-info-area {
-  @include abs-div(60%, 32%);
+  @include abs-div(100%, 125px);
   top: 0;
   right: 0;
   display: none;
-  p {
-    font-family: $home-font;
-    margin-left: 5px;
-    margin-bottom: 1px;
-  }
+  background: $panel-bg;
   .btn {
     font-family: $home-font
   }
@@ -195,104 +232,94 @@ $distance-between-pane-top-pane-info: 15px;
       background: $grey-fade-hover
     }
   }
-  // .info-display-area {
-  //   @include abs-div(100%, 32%);
-  //   top: 0;
-  //   right: 0;
   .info-pane {
-    @include abs-div(100%, 74%);
+    @include abs-div(400px, 74%);
     bottom: 0;
-    right: 0;
-    background: $ability-display;
-    .monster-info {
-      @include abs-div(35%, 90%);
-      bottom: 5%;
-      left: 1%;
-      background: $grey-fade;
-      color: black;
-      .monster-portrait {
-        @include abs-div(38%, 92%);
-        right: 0;
-        top: 0;
+    left: 0;
+    margin-left: 5px;
+    border-radius: $border-radius;
+    background: $frame-bg;
+    p {
+      @include p-text(16px, 0, 0, 0, 0);
+      font-family: $home-font;
+      margin-bottom: 0px;
+    }
+    .mon-equipped1 {
+      .equip1 {
+        @include abs-div(10%, 60%);
+        bottom: 5%;
+        right: 13%;
+        cursor: pointer;
         img {
           @include portrait-img(100%, 100%);
         }
       }
     }
-    .equip1 {
-      @include abs-div(10%, 60%);
-      bottom: 5%;
-      right: 13%;
-      cursor: pointer;
-      img {
-        @include portrait-img(100%, 100%);
+    .mon-equipped2 {
+      .equip2 {
+        @extend .equip1;
+        right: 1%;
+        // }
       }
     }
-    .equip2 {
-      @extend .equip1;
-      right: 1%;
-      // }
-    }
+    // .monster-info {
+    //   @include abs-div(35%, 90%);
+    //   bottom: 5%;
+    //   left: 1%;
+    //   background: $grey-fade;
+    //   color: black;
+    //   .monster-portrait {
+    //     @include abs-div(38%, 92%);
+    //     right: 0;
+    //     top: 0;
+    //     img {
+    //       @include portrait-img(100%, 100%);
+    //     }
+    //   }
+    // }
   }
 }
 /////////////////////////////////////
 .monsters-image-area {
-  @include abs-div(40%, 70%);
+  @include abs-div(370px, 355px);
   bottom: 0;
   left: 0;
+  margin: $divide-margin $middle-margin $bottom-margin $left-margin;
+  background: $panel-bg;
+  border-radius: $border-radius;
   .monster-title-area {
-    @include abs-div(100%, 15%);
-    top: 0;
     p {
-      font-family: $home-font;
-      color: azure;
-      font-size: 28px;
-      font-weight: bold;
-      margin-top: 25px;
-      text-align: center;
-      vertical-align: middle;
+      @include p-text(16px, 0, 0, 10px, 5px);
     }
   }
-}
   .monsters-image-display {
-    @include abs-div(100%, 80%);
+    @include abs-div(100%, 328px);
     bottom: 0;
     left: 0;
-    padding-left: 6px;
     overflow-y: scroll;
-  }
+    overflow-x: hidden;
     .monster-thumb {
-      @include rel-div(22%, 22%);
+      @include rel-div($mon-thumb-dim, $mon-thumb-dim);
       background: $grey-fade;
-      border-radius:6px;
       display:inline-block;
       cursor:pointer;
       color:#ffffff;
-      padding:5px 5px;
       text-decoration:none;
-      margin: 5px;
+      margin-top: 2.5px;
+      margin-bottom: 2.5px;
+      margin-left: 5.625px;
+      margin-right: 5.625px;
+      padding: 0;
       float: left;
-      .monThumb {
-        margin: 5px;
-        position: absolute;
-        @include portrait-img(100%, 100%);
+      .mon-thumb {
+        @extend %thumb-setting
       }
-      .fa {
-        color: black;
-        position: absolute;
-        margin-right: 10px;
-        margin-top: 5px;
-        right: 0;
-        top: 0;
-      }
-      .fa:hover {
-        background:red;
+      .add-rem-icon {
+        @extend %add-rem-setting
       }
     }
-    .monster-thumb:hover {
-      background: $grey-fade-hover;
-      text-decoration:none;
-    }
+  }
+}
 
 #topcontrol {
   bottom: -10px !important;
