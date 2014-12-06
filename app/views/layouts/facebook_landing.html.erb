@@ -24,12 +24,12 @@
         <li class="<%= 'active' if current_page?(home_sweet_home_path) || current_page?(root_path) %> pull-right fb-nav">
           <%= link_to "Home", home_sweet_home_path, class: "fb-nav"%>
         </li>
-        <li class="pull-right fb-nav">
+        <li class="pull-right fb-nav quest-related">
           <a href="#" class="fb-nav quest-show">Quest</a>
           <%= image_tag("quest-arrow.png", class: "quest-arrow") %>
           <div class="quests-outline">
           </div>
-          <div class="quests-info">
+          <div class="quests-info" id="quests-info">
             <% if current_user %>
               <%= render "layouts/quests" %>
             <% end %>

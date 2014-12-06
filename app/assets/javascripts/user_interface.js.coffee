@@ -1,4 +1,5 @@
 window.setQuestBox = ->
+  $(".quests-info").click(false)
   window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
   window.questTimer = undefined
   count = $(".quest").length
@@ -24,6 +25,7 @@ window.setQuestBox = ->
   setTimeout (->
     window.questTimer = setInterval(countDown, 1000)
   ), 700
+  $(document).off "click", ".quests-info"
     
 
 
@@ -104,7 +106,7 @@ $ ->
   $(document).on "click", ".for-real, .close-quest, .quest-close-footer", ->
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
       $(".quest-show").parent().removeClass("active")
-  $(document).on "click", ".fb-nav :not('.quest-show'), .battle-fin", ->
+  $(document).on "click.quest", ".fb-nav :not('.quest-show'), .battle-fin", ->
     setTimeout (->
       setQuestBox()
     ), 500
