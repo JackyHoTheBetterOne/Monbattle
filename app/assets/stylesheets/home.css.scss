@@ -7,7 +7,7 @@ $home-font: 'Montserrat Alternates', sans-serif;
 $main-bg: #4b4b4b;
 $panel-bg: #757575;
 $frame-bg: #353434;
-$abil-desc-bg: 0D47A1;
+$desc-blue-bg: #0D47A1;
 
 $divide-margin: 5px;
 $middle-margin: 2.5px;
@@ -15,12 +15,14 @@ $bottom-margin: 5px;
 $top-margin: 5px;
 $left-margin: 5px;
 $right-margin: 5px;
+$margin-mon-panel: 5px;
+$right-pane-inner-margins: 10px;
 
 $mon-thumb-dim: 72px;
 $border-radius: 6px;
 
-$grey-fade: linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
-$grey-fade-hover: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
+// $grey-fade: linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
+// $grey-fade-hover: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
 
 @mixin abs-div($width, $height) {
   position: absolute;
@@ -113,17 +115,16 @@ $grey-fade-hover: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
     }
   }
   .party-pane {
-    @include abs-div(100%, 70%);
+    @include abs-div(100%, 82px);
     top: 23%;
     left: 0;
     .party-member {
-      @include rel-div($mon-thumb-dim, $mon-thumb-dim);
+      @include rel-div($mon-thumb-dim + 10, $mon-thumb-dim + 10);
       padding: 0px;
-      border: 4px;
       margin-left: 5px;
       float: left;
       bottom: 0;
-      border: 4px solid $frame-bg;
+      border: 5px solid $frame-bg;
       .mon-thumb {
         @extend %thumb-setting
       }
@@ -173,19 +174,50 @@ $grey-fade-hover: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
         left: 0;
         margin-left: auto;
         margin-right: auto;
-        .well {
-          margin-bottom: 10px;
-          padding: 2px;
-          font-weight: bold;
+        .abil-heading {
+          @include abs-div(100%, 24px);
+          top: 0;
+          left: 0;
           border: 0px;
+          border-radius: 3px;
+          background: $desc-blue-bg;
+          overflow: none;
           p {
-            margin-left: 0px;
-            color: white;
+            @include p-text(12px, 2px, 0, 0, 5px);
+          }
+          .ability-name {
+            @include abs-div(40%, 100%);
+            top: 0;
+            left: 0;
+          }
+          .ap-cost {
+            @include abs-div(16%, 100%);
+            top: 0;
+            left: 40%;
+          }
+          .word-available {
+            @include abs-div(20%, 100%);
+            top: 0;
+            left: 56%;
+          }
+          .avail {
+            @include abs-div(8%, 100%);
+            top: 0;
+            left: 76%;
+          }
+          .word-of {
+            @include abs-div(8%, 100%);
+            top: 0;
+            left: 84%;
+          }
+          .own {
+            @include abs-div(8%, 100%);
+            top: 0;
+            right: 0;
           }
         }
         p {
-          text-align: center;
-          color: black;
+          @include p-text(12px, 30px, 0, 0, 5px);
         }
       }
       .ability-equip-link {
@@ -214,69 +246,83 @@ $grey-fade-hover: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
   right: 0;
   display: none;
   background: $panel-bg;
+  .mon-equipped2 {
+    @include abs-div(80px, 82px);
+    bottom: 0;
+    right: 0;
+    margin-right: $margin-mon-panel;
+    border-radius: $border-radius;
+    background: $frame-bg;
+    cursor: pointer;
+    .equip-link {
+      @include abs-div(100%, 100%);
+      bottom: 0;
+      right: 0;
+      opacity: 0;
+      z-index: 1;
+    }
+    .equip-thumb {
+      @include abs-div(50px, 50px);
+      left: 0;
+      right: 0;
+      bottom: 23px;
+      margin: auto;
+      img {
+        @include portrait-img(100%, 100%);
+      }
+    }
+    .slot-text {
+      @include abs-div(100%, 20px);
+      bottom: 2px;
+      right: 0;
+      p {
+        @include p-text(16px, 0, 0, 0, 0);
+        text-align: center;
+      }
+    }
+  }
+  .mon-equipped1 {
+    @extend .mon-equipped2;
+    margin-right: 85px + $margin-mon-panel;
+  }
   .btn {
     font-family: $home-font
   }
   .btn-box {
     @include abs-div(25%, 22%);
-    top: 0;
-    left: 1%;
+    top: 5px;
+    left: $margin-mon-panel;
     .btn {
-      background: $grey-fade;
+      background: $desc-blue-bg;
       position: relative;
-      max-width: 100%;
-      max-height: 100%;
-      width: 50%;
+      width: 75px;
+      height: 25px;
     }
-    .btn-default:hover {
-      background: $grey-fade-hover
+    a {
+      text-align: center;
+      line-height: 8px;
     }
   }
   .info-pane {
-    @include abs-div(400px, 74%);
+    @include abs-div(393px, 82px);
     bottom: 0;
     left: 0;
-    margin-left: 5px;
+    margin-left: $margin-mon-panel;
     border-radius: $border-radius;
     background: $frame-bg;
+    .monster-thumb {
+      @include abs-div(70px,70px);
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      left: $right-pane-inner-margins;
+      .mon-thumb {
+        @extend %thumb-setting;
+      }
+    }
     p {
-      @include p-text(16px, 0, 0, 0, 0);
-      font-family: $home-font;
-      margin-bottom: 0px;
+      @include p-text(16px, 1, 0, 0, 70px + $right-pane-inner-margins * 2);
     }
-    .mon-equipped1 {
-      .equip1 {
-        @include abs-div(10%, 60%);
-        bottom: 5%;
-        right: 13%;
-        cursor: pointer;
-        img {
-          @include portrait-img(100%, 100%);
-        }
-      }
-    }
-    .mon-equipped2 {
-      .equip2 {
-        @extend .equip1;
-        right: 1%;
-        // }
-      }
-    }
-    // .monster-info {
-    //   @include abs-div(35%, 90%);
-    //   bottom: 5%;
-    //   left: 1%;
-    //   background: $grey-fade;
-    //   color: black;
-    //   .monster-portrait {
-    //     @include abs-div(38%, 92%);
-    //     right: 0;
-    //     top: 0;
-    //     img {
-    //       @include portrait-img(100%, 100%);
-    //     }
-    //   }
-    // }
   }
 }
 /////////////////////////////////////
@@ -289,7 +335,7 @@ $grey-fade-hover: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
   border-radius: $border-radius;
   .monster-title-area {
     p {
-      @include p-text(16px, 0, 0, 10px, 5px);
+      @include p-text(16px, 5px, 0, 10px, 5px);
     }
   }
   .monsters-image-display {
@@ -300,7 +346,6 @@ $grey-fade-hover: linear-gradient(to bottom, #283b33 5%, #ededed 100%);
     overflow-x: hidden;
     .monster-thumb {
       @include rel-div($mon-thumb-dim, $mon-thumb-dim);
-      background: $grey-fade;
       display:inline-block;
       cursor:pointer;
       color:#ffffff;

@@ -1,6 +1,6 @@
 -id_info ||= nil
 
 -if id_info.nil?
-  =link_to link_info, home_abilities_for_mon_path(mon: mon, socket: socket), remote: true, class: class_info
+  =link_to link_info, home_abilities_for_mon_path(mon: mon, socket: socket), class: class_info, remote: true
 -else
-  =link_to link_info, home_abilities_for_mon_path(mon: mon, socket: socket), remote: true, class: class_info, id: id_info
+  =link_to link_info, home_abilities_for_mon_path(mon: mon, socket: socket), class: class_info, id: id_info, remote: true

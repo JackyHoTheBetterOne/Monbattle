@@ -10,7 +10,7 @@
         p Monster Box
       .monsters-image-display
         -@base_mons.each do |mon|
-          .monster-thumb.btn.shadowed2
+          .monster-thumb.btn.shadowed2 id="#{dom_id(mon)}-box"
             =render partial: "home/abils_for_mon", locals: {mon: mon, socket: 1, class_info: "mon-thumb", link_info: image_tag(mon.mon_portrait(@user))}
             .add-rem-icon
               -if @user.can_add_to_party?(mon)

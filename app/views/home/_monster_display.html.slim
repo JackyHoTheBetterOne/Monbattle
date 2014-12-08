@@ -1,12 +1,23 @@
 .btn-box
   -unless mon.monster.evolved_from.nil?
-    =link_to "Base", home_abilities_for_mon_path(mon: mon.unlocked_evolved_from(@user).first, socket: 1), remote: true, class: "btn btn-default btn-change shadowed2"
+    =link_to "Base", home_abilities_for_mon_path(mon: mon.unlocked_evolved_from(@user).first, socket: 1), remote: true, class: "btn shadowed2"
   -unless mon.unlocked_evolves.empty?
-    =link_to "Evolve", home_abilities_for_mon_path(mon: mon.unlocked_evolves.first, socket: 1), remote: true, class: "btn btn-default btn-change shadowed2"
-.info-pane
+    =link_to "Evolve", home_abilities_for_mon_path(mon: mon.unlocked_evolves.first, socket: 1), remote: true, class: "btn shadowed2"
+.info-pane.shadowed2
+  .monster-thumb
+    .mon-thumb
+      =image_tag(mon.mon_portrait(@user))
   p #{mon.name}
   p HP: #{mon.max_hp}
-.mon-equipped1 id="#{dom_id(mon)}-equipped1"
-  =render partial: "abils_for_mon", locals: {mon: mon, socket: 1, class_info: "equip1 shadowed2", link_info: "abil in sock"}
-.mon-equipped2 id="#{dom_id(mon)}-equipped2"
-  =render partial: "abils_for_mon", locals: {mon: mon, socket: 2, class_info: "equip2 shadowed2", link_info: "abil in sock"}
+.mon-equipped1.shadowed2.btn
+  =render partial: "abils_for_mon", locals: {mon: mon, socket: 1, class_info: "equip-link", link_info: ""}
+  .equip-thumb.equip1
+    =render partial: "abil_portrait", locals: {mon: mon, socket: 1}
+  .slot-text
+    p Slot 1
+.mon-equipped2.shadowed2.btn
+  .equip-thumb.equip2
+    =render partial: "abil_portrait", locals: {mon: mon, socket: 2}
+  .slot-text
+    p Slot 2
+  =render partial: "abils_for_mon", locals: {mon: mon, socket: 2, class_info: "equip-link", link_info: ""}

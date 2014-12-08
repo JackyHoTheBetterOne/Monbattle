@@ -1,2 +1,7 @@
-| $(".monPartyImg##{dom_id(@monster_unlock)}").hide("slide", { direction: "left" }, 600);
-| $(".monsters-image-display").html("#{j render partial: "home/mon_image_display"}");
+| $("##{dom_id(@monster_unlock)}-member").hide("slide", { direction: "left" }, 200);
+
+-@base_mons.each do |mon|
+  -if @user.can_add_to_party?(mon)
+    | $("##{dom_id(mon)}-box .add-rem-icon").html("#{j render partial: "home/add_icon", locals: {mon: mon}}");
+  -if @user.can_remove_from_party?(mon)
+    | $("##{dom_id(mon)}-box .add-rem-icon").html("#{j render partial: "home/remove_icon", locals: {mon: mon}}");

@@ -3,6 +3,7 @@
   -unless available.blank?
     | $("##{dom_id(ability)} .ability-equip-link").html("#{j render partial: "/home/abil_equip_link", locals: {available: available}}");
 
+| $("##{dom_id(@mon)}-info-pane .equip#{@socket}").html("#{j render partial: "home/abil_portrait", locals: {mon: @mon, socket: @socket}}");
 | $("##{dom_id(@ability)}-avail").html("#{j render partial: "/home/avail", locals: {available_count: @abil_avail_count}}");
 | $("##{dom_id(@old_ability)}-avail").html("#{j render partial: "/home/avail", locals: {available_count: @old_abil_avail_count}}");
 
