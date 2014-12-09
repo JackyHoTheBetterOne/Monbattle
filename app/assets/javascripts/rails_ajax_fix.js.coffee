@@ -2,7 +2,7 @@ window.reloadObjects = (obj, but) ->
   if window.location.href.indexOf(obj) isnt -1
     setTimeout (->
       $(but).trigger "click"
-      ), 100
+      ), 400
 
 window.fixTurbo = () ->
   setTimeout (->
@@ -11,7 +11,7 @@ window.fixTurbo = () ->
     reloadObjects("cut_scenes", ".scene-search")
     reloadObjects("quests", ".quest-search")
     reloadObjects("notices", ".notice-search")
-  ), 300
+  ), 400
 
 $ ->
   fixTurbo()

@@ -13,7 +13,7 @@ class BattleLevel < ActiveRecord::Base
   has_many :monsters, through: :monster_assignments
 
   after_destroy :delete_party
-  before_save :set_keywords
+  before_save :set_keywords, :check_default
 
   scope :search, -> (keyword) {
     if keyword.present?

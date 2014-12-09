@@ -1,8 +1,9 @@
 class BattlesController < ApplicationController
   before_action :find_battle, except: [:create, :index, :new]
   impressionist :unique => [:controller_name, :action_name, :session_hash]
-
+  before_action :check_energy
   before_action :quest_start, only: :new
+  after_action :deduct_energy, only: :create
 
   def new
     @battle = Battle.new
@@ -22,9 +23,9 @@ class BattlesController < ApplicationController
     end
 
     if params[:level_filter]
-      @levels = BattleLevel.filter(params[:level_filter]).unlocked_levels(@summoner.beaten_levels)
+      @levels = BattleLevel.order("id").filter(params[:level_filter]).unlocked_levels(@summoner.beaten_levels)
     else
-      @levels = BattleLevel.where("name = ?", "")
+      @levels = BattleLevel.order("id").where("name = ?", "")
     end
 
     if @summoner.recently_unlocked_level != nil
@@ -35,13 +36,14 @@ class BattlesController < ApplicationController
       @summoner.clear_recent_level
     end
 
-
     if current_user
       @monsters = @user.parties.first.monster_unlocks
     end
-    respond_to do |format|
-      format.html {render :layout => "facebook_landing"}
-      format.js
+    if current_user
+      respond_to do |format|
+        format.html {render :layout => "facebook_landing"}
+        format.js
+      end
     end
   end
 
@@ -62,8 +64,13 @@ class BattlesController < ApplicationController
         where(name: @battle.battle_level.name).
         where(enemy: @user.user_name).last
         )
-      @battle.save
-      redirect_to @battle
+      if current_user.summoner.stamina >= @battle.battle_level.stamina_cost
+        @battle.save
+        redirect_to @battle 
+      else 
+        flash[:warning] = "You don't have enough stamina"
+        redirect_to new_battle_path
+      end
     end
   end
 
@@ -130,9 +137,13 @@ class BattlesController < ApplicationController
 
   def quest_start
     if current_user
-      @date = Time.now.localtime
+      @date = Time.now.localtime.to_date
       @party = current_user.parties[0]
       if Battle.find_matching_date(@date, @party).count == 0
+        p "========================================================================================================"
+        p "clearing records"
+        p Battle.find_matching_date(@date, @party).count
+        p "========================================================================================================"
         @party.user.summoner.quest_begin 
         @party.user.summoner.clear_daily_achievement
         @party.user.summoner.clear_daily_battles
@@ -140,5 +151,19 @@ class BattlesController < ApplicationController
     end
   end
 
+  def check_energy
+    if current_user
+      @summoner = current_user.summoner
+      @summoner.save
+    end
+  end
+
+  def deduct_energy
+    @summoner = current_user.summoner
+    if @summoner.stamina >= @battle.battle_level.stamina_cost
+      @summoner.stamina -= @battle.battle_level.stamina_cost
+      @summoner.save
+    end
+  end
 end
 

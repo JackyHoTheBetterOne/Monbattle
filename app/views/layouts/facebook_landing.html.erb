@@ -8,9 +8,9 @@
 </head>
 <body class="forest">
   <%= render "battles/single_ability_img" %>
-  <div class="container-fluid">
+  <div class="container-fluclass">
     <nav class="navbar mon-front" role="navigation">
-      <ul class="nav nav-pills main-nav" id="navigation">
+      <ul class="nav nav-pills main-nav" class="navigation">
         <%= link_to image_tag("monbattle-logo.png", class: "navbar-logo"), home_sweet_home_path %>
         <li class="<%= 'active' if current_page?(new_charge_path) %> pull-right fb-nav forum">
           <a href="http://monbattle.boards.net/" target="_blank" class="fb-nav">Forum</a>
@@ -18,7 +18,7 @@
         <li class="<%= 'active' if current_page?(device_store_path) %> pull-right fb-nav">
           <%= link_to "Shop", device_store_path, class: "fb-nav" %>
         </li>
-        <li class="<%= 'active' if current_page?(new_battle_path) %> pull-right fb-nav" id="party-setup">
+        <li class="<%= 'active' if current_page?(new_battle_path) %> pull-right fb-nav" class="party-setup">
           <%= link_to "Battle", new_battle_path, class: "fb-nav" %>
         </li>
         <li class="<%= 'active' if current_page?(home_sweet_home_path) || current_page?(root_path) %> pull-right fb-nav">
@@ -29,7 +29,7 @@
           <%= image_tag("quest-arrow.png", class: "quest-arrow") %>
           <div class="quests-outline">
           </div>
-          <div class="quests-info" id="quests-info">
+          <div class="quests-info" class="quests-info">
             <% if current_user %>
               <%= render "layouts/quests" %>
             <% end %>
@@ -37,19 +37,35 @@
         </li>
         <% if !user_signed_in? %>
           <li class="pull-right fb-nav sign-in">
-            <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), id: "user_session", class: "fb-nav sign-in" %>
+            <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), class: "user_session", class: "fb-nav sign-in" %>
           </li>
         <% end %>
         <% if current_user %>
-          <li class= "currency pull-right">
-            <%= current_user.user_name %> |
-            <span id="summoner_gp"><%= current_user.summoner.gp %></span> GP |
-            <span id="summoner_mp"><%= current_user.summoner.mp %></span> MP
-            <span class="door">        
-              <% if user_signed_in? %>
-                <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
-              <% end %>
+          <li class= "summoner-info pull-right">
+            <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "sign-out" %>
+            <p class="username"><%= current_user.user_name%></p>
+            <span class="summoner-gp"><%= current_user.summoner.gp %></span>
+            <%= image_tag("gp.png", class: "gp-icon") %>
+            <span class="summoner-mp"><%= current_user.summoner.mp %></span>
+            <%= image_tag("mp.png", class: "mp-icon") %>
+            <span class="summoner-level" id="summoner-level" data-seconds="<%= current_user.summoner.seconds_left_for_next_energy %>">
+              LV <%= current_user.summoner.level%>
             </span>
+            <br />
+            <span class="summoner-exp">EXP </span>
+            <div class="summoner-exp-bar">
+              <%= image_tag("HPBar1px.gif", class: "bar") %>
+            </div>
+            <br />
+            <p class="summoner-stamina">
+              <span class="current-stamina" id="current-stamina" >
+                <%= current_user.summoner.stamina %>
+              </span> / 100
+            </p>
+            <div class="summoner-stamina-bar">
+              <%= image_tag("stamina.png", class: "stamina-icon") %>
+              <%= image_tag("stamina-bar.png", class: "bar") %>
+            </div>
           </li>
         <% end %>
       </ul>
@@ -57,23 +73,21 @@
     <% flash.each do |type, message| %>
       <% if type == "notice" %>
         <div class="alert alert-success fade in" role="alert">
-          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+          <button type="button" class="close" data-dismiss="alert"><span aria-hclassden="true">×</span><span class="sr-only">Close</span></button>
           <%= message %>
         </div>
       <% elsif type == "alert" %>
         <div class="alert alert-warning fade in" role="alert">
-          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+          <button type="button" class="close" data-dismiss="alert"><span aria-hclassden="true">×</span><span class="sr-only">Close</span></button>
           <%= message %>
         </div>
       <% else %>
         <div class="alert alert-<%= type %> fade in" role="alert">
-          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+          <button type="button" class="close" data-dismiss="alert"><span aria-hclassden="true">×</span><span class="sr-only">Close</span></button>
           <%= message %>
         </div>
       <% end %>
     <% end %>
-    <div class="close-quest">
-    </div>
     <div class="for-real">
       <%= yield %>
     </div>

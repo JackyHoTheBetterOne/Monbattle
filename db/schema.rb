@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141203200414) do
+ActiveRecord::Schema.define(version: 20141208220542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 20141203200414) do
     t.text     "victory_message"
     t.text     "ability_reward",          default: [], array: true
     t.boolean  "unlocked_by_default"
+    t.integer  "stamina_cost"
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
@@ -500,22 +501,25 @@ ActiveRecord::Schema.define(version: 20141203200414) do
     t.integer  "summoner_level_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "mp",                        default: 0
-    t.integer  "gp",                        default: 0
-    t.integer  "current_lvl",               default: 1
-    t.integer  "current_exp",               default: 0
-    t.integer  "vortex_key",                default: 0
-    t.integer  "wins",                      default: 0
-    t.integer  "losses",                    default: 0
+    t.integer  "mp",                           default: 0
+    t.integer  "gp",                           default: 0
+    t.integer  "current_exp",                  default: 0
+    t.integer  "vortex_key",                   default: 0
+    t.integer  "wins",                         default: 0
+    t.integer  "losses",                       default: 0
     t.hstore   "starting_status"
     t.hstore   "ending_status"
-    t.text     "completed_daily_quests",    default: [], array: true
-    t.text     "completed_weekly_quests",   default: [], array: true
-    t.text     "completed_quests",          default: [], array: true
-    t.text     "daily_battles",             default: [], array: true
-    t.text     "beaten_levels",             default: [], array: true
-    t.text     "recently_completed_quests", default: [], array: true
+    t.text     "completed_daily_quests",       default: [],                    array: true
+    t.text     "completed_weekly_quests",      default: [],                    array: true
+    t.text     "completed_quests",             default: [],                    array: true
+    t.text     "daily_battles",                default: [],                    array: true
+    t.text     "beaten_levels",                default: [],                    array: true
+    t.text     "recently_completed_quests",    default: [],                    array: true
     t.string   "recently_unlocked_level"
+    t.integer  "stamina",                      default: 100
+    t.integer  "level",                        default: 1
+    t.integer  "seconds_left_for_next_energy"
+    t.datetime "last_update_for_energy",       default: '2014-12-08 22:10:30'
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree

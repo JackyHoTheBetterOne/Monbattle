@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
   layout "facebook_landing"
-  before_action :quest_start
 
   def index
     @user      = params[:user] || current_user
@@ -60,20 +59,6 @@ class HomeController < ApplicationController
     else
       flash[:alert] = "Something went wrong. It's your fault."
       redirect_to device_store_path
-    end
-  end
-
-  private
-
-  def quest_start
-    if current_user
-      @date = Time.now.localtime
-      @party = current_user.parties[0]
-      if Battle.find_matching_date(@date, @party).count == 0
-        @party.user.summoner.quest_begin 
-        @party.user.summoner.clear_daily_achievement
-        @party.user.summoner.clear_daily_battles
-      end
     end
   end
 end

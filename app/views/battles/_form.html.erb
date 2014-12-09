@@ -8,8 +8,14 @@
 <div class="level-description">
   <%= form_for(Battle.new) do |f| %>
     <% @levels.each do |level| %> 
-      <%= f.button "#{level.name}", :name => "battle[battle_level_id]", :value => "#{level.id}", 
-      class: "btn btn-primary", id: "#{level.name.delete(' ')}" %>
+      <button class="pick-level" id= "<%= level.name.delete(' ') %>" 
+        name="battle[battle_level_id]" type="submit" value="<%= level.id %>">
+          <span class="level-name"><%= level.name %> - <%=level.stamina_cost%> Stamina</span>
+          <br/>
+          <div class="level-desc">
+            It's my life. It wont last forever. I aint gonna live forever. I just wanna live my life.
+          </div>
+      </button>
     <% end %>
   <% end %>
 </div>

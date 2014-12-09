@@ -103,7 +103,6 @@ class MonsterUnlock < ActiveRecord::Base
   end
 
   def unlocked_evolves
-
     def unlocked_monsters_ids
       MonsterUnlock.where(user_id: self.user_id).pluck(:monster_id)
     end
