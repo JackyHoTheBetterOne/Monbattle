@@ -2,22 +2,23 @@
 
 .level-select {
   position: relative;
-  height: 600px;
+  height: 500px;
   width: 960px;
-  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+  background: #4C4C4C;
   background-size: cover;
   border-radius: 5px;
-  left: 135px;
+  left: 15px;
+  top: -15px;
 };
 
 
 .battle_level {
   position: absolute;
   border: 2px solid black;
-  top: 226px;
-  width: 525px;
-  left: 8px;
-  height: 363px;
+  top: 136px;
+  width: 614px;
+  left: 2px;
+  height: 356px;
   background: url(map_use.gif);
   background-size: cover;
   background-repeat: no-repeat;
@@ -63,46 +64,87 @@
 
 .user_team {
   position: absolute;
-  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
-  height: 229px;
-  width: 422px;
-  left: 535px;
+  background: #757575;
+  height: 134px;
+  width: 338px;
+  left: 619px;
   top: 4px;
   border-radius: 5px;
   .the_obvious {
     position: absolute;
     color: white;
     font-weight: bold;
-    left: 58px;
-    top: 2px;
+    left: 8px;
+    top: -5px;
+    font-size: 20px;
   };
   .party_portraits {
     position: absolute;
-    top: 77px;
+    top: 57px;
+    left: -16px;
     .user_party_portrait {
-      height: 75px;
-      width: 75px;
+      height: 65px;
+      width: 65px;
       margin-left: 22px;
       border: 3px solid black;
     };
   };
   .party_edit_button {
     position: absolute;
-    top: 168px;
-    left: 134px;
+    top: 8px;
+    left: 246px;
+    z-index: 1000;
+    transition: background 0.5s;
+    background: #0D47A1;
+  };
+
+  .party_edit_button:hover {
+    background: #428bca;
   };
 };
 
 .level-description {
-  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+  background: #757575;
   position: absolute;
-  top: 235px;
-  left: 537px;
-  height: 355px;
-  width: 418px;
+  top: 141px;
+  left: 619px;
+  height: 356px;
+  width: 338px;
   border-radius: 5px;
-};
-
+  overflow: scroll;
+  .pick-level:hover {
+    background: #0D47A1;
+  };
+  .pick-level {
+    transition: background 0.5s;
+    display: block;
+    width: 98%;
+    height: 84px;
+    margin-left: 2px;
+    margin-top: 3px;
+    position: relative;
+    color: white;
+    border-radius: 5px;
+    background: #4B4B4B;
+    z-index: 4000;
+    border: 2px solid black;
+    .level-name {
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      font-size: 120%;
+      font-weight: bold;
+    };
+    .level-desc {
+      position: absolute;
+      width: 308px;
+      left: 15px;
+      top: 35px;
+      word-wrap: break-word !important;
+      text-align: left;
+    };
+  };
+}
 
 
 

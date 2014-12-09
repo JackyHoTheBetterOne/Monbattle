@@ -1,6 +1,8 @@
-window.setQuestBox = ->
+window.setQuestBoxAndEnergy = ->
+  seconds = parseInt(document.getElementById("summoner-level").getAttribute("data-seconds"))
   $(".quests-info").click(false)
   window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
+  window.clearInterval(staminaTimer) if typeof energyTimer isnt "undefined"
   window.questTimer = undefined
   count = $(".quest").length
   quest_box_height = 6 + 64 * count
@@ -21,13 +23,15 @@ window.setQuestBox = ->
         index = (questBox.length-1).toString()
         $(this).attr("id", index)
       console.log(questBox)
-    ), 400
+    ), 500
   setTimeout (->
     window.questTimer = setInterval(countDown, 1000)
   ), 700
-  $(document).off "click", ".quests-info"
+  setTimeout (->
+    replenishStamina()
+    window.staminaTimer = setInterval(replenishStamina, 301000)
+  ), seconds*1000 + 700
     
-
 
 window.countDown = ->
   $(".quest-time").each ->
@@ -35,6 +39,13 @@ window.countDown = ->
     questBox[$(this).attr("id")] -= 1  if questBox[$(this).data("id")] isnt 0
     seconds = questBox[$(this).attr("id")]
     $(this).text(moment().startOf("day").seconds(seconds).format("H:mm:ss"))
+
+window.replenishStamina = ->
+  if document.getElementById("current-stamina").innerHTML isnt "100"
+    number = parseInt(document.getElementById("current-stamina").innerHTML)
+    number += 1
+    document.getElementById("current-stamina").innerHTML = number.toString()
+    $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
 
 window.zetBut = ->
   $.ajax
@@ -84,8 +95,10 @@ setDonationButton = ->
   ")
 
 $ ->
+  number = parseInt($(".current-stamina").text())
+  $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
   setTimeout (->
-    setQuestBox()
+    setQuestBoxAndEnergy()
   ), 200
   $(".donation-action").hide()
   $(document).on "keyup", ".donation", ->
@@ -98,8 +111,8 @@ $ ->
     event.preventDefault()
     if $(".quests-info").css("opacity") is "0"
       $(this).parent().addClass("active")
-      $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "1").css("z-index", "100")
-      $(".quest-arrow").css("z-index", "120")
+      $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "1").css("z-index", "5000")
+      $(".quest-arrow").css("z-index", "6000")
     else 
       $(this).parent().removeClass("active")
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
@@ -108,7 +121,8 @@ $ ->
       $(".quest-show").parent().removeClass("active")
   $(document).on "click.quest", ".fb-nav :not('.quest-show'), .battle-fin", ->
     setTimeout (->
-      setQuestBox()
+      $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
+      setQuestBoxAndEnergy()
     ), 500
 
 

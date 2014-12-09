@@ -1,0 +1,4 @@
+crap
+
+<%= f.button "#{level.name}", :name => "battle[battle_level_id]", :value => "#{level.id}", 
+class: "btn btn-primary", id: "#{level.name.delete(' ')}" %>

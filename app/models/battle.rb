@@ -101,9 +101,6 @@ class Battle < ActiveRecord::Base
   end
 
   def distribute_quest_reward
-    p "==============================================================================="
-    p "Delivering quest rewards if any"
-    p "==================================================================================="
     if self.victor && self.loser
       @victor = Summoner.find_summoner(self.victor)
       @loser = Summoner.find_summoner(self.loser)

@@ -6,6 +6,7 @@ class Summoner < ActiveRecord::Base
   validates :user_id, presence: {message: 'Must be entered'}, uniqueness: true
 
   before_create :set_beaten_levels
+  before_save :check_energy
 
   def self.find_summoner(user_name)
     @user = find_user(user_name)
@@ -29,17 +30,7 @@ class Summoner < ActiveRecord::Base
   end
 
 
-##################################################################################################### Quest logic
-
-  def quest_begin
-    unless self.name == "NPC"
-      @summoner = self.clone
-      @summoner.starting_status = {}
-      @summoner.ending_status = {}
-      self.starting_status = @summoner.serializable_hash
-      self.save
-    end
-  end
+############################################################################################ Quest logic
 
   def check_quest
     unless self.name == "NPC"
@@ -48,6 +39,9 @@ class Summoner < ActiveRecord::Base
       @summoner.ending_status = {}
       @summoner.completed_daily_quests = []
       self.ending_status = @summoner.serializable_hash
+      p "========================================================================"
+      p "updating ending status"
+      p "========================================================================"
       self.save
     end
   end
@@ -57,12 +51,15 @@ class Summoner < ActiveRecord::Base
     Quest.all.each do |q|
       if q.type == "Daily-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) && 
           @questing_summoner.name != "NPC" && q.is_active
-        if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) == 
+        if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) >= 
             q.stat_requirement
           @questing_summoner[q.reward] += q.reward_amount
           array = @questing_summoner.completed_daily_quests.clone
           array.push(q.name)
           @questing_summoner.completed_daily_quests = array
+          p "=============================================================================="
+          p "Daily-Achievement"
+          p "==============================================================================="
         end
       elsif q.type == "Daily-Turn-Based-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) &&
         @questing_summoner.name != "NPC" && q.is_active
@@ -71,11 +68,14 @@ class Summoner < ActiveRecord::Base
           battle = Battle.find(b)
           successful_entries.push(battle.id) if battle[q.stat].to_i < q.stat_requirement
         end
-        if successful_entries.count == q.requirement
+        if successful_entries.count >= q.requirement
           @questing_summoner[q.reward] += q.reward_amount
           array = @questing_summoner.completed_daily_quests.clone
           array.push(q.name)
           @questing_summoner.completed_daily_quests = array
+          p "=============================================================================="
+          p "Daily-Turn-Based-Achievement-Achievement"
+          p "==============================================================================="
         end
       end
     end
@@ -90,6 +90,11 @@ class Summoner < ActiveRecord::Base
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) <= 
             q.stat_requirement
           @questing_summoner[q.reward] += q.reward_amount
+          p "==============================================================================="
+          p "Daily-Login-Bonus"
+          p @questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i
+          p q.stat_requirement
+          p "==============================================================================="
         end
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) == 
             q.stat_requirement
@@ -102,7 +107,18 @@ class Summoner < ActiveRecord::Base
     @questing_summoner.save
   end
 
-################################################################################################### Clearing entries
+##################################################################################### Clearing entries
+
+  def quest_begin
+    unless self.name == "NPC"
+      @summoner = self.clone
+      @summoner.starting_status = {}
+      @summoner.ending_status = {}
+      self.starting_status = @summoner.serializable_hash
+      self.save
+    end
+  end
+  
 
   def clear_daily_achievement
     self.completed_daily_quests = Array.new
@@ -124,7 +140,7 @@ class Summoner < ActiveRecord::Base
     self.save
   end
 
-#################################################################################################### Quest display helpers
+###################################################################################### Quest display helpers
   def num_of_daily_wins
     count = 0 
     self.daily_battles.each do |b|
@@ -158,7 +174,21 @@ class Summoner < ActiveRecord::Base
     array = self.daily_battles.clone
     array.push(battle_id)
     self.daily_battles = array 
+    p "================================================="
+    p "adding daily battle"
+    p "=================================================="
     self.save
+  end
+
+
+  def check_energy
+    if self.name != "NPC"
+      seconds = ((Time.now.localtime - self.last_update_for_energy.localtime)%300).to_i
+      self.stamina += ((Time.now.localtime - self.last_update_for_energy.localtime)/300).floor.to_i
+      self.last_update_for_energy = Time.now.localtime - seconds
+      self.seconds_left_for_next_energy = 300 - seconds
+      self.stamina = 100 if self.stamina > 100 
+    end
   end
 
   private
@@ -166,4 +196,8 @@ class Summoner < ActiveRecord::Base
   def set_beaten_levels
     self.beaten_levels = []
   end
+
 end
+
+# self.name != "admin" || 
+
