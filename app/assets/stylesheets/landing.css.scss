@@ -1,9 +1,19 @@
 @import "compass";
 
-
-.container-fluid {
-  position: relative;
+.forest {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  .container-yes {
+    width: 960px;
+    position: relative;
+    margin: 0 auto;
+  };
 };
+
+
 
 .navbar-logo {
   height: 70px;

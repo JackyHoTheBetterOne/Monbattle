@@ -79,8 +79,10 @@ class BattleLevel < ActiveRecord::Base
   def check_default
     if BattleLevel.where(unlock: self.id).length != 0 
       self.unlocked_by_default = false
+      return true
     else 
       self.unlocked_by_default = true
+      return true
     end
   end
   
