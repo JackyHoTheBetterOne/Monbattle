@@ -11,35 +11,11 @@ window.setQuestBoxAndEnergy = ->
   $(".quests-info").css("height", quest_box_height.toString() + "px")
   $(".quests-outline").css("height", quest_outline_height.toString() + "px")
   count = 0
-  $('.quest-time').each ->
-    $(this).attr("id", count)
-    console.log(count)
-    count += 1
-  if !isNaN(parseInt($(".quest-time").last().text()))
-    window.questBox = []
-    setTimeout (->
-      $('.quest-time').each ->
-        seconds = parseInt($(this).text())
-        questBox.push(seconds)
-        index = (questBox.length-1).toString()
-        $(this).attr("id", index)
-      console.log(questBox)
-    ), 500
-  setTimeout (->
-    window.questTimer = setInterval(countDown, 1000)
-  ), 700
   setTimeout (->
     replenishStamina()
     window.staminaTimer = setInterval(replenishStamina, 301000)
   ), energy_seconds*1000 + 700
     
-
-window.countDown = ->
-  $(".quest-time").each ->
-    seconds = undefined
-    questBox[$(this).attr("id")] -= 1  if questBox[$(this).data("id")] isnt 0
-    seconds = questBox[$(this).attr("id")]
-    $(this).text(moment().startOf("day").seconds(seconds).format("H:mm:ss"))
 
 window.replenishStamina = ->
   if document.getElementById("current-stamina") isnt null
@@ -99,9 +75,6 @@ setDonationButton = ->
 $ ->
   number = parseInt($(".current-stamina").text())
   $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
-  setTimeout (->
-    setQuestBoxAndEnergy()
-  ), 200
   $(".donation-action").hide()
   $(document).on "keyup", ".donation", ->
     setDonationAmount()
@@ -123,9 +96,8 @@ $ ->
       $(".quest-show").parent().removeClass("active")
   $(document).on "click.quest", ".fb-nav :not('.quest-show'), .battle-fin", ->
     setTimeout (->
-      $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
       setQuestBoxAndEnergy()
-    ), 500
+    ), 250
 
 
 

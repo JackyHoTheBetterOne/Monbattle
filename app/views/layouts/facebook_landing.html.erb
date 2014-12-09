@@ -64,7 +64,8 @@
             </p>
             <div class="summoner-stamina-bar">
               <%= image_tag("stamina.png", class: "stamina-icon") %>
-              <%= image_tag("stamina-bar.png", class: "bar") %>
+              <%= image_tag("stamina-bar.png", class: "bar", 
+                  style: {width: "#{current_user.summoner.stamina_percentage}"}) %>
             </div>
           </li>
         <% end %>
