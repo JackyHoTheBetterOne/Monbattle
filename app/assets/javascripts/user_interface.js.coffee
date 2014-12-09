@@ -1,5 +1,6 @@
 window.setQuestBoxAndEnergy = ->
-  seconds = parseInt(document.getElementById("summoner-level").getAttribute("data-seconds"))
+  if document.getElementById("summoner-level") isnt null
+    energy_seconds = parseInt(document.getElementById("summoner-level").getAttribute("data-seconds")) 
   $(".quests-info").click(false)
   window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
   window.clearInterval(staminaTimer) if typeof energyTimer isnt "undefined"
@@ -30,7 +31,7 @@ window.setQuestBoxAndEnergy = ->
   setTimeout (->
     replenishStamina()
     window.staminaTimer = setInterval(replenishStamina, 301000)
-  ), seconds*1000 + 700
+  ), energy_seconds*1000 + 700
     
 
 window.countDown = ->
@@ -41,11 +42,12 @@ window.countDown = ->
     $(this).text(moment().startOf("day").seconds(seconds).format("H:mm:ss"))
 
 window.replenishStamina = ->
-  if document.getElementById("current-stamina").innerHTML isnt "100"
-    number = parseInt(document.getElementById("current-stamina").innerHTML)
-    number += 1
-    document.getElementById("current-stamina").innerHTML = number.toString()
-    $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
+  if document.getElementById("current-stamina") isnt null
+    if document.getElementById("current-stamina").innerHTML isnt "100"
+      number = parseInt(document.getElementById("current-stamina").innerHTML)
+      number += 1
+      document.getElementById("current-stamina").innerHTML = number.toString()
+      $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
 
 window.zetBut = ->
   $.ajax

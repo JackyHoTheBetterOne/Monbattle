@@ -9,7 +9,9 @@ class BattleLevelsController < ApplicationController
   def create
     @battle_level = BattleLevel.new(battle_level_params)
     authorize @battle_level
+    p @battle_level.errors.inspect
     @battle_level.save
+    p @battle_level.errors.inspect
   end
 
   def destroy
@@ -20,7 +22,9 @@ class BattleLevelsController < ApplicationController
   def update
     authorize @battle_level
     @battle_level.update_attributes(battle_level_params)
+    p @battle_level.errors.inspect
     @battle_level.save
+    p @battle_level.errors.inspect
   end
 
 private

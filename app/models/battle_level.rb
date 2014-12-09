@@ -13,7 +13,7 @@ class BattleLevel < ActiveRecord::Base
   has_many :monsters, through: :monster_assignments
 
   after_destroy :delete_party
-  before_save :set_keywords, :check_default
+  before_save :set_keywords
 
   scope :search, -> (keyword) {
     if keyword.present?
@@ -82,6 +82,7 @@ class BattleLevel < ActiveRecord::Base
     else 
       self.unlocked_by_default = true
     end
+    self.save
   end
   
   private
