@@ -1,9 +1,9 @@
 window.setEnergy = ->
   if document.getElementById("summoner-level") isnt null
     energy_seconds = parseInt(document.getElementById("summoner-level").getAttribute("data-seconds")) 
-  console.log(energy_seconds)
   $(".quests-info").click(false)
-  window.clearInterval(staminaTimer) if typeof energyTimer isnt "undefined"
+  window.clearInterval(staminaTimer) if typeof staminaTimer isnt "undefined"
+  window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
   count = $(".quest").length
   quest_box_height = 6 + 64 * count
   quest_outline_height = 10 + 65 * count
@@ -11,7 +11,6 @@ window.setEnergy = ->
   $(".quests-outline").css("height", quest_outline_height.toString() + "px")
   count = 0
   setTimeout (->
-    console.log("wtf")
     replenishStamina()
     window.staminaTimer = setInterval(replenishStamina, 301000)
   ), energy_seconds*1000 + 250
@@ -24,7 +23,6 @@ window.replenishStamina = ->
       number += 1
       document.getElementById("current-stamina").innerHTML = number.toString()
       $(".summoner-stamina-bar .bar").css("width", number.toString() + "%")
-      console.log("Please")
 
 window.zetBut = ->
   $.ajax
@@ -73,9 +71,27 @@ setDonationButton = ->
     data-amount = #{money} ></script>
   ")
 
+window.secondsToHms = (d) ->
+  d = Number(d)
+  h = Math.floor(d / 3600)
+  m = Math.floor(d % 3600 / 60)
+  s = Math.floor(d % 3600 % 60)
+  ((if h > 0 then h + ":" else "")) + ((if m > 0 then ((if h > 0 and m < 10 then "0" else "")) + 
+    m + ":" else "0:")) + ((if s < 10 then "0" else "")) + s
+
+window.setQuestTimer = ->
+  $(".quest .quest-time").each ->
+    number = parseInt($(this).data("timer"))
+    number -= 1
+    time = secondsToHms(number)
+    $(this).data("timer", number)
+    $(this).text(time)
+
+
 $ ->
   number = parseInt($(".current-stamina").text())
   setEnergy()
+  window.questTimer = setInterval(setQuestTimer, 1000)
   $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
   $(".donation-action").hide()
   $(document).on "keyup", ".donation", ->
@@ -99,6 +115,7 @@ $ ->
   $(document).on "click.quest", ".fb-nav :not('.quest-show'), .battle-fin", ->
     setTimeout (->
       setEnergy()
+      window.questTimer = setInterval(setQuestTimer, 1000)
     ), 250
 
 

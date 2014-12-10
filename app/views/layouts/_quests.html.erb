@@ -14,7 +14,7 @@
         <% end %>
       </span>
       <span class="quest-reward"><%= q.reward %>: <%= q.reward_amount %></span>
-      <span class="quest-time">
+      <span class="quest-time" data-timer = "<%= (Time.now.end_of_day - Time.now).to_i %>">
         <%= seconds_to_time((Time.now.end_of_day - Time.now).to_i) %>
       </span>
       <%= image_tag("clock.png", class: "quest-clock") %>
