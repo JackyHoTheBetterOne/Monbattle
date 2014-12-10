@@ -1,11 +1,11 @@
 | $(".monster-info-area").hide();
-| $("##{dom_id(@mon)}-info-pane").show("slide", { direction: "left" }, 300 );
+| $("##{dom_id(@mon)}-info-pane").show("slide", { direction: "left" }, 200 );
 | $(".abilities-display-area").show();
 
 | $(".ability-pane").hide();
 
 -@abilities.each do |ability|
-  | $("##{dom_id(ability)}").show("slide", { direction: "left" }, 300 );
+  | $("##{dom_id(ability)}").show("slide", { direction: "left" }, 200 );
   | $("##{dom_id(ability)} .ability-equip").hide();
 
   -available = @ability_purchases.not_equipped(ability)

@@ -3,6 +3,9 @@
     .top-section
       .party-title
         p Party Members
+      .party-pane-frames
+        -4.times do
+          .party-member-frame.shadowed2
       .party-pane
         =render partial: "mon_party_img"
     .monsters-image-area
@@ -22,8 +25,9 @@
         .ability-list
           p Abilities List
         .scroll-wrapper
-          -@abilities.each do |ability|
-            =render partial: "ability", locals: {ability: ability}
+          .no-scroll-bar-wrapper
+            -@abilities.each do |ability|
+              =render partial: "ability", locals: {ability: ability}
       -@monster_unlocks.each do |mon|
         .monster-info-area id="#{dom_id(mon)}-info-pane"
           =render partial: "monster_display", locals: {mon: mon}
