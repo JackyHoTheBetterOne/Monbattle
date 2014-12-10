@@ -6,8 +6,10 @@
 window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
     if @hp <= 0
-      $("." + monster.team + ".info" + " " + ".mon" + monster.index + " " + ".hp .bar").css({"width": "0%"})
-      $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300).remove()
+      setTimeout (->
+        $("." + monster.team + ".info" + " " + ".mon" + monster.index + " " + ".hp .bar").css({"width": "0%"})
+        $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300).remove()
+      ), 750
       return false
     else
       return true
@@ -41,17 +43,17 @@ window.fixEvolMon = (monster, player) ->
         if monTarget.isAlive()
           if a.targeta is "cleanseally" or a.targeta is "aoecleanse"
             ii = 0 
-            while ii < monTarget.fucking_up.length
-              e = monTarget.fucking_up[ii]
-              delete monTarget.fucking_up(ii)  if e.impact.indexOf("-") isnt -1
+            while ii < monTarget.poisoned.length
+              e = monTarget.poisoned[ii]
+              delete monTarget.poisoned(ii)  if e.impact.indexOf("-") isnt -1
               removeEffectIcon(monTarget, e) 
               ii++
-            iii = 0
-            while iii < monTarget.fucked_up.length
-              e = monTarget.fucked_up[iii]
-              delete monTarget.fucked_up[iii] if e.restore.indexOf("+") isnt -1
+            i3 = 0
+            while i3 < monTarget.weakened.length
+              e = monTarget.weakened[i3]
+              delete monTarget.weakened[i3] if e.restore.indexOf("+") isnt -1
               removeEffectIcon(monTarget, e)
-              iii++
+              i3++
             if a.modifier isnt ""
               window["change" + index] = a.change
               monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
@@ -190,7 +192,7 @@ window.fixEvolMon = (monster, player) ->
             checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             if monTarget.isAlive()
-              findObjectInArray(monTarget.fucking_up, "targeta", e.targeta)
+              findObjectInArray(monTarget.poisoned, "targeta", e.targeta)
               if usefulArray.length is 0
                 status = {}
                 status["name"] = e.name
@@ -199,7 +201,7 @@ window.fixEvolMon = (monster, player) ->
                 status["change"] = e.change
                 status["targeta"] = e.targeta
                 status["end"] = battle.round + e.duration
-                monTarget.fucking_up.push(status)
+                monTarget.poisoned.push(status)
                 addEffectIcon(monTarget, e)
               else
                 old_effect = usefulArray[0]
@@ -213,7 +215,7 @@ window.fixEvolMon = (monster, player) ->
         else if e.targeta.indexOf("timed") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
-            findObjectInArray(monTarget.fucked_up, "targeta", e.targeta)
+            findObjectInArray(monTarget.weakened, "targeta", e.targeta)
             if monTarget.isAlive()
               if usefulArray.length is 0
                 monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
@@ -223,7 +225,7 @@ window.fixEvolMon = (monster, player) ->
                 status["restore"] = e.restore
                 status["end"] = battle.round + e.duration
                 status["targeta"] = e.targeta
-                monTarget.fucked_up.push(status)
+                monTarget.weakened.push(status)
                 addEffectIcon(monTarget, e)
               else 
                 old_effect = usefulArray[0]
@@ -236,23 +238,23 @@ window.fixEvolMon = (monster, player) ->
                 removeEffectIcon(monTarget, e)
                 addEffectIcon(monTarget, e)
             i++
-        else if e.targeta.indexOf("attack") isnt -1
-          while i < effectTargets.length
-            monTarget = effectTargets[i]
-            monster = battle.players[monTarget.team].mons[monTarget.index]
-            addEffectIcon(monster, e)
-            setTimeout (->
-              removeEffectIcon(monster, e)
-              ), 1500
-            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-            i++
+        # else if e.targeta.indexOf("attack") isnt -1
+        #   while i < effectTargets.length
+        #     monTarget = effectTargets[i]
+        #     addEffectIcon(monTarget, e)
+        #     setTimeout (->
+        #       $(".effect").trigger("mouseleave")
+        #       removeEffectIcon(monster, e)
+        #       ), 1200
+        #     monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+        #     i++
         else
           while i < effectTargets.length
             monTarget = effectTargets[i]
             addEffectIcon(monTarget, e)
             setTimeout (->
               $(".effect").trigger("mouseleave")
-              removeEffectIcon(monTarget, e)
+              massRemoveEffectIcon(e)
               ), 1500
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
             checkMin()
@@ -310,9 +312,19 @@ window.checkMin = ->
   return
 
 window.action = ->
+  xadBuk()
+  checkMin()
   battle.monAbility(targets[0], targets[1], targets[2], targets[3])
+  fixHp()
+  checkMax()
+  zetBut()
 window.multipleAction = ->
+  xadBuk()
+  checkMin()
   battle.monAbility(targets[0], targets[1], targets[2])
+  fixHp()
+  zetBut()
+
 window.userMon = (index) ->
   $(".user .mon" + index + " " + ".img")
 window.pcMon = (index) ->
@@ -403,6 +415,8 @@ window.enemyTimer = ->
       window.timerRound = 5000
     when 3
       window.timerRound = 2500
+    when 4
+      window.timerRound = 0
 
 
 
@@ -436,11 +450,11 @@ window.maxHpChange = (side, index) ->
 window.hpBarChange = (side, index) ->
   "." + side + " " + ".mon" + index + " " + ".hp .bar"
 
+
 window.hpChangeBattle = ->
   n = playerMonNum
   i = 0
   while i < n
-    battle.players[0].mons[i].hp = (if (battle.players[0].mons[i].hp < 0) then 0 else battle.players[0].mons[i].hp)
     $(hpBarChange("0", i)).css barChange(battle.players[0].mons[i].hp, battle.players[0].mons[i].max_hp) if battle.
                     players[0].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i + " " + ".current-hp").text()
     $(hpChange("0", i)).text battle.players[0].mons[i].hp
@@ -449,7 +463,6 @@ window.hpChangeBattle = ->
   n = pcMonNum
   i = 0
   while i < n 
-    battle.players[1].mons[i].hp = (if (battle.players[1].mons[i].hp < 0) then 0 else battle.players[1].mons[i].hp)
     $(hpBarChange("1", i)).css barChange(battle.players[1].mons[i].hp, battle.players[1].mons[i].max_hp) if battle.
                     players[1].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i + " " + ".current-hp").text()
     $(hpChange("1", i)).text battle.players[1].mons[i].hp
@@ -501,46 +514,68 @@ window.showHealTeam = (index) ->
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
+    vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $(".message").text("You lost, but here's " + battle.reward*0.1 + " MP because we pity you, not. Try harder next time!").
-      append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>")
+      append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>").css("opacity", 1)
+    setTimeout (->
+      $(".btn.btn-danger").addClass("battle-fin")
+      ),250
     $("#overlay").fadeIn(1000)
-    $.ajax
-      url: "/battles/" + battle.id
-      method: "patch"
-      data: {
-        "victor": battle.players[1].username,
-        "loser": battle.players[0].username
-      }
+    setTimeout (->
+      $.ajax
+        url: "/battles/" + battle.id
+        method: "patch"
+        data: {
+          "victor": battle.players[1].username,
+          "loser": battle.players[0].username,
+          "round_taken": parseInt(battle.round)
+        }
+    ), 500
   else if battle.players[1].mons.every(isTeamDead) is true
+    vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $(".message").css("opacity", "0")
-    $.ajax
-      url: "/battles/" + battle.id
-      method: "patch"
-      data: {
-        "victor": battle.players[0].username,
-        "loser": battle.players[1].username
-      }
-    $(".cutscene").attr("src", battle.end_cut_scenes[0])
-    $(".cutscene").css("opacity", "1")
-    $("#overlay").fadeIn(1000)
-    nextSceneInitial()
+    setTimeout (->
+      $.ajax
+        url: "/battles/" + battle.id
+        method: "patch"
+        data: {
+          "victor": battle.players[0].username,
+          "loser": battle.players[1].username,
+          "round_taken": parseInt(battle.round)
+        }
+    ), 500
     $(document).on "click.cutscene", "#overlay", ->
       if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
         $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
-          append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
+          append("<br/><br/><a href='/battles/new' class='btn btn-success battle-fin'>Continue your journey</a>")
         $(".cutscene").hide(500)
         endCutScene()
         setTimeout (->
+          $(".btn.btn-success").addClass("battle-fin")
           $(".message").css("opacity", "1")
         ), 500
       else 
         new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
         window.new_scene = battle.end_cut_scenes[new_index]
         nextScene()
+    if battle.end_cut_scenes.length isnt 0
+      $(".cutscene").attr("src", battle.end_cut_scenes[0])
+      $(".cutscene").css("opacity", "1")
+      $("#overlay").fadeIn(1000)
+      nextSceneInitial()
+    else 
+      $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
+        append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
+      $(".message").css("opacity", "1")
+      $(".cutscene, .next-scene").css("opacity", "0")
+      $(".message").promise().done ->
+        $(".btn.btn-success").addClass("battle-fin")
+        $("#overlay").fadeIn(1000)
+      $(document).off "click.cutscene", "#overlay"
 window.checkApAvailbility = ->
   $(".monBut button").each ->
     disable($(this)) if $(this).data("apcost") > battle.players[0].ap
@@ -573,9 +608,29 @@ window.addEffectIcon = (monster, effect) ->
 
 
 window.removeEffectIcon = (monster, effect) ->
-  $("." + monster.team + " " + ".mon" + monster.index + " " + "." + effect.targeta).fadeOut(300).trigger("mouseleave").remove()
+  $("." + monster.team + " " + ".mon" + monster.index + " " + "." + effect.targeta).fadeOut 400, ->
+    $(this).trigger("mouseleave").remove()
+
+window.massRemoveEffectIcon = (effect) ->
+  $("." + effect.targeta).fadeOut 400, ->
+    $(this).trigger("mouseleave").remove()
 
 
+
+window.battleStartDisplay = (time) ->
+  $(".message").css("opacity", "0")
+  setTimeout (->
+    $("#overlay").fadeOut 500, ->
+      $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
+      return
+    ), time
+  setTimeout (->
+    $("#battle-tutorial").joyride({'tipLocation': 'top'})
+    $("#battle-tutorial").joyride({})
+    toggleImg()
+    $(".user .img").each ->
+      $(this).effect("bounce", {distance: 80, times: 5}, 1500)
+  ), (time + 1500)
 
 ################################################################################################### Display function-calling helpers
 window.singleTargetAbilityAfterClickDisplay = (ability) ->
@@ -584,7 +639,6 @@ window.singleTargetAbilityAfterClickDisplay = (ability) ->
   $(document).off "click.cancel", ".cancel"
   $(".user .img").removeClass("controlling")
   $(".battle-guide").hide()
-  disable(ability)
 
 window.singleTargetAbilityAfterActionDisplay = ->
   apChange()
@@ -642,7 +696,8 @@ window.nextSceneInitial = ->
   ), 1000
 
 window.nextScene = ->
-  document.getElementById('overlay').style.pointerEvents = 'none'
+  if document.getElementById('overlay') isnt null
+    document.getElementById('overlay').style.pointerEvents = 'none' 
   $(".cutscene").css("opacity", "0")
   $(".next-scene").css("opacity", "0")
   setTimeout (->
@@ -650,11 +705,12 @@ window.nextScene = ->
   ), 300
   setTimeout (->
     $(".cutscene").css("opacity", "1")
-  ), 600
+  ), 800
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
-    document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 1600
+    if document.getElementById('overlay') isnt null
+      document.getElementById('overlay').style.pointerEvents = 'auto'
+  ), 1800
 
 window.mouseOverMon = ->
   $(this).addClass("controlling")
@@ -701,12 +757,13 @@ window.toggleImg = ->
       $(this).attr("disabled", "true")
 
 window.flashEndButton = ->
-  buttonArray = []
+  window.buttonArray = []
   $(".end-turn").prop("disabled", false)
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("display") isnt "none" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
   if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
+    zetBut()
     setTimeout (->
       $(".end-turn").trigger("click")
       return
@@ -745,15 +802,15 @@ window.roundEffectHappening = (team) ->
         if battle.round is mon.taunted.end || battle.players[0].mons[mon.taunted.target].hp <= 0
           removeEffectIcon(mon, mon.taunted)
           mon.taunted.target = undefined
-      if mon.fucking_up.length isnt 0
+      if mon.poisoned.length isnt 0
         ii = 0 
-        nn = mon.fucking_up.length
+        nn = mon.poisoned.length
         while ii < nn
-          e = mon.fucking_up[ii]
+          e = mon.poisoned[ii]
           if typeof e isnt "undefined"
             if battle.round is e.end
               removeEffectIcon(mon, e)
-              delete mon.fucking_up[ii]
+              delete mon.poisoned[ii]
             else
               mon[e.stat] = eval(mon[e.stat] + e.impact)
               checkMin()
@@ -762,31 +819,43 @@ window.roundEffectHappening = (team) ->
             if e.targeta.indexOf("poison") isnt -1
               mon.shield.true_damage += parseInt(e.change)
           ii++
-      if mon.fucked_up.length isnt 0
-        iii = 0 
-        nnn = mon.fucked_up.length
-        while iii < nnn 
-          e = mon.fucked_up[iii]
+      if mon.weakened.length isnt 0
+        i3 = 0 
+        n3 = mon.weakened.length
+        while i3 < n3 
+          e = mon.weakened[i3]
           if typeof e isnt "undefined"
             if battle.round is e.end
               mon[e.stat] = eval(mon[e.stat] + e.restore)
               removeEffectIcon(mon, e)
-              delete mon.fucked_up[iii]
-          iii++
+              delete mon.weakened[i3]
+          i3++
       if mon.cursed.length isnt 0 
-        iiii = 0
-        nnnn = mon.cursed.length
-        while iiii < nnnn
-          e = mon.cursed[iiii]
+        i4 = 0
+        n4 = mon.cursed.length
+        while i4 < n4
+          e = mon.cursed[i4]
           if typeof e isnt "undefined"
             if battle.round is e.end
               removeEffectIcon(mon, e)
-              delete mon.cursed[iiii]
-          iiii++
+              delete mon.cursed[weakened]
+          i4++
     i++
 
 
 ################################################################################################################ AI logic helpers
+window.fixHp = ->
+  n = playerMonNum
+  i = 0
+  while i < n 
+    battle.players[0].mons[i].hp = (if (battle.players[0].mons[i].hp < 0) then 0 else battle.players[0].mons[i].hp)
+    i++
+  n = pcMonNum
+  i = 0
+  while i < n 
+    battle.players[1].mons[i].hp = (if (battle.players[1].mons[i].hp < 0) then 0 else battle.players[1].mons[i].hp)
+    i++
+
 window.findTargetsBelowPct = (pct) ->
   i = undefined
   n = undefined
@@ -884,6 +953,7 @@ window.feedAiTargets = ->
 
 ################################################################################################ AI action helpers(not very dry)
 window.controlAI = (monIndex) ->
+  xadBuk()
   monster = battle.players[1].mons[monIndex]
   if monster.hp > 0
     $(".battle-message").text(
@@ -908,23 +978,24 @@ window.controlAI = (monIndex) ->
         action()
         checkMax()
         singleTargetAbilityDisplayVariable()
+        currentMon.finish().animate(
+          "left": "+=" + leftMove.toString() + "px"
+          "top": "+=" + topMove.toString() + "px"
+        , 540)
         setTimeout (->
           if targetMon.css("display") isnt "none"
             if enemyHurt.isAlive() is false
               targetMon.effect("explode", {pieces: 30}, 1000).hide()
             else
               targetMon.effect "shake", 800
-          currentMon.finish().animate backPosition, 500
-          ), 520
-        currentMon.finish().animate(
-          "left": "+=" + leftMove.toString() + "px"
-          "top": "+=" + topMove.toString() + "px"
-        , 500)
+          currentMon.finish().animate backPosition, 540
+          ), 560
         setTimeout (->
           showDamageSingle()
           hpChangeBattle()
           checkMonHealthAfterEffect()
-          ), 1000
+          zetBut()
+          ), 1100
       when "targetenemy"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
@@ -936,19 +1007,20 @@ window.controlAI = (monIndex) ->
         abilityAnime.css(targetPosition)
         abilityAnime.finish().attr("src", callAbilityImg).toggleClass "flipped ability-on", ->
           action()
+          checkMax()
           if targetMon.css("display") isnt "none"
             if enemyHurt.isAlive() is false
               targetMon.effect("explode", {pieces: 30}, 1000).hide()
             else
               targetMon.effect "shake", times: 10, 750
           element = $(this)
-          checkMax()
           setTimeout (->
             showDamageSingle()
             hpChangeBattle()
             checkMonHealthAfterEffect()
             element.toggleClass "flipped ability-on"
             element.attr("src", "")
+            zetBut()
             return
           ), 1200
           return
@@ -975,6 +1047,7 @@ window.controlAI = (monIndex) ->
             showDamageTeam(0)
             hpChangeBattle()
             checkMonHealthAfterEffect()
+            zetBut()
             return
           ), 1200
           return
@@ -1002,6 +1075,7 @@ window.controlAI = (monIndex) ->
             showHealTeam(1) if ability.stat isnt "cleanse"
             hpChangeBattle()
             checkMonHealthAfterEffect()
+            zetBut()
             return
           ), 1200
           return
@@ -1029,10 +1103,12 @@ window.controlAI = (monIndex) ->
             element.attr("src", "")
             hpChangeBattle()
             checkMonHealthAfterEffect()
+            zetBut()
           ), 1200
 
 ############################################################################################################### AI action happening
 window.ai = ->
+  xadBuk()
   $(".img").removeClass("controlling")
   $(".monBut").css("visibility", "hidden")
   $(".enemy .img").attr("disabled", "true")
@@ -1042,6 +1118,7 @@ window.ai = ->
   battle.players[0].ap = 0
   battle.players[0].turn = false
   battle.players[1].ap = 1000000000
+  zetBut()
   enemyTimer()
   setTimeout (->
     feedAiTargets()
@@ -1065,6 +1142,7 @@ window.ai = ->
   ), timer0
   setTimeout (->
     if teamPct() isnt 0
+      xadBuk()
       battle.players[1].turn = false
       battle.checkRound()
       roundEffectHappening(0)
@@ -1079,6 +1157,7 @@ window.ai = ->
       toggleEnemyClick()
       $(".monBut button").trigger("mouseleave")
       toggleImg()
+      zetBut()
   ), timerRound
 
 
@@ -1093,32 +1172,27 @@ $ ->
     error: ->
       alert("This battle cannot be loaded!")
     success: (data) ->
+      $(".quest-show").trigger("click")
+      setTimeout (->
+        $(".quest-show").trigger("click")
+        ),100
       window.battle = data
-      $(".cutscene").show(500)
-      document.getElementById('battle').style.pointerEvents = 'none'
-      toggleImg()
-      nextSceneInitial()
+      if battle.start_cut_scenes.length isnt 0 
+        $(".cutscene").show(500)
+        toggleImg()
+        nextSceneInitial(1000)
+      else 
+        $(document).off "click.cutscene", "#overlay"
+        battleStartDisplay(500)
+        toggleImg()
       $(document).on "click.cutscene", "#overlay", ->
         if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1]
           endCutScene()
-          $(".message").css("opacity", "0")
-          setTimeout (->
-            $("#overlay").fadeOut 500, ->
-              $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
-              return
-            ), 1000
-          setTimeout (->
-            $("#battle-tutorial").joyride({'tipLocation': 'top'})
-            $("#battle-tutorial").joyride({})
-            toggleImg()
-            $(".user .img").each ->
-              $(this).effect("bounce", {distance: 80, times: 5}, 1500)
-          ), 2500
+          battleStartDisplay(1000)
         else 
           new_index = battle.start_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
           window.new_scene = battle.start_cut_scenes[new_index]
           nextScene()
-          document.getElementById('battle').style.pointerEvents = 'auto'
 ################################################################################################################ Battle logic
       $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
       window.playerMonNum = battle.players[0].mons.length
@@ -1175,8 +1249,8 @@ $ ->
           new_mon = battle.players[playerIndex].mons[monIndex]
           new_mon.phy_resist = old_mon.phy_resist
           new_mon.spe_resist = old_mon.spe_resist
-          new_mon.fucking_up = old_mon.fucking_up
-          new_mon.fucked_up = old_mon.fucked_up
+          new_mon.poisoned = old_mon.poisoned
+          new_mon.weakened = old_mon.weakened
           new_mon.taunted = old_mon.taunted
           new_mon.shield = old_mon.shield
           new_mon.cursed = old_mon.cursed
@@ -1212,8 +1286,8 @@ $ ->
           monster.shield = 0
           monster.phy_resist = 0
           monster.spe_resist = 0
-          monster.fucking_up = []
-          monster.fucked_up = []
+          monster.poisoned = []
+          monster.weakened = []
           monster.cursed = []
           monster.taunted = {}
           monster.shield = {}
@@ -1224,6 +1298,9 @@ $ ->
           monster.index = player.mons.indexOf(monster)
           fixEvolMon(monster, player)
 #################################################################################################################  Battle interaction
+      zetBut()
+      window.documentURLObject = window.battle.monAbility.toString() + window.battle.players[0].commandMon.toString() + 
+                                                                      window.battle.players[1].commandMon.toString()
       window.feed = ->
         targets.shift()
       window.currentBut = undefined
@@ -1266,7 +1343,7 @@ $ ->
         e = effectBin[index]
         $("." + e.enemyDex + ".effect-info").css("visibility", "visible")
         if e.targeta is "taunt" 
-          $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text("This unit wants to fuck up " + e.target + ".")
+          $("." + e.enemyDex + ".effect-info" + " " + ".panel-body").text("This unit wants to kill " + e.target + ".")
         else if e.targeta is "shield"
           monster = battle.players[e.enemyDex].mons[e.enemyMonDex]
           shield = parseInt(monster.shield.extra_hp) + monster.shield.true_damage - (monster.shield.old_hp - monster.hp)
@@ -1322,7 +1399,10 @@ $ ->
                   topMove = targetPosition.top - currentPosition.top
                   leftMove = targetPosition.left - currentPosition.left + 60
                   action()
-                  checkMax()
+                  currentMon.finish().animate(
+                    left: "+=" + leftMove.toString() + "px"
+                    top: "+=" + topMove.toString() + "px"
+                  , 440)
                   setTimeout (->
                     singleTargetAbilityDisplayVariable()
                     if targetMon.css("display") isnt "none"
@@ -1331,16 +1411,12 @@ $ ->
                       else
                         targetMon.effect "shake", 800
                     showDamageSingle()
-                    currentMon.finish().animate backPosition, 400
-                  ), 420
-                  currentMon.finish().animate(
-                    left: "+=" + leftMove.toString() + "px"
-                    top: "+=" + topMove.toString() + "px"
-                  , 400)
+                    currentMon.finish().animate backPosition, 440
+                  ), 460
                   setTimeout (->
                     singleTargetAbilityAfterActionDisplay()
                     toggleEnemyClick()
-                    ), 800
+                    ), 1000
               when "targetenemy"
                 enemyAbilityBeforeClickDisplay()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
@@ -1360,7 +1436,6 @@ $ ->
                       else
                         targetMon.effect "shake", times: 10, 750
                     element = $(this)
-                    checkMax()
                     setTimeout (->
                       element.toggleClass "ability-on"
                       element.attr("src", "")
@@ -1383,7 +1458,6 @@ $ ->
                   singleHealTargetAbilityDisplayVariable()
                   abilityAnime.css(targetPosition)
                   action()
-                  checkMax()
                   abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
                     targetMon.effect "bounce",
                         distance: 100
@@ -1419,7 +1493,6 @@ $ ->
                           else
                             $(this).effect "shake", {times: 5, distance: 40}, 750
                       element.toggleClass "ability-on aoePositionFoe"
-                      checkMax()
                       showDamageTeam(1)
                       singleTargetAbilityAfterActionDisplay()
                       return
@@ -1432,9 +1505,7 @@ $ ->
                   toggleImg()
                   ability.parent().parent().children(".abilityDesc").css "visibility", "hidden"
                   abilityAnime = $(".ability-img")
-                  checkMin()
                   multipleAction()
-                  checkMax()
                   multipleTargetAbilityDisplayVariable()
                   $(".ability-img").toggleClass "aoePositionUser", ->
                     element = $(this)
@@ -1472,7 +1543,9 @@ $ ->
                   targetMon.fadeOut 500, ->
                     $(this).finish().attr("src", betterMon.image).fadeIn(1000)
                 setTimeout (->
+                  xadBuk()
                   battle.evolve(0, targets[1], 0)
+                  zetBut()
                   $(".0 .mon" + targets[1] + " " + ".avatar").fadeOut(250).attr("src", betterMon.portrait).fadeIn(500)
                   abilityAnime.toggleClass "ability-on"
                   abilityAnime.attr("src", "")

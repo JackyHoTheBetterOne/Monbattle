@@ -79,7 +79,8 @@ class User < ActiveRecord::Base
   private
 
   def create_summoner
-    Summoner.create(user_id: self.id, name: self.user_name, vortex_key: 25, gp: 100, mp: 100)
+    Summoner.create(user_id: self.id, name: self.user_name, vortex_key: 25, gp: 100, mp: 100,
+                     completed_daily_quests: [], completed_weekly_quests: [], completed_quests: [])
   end
 
   def create_party
@@ -87,15 +88,13 @@ class User < ActiveRecord::Base
   end
 
   def unlock_default_monsters
-    if Monster.all.empty?
-    else
+    unless Monster.all.empty?
       @default_monster_ids = Monster.find_default_monster_ids
       @user_id = self.id
 
       @default_monster_ids.each do |id|
         MonsterUnlock.create(user_id: @user_id, monster_id: id)
       end
-
     end
   end
 

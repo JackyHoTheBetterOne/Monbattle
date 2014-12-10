@@ -3,6 +3,8 @@
     <%= cut_scene.name %> - <%= cut_scene.chapter.name if cut_scene.chapter %> - 
     <%= cut_scene.chapter.arc.name if cut_scene.chapter.arc %>
     <br />
+    Level assigned: <%= cut_scene.battle_level.name if cut_scene.battle_level %>
+    <br />
     Order: <%= cut_scene.order %>
     <br />
     Starting: <%= cut_scene.to_start %>
@@ -21,7 +23,9 @@
   </div>
   <div class="panel-footer">
     <div id="<%= dom_id(cut_scene) %>-edit" class="panel-collapse collapse">
-      <%= render partial: "form", locals: {cut_scene: cut_scene} %>
+      <%= simple_form_for(cut_scene, remote: true, method: :patch) do |f| %>
+        <%= render partial: "form", locals: {f: f} %>
+      <% end %>
     </div>
   </div>
 </div>

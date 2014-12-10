@@ -1,13 +1,22 @@
 <div class="battle_level">
-  <%= form_for(Battle.new) do |f| %>
-    <% BattleLevel.all.limit(5).each do |level| %> 
-        <%= f.button "#{level.name}", :name => "battle[battle_level_id]", :value => "#{level.id}", 
-        class: "btn btn-primary map-level", id: "#{level.name.delete(' ')}" %>
-    <% end %>
+  <% @areas.each do |a| %>
+    <%= link_to a.name, new_battle_path(level_filter: a.name), remote: true, 
+        class: "btn btn-primary map-level #{a.region_name}", id: a.name.delete(" ") %>
   <% end %>
 </div>
 
 <div class="level-description">
+  <%= form_for(Battle.new) do |f| %>
+    <% @levels.each do |level| %> 
+      <button class="pick-level" id= "<%= level.name.delete(' ') %>" 
+        name="battle[battle_level_id]" type="submit" value="<%= level.id %>">
+          <span class="level-name"><%= level.name %> - <%=level.stamina_cost%> Stamina</span>
+          <br/>
+          <div class="level-desc">
+            It's my life. It wont last forever. I aint gonna live forever. I just wanna live my life.
+          </div>
+      </button>
+    <% end %>
+  <% end %>
 </div>
-
 

@@ -23,6 +23,7 @@ class CutScenesController < ApplicationController
   def update
     authorize @cut_scene
     @cut_scene.update_attributes(cut_scene_params)
+    @cut_scene.save
     respond_to do |format|
       format.js
     end

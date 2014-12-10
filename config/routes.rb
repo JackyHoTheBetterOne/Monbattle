@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
-
+  
 resources :notices
+
+resources :areas
+
+resources :regions
+
+resources :quests
 
 resources :cut_scenes
 
@@ -52,9 +58,8 @@ resources :battle_levels
 resources :users
 
 resources :battles do
-  collection do
-    get :generate_field
-  end
+  patch :validation, on: :member
+  patch :judgement, on: :member
 end
 
 resources :ability_equippings, only: [:create, :update]

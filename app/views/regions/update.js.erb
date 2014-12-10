@@ -1,0 +1,16 @@
+$.ajax({
+  url: "/regions/" + <%= @region.id %>,
+  method: "get",
+  dataType: "json",
+  error: function() {
+   return alert("No AJAX for you Frank");
+  },
+  success: function(response) {
+    window.region = response;
+    $(".region-search").trigger("click");
+    setTimeout((function() {
+      $('body').scrollTo('#region_' + region.id);
+      $('#region_' + region.id).effect("highlight", 1000);
+    }), 500);
+   }
+ });

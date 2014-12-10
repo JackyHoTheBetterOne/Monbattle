@@ -1,0 +1,25 @@
+<div class="panel panel-primary" id="<%= dom_id(region)%>">
+  <div class="panel-heading">
+    <%= region.name %> 
+  </div>
+  <div class="panel-body">
+    <%= image_tag(region.map.url(:thumb)) %>
+  </div>
+  <div class="panel-footer">
+    <a data-toggle="collapse" data-parent="#accordion" href="#<%= dom_id(region) %>-edit" class="btn btn-default <%= dom_id(region) %>-edit">
+      Edit
+    </a>
+    <%= link_to "Destroy", region, method: :delete, remote: true, class: "btn btn-danger" %>
+  </div>
+  <div class="panel-footer">
+    <div id="<%= dom_id(region) %>-edit" class="panel-collapse collapse">
+      <%= simple_nested_form_for(region, method: :patch, remote: true) do |f| %>
+        <p></p>
+        <%= f.label "map" %>
+        <%= f.file_field :map %>
+        <p></p>
+        <%= render partial: "form", locals: {f: f} %>
+      <% end %>
+    </div>
+  </div>
+</div>

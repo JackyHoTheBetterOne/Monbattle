@@ -2,7 +2,7 @@
   h1 Sign in First
 -else
   =render partial: "admin/modal_button", locals: {modal_label: "battle_levelLabel", modal_id: "battle_levelModal", form_is_for: "battle_levels/form", button_name: "Create Stage", form_title: "Stage Creation" }
-  =render partial: "admin/modal_button", locals: {modal_label: "npc_partyLabel", modal_id: "npc_partyModal", form_is_for: "parties/npc_form", button_name: "Link Stage Name to NPC", form_title: "Link Stage Name to NPC" }
+  =render partial: "admin/modal_button", locals: {modal_label: "RegionLabel", modal_id: "RegionModal", form_is_for: "parties/region_form", button_name: "Create an region", form_title: "Region Creation" }
   hr
   -if npc.blank?
     h1 There is no user named NPC, make one

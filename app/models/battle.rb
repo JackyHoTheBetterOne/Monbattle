@@ -1,6 +1,7 @@
 require 'aasm'
 
 class Battle < ActiveRecord::Base
+
   is_impressionable
   include AASM
   extend FriendlyId
@@ -10,22 +11,38 @@ class Battle < ActiveRecord::Base
   has_many :parties, through: :fights
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
-  before_save :generate_code
-  before_update :to_finish
+  before_save :generate_code, :update_date
+
+  scope :find_matching_date, -> (date, party) {
+    joins(:fights).where(updated_on: date, "fights.party_id" => party.id)
+  }
+
+  scope :find_battles_on_date, -> (date) {
+    where(updated_on: date)
+  }
 
   aasm do
     state :battling, :initial => true
-    state :complete
-
-    event :done do
-      transitions :from => :battling, :to => :complete, :on_transition => :battle_complete
+    state :hacked
+    state :complete, :before_enter => :battle_complete
+    event :done, :after => :distribute_quest_reward do
+      transitions :from => :battling, :to => :complete
+    end
+    event :ruined do 
+      transitions :from => :battling, :to => :hacked
     end
   end
 
 
-
-#############################################
-
+####################################################################### End Battle Update
+  def to_finish
+    if self.aasm_state == "battling" && self.is_hacked == false
+      self.done
+    elsif self.is_hacked == true
+      self.ruined
+    end
+  end
+  
   def battle_complete
     @victor = self.victor
     victor_check
@@ -33,24 +50,68 @@ class Battle < ActiveRecord::Base
 
   def victor_check
     if @victor == "NPC"
+      @loser = Summoner.find_summoner(self.loser)
+      @loser.losses += 1 
+      @loser.save
     else
       give_reward
     end
+    self.quest_update
   end
 
   def give_reward
-    @mp_reward           = self.battle_level.mp_reward
-    @gp_reward           = self.battle_level.gp_reward
-    @vk_reward           = self.battle_level.vk_reward
-    @victorious_summoner = Summoner.find_victorious_summoner(@victor)
+    @mp_reward           = self.battle_level.mp_reward 
+    @gp_reward           = self.battle_level.gp_reward 
+    @vk_reward           = self.battle_level.vk_reward 
+    @victorious_summoner = Summoner.find_summoner(@victor)
 
+    @victorious_summoner.wins += 1 
+    level_array = @victorious_summoner.beaten_levels.clone
+    if !level_array.include?self.battle_level.name
+      level_array.push(self.battle_level.name) 
+      @victorious_summoner.recently_unlocked_level = self.battle_level.unlock.name if self.battle_level.unlock
+    end
+
+    @victorious_summoner.beaten_levels = level_array
     @victorious_summoner.mp += @mp_reward
     @victorious_summoner.gp += @gp_reward
     @victorious_summoner.vortex_key += @vk_reward
+
+    self.battle_level.ability_reward.each do |r|
+      ability = Ability.find_by_name(r)
+      ability_id = ability.id
+      user_id = @victorious_summoner.id
+      AbilityPurchase.create(ability_id: ability_id, user_id: user_id)
+    end
+
     @victorious_summoner.save
   end
 
-#############################################
+  def quest_update
+    if self.victor && self.loser
+      @victor = Summoner.find_summoner(self.victor)
+      @victor_party = @victor.party
+      @loser = Summoner.find_summoner(self.loser)
+      @loser_party = @loser.party
+      @victor.check_quest
+      @loser.check_quest
+      @victor.add_daily_battle(self.id)
+      @loser.add_daily_battle(self.id)
+    end
+  end
+
+  def distribute_quest_reward
+    if self.victor && self.loser
+      @victor = Summoner.find_summoner(self.victor)
+      @loser = Summoner.find_summoner(self.loser)
+    end
+    @victor.get_achievement
+    @victor.get_login_bonus_for_wins
+    @loser.get_achievement
+  end
+
+
+##############################################################################################################
 
   def build_json
     battle_json = {}
@@ -60,9 +121,6 @@ class Battle < ActiveRecord::Base
     battle_json[:id] = self.id_code
     battle_json[:reward] = self.battle_level.mp_reward
     battle_json[:players] = []
-    # self.users.each do |user|
-    #   battle_json[:"#{user.user_name}"] = user.as_json
-    # end
 
     self.parties.order(:npc).each do |party|
       battle_json[:players] << party.as_json
@@ -100,15 +158,15 @@ class Battle < ActiveRecord::Base
   end
 
   private
+  def update_date
+    self.updated_on = self.created_at.localtime if self.created_at
+  end
+
+
   def generate_code
     if !self.id_code
       self.id_code = SecureRandom.uuid
     end
   end
 
-  def to_finish
-    if self.aasm_state == "battling"
-      self.done
-    end
-  end
 end

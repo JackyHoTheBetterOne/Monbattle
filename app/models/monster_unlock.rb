@@ -4,7 +4,6 @@ class MonsterUnlock < ActiveRecord::Base
   has_one    :job, through: :monster
   has_many :ability_purchases
 
-  # has_many :ability_purchases, through: :ability_equippings
   has_many :abilities, through: :ability_purchases
   has_many :members, dependent: :destroy
   has_many :parties, through: :members
@@ -96,7 +95,6 @@ class MonsterUnlock < ActiveRecord::Base
   end
 
   def unlocked_evolves
-
     def unlocked_monsters_ids
       MonsterUnlock.where(user_id: self.user_id).pluck(:monster_id)
     end

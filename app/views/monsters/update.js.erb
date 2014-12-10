@@ -18,3 +18,18 @@ $.ajax({
     $("#monster_" + monster.id + " " + "td.ability_resistance").text(monster.ability_resistance);
   }
 });
+<!-- Conflict -->
+<% if @monster.save %>
+  $(".modal-header button span").trigger("click");
+  setTimeout((function() {
+    $("#<%= dom_id(@monster) %>").remove();
+  }), 250);
+  setTimeout((function() {
+    $(".monsters").prepend("<%= j render @monster %>");
+  }), 350);
+  setTimeout((function() {
+    $(window).scrollTop(100);
+  }), 500);
+<% else %>
+  $("#edit_battle_level").effect("highlight", {color: "red"});
+<% end %>

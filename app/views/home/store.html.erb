@@ -1,31 +1,19 @@
 <% if current_user %>
   <div class="store-front">
-    <%= image_tag("premium_summon_logo.png", class: "premium-summon-logo") %>
-    <input type="image" src="../assets/special_summon.png" alt="Submit" class="king-roll">
-    <div class="premium-showcase">
-      <% @abilities.each do |a| %>
-        <div class="latest-ability" id: "<%= @abilities.index(a) %>" >
-          <% case a.targeta %>
-            <% when "targetally", "aoeally" %>
-              <%= image_tag("heal.png", size: "125") %>
-            <% when "attack" %>
-              <%= image_tag("attack.png", size: "125") %>
-            <% when "ability" %>
-              <%= image_tag("attack.png", size: "125") %>
-            <% when "targetenemy", "aoeenemy" %>
-              <%= image_tag("ability.png", size: "125") %>
-          <% end %>
-          <p class="latest-ability-name"> <%= a.name %> </p>
-          <p class="latest-ability-ap-cost"> AP: <%= a.ap_cost %></p>
-        </div>
-      <% end %>
+    <%= image_tag("premium-summon.png", class: "premium-summon-logo") %>
+    <input type="image" src="../assets/summon-button.png" alt="Submit" class="king-roll">
+    <div class="store-message">
+      <span>Master, I sense new monsters! </span>
+      <span>New monsters include: Hotspot, SPook, Grimrock, and Uorabora</span>
+      <span>New Abilities include: Reckless STrike, Sword Summit, and Gravity Bomb</span>
     </div>
+    <%= image_tag("ai-happy-avatar.png", class: "ai-happy-avatar") %>
   </div>
 
   <div class="store-overlay">
     <div class="panel-body roll-message">
       Fuck Yeah
-    </diV>
+    </div>
   </div>
 <% else %>
   <%= render "no_user" %>

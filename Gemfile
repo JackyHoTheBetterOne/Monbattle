@@ -1,7 +1,9 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem "nested_form"
 gem 'remotipart', '~> 1.2'
+gem 'whenever', :require => false
 # gem 'filterrific'
 gem "thin"
 gem "figaro"
@@ -25,6 +27,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
+gem 'jquery-turbolinks'
 gem "bootstrap-sass"
 gem 'compass-rails'
 gem "animate-rails"

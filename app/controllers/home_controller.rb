@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   layout "facebook_landing"
   before_action :find_user, :find_ability_purchases, only: [:index, :abilities_for_mon]
+  before_action :check_energy
 
   def index
     @monster_unlocks = @user.monster_unlocks
@@ -79,6 +80,13 @@ class HomeController < ApplicationController
 
   def find_ability_purchases
     @ability_purchases = @user.ability_purchases
+  end
+
+  def check_energy
+    if current_user
+      @summoner = current_user.summoner
+      @summoner.save
+    end
   end
 
 end

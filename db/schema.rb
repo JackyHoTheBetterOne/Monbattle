@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141118002503) do
+ActiveRecord::Schema.define(version: 20141208220542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "abil_sockets", force: true do |t|
     t.integer  "socket_num"
@@ -93,6 +94,17 @@ ActiveRecord::Schema.define(version: 20141118002503) do
     t.datetime "updated_at"
   end
 
+  create_table "areas", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "unlock_id"
+    t.integer  "region_id"
+    t.text     "keywords"
+  end
+
+  add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
+
   create_table "battle_levels", force: true do |t|
     t.integer  "exp_given"
     t.datetime "created_at"
@@ -105,7 +117,17 @@ ActiveRecord::Schema.define(version: 20141118002503) do
     t.integer  "mp_reward",               default: 0
     t.integer  "gp_reward",               default: 0
     t.integer  "vk_reward",               default: 0
+    t.integer  "unlock_id"
+    t.integer  "area_id"
+    t.text     "keywords"
+    t.text     "description"
+    t.text     "victory_message"
+    t.text     "ability_reward",          default: [], array: true
+    t.boolean  "unlocked_by_default"
+    t.integer  "stamina_cost",            default: 0
   end
+
+  add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
 
   create_table "battles", force: true do |t|
     t.string   "outcome"
@@ -119,6 +141,10 @@ ActiveRecord::Schema.define(version: 20141118002503) do
     t.string   "victor"
     t.string   "loser"
     t.string   "aasm_state"
+    t.date     "updated_on"
+    t.text     "after_action_state"
+    t.text     "before_action_state"
+    t.boolean  "is_hacked",           default: true
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
@@ -369,6 +395,7 @@ ActiveRecord::Schema.define(version: 20141118002503) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "notice_type_id"
+    t.text     "keywords"
   end
 
   create_table "parties", force: true do |t|
@@ -388,7 +415,56 @@ ActiveRecord::Schema.define(version: 20141118002503) do
     t.datetime "updated_at"
   end
 
+  create_table "quest_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "quests", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "stat"
+    t.integer  "requirement"
+    t.boolean  "is_active",          default: true
+    t.string   "bonus"
+    t.integer  "reward_amount"
+    t.datetime "end_date",           default: '2015-12-10 05:41:02'
+    t.datetime "refresh_date",       default: '2015-12-10 05:41:02'
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "quest_type_id"
+    t.integer  "reward_category_id"
+    t.text     "keywords"
+    t.string   "icon_file_name"
+    t.string   "icon_content_type"
+    t.integer  "icon_file_size"
+    t.datetime "icon_updated_at"
+    t.integer  "stat_requirement"
+  end
+
+  add_index "quests", ["quest_type_id"], name: "index_quests_on_quest_type_id", using: :btree
+  add_index "quests", ["reward_category_id"], name: "index_quests_on_reward_category_id", using: :btree
+
   create_table "rarities", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "regions", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "unlock_id"
+    t.string   "map_file_name"
+    t.string   "map_content_type"
+    t.integer  "map_file_size"
+    t.datetime "map_updated_at"
+    t.text     "keywords"
+  end
+
+  create_table "reward_categories", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -425,11 +501,25 @@ ActiveRecord::Schema.define(version: 20141118002503) do
     t.integer  "summoner_level_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "mp",                default: 0
-    t.integer  "gp",                default: 0
-    t.integer  "current_lvl",       default: 1
-    t.integer  "current_exp",       default: 0
-    t.integer  "vortex_key",        default: 0
+    t.integer  "mp",                           default: 0
+    t.integer  "gp",                           default: 0
+    t.integer  "current_exp",                  default: 0
+    t.integer  "vortex_key",                   default: 0
+    t.integer  "wins",                         default: 0
+    t.integer  "losses",                       default: 0
+    t.hstore   "starting_status"
+    t.hstore   "ending_status"
+    t.text     "completed_daily_quests",       default: [],                    array: true
+    t.text     "completed_weekly_quests",      default: [],                    array: true
+    t.text     "completed_quests",             default: [],                    array: true
+    t.text     "daily_battles",                default: [],                    array: true
+    t.text     "beaten_levels",                default: [],                    array: true
+    t.text     "recently_completed_quests",    default: [],                    array: true
+    t.string   "recently_unlocked_level"
+    t.integer  "stamina",                      default: 100
+    t.integer  "level",                        default: 1
+    t.integer  "seconds_left_for_next_energy"
+    t.datetime "last_update_for_energy",       default: '2014-12-10 05:35:03'
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree
@@ -464,7 +554,6 @@ ActiveRecord::Schema.define(version: 20141118002503) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "user_name"
-    t.integer  "rank"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "admin",                  default: false

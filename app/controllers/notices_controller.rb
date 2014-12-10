@@ -2,7 +2,7 @@ class NoticesController < ApplicationController
   before_action :find_notice, only: [:update, :destroy]
 
   def index
-    @notices = policy_scope(Notice.all.order("created_at DESC").limit(20))
+    @notices = policy_scope(Notice.search(params[:keyword]).order("created_at DESC").limit(20))
     @notice = Notice.new
   end
 

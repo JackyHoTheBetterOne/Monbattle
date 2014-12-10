@@ -1,18 +1,20 @@
 <div class="jumbotron">
-  <h1>This is where the story is made</h1>
+  <h1>This is where the story is made!</h1>
   <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default cut-scene-form-unfold">
     Cut-scene form
   </a>
   <p></p>
   <div id="collapseOne" class="panel-collapse collapse">
-    <%= render partial: "form", locals: {cut_scene: @cut_scene} %>
+    <%= simple_form_for(@cut_scene, remote: true, method: :post) do |f| %>
+      <%= render partial: "form", locals: {f: f} %>
+    <% end %>
   </div>
   <p></p>
 </div>
 <div>
   <%= form_tag cut_scenes_path, :method => "get", remote: true %>
   <%= text_field_tag :keyword, params[:keyword] %>
-  <%= submit_tag "Search like a bitch", class: "btn btn-default" %>
+  <%= submit_tag "Search like a chicken", class: "btn btn-default scene-search" %>
 </div>
 <p></p>
 <div class="cut_scenes">

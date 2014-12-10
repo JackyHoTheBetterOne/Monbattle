@@ -12,4 +12,7 @@ module ApplicationHelper
     time.strftime("Created at %I:%M%p %m/%d/%Y")
   end
 
+  def seconds_to_time(seconds)
+    Time.at(seconds).utc.strftime("%H:%M:%S")
+  end
 end

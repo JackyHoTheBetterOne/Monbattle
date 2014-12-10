@@ -1,0 +1,11 @@
+<% if @region.new_record? %>
+  $(".new_region").effect("highlight", {color: "red"});
+<% else %>
+  $(".new_region")[0].reset();
+  $(".region-form-unfold").click();
+  $(".regions").prepend("<%= j render @region %>");
+  setTimeout((function() {
+    $('body').scrollTo('#<%= dom_id(@region) %>');
+    $("#<%= dom_id(@region) %>").effect("highlight", 1000);
+  }), 500);
+<% end %>

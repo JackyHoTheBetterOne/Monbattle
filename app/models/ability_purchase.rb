@@ -5,8 +5,6 @@ class AbilityPurchase < ActiveRecord::Base
 
   validates :user_id, presence: {message: 'Must be entered'}
   validates :ability_id, presence: {message: 'Must be entered'}
-                         # uniqueness: {scope: :monster_unlock_id}, :unless => :monster_unlock_id == 0
-  # validates :socket_num, uniqueness: {scope: :monster_unlock_id}, :unless => :monster_unlock_id == 0
   after_create :set_socket
 
   def self.on_monster_unlock(params = {})

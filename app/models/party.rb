@@ -10,16 +10,11 @@ class Party < ActiveRecord::Base
   has_many :monster_unlocks, through: :members
 
   validates :user_id, presence: {message: 'Must be entered'}
-                                 # uniqueness: true unless: :{ |c| !c.logged_in? }
 
   validates :name, presence: {message: "Must be entered"}
 
-  before_save :npcCheck
+  after_create :npcCheck
   default_scope { order("npc") }
-
-  # def count_party_members(user_id)
-  #   find_by_user_id(user_id).members.count
-  # end
 
   def self.members_count_for(user)
     find_by_user_id(user).members.count
@@ -33,9 +28,6 @@ class Party < ActiveRecord::Base
     self.user.user_name && "NPC"
   end
 
-  # def mon_dex(mon)
-  #   self.monsters.index(mon)
-  # end
   def mon_dex(mon)
     self.mons.index(mon)
   end
@@ -66,7 +58,7 @@ class Party < ActiveRecord::Base
   end
 
   def self.generate(user)
-    BattleLevel.all.each do |level|
+    BattleLevel.unlocked_levels(user.summoner.beaten_levels).each do |level|
       Party.where("user_id = 2").where(name: level.name).where(enemy: user.user_name).destroy_all
       party = Party.create!(
         user_id: 2,
@@ -85,8 +77,8 @@ class Party < ActiveRecord::Base
       self.npc = true
     else
       self.npc = false
-      return true
     end
+    self.save
   end
 
 end

@@ -1,0 +1,20 @@
+<tr id="<%= dom_id(battle_level) %>">
+  <td><%= battle_level.id %></td>
+  <td><%= battle_level.name %></td>
+  <td><%= battle_level.stamina_cost %></td>
+  <td><%= battle_level.mp_reward %></td>
+  <td><%= battle_level.gp_reward %></td>
+  <td><%= battle_level.exp_given %></td>
+  <td><%= battle_level.area_name %></td>
+  <td><%= battle_level.region_name %></td>
+  <td><%= image_tag(battle_level.background.url(:thumb)) %></td>
+  <td><%= battle_level.unlock.name if battle_level.unlock %></td>
+  <td> 
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editting_<%= dom_id(battle_level) %>">
+      Edit
+    </button>
+    <%= render partial: "edit_popup", locals: {battle_level: battle_level} %>
+    <%= link_to "Destroy", battle_level, method: :delete, remote: true, class: "btn btn-danger" %> 
+  </td>
+</tr>
+

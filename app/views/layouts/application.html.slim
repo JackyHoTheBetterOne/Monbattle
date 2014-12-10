@@ -6,11 +6,9 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   body
+    =render "battles/single_ability_img"
     .main-content
-      -if params[:controller] == 'home'
-        / =render partial: "nav_bars/user"
-      -else
-        =render partial: "nav_bars/admin"
+      =render partial: "layouts/admin"
       -if flash[:notice]
         div class='alert alert-success'
           =flash[:notice]

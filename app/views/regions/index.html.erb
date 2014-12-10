@@ -1,0 +1,27 @@
+<div class="jumbotron">
+  <h1>Areas and Regions are forged here!</h1>
+  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default region-form-unfold">
+    Area/Region form
+  </a>
+  <p></p>
+  <div id="collapseOne" class="panel-collapse collapse">
+    <%= simple_nested_form_for(@region, remote: true, method: :post) do |f| %>
+      <%= render partial: "form", locals: {f: f} %>
+    <% end %>
+  </div>
+  <p></p>
+</div>
+
+<div>
+  <%= form_tag regions_path, :method => "get", remote: true %>
+  <%= text_field_tag :keyword, params[:keyword] %>
+  <%= submit_tag "Search like a little girl", class: "btn btn-default region-search" %>
+</div>
+
+<p></p>
+
+<div class="regions">
+  <%= render @regions %>
+</div>
+
+
