@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 20141208220542) do
     t.text     "victory_message"
     t.text     "ability_reward",          default: [], array: true
     t.boolean  "unlocked_by_default"
-    t.integer  "stamina_cost"
+    t.integer  "stamina_cost",            default: 0
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
@@ -519,7 +519,7 @@ ActiveRecord::Schema.define(version: 20141208220542) do
     t.integer  "stamina",                      default: 100
     t.integer  "level",                        default: 1
     t.integer  "seconds_left_for_next_energy"
-    t.datetime "last_update_for_energy",       default: '2014-12-08 22:10:30'
+    t.datetime "last_update_for_energy",       default: '2014-12-09 21:13:37'
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree
