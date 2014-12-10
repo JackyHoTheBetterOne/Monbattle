@@ -44,9 +44,13 @@
           <li class= "summoner-info pull-right">
             <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "sign-out" %>
             <p class="username"><%= current_user.user_name%></p>
-            <span class="summoner-gp"><%= current_user.summoner.gp %></span>
+            <span class="summoner-gp" id="summoner-gp">
+              <%= current_user.summoner.gp %>
+            </span>
             <%= image_tag("gp.png", class: "gp-icon") %>
-            <span class="summoner-mp"><%= current_user.summoner.mp %></span>
+            <span class="summoner-mp" id="summoner-mp">
+              <%= current_user.summoner.mp %>
+            </span>
             <%= image_tag("mp.png", class: "mp-icon") %>
             <span class="summoner-level" id="summoner-level" data-seconds="<%= current_user.summoner.seconds_left_for_next_energy %>">
               LV <%= current_user.summoner.level%>
@@ -64,7 +68,8 @@
             </p>
             <div class="summoner-stamina-bar">
               <%= image_tag("stamina.png", class: "stamina-icon") %>
-              <%= image_tag("stamina-bar.png", class: "bar") %>
+              <%= image_tag("stamina-bar.png", class: "bar", 
+                  style: "width: #{current_user.summoner.stamina_percentage};") %>
             </div>
           </li>
         <% end %>

@@ -29,6 +29,10 @@ class Summoner < ActiveRecord::Base
     self.user.parties[0]
   end
 
+  def stamina_percentage
+    self.stamina.to_s + "%"
+  end
+
 
 ############################################################################################ Quest logic
 
