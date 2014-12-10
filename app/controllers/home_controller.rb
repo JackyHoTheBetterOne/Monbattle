@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   layout "facebook_landing"
+  before_action :check_energy
 
   def index
     @user      = params[:user] || current_user
@@ -61,4 +62,14 @@ class HomeController < ApplicationController
       redirect_to device_store_path
     end
   end
+
+  private
+
+  def check_energy
+    if current_user
+      @summoner = current_user.summoner
+      @summoner.save
+    end
+  end
+
 end

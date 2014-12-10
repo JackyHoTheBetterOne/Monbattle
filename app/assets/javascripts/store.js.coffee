@@ -4,9 +4,9 @@
 
 $ ->
   $(document).on "mouseover", ".king-roll", ->
-    $(this).attr("src", "../assets/special_summon_hover.png")
+    $(this).attr("src", "../assets/summon-button-mouseover.png").addClass("hover-store-button-class")
   $(document).on "mouseleave", ".king-roll", ->
-    $(this).attr("src", "../assets/special_summon.png")
+    $(this).attr("src", "../assets/summon-button.png").removeClass("hover-store-button-class")
 
   $.ajax 
     url: "/store"
@@ -25,7 +25,7 @@ $ ->
         alert("Can't process the roll")
       success: (response) ->
         overlay = document.getElementsByClassName("store-overlay")[0]
-        gp = document.getElementById("summoner_gp")
+        gp = document.getElementById("summoner-gp")
         message = document.getElementsByClassName("roll-message")[0]
         overlay.className += " fadeIn-1s"
         gp.innerHTML = response.gp 

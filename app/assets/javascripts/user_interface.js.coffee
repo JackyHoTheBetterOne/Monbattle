@@ -1,10 +1,9 @@
-window.setQuestBoxAndEnergy = ->
+window.setEnergy = ->
   if document.getElementById("summoner-level") isnt null
     energy_seconds = parseInt(document.getElementById("summoner-level").getAttribute("data-seconds")) 
+  console.log(energy_seconds)
   $(".quests-info").click(false)
-  window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
   window.clearInterval(staminaTimer) if typeof energyTimer isnt "undefined"
-  window.questTimer = undefined
   count = $(".quest").length
   quest_box_height = 6 + 64 * count
   quest_outline_height = 10 + 65 * count
@@ -12,18 +11,20 @@ window.setQuestBoxAndEnergy = ->
   $(".quests-outline").css("height", quest_outline_height.toString() + "px")
   count = 0
   setTimeout (->
+    console.log("wtf")
     replenishStamina()
     window.staminaTimer = setInterval(replenishStamina, 301000)
-  ), energy_seconds*1000 + 700
+  ), energy_seconds*1000 + 250
     
 
 window.replenishStamina = ->
   if document.getElementById("current-stamina") isnt null
-    if document.getElementById("current-stamina").innerHTML isnt "100"
+    if parseInt(document.getElementById("current-stamina").innerHTML) isnt 100
       number = parseInt(document.getElementById("current-stamina").innerHTML)
       number += 1
       document.getElementById("current-stamina").innerHTML = number.toString()
-      $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
+      $(".summoner-stamina-bar .bar").css("width", number.toString() + "%")
+      console.log("Please")
 
 window.zetBut = ->
   $.ajax
@@ -74,6 +75,7 @@ setDonationButton = ->
 
 $ ->
   number = parseInt($(".current-stamina").text())
+  setEnergy()
   $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
   $(".donation-action").hide()
   $(document).on "keyup", ".donation", ->
@@ -96,7 +98,7 @@ $ ->
       $(".quest-show").parent().removeClass("active")
   $(document).on "click.quest", ".fb-nav :not('.quest-show'), .battle-fin", ->
     setTimeout (->
-      setQuestBoxAndEnergy()
+      setEnergy()
     ), 250
 
 

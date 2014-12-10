@@ -8,58 +8,63 @@
 };
 
 
-
+.hover-store-button-class {
+  position: absolute !important;
+  left: 369px !important;
+  top: 272px !important;
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////// Need some organizations here buddy
 div.store-front {
-  height: 600px;
+  height: 500px;
   width: 960px;
-  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+  background: #4C4C4C;
+  background-image: url("monster-content.png");
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-  left: 130px;
-  top: -5px;
+  left: 16px;
+  top: -14px;
   margin-bottom: 20px;
   border-radius: 5px;
   .king-roll {
     position: absolute;
-    top: 508px;
-    left: 155px;
-    width: 182px;
-    height: 70px;
-  };
-
-  .premium-showcase {
-    position: absolute;
-    height: 300px;
-    width: 360px;
-    top: 114px;
-    left: 65px;
-  };
-
-  .latest-ability {
-    margin-left: 40px;
-    margin-top: 20px;
-    display: inline-block;
+    top: 285px;
+    left: 390px;
+    outline: none;
   };
 
   .premium-summon-logo {
     position: absolute;
-    height: 100px;
-    width: 250px;
-    left: 133px;
-    top: 10px;
+    left: 155px;
+    top: 6px;
   };
 
-  .latest-ability-name {
-    margin-bottom: 2px;
-  };
 
-  .latest-ability-name, .latest-ability-ap-cost {
-    position: relative;
+  .ai-happy-avatar {
+    position: absolute;
     left: 5px;
+    top: 293px;
+  };
+
+  .store-message {
+    position: absolute;
+    height: 125px;
+    width: 800px;
+    left: 164px;
+    background-image: url("speech-bubble-blue.png");
+    background-size: cover;
+    top: 369px;
+    font-size: 120%;
+    font-weight: bold;
+    span {
+      display: block;
+      position: relative;
+      top: 20px;
+      margin-left: 98px;
+      margin-bottom: 8px;
+    };
   };
 };
 
