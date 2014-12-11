@@ -87,7 +87,6 @@ window.setQuestTimer = ->
     $(this).data("timer", number)
     $(this).text(time)
 
-
 $ ->
   number = parseInt($(".current-stamina").text())
   setEnergy()
@@ -112,12 +111,18 @@ $ ->
   $(document).on "click", ".for-real, .close-quest, .quest-close-footer", ->
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
       $(".quest-show").parent().removeClass("active")
-  $(document).on "click.quest", ".fb-nav :not('.quest-show'), .battle-fin", ->
+  $(document).on "click.quest", ".fb-nav :not('.quest-show')", ->
     setTimeout (->
       setEnergy()
       window.questTimer = setInterval(setQuestTimer, 1000)
-    ), 100
-
+      console.log("wtf")
+    ), 500
+  $(document).on "click.fix", ".battle-fin, .party_edit_button", ->
+    setTimeout (->
+      setEnergy()
+      window.questTimer = setInterval(setQuestTimer, 1000)
+      console.log("wtf")
+    ), 1000
 
 
 
