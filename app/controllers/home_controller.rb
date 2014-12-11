@@ -1,16 +1,25 @@
 class HomeController < ApplicationController
   layout "facebook_landing"
+  before_action :find_user, :find_ability_purchases, only: [:index, :abilities_for_mon]
   before_action :check_energy
 
   def index
-    @user      = params[:user] || current_user
-    @base_mons = MonsterUnlock.base_mons(@user)
-    @abilities = Ability.includes(:ability_purchases).includes(:abil_socket).includes(:jobs).abilities_purchased(@user)
-    @ability_purchases = @user.ability_purchases
+    @monster_unlocks = @user.monster_unlocks
+    @base_mons = @monster_unlocks.base_mons(@user)
     @members = @user.parties.first.members
-    if !@user
+    @abilities = Ability.includes(:ability_purchases).includes(:abil_socket).
+                 includes(:jobs).abilities_purchased(@user).alphabetical
+    unless @user
       render layout: "facebook_landing"
     end
+  end
+
+  def abilities_for_mon
+    @mon = MonsterUnlock.find params[:mon]
+    @socket = params[:socket]
+    @current_abil_purchase = @mon.abil_purch_in_sock(@socket)
+    @abilities = Ability.find_default_abilities_available(@socket, @mon.job).abilities_purchased(@user)
+    render :abilities_for_mon
   end
 
   def store
@@ -64,6 +73,14 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def find_user
+    @user = current_user
+  end
+
+  def find_ability_purchases
+    @ability_purchases = @user.ability_purchases
+  end
 
   def check_energy
     if current_user

@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 20141210231316) do
     t.text     "victory_message"
     t.text     "ability_reward",          default: [], array: true
     t.boolean  "unlocked_by_default"
-    t.integer  "stamina_cost"
+    t.integer  "stamina_cost",            default: 0
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
@@ -430,8 +430,8 @@ ActiveRecord::Schema.define(version: 20141210231316) do
     t.boolean  "is_active",          default: true
     t.string   "bonus"
     t.integer  "reward_amount"
-    t.datetime "end_date",           default: '2015-11-20 20:00:42'
-    t.datetime "refresh_date",       default: '2015-11-20 20:00:42'
+    t.datetime "end_date",           default: '2015-12-10 05:41:02'
+    t.datetime "refresh_date",       default: '2015-12-10 05:41:02'
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "quest_type_id"

@@ -164,9 +164,10 @@ class Monster < ActiveRecord::Base
     else
       @user = find_user("admin")
     end
-    if !self.users.where(id: @user).exists?
-      MonsterUnlock.create(user_id: @user.id, monster_id: self.id)
+    if self.users.where(id: @user).exists?
+      MonsterUnlock.find_by(user_id: @user.id, monster_id: self.id).destroy
     end
+    MonsterUnlock.create(user_id: @user.id, monster_id: self.id)
   end
 
 end

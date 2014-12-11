@@ -42,14 +42,6 @@ class MonsterUnlock < ActiveRecord::Base
     abilities.abil_portrait(sock_num)
   end
 
-  # def abil_img_in_sock(sock_num)
-  #   abil_in_sock(sock_num).first.portrait.url(:small)
-  # end
-
-  # def abil_avail_for_sock(socket_num)
-  #   self.abilities.where
-  # end
-
   def self.unlock_check(user, monster_id)
     where(user_id: user, monster_id: monster_id)
   end

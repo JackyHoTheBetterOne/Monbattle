@@ -48,6 +48,8 @@ root 'home#facebook'
 get 'home/roll_trash' => "home#roll_trash", as: :roll_trash
 get 'home/roll_treasure' => "home#roll_treasure", as: :roll_treasure
 
+get 'home/abilities_for_mon' => "home#abilities_for_mon"
+
 resources :home
 resources :admin
 resources :effects

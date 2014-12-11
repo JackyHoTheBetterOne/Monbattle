@@ -1,0 +1,29 @@
+-own = @ability_purchases.owned(ability).count
+-available = @ability_purchases.not_equipped(ability)
+-available_count = available.count
+.ability-pane id=dom_id(ability)
+  .ability-icon.shadowed2
+    =image_tag ability.portrait.url(:small)
+  .ability-info.shadowed2
+    .abil-heading
+      .abil-name
+        p =ability.name
+      .ap-cost
+        p AP: #{ability.ap_cost}
+      .word-available
+        p Available:
+      .avail id="#{dom_id(ability)}-avail"
+        =render partial: "/home/avail", locals: {available_count: available_count}
+      .word-of
+        p of
+      .own id="#{dom_id(ability)}-own"
+        p #{own}
+    p=ability.description
+  .ability-equip.shadowed2 id="#{dom_id(ability)}-none"
+    .none None Available
+  / =image_tag "ability-equip-avatar.png", class: "ability-equip shadowed2", id: "#{dom_id(ability)}-equip"
+  .ability-equip.shadowed2 id="#{dom_id(ability)}-equip"
+    .equip Equip
+  .ability-equip.shadowed2 id="#{dom_id(ability)}-equipped"
+    .equipped Equipped
+  .ability-equip-link

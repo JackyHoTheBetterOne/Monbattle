@@ -1,33 +1,15 @@
--@abil_own = @ability_purchases.owned(@ability).count
--@abil_available = @ability_purchases.not_equipped(@ability)
--@abil_available_count = @abil_available.count
+-@abilities.each do |ability|
+  -available = @ability_purchases.not_equipped(ability)
+  -unless available.blank?
+    | $("##{dom_id(ability)} .ability-equip-link").html("#{j render partial: "/home/abil_equip_link", locals: {available: available}}");
 
--@old_abil_own = @ability_purchases.owned(@old_ability).count
--@old_abil_avail = @ability_purchases.not_equipped(@old_ability)
--@old_abil_avail_count = @old_abil_avail.count
+| $("##{dom_id(@mon)}-info-pane .equip#{@socket}").html("#{j render partial: "home/abil_portrait", locals: {mon: @mon, socket: @socket}}");
+| $("##{dom_id(@ability)}-avail").html("#{j render partial: "/home/avail", locals: {available_count: @abil_avail_count}}");
+| $("##{dom_id(@old_ability)}-avail").html("#{j render partial: "/home/avail", locals: {available_count: @old_abil_avail_count}}");
 
--@current_user.monster_unlocks.each do |mon_unlock|
-  -@own = @abil_own
-  -@available = @abil_available
-  -@available_count = @abil_available_count
-  | $("##{dom_id(mon_unlock)+"_"+dom_id(@ability)}").html("#{j render partial: "/home/abil_pane", locals: {socket_num: @socket_num, abil: @ability, mon: mon_unlock}}");
-  -@own = @old_abil_own
-  -@available = @old_abil_avail
-  -@available_count = @old_abil_avail_count
-  | $("##{dom_id(mon_unlock)+"_"+dom_id(@old_ability)}").html("#{j render partial: "/home/abil_pane", locals: {socket_num: @socket_num, abil: @old_ability, mon: mon_unlock}}");
+| $("##{dom_id(@ability)} .ability-equip").hide();
+| $("##{dom_id(@ability)}-equipped").show();
+| $("##{dom_id(@ability)} .ability-equip-link").html("");
 
-/Slows down performance after this
-
--@abilities = Ability.abilities_purchased(@user)
-| $("##{dom_id(@monster_unlock)}-socket#{@socket_num}-info").html("#{j render partial: "/home/abil_portrait", locals: {socket_num: @socket_num, mon: @monster_unlock}}");
-| $("##{dom_id(@monster_unlock)}-socket#{@socket_num}").html("#{j render partial: "/home/abilities_display_area", locals: {socket_num: @socket_num, mon: @monster_unlock}}");
-| $("##{dom_id(@monster_unlock)}-socket#{@socket_num}").show().effect("highlight");
-
-/ -@current_abil_purchase = @ability_purchase
-/ -Ability.abilities_purchased(@user).find_default_abilities_available(@socket_num, @monster_unlock.job).each do |abil|
-/   -if abil == @ability || @old_ability
-/   -else
-/     -@available = @ability_purchases.not_equipped(abil)
-/     | $("##{dom_id(@monster_unlock)+"_"+dom_id(abil)+"_equip"}").html("#{j render partial: "/home/equip", locals: {socket_num: @socket_num, mon: @monster_unlock}}");
-
-/   | $("##{dom_id(@monster_unlock)}-socket#{@socket_num}-info").html("#{j render partial: "/home/abil_portrait", locals: {socket_num: @socket_num, mon: @monster_unlock}}");
+| $("##{dom_id(@old_ability)} .ability-equip").hide();
+| $("##{dom_id(@old_ability)}-equip").show();
