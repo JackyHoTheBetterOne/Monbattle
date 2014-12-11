@@ -1,5 +1,13 @@
 @import "compass";
 
+.current-area {
+  background: #0D47A1 !important;
+};
+
+.current-region {
+  background: #0D47A1 !important;
+};
+
 .level-select {
   position: relative;
   height: 500px;
@@ -12,6 +20,34 @@
 };
 
 
+.region-panel {
+  position: absolute;
+  height: 27%;
+  width: 64%;
+  border: 2px solid black;
+  border-radius: 5px;
+  top: 4px;
+  left: 2px;
+  background: #757575;
+  .region-box {
+    position: absolute;
+    top: 44px;
+    text-align: center;
+    width: 100%;
+    z-index: 100;
+    .region-select {
+      border: 2px solid black;
+      background: #4B4B4B;
+      margin-left: 5px;
+      height: 40px;
+      transition: background 0.5s;
+    };
+    .region-select:hover {
+      background: #0D47A1;
+    };
+  };
+};
+
 .battle_level {
   position: absolute;
   border: 2px solid black;
@@ -19,12 +55,24 @@
   width: 614px;
   left: 2px;
   height: 356px;
-  background: url(map_use.gif);
-  background-size: cover;
-  background-repeat: no-repeat;
+  background: transparent;
   margin-top: 5px;
   margin-bottom: 50px;
   border-radius: 5px;
+  .map-image {
+    position: absolute;
+    height: 100%;
+    border-radius: 5px;
+    width: 100%;
+  };
+  .map-level {
+    background: #4B4B4B;
+    transition: background 0.5s;
+    z-index: 100;
+  };
+  .map-level:hover {
+    background: #0D47A1;
+  };
   #Stage1 {
     top: 286px;
     left: 88px;

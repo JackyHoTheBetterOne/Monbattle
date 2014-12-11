@@ -7,17 +7,24 @@ class BattlesController < ApplicationController
 
   def new
     @battle = Battle.new
-    @regions = Region.all
     @user = current_user
     Party.generate(@user)
     @summoner = current_user.summoner
+    @regions = Region.all.unlocked_regions(@summoner.completed_regions)
+    
     params[:area_filter] ||= session[:area_filter]
     session[:area_filter] = params[:area_filter]
 
+    if session[:area_filter]
+      @map_url = Region.find_by_name(session[:area_filter]).map.url(:cool)
+    else
+      @map_url = @regions.last.map.url(:cool)
+    end
+
     if params[:area_filter]
-      @areas = Area.filter(params[:area_filter])
+      @areas = Area.filter(params[:area_filter]).unlocked_areas(@summoner.completed_areas)
     elsif session[:area_filter]
-      @areas = Area.filter(session[:area_filter])
+      @areas = Area.filter(session[:area_filter]).unlocked_areas(@summoner.completed_areas)
     else
       @areas = Area.where("name = ?", "")
     end
@@ -140,10 +147,6 @@ class BattlesController < ApplicationController
       @date = Time.now.localtime.to_date
       @party = current_user.parties[0]
       if Battle.find_matching_date(@date, @party).count == 0
-        p "========================================================================================================"
-        p "clearing records"
-        p Battle.find_matching_date(@date, @party).count
-        p "========================================================================================================"
         @party.user.summoner.quest_begin 
         @party.user.summoner.clear_daily_achievement
         @party.user.summoner.clear_daily_battles

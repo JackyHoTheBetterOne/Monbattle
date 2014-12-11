@@ -35,7 +35,7 @@ private
   end
 
   def update_unlock_status
-    @battle_level.check_default
+    @battle_level.check_unlock_default
   end
 
 end

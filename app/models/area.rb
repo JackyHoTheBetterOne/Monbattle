@@ -4,7 +4,7 @@ class Area < ActiveRecord::Base
   belongs_to :region
 
   before_save :set_keywords
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
   scope :filter, -> (filter) {
     if filter.present?
@@ -12,9 +12,21 @@ class Area < ActiveRecord::Base
     end
   }
 
-
   def region_name
     self.region.name
+  end
+
+  def self.unlocked_areas(beaten_areas)
+    available_areas = []
+    if self != []
+      self.all.each do |a|
+        available_areas << a if a.unlocked_by_default == true
+        if a.unlock
+          available_areas << Area.find(a.unlock.id) if beaten_areas.include?a.name
+        end
+      end
+    end
+    return available_areas
   end
 
   private

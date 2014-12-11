@@ -13,7 +13,7 @@ window.setEnergy = ->
   setTimeout (->
     replenishStamina()
     window.staminaTimer = setInterval(replenishStamina, 301000)
-  ), energy_seconds*1000 + 250
+  ), energy_seconds*1000
     
 
 window.replenishStamina = ->
@@ -116,7 +116,8 @@ $ ->
     setTimeout (->
       setEnergy()
       window.questTimer = setInterval(setQuestTimer, 1000)
-    ), 250
+    ), 100
+
 
 
 

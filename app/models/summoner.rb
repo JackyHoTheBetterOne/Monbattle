@@ -43,9 +43,6 @@ class Summoner < ActiveRecord::Base
       @summoner.ending_status = {}
       @summoner.completed_daily_quests = []
       self.ending_status = @summoner.serializable_hash
-      p "========================================================================"
-      p "updating ending status"
-      p "========================================================================"
       self.save
     end
   end
@@ -61,9 +58,6 @@ class Summoner < ActiveRecord::Base
           array = @questing_summoner.completed_daily_quests.clone
           array.push(q.name)
           @questing_summoner.completed_daily_quests = array
-          p "=============================================================================="
-          p "Daily-Achievement"
-          p "==============================================================================="
         end
       elsif q.type == "Daily-Turn-Based-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) &&
         @questing_summoner.name != "NPC" && q.is_active
@@ -77,9 +71,6 @@ class Summoner < ActiveRecord::Base
           array = @questing_summoner.completed_daily_quests.clone
           array.push(q.name)
           @questing_summoner.completed_daily_quests = array
-          p "=============================================================================="
-          p "Daily-Turn-Based-Achievement-Achievement"
-          p "==============================================================================="
         end
       end
     end
@@ -94,11 +85,6 @@ class Summoner < ActiveRecord::Base
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) <= 
             q.stat_requirement
           @questing_summoner[q.reward] += q.reward_amount
-          p "==============================================================================="
-          p "Daily-Login-Bonus"
-          p @questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i
-          p q.stat_requirement
-          p "==============================================================================="
         end
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) == 
             q.stat_requirement
@@ -178,9 +164,6 @@ class Summoner < ActiveRecord::Base
     array = self.daily_battles.clone
     array.push(battle_id)
     self.daily_battles = array 
-    p "================================================="
-    p "adding daily battle"
-    p "=================================================="
     self.save
   end
 

@@ -4,9 +4,9 @@
 
 $ ->
   $(document).on "mouseover", ".king-roll", ->
-    $(this).attr("src", "../assets/summon-button-mouseover.png").addClass("hover-store-button-class")
+    $(this).attr("src", "../assets/summon-button-mouseover.png")
   $(document).on "mouseleave", ".king-roll", ->
-    $(this).attr("src", "../assets/summon-button.png").removeClass("hover-store-button-class")
+    $(this).attr("src", "../assets/summon-button.png")
 
   $.ajax 
     url: "/store"
