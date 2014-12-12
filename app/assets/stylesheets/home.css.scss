@@ -152,7 +152,7 @@ $ability-equip-dim: 75px;
 }
 ///////////////////////////////////
 .abilities-display-area {
-  @include abs-div(573px, $display-area-height);
+  @include abs-div(573px, 372px);
   bottom: 0;
   right: 0;
   background: $panel-bg;
@@ -165,7 +165,7 @@ $ability-equip-dim: 75px;
     }
   }
   .scroll-wrapper {
-    @include abs-div(100%, 320px);
+    @include abs-div(100%, 342px);
     display: block;
     overflow: hidden;
     margin-bottom: $margin-mon-panel-bottom;
@@ -217,22 +217,22 @@ $ability-equip-dim: 75px;
             .ap-cost {
               @include abs-div(16%, 100%);
               top: 0;
-              left: 40%;
+              left: 47%;
             }
             .word-available {
               @include abs-div(20%, 100%);
               top: 0;
-              left: 56%;
+              left: 65%;
             }
             .avail {
               @include abs-div(8%, 100%);
               top: 0;
-              left: 76%;
+              left: 83%;
             }
             .word-of {
               @include abs-div(8%, 100%);
               top: 0;
-              left: 84%;
+              left: 88%;
             }
             .own {
               @include abs-div(8%, 100%);
@@ -241,7 +241,7 @@ $ability-equip-dim: 75px;
             }
           }
           p {
-            @include p-text(12px, 30px, 0, 0, 5px);
+            @include p-text(10px, 30px, 0, 0, 5px);
           }
         }
         .ability-equip-link {
@@ -402,7 +402,7 @@ $ability-equip-dim: 75px;
       border: 0;
       float: left;
       .mon-thumb {
-        @extend %thumb-setting
+        @extend %thumb-setting;
       }
       .add-rem-icon {
         @extend %add-rem-setting
