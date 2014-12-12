@@ -1,6 +1,6 @@
 class Area < ActiveRecord::Base
   has_many :battle_levels
-  belongs_to :unlock, class_name: "Area"
+  belongs_to :unlocked_by, class_name: "Area"
   belongs_to :region
 
   before_save :set_keywords
@@ -20,9 +20,10 @@ class Area < ActiveRecord::Base
     available_areas = []
     if self != []
       self.all.each do |a|
-        available_areas << a if a.unlocked_by_default == true
-        if a.unlock
-          available_areas << Area.find(a.unlock.id) if beaten_areas.include?a.name
+        if a.unlocked_by
+          available_areas << Area.find(a.id) if beaten_areas.include?a.unlocked_by.name
+        else
+          available_areas << a
         end
       end
     end

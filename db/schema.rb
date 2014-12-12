@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141212083625) do
+ActiveRecord::Schema.define(version: 20141212202933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,10 +98,9 @@ ActiveRecord::Schema.define(version: 20141212083625) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "unlock_id"
+    t.integer  "unlocked_by_id"
     t.integer  "region_id"
     t.text     "keywords"
-    t.boolean  "unlocked_by_default", default: false
   end
 
   add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
@@ -118,13 +117,12 @@ ActiveRecord::Schema.define(version: 20141212083625) do
     t.integer  "mp_reward",               default: 0
     t.integer  "gp_reward",               default: 0
     t.integer  "vk_reward",               default: 0
-    t.integer  "unlock_id"
+    t.integer  "unlocked_by_id"
     t.integer  "area_id"
     t.text     "keywords"
     t.text     "description"
     t.text     "victory_message"
     t.text     "ability_reward",          default: [], array: true
-    t.boolean  "unlocked_by_default"
     t.integer  "stamina_cost"
   end
 
@@ -466,13 +464,12 @@ ActiveRecord::Schema.define(version: 20141212083625) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "unlock_id"
+    t.integer  "unlocked_by_id"
     t.string   "map_file_name"
     t.string   "map_content_type"
     t.integer  "map_file_size"
     t.datetime "map_updated_at"
     t.text     "keywords"
-    t.boolean  "unlocked_by_default", default: false
   end
 
   create_table "reward_categories", force: true do |t|

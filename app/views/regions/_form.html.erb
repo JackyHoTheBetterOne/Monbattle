@@ -1,10 +1,10 @@
 <%= f.input :name %>
-<%= f.association :unlock %>
+<%= f.association :unlocked_by %>
 <br/>
 <h3>Areas</h3>
 <%= f.simple_fields_for :areas do |a| %>
   <%= a.input :name %>
-  <%= a.association :unlock %>
+  <%= a.association :unlocked_by %>
   <%= a.link_to_remove "Remove this area" %>
   <p></p>
 <% end %>

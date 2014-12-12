@@ -26,6 +26,13 @@
       .news-entry-click {
         text-decoration: none;
         position: relative;
+        .notice-title {
+          position: absolute;
+          left: 88px;
+          top: 14px;
+          font-weight: bold;
+          font-size: 125%;
+        };
       };
     };
   };
