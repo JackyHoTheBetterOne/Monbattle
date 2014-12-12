@@ -1,47 +1,9 @@
-<%= image_tag("first_banner.png", class: "sweet-home") %>
-<div class="landing-game-buttons">
-  <%= link_to "Start your journey", new_battle_path, class: "btn btn-success journey-start"%>
-  <button class="btn btn-primary donation-button" data-toggle="modal" data-target="#myModal">
-    Donate
-  </button>
-</div>
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Donation for MonBattle</h4>
-      </div>
-      <div class="modal-body">
-        <div class="panel panel-body">
-          <%= form_tag charges_path do %>
-            <article>
-              <label class="amount">
-                <p>Enter the amount below to donate</p>
-                $ &nbsp <input type="text" placeholder="999,999" class="donation" name="donation">
-              </label>
-            </article>
-            <button class="btn btn-success donation-click">Save a life</button>
-            <div class="donation-action hide">
-              <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                      data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-                      data-description="Donation for Monbattle"
-                      data-amount = "999,999.00"></script>
-            </div>
-          <% end %>
-
-          <br />
-
-          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-            <input type="hidden" name="cmd" value="_s-xclick">
-            <input type="hidden" name="hosted_button_id" value="8HFTNEYYQSPJQ">
-            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-          </form>
-        </div>
-      </div>
-    </div>
+<div class="the_ultimate_news_page">
+  <%= render "carousel" %>
+  <div class="news-list">
   </div>
+  <div class="news-detail">
+  </div> 
 </div>
-<%= render "home/footer" %>
+
+

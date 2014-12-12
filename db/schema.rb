@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141208220542) do
+ActiveRecord::Schema.define(version: 20141212083625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 20141208220542) do
     t.integer  "unlock_id"
     t.integer  "region_id"
     t.text     "keywords"
+    t.boolean  "unlocked_by_default", default: false
   end
 
   add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
@@ -124,7 +125,7 @@ ActiveRecord::Schema.define(version: 20141208220542) do
     t.text     "victory_message"
     t.text     "ability_reward",          default: [], array: true
     t.boolean  "unlocked_by_default"
-    t.integer  "stamina_cost",            default: 0
+    t.integer  "stamina_cost"
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
@@ -396,6 +397,15 @@ ActiveRecord::Schema.define(version: 20141208220542) do
     t.datetime "updated_at"
     t.integer  "notice_type_id"
     t.text     "keywords"
+    t.string   "banner_file_name"
+    t.string   "banner_content_type"
+    t.integer  "banner_file_size"
+    t.datetime "banner_updated_at"
+    t.string   "description_image_file_name"
+    t.string   "description_image_content_type"
+    t.integer  "description_image_file_size"
+    t.datetime "description_image_updated_at"
+    t.boolean  "is_active",                      default: true
   end
 
   create_table "parties", force: true do |t|
@@ -430,12 +440,17 @@ ActiveRecord::Schema.define(version: 20141208220542) do
     t.string   "bonus"
     t.integer  "reward_amount"
 <<<<<<< HEAD
+<<<<<<< HEAD
     t.datetime "end_date",           default: '2015-11-24 06:45:56'
     t.datetime "refresh_date",       default: '2015-11-24 06:45:56'
 =======
     t.datetime "end_date",           default: '2015-12-10 05:41:02'
     t.datetime "refresh_date",       default: '2015-12-10 05:41:02'
 >>>>>>> 9956a30376bc2c627915620846805c81f235f05b
+=======
+    t.datetime "end_date",           default: '2015-11-20 20:00:42'
+    t.datetime "refresh_date",       default: '2015-11-20 20:00:42'
+>>>>>>> 78e3003641dfa6970300c8fc7d041ae335ebec59
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "quest_type_id"
@@ -467,6 +482,7 @@ ActiveRecord::Schema.define(version: 20141208220542) do
     t.integer  "map_file_size"
     t.datetime "map_updated_at"
     t.text     "keywords"
+    t.boolean  "unlocked_by_default", default: false
   end
 
   create_table "reward_categories", force: true do |t|
@@ -524,7 +540,9 @@ ActiveRecord::Schema.define(version: 20141208220542) do
     t.integer  "stamina",                      default: 100
     t.integer  "level",                        default: 1
     t.integer  "seconds_left_for_next_energy"
-    t.datetime "last_update_for_energy",       default: '2014-12-09 21:13:37'
+    t.datetime "last_update_for_energy",       default: '2014-12-08 22:10:30'
+    t.text     "completed_areas",              default: [],                    array: true
+    t.text     "completed_regions",            default: [],                    array: true
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree

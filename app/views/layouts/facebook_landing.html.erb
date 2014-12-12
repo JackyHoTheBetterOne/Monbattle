@@ -34,6 +34,9 @@
             <a href="#" class="fb-nav quest-show">Quest</a>
             <%= image_tag("quest-arrow.png", class: "quest-arrow") %>
             <div class="quests-outline">
+              <% if current_user %>
+                <%= render "layouts/empty_quests" %>
+              <% end %>
             </div>
             <div class="quests-info" class="quests-info">
               <% if current_user %>

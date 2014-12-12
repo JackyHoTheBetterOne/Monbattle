@@ -4,6 +4,7 @@ class BattleLevel < ActiveRecord::Base
   belongs_to :unlock, class_name: "BattleLevel"
 
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
+  validates :stamina_cost, presence: true
 
   has_attached_file :background, :styles => { :cool => "960x600>", :thumb => "100x100>" }
   validates_attachment_content_type :background, :content_type => /\Aimage\/.*\Z/
@@ -14,6 +15,9 @@ class BattleLevel < ActiveRecord::Base
 
   after_destroy :delete_party
   before_save :set_keywords
+  before_save :check_self_default
+
+
 
   scope :search, -> (keyword) {
     if keyword.present?
@@ -76,15 +80,79 @@ class BattleLevel < ActiveRecord::Base
     return available_levels
   end
 
-  def check_default
+  def check_unlock_default
+    if self.unlock
+      @level = BattleLevel.find(self.unlock)
+      if BattleLevel.where(unlock: @level.id).length != 0 
+        @level.unlocked_by_default = false
+      else 
+        @level.unlocked_by_default = true
+      end
+    @level.save
+    end
+    return true
+  end
+  
+  def check_self_default
     if BattleLevel.where(unlock: self.id).length != 0 
       self.unlocked_by_default = false
     else 
       self.unlocked_by_default = true
     end
-    self.save
+    return true
   end
-  
+
+############################################################################ Unlock level, area or region
+  def unlock_for_summoner(summoner)
+    @summoner = Summoner.find(summoner.id)
+    level_array = @summoner.beaten_levels.clone
+    area_array = @summoner.completed_areas.clone
+    region_array = @summoner.completed_regions.clone
+
+    if !level_array.include?self.name
+      level_array.push(self.name) 
+      summoner.recently_unlocked_level = self.unlock.name if self.unlock
+    end
+
+    if !area_array.include?self.area.name
+      area_cleared = 0
+      self.area.battle_levels.each do |b|
+        if !level_array.include?b.name
+          area_cleared = false
+        end
+      end
+
+      if area_cleared != false
+        area_array.push(self.area.name)
+      end
+    end
+
+    if !region_array.include?self.area.region.name
+      region_cleared = 0
+      self.area.region.areas.each do |a|
+        if !area_array.include?a.name
+          region_cleared = false
+        end
+      end
+
+      if region_cleared != false
+        region_array.push(self.area.region.name)
+      end
+
+      p "======================================================================="
+      p area_array
+      p region_cleared
+      p "======================================================================="
+    end
+
+    @summoner.beaten_levels = level_array
+    @summoner.completed_areas = area_array
+    @summoner.completed_regions = region_array
+    @summoner.save
+  end
+
+#############################################################################
+
   private
   def delete_party
     Party.where("user_id = 2").where(name: self.name).destroy_all

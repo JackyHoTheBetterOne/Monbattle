@@ -28,6 +28,19 @@ class Region < ActiveRecord::Base
   end
 
 
+  def self.unlocked_regions(beaten_regions)
+    available_regions = []
+    if self != []
+      self.all.each do |r|
+        available_regions << r if r.unlocked_by_default == true
+        if r.unlock
+          available_regions << Region.find(r.unlock.id) if beaten_regions.include?r.name
+        end
+      end
+    end
+    return available_regions
+  end
+
   private
   def set_keywords
     area_names = []

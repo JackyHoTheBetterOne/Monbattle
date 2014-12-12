@@ -66,13 +66,6 @@ class Battle < ActiveRecord::Base
     @victorious_summoner = Summoner.find_summoner(@victor)
 
     @victorious_summoner.wins += 1 
-    level_array = @victorious_summoner.beaten_levels.clone
-    if !level_array.include?self.battle_level.name
-      level_array.push(self.battle_level.name) 
-      @victorious_summoner.recently_unlocked_level = self.battle_level.unlock.name if self.battle_level.unlock
-    end
-
-    @victorious_summoner.beaten_levels = level_array
     @victorious_summoner.mp += @mp_reward
     @victorious_summoner.gp += @gp_reward
     @victorious_summoner.vortex_key += @vk_reward
@@ -83,8 +76,8 @@ class Battle < ActiveRecord::Base
       user_id = @victorious_summoner.id
       AbilityPurchase.create(ability_id: ability_id, user_id: user_id)
     end
-
     @victorious_summoner.save
+    self.battle_level.unlock_for_summoner(@victorious_summoner)
   end
 
   def quest_update
