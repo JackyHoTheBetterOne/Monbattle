@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141210231316) do
+ActiveRecord::Schema.define(version: 20141212083625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 20141210231316) do
     t.text     "victory_message"
     t.text     "ability_reward",          default: [], array: true
     t.boolean  "unlocked_by_default"
-    t.integer  "stamina_cost",            default: 0
+    t.integer  "stamina_cost"
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
@@ -397,6 +397,15 @@ ActiveRecord::Schema.define(version: 20141210231316) do
     t.datetime "updated_at"
     t.integer  "notice_type_id"
     t.text     "keywords"
+    t.string   "banner_file_name"
+    t.string   "banner_content_type"
+    t.integer  "banner_file_size"
+    t.datetime "banner_updated_at"
+    t.string   "description_image_file_name"
+    t.string   "description_image_content_type"
+    t.integer  "description_image_file_size"
+    t.datetime "description_image_updated_at"
+    t.boolean  "is_active",                      default: true
   end
 
   create_table "parties", force: true do |t|
@@ -430,8 +439,8 @@ ActiveRecord::Schema.define(version: 20141210231316) do
     t.boolean  "is_active",          default: true
     t.string   "bonus"
     t.integer  "reward_amount"
-    t.datetime "end_date",           default: '2015-12-10 05:41:02'
-    t.datetime "refresh_date",       default: '2015-12-10 05:41:02'
+    t.datetime "end_date",           default: '2015-11-20 20:00:42'
+    t.datetime "refresh_date",       default: '2015-11-20 20:00:42'
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "quest_type_id"

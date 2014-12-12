@@ -41,7 +41,8 @@ class NoticesController < ApplicationController
 
   private
   def notice_params
-    params.require(:notice).permit(:title, :body, :notice_type_id)
+    params.require(:notice).permit(:title, :body, :notice_type_id, 
+                                   :banner, :description_image, :is_active)
   end
 
   def find_notice

@@ -4,12 +4,6 @@ window.setEnergy = ->
   $(".quests-info").click(false)
   window.clearInterval(staminaTimer) if typeof staminaTimer isnt "undefined"
   window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
-  count = $(".quest").length
-  quest_box_height = 6 + 64 * count
-  quest_outline_height = 10 + 65 * count
-  $(".quests-info").css("height", quest_box_height.toString() + "px")
-  $(".quests-outline").css("height", quest_outline_height.toString() + "px")
-  count = 0
   setTimeout (->
     replenishStamina()
     window.staminaTimer = setInterval(replenishStamina, 301000)
@@ -115,13 +109,13 @@ $ ->
     setTimeout (->
       setEnergy()
       window.questTimer = setInterval(setQuestTimer, 1000)
-      console.log("wtf")
-    ), 500
+      console.log("sup")
+    ), 700
   $(document).on "click.fix", ".battle-fin, .party_edit_button", ->
     setTimeout (->
       setEnergy()
       window.questTimer = setInterval(setQuestTimer, 1000)
-      console.log("wtf")
+      console.log("sup")
     ), 1000
 
 

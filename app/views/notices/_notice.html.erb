@@ -18,7 +18,12 @@
     <div id="<%= dom_id(notice) %>-edit" class="panel-collapse collapse">
       <%= simple_form_for(notice, remote: true) do |f| %>
         <%= f.input :title %>
+        <%= f.input :is_active %>
         <%= f.input :body, input_html: {rows: "5"} %>
+        <%= f.label :banner %>
+        <%= f.file_field :banner %>
+        <%= f.label :description_image %>
+        <%= f.file_field :description_image %>
         <%= f.button :submit %>
       <% end %>
     </div>

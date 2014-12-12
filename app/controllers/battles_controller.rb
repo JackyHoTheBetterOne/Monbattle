@@ -146,6 +146,10 @@ class BattlesController < ApplicationController
     if current_user
       @date = Time.now.localtime.to_date
       @party = current_user.parties[0]
+      p "================================================================================="
+      p Time.now.localtime.to_date
+      p Battle.find_matching_date(@date, @party).count
+      p "================================================================================="
       if Battle.find_matching_date(@date, @party).count == 0
         @party.user.summoner.quest_begin 
         @party.user.summoner.clear_daily_achievement

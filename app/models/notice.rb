@@ -6,6 +6,11 @@ class Notice < ActiveRecord::Base
 
   before_save :set_keywords
 
+  has_attached_file :banner, 
+                    styles: {thumb: "100 x 100>", cool: "960 x 240>"}
+  has_attached_file :description_image, 
+                    styles: {thumb: "100 x 100>", cool: "525 x 255>"}
+
   scope :search, -> (keyword) {
     if keyword.present?
       where("keywords LIKE ?", "%#{keyword.downcase}%")
