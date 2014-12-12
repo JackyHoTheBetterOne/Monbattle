@@ -59,6 +59,10 @@ class Ability < ActiveRecord::Base
     return query
   }
 
+  scope :not_including, -> (abils) {
+    where("id not in (?)", abils)
+}
+
   scope :search_query, -> (search) {
     where("name ILIKE ?", "%#{search}%")
   }

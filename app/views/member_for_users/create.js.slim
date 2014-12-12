@@ -1,4 +1,8 @@
-| $(".party-pane").hide().html("#{j render partial: "/home/mon_party_img"}").show("slide", { direction: "left" }, 300);
-| $(".monsters-image-display").html( "#{j render partial: "home/mon_image_display"}");
--if @members.count == 4
-  | $(".start-battle").html("#{j render partial: "home/battle_start"}").effect("pulsate")
+| $(".party-pane").hide().html("#{j render partial: "/home/mon_party_img"}").show("slide", { direction: "left" }, 100);
+
+-@base_mons.each do |mon|
+  | $("##{dom_id(mon)}-box .add-rem-icon").html("");
+  -if @user.can_add_to_party?(mon)
+    | $("##{dom_id(mon)}-box .add-rem-icon").html("#{j render partial: "home/add_icon", locals: {mon: mon}}");
+  -if @user.can_remove_from_party?(mon)
+    | $("##{dom_id(mon)}-box .add-rem-icon").html("#{j render partial: "home/remove_icon", locals: {mon: mon}}");

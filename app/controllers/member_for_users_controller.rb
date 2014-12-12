@@ -13,9 +13,8 @@ class MemberForUsersController < ApplicationController
     respond_to do |format|
       if @member.save
         format.js { render }
-        format.html { render text: "HTML Error" }
       else
-        redirect_to @party, notice: "You fail!"
+        # redirect_to @party, notice: "You fail!"
       end
     end
   end
@@ -23,10 +22,9 @@ class MemberForUsersController < ApplicationController
   def destroy
     respond_to do |format|
       if @member.destroy
-        format.html { render text: "HTML Error" }
         format.js { render }
       else
-        redirect_to @party, notice: "You fail!"
+        # redirect_to @party, notice: "You fail!"
       end
     end
   end

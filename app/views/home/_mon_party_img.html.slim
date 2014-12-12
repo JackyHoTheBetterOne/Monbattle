@@ -1,3 +1,6 @@
 -@base_mons.each do |mon|
   -if mon.parties.exists?
-    =image_tag mon.mon_portrait(@user), class: "monSet monPartyImg shadowed2 btn", id: dom_id(mon)
+    .party-member id="#{dom_id(mon)}-member"
+      =render partial: "home/abils_for_mon", locals: {mon: mon, socket: 1, class_info: "mon-thumb btn", link_info: image_tag(mon.mon_portrait(@user))}
+      .add-rem-icon
+        =render partial: "home/remove_icon", locals: {mon: mon}
