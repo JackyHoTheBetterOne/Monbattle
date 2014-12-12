@@ -1,9 +1,15 @@
 <div class="panel panel-primary" id="<%= dom_id(notice)%>">
   <div class="panel-heading">
-    <%= notice.title %> - <%= notice.category %>
+    <%= notice.title %> - <%= notice.category %> - Active: <%= notice.is_active %>
   </div>
   <div class="panel-body">
     <%= notice.body %>
+  </div>
+  <div class="panel-body">
+    <span>
+      <%= image_tag(notice.banner.url(:thumb)) %>
+      <%= image_tag(notice.description_image.url(:thumb)) %>
+    </span>
   </div>
   <div class="panel-footer">
     <%= dateTime(notice.created_at) %>
@@ -22,8 +28,11 @@
         <%= f.input :body, input_html: {rows: "5"} %>
         <%= f.label :banner %>
         <%= f.file_field :banner %>
+        <p></p>
         <%= f.label :description_image %>
         <%= f.file_field :description_image %>
+        <p></p>
+        <%= f.association :notice_type %>
         <%= f.button :submit %>
       <% end %>
     </div>

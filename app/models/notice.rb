@@ -11,6 +11,12 @@ class Notice < ActiveRecord::Base
   has_attached_file :description_image, 
                     styles: {thumb: "100 x 100>", cool: "525 x 255>"}
 
+  validates_attachment_content_type :banner, 
+                                    :content_type => /\Aimage\/.*\Z/
+  validates_attachment_content_type :description_image, 
+                                    :content_type => /\Aimage\/.*\Z/
+
+
   scope :search, -> (keyword) {
     if keyword.present?
       where("keywords LIKE ?", "%#{keyword.downcase}%")

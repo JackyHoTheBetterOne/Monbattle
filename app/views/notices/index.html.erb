@@ -15,6 +15,7 @@
       <%= f.label :description_image %>
       <%= f.file_field :description_image %>
       <p></p>
+      <%= f.association :notice_type %>
       <%= f.button :submit %>
     <% end %>
   </div>

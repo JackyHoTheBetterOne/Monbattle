@@ -31,6 +31,7 @@ class HomeController < ApplicationController
   end
 
   def facebook
+    @notices = Notice.where(is_active: true)
   end
 
   def level_select

@@ -6,7 +6,6 @@ $ ->
     $(".level-description").fadeOut(300)
     setTimeout (->
       $(".level-description").fadeIn(300)
-
       document.getElementsByClassName("map-level")[area_index].className += " current-area"
     ), 500
   $(document).on "click.filter_areas", ".region-select", ->
