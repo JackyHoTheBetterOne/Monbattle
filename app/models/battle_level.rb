@@ -1,7 +1,7 @@
 class BattleLevel < ActiveRecord::Base
   has_many :battles
   belongs_to :area
-  belongs_to :unlock, class_name: "BattleLevel"
+  belongs_to :unlocked_by, class_name: "BattleLevel"
 
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :stamina_cost, presence: true
@@ -15,9 +15,6 @@ class BattleLevel < ActiveRecord::Base
 
   after_destroy :delete_party
   before_save :set_keywords
-  before_save :check_self_default
-
-
 
   scope :search, -> (keyword) {
     if keyword.present?
@@ -71,35 +68,14 @@ class BattleLevel < ActiveRecord::Base
     available_levels = []
     if self != []
       self.all.each do |b|
-        available_levels << b if b.unlocked_by_default == true
-        if b.unlock
+        if b.unlocked_by
           available_levels << BattleLevel.find(b.unlock.id) if beaten_levels.include?b.name
+        else
+          available_levels << b 
         end
       end
     end
     return available_levels
-  end
-
-  def check_unlock_default
-    if self.unlock
-      @level = BattleLevel.find(self.unlock)
-      if BattleLevel.where(unlock: @level.id).length != 0 
-        @level.unlocked_by_default = false
-      else 
-        @level.unlocked_by_default = true
-      end
-    @level.save
-    end
-    return true
-  end
-  
-  def check_self_default
-    if BattleLevel.where(unlock: self.id).length != 0 
-      self.unlocked_by_default = false
-    else 
-      self.unlocked_by_default = true
-    end
-    return true
   end
 
 ############################################################################ Unlock level, area or region
@@ -111,7 +87,8 @@ class BattleLevel < ActiveRecord::Base
 
     if !level_array.include?self.name
       level_array.push(self.name) 
-      summoner.recently_unlocked_level = self.unlock.name if self.unlock
+      unlocked_level = BattleLevel.where(unlocked_by: self.id)[0]
+      summoner.recently_unlocked_level = unlocked_level.name if unlocked_level != nil
     end
 
     if !area_array.include?self.area.name
@@ -138,11 +115,6 @@ class BattleLevel < ActiveRecord::Base
       if region_cleared != false
         region_array.push(self.area.region.name)
       end
-
-      p "======================================================================="
-      p area_array
-      p region_cleared
-      p "======================================================================="
     end
 
     @summoner.beaten_levels = level_array

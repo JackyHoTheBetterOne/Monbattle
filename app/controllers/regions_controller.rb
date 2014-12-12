@@ -38,7 +38,8 @@ class RegionsController < ApplicationController
 private
 
   def region_params
-    params.require(:region).permit(:id, :name, :map, :unlock_id, {areas_attributes: [:id, :name, :_destroy, :unlock_id]})
+    params.require(:region).permit(:id, :name, :map, :unlocked_by_id, 
+                            {areas_attributes: [:id, :name, :_destroy, :unlocked_by_id]})
   end
 
   def find_area

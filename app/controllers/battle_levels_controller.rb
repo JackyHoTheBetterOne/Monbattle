@@ -1,6 +1,5 @@
 class BattleLevelsController < ApplicationController
   before_action :find_battle_level, except: [:index, :create]
-  after_action :update_unlock_status, only: [:create, :update]
 
   def index
     @battle_levels = policy_scope(BattleLevel.search(params[:keyword]))
@@ -27,15 +26,11 @@ private
 
   def battle_level_params
     params.require(:battle_level).permit(:id, :name, :background, :exp_given, :gp_reward, :mp_reward, :stamina_cost,
-                                          :unlock_id, :area_id, :description, :victory_message, :ability_reward)
+                                          :unlocked_by_id, :area_id, :description, :victory_message, :ability_reward)
   end
 
   def find_battle_level
     @battle_level = BattleLevel.find params[:id]
-  end
-
-  def update_unlock_status
-    @battle_level.check_unlock_default
   end
 
 end

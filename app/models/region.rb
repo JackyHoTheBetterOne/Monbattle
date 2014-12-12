@@ -1,6 +1,6 @@
 class Region < ActiveRecord::Base
   has_many :areas, dependent: :destroy
-  belongs_to :unlock, class_name: "Region"
+  belongs_to :unlocked_by, class_name: "Region"
 
   validates :name, presence: true, uniqueness: true
 
@@ -32,9 +32,10 @@ class Region < ActiveRecord::Base
     available_regions = []
     if self != []
       self.all.each do |r|
-        available_regions << r if r.unlocked_by_default == true
-        if r.unlock
-          available_regions << Region.find(r.unlock.id) if beaten_regions.include?r.name
+        if r.unlocked_by
+          available_regions << Region.find(r.id) if beaten_regions.include?r.unlocked_by.name
+        else
+          available_regions << r
         end
       end
     end
