@@ -17,9 +17,9 @@ class AbilitiesController < ApplicationController
     authorize @ability
     respond_to do |format|
       if @ability.save
-        format.js { render }
+        format.js
       else
-        format.js { render }
+        format.js
         format.html { redirect_to abilities_path }
       end
     end

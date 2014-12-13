@@ -1773,7 +1773,11 @@ COPY abilities (id, name, ap_cost, min_level, created_at, updated_at, descriptio
 34	Vampire Hit	10	\N	2014-10-17 00:07:52.797045	2014-11-14 00:34:52.472891	200 damage to target. Heal 50 hp. 	-200	1	1	1	\N	\N	\N	\N	1	ability-icon-special.png	image/png	14569	2014-10-30 20:25:25.242094	vampire hit 200 damage to target. heal 50 hp.  attack hp fire 10 -200	1	\N	\N
 31	Summon Undine	60	\N	2014-10-09 20:35:20.051712	2014-11-14 04:14:40.113324	600 damage to all enemies.	-600	5	2	1	test8.gif	image/gif	1242386	2014-10-09 20:35:15.574941	2	summon-undine-avatar.gif	image/gif	13808	2014-10-09 21:12:02.723826	summon undine 600 damage to all enemies. aoeenemy hp water 60 -600	1	\N	\N
 10	Test HP Shield	20	1	2014-09-30 20:58:12.680668	2014-11-14 19:08:15.746983	500 to target enemy.	-100	2	3	1	needle-strike.gif	image/gif	12185	2014-09-30 20:58:11.905023	2	needle-strike.gif	image/gif	6685	2014-10-09 21:20:08.918439	test hp shield 500 to target enemy. targetenemy hp thunder 20 -100	4	\N	\N
+<<<<<<< HEAD
+15	Admin Mass DMG Attack	10	1	2014-09-30 22:32:49.73003	2014-11-24 01:46:37.738846	Does 3000 to target. 	-3000	5	1	1	\N	\N	\N	\N	1	test.png	image/png	13909	2014-11-24 01:46:37.464121	admin mass dmg attack does 3000 to target.  aoeenemy hp fire 10 -3000	4	\N	\N
+=======
 15	Admin Mass DMG Attack	10	1	2014-09-30 22:32:49.73003	2014-11-14 21:45:07.125043	Does 3000 to target. 	-3000	5	1	1	\N	\N	\N	\N	1	ability-icon-attack.png	image/png	16480	2014-10-30 20:20:21.931094	admin mass dmg attack does 3000 to target.  aoeenemy hp fire 10 -3000	4	\N	\N
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 30	Poison Cloud	10	\N	2014-10-09 20:12:39.841207	2014-11-14 21:56:47.360244	600 damage to all enemies.	-400	5	1	1	aoe-6-use-final.gif	image/gif	330920	2014-10-09 20:12:37.410315	4	ability-icon-special.png	image/png	14569	2014-10-30 20:21:28.680765	poison cloud 600 damage to all enemies. aoeenemy hp fire 10 -400	1	\N	\N
 18	Bullseye Shot	30	1	2014-09-30 23:15:09.099317	2014-11-14 21:59:17.621351	Does 75 to all enemies.	-500	2	3	1	aoe-2-use-final.gif	image/gif	580848	2014-10-09 03:35:56.818716	3	ability-icon-special.png	image/png	14569	2014-10-30 20:30:41.244135	bullseye shot does 75 to all enemies. targetenemy hp thunder 30 -500	1	\N	\N
 20	Special Recover	20	\N	2014-10-01 01:26:21.983686	2014-11-14 22:08:28.819836	Heal target 800 HP and increases physical and special resistance.	+800	3	2	1	heal_modified.gif	image/gif	45759	2014-10-01 01:38:29.986785	2	single-heal-avatar.gif	image/gif	10404	2014-10-09 21:06:40.439256	special recover heal target 800 hp and increases physical and special resistance. targetally hp water 20 +800	4	\N	\N
@@ -1783,13 +1787,17 @@ COPY abilities (id, name, ap_cost, min_level, created_at, updated_at, descriptio
 32	Groin Kick	20	\N	2014-10-09 22:37:14.76436	2014-11-16 06:28:10.972455	200 damage to all enemies. 	-200	5	1	1	sword-smash-final.gif	image/gif	672253	2014-10-09 22:39:12.885948	2	sword-smash-avatar.gif	image/gif	10135	2014-10-09 22:39:16.776065	groin kick 200 damage to all enemies.  aoeenemy hp fire 20 -200	4	\N	\N
 24	Scattershot	20	\N	2014-10-02 19:15:25.059578	2014-10-30 20:28:22.836945	100 to target monsters. 300 to two random allies and two random monsters.	-100	2	3	1	needle-strike.gif	image/gif	12117	2014-10-02 19:15:24.185359	2	ability-icon-special.png	image/png	14569	2014-10-30 20:28:22.672442	scattershot 100 to target monsters. 300 to two random allies and two random monsters. targetenemy hp thunder 20 -100	1	\N	\N
 27	Super Heal	20	\N	2014-10-04 23:58:15.8834	2014-10-30 21:39:32.363398	Target heals 1200HP.	+1200	3	3	1	heal_modified.gif	image/gif	45759	2014-10-04 23:58:14.586159	2	ability-icon-heal.png	image/png	12746	2014-10-30 21:39:32.189096	super heal target heals 1200hp. targetally hp thunder 20 +1200	1	\N	\N
+1	Aggression	30	0	2014-09-30 20:02:45.778212	2014-11-24 05:18:00.27224	500 to target. 200 to self.	-100	5	3	1	slash.gif	image/gif	49124	2014-09-30 20:06:32.55202	3	ability-icon-special.png	image/png	14569	2014-10-30 20:29:15.461665	aggression 500 to target. 200 to self. aoeenemy hp thunder 30 -100	1	\N	\N
 13	Summon Bahmut	40	1	2014-09-30 21:27:24.960014	2014-11-10 22:15:21.406034	Does 450 to all enemies.	-500	5	2	1	summon-dragon-0.gif	image/gif	540622	2014-09-30 21:27:20.589038	2	summon-bahmut-avatar.gif	image/gif	13376	2014-10-09 21:15:50.131163	summon bahmut does 450 to all enemies. aoeenemy hp water 40 -500	4	\N	\N
 37	Slap AOE Provoke	10	\N	2014-10-25 23:49:10.702675	2014-11-13 21:59:24.580464	Socket 1 Default Ability	-100	5	1	1	shot-use.gif	image/gif	12117	2014-10-26 00:11:32.618769	1	ability-icon-attack.png	image/png	16480	2014-10-30 21:37:51.577794	slap aoe provoke socket 1 default ability aoeenemy hp fire 10 -100	1	99	99
 46	Cleanse All 	20	\N	2014-11-13 23:33:44.831077	2014-11-13 23:33:44.831077	Clears all allies of negative status effects. 	+0	29	2	11	\N	\N	\N	\N	2	\N	\N	\N	\N	cleanse all  clears all allies of negative status effects.  aoecleanse cleanse water 20 +0	1	0	0
 48	do not use 	10	\N	2014-11-14 01:58:35.928316	2014-11-14 04:14:03.341037	Clears all allies of negative status effects. 	-50	1	1	1	heal.psd	image/vnd.adobe.photoshop	1075899	2014-11-14 01:58:35.442905	1	base-attack-icon.psd	image/vnd.adobe.photoshop	96929	2014-11-14 01:58:35.747993	do not use  clears all allies of negative status effects.  attack hp fire 10 -50	1	\N	\N
 38	Test HP Shield 2	20	\N	2014-10-25 23:50:14.387224	2014-11-14 19:08:30.740686	Default Ability for Socket 2	-100	2	1	1	shot-use.gif	image/gif	12117	2014-10-26 00:12:32.129483	2	shot-avatar.png	image/png	13693	2014-10-26 00:12:32.980751	test hp shield 2 default ability for socket 2 targetenemy hp fire 20 -100	4	\N	\N
 42	Test Atk Test HP Shield	10	\N	2014-11-11 03:26:08.196148	2014-11-14 19:10:27.372973	Test	-10	1	1	1	\N	\N	\N	\N	1	\N	\N	\N	\N	test atk test hp shield test attack hp fire 10 -10	4	1	1
+<<<<<<< HEAD
+=======
 1	Aggression	30	0	2014-09-30 20:02:45.778212	2014-11-14 20:02:37.246476	500 to target. 300 to self.	-100	5	3	1	slash.gif	image/gif	49124	2014-09-30 20:06:32.55202	3	ability-icon-special.png	image/png	14569	2014-10-30 20:29:15.461665	aggression 500 to target. 300 to self. aoeenemy hp thunder 30 -100	1	\N	\N
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 49	test2	20	\N	2014-11-17 20:48:10.221518	2014-11-17 20:48:10.221518	Test	+20	1	1	1	Intro-Cutscene.png	image/png	559686	2014-11-17 20:48:09.189678	1	Intro-Cutscene.png	image/png	559686	2014-11-17 20:48:09.929884	test2 test attack hp fire 20 +20	1	0	0
 47	CleanseTest1	40	\N	2014-11-14 01:37:52.180337	2014-11-17 20:57:59.378103	Clears all allies of negative status effects. 	+0	29	1	11	\N	\N	\N	\N	1	\N	\N	\N	\N	cleansetest1 clears all allies of negative status effects.  aoecleanse cleanse fire 40 +0	1	\N	\N
 \.
@@ -1833,7 +1841,11 @@ COPY ability_effects (id, ability_id, effect_id, created_at, updated_at) FROM st
 62	49	6	2014-11-17 20:48:10.23384	2014-11-17 20:48:10.23384
 63	11	15	2014-11-17 21:01:00.899578	2014-11-17 21:01:00.899578
 64	8	15	2014-11-17 21:01:27.228872	2014-11-17 21:01:27.228872
+<<<<<<< HEAD
+66	1	1	2014-11-24 05:18:00.25337	2014-11-24 05:18:00.25337
+=======
 65	1	15	2014-11-17 21:01:28.256298	2014-11-17 21:01:28.256298
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 \.
 
 
@@ -1841,7 +1853,11 @@ COPY ability_effects (id, ability_id, effect_id, created_at, updated_at) FROM st
 -- Name: ability_effects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
+<<<<<<< HEAD
+SELECT pg_catalog.setval('ability_effects_id_seq', 66, true);
+=======
 SELECT pg_catalog.setval('ability_effects_id_seq', 65, true);
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 
 
 --
@@ -1906,6 +1922,7 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at, monster
 286	10	1	2014-11-10 21:43:53.691711	2014-11-15 03:21:04.476365	0	2
 275	35	1	2014-11-10 21:41:45.053216	2014-11-18 22:02:45.358565	218	1
 315	37	1	2014-11-10 21:49:16.657153	2014-11-10 21:49:16.657153	0	1
+258	37	1	2014-11-10 21:41:40.804107	2014-11-24 05:23:18.52934	0	1
 318	38	1	2014-11-10 21:49:22.208387	2014-11-10 21:49:22.208387	0	2
 317	37	1	2014-11-10 21:49:22.204644	2014-11-10 21:49:22.204644	0	1
 281	36	1	2014-11-10 21:41:47.677114	2014-11-16 00:42:56.28363	0	2
@@ -1921,7 +1938,10 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at, monster
 323	17	2	2014-11-10 21:56:52.574764	2014-11-10 21:56:52.574764	228	1
 324	38	2	2014-11-10 21:56:52.579667	2014-11-10 21:56:52.579667	228	2
 341	34	1	2014-11-10 22:06:02.609404	2014-11-18 00:16:58.647263	0	1
+<<<<<<< HEAD
+=======
 258	37	1	2014-11-10 21:41:40.804107	2014-11-18 00:17:02.02497	226	1
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 257	32	1	2014-11-10 21:41:39.883538	2014-11-10 21:41:39.883538	0	2
 331	5	2	2014-11-10 21:57:01.671881	2014-11-10 21:57:01.671881	230	1
 332	32	2	2014-11-10 21:57:01.675866	2014-11-10 21:57:01.675866	230	2
@@ -2022,7 +2042,10 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at, monster
 411	46	1	2014-11-13 23:33:44.848862	2014-11-13 23:33:44.848862	0	2
 424	25	1	2014-11-14 20:53:24.50476	2014-11-18 22:00:27.755449	0	1
 413	48	1	2014-11-14 01:58:35.962875	2014-11-14 01:58:35.962875	0	1
+<<<<<<< HEAD
+=======
 412	47	1	2014-11-14 01:37:52.274093	2014-11-18 22:00:31.136098	0	1
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 328	38	2	2014-11-10 21:56:54.806108	2014-11-10 21:56:54.806108	0	2
 329	18	2	2014-11-10 21:56:54.814073	2014-11-10 21:56:54.814073	0	3
 330	30	2	2014-11-10 21:56:54.817938	2014-11-10 21:56:54.817938	0	4
@@ -2053,7 +2076,14 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at, monster
 446	36	1	2014-11-14 20:53:32.07321	2014-11-14 20:53:32.07321	0	2
 447	25	1	2014-11-14 20:53:32.111093	2014-11-14 20:53:32.111093	0	1
 448	10	1	2014-11-14 20:53:32.184542	2014-11-14 20:53:32.184542	0	2
+<<<<<<< HEAD
+452	49	1	2014-11-17 20:48:10.250712	2014-11-23 23:23:08.926622	0	1
+382	5	1	2014-11-12 07:14:54.210706	2014-11-23 23:23:08.932569	220	1
 391	21	1	2014-11-13 22:06:43.962192	2014-11-14 22:20:22.741635	0	1
+412	47	1	2014-11-14 01:37:52.274093	2014-11-24 05:23:18.541208	226	1
+=======
+391	21	1	2014-11-13 22:06:43.962192	2014-11-14 22:20:22.741635	0	1
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 365	5	1	2014-11-10 22:06:11.457997	2014-11-16 00:43:13.166738	232	1
 453	49	1	2014-11-17 20:48:10.273429	2014-11-17 20:48:10.273429	0	1
 454	49	1	2014-11-17 20:48:10.281917	2014-11-17 20:48:10.281917	0	1
@@ -2063,9 +2093,13 @@ COPY ability_purchases (id, ability_id, user_id, created_at, updated_at, monster
 458	49	2	2014-11-17 20:48:10.311212	2014-11-17 20:48:10.311212	0	1
 459	49	2	2014-11-17 20:48:10.315562	2014-11-17 20:48:10.315562	0	1
 460	49	2	2014-11-17 20:48:10.319749	2014-11-17 20:48:10.319749	0	1
+<<<<<<< HEAD
+450	25	1	2014-11-17 00:26:31.065861	2014-11-18 21:55:41.087907	0	1
+=======
 452	49	1	2014-11-17 20:48:10.250712	2014-11-17 20:49:17.550587	220	1
 450	25	1	2014-11-17 00:26:31.065861	2014-11-18 21:55:41.087907	0	1
 382	5	1	2014-11-12 07:14:54.210706	2014-11-18 21:55:42.106051	0	1
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 461	49	2	2014-11-17 20:48:10.325856	2014-11-17 20:48:10.325856	0	1
 462	49	2	2014-11-17 20:48:10.331349	2014-11-17 20:48:10.331349	0	1
 463	49	2	2014-11-17 20:48:10.336862	2014-11-17 20:48:10.336862	0	1
@@ -2335,7 +2369,12 @@ SELECT pg_catalog.setval('arcs_id_seq', 1, false);
 --
 
 COPY battle_levels (id, exp_given, created_at, updated_at, name, background_file_name, background_content_type, background_file_size, background_updated_at, mp_reward, gp_reward, vk_reward) FROM stdin;
+<<<<<<< HEAD
+19	\N	2014-11-24 05:03:29.685334	2014-11-24 05:03:29.685334	Stage 2 	forest-battlebg.png	image/png	1262891	2014-11-24 05:03:28.63653	100	0	0
+18	\N	2014-11-10 21:53:38.658944	2014-11-24 05:03:48.63548	Stage 1	forest-battlebg.png	image/png	1262891	2014-11-24 05:03:47.733761	10	100	10
+=======
 18	\N	2014-11-10 21:53:38.658944	2014-11-10 21:55:15.951113	Stage 1	fire-original.jpg	image/jpeg	304189	2014-11-10 21:53:37.225287	10	100	10
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 \.
 
 
@@ -2343,7 +2382,7 @@ COPY battle_levels (id, exp_given, created_at, updated_at, name, background_file
 -- Name: battle_levels_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
-SELECT pg_catalog.setval('battle_levels_id_seq', 18, true);
+SELECT pg_catalog.setval('battle_levels_id_seq', 19, true);
 
 
 --
@@ -2920,6 +2959,21 @@ COPY battles (id, outcome, created_at, updated_at, battle_level_id, round_taken,
 567	\N	2014-11-18 04:07:59.478558	2014-11-18 04:07:59.478558	18	\N	\N	a08b2a79-4d36-4f6d-aa40-7d7a3eb2f7dd	\N	\N	\N	battling	\N
 568	\N	2014-11-18 21:55:49.696759	2014-11-18 21:55:49.696759	18	\N	\N	e95dfb09-02c1-475d-811c-eaf0908ed916	\N	\N	\N	battling	\N
 569	\N	2014-11-19 00:05:15.884724	2014-11-19 00:05:15.884724	18	\N	\N	27e5deee-f008-42d4-924f-688c188e64a8	\N	\N	\N	battling	\N
+<<<<<<< HEAD
+570	\N	2014-11-23 23:22:27.544375	2014-11-23 23:22:27.544375	18	\N	\N	a7a49f6a-6e45-4b81-a4af-daae0bc0c12c	\N	\N	\N	battling	2014-11-23
+571	\N	2014-11-23 23:23:12.650866	2014-11-23 23:23:12.650866	18	\N	\N	f5da4e78-8f2e-4b8f-8b78-8e0dbf402565	\N	\N	\N	battling	2014-11-23
+572	\N	2014-11-24 04:59:25.311273	2014-11-24 04:59:25.311273	18	\N	\N	84d07bf1-9a71-4529-827b-b01020d868fd	\N	\N	\N	battling	2014-11-24
+573	\N	2014-11-24 05:04:01.268172	2014-11-24 05:04:01.268172	18	\N	\N	f8667a91-e5b3-4a70-8ddd-daef7cd59895	\N	\N	\N	battling	2014-11-24
+574	\N	2014-11-24 05:05:52.207469	2014-11-24 05:05:52.207469	18	\N	\N	1ee8f826-e42c-4f02-87e0-a99bb94bdb87	\N	\N	\N	battling	2014-11-24
+575	\N	2014-11-24 05:08:05.67299	2014-11-24 05:08:05.67299	18	\N	\N	ca1994f3-81eb-4ce1-82e3-aabc8b9aebcc	\N	\N	\N	battling	2014-11-24
+576	\N	2014-11-24 05:09:23.185185	2014-11-24 05:09:23.185185	18	\N	\N	2e02e909-224c-4fd7-926a-39f6a2c51988	\N	\N	\N	battling	2014-11-24
+577	\N	2014-11-24 05:10:35.403777	2014-11-24 05:10:35.403777	18	\N	\N	3a85f478-6f60-4cdf-b974-0f061a53e288	\N	\N	\N	battling	2014-11-24
+578	\N	2014-11-24 05:18:16.714725	2014-11-24 05:18:16.714725	18	\N	\N	2294e697-8941-445a-803b-eb653278edd8	\N	\N	\N	battling	2014-11-24
+579	\N	2014-11-24 05:23:22.169683	2014-11-24 05:23:22.169683	18	\N	\N	8e121a8b-e1f0-4087-92c8-7bebe5401fcd	\N	\N	\N	battling	2014-11-24
+580	\N	2014-11-24 05:26:13.54025	2014-11-24 05:26:13.54025	18	\N	\N	eb6e40b7-cd27-4152-a975-da1860439faa	\N	\N	\N	battling	2014-11-24
+581	\N	2014-11-24 05:30:16.412549	2014-11-24 05:30:16.412549	18	\N	\N	fca52baf-d9d5-486c-b09a-bd7b77c62e5b	\N	\N	\N	battling	2014-11-24
+=======
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 \.
 
 
@@ -2927,7 +2981,11 @@ COPY battles (id, outcome, created_at, updated_at, battle_level_id, round_taken,
 -- Name: battles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
+<<<<<<< HEAD
+SELECT pg_catalog.setval('battles_id_seq', 581, true);
+=======
 SELECT pg_catalog.setval('battles_id_seq', 569, true);
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 
 
 --
@@ -3589,6 +3647,33 @@ COPY fights (id, battle_id, created_at, updated_at, party_id, winner) FROM stdin
 1102	568	2014-11-18 21:55:49.723361	2014-11-18 21:55:49.723361	133	f
 1103	569	2014-11-19 00:05:15.908512	2014-11-19 00:05:15.908512	4	f
 1104	569	2014-11-19 00:05:15.919388	2014-11-19 00:05:15.919388	133	f
+<<<<<<< HEAD
+1105	570	2014-11-23 23:22:27.575735	2014-11-23 23:22:27.575735	4	f
+1106	570	2014-11-23 23:22:27.596728	2014-11-23 23:22:27.596728	133	f
+1107	571	2014-11-23 23:23:12.668911	2014-11-23 23:23:12.668911	4	f
+1108	571	2014-11-23 23:23:12.675812	2014-11-23 23:23:12.675812	133	f
+1109	572	2014-11-24 04:59:25.346736	2014-11-24 04:59:25.346736	4	f
+1110	572	2014-11-24 04:59:25.352497	2014-11-24 04:59:25.352497	133	f
+1111	573	2014-11-24 05:04:01.286205	2014-11-24 05:04:01.286205	4	f
+1112	573	2014-11-24 05:04:01.296911	2014-11-24 05:04:01.296911	133	f
+1113	574	2014-11-24 05:05:52.217871	2014-11-24 05:05:52.217871	4	f
+1114	574	2014-11-24 05:05:52.224347	2014-11-24 05:05:52.224347	133	f
+1115	575	2014-11-24 05:08:05.690464	2014-11-24 05:08:05.690464	4	f
+1116	575	2014-11-24 05:08:05.699129	2014-11-24 05:08:05.699129	133	f
+1117	576	2014-11-24 05:09:23.204805	2014-11-24 05:09:23.204805	4	f
+1118	576	2014-11-24 05:09:23.216673	2014-11-24 05:09:23.216673	133	f
+1119	577	2014-11-24 05:10:35.416615	2014-11-24 05:10:35.416615	4	f
+1120	577	2014-11-24 05:10:35.42705	2014-11-24 05:10:35.42705	133	f
+1121	578	2014-11-24 05:18:16.731867	2014-11-24 05:18:16.731867	4	f
+1122	578	2014-11-24 05:18:16.741544	2014-11-24 05:18:16.741544	133	f
+1123	579	2014-11-24 05:23:22.182818	2014-11-24 05:23:22.182818	4	f
+1124	579	2014-11-24 05:23:22.193819	2014-11-24 05:23:22.193819	133	f
+1125	580	2014-11-24 05:26:13.557443	2014-11-24 05:26:13.557443	4	f
+1126	580	2014-11-24 05:26:13.567505	2014-11-24 05:26:13.567505	133	f
+1127	581	2014-11-24 05:30:16.42715	2014-11-24 05:30:16.42715	4	f
+1128	581	2014-11-24 05:30:16.434494	2014-11-24 05:30:16.434494	133	f
+=======
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 \.
 
 
@@ -3596,7 +3681,11 @@ COPY fights (id, battle_id, created_at, updated_at, party_id, winner) FROM stdin
 -- Name: fights_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
+<<<<<<< HEAD
+SELECT pg_catalog.setval('fights_id_seq', 1128, true);
+=======
 SELECT pg_catalog.setval('fights_id_seq', 1104, true);
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 
 
 --
@@ -4140,6 +4229,7 @@ COPY impressions (id, impressionable_type, impressionable_id, user_id, controlle
 518	Battle	485	1	battles	show	\N	1a3f02c49f147caea8bf328fd41ad410fe8dfff576359ffc1ffc0cf04b2e16fe	127.0.0.1	13066e923f998ff57a2b8537f123fcc3	\N	http://localhost:3000/battles/new	2014-11-13 01:33:09.093459	2014-11-13 01:33:09.093459
 519	Battle	485	1	battles	show	\N	ad916619e16661c7f33242222c2902ecc7da01e169565b4276b6a0b939978ff5	127.0.0.1	13066e923f998ff57a2b8537f123fcc3	\N	http://localhost:3000/battles/2dedb35b-b819-4e09-a752-ae4b39a90622	2014-11-13 01:33:10.258158	2014-11-13 01:33:10.258158
 520	Battle	485	1	battles	show	\N	aca096c2b688dfe9622d4cf08675412d8307e8673907db5d92e291296e2317f1	127.0.0.1	13066e923f998ff57a2b8537f123fcc3	\N	http://localhost:3000/battles/new	2014-11-13 01:35:16.416811	2014-11-13 01:35:16.416811
+857	Battle	577	1	battles	show	\N	6b89d23b03a1ed265275a605b0ee1aea3a5af2bf9559355d9e4cb89395ba7525	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	\N	2014-11-24 05:13:00.21078	2014-11-24 05:13:00.21078
 521	Battle	485	1	battles	show	\N	7de2594c52a1e308343886581dbfb48b1bd6fa3edd7f2f135baca7ddc9cc4fcf	127.0.0.1	13066e923f998ff57a2b8537f123fcc3	\N	http://localhost:3000/battles/2dedb35b-b819-4e09-a752-ae4b39a90622	2014-11-13 01:35:17.555193	2014-11-13 01:35:17.555193
 522	Battle	486	1	battles	show	\N	3c671b0e4cecbe564a61164ad2ec172639b91f25be101434ebd8f635cbc711fc	127.0.0.1	13066e923f998ff57a2b8537f123fcc3	\N	http://localhost:3000/battles/new	2014-11-13 01:38:15.273191	2014-11-13 01:38:15.273191
 523	Battle	486	1	battles	show	\N	cb08c6c5d267adf6f3839b8413b402e910414ea0c6fce08bd01e72ba992218f1	127.0.0.1	13066e923f998ff57a2b8537f123fcc3	\N	http://localhost:3000/battles/37bb5a9d-6dd0-4c8a-99ff-40fbb6825d5c	2014-11-13 01:38:16.411256	2014-11-13 01:38:16.411256
@@ -4456,6 +4546,47 @@ COPY impressions (id, impressionable_type, impressionable_id, user_id, controlle
 835	Battle	568	1	battles	show	\N	df60ed01bcd8d8971b2ae6c88d66111e6def5a41a6086ec4ad66c7d7e8881b39	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/e95dfb09-02c1-475d-811c-eaf0908ed916	2014-11-18 21:55:51.083661	2014-11-18 21:55:51.083661
 836	Battle	569	1	battles	show	\N	8f402a8e589eedcb8a1c22f2b3b21e8689fa3a8779ac9d067439f46dcfefccd9	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/new	2014-11-19 00:05:15.970593	2014-11-19 00:05:15.970593
 837	Battle	569	1	battles	show	\N	520d287e0ef4a4fbbb3faafe17217515ea890da0f5ab42f585d2baa5721f55f8	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/27e5deee-f008-42d4-924f-688c188e64a8	2014-11-19 00:05:16.799392	2014-11-19 00:05:16.799392
+<<<<<<< HEAD
+838	Battle	570	1	battles	show	\N	88d0a0906cc288349624a2fd7c4dde46f80d6e1ff73b30fb5d873d84c79d9116	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/new	2014-11-23 23:22:27.63029	2014-11-23 23:22:27.63029
+839	Battle	570	1	battles	show	\N	3aeca10b6e07cb6441d10df8c749c50b8314de9aee16bcf27ed3c9ada5347b13	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/a7a49f6a-6e45-4b81-a4af-daae0bc0c12c	2014-11-23 23:22:29.047529	2014-11-23 23:22:29.047529
+840	Battle	571	1	battles	show	\N	820a021ec6064e97e92b7f68dc41408b2a9522f4d7fe017242f490cf53846276	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/new	2014-11-23 23:23:12.696425	2014-11-23 23:23:12.696425
+841	Battle	571	1	battles	show	\N	a7d79b6818e95e2cc914cefbb6a4c7ed03975382eb3f948d900273aaabc4dbbf	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/f5da4e78-8f2e-4b8f-8b78-8e0dbf402565	2014-11-23 23:23:13.984463	2014-11-23 23:23:13.984463
+842	Battle	572	1	battles	show	\N	48b345a74570735420a997cf49094203de185bcae8987928b43626087f75f94d	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/new	2014-11-24 04:59:25.375541	2014-11-24 04:59:25.375541
+843	Battle	572	1	battles	show	\N	0ba15a973bf48f949307b9ba17bf9f97a8a8350af42ce3c3ae3af867d1cd7e44	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/84d07bf1-9a71-4529-827b-b01020d868fd	2014-11-24 04:59:26.077163	2014-11-24 04:59:26.077163
+844	Battle	573	1	battles	show	\N	8d0d27e62eb59ede6e74219b95a4cc69f22cf5fc99b48f05947cd97d0cbc2b07	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/new	2014-11-24 05:04:01.320688	2014-11-24 05:04:01.320688
+845	Battle	573	1	battles	show	\N	f3d85821478f48de69bd8b0ad77c480e289c13eab2e3cd8ae24e0f0a32762101	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/f8667a91-e5b3-4a70-8ddd-daef7cd59895	2014-11-24 05:04:01.66733	2014-11-24 05:04:01.66733
+846	Battle	572	1	battles	show	\N	4e8ed9b35ba7e2ae41f483816665b07c04fab45de13227d01810bc7a56b506cb	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/new	2014-11-24 05:05:49.024294	2014-11-24 05:05:49.024294
+847	Battle	574	1	battles	show	\N	a7dc2b0ff73030ecebd5c993256972aefb979118031b60f88ab31d664f2a9ee6	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/new	2014-11-24 05:05:52.247023	2014-11-24 05:05:52.247023
+848	Battle	574	1	battles	show	\N	c9fe89674aac4aeea309cd35389e3ccf4d014cdf8af77d6d2d256f66e35a406d	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/1ee8f826-e42c-4f02-87e0-a99bb94bdb87	2014-11-24 05:05:53.760095	2014-11-24 05:05:53.760095
+849	Battle	575	1	battles	show	\N	c57ca1df4fecf1242ccb2bf78007c07a37067177338b1fc328f34d0e12a00aa3	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/new	2014-11-24 05:08:05.728042	2014-11-24 05:08:05.728042
+850	Battle	575	1	battles	show	\N	df2eb4e130061521589f0141b1d0cb6f1107419c90aa844ed0d973183512262b	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/ca1994f3-81eb-4ce1-82e3-aabc8b9aebcc	2014-11-24 05:08:06.068482	2014-11-24 05:08:06.068482
+851	Battle	576	1	battles	show	\N	0018afcc72c9248bb0a4860c0e1365f06dd5930d0c5b2c16f15a01c44b3183c1	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/new	2014-11-24 05:09:23.245457	2014-11-24 05:09:23.245457
+852	Battle	576	1	battles	show	\N	6b2608b641d020759cc5b9bd93960b242058975977af9e03d74568c34f831b37	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	http://localhost:3000/battles/2e02e909-224c-4fd7-926a-39f6a2c51988	2014-11-24 05:09:23.595584	2014-11-24 05:09:23.595584
+853	Battle	576	1	battles	show	\N	6f6dcd9fcdd64882c9d90dd06be83ac3bce2c4d9c3ac4eb4c21119643172a603	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	\N	2014-11-24 05:10:17.708647	2014-11-24 05:10:17.708647
+854	Battle	577	1	battles	show	\N	e896204401bd7a065a335b94732bfbf69a7831cb0cb5ea91ac207b8857b36208	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/new	2014-11-24 05:10:35.456649	2014-11-24 05:10:35.456649
+855	Battle	577	1	battles	show	\N	447413896b6306aa4b4098a53fdd724cdf5fac7ced7c973b1efa31418bbd31ed	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/3a85f478-6f60-4cdf-b974-0f061a53e288	2014-11-24 05:10:36.753003	2014-11-24 05:10:36.753003
+856	Battle	577	1	battles	show	\N	0b1f622ddbbc596daaa2e5a28392eb80ac01477c807d0de1cdac32907f1c0173	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	\N	2014-11-24 05:10:44.219857	2014-11-24 05:10:44.219857
+858	Battle	577	1	battles	show	\N	63beb40a4e90483e798cfcc9f6790a3a49487b98e0b0e207a3c443201b7453ec	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/3a85f478-6f60-4cdf-b974-0f061a53e288	2014-11-24 05:13:01.517021	2014-11-24 05:13:01.517021
+859	Battle	577	1	battles	show	\N	bcab4e47739a50c2210e687f29a50eadf8c72f1205905276ac87fb8436c40a01	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	\N	2014-11-24 05:14:05.383667	2014-11-24 05:14:05.383667
+860	Battle	577	1	battles	show	\N	47940691ed9e474706cadcf42e97a6c05308e62af9406bdb9bce46d3f12795ea	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/3a85f478-6f60-4cdf-b974-0f061a53e288	2014-11-24 05:14:07.455736	2014-11-24 05:14:07.455736
+861	Battle	577	1	battles	show	\N	b7821943351d5652fa29a92996bb58c42332ead13a14b0bead2f8acd3d2f83b0	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	\N	2014-11-24 05:14:09.360006	2014-11-24 05:14:09.360006
+862	Battle	577	1	battles	show	\N	01dfdaa7b68a9641a22a95faefc3aa4aee65a77c905052526066d41a84f00192	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	\N	2014-11-24 05:14:13.627589	2014-11-24 05:14:13.627589
+863	Battle	578	1	battles	show	\N	f415910bc0d2828d4fd342e4a5caee7ca81fe6e11e20b997296dc57fa9aa41e7	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/new	2014-11-24 05:18:16.774639	2014-11-24 05:18:16.774639
+864	Battle	578	1	battles	show	\N	e279bcac8ad8795186fcfc2fc7345fc7957295061b25c524ec17255e5fd6921f	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/2294e697-8941-445a-803b-eb653278edd8	2014-11-24 05:18:18.084561	2014-11-24 05:18:18.084561
+865	Battle	578	1	battles	show	\N	444069571849e91b7de821baa8c5cb2ce46cf8e39f74ac78ee5191162a817199	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	\N	2014-11-24 05:18:26.984448	2014-11-24 05:18:26.984448
+866	Battle	578	1	battles	show	\N	a6164c1541183fc73a1b7fc4a952f027df4190a609674487fb4e5f7809d9edb7	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/new	2014-11-24 05:19:38.512038	2014-11-24 05:19:38.512038
+867	Battle	578	1	battles	show	\N	8745560e8a0faae8b1207b8ce7902cd09ab75d48ad8bd92cfc10003219d12c3b	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/2294e697-8941-445a-803b-eb653278edd8	2014-11-24 05:19:39.862552	2014-11-24 05:19:39.862552
+868	Battle	579	1	battles	show	\N	f5f2ad934b3f4a6c2da2af0aeeaf5a1bbc02e95cb1a7bd35f9078f45b3012634	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/new	2014-11-24 05:23:22.224109	2014-11-24 05:23:22.224109
+869	Battle	579	1	battles	show	\N	5051ad776cfee5c68751d6ff04320bb9f54135ead29a3e253beaf9a34211675f	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/8e121a8b-e1f0-4087-92c8-7bebe5401fcd	2014-11-24 05:23:23.571013	2014-11-24 05:23:23.571013
+870	Battle	580	1	battles	show	\N	573fa6acba53a725f01f610d7adf9a4eaf9d3cc76ae4e56ab365b0e93d63fb9b	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/new	2014-11-24 05:26:13.594941	2014-11-24 05:26:13.594941
+871	Battle	580	1	battles	show	\N	16a2c88a2d2c26253b26da605e1e3c5a52e08b73a9a1afb8ca4ad8b2e65a641f	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/eb6e40b7-cd27-4152-a975-da1860439faa	2014-11-24 05:26:14.88832	2014-11-24 05:26:14.88832
+872	Battle	580	1	battles	show	\N	27de6bfeb2f668e384989a7d49dafa394ebaaea5327003b13fdb2522741390bd	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	\N	2014-11-24 05:26:51.876459	2014-11-24 05:26:51.876459
+873	Battle	581	1	battles	show	\N	0980249de967c9c692299d48cd7ae4642d1c1879f478849e5fc5aa59c9d85d1e	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/new	2014-11-24 05:30:16.46708	2014-11-24 05:30:16.46708
+874	Battle	581	1	battles	show	\N	1daf7a1c6a0edbcdbe764bace87ba3f2e1b0ced39c5ac1830bb290a6db199204	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	http://localhost:3000/battles/fca52baf-d9d5-486c-b09a-bd7b77c62e5b	2014-11-24 05:30:17.871647	2014-11-24 05:30:17.871647
+875	Battle	581	1	battles	show	\N	27ebe01a9e316692c1b6e42cc87536652713c3d365b258c44b85b18079f5eda4	127.0.0.1	2ea2f54b5daee1940a4e09731b0142c4	\N	\N	2014-11-24 05:30:23.882574	2014-11-24 05:30:23.882574
+876	Battle	574	1	battles	show	\N	e4ce30b263f4837fbb18414801fade15494cf8d25edc1d19b43770d627e166f3	127.0.0.1	b0a96894aa0e5c8a5126a82caafa34dd	\N	\N	2014-11-24 05:34:27.154416	2014-11-24 05:34:27.154416
+=======
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 \.
 
 
@@ -4463,7 +4594,11 @@ COPY impressions (id, impressionable_type, impressionable_id, user_id, controlle
 -- Name: impressions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
+<<<<<<< HEAD
+SELECT pg_catalog.setval('impressions_id_seq', 876, true);
+=======
 SELECT pg_catalog.setval('impressions_id_seq', 837, true);
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 
 
 --
@@ -4503,7 +4638,10 @@ SELECT pg_catalog.setval('jobs_id_seq', 25, true);
 COPY members (id, party_id, created_at, updated_at, monster_unlock_id) FROM stdin;
 656	4	2014-11-15 03:20:13.398318	2014-11-15 03:20:13.398318	218
 664	4	2014-11-16 00:43:43.416143	2014-11-16 00:43:43.416143	226
+<<<<<<< HEAD
+=======
 669	4	2014-11-16 04:47:46.731975	2014-11-16 04:47:46.731975	221
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 670	133	2014-11-16 04:47:55.373495	2014-11-16 04:47:55.373495	231
 671	133	2014-11-16 04:47:55.375898	2014-11-16 04:47:55.375898	228
 672	133	2014-11-16 04:47:55.378214	2014-11-16 04:47:55.378214	230
@@ -4516,7 +4654,12 @@ COPY members (id, party_id, created_at, updated_at, monster_unlock_id) FROM stdi
 679	135	2014-11-17 23:46:44.835336	2014-11-17 23:46:44.835336	234
 680	135	2014-11-17 23:46:44.838299	2014-11-17 23:46:44.838299	231
 681	135	2014-11-17 23:46:44.84142	2014-11-17 23:46:44.84142	230
+<<<<<<< HEAD
+684	4	2014-11-23 23:22:22.861427	2014-11-23 23:22:22.861427	221
+685	4	2014-11-23 23:22:24.418569	2014-11-23 23:22:24.418569	220
+=======
 682	4	2014-11-18 21:55:46.651567	2014-11-18 21:55:46.651567	235
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 \.
 
 
@@ -4524,7 +4667,11 @@ COPY members (id, party_id, created_at, updated_at, monster_unlock_id) FROM stdi
 -- Name: members_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
+<<<<<<< HEAD
+SELECT pg_catalog.setval('members_id_seq', 685, true);
+=======
 SELECT pg_catalog.setval('members_id_seq', 682, true);
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 
 
 --
@@ -4535,6 +4682,12 @@ COPY monster_assignments (id, monster_id, battle_level_id, created_at, updated_a
 1	3	7	2014-10-30 23:16:07.785705	2014-10-30 23:16:07.785705
 2	9	18	2014-11-13 22:06:43.931344	2014-11-13 22:06:43.931344
 30	67	18	2014-11-17 00:26:31.003928	2014-11-17 00:26:31.003928
+<<<<<<< HEAD
+31	21	19	2014-11-24 05:15:09.287654	2014-11-24 05:15:09.287654
+32	21	18	2014-11-24 05:15:09.292851	2014-11-24 05:15:09.292851
+33	9	19	2014-11-24 05:28:14.098627	2014-11-24 05:28:14.098627
+=======
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 \.
 
 
@@ -4542,7 +4695,11 @@ COPY monster_assignments (id, monster_id, battle_level_id, created_at, updated_a
 -- Name: monster_assignments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Frank
 --
 
+<<<<<<< HEAD
+SELECT pg_catalog.setval('monster_assignments_id_seq', 33, true);
+=======
 SELECT pg_catalog.setval('monster_assignments_id_seq', 30, true);
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 
 
 --
@@ -4790,12 +4947,21 @@ COPY monsters (id, name, max_hp, created_at, updated_at, job_id, element_id, hp_
 26	Red Bubbles	950	2014-10-26 02:55:44.059487	2014-10-31 18:55:59.783812	11	1	\N	\N	0	A red bubbles. Nuf said.	0	\N	\N	\N	\N	4	red bubbles a red bubbles. nuf said. warrior-0001 fire 950 0	4	\N	\N	37	21	38	\N	\N	\N
 8	DeadWhale	3000	2014-09-30 20:22:20.010067	2014-11-14 22:22:33.938362	20	2	1	1	7	Ghost whale evolved.	40	tinder.gif	image/gif	35854	2014-09-30 21:35:58.48608	\N	deadwhale ghost whale evolved. healer-0002-e1 water ghostwhale ghostwhale 3000 40	1	\N	\N	16	37	27	\N	\N	\N
 6	Eviganon	2200	2014-09-30 18:53:20.718158	2014-11-10 21:50:05.670273	19	2	1	1	5	Bigger Blue Dragon	40	evo-animation-new.gif	image/gif	301911	2014-09-30 18:53:17.695736	\N	eviganon bigger blue dragon warrior-0001-e1 water saphira saphira 2200 40	1	\N	\N	20	37	19	\N	\N	\N
+<<<<<<< HEAD
+67	Test my ass	1000	2014-11-17 00:26:30.987796	2014-11-17 00:26:30.987796	5	1	\N	\N	0	You have it	10	\N	\N	\N	\N	4	test my ass you have it npc-warrior-0001 fire 1000 10	1	\N	\N	38	25	32	\N	\N	\N
+15	Yellow Bubbles	1100	2014-10-09 04:06:43.604328	2014-11-18 01:09:50.083533	15	3	\N	\N	0	A yellow bubbles.	0	\N	\N	\N	\N	10	yellow bubbles a yellow bubbles. rogue-0003 thunder 1100 0	4	\N	\N	29	37	36	\N	\N	\N
+1	Kico 2	1200	2014-09-30 17:45:35.816134	2014-11-24 05:07:24.014182	5	1	1	1	0	Demon wielding a scythe.	0	\N	\N	\N	\N	6	kico 2 demon wielding a scythe. npc-warrior-0001 fire 1200 0	5	\N	\N	37	21	32	\N	1	30
+21	Blue Bubbles	1500	2014-10-10 22:40:54.841088	2014-11-24 05:15:09.302178	16	2	\N	\N	0	A water bubbles.	0	\N	\N	\N	\N	7	blue bubbles a water bubbles. npc-mage-0006 water 1500 0	5	\N	\N	32	17	14	\N	1	30
+9	Kico	1250	2014-09-30 20:23:39.443142	2014-11-24 05:28:14.11035	10	4	1	1	0	A rogue bird.	1	\N	\N	\N	\N	7	kico a rogue bird. npc-rogue-0003 earth 1250 1	5	\N	\N	25	21	4	\N	18	30
+3	Kico 3	1250	2014-09-30 18:29:02.744568	2014-11-24 05:43:05.762446	6	2	1	1	0	A red snake	0	\N	\N	\N	\N	8	kico 3 a red snake npc-rogue-0002 water 1250 0	5	\N	\N	5	17	4	\N	18	30
+=======
 9	Kico	1250	2014-09-30 20:23:39.443142	2014-11-13 22:09:15.629795	10	4	1	1	0	A rogue bird.	1	\N	\N	\N	\N	7	kico a rogue bird. npc-rogue-0003 earth 1250 1	5	\N	\N	17	21	13	\N	\N	\N
 21	Blue Bubbles	1500	2014-10-10 22:40:54.841088	2014-11-14 22:13:19.154969	16	2	\N	\N	0	A water bubbles.	0	\N	\N	\N	\N	7	blue bubbles a water bubbles. npc-mage-0006 water 1500 0	5	\N	\N	32	17	14	\N	1	11
 1	Kico 2	1200	2014-09-30 17:45:35.816134	2014-11-14 22:16:39.547924	5	1	1	1	0	Demon wielding a scythe.	0	\N	\N	\N	\N	6	kico 2 demon wielding a scythe. npc-warrior-0001 fire 1200 0	5	\N	\N	23	21	32	\N	1	30
 3	Kico 3	1250	2014-09-30 18:29:02.744568	2014-11-14 22:16:56.684883	6	2	1	1	0	A red snake	0	\N	\N	\N	\N	8	kico 3 a red snake npc-rogue-0002 water 1250 0	5	\N	\N	5	17	4	\N	18	11
 67	Test my ass	1000	2014-11-17 00:26:30.987796	2014-11-17 00:26:30.987796	5	1	\N	\N	0	You have it	10	\N	\N	\N	\N	4	test my ass you have it npc-warrior-0001 fire 1000 10	1	\N	\N	38	25	32	\N	\N	\N
 15	Yellow Bubbles	1100	2014-10-09 04:06:43.604328	2014-11-18 01:09:50.083533	15	3	\N	\N	0	A yellow bubbles.	0	\N	\N	\N	\N	10	yellow bubbles a yellow bubbles. rogue-0003 thunder 1100 0	4	\N	\N	29	37	36	\N	\N	\N
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 \.
 
 
@@ -5244,7 +5410,11 @@ COPY summoners (id, name, user_id, summoner_level_id, created_at, updated_at, mp
 4	fuckface	5	\N	2014-10-26 03:36:27.127315	2014-10-26 03:36:27.127315	0	0	1	0	0	\N	\N	\N	\N
 14	test10@test.com	15	\N	2014-10-30 23:23:33.601673	2014-10-30 23:23:33.601673	0	0	1	0	25	\N	\N	\N	\N
 16	Jacky Groot	17	\N	2014-10-31 00:33:09.112823	2014-10-31 23:17:27.175017	300	302	1	0	225	\N	\N	\N	\N
+<<<<<<< HEAD
+1	admin	1	\N	2014-10-24 22:38:19.20184	2014-11-23 23:50:30.04727	410	518	1	0	110	\N	\N	\N	\N
+=======
 1	admin	1	\N	2014-10-24 22:38:19.20184	2014-11-17 02:14:09.720977	410	531	1	0	110	\N	\N	\N	\N
+>>>>>>> 4f34670a4a065e22b4227a51f58dd0c2c1cda97b
 17	test15	18	\N	2014-11-17 23:46:20.273041	2014-11-17 23:47:50.097123	100	100	1	0	25	\N	\N	\N	\N
 \.
 

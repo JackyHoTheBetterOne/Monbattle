@@ -508,6 +508,7 @@ window.showHealTeam = (index) ->
   n = battle.players[index].mons.length
   i = 0
   while i < n
+    console.log(battle.players[index].mons[i])
     if battle.players[index].mons[i].hp > 0
       damageBoxAnime(index, i, ability.modifier + window["change" + i], "rgba(50, 205, 50)")
     i++

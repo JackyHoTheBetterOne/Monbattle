@@ -166,8 +166,10 @@ class Monster < ActiveRecord::Base
     end
     if self.users.where(id: @user).exists?
       MonsterUnlock.find_by(user_id: @user.id, monster_id: self.id).destroy
+      MonsterSkinEquipping.find_by(user_id: @user.id, monster_id: self.id).destroy
     end
     MonsterUnlock.create(user_id: @user.id, monster_id: self.id)
+    MonsterSkinEquipping.create(user_id: @user.id, monster_id: self.id, monster_skin_id: self.default_skin_id)
   end
 
 end
