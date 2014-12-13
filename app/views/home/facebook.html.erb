@@ -4,6 +4,7 @@
     <%= render "notice_list" %> 
   </div>
   <div class="news-detail">
+    <%= render partial: "news_detail", locals: {notice: @notice} %>
   </div> 
 </div>
 

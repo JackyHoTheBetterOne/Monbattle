@@ -2,7 +2,7 @@
   <% case notice.category %>
     <% when "News", "Update" %>
       <a class="news-entry-click" data-remote="true"
-         href="/facebook?filter=<%= notice.title %>">
+         href="/landing?selected_notice=<%= notice.title %>">
         <div id="<%= dom_id(notice)%>" class="news-entry">
           <div class="notice-type success"><%= notice.category %></div>
           <p class="notice-title"><%= notice.title %></p>
@@ -10,7 +10,7 @@
       </a>
     <% when "Server" %>
       <a class="news-entry-click" data-remote="true"
-         href="/facebook?filter=<%= notice.title %>">
+         href="/landing?selected_notice=<%= notice.title %>">
         <div id="<%= dom_id(notice)%>" class="news-entry">
           <div class="notice-type danger"><%= notice.category %></div>
           <p class="notice-title"><%= notice.title %></p>
@@ -18,7 +18,7 @@
       </a>
     <% when "Event" %>
       <a class="news-entry-click" data-remote="true"
-         href="/facebook?filter=<%= notice.title %>">
+         href="/landing?selected_notice=<%= notice.title %>">
         <div id="<%= dom_id(notice)%>" class="news-entry">
           <div class="notice-type warning"><%= notice.category %></div>
           <p class="notice-title"><%= notice.title %></p>
@@ -26,7 +26,7 @@
       </a>
     <% when "Article" %>
       <a class="news-entry-click" data-remote="true"
-         href="/facebook?filter=<%= notice.title %>">
+         href="/landing?selected_notice=<%= notice.title %>">
         <div id="<%= dom_id(notice)%>" class="news-entry">
           <div class="notice-type info"><%= notice.category %></div>
           <p class="notice-title"><%= notice.title %></p>

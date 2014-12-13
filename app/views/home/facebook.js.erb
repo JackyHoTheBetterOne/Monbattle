@@ -1,0 +1,4 @@
+$(".news-detail").promise().done(function(){
+  $(".news-detail").html("<%= j render partial:'news_detail', locals: {notice: @notice} %>")
+                  .fadeIn(300);
+});
