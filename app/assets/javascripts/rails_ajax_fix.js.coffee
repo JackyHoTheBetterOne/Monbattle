@@ -11,7 +11,8 @@ window.fixTurbo = () ->
     reloadObjects("cut_scenes", ".scene-search")
     reloadObjects("quests", ".quest-search")
     reloadObjects("notices", ".notice-search")
-  ), 400
+    console.log("Fixed")
+  ), 500
 
 $ ->
   fixTurbo()

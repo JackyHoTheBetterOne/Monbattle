@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "nested_form"
 gem 'remotipart', '~> 1.2'
-gem 'whenever', :require => false
 # gem 'filterrific'
 gem "thin"
 gem "figaro"

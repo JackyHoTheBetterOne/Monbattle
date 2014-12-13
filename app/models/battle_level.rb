@@ -69,7 +69,7 @@ class BattleLevel < ActiveRecord::Base
     if self != []
       self.all.each do |b|
         if b.unlocked_by
-          available_levels << BattleLevel.find(b.unlock.id) if beaten_levels.include?b.name
+          available_levels << BattleLevel.find(b.id) if beaten_levels.include?b.unlocked_by.name
         else
           available_levels << b 
         end
@@ -87,8 +87,8 @@ class BattleLevel < ActiveRecord::Base
 
     if !level_array.include?self.name
       level_array.push(self.name) 
-      unlocked_level = BattleLevel.where(unlocked_by: self.id)[0]
-      summoner.recently_unlocked_level = unlocked_level.name if unlocked_level != nil
+      unlocked_level = BattleLevel.find(unlocked_by: self.id)[0]
+      @summoner.recently_unlocked_level = unlocked_level.name if unlocked_level
     end
 
     if !area_array.include?self.area.name

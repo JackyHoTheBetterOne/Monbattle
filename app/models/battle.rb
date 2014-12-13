@@ -72,9 +72,11 @@ class Battle < ActiveRecord::Base
 
     self.battle_level.ability_reward.each do |r|
       ability = Ability.find_by_name(r)
-      ability_id = ability.id
-      user_id = @victorious_summoner.id
-      AbilityPurchase.create(ability_id: ability_id, user_id: user_id)
+      if ability 
+        ability_id = ability.id 
+        user_id = @victorious_summoner.id
+        AbilityPurchase.create(ability_id: ability_id, user_id: user_id)
+      end
     end
     @victorious_summoner.save
     self.battle_level.unlock_for_summoner(@victorious_summoner)
