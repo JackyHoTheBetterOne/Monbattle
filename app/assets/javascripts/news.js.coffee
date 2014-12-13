@@ -8,4 +8,3 @@ $ ->
       i++
     $(".news-detail").fadeOut(300)
     $(this).children(".news-entry").addClass("notice-selected")
-    console.log($(this).children(".news-entry"))
