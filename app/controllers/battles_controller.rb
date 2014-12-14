@@ -55,7 +55,7 @@ class BattlesController < ApplicationController
   end
 
   def create
-    if current_user.parties[0].battles.count == 0
+    if current_user.parties[0].battles.count == -1
       @battle = Battle.new 
       @battle.battle_level_id = 1000000000000000000000
       @battle.parties.push(Party.where(name: "ur sister dead")[0])
@@ -146,6 +146,9 @@ class BattlesController < ApplicationController
     if current_user
       @date = Time.now.localtime.to_date
       @party = current_user.parties[0]
+      p "==================================================================================="
+      p  Battle.find_matching_date(@date, @party)
+      p "==================================================================================="
       if Battle.find_matching_date(@date, @party).count == 0
         @party.user.summoner.quest_begin 
         @party.user.summoner.clear_daily_achievement

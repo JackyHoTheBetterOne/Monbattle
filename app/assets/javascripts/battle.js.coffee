@@ -293,23 +293,41 @@ window.setAll = (array, attr, value) ->
     i++
   return
 
-window.checkMax = ->
+window.fixHp = ->
   n = playerMonNum
   i = 0
-  while i < n
+  while i < n 
+    battle.players[0].mons[i].hp = (if (battle.players[0].mons[i].hp < 0) then 0 else battle.players[0].mons[i].hp)
+    i++
+  n = pcMonNum
+  i = 0
+  while i < n 
+    battle.players[1].mons[i].hp = (if (battle.players[1].mons[i].hp < 0) then 0 else battle.players[1].mons[i].hp)
+    i++
+
+window.checkMax = ->
+  i = 0
+  while i < playerMonNum
     mon = battle.players[0].mons[i]
     battle.players[0].mons[i].hp = mon.max_hp if mon.hp > mon.max_hp
     i++
-  return
+  i = 0 
+  while i < pcMonNum
+    mon = battle.players[1].mons[i]
+    battle.players[1].mons[i].hp = mon.max_hp if mon.hp > mon.max_hp
+    i++
 
 window.checkMin = ->
-  n = playerMonNum
   i = 0
-  while i < n
+  while i < playerMonNum
     mon = battle.players[0].mons[i]
     battle.players[0].mons[i].max_hp = 0 if mon.hp is 0
     i++
-  return
+  i = 0
+  while i < pcMonNum
+    mon = battle.players[1].mons[i]
+    battle.players[1].mons[i].max_hp = 0 if mon.hp is 0
+    i++
 
 window.action = ->
   xadBuk()
@@ -323,6 +341,7 @@ window.multipleAction = ->
   checkMin()
   battle.monAbility(targets[0], targets[1], targets[2])
   fixHp()
+  checkMax()
   zetBut()
 
 window.userMon = (index) ->
@@ -845,18 +864,6 @@ window.roundEffectHappening = (team) ->
 
 
 ################################################################################################################ AI logic helpers
-window.fixHp = ->
-  n = playerMonNum
-  i = 0
-  while i < n 
-    battle.players[0].mons[i].hp = (if (battle.players[0].mons[i].hp < 0) then 0 else battle.players[0].mons[i].hp)
-    i++
-  n = pcMonNum
-  i = 0
-  while i < n 
-    battle.players[1].mons[i].hp = (if (battle.players[1].mons[i].hp < 0) then 0 else battle.players[1].mons[i].hp)
-    i++
-
 window.findTargetsBelowPct = (pct) ->
   i = undefined
   n = undefined
