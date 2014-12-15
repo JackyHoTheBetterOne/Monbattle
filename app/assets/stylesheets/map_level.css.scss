@@ -1,0 +1,45 @@
+/////////////////////////////////////////////////////////////// Map level css
+@mixin map-level($top, $left) {
+  top: $top;
+  left: $left;
+};
+
+#AreaA {
+  @include map-level(314px, 493px);
+};
+
+#AreaB {
+  @include map-level(235px, 518px);
+};
+
+#AreaC {
+  @include map-level(188px, 406px);
+};
+
+#AreaD {
+  @include map-level(146px, 542px);
+};
+
+#Secret {
+  @include map-level(175px, 275px);
+};
+
+#AreaE {
+  @include map-level(17px, 455px);
+};
+
+#AreaF {
+  @include map-level(40px, 333px);
+};
+
+#AreaH {
+  @include map-level(143px, 138px);
+};
+
+#AreaI {
+  @include map-level(107px, 11px);
+};
+
+#AreaG {
+  @include map-level(40px, 180px);
+};

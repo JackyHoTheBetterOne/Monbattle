@@ -601,6 +601,7 @@ window.checkApAvailbility = ->
     disable($(this)) if $(this).data("apcost") > battle.players[0].ap
 
 window.checkMonHealthAfterEffect = ->
+  fixHp()
   i = 0
   n = playerMonNum
   while i < n
