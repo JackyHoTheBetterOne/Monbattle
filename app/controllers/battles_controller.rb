@@ -15,7 +15,7 @@ class BattlesController < ApplicationController
     params[:area_filter] ||= session[:area_filter]
     session[:area_filter] = params[:area_filter]
 
-    if session[:area_filter]
+    if Region.find_by_name(session[:area_filter])
       @map_url = Region.find_by_name(session[:area_filter]).map.url(:cool)
     else
       @map_url = @regions.last.map.url(:cool)
@@ -35,7 +35,7 @@ class BattlesController < ApplicationController
       @levels = BattleLevel.order("id").where("name = ?", "")
     end
 
-    if @summoner.recently_unlocked_level != nil
+    if @summoner.recently_unlocked_level != ""
       new_level = BattleLevel.find_by_name(@summoner.recently_unlocked_level)
       area_name = new_level.area_name
       region_name = new_level.region_name
@@ -99,8 +99,8 @@ class BattlesController < ApplicationController
   def update
     @battle.outcome = "complete"
     @battle.update_attributes(update_params)
-    @battle.to_finish
     @battle.save
+    @battle.to_finish
     render nothing: true
   end
 
@@ -146,9 +146,6 @@ class BattlesController < ApplicationController
     if current_user
       @date = Time.now.localtime.to_date
       @party = current_user.parties[0]
-      p "==================================================================================="
-      p  Battle.find_matching_date(@date, @party)
-      p "==================================================================================="
       if Battle.find_matching_date(@date, @party).count == 0
         @party.user.summoner.quest_begin 
         @party.user.summoner.clear_daily_achievement

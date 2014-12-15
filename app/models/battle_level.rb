@@ -87,7 +87,7 @@ class BattleLevel < ActiveRecord::Base
 
     if !level_array.include?self.name
       level_array.push(self.name) 
-      unlocked_level = BattleLevel.find(unlocked_by: self.id)[0]
+      unlocked_level = BattleLevel.where(unlocked_by_id: self.id)[0]
       @summoner.recently_unlocked_level = unlocked_level.name if unlocked_level
     end
 

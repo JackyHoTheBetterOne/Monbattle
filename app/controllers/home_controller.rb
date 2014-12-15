@@ -34,11 +34,12 @@ class HomeController < ApplicationController
     @notices = Notice.where(is_active: true)
     params[:selected_notice] ||= session[:selected_notice]
     session[:selected_notice] = params[:selected_notice]
-    if session[:selected_notice]
+    if Notice.find_by_title(params[:selected_notice])
       @notice = Notice.find_by_title(params[:selected_notice])
     else
       @notice = @notices[0]
     end
+    p
   end
 
   def level_select

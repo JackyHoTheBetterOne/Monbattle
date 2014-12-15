@@ -123,12 +123,7 @@ ActiveRecord::Schema.define(version: 20141212202933) do
     t.text     "description"
     t.text     "victory_message"
     t.text     "ability_reward",          default: [], array: true
-<<<<<<< HEAD
-    t.boolean  "unlocked_by_default"
     t.integer  "stamina_cost",            default: 0
-=======
-    t.integer  "stamina_cost"
->>>>>>> 8ba0baecbf87070d4a4285f533c6b407b403cc78
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree

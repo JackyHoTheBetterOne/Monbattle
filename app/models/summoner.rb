@@ -126,7 +126,7 @@ class Summoner < ActiveRecord::Base
   end
 
   def clear_recent_level
-    self.recently_unlocked_level = nil
+    self.recently_unlocked_level = ""
     self.save
   end
 

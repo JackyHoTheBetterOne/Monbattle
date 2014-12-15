@@ -25,7 +25,7 @@ class Battle < ActiveRecord::Base
   aasm do
     state :battling, :initial => true
     state :hacked
-    state :complete, :before_enter => :battle_complete
+    state :complete, :before_enter => :victor_check
     event :done, :after => :distribute_quest_reward do
       transitions :from => :battling, :to => :complete
     end
@@ -43,14 +43,9 @@ class Battle < ActiveRecord::Base
       self.ruined
     end
   end
-  
-  def battle_complete
-    @victor = self.victor
-    victor_check
-  end
 
   def victor_check
-    if @victor == "NPC"
+    if self.victor == "NPC"
       @loser = Summoner.find_summoner(self.loser)
       @loser.losses += 1 
       @loser.save
@@ -64,7 +59,7 @@ class Battle < ActiveRecord::Base
     @mp_reward           = self.battle_level.mp_reward 
     @gp_reward           = self.battle_level.gp_reward 
     @vk_reward           = self.battle_level.vk_reward 
-    @victorious_summoner = Summoner.find_summoner(@victor)
+    @victorious_summoner = Summoner.find_summoner(self.victor)
 
     @victorious_summoner.wins += 1 
     @victorious_summoner.mp += @mp_reward
@@ -72,6 +67,7 @@ class Battle < ActiveRecord::Base
     @victorious_summoner.vortex_key += @vk_reward
 
     self.battle_level.ability_reward.each do |r|
+      ability = Ability.find_by_name(r)
       ability = Ability.find_by_name(r)
       if ability 
         ability_id = ability.id 
