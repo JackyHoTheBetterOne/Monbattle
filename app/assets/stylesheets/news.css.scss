@@ -14,6 +14,7 @@
     border-radius: 5px;
     left: 1px;
     top: 180px;
+    overflow: scroll;
     .news-entry-click {
       text-decoration: none;
       position: relative;
@@ -74,6 +75,7 @@
     left: 435px;
     top: 180px;
     box-shadow: 2px 4px 5px black;
+    overflow: scroll;
     .description-image {
       height: 100px;
       width: 99%;
