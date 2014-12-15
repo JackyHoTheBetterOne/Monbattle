@@ -6,6 +6,13 @@
   border-radius: 5px;
   left: 15px;
   top: -15px;
+  .news-list-title {
+    position: absolute;
+    font-weight: bold;
+    color: white;
+    left: 7px;
+    top: 169px;
+  };
   .news-list {
     position: absolute;
     width: 45%;
@@ -13,7 +20,7 @@
     background: transparent;
     border-radius: 5px;
     left: 1px;
-    top: 180px;
+    top: 225px;
     overflow: scroll;
     .news-entry-click {
       text-decoration: none;

@@ -17,6 +17,7 @@ class Battle::Validation
       battle.update_attributes(params)
       if battle.after_action_state != battle.before_action_state
         self.message = "Your fucked"
+        battle.ruined
       else
         self.message = "Your good"
       end

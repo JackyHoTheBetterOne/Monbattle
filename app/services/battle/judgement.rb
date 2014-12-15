@@ -10,6 +10,7 @@ class Battle::Judgement
     battle.update_attributes(params)
     if battle.after_action_state != battle.before_action_state
       self.message = "Your fucked"
+      battle.ruined
     else
       self.message = "Your good"
       battle.is_hacked = false
