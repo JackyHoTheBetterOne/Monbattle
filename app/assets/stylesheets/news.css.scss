@@ -50,17 +50,17 @@
           left: 6px;
           top: 7px;
         };
-        .success {
-          background: green;
+        .news {
+          background: #1565C0;
         };
-        .danger {
-          background: red;
+        .patch {
+          background: #4CAF50;
         };
-        .notice {
-          background: blue;
+        .server {
+          background: #CD2115;
         };
-        .info, .warning {
-          background: yellow;
+        .event {
+          background: #CBB70A;
         };
       };
     };

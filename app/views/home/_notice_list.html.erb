@@ -1,10 +1,18 @@
 <% @notices.each do |notice| %>
   <% case notice.category %>
-    <% when "News", "Update" %>
+    <% when "News" %>
       <a class="news-entry-click" data-remote="true"
          href="/landing?selected_notice=<%= notice.title %>">
         <div id="<%= dom_id(notice)%>" class="news-entry">
-          <div class="notice-type success"><%= notice.category %></div>
+          <div class="notice-type news"><%= notice.category %></div>
+          <p class="notice-title"><%= notice.title %></p>
+        </div>
+      </a>
+    <% when "Patch" %>
+      <a class="news-entry-click" data-remote="true"
+         href="/landing?selected_notice=<%= notice.title %>">
+        <div id="<%= dom_id(notice)%>" class="news-entry">
+          <div class="notice-type patch"><%= notice.category %></div>
           <p class="notice-title"><%= notice.title %></p>
         </div>
       </a>
@@ -12,7 +20,7 @@
       <a class="news-entry-click" data-remote="true"
          href="/landing?selected_notice=<%= notice.title %>">
         <div id="<%= dom_id(notice)%>" class="news-entry">
-          <div class="notice-type danger"><%= notice.category %></div>
+          <div class="notice-type server"><%= notice.category %></div>
           <p class="notice-title"><%= notice.title %></p>
         </div>
       </a>
@@ -20,7 +28,7 @@
       <a class="news-entry-click" data-remote="true"
          href="/landing?selected_notice=<%= notice.title %>">
         <div id="<%= dom_id(notice)%>" class="news-entry">
-          <div class="notice-type warning"><%= notice.category %></div>
+          <div class="notice-type event"><%= notice.category %></div>
           <p class="notice-title"><%= notice.title %></p>
         </div>
       </a>
@@ -28,7 +36,7 @@
       <a class="news-entry-click" data-remote="true"
          href="/landing?selected_notice=<%= notice.title %>">
         <div id="<%= dom_id(notice)%>" class="news-entry">
-          <div class="notice-type info"><%= notice.category %></div>
+          <div class="notice-type article"><%= notice.category %></div>
           <p class="notice-title"><%= notice.title %></p>
         </div>
       </a>
