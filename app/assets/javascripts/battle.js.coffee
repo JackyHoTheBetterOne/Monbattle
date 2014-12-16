@@ -7,7 +7,7 @@ window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
     if @hp <= 0
       setTimeout (->
-        $("." + monster.team + ".info" + " " + ".mon" + monster.index + " " + ".hp .bar").css({"width": "0%"})
+        $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp .bar").css({"width": "0%"})
         $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300).remove()
       ), 750
       return false
@@ -458,13 +458,13 @@ window.apAfterUse = (current, max) ->
 
 window.apChange = ->
   $(apNum).text apAfterUse(battle.players[0].ap , battle.maxAP)
-  $(apBar).animate barChange(battle.players[0].ap, battle.maxAP), 200
+  $(apBar).css barChange(battle.players[0].ap, battle.maxAP)
 
 window.hpChange = (side, index) ->
-  "." + side + ".info" + " " + ".mon" + index + " " + ".current-hp"
+  "." + side + " " + ".mon" + index + " " + ".current-hp"
 
 window.maxHpChange = (side, index) ->
-  "." + side + ".info" + " " + ".mon" + index + " " + ".max-hp"
+  "." + side + " " + ".mon" + index + " " + ".max-hp"
 
 window.hpBarChange = (side, index) ->
   "." + side + " " + ".mon" + index + " " + ".hp .bar"
@@ -475,7 +475,7 @@ window.hpChangeBattle = ->
   i = 0
   while i < n
     $(hpBarChange("0", i)).css barChange(battle.players[0].mons[i].hp, battle.players[0].mons[i].max_hp) if battle.
-                    players[0].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i + " " + ".current-hp").text()
+                    players[0].mons[i].hp.toString() != $(".user" + " " + ".mon" + i + " " + ".current-hp").text()
     $(hpChange("0", i)).text battle.players[0].mons[i].hp
     $(maxHpChange("0", i)).text " " + "/" + " " + battle.players[0].mons[i].max_hp
     i++
@@ -483,7 +483,7 @@ window.hpChangeBattle = ->
   i = 0
   while i < n 
     $(hpBarChange("1", i)).css barChange(battle.players[1].mons[i].hp, battle.players[1].mons[i].max_hp) if battle.
-                    players[1].mons[i].hp.toString() != $(".user.info" + " " + ".mon" + i + " " + ".current-hp").text()
+                    players[1].mons[i].hp.toString() != $(".user" + " " + ".mon" + i + " " + ".current-hp").text()
     $(hpChange("1", i)).text battle.players[1].mons[i].hp
     $(maxHpChange("1", i)).text " " + "/" + " " + battle.players[1].mons[i].max_hp
     i++
@@ -734,8 +734,9 @@ window.nextScene = ->
   ), 1800
 
 window.mouseOverMon = ->
-  $(this).addClass("controlling")
   $(this).prev().css "visibility", "visible"
+  $(this).addClass("controlling")
+  $(this).prev().css "opacity", "1"
   mon = $(this).closest(".mon").data("index")
   team = $(this).closest(".mon-slot").data("team")
   window.currentMon = $(this)
@@ -746,7 +747,7 @@ window.mouseOverMon = ->
   return
 
 window.mouseLeaveMon = ->
-  $(".user .monBut").css "visibility","hidden"
+  $(".user .monBut").css({"opacity":"0", "visibility":"hidden"})
   $(".user .img").removeClass("controlling")
 
 window.turnOnCommandA = ->
@@ -762,13 +763,11 @@ window.turnOff = (name, team) ->
 
 window.disable = (button) ->
   button.attr("disabled", "true")
-  button.animate({"background-color":"rgba(192, 192, 192, 0)", "border-color":"black"
-                , "opacity":"0"})
+  button.css("opacity", 0)
 
 window.enable = (button) ->
   button.removeAttr("disabled")
-  button.animate({"background-color":"rgba(10, 170, 230, 0.80)", "border-color":"black"
-                , "opacity":"1"})
+  button.css("opacity", 1)
 
 window.toggleImg = ->
   $(".user .img").each ->
@@ -1160,7 +1159,7 @@ window.ai = ->
       hpChangeBattle()
       apChange()
       enable($("button"))
-      $(".ap").effect("pulsate", {times: 5}, 500)
+      $(".ap").effect("highlight")
       $(".battle-message").fadeOut(100)
       $(".enemy .img").removeAttr("disabled")
       toggleEnemyClick()
@@ -1181,10 +1180,6 @@ $ ->
     error: ->
       alert("This battle cannot be loaded!")
     success: (data) ->
-      $(".quest-show").trigger("click")
-      setTimeout (->
-        $(".quest-show").trigger("click")
-        ),100
       window.battle = data
       if battle.start_cut_scenes.length isnt 0 
         $(".cutscene").show(500)
@@ -1321,7 +1316,6 @@ $ ->
       turnOnCommandA()
       $(document).on("mouseover", ".user .monBut button", ->
         description = $(this).parent().parent().children(".abilityDesc")
-        $(this).css("background", "rgba(8,136,196,1)")
         if $(this).data("target") is "evolve"
           better_mon = battle.players[0].mons[targets[1]].mon_evols[0]
           worse_mon = battle.players[0].mons[targets[1]]
@@ -1333,18 +1327,17 @@ $ ->
             )
           description.children(".panel-footer").children("span").children(".d").text "HP: +" + added_hp
           description.children(".panel-footer").children("span").children(".a").text "AP: " + better_mon.ap_cost
-          description.css "visibility", "visible"
+          description.css({"z-index": "6000", "opacity": "0.9"})
         else
           ability = battle.players[0].mons[targets[1]].abilities[$(this).data("index")]
           description.children(".panel-heading").text ability.name
           description.children(".panel-body").html ability.description
           description.children(".panel-footer").children("span").children(".d").text ability.change
           description.children(".panel-footer").children("span").children(".a").text "AP: " + ability.ap_cost
-          description.css "visibility", "visible"
+          description.css({"z-index": "6000", "opacity": "0.9"})
         return
       ).on "mouseleave", ".user .monBut button", ->
-        $(this).parent().parent().children(".abilityDesc").css "visibility", "hidden"
-        $(this).css("background-image", "-webkit-linear-gradient(top, #606060 0%, #131313 100%)")
+        $(this).parent().parent().children(".abilityDesc").css({"z-index":"-1", "opacity": "0"})
         return
       $(document).on("click.endTurn", "button.end-turn", ai)
       $(document).on("mouseover", ".effect", ->
@@ -1373,8 +1366,8 @@ $ ->
         $(".end-turn").prop("disabled", true)
         ability = $(this)
         if window.battle.players[0].ap >= ability.data("apcost")
-          $(".abilityDesc").css "visibility", "hidden"
-          $(".user .monBut").css "visibility","hidden"
+          $(".abilityDesc").css({"opacity":"0", "z-index":"-1"})
+          $(".user .monBut").css({"visibility":"hidden", "opacity":"0"})
           toggleImg()
           $(document).on "click.cancel",".cancel", ->
             $(".user .img").removeClass("controlling")
@@ -1487,7 +1480,6 @@ $ ->
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
                   toggleEnemyClick()
                   singleTargetAbilityAfterClickDisplay(ability)
-                  ability.parent().parent().children(".abilityDesc").css "visibility", "hidden"
                   abilityAnime = $(".ability-img")
                   multipleTargetAbilityDisplayVariable()
                   $(".ability-img").toggleClass "aoePositionFoe", ->
@@ -1512,7 +1504,6 @@ $ ->
                 $(document).on "click.help", ".user.mon-slot .img", ->
                   singleTargetAbilityAfterClickDisplay(ability)
                   toggleImg()
-                  ability.parent().parent().children(".abilityDesc").css "visibility", "hidden"
                   abilityAnime = $(".ability-img")
                   multipleAction()
                   multipleTargetAbilityDisplayVariable()

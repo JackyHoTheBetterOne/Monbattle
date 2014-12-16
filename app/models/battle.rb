@@ -12,7 +12,6 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_save :generate_code
-  before_update { |battle| battle.update_date if battle.victor_changed? }
 
   scope :find_matching_date, -> (date, party) {
     joins(:fights).where(updated_on: date, "fights.party_id" => party.id)
@@ -93,6 +92,7 @@ class Battle < ActiveRecord::Base
   end
 
   def distribute_quest_reward
+    self.update_date
     if self.victor && self.loser
       @victor = Summoner.find_summoner(self.victor)
       @loser = Summoner.find_summoner(self.loser)
@@ -149,11 +149,15 @@ class Battle < ActiveRecord::Base
     end
   end
 
-
   def update_date
     self.updated_on = self.updated_at.localtime.to_date if self.updated_at
+    self.save
   end
 
+  def change_code
+    self.id_code = SecureRandom.uuid
+    self.save
+  end
 
   private
 
@@ -162,5 +166,4 @@ class Battle < ActiveRecord::Base
       self.id_code = SecureRandom.uuid
     end
   end
-
 end

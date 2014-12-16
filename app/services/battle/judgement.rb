@@ -1,5 +1,4 @@
 class Battle::Judgement
-
   include Virtus.model
 
   attribute :params, Hash

@@ -60,6 +60,7 @@ resources :users
 resources :battles do
   patch :validation, on: :member
   patch :judgement, on: :member
+  get :end_battle, on: :member
 end
 
 resources :ability_equippings, only: [:create, :update]

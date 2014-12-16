@@ -4,48 +4,28 @@ class BattlesController < ApplicationController
   before_action :check_energy
   before_action :quest_start, only: :new
   after_action :deduct_energy, only: :create
+  after_action :change_code, only: :end
 
   def new
-    @battle = Battle.new
-    @user = current_user
-    Party.generate(@user)
-    @summoner = current_user.summoner
-    @regions = Region.all.unlocked_regions(@summoner.completed_regions)
-    
     params[:area_filter] ||= session[:area_filter]
     session[:area_filter] = params[:area_filter]
 
-    if Region.find_by_name(session[:area_filter])
-      @map_url = Region.find_by_name(session[:area_filter]).map.url(:cool)
-    else
-      @map_url = @regions.last.map.url(:cool)
-    end
+    new_battle = Battle::New.new(user: current_user, 
+                                 params_area_filter: params[:area_filter],
+                                 params_level_filter: params[:level_filter],
+                                 session_area_filter: session[:area_filter])
+    new_battle.call
 
-    if params[:area_filter]
-      @areas = Area.filter(params[:area_filter]).unlocked_areas(@summoner.completed_areas)
-    elsif session[:area_filter]
-      @areas = Area.filter(session[:area_filter]).unlocked_areas(@summoner.completed_areas)
-    else
-      @areas = Area.where("name = ?", "")
-    end
+    @map_url = new_battle.map_url
+    @regions = new_battle.regions
+    @areas = new_battle.areas
+    @levels = new_battle.levels
+    @battle = new_battle.battle
+    @monsters = new_battle.monsters
+    @summoner = current_user.summoner if current_user
 
-    if params[:level_filter]
-      @levels = BattleLevel.order("id").filter(params[:level_filter]).unlocked_levels(@summoner.beaten_levels)
-    else
-      @levels = BattleLevel.order("id").where("name = ?", "")
-    end
+    unlock_message(@summoner)
 
-    if @summoner.recently_unlocked_level != ""
-      new_level = BattleLevel.find_by_name(@summoner.recently_unlocked_level)
-      area_name = new_level.area_name
-      region_name = new_level.region_name
-      flash.now[:success] = "You have unlocked a new level in #{area_name} of #{region_name}!"
-      @summoner.clear_recent_level
-    end
-
-    if current_user
-      @monsters = @user.parties.first.monster_unlocks
-    end
     if current_user
       respond_to do |format|
         format.html {render :layout => "facebook_landing"}
@@ -54,30 +34,19 @@ class BattlesController < ApplicationController
     end
   end
 
-  def create
-    if current_user.parties[0].battles.count == -1
-      @battle = Battle.new 
-      @battle.battle_level_id = 1000000000000000000000
-      @battle.parties.push(Party.where(name: "ur sister dead")[0])
-      @battle.parties.push(Party.where(name: "me raping ur sister")[0])
+  def create  
+    create_battle = Battle::Create.new(user: current_user,
+                                       summoner: current_user.summoner,
+                                       battle_params: battle_params)
+    create_battle.call
+    @battle = create_battle.battle
+
+    if current_user.summoner.stamina >= @battle.battle_level.stamina_cost
       @battle.save
-      redirect_to @battle
-    else
-      @battle = Battle.new battle_params
-      @user = current_user
-      @battle.parties.push(Party.find_by_user_id(current_user.id))
-      @battle.parties.push(
-        Party.where(user: User.find_by_user_name("NPC")).
-        where(name: @battle.battle_level.name).
-        where(enemy: @user.user_name).last
-        )
-      if current_user.summoner.stamina >= @battle.battle_level.stamina_cost
-        @battle.save
-        redirect_to @battle 
-      else 
-        flash[:warning] = "You don't have enough stamina"
-        redirect_to new_battle_path
-      end
+      redirect_to @battle 
+    else 
+      flash[:warning] = "You don't have enough stamina"
+      redirect_to new_battle_path
     end
   end
 
@@ -123,7 +92,32 @@ class BattlesController < ApplicationController
     render text: judgement.message
   end
 
+  def end
+    respond_to do |format|
+      if @battle.victor != "NPC"
+        format.html {render template: "battles/victory" }
+      else
+        format.html {render template: "battles/defeat" }
+      end
+    end
+  end
+
+
+
   private
+  def unlock_message(summoner)
+    if summoner.recently_unlocked_level != ""
+      new_level = BattleLevel.find_by_name(summoner.recently_unlocked_level)
+      area_name = new_level.area_name
+      region_name = new_level.region_name
+      flash.now[:success] = "You have unlocked a new level in #{area_name} of #{region_name}!"
+      summoner.clear_recent_level
+    end
+  end
+
+  def change_id
+    self.change_code
+  end
 
   def battle_params
     params.require(:battle).permit(:battle_level_id, {party_ids: []})

@@ -1,14 +1,25 @@
 <% if party.npc == false %>
   <div class="monBut">
-    <button class="action attack" data-index= "0" data-apcost = "<%= mon.cost(0) %>" data-target= "attack">Attack</button>
-    <button class="action ability" data-index="1" data-apcost = "<%= mon.cost(1) %>" data-target= "<%= mon.target(1) %>">Ability</button>
+    <p class="mon-name"><%= mon.name %></p>
+    <button class="action attack" data-index= "0" data-apcost = "<%= mon.cost(0) %>" 
+            data-target="attack">
+      <%= image_tag("attack_but.png", size: "40x40", class: "but-image") %>
+    </button>
+    <button class="action ability" data-index="1" data-apcost = "<%= mon.cost(1) %>" 
+            data-target= "<%= mon.target(1) %>">
+      <%= image_tag("ability_but.png", size: "40x40", class: "but-image") %>
+    </button>
     <% if mon.unlocked_evolves.exists? %>
-      <button class="action evolve" data-apcost = "<%= mon.unlocked_evolves[0].ap_cost %>" data-target = "evolve">Evolve</button>
+      <button class="action evolve" data-apcost = "<%= mon.unlocked_evolves[0].ap_cost %>" 
+              data-target = "evolve">
+        <%= image_tag("change_but.png", size: "40x40", class: "but-image") %>
+      </button>
     <% end %>
   </div>
 <% end %>
 
 <input class="img" src="<%= mon.image(party.user) %>" data-index="<%= party.mon_dex(mon) %>" type="image" alt="monster image">
+<div class="effect-box"></div>
 <p class="dam"><p>
 
 <% if party.npc == false %>
@@ -22,3 +33,17 @@
     </div>
   </div>
 <% end %>
+
+<div class="hp">
+  <%= image_tag("HPBar1px.gif", class: "bar") %>
+</div>
+
+<div class="num">
+  <p class="current-hp"><%= mon.max_hp %></p>
+  <p class="max-hp">/  <%= mon.max_hp %></p>
+  <% if party.npc == true %>
+    <p class="mon-name"><%= mon.name %></p>
+  <% end %>
+</div>
+
+

@@ -3,7 +3,6 @@
 @import "compass";
 
 $theme-background-color: rgba(32, 32, 32, 0.9);
-// @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
 
 @mixin flipped() {
   -moz-transform: scaleX(-1);
@@ -12,6 +11,11 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
   transform: scaleX(-1);
   filter: FlipH;
   -ms-filter: "FlipH";
+};
+
+@mixin stroke() {
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 
+               1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
 };
 
 .turn-end {
@@ -89,7 +93,7 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
 
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////// Mix-in for monster icons
+////////////////////////////////////////////////////////////////////////////////////////////////// Mix-in for monster icons
 @mixin monIcon() {
   position: absolute;
   width: 420px;
@@ -97,102 +101,21 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
 
   .mon {
     display: inline-block;
-    margin-left: 10%;
     height: 130px;
     width: 130px;
     p.dam {
+      @include stroke();
       display: none;
       font-family: 'Sigmar One', cursive;
       color: red;
       font-size: 150%;
     };
     .img {
-      width: 140px;
-      height: 140px;
+      width: 125px;
+      height: 125px;
     };
   };
 };
-
-/////////////////////////////////////////////////////////////////////////////////////////////////// Mix-in for monster info boxes
-@mixin info() {
-  position: absolute;
-  height: 100px;
-  width: 420px;
-  color: white;
-
-  .mon {
-    @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
-    transition: visibility .3s;
-    position: relative;
-    display: inline-block;
-    width: 170px;
-    height: 62px;
-    margin-top: 22px;
-    margin-left: 4px;
-    border-radius: 5px;
-
-    .num {
-      position: absolute;
-      top: 36px;
-      right: 7px;
-      text-align: right;
-    };
-
-
-    p {
-      position: relative;
-      display: inline-block;
-      font-weight: bold;
-      font-size: 85%;
-      text-shadow: 1.5px 1.5px #000000;
-    };
-
-
-    p.max-hp {
-      margin-left: 12px;
-    };
-
-    p.current-hp {
-      margin-right: -10px;
-    };
-
-    .avatar {
-      position: relative;
-      top: -1px;
-      display: inline-block;
-      margin-top: 7px;
-      margin-left: 3px;
-      height: 46px;
-      width: 46px;
-      border-radius: 5px;
-    };
-
-    .hp {
-      display: inline-block;
-      height: 20px;
-      width: 116px;
-      float: left;
-      background-color: black;
-      position: absolute;
-      top: 38px;
-      left: 52px;
-      border-radius: 5px;
-      border: 0px solid;
-      .bar {
-        width: 100%;
-        border-radius: 5px;
-        border: 1px solid black;
-        transition: 0.2s;
-        margin: 0 0 0;
-        height: 100%;
-        position: absolute;
-      };
-    };
-
-  };
-};
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////// Overlay & Battle message
 
@@ -208,14 +131,14 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
   .message {
     color: white;
     position: absolute;
-    transition: opacity 0.5s;
+    transition: opacity 0.4s;
     opacity: 0;
     width: 400px;
     top: 37.5%;
     left: 30%;
     z-index: 1000000000;
     border-radius: 10px;
-    @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+    background: #353434;
   };
 
   .cutscene {
@@ -233,7 +156,7 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
   .next-scene {
     position: absolute;
     opacity: 0;
-    transition: opacity 0.4s;
+    transition: opacity 0.3s;
     z-index: 10;
     top: 282px;
     left: 984px;
@@ -259,7 +182,7 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
   left: 0px;
   width: 155px;
   color: white;
-  @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+  background: #353434;
   margin-bottom: 1px;
   box-shadow: 4px 4px 4px #000000;
 };
@@ -270,12 +193,13 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
 };
 
 .cancel {
-  background: rgba(235, 22, 22, 0.95) !important;
-  border-color: rgba(235, 22, 22, 0.95) !important;
+  background: rgba(235, 0, 22, 0.95) !important;
+  border-color: rgba(235, 0, 22, 0.95) !important;
   box-shadow: 2px 3px 4px #000000;
   border-radius: 5px;
   position: absolute;
   top: 70px;
+  transition: background 0.5s;
 };
 
 .battle-helper {
@@ -332,50 +256,53 @@ body {
     border: 0px;
   };
   .end-turn {
+    @include stroke();
     position: absolute;
-    @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+    background: #3D3C3C;
     height: 50px;
     width: 115px;
-    top: 88%;
+    top: 1%;
     right: 2%;
     font-size: 120%;
     font-weight: bold;
     border-color: $theme-background-color;
     color: white;
     border-radius: 5px;
-  };
-
-  .platform {
-    position: absolute;
-    z-index: -1000;
-    height: 188px;
-    top: 240px;
-    left: 5px;
-    width: 945px;
-    opacity: 0.20;
+    transition: 0.4s;
   };
 
   .ap {
     position: absolute;
     color: white;
-    @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+    background: #3D3C3C;
     height: 50px;
-    width: 155px;
-    top: 88%;
-    left: 66%;
+    width: 208px;
+    top: 1%;
+    left: 60%;
     text-align: center;
     font-size: 120%;
     border-radius: 5px;
+    border: 2px solid black;
+    .baby {
+      position: absolute;
+      border-radius: 5px;
+      top: 2px;
+      left: 5px;
+    };
     .ap-number {
+      @include stroke();
       position: relative;
-      top: 5px;
+      top: 0px;
+      z-index: 1;
+      left: 45px; 
     };
     .ap-meter {
       background: black;
-      width: 140px;
-      height: 17px;
-      margin-top: -5px;
-      margin-left: 7px;
+      width: 150px;
+      height: 20px;
+      position: absolute;
+      left: 52px;
+      top: 23px;
       border-radius: 5px;
       border: 0px;
       .bar {
@@ -385,111 +312,21 @@ body {
         width:  100%;
         float: left;
         border: 1px solid black;
+        transition: 0.4s;
       };
     };
   };
 };
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////// Info boxes
-.user.info {
-  @include info();
-  right: -7%;
-  top: -2.5%;
-  .mon {
-    .effect-box {
-      position: absolute;
-      width: 100px;
-      height: 25px;
-      top: 6px;
-      left: 64px;
-      overflow: scroll;
-      .effect {
-        height: 25px;
-        width: 25px;
-      };
-    };
-  };
-};
-
-.enemy.info {
-  @include info();
-  top: 70%;
-  left: 2%;
-  width: 400px;
-  .mon {
-    width: 130px;
-    height: 76px;
-    margin-top: 18px;
-    .effect-box {
-      position: absolute;
-      height: 25px;
-      width: 125px;
-      top: 5px;
-      left: 3px;
-      .effect {
-        height: 25px;
-        width: 25px;
-      };
-    };
-    .hp {
-      display: inline-block;
-      height: 20px;
-      width: 122px;
-      float: left;
-      top: 50.5px;
-      left: 5px;
-      background-color: black;
-      position: absolute;
-    };
-    .num {
-      position: absolute;
-      text-align: right;
-      top: 49px;
-      left: 10px;
-      .name {
-        position: absolute;
-        right: 2%;
-        bottom: 20px;
-      };
-    };
-  };
-};
-
-.info .mon2, .info .mon3 {
-  position: relative;
-  margin-left: 3px;
-  top: -20px;
-  float: left;
-};
-
-.info .mon.mon1 {
-  margin-left: -1px;
-};
-
-.enemy.info {
-  .mon1 {
-    margin-left: 12px;
-  };
-  .mon3 {
-    margin-left: 16px;
-  };
-};
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////// Enemy Monster icons
 .enemy.mon-slot {
   @include monIcon();
   position: absolute;
-  top: 130px;
-  left: -10px;
-
+  top: 10px;
+  left: 4px;
   .mon {
     position: relative;
-
     p.dam{
       position: absolute;
       top: 60px;
@@ -507,9 +344,6 @@ body {
 };
 
 .enemy.mon-slot {
-  .mon {
-    margin-top: 2%;
-  };
   .monBut {
     display: none;
   };
@@ -525,14 +359,12 @@ body {
   right: -60px;
   width: 530px;
   height: 800px;
-
   .mon {
     position: relative;
     height: 200px;
     width: 400px;
-    margin: -30px -100px -30px;
-
     p.dam{
+      @include stroke();
       position: absolute;
       top: 70px;
       left: 236px;
@@ -541,32 +373,38 @@ body {
   }
 
   .monBut {
+    visibility: hidden;
     display: inline-block;
     width: 80px;
     height: 130px;
-    visibility: hidden;
+    opacity: 0;
     z-index: 2000;
+    transition: 0.25s;
     button {
-      width: 65px;
-      height: 40px;
-      @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+      width: 50px;
+      height: 50px;
+      background: #353434;
+      transition: 0.4s;
       border-color: $theme-background-color;
       border-radius: 5px;
+    };
+    button:hover {
+      background: rgba(8,136,196,1);
     };
   };
 
   .abilityDesc {
-    visibility: hidden;
-    opacity: 0.9;
+    opacity: 0;
+    transition: opacity 0.25s;
     width: 260px;
-    z-index: 6000;
+    z-index: -1;
     border-color: black;
-    @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+    background: #353434;
     span p {
       display: inline;
     };
     .pan {
-      @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
+      background: #353434;
       border-color: black;
       color: white !important;
       padding: 3px 4px 6px;
@@ -583,15 +421,26 @@ body {
 .mon {
   .abilityDesc {
     position: absolute;
-    top: 25px;
-    left: -130px;
+    top: 21px;
+    left: -113px;
   };
 
   .monBut {
     position: absolute;
-    top: 24px;
-    left: 132px;
+    top: 20px;
+    left: 149px;
     color: white;
+    .mon-name {
+      @include stroke();
+      position: absolute;
+      top: -22px;
+      left: 2px;
+      width: 250px;
+    };
+    .but-image {
+      position: relative;
+      left:  -3px;
+    };
   };
 
   .img{
@@ -612,33 +461,167 @@ body {
 };
 
 .cancel:hover {
-  background: rgba(250, 30, 30, 1) !important;
-  border-color: rgba(250, 30, 30, 1) !important;
+  background: rgba(250, 40, 30, 1) !important;
+  border-color: rgba(250, 40, 30, 1) !important;
 };
 
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////// Effect-box css
-.effect-info {
-  width: 220px;
-  opacity: 0.9;
-  position: absolute;
-  visibility: hidden;
-  .panel-body, .panel-heading {
-    @include background-image(linear-gradient(top,  #606060 0%,#131313 100%));
-    border-color: black;
+//////////////////////////////////////////////////////////////////////////////////////////////////// Monster info element size
+.mon-slot {
+  .hp {
+    width: 115px;
+    height: 20px;
+    background: black;
     border-radius: 5px;
-    color: white !important;
+    border: 2px solid black;
+    position: relative;
+    .bar {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      top: -3px;
+      left: 0px;
+      border-radius: 5px;
+      transition: 0.4s;
+    };
+  };
+  .num {
+    position: relative;
+    p {
+      @include stroke();
+      color: white;
+      font-size: 90%;
+      text-align: right;
+      width: 50px;
+      position: relative
+    };
   };
 };
 
-.user.effect-info {
-  left: 375px;
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////// User monster info element positions
+.user.mon-slot {
+  .hp {
+    left: 202px;
+    top: 141px;
+    .bar {
+    };
+  };
+  .num {
+    left: 218px;
+    top: 121px;
+    .current-hp {
+      left: -9px;
+      top: 1.5px;
+    };
+    .max-hp {
+      left: 43px;
+      top: -26.2px;
+    };
+  };
+};
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////// PC monster info element positions
+.enemy.mon-slot {
+  .hp {
+    top: 122px;
+    left: 9px;
+  };
+  .num {
+    top: 103px;
+    left: 9px;
+    .mon-name {
+      position: absolute;
+      top: -147px;
+      left: 0px;
+      text-align: left;
+      width: 250px;
+    };
+    .current-hp {
+      left: 8px;
+    };
+    .max-hp {
+      top: -28px;
+      left: 60px;
+    };
+  };
+};
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////// Effect css
+.effect-box {
+  height: 124px;
+  width: 60px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  .effect {
+    height: 30px;
+    width: 30px;
+    float: left;
+    border-radius: 5px;
+  };
+};
+
+.enemy .effect-box {
+  left: -47px;
   top: 8px;
 };
 
-.enemy.effect-info {
-  top: 438px;
-  left: 314px;
+.user .effect-box {
+  left: 326px;
+  top: 26px;
 };
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////// Individual mon positions
+.user {
+  .mon0{
+    top: -19px;
+    left: -170px;
+  };
+  .mon1 {
+    left: -46px;
+    top: -320px;
+  };
+  .mon2 {
+    top: -298px;
+    left: -49px;
+  };
+  .mon3 {
+    top: -602px;
+    left: 104px;
+  };
+};
+
+.enemy {
+  .mon0 {
+    top: 137px;
+    left: 336px;
+  };
+  .mon1 {
+    top: 13px;
+    left: 89px;
+  };
+  .mon2 {
+    top: 304px;
+    left: -25px;
+  };
+  .mon3 {
+    left: 65px;
+    top: 31px;
+  };
+};
+
+
+
+
+
+
 

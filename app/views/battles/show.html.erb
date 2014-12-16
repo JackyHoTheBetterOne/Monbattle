@@ -4,6 +4,8 @@
   <source src="/sounds/battle_song.mp3" type="audio/mpeg">
 </audio>
 
+
+
 <div id="overlay">
   <div class="panel-body message">
     Click anywhere to 
@@ -11,6 +13,8 @@
   <%= image_tag(@battle.battle_level.start_cut_scenes[0], class: "cutscene") %>
   <%= image_tag("right_arrow.jpg", class: "next-scene") %>
 </div>
+
+
 
 <div class="battle" data-index="<%= @battle.id %>" id="battle">
   <div class="panel-body battle-message">
@@ -26,25 +30,7 @@
 
   </div>
 
-
-  <%= image_tag("platform.jpg", class: "platform") %>
   <img class="ability-img" src="" type="image" alt="monster abiltiy">
-
-  <div class="0 user info">
-    <% @user_party.mons.each do |mon| %>
-      <div class="mon mon<%= @user_party.mon_dex(mon) %>" data-index="<%= @user_party.mon_dex(mon)%>">
-        <div class="effect-box"></div>
-        <%= render :partial => "userTeamInfo", :locals => { :mon => mon, party: @user_party }  %>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="0 user effect-info panel panel-default">
-    <div class="panel-body">
-      Effect description
-    </div>
-    <div class="panel-heading">Effect name</div>
-  </div>
 
   <div class="0 user mon-slot" id="control-tip" data-team="0">
     <% @user_party.mons.each do |mon| %>
@@ -54,12 +40,6 @@
     <% end %>
   </div>
 
-
-<!-- Joy Ride -->
-
-
-  <div id="first-stop"></div>
-
   <div class="1 enemy mon-slot" id="tutorial-end" data-team="1">
     <% @pc_party.mons.each do |mon| %>
       <div class="mon mon<%= @pc_party.mon_dex(mon) %>" data-index="<%= @pc_party.mon_dex(mon) %>">
@@ -68,25 +48,8 @@
     <% end %>
   </div>
 
-  <div id="last-stop"></div>
-
-  <div class="1 enemy info">
-    <% @pc_party.mons.each do |mon| %>
-      <div class="mon mon<%= @pc_party.mon_dex(mon) %>" data-index="<%= @pc_party.mon_dex(mon) %>">
-        <div class="effect-box"></div>
-        <%= render :partial => "pcTeamInfo", :locals => {:mon => mon}  %>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="1 enemy effect-info panel panel-default">
-    <div class="panel-body">
-      Effect description
-    </div>
-    <div class="panel-heading">Effect name</div>
-  </div>
-
   <div class="ap" id="ap-tip">
+    <%= image_tag("hero-icon.png", size: "42x42", class: "baby")%>
     <p class="ap-number">AP:   1000 / 1000 </p>
     <div class="ap-meter">
       <%= image_tag("APBar1px.gif", class: "bar") %>
@@ -94,8 +57,20 @@
   </div>
 
   <button class="end-turn" id="end-turn-tip">End Turn</button>
-
 </div>
+
+
+
+
+
+
+
+
+<!-- Joy Ride -->
+
+<div id="first-stop"></div>
+
+<div id="last-stop"></div>
 
 <ol id="battle-tutorial" hidden>
   <li data-id="first-stop">This is your party. You control each monster by clicking on their image.</li>
