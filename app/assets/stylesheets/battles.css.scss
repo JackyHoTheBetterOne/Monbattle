@@ -111,8 +111,8 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
       font-size: 150%;
     };
     .img {
-      width: 125px;
-      height: 125px;
+      width: 110px;
+      height: 110px;
     };
   };
 };
@@ -337,7 +337,7 @@ body {
     .img {
       @include flipped();
       position: absolute;
-      top: 1px;
+      top: 20px;
       left: 14px;
     };
   };
@@ -433,8 +433,8 @@ body {
     .mon-name {
       @include stroke();
       position: absolute;
-      top: -22px;
-      left: 2px;
+      top: -2px;
+      left: 56px;
       width: 250px;
     };
     .but-image {
@@ -445,8 +445,8 @@ body {
 
   .img{
     position: absolute;
-    top: 20px;
-    left: 200px;
+    top: 39px;
+    left: 204px;
     z-index: 5000;
     border-color: transparent;
     outline: 0;
@@ -535,9 +535,9 @@ body {
     left: 9px;
     .mon-name {
       position: absolute;
-      top: -147px;
-      left: 0px;
-      text-align: left;
+      top: -128px;
+      left: -138px;
+      text-align: right;
       width: 250px;
     };
     .current-hp {
@@ -583,39 +583,39 @@ body {
 ///////////////////////////////////////////////////////////////////////////////////////////// Individual mon positions
 .user {
   .mon0{
-    top: -19px;
-    left: -170px;
+    top: 103px;
+    left: -126px;
   };
   .mon1 {
-    left: -46px;
-    top: -320px;
+    left: -105px;
+    top: -250px;
   };
   .mon2 {
-    top: -298px;
-    left: -49px;
+    top: -234px;
+    left: 56px;
   };
   .mon3 {
-    top: -602px;
-    left: 104px;
+    top: -590px;
+    left: 80px;
   };
 };
 
 .enemy {
   .mon0 {
-    top: 137px;
-    left: 336px;
+    top: 257px;
+    left: 315px;
   };
   .mon1 {
-    top: 13px;
-    left: 89px;
+    top: 104px;
+    left: 114px;
   };
   .mon2 {
-    top: 304px;
-    left: -25px;
+    top: 321px;
+    left: -140px;
   };
   .mon3 {
-    left: 65px;
-    top: 31px;
+    left: 48px;
+    top: 36px;
   };
 };
 

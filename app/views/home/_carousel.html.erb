@@ -1,33 +1,27 @@
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
     <% @notices.each do |n| %>
-      <% if @notices.index(n) == 0 %>
-        <li data-target="#myCarousel" data-slide-to="<%= @notices.index(n) %>" class="active"></li>
-      <% else %>
-        <li data-target="#myCarousel" data-slide-to="<%= @notices.index(n) %>" class=""></li>
-      <% end %>
+      <li data-target="#myCarousel" data-slide-to="<%= @notices.index(n) + 1 %>" class=""></li>
     <% end %>
   </ol>
   <div class="carousel-inner" role="listbox">
+    <div class="item active">
+      <%= image_tag("default-banner.png") %>
+      <div class="container">
+        <div class="carousel-caption">
+        </div>
+      </div>
+    </div>
     <% @notices.each do |n| %> 
-      <% if @notices.index(n) == 0 %>
-        <div class="item active">
-          <img src="<%= n.banner.url(:cool)%>">
-          <div class="container">
-            <div class="carousel-caption">
-            </div>
+      <div class="item">
+        <img src="<%= n.banner.url(:cool) %>">
+        <div class="container">
+          <div class="carousel-caption">
           </div>
         </div>
-      <% else %>
-        <div class="item">
-          <img src="<%= n.banner.url(:cool) %>">
-          <div class="container">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-      <% end %>
+      </div>
     <% end %>
   </div>
   <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
