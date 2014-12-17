@@ -1,7 +1,7 @@
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class=""></li>
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
     <% @notices.each do |n| %>
       <li data-target="#myCarousel" data-slide-to="<%= @notices.index(n) + 1 %>" class=""></li>
     <% end %>
