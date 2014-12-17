@@ -14,7 +14,7 @@ class Battle < ActiveRecord::Base
   before_save :generate_code
 
   scope :find_matching_date, -> (date, party) {
-    joins(:fights).where(updated_on: date, "fights.party_id" => party.id)
+    joins(:fights).where(updated_at: date, "fights.party_id" => party.id)
   }
 
   scope :find_battles_on_date, -> (date) {

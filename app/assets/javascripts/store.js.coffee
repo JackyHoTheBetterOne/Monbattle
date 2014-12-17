@@ -3,10 +3,10 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $(document).on "mouseover", ".king-roll", ->
-    $(this).attr("src", "../assets/summon-button-mouseover.png")
-  $(document).on "mouseleave", ".king-roll", ->
-    $(this).attr("src", "../assets/summon-button.png")
+  # $(document).on "mouseover", ".king-roll", ->
+  #   $(this).attr("src", "../assets/summon-button-mouseover.png")
+  # $(document).on "mouseleave", ".king-roll", ->
+  #   $(this).attr("src", "../assets/summon-button.png")
 
   $.ajax 
     url: "/store"
