@@ -36,7 +36,9 @@ class HomeController < ApplicationController
     session[:selected_notice] = params[:selected_notice]
     if Notice.find_by_title(params[:selected_notice])
       @notice = Notice.find_by_title(params[:selected_notice])
-    else
+    elsif @notices.count == 0
+      @notice = nil
+    else 
       @notice = @notices[0]
     end
     p
