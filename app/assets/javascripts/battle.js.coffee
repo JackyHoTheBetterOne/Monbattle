@@ -7,9 +7,12 @@ window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
     if @hp <= 0
       setTimeout (->
-        $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp .bar").css({"width": "0%"})
-        $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300).remove()
-      ), 750
+        $("p.dam, .bar").promise().done ->
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").fadeOut(300).remove()
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").fadeOut(300).remove()
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300).remove()
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").fadeOut(300).remove()
+      ), 800
       return false
     else
       return true
@@ -984,7 +987,6 @@ window.controlAI = (monIndex) ->
         topMove = targetPosition.top - currentPosition.top
         leftMove = targetPosition.left - currentPosition.left - 60
         action()
-        checkMax()
         singleTargetAbilityDisplayVariable()
         currentMon.finish().animate(
           "left": "+=" + leftMove.toString() + "px"
@@ -1002,7 +1004,6 @@ window.controlAI = (monIndex) ->
           showDamageSingle()
           hpChangeBattle()
           checkMonHealthAfterEffect()
-          zetBut()
           ), 1100
       when "targetenemy"
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
@@ -1015,7 +1016,6 @@ window.controlAI = (monIndex) ->
         abilityAnime.css(targetPosition)
         abilityAnime.finish().attr("src", callAbilityImg).toggleClass "flipped ability-on", ->
           action()
-          checkMax()
           if targetMon.css("display") isnt "none"
             if enemyHurt.isAlive() is false
               targetMon.effect("explode", {pieces: 30}, 1000).hide()
@@ -1028,7 +1028,6 @@ window.controlAI = (monIndex) ->
             checkMonHealthAfterEffect()
             element.toggleClass "flipped ability-on"
             element.attr("src", "")
-            zetBut()
             return
           ), 1200
           return
@@ -1038,7 +1037,6 @@ window.controlAI = (monIndex) ->
         currentMon.effect("bounce", {distance: 50, times: 1}, 800)
         abilityAnime = $(".ability-img")
         multipleAction()
-        checkMax()
         multipleTargetAbilityDisplayVariable()
         $(".ability-img").toggleClass "aoePositionUser", ->
           element = $(this)
@@ -1054,8 +1052,7 @@ window.controlAI = (monIndex) ->
             element.attr("src", "")
             showDamageTeam(0)
             hpChangeBattle()
-            checkMonHealthAfterEffect()
-            zetBut()
+            checkMonHealthAfterEffect()            
             return
           ), 1200
           return
@@ -1066,7 +1063,6 @@ window.controlAI = (monIndex) ->
         abilityAnime = $(".ability-img")
         checkMin()
         multipleAction()
-        checkMax()
         multipleTargetAbilityDisplayVariable()
         $(".ability-img").toggleClass "aoePositionFoe", ->
           element = $(this)
@@ -1083,11 +1079,10 @@ window.controlAI = (monIndex) ->
             showHealTeam(1) if ability.stat isnt "cleanse"
             hpChangeBattle()
             checkMonHealthAfterEffect()
-            zetBut()
             return
           ), 1200
           return
-      when "targetally"
+      when "targetally"     
         index = minimumHpPC()
         window.targets = [1].concat [monIndex, abilityIndex, index]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
@@ -1098,7 +1093,6 @@ window.controlAI = (monIndex) ->
         singleHealTargetAbilityDisplayVariable()
         abilityAnime.css(targetPosition)
         action()
-        checkMax()
         abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
           targetMon.effect "bounce",
             distance: 100
@@ -1110,8 +1104,7 @@ window.controlAI = (monIndex) ->
             element.toggleClass "ability-on"
             element.attr("src", "")
             hpChangeBattle()
-            checkMonHealthAfterEffect()
-            zetBut()
+            checkMonHealthAfterEffect()            
           ), 1200
 
 ############################################################################################################### AI action happening
@@ -1174,6 +1167,8 @@ window.ai = ->
 $ ->
   window.effectBin = []
   $.ajax if $(".battle").length > 0
+    window.gigSet = undefined
+    window.pafCheck = undefined
     url: "/battles/" + $(".battle").data("index") + ".json"
     dataType: "json"
     method: "get"
@@ -1302,11 +1297,11 @@ $ ->
           monster.index = player.mons.indexOf(monster)
           fixEvolMon(monster, player)
 #################################################################################################################  Battle interaction
-      zetBut()
       window.documentURLObject = window.battle.monAbility.toString() + window.battle.players[0].commandMon.toString() + 
                                                                       window.battle.players[1].commandMon.toString()
       window.feed = ->
         targets.shift()
+      zetBut()
       window.currentBut = undefined
       toggleEnemyClick()
       $(".mon-slot .mon .img, div.mon-slot").each ->

@@ -35,7 +35,7 @@ class Battle::New
     end
 
     if params_level_filter
-      self.levels = BattleLevel.order("id").filter(params_level_filter).unlocked_levels(summoner.beaten_levels)
+      self.levels = BattleLevel.order(:id).filter(params_level_filter).unlocked_levels(summoner.beaten_levels)
     else
       self.levels = []
     end

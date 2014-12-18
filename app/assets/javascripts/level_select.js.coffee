@@ -22,7 +22,7 @@ $ ->
     document.getElementsByClassName("region-select")[index].className += " current-region"
     $(".level-select").promise().done ->
       setTimeout (->
-        $(".map-level").last().trigger("click")
+        $(".map-level").first().trigger("click")
       ), 500
   $(document).on "click.select_level", ".pick-level", ->
     $(this).click(false)

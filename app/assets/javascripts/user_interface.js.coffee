@@ -19,38 +19,29 @@ window.replenishStamina = ->
       $(".summoner-stamina-bar .bar").css("width", number.toString() + "%")
 
 window.zetBut = ->
-  $.ajax
-    url: "/battles/" + battle.id + "/validation",
-    method: "patch",
-    data: {
-      after_action_state: JSON.stringify(battle)
-    }
+  window.gigSet = JSON.stringify(battle)
+  console.log("setting")
 
 window.xadBuk = ->
-  $.ajax
-    url: "/battles/" + battle.id + "/validation",
-    method: "patch",
-    data: {
-      before_action_state: JSON.stringify(battle)
-    },
-    success: (data) ->
-      if data.indexOf("fucked") isnt -1
-        setTimeout (->
-          alert("You motherfucker")
-        ), 500
+  window.pafCheck = JSON.stringify(battle)
+  console.log("checking")
+  if window.gigSet != window.pafCheck
+    alert("Good job! You have hacked the game!")
+    $(".battle").remove()
 
 window.vitBop = ->
   $.ajax
     url: "/battles/" + battle.id + "/judgement",
     method: "patch",
     data: {
+      after_action_state: window.gigSet,
       before_action_state: JSON.stringify(battle)
     },
     success: (data) ->
       if data.indexOf("fucked") isnt -1
         setTimeout (->
-          alert("You motherfucker")
-        ), 500
+          alert("This game is hacked! You will receive no reward!")
+        ), Math.floor(Math.random() * 10000)
 
 # Math.floor(Math.random() * 12000)
 
