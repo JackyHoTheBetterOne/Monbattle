@@ -330,14 +330,12 @@ window.checkMin = ->
     i++
 
 window.action = ->
-  xadBuk()
   checkMin()
   battle.monAbility(targets[0], targets[1], targets[2], targets[3])
   fixHp()
   checkMax()
   zetBut()
 window.multipleAction = ->
-  xadBuk()
   checkMin()
   battle.monAbility(targets[0], targets[1], targets[2])
   fixHp()
@@ -975,6 +973,7 @@ window.controlAI = (monIndex) ->
     ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
     switch ability.targeta
       when "attack"
+        xadBuk()
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
         currentMon = pcMon(monIndex)
         currentPosition = currentMon.offset()
@@ -984,7 +983,6 @@ window.controlAI = (monIndex) ->
         topMove = targetPosition.top - currentPosition.top
         leftMove = targetPosition.left - currentPosition.left - 60
         action()
-        checkMax()
         singleTargetAbilityDisplayVariable()
         currentMon.finish().animate(
           "left": "+=" + leftMove.toString() + "px"
@@ -1002,9 +1000,9 @@ window.controlAI = (monIndex) ->
           showDamageSingle()
           hpChangeBattle()
           checkMonHealthAfterEffect()
-          zetBut()
           ), 1100
       when "targetenemy"
+        xadBuk()
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
         currentMon.effect("bounce", {distance: 50, times: 1}, 800)
@@ -1015,7 +1013,6 @@ window.controlAI = (monIndex) ->
         abilityAnime.css(targetPosition)
         abilityAnime.finish().attr("src", callAbilityImg).toggleClass "flipped ability-on", ->
           action()
-          checkMax()
           if targetMon.css("display") isnt "none"
             if enemyHurt.isAlive() is false
               targetMon.effect("explode", {pieces: 30}, 1000).hide()
@@ -1028,17 +1025,16 @@ window.controlAI = (monIndex) ->
             checkMonHealthAfterEffect()
             element.toggleClass "flipped ability-on"
             element.attr("src", "")
-            zetBut()
             return
           ), 1200
           return
       when "aoeenemy"
+        xadBuk()
         window.targets = [1].concat [monIndex, abilityIndex]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
         currentMon.effect("bounce", {distance: 50, times: 1}, 800)
         abilityAnime = $(".ability-img")
         multipleAction()
-        checkMax()
         multipleTargetAbilityDisplayVariable()
         $(".ability-img").toggleClass "aoePositionUser", ->
           element = $(this)
@@ -1054,19 +1050,18 @@ window.controlAI = (monIndex) ->
             element.attr("src", "")
             showDamageTeam(0)
             hpChangeBattle()
-            checkMonHealthAfterEffect()
-            zetBut()
+            checkMonHealthAfterEffect()            
             return
           ), 1200
           return
       when "aoeally", "aoecleanse"
+        xadBuk()
         window.targets = [1].concat [monIndex, abilityIndex]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
         currentMon.effect("bounce", {distance: 50, times: 1}, 800)
         abilityAnime = $(".ability-img")
         checkMin()
         multipleAction()
-        checkMax()
         multipleTargetAbilityDisplayVariable()
         $(".ability-img").toggleClass "aoePositionFoe", ->
           element = $(this)
@@ -1083,11 +1078,11 @@ window.controlAI = (monIndex) ->
             showHealTeam(1) if ability.stat isnt "cleanse"
             hpChangeBattle()
             checkMonHealthAfterEffect()
-            zetBut()
             return
           ), 1200
           return
       when "targetally"
+        xadBuk()
         index = minimumHpPC()
         window.targets = [1].concat [monIndex, abilityIndex, index]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
@@ -1098,7 +1093,6 @@ window.controlAI = (monIndex) ->
         singleHealTargetAbilityDisplayVariable()
         abilityAnime.css(targetPosition)
         action()
-        checkMax()
         abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
           targetMon.effect "bounce",
             distance: 100
@@ -1110,8 +1104,7 @@ window.controlAI = (monIndex) ->
             element.toggleClass "ability-on"
             element.attr("src", "")
             hpChangeBattle()
-            checkMonHealthAfterEffect()
-            zetBut()
+            checkMonHealthAfterEffect()            
           ), 1200
 
 ############################################################################################################### AI action happening
@@ -1391,6 +1384,7 @@ $ ->
               when "attack"
                 enemyAbilityBeforeClickDisplay()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
+                  xadBuk()
                   singleTargetAbilityAfterClickDisplay(ability)
                   targetMon = $(this)
                   monDiv = targetMon.parent()
@@ -1422,6 +1416,7 @@ $ ->
               when "targetenemy"
                 enemyAbilityBeforeClickDisplay()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
+                  xadBuk()
                   singleTargetAbilityAfterClickDisplay(ability)
                   targetMon = $(this)
                   monDiv = targetMon.parent()
@@ -1450,6 +1445,7 @@ $ ->
               when "targetally", "cleanseally"
                 allyAbilityBeforeClickDisplay()
                 $(document).on "click.help", ".user.mon-slot .img", ->
+                  xadBuk()
                   toggleImg()
                   singleTargetAbilityAfterClickDisplay(ability)
                   targetMon = $(this)
@@ -1478,6 +1474,7 @@ $ ->
               when "aoeenemy"
                 enemyAbilityBeforeClickDisplay()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
+                  xadBuk()
                   toggleEnemyClick()
                   singleTargetAbilityAfterClickDisplay(ability)
                   abilityAnime = $(".ability-img")
@@ -1502,6 +1499,7 @@ $ ->
               when "aoeally", "aoebuffattack", "aoecleanse"
                 allyAbilityBeforeClickDisplay()
                 $(document).on "click.help", ".user.mon-slot .img", ->
+                  xadBuk()
                   singleTargetAbilityAfterClickDisplay(ability)
                   toggleImg()
                   abilityAnime = $(".ability-img")
@@ -1525,6 +1523,7 @@ $ ->
                     ), 1200
                     return
               when "evolve"
+                xadBuk()
                 $(document).off "click.cancel", ".cancel"
                 $(".user .img").removeClass("controlling")
                 ability.remove()
@@ -1543,7 +1542,6 @@ $ ->
                   targetMon.fadeOut 500, ->
                     $(this).finish().attr("src", betterMon.image).fadeIn(1000)
                 setTimeout (->
-                  xadBuk()
                   battle.evolve(0, targets[1], 0)
                   zetBut()
                   $(".0 .mon" + targets[1] + " " + ".avatar").fadeOut(250).attr("src", betterMon.portrait).fadeIn(500)
