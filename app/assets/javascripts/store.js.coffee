@@ -3,10 +3,10 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  # $(document).on "mouseover", ".king-roll", ->
-  #   $(this).attr("src", "../assets/summon-button-mouseover.png")
-  # $(document).on "mouseleave", ".king-roll", ->
-  #   $(this).attr("src", "../assets/summon-button.png")
+  $(document).on "mouseover", ".king-roll", ->
+    $(this).attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button-mouseover.png?X-Amz-Date=20141218T011526Z&X-Amz-Expires=300&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Signature=524d4b9c706e7d922e69054df46c4b9c2bf77e73683e13fae45752478d2e2736&X-Amz-Credential=ASIAIG4NS2BLCT3UE3ZQ/20141218/us-west-2/s3/aws4_request&X-Amz-SignedHeaders=Host&x-amz-security-token=AQoDYXdzEPf//////////wEakAIWBEI6A9pROr7PdR6ccHgciolRwKIIDMRxtbagmDiTztASIfp2C8XWdzjTS6Y/C/ahzb4MbBvlDGfVrkzvCufgucnnstFjpOGGdbRMjeXRw8qA35SJ6JHbpoVF9EWB70hbsnjB6xctheXXn47c56ktO38ZnoiqYlZc1S/A32WaQGZl6a/rrmlPetMlK/Z4sMbten2TCwP9HSZDOZ85zlJEX8hV7ceVMHwzBb%2BgnsUup49uKh6Kp4UA2LoKp2bi7C%2Buod1qOjrgpx/BfEr/snkfd7nJZXFPiFGIaA/HbasC%2Bv3uju4PPtxqXg%2BOb2Vc6nckINx/aoTwC3TxGY4R4cXxQWqk3oL8rpsJSeUog/4CYSC76sekBQ%3D%3D")
+  $(document).on "mouseleave", ".king-roll", ->
+    $(this).attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button.png?X-Amz-Date=20141218T011304Z&X-Amz-Expires=300&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Signature=f44b54274805d7dbd4e043d478524c3c3580bc360f5a50143a1ed8d0b3c68f73&X-Amz-Credential=ASIAIG4NS2BLCT3UE3ZQ/20141218/us-west-2/s3/aws4_request&X-Amz-SignedHeaders=Host&x-amz-security-token=AQoDYXdzEPf//////////wEakAIWBEI6A9pROr7PdR6ccHgciolRwKIIDMRxtbagmDiTztASIfp2C8XWdzjTS6Y/C/ahzb4MbBvlDGfVrkzvCufgucnnstFjpOGGdbRMjeXRw8qA35SJ6JHbpoVF9EWB70hbsnjB6xctheXXn47c56ktO38ZnoiqYlZc1S/A32WaQGZl6a/rrmlPetMlK/Z4sMbten2TCwP9HSZDOZ85zlJEX8hV7ceVMHwzBb%2BgnsUup49uKh6Kp4UA2LoKp2bi7C%2Buod1qOjrgpx/BfEr/snkfd7nJZXFPiFGIaA/HbasC%2Bv3uju4PPtxqXg%2BOb2Vc6nckINx/aoTwC3TxGY4R4cXxQWqk3oL8rpsJSeUog/4CYSC76sekBQ%3D%3D")
 
   $.ajax 
     url: "/store"

@@ -3,7 +3,9 @@
   <ol class="carousel-indicators">
       <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
     <% @notices.each do |n| %>
-      <li data-target="#myCarousel" data-slide-to="<%= @notices.index(n) + 1 %>" class=""></li>
+      <% if n.banner %>
+        <li data-target="#myCarousel" data-slide-to="<%= @notices.index(n) + 1 %>" class=""></li>
+      <% end %>
     <% end %>
   </ol>
   <div class="carousel-inner" role="listbox">
@@ -15,13 +17,15 @@
       </div>
     </div>
     <% @notices.each do |n| %> 
-      <div class="item">
-        <img src="<%= n.banner.url(:cool) %>">
-        <div class="container">
-          <div class="carousel-caption">
+      <% if n.banner %>
+        <div class="item">
+          <img src="<%= n.banner.url(:cool) %>">
+          <div class="container">
+            <div class="carousel-caption">
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
   <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
