@@ -79,7 +79,7 @@ class Battle < ActiveRecord::Base
   end
 
   def quest_update
-    if self.victor && self.loser
+    if self.victor != nil && self.loser != nil
       @victor = Summoner.find_summoner(self.victor)
       @victor_party = @victor.party
       @loser = Summoner.find_summoner(self.loser)

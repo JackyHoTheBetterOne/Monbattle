@@ -330,12 +330,14 @@ window.checkMin = ->
     i++
 
 window.action = ->
+  xadBuk()
   checkMin()
   battle.monAbility(targets[0], targets[1], targets[2], targets[3])
   fixHp()
   checkMax()
   zetBut()
 window.multipleAction = ->
+  xadBuk()
   checkMin()
   battle.monAbility(targets[0], targets[1], targets[2])
   fixHp()
@@ -973,7 +975,6 @@ window.controlAI = (monIndex) ->
     ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
     switch ability.targeta
       when "attack"
-        xadBuk()
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
         currentMon = pcMon(monIndex)
         currentPosition = currentMon.offset()
@@ -1002,7 +1003,6 @@ window.controlAI = (monIndex) ->
           checkMonHealthAfterEffect()
           ), 1100
       when "targetenemy"
-        xadBuk()
         window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
         currentMon.effect("bounce", {distance: 50, times: 1}, 800)
@@ -1029,7 +1029,6 @@ window.controlAI = (monIndex) ->
           ), 1200
           return
       when "aoeenemy"
-        xadBuk()
         window.targets = [1].concat [monIndex, abilityIndex]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
         currentMon.effect("bounce", {distance: 50, times: 1}, 800)
@@ -1055,7 +1054,6 @@ window.controlAI = (monIndex) ->
           ), 1200
           return
       when "aoeally", "aoecleanse"
-        xadBuk()
         window.targets = [1].concat [monIndex, abilityIndex]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
         currentMon.effect("bounce", {distance: 50, times: 1}, 800)
@@ -1081,8 +1079,7 @@ window.controlAI = (monIndex) ->
             return
           ), 1200
           return
-      when "targetally"
-        xadBuk()
+      when "targetally"     
         index = minimumHpPC()
         window.targets = [1].concat [monIndex, abilityIndex, index]
         currentMon = $(".enemy .mon" + monIndex + " " + ".img")
@@ -1167,6 +1164,8 @@ window.ai = ->
 $ ->
   window.effectBin = []
   $.ajax if $(".battle").length > 0
+    window.gigSet = undefined
+    window.pafCheck = undefined
     url: "/battles/" + $(".battle").data("index") + ".json"
     dataType: "json"
     method: "get"
@@ -1295,11 +1294,11 @@ $ ->
           monster.index = player.mons.indexOf(monster)
           fixEvolMon(monster, player)
 #################################################################################################################  Battle interaction
-      zetBut()
       window.documentURLObject = window.battle.monAbility.toString() + window.battle.players[0].commandMon.toString() + 
                                                                       window.battle.players[1].commandMon.toString()
       window.feed = ->
         targets.shift()
+      zetBut()
       window.currentBut = undefined
       toggleEnemyClick()
       $(".mon-slot .mon .img, div.mon-slot").each ->
@@ -1384,7 +1383,6 @@ $ ->
               when "attack"
                 enemyAbilityBeforeClickDisplay()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
-                  xadBuk()
                   singleTargetAbilityAfterClickDisplay(ability)
                   targetMon = $(this)
                   monDiv = targetMon.parent()
@@ -1416,7 +1414,6 @@ $ ->
               when "targetenemy"
                 enemyAbilityBeforeClickDisplay()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
-                  xadBuk()
                   singleTargetAbilityAfterClickDisplay(ability)
                   targetMon = $(this)
                   monDiv = targetMon.parent()
@@ -1445,7 +1442,6 @@ $ ->
               when "targetally", "cleanseally"
                 allyAbilityBeforeClickDisplay()
                 $(document).on "click.help", ".user.mon-slot .img", ->
-                  xadBuk()
                   toggleImg()
                   singleTargetAbilityAfterClickDisplay(ability)
                   targetMon = $(this)
@@ -1474,7 +1470,6 @@ $ ->
               when "aoeenemy"
                 enemyAbilityBeforeClickDisplay()
                 $(document).on "click.boom", ".enemy.mon-slot .img", ->
-                  xadBuk()
                   toggleEnemyClick()
                   singleTargetAbilityAfterClickDisplay(ability)
                   abilityAnime = $(".ability-img")
@@ -1499,7 +1494,6 @@ $ ->
               when "aoeally", "aoebuffattack", "aoecleanse"
                 allyAbilityBeforeClickDisplay()
                 $(document).on "click.help", ".user.mon-slot .img", ->
-                  xadBuk()
                   singleTargetAbilityAfterClickDisplay(ability)
                   toggleImg()
                   abilityAnime = $(".ability-img")
@@ -1523,7 +1517,6 @@ $ ->
                     ), 1200
                     return
               when "evolve"
-                xadBuk()
                 $(document).off "click.cancel", ".cancel"
                 $(".user .img").removeClass("controlling")
                 ability.remove()
@@ -1542,6 +1535,7 @@ $ ->
                   targetMon.fadeOut 500, ->
                     $(this).finish().attr("src", betterMon.image).fadeIn(1000)
                 setTimeout (->
+                  xadBuk()
                   battle.evolve(0, targets[1], 0)
                   zetBut()
                   $(".0 .mon" + targets[1] + " " + ".avatar").fadeOut(250).attr("src", betterMon.portrait).fadeIn(500)
