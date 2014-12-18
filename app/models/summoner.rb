@@ -186,5 +186,3 @@ class Summoner < ActiveRecord::Base
 
 end
 
-# self.name != "admin" || 
-
