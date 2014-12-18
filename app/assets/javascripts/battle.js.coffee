@@ -7,9 +7,12 @@ window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
     if @hp <= 0
       setTimeout (->
-        $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp .bar").css({"width": "0%"})
-        $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300).remove()
-      ), 750
+        $("p.dam, .bar").promise().done ->
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").fadeOut(300).remove()
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").fadeOut(300).remove()
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300).remove()
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").fadeOut(300).remove()
+      ), 800
       return false
     else
       return true
