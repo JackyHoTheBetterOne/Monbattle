@@ -8,10 +8,11 @@ window.fixEvolMon = (monster, player) ->
     if @hp <= 0
       setTimeout (->
         $("p.dam, .bar").promise().done ->
-          $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").fadeOut(300).remove()
-          $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").fadeOut(300).remove()
-          $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300).remove()
-          $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").fadeOut(300).remove()
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".img").css("opacity", "0")
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").css("opacity", "0")
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
       ), 800
       return false
     else
@@ -608,12 +609,12 @@ window.checkMonHealthAfterEffect = ->
   i = 0
   n = playerMonNum
   while i < n
-    $(".0 .mon" + i + " " + ".img").fadeOut(500) if battle.players[0].mons[i].hp <= 0
+    battle.players[0].mons[i].isAlive()
     i++
   i = 0 
   n = pcMonNum
   while i < n
-    $(".1 .mon" + i + " " + ".img").fadeOut(500) if battle.players[1].mons[i].hp <= 0
+    battle.players[1].mons[i].isAlive()
     i++
 
 window.addEffectIcon = (monster, effect) -> 
