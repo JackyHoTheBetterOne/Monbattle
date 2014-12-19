@@ -13,7 +13,7 @@ window.fixEvolMon = (monster, player) ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
-      ), 1500
+      ), 1200
       return false
     else
       return true
@@ -502,12 +502,12 @@ window.damageBoxAnime= (team, target, damage, color) ->
     , 5, ->
       setTimeout (->
         $(".img, .ability-img, .single-ability-img").promise().done ->
-          $(".img, .ability-img, .single-ability-img, p.dam").promise().done ->
+          $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
             setTimeout (->
               $("p.dam").promise().done ->
                 outcome()
-            ), 250
-      ), 250
+            ), 300
+      ), 300
 
 window.showDamageSingle = ->
   damageBoxAnime(enemyHurt.team, enemyHurt.index, ability.modifier + window["change" + enemyHurt.index], "rgba(255, 0, 0)")
