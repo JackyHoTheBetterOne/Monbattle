@@ -86,14 +86,12 @@ class BattlesController < ApplicationController
     render text: judgement.message
   end
 
-  def end
-    respond_to do |format|
-      if @battle.victor != "NPC"
-        format.html {render template: "battles/victory", :layout => false }
-      else
-        format.html {render template: "battles/defeat", :layout => false }
-      end
-    end
+  def win
+    render template: "battles/victory", :layout => false
+  end
+
+  def loss  
+    render template: "battles/defeat", :layout => false
   end
 
 
