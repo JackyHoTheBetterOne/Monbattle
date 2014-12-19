@@ -13,7 +13,7 @@ window.fixEvolMon = (monster, player) ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
-      ), 1200
+      ), 1500
       return false
     else
       return true
@@ -563,7 +563,7 @@ window.outcome = ->
           "loser": battle.players[0].username,
           "round_taken": parseInt(battle.round)
         }
-    ), 500
+    ), 1000
   else if battle.players[1].mons.every(isTeamDead) is true
     $.ajax
       url: "/battles/" + battle.id + "/win"
@@ -583,7 +583,7 @@ window.outcome = ->
           "loser": battle.players[1].username,
           "round_taken": parseInt(battle.round)
         }
-    ), 500
+    ), 1000
     $(document).on "click.cutscene", "#overlay", ->
       if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
         $(".cutscene").hide(500)

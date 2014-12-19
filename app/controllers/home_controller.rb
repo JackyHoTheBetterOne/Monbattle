@@ -92,7 +92,7 @@ class HomeController < ApplicationController
 
   def quest_start
     if current_user
-      @date = Time.now.localtime.to_date
+      @date = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
       @party = current_user.parties[0]
       if Battle.find_matching_date(@date, @party).count == 0
         @party.user.summoner.quest_begin 

@@ -4,7 +4,7 @@
   <%= link_to "Equip Ability", home_index_path, class: "end-battle-but ability-equip" %>
   <%= form_for(Battle.new) do |f|  %>
     <button class="end-battle-but replay" name="battle[battle_level_id]" type="submit" value="<%= @battle.battle_level.id %>">
-      <%= image_tag("restart-icon.png", class: "restart-icon", size: "50x50") %>
+      <%= image_tag("restart-icon-new.png", class: "restart-icon", size: "50x50") %>
     </button>
   <% end %>
   <%= link_to "Battle", new_battle_path, class: "end-battle-but level-select" %>
