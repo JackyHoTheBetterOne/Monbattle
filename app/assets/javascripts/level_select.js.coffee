@@ -23,7 +23,7 @@ $ ->
     $(".level-select").promise().done ->
       setTimeout (->
         $(".map-level").first().trigger("click")
-      ), 500
+      ), 750
   $(document).on "click.select_level", ".pick-level", ->
     $(this).click(false)
 

@@ -8,10 +8,11 @@ window.fixEvolMon = (monster, player) ->
     if @hp <= 0
       setTimeout (->
         $("p.dam, .bar").promise().done ->
-          $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").fadeOut(300).remove()
-          $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").fadeOut(300).remove()
-          $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300).remove()
-          $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").fadeOut(300).remove()
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".img").css("opacity", "0")
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").css("opacity", "0")
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
       ), 800
       return false
     else
@@ -537,15 +538,21 @@ window.showHealTeam = (index) ->
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
+    $.ajax
+      url: "/battles/" + battle.id + "/end"
+      method: "get"
+      success: (response) ->
+        $(".message").html(response)
     vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
-    $(".message").text("You lost, but here's " + battle.reward*0.1 + " MP because we pity you, not. Try harder next time!").
-      append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>").css("opacity", 1)
     setTimeout (->
-      $(".btn.btn-danger").addClass("battle-fin")
+      $(".end-battle-but").addClass("battle-fin")
       ),250
-    $("#overlay").fadeIn(1000)
+    $("#overlay").fadeIn 1000, ->
+      setTimeout (->
+        $(".message").addClass("animated bounceIn")
+      ), 250
     setTimeout (->
       $.ajax
         url: "/battles/" + battle.id
@@ -557,6 +564,11 @@ window.outcome = ->
         }
     ), 500
   else if battle.players[1].mons.every(isTeamDead) is true
+    $.ajax
+      url: "/battles/" + battle.id + "/end"
+      method: "get"
+      success: (response) ->
+        $(".message").html(response)
     vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
@@ -573,13 +585,11 @@ window.outcome = ->
     ), 500
     $(document).on "click.cutscene", "#overlay", ->
       if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
-        $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
-          append("<br/><br/><a href='/battles/new' class='btn btn-success battle-fin'>Continue your journey</a>")
         $(".cutscene").hide(500)
         endCutScene()
         setTimeout (->
-          $(".btn.btn-success").addClass("battle-fin")
-          $(".message").css("opacity", "1")
+          $(".message").addClass("animated bounceIn")
+          $(".end-battle-but").addClass("battle-fin")
         ), 500
       else 
         new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
@@ -591,13 +601,13 @@ window.outcome = ->
       $("#overlay").fadeIn(1000)
       nextSceneInitial()
     else 
-      $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
-        append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
-      $(".message").css("opacity", "1")
       $(".cutscene, .next-scene").css("opacity", "0")
       $(".message").promise().done ->
-        $(".btn.btn-success").addClass("battle-fin")
+        $(".end-battle-but").addClass("battle-fin")
         $("#overlay").fadeIn(1000)
+        setTimeout (->
+          $(".message").addClass("animated bounceIn")
+        ), 1250
       $(document).off "click.cutscene", "#overlay"
 window.checkApAvailbility = ->
   $(".monBut button").each ->
@@ -608,12 +618,12 @@ window.checkMonHealthAfterEffect = ->
   i = 0
   n = playerMonNum
   while i < n
-    $(".0 .mon" + i + " " + ".img").fadeOut(500) if battle.players[0].mons[i].hp <= 0
+    battle.players[0].mons[i].isAlive()
     i++
   i = 0 
   n = pcMonNum
   while i < n
-    $(".1 .mon" + i + " " + ".img").fadeOut(500) if battle.players[1].mons[i].hp <= 0
+    battle.players[1].mons[i].isAlive()
     i++
 
 window.addEffectIcon = (monster, effect) -> 

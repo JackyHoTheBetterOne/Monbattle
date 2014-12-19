@@ -31,7 +31,7 @@ window.xadBuk = ->
 
 window.vitBop = ->
   $.ajax
-    url: "/battles/" + battle.id + "/judgement",
+    url: "/battles/" + battle.id + "/showing",
     method: "patch",
     data: {
       after_action_state: window.gigSet,
@@ -42,8 +42,6 @@ window.vitBop = ->
         setTimeout (->
           alert("This game is hacked! You will receive no reward!")
         ), Math.floor(Math.random() * 10000)
-
-# Math.floor(Math.random() * 12000)
 
 setDonationAmount = ->
   window.money = $(".donation").val().replace(/,/g,'')*100

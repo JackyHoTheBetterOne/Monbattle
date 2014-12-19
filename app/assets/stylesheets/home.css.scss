@@ -88,9 +88,11 @@ $ability-equip-dim: 75px;
 .master-bg {
   @include abs-div(960px, 500px);
   background: $main-bg;
-  left: 0;
+  left: 15px;
   right: 0;
+  top: 86px;
   margin: auto;
+  border-radius: 5px;
 }
 .monster-display {
   @include abs-div(573px, 490px);

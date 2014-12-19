@@ -14,11 +14,11 @@ class Battle < ActiveRecord::Base
   before_save :generate_code
 
   scope :find_matching_date, -> (date, party) {
-    joins(:fights).where(updated_on: date, "fights.party_id" => party.id)
+    joins(:fights).where(updated_at: date, "fights.party_id" => party.id)
   }
 
   scope :find_battles_on_date, -> (date) {
-    where(updated_on: date)
+    where(updated_at: date)
   }
 
   aasm do
@@ -93,7 +93,6 @@ class Battle < ActiveRecord::Base
 
   def distribute_quest_reward
     if self.victor && self.loser
-      self.update_date
       @victor = Summoner.find_summoner(self.victor)
       @loser = Summoner.find_summoner(self.loser)
     end
@@ -150,10 +149,7 @@ class Battle < ActiveRecord::Base
   end
 
   def update_date
-    if current_user
-      self.updated_on = Time.now.localtime.to_date
-      self.save
-    end
+    self.updated_on = Time.now.localtime.to_date
   end
 
   def change_code
