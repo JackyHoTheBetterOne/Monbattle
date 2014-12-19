@@ -12,22 +12,21 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_save :generate_code
+  # before_save :update_date
 
   scope :find_matching_date, -> (date, party) {
-    joins(:fights).where(updated_at: date, "fights.party_id" => party.id)
-  }
-
-  scope :find_battles_on_date, -> (date) {
-    where(updated_at: date)
+    joins(:fights).where(finished: date, "fights.party_id" => party.id)
   }
 
   aasm do
     state :battling, :initial => true
     state :hacked
-    state :complete, :before_enter => :victor_check
-    event :done, :after => :distribute_quest_reward do
+    state :complete, :after_enter => :victor_check
+
+    event :done do
       transitions :from => :battling, :to => :complete
     end
+
     event :ruined do 
       transitions :from => :battling, :to => :hacked
     end
@@ -38,8 +37,10 @@ class Battle < ActiveRecord::Base
   def to_finish
     if self.aasm_state == "battling" && self.is_hacked == false
       self.done
+      self.save
     elsif self.is_hacked == true
       self.ruined
+      self.save
     end
   end
 
@@ -51,7 +52,6 @@ class Battle < ActiveRecord::Base
     else
       give_reward
     end
-    self.quest_update
   end
 
   def give_reward
@@ -76,29 +76,29 @@ class Battle < ActiveRecord::Base
     end
     @victorious_summoner.save
     self.battle_level.unlock_for_summoner(@victorious_summoner)
+    self.quest_update
   end
 
   def quest_update
-    if self.victor != nil && self.loser != nil
-      @victor = Summoner.find_summoner(self.victor)
-      @victor_party = @victor.party
-      @loser = Summoner.find_summoner(self.loser)
-      @loser_party = @loser.party
-      @victor.check_quest
-      @loser.check_quest
-      @victor.add_daily_battle(self.id)
-      @loser.add_daily_battle(self.id)
-    end
+    @victor = Summoner.find_summoner(self.victor)
+    @loser = Summoner.find_summoner(self.loser)
+    @victor.check_quest
+    @loser.check_quest
+    @victor.add_daily_battle(self.id)
+    @loser.add_daily_battle(self.id)
+    @victor.save
+    @loser.save
+    self.distribute_quest_reward
   end
 
   def distribute_quest_reward
-    if self.victor && self.loser
-      @victor = Summoner.find_summoner(self.victor)
-      @loser = Summoner.find_summoner(self.loser)
-    end
+    @victor = Summoner.find_summoner(self.victor)
+    @loser = Summoner.find_summoner(self.loser)
     @victor.get_achievement
     @victor.get_login_bonus_for_wins
     @loser.get_achievement
+    @victor.save
+    @loser.save
   end
 
 
@@ -149,7 +149,9 @@ class Battle < ActiveRecord::Base
   end
 
   def update_date
-    self.updated_on = Time.now.localtime.to_date
+    if self.created_at
+      self.finished = self.created_at.in_time_zone("Pacific Time (US & Canada)").to_date
+    end
   end
 
   def change_code

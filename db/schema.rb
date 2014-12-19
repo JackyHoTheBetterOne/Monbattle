@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141215040918) do
+ActiveRecord::Schema.define(version: 20141219070514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,18 @@ ActiveRecord::Schema.define(version: 20141215040918) do
   add_index "ability_effects", ["ability_id"], name: "index_ability_effects_on_ability_id", using: :btree
   add_index "ability_effects", ["effect_id"], name: "index_ability_effects_on_effect_id", using: :btree
 
+  create_table "ability_equippings", force: true do |t|
+    t.integer  "ability_id"
+    t.integer  "monster_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
+  add_index "ability_equippings", ["ability_id"], name: "index_ability_equippings_on_ability_id", using: :btree
+  add_index "ability_equippings", ["monster_id"], name: "index_ability_equippings_on_monster_id", using: :btree
+  add_index "ability_equippings", ["user_id"], name: "index_ability_equippings_on_user_id", using: :btree
+
   create_table "ability_purchases", force: true do |t|
     t.integer  "ability_id"
     t.integer  "user_id"
@@ -105,6 +117,13 @@ ActiveRecord::Schema.define(version: 20141215040918) do
 
   add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
 
+  create_table "backgrounds", force: true do |t|
+    t.string   "name"
+    t.string   "image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "battle_levels", force: true do |t|
     t.integer  "exp_given"
     t.datetime "created_at"
@@ -123,7 +142,7 @@ ActiveRecord::Schema.define(version: 20141215040918) do
     t.text     "description"
     t.text     "victory_message"
     t.text     "ability_reward",          default: [], array: true
-    t.integer  "stamina_cost",            default: 0
+    t.integer  "stamina_cost"
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
@@ -140,10 +159,10 @@ ActiveRecord::Schema.define(version: 20141215040918) do
     t.string   "victor"
     t.string   "loser"
     t.string   "aasm_state"
-    t.date     "updated_on"
     t.text     "after_action_state"
     t.text     "before_action_state"
     t.boolean  "is_hacked",           default: true
+    t.date     "finished"
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
@@ -337,6 +356,20 @@ ActiveRecord::Schema.define(version: 20141215040918) do
 
   add_index "monster_skins", ["rarity_id"], name: "index_monster_skins_on_rarity_id", using: :btree
 
+  create_table "monster_templates", force: true do |t|
+    t.integer  "max_hp"
+    t.integer  "max_sp"
+    t.integer  "max_lvl"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "class_template_id"
+    t.integer  "element_template_id"
+    t.string   "name"
+  end
+
+  add_index "monster_templates", ["class_template_id"], name: "index_monster_templates_on_class_template_id", using: :btree
+  add_index "monster_templates", ["element_template_id"], name: "index_monster_templates_on_element_template_id", using: :btree
+
   create_table "monster_unlocks", force: true do |t|
     t.integer  "user_id"
     t.integer  "monster_id"
@@ -437,8 +470,8 @@ ActiveRecord::Schema.define(version: 20141215040918) do
     t.boolean  "is_active",          default: true
     t.string   "bonus"
     t.integer  "reward_amount"
-    t.datetime "end_date",           default: '2015-11-24 06:45:56'
-    t.datetime "refresh_date",       default: '2015-11-24 06:45:56'
+    t.datetime "end_date",           default: '2015-11-20 20:00:42'
+    t.datetime "refresh_date",       default: '2015-11-20 20:00:42'
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "quest_type_id"
@@ -526,7 +559,7 @@ ActiveRecord::Schema.define(version: 20141215040918) do
     t.integer  "stamina",                      default: 100
     t.integer  "level",                        default: 1
     t.integer  "seconds_left_for_next_energy"
-    t.datetime "last_update_for_energy",       default: '2014-12-09 21:13:37'
+    t.datetime "last_update_for_energy",       default: '2014-12-08 22:10:30'
     t.text     "completed_areas",              default: [],                    array: true
     t.text     "completed_regions",            default: [],                    array: true
     t.string   "recently_unlocked_level",      default: ""
