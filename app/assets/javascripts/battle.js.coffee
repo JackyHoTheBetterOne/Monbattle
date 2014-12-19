@@ -13,7 +13,7 @@ window.fixEvolMon = (monster, player) ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
-      ), 800
+      ), 1500
       return false
     else
       return true
@@ -539,7 +539,7 @@ window.showHealTeam = (index) ->
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
     $.ajax
-      url: "/battles/" + battle.id + "/end"
+      url: "/battles/" + battle.id + "/loss"
       method: "get"
       success: (response) ->
         $(".message").html(response)
@@ -548,7 +548,7 @@ window.outcome = ->
     document.getElementById('battle').style.pointerEvents = 'none'
     setTimeout (->
       $(".end-battle-but").addClass("battle-fin")
-      ),250
+      ), 250
     $("#overlay").fadeIn 1000, ->
       setTimeout (->
         $(".message").addClass("animated bounceIn")
@@ -565,7 +565,7 @@ window.outcome = ->
     ), 500
   else if battle.players[1].mons.every(isTeamDead) is true
     $.ajax
-      url: "/battles/" + battle.id + "/end"
+      url: "/battles/" + battle.id + "/win"
       method: "get"
       success: (response) ->
         $(".message").html(response)
