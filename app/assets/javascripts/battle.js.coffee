@@ -671,6 +671,7 @@ window.battleStartDisplay = (time) ->
 
 ################################################################################################### Display function-calling helpers
 window.singleTargetAbilityAfterClickDisplay = (ability) ->
+  offUserTargetClick()
   turnOff("click.boom", ".enemy")
   turnOff("click.help", ".user")
   $(document).off "click.cancel", ".cancel"
@@ -688,6 +689,7 @@ window.singleTargetAbilityAfterActionDisplay = ->
   flashEndButton()
 
 window.allyAbilityBeforeClickDisplay = ->
+  userTargetClick()
   $(".battle-guide.guide").text("Select an ally target to activate")
   $(".battle-guide").show()
   turnOffCommandA()
@@ -720,6 +722,17 @@ window.multipleTargetAbilityDisplayVariable = ->
 
 
 ################################################################################################### Battle interaction helpers
+window.userTargetClick = ->
+  $(document).on("mouseover.friendly", ".user.mon-slot .img", ->
+    $(this).css("background", "rgba(255, 241, 118, .58)")
+  ).on "mouseleave.friendly", ".user.mon-slot .img", ->
+    $(this).css("background", "transparent")
+
+
+window.offUserTargetClick = ->
+  $(document).off "mouseover.friendly", ".user.mon-slot .img"
+  $(document).off "mouseleave.friendly", ".user.mon-slot .img"
+
 window.endCutScene = ->
   $(document).off "click.cutscene", "#overlay"
   $(".cutscene").css("opacity", "0")
@@ -1317,6 +1330,13 @@ $ ->
       zetBut()
       window.currentBut = undefined
       toggleEnemyClick()
+      $(document).on("mouseover", ".enemy.mon-slot .img", ->
+        if $(this).attr("disabled") isnt "disabled"
+          $(this).css("background", "rgba(255, 241, 118, .58)")
+          $(this).parent().children(".num").children(".mon-name").css("opacity", 1)
+        ).on "mouseleave", ".enemy.mon-slot .img", ->
+          $(this).css("background", "transparent")
+          $(this).parent().children(".num").children(".mon-name").css("opacity", 0)
       $(".mon-slot .mon .img, div.mon-slot").each ->
         $(this).data "position", $(this).offset()
         return
@@ -1378,6 +1398,7 @@ $ ->
           $(".user .monBut").css({"visibility":"hidden", "opacity":"0"})
           toggleImg()
           $(document).on "click.cancel",".cancel", ->
+            offUserTargetClick()
             $(".user .img").removeClass("controlling")
             $(".battle-guide").hide()
             $(".end-turn").prop("disabled", false)

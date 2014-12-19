@@ -37,9 +37,8 @@ class Ability < ActiveRecord::Base
   validates :stat_change, presence: {message: 'Must be entered'}, numericality: {only_integer: true}
   validates :abil_socket_id, presence: {message: 'Must be entered'}
   validates :rarity_id, presence: {message: 'Must be entered'}
-  # validates :mp_cost, numericality: {greater_than_or_equal_to: 0}
-  # validates :gp_cost, numericality: {greater_than_or_equal_to: 0}
-
+  validates :mp_cost, numericality: {greater_than_or_equal_to: 0}
+  validates :gp_cost, numericality: {greater_than_or_equal_to: 0}
   # validates :min_level, presence: {message: 'Must be entered'}
 
   delegate :name, to: :ability_equipping, prefix: true

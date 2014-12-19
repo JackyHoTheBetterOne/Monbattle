@@ -18,6 +18,13 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
                1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
 };
 
+.animate-flipper {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+};
+
 .turn-end {
   background: rgba(109,201,106,0.65) !important;
   border-color: rgba(109,201,106,0.65) !important;
@@ -113,7 +120,7 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
     .img {
       width: 110px;
       height: 110px;
-      transition: opacity 0.3s;
+      transition: opacity 0.3s, background 0.3s;
     };
   };
 };
@@ -207,7 +214,7 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
   width: 150px;
   height: 300px;
   position: absolute;
-  top: 255px;
+  top: 134px;
   left: 400px;
 };
 
@@ -446,13 +453,14 @@ body {
     };
   };
 
-  .img{
+  .img {
     position: absolute;
     top: 39px;
     left: 204px;
     z-index: 5000;
     border-color: transparent;
     outline: 0;
+    border-radius: 5px;
   };
 };
 
@@ -540,10 +548,12 @@ body {
     left: 9px;
     .mon-name {
       position: absolute;
-      top: -128px;
+      top: -132px;
       left: -138px;
       text-align: right;
       width: 250px;
+      transition: opacity 0.3s;
+      opacity: 0;
     };
     .current-hp {
       left: 8px;
