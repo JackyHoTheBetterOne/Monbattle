@@ -551,6 +551,7 @@ window.outcome = ->
       ), 250
     $("#overlay").fadeIn 1000, ->
       setTimeout (->
+        $(".next-scene").remove()
         $(".message").addClass("animated bounceIn")
       ), 250
     setTimeout (->
@@ -588,6 +589,7 @@ window.outcome = ->
         $(".cutscene").hide(500)
         endCutScene()
         setTimeout (->
+          $(".next-scene").remove()
           $(".message").addClass("animated bounceIn")
           $(".end-battle-but").addClass("battle-fin")
         ), 500
@@ -606,6 +608,7 @@ window.outcome = ->
         $(".end-battle-but").addClass("battle-fin")
         $("#overlay").fadeIn(1000)
         setTimeout (->
+          $(".next-scene").remove()
           $(".message").addClass("animated bounceIn")
         ), 1250
       $(document).off "click.cutscene", "#overlay"
