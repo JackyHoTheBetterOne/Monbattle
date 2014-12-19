@@ -17,6 +17,7 @@ class BattlesController < ApplicationController
     new_battle.call
 
     @map_url = new_battle.map_url
+    @current_region = new_battle.current_region
     @regions = new_battle.regions
     @areas = new_battle.areas
     @levels = new_battle.levels

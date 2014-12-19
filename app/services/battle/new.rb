@@ -12,6 +12,7 @@ class Battle::New
   attribute :levels, BattleLevel
   attribute :monsters, Monster
   attribute :map_url
+  attribute :current_region
 
   def call
     self.battle = Battle.new
@@ -22,8 +23,10 @@ class Battle::New
 
     if Region.find_by_name(session_area_filter)
       self.map_url = Region.find_by_name(session_area_filter).map.url(:cool)
+      self.current_region = session_area_filter
     else
       self.map_url = regions.last.map.url(:cool)
+      self.current_region = regions.last.name
     end
 
     if params_area_filter
@@ -36,7 +39,7 @@ class Battle::New
 
     if params_level_filter
       self.levels = BattleLevel.order(:id).filter(params_level_filter).unlocked_levels(summoner.beaten_levels)
-    else
+    elsif 
       self.levels = []
     end
 

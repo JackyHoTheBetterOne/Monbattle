@@ -1,4 +1,7 @@
 $ ->
+  if window.location.href.indexOf("battles/new") isnt -1
+    region_name = document.getElementsByClassName("map-image")[0].getAttribute("data-region")
+    document.getElementById(region_name).className += " current-region"
   $(document).on "click.filter_levels", ".map-level", ->
     area_index = $(".map-level").index($(this))
     console.log(area_index)
