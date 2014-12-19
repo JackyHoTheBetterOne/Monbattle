@@ -558,6 +558,11 @@ window.outcome = ->
         }
     ), 500
   else if battle.players[1].mons.every(isTeamDead) is true
+    $.ajax
+      url: "/battles/" + battle.id + "/end"
+      method: "get"
+      success: (response) ->
+        $(".message").html(response)
     vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
@@ -574,13 +579,11 @@ window.outcome = ->
     ), 500
     $(document).on "click.cutscene", "#overlay", ->
       if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
-        $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
-          append("<br/><br/><a href='/battles/new' class='btn btn-success battle-fin'>Continue your journey</a>")
         $(".cutscene").hide(500)
         endCutScene()
         setTimeout (->
-          $(".btn.btn-success").addClass("battle-fin")
-          $(".message").css("opacity", "1")
+          $(".message").addClass("animated bounceIn")
+          $(".end-battle-but").addClass("battle-fin")
         ), 500
       else 
         new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
@@ -592,13 +595,13 @@ window.outcome = ->
       $("#overlay").fadeIn(1000)
       nextSceneInitial()
     else 
-      $(".message").text("You won" + " " + battle.reward + " " + "MP! " + "Go kill more monsters!").
-        append("<br/><br/><a href='/battles/new' class='btn btn-success'>Continue your journey</a>")
-      $(".message").css("opacity", "1")
       $(".cutscene, .next-scene").css("opacity", "0")
       $(".message").promise().done ->
         $(".btn.btn-success").addClass("battle-fin")
         $("#overlay").fadeIn(1000)
+        setTimeout (->
+          $(".message").addClass("animated bounceIn")
+        ), 1250
       $(document).off "click.cutscene", "#overlay"
 window.checkApAvailbility = ->
   $(".monBut button").each ->

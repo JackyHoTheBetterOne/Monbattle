@@ -58,9 +58,8 @@ resources :battle_levels
 resources :users
 
 resources :battles do
-  patch :validation, on: :member
-  patch :judgement, on: :member
-  get :end_battle, on: :member
+  patch :showing, on: :member
+  get :end, on: :member
 end
 
 resources :ability_equippings, only: [:create, :update]

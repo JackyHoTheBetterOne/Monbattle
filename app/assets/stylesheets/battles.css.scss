@@ -135,11 +135,11 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
     transition: opacity 0.4s;
     opacity: 0;
     width: 400px;
-    top: 37.5%;
-    left: 30%;
+    top: 7.5%;
+    left: 26%;
     z-index: 1000000000;
     border-radius: 10px;
-    background: #353434;
+    background: transparent;
   };
 
   .cutscene {
@@ -409,6 +409,7 @@ body {
       border-color: black;
       color: white !important;
       padding: 3px 4px 6px;
+      border: none;
     };
     .panel-body {
       font-size: 90%;

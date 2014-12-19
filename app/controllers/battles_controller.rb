@@ -2,9 +2,9 @@ class BattlesController < ApplicationController
   before_action :find_battle, except: [:create, :index, :new]
   impressionist :unique => [:controller_name, :action_name, :session_hash]
   before_action :check_energy
-  before_action :quest_start, only: :new
+  before_action :quest_start
   after_action :deduct_energy, only: :create
-  after_action :change_code, only: :end
+  # after_action :change_id, only: :end
 
   def new
     params[:area_filter] ||= session[:area_filter]
@@ -80,13 +80,7 @@ class BattlesController < ApplicationController
     end
   end
 
-  def validation
-    validation = Battle::Validation.new(battle: @battle, params: validation_params)
-    validation.call
-    render text: validation.message
-  end
-
-  def judgement
+  def showing
     judgement = Battle::Judgement.new(battle: @battle, params: validation_params)
     judgement.call
     render text: judgement.message
@@ -95,7 +89,7 @@ class BattlesController < ApplicationController
   def end
     respond_to do |format|
       if @battle.victor != "NPC"
-        format.html {render template: "battles/victory" }
+        format.html {render template: "battles/victory", :layout => false }
       else
         format.html {render template: "battles/defeat" }
       end
