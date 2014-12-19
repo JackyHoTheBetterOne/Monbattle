@@ -538,15 +538,21 @@ window.showHealTeam = (index) ->
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
+    $.ajax
+      url: "/battles/" + battle.id + "/end"
+      method: "get"
+      success: (response) ->
+        $(".message").html(response)
     vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
-    $(".message").text("You lost, but here's " + battle.reward*0.1 + " MP because we pity you, not. Try harder next time!").
-      append("<br/><br/><a href='/battles/new' class='btn btn-danger'>Avenge your time</a>").css("opacity", 1)
     setTimeout (->
-      $(".btn.btn-danger").addClass("battle-fin")
+      $(".end-battle-but").addClass("battle-fin")
       ),250
-    $("#overlay").fadeIn(1000)
+    $("#overlay").fadeIn 1000, ->
+      setTimeout (->
+        $(".message").addClass("animated bounceIn")
+      ), 250
     setTimeout (->
       $.ajax
         url: "/battles/" + battle.id
@@ -597,7 +603,7 @@ window.outcome = ->
     else 
       $(".cutscene, .next-scene").css("opacity", "0")
       $(".message").promise().done ->
-        $(".btn.btn-success").addClass("battle-fin")
+        $(".end-battle-but").addClass("battle-fin")
         $("#overlay").fadeIn(1000)
         setTimeout (->
           $(".message").addClass("animated bounceIn")

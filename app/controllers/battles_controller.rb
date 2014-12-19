@@ -91,7 +91,7 @@ class BattlesController < ApplicationController
       if @battle.victor != "NPC"
         format.html {render template: "battles/victory", :layout => false }
       else
-        format.html {render template: "battles/defeat" }
+        format.html {render template: "battles/defeat", :layout => false }
       end
     end
   end

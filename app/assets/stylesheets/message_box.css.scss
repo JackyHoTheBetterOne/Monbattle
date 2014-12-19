@@ -2,7 +2,6 @@
   top: 312px !important;
 };
 
-
 .end-battle-box {
   position: relative;
   width: 540px;
@@ -19,6 +18,8 @@
     position: absolute;
     border-radius: 5px;
     top: 312px;
+    border: 2px solid black;
+    outline: none;
   };
   .end-battle-but.ability-equip {
     left: 119px;
@@ -51,4 +52,23 @@
   };
 };
 
+.end-battle-box.loser {
+  background: url("https://s3-us-west-2.amazonaws.com/monbattle/images/defeat-screen-blank.png");
+  .exp-earned {
+    top: 190px;
+  };
+  .ability-earned {
+    top: 234px;
+  };
+  .level-select {
+    left: 356px;
+  };
+  .ability-equip {
+    left: 64px;
+  };
+  .replay {
+    position: absolute;
+    left: 208px;
+  };
+};
 

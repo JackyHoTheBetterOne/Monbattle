@@ -11,14 +11,14 @@ class Battle < ActiveRecord::Base
   has_many :parties, through: :fights
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
-  before_save :generate_code, :update_date
+  before_save :generate_code
 
   scope :find_matching_date, -> (date, party) {
-    joins(:fights).where(updated_on: date, "fights.party_id" => party.id)
+    joins(:fights).where(updated_at: date, "fights.party_id" => party.id)
   }
 
   scope :find_battles_on_date, -> (date) {
-    where(updated_on: date)
+    where(updated_at: date)
   }
 
   aasm do
