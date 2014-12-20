@@ -8,6 +8,11 @@ window.setEnergy = ->
     replenishStamina()
     window.staminaTimer = setInterval(replenishStamina, 301000)
   ), energy_seconds*1000
+  window.questTimer = setInterval(setQuestTimer, 1000)
+  if window.location.href.indexOf("battles/new") isnt -1
+    region_name = document.getElementsByClassName("map-image")[0].getAttribute("data-region")
+    document.getElementById(region_name).className += " current-region"
+    console.log("Fixed")
     
 
 window.replenishStamina = ->
@@ -94,20 +99,14 @@ $ ->
   $(document).on "click", ".for-real, .close-quest, .quest-close-footer", ->
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
       $(".quest-show").parent().removeClass("active")
-  $(document).on "click.quest", ".fb-nav :not('.quest-show')", ->
+  $(document).on "click.quest", ".fb-nav :not('.quest-show'), .back-to-select", ->
     setTimeout (->
       setEnergy()
-      window.questTimer = setInterval(setQuestTimer, 1000)
-      if window.location.href.indexOf("battles/new") isnt -1
-        region_name = document.getElementsByClassName("map-image")[0].getAttribute("data-region")
-        document.getElementById(region_name).className += " current-region"
-        console.log("Fixed")
       console.log("sup")
     ), 700
   $(document).on "click.fix", ".battle-fin, .party_edit_button", ->
     setTimeout (->
       setEnergy()
-      window.questTimer = setInterval(setQuestTimer, 1000)
       console.log("sup")
     ), 1000
 

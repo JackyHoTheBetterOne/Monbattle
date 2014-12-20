@@ -3,6 +3,7 @@
     .top-section
       .party-title
         p Party Members
+      = link_to "Level Select", new_battle_path, class: "back-to-select"
       .party-pane-frames
         -4.times do
           .party-member-frame.shadowed2
