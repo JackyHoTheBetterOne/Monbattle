@@ -42,6 +42,7 @@ get "/cannot" => "home#illegal_access", as: :illegal
 get "/home" => "home#index", as: :battle_preparation
 get "/store" => "home#store", as: :device_store
 get "/landing" => "home#facebook", as: :home_sweet_home
+get "/forum" => "home#forum", as: :home_forum
 
 
 root 'home#facebook'

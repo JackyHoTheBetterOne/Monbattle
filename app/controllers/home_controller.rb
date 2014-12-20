@@ -42,7 +42,6 @@ class HomeController < ApplicationController
     else 
       @notice = @notices[0]
     end
-    p
   end
 
   def level_select
@@ -83,6 +82,11 @@ class HomeController < ApplicationController
       redirect_to device_store_path
     end
   end
+
+  def forum
+    render template: "home/forum"
+  end
+
 
   private
 

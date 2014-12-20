@@ -1,1 +1,0 @@
-<%= seconds_to_time((Time.now.end_of_day - Time.now).to_i) %>
