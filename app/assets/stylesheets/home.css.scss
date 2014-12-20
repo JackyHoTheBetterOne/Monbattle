@@ -111,6 +111,22 @@ $ability-equip-dim: 75px;
   top: 0;
   left: 0;
   margin: $top-margin $middle-margin $divide-margin $left-margin;
+  .back-to-select {
+    position: absolute;
+    left: 267px;
+    top: 5px;
+    text-decoration: none;
+    z-index: 10;
+    background: #4B4B4B;
+    width: 97px;
+    padding-left: 3.5px;
+    border: 2px solid black;
+    border-radius: 5px;
+    transition: background 0.5s;
+  };
+  .back-to-select:hover {
+    background: #0D47A1;
+  };
   .party-title {
     height: 30px;
     p {
