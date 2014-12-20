@@ -578,6 +578,7 @@ body {
   flex-wrap: wrap;
   transition: opacity 0.3s;
   .effect {
+    z-index: 9000;
     height: 30px;
     width: 30px;
     float: left;
@@ -586,11 +587,14 @@ body {
 };
 
 .enemy .effect-box {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
   left: -47px;
   top: 8px;
-  .effect {
-    float: right;
-  };
 };
 
 .user .effect-box {
