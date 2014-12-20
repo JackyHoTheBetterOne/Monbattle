@@ -3,7 +3,7 @@
     <%= link_to a.name, new_battle_path(level_filter: a.name), remote: true, 
         class: "btn btn-primary map-level #{a.region_name}", id: a.name.delete(" ") %>
   <% end %>
-  <%= image_tag(@map_url, class: "map-image") %>
+  <%= image_tag(@map_url, class: "map-image", data: {region: @current_region}) %>
 </div>
 
 <div class="level-description">

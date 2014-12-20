@@ -98,6 +98,10 @@ $ ->
     setTimeout (->
       setEnergy()
       window.questTimer = setInterval(setQuestTimer, 1000)
+      if window.location.href.indexOf("battles/new") isnt -1
+        region_name = document.getElementsByClassName("map-image")[0].getAttribute("data-region")
+        document.getElementById(region_name).className += " current-region"
+        console.log("Fixed")
       console.log("sup")
     ), 700
   $(document).on "click.fix", ".battle-fin, .party_edit_button", ->

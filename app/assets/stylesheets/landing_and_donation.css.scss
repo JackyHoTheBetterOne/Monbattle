@@ -48,7 +48,7 @@
 };
 
 a.fb-nav {
-  padding: 8px 12px !important;
+  padding: 9px 0px !important;
   border: 2px solid black;
   z-index: 100;
   transition: background 0.4s;
@@ -142,6 +142,10 @@ a.fb-nav:hover {
     font-size: 50%;
     width: 65px;
     top: -8px;
+  };
+  .current-stamina {
+    left: 2px;
+    position: relative;
   };
   .mp-icon {
     position: absolute;
