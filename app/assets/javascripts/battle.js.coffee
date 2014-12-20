@@ -80,7 +80,8 @@ window.fixEvolMon = (monster, player) ->
           effect = a.effects[i]
           switch effect.targeta
             when "taunt", "poison-hp", "timed-phy-resist-buff", "timed-phy-resist-debuff"
-                  , "timed-spe-resist-buff", "timed-spe-resist-debuff", "shield", "curse-aoe"
+                  , "timed-spe-resist-buff", "timed-spe-resist-debuff", "shield", "aoe-curse"
+                  , "help-curse", "atk-curse"
               effect.activate abilitytargets
             when "timed-atk-buff"
               i = 0 
