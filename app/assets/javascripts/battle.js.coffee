@@ -671,6 +671,7 @@ window.battleStartDisplay = (time) ->
 
 ################################################################################################### Display function-calling helpers
 window.singleTargetAbilityAfterClickDisplay = (ability) ->
+  $(".img").css("background", "transparent")
   offUserTargetClick()
   turnOff("click.boom", ".enemy")
   turnOff("click.help", ".user")
