@@ -8,6 +8,7 @@
     .mon-thumb
       =image_tag(mon.mon_portrait(@user))
   p #{mon.name}
+  p #{mon.job.name}
   p HP: #{mon.max_hp}
 .mon-equipped1.shadowed2.btn
   =render partial: "abils_for_mon", locals: {mon: mon, socket: 1, class_info: "equip-link", link_info: ""}

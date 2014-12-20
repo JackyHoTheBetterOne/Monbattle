@@ -286,7 +286,7 @@ body {
     height: 50px;
     width: 208px;
     top: 1%;
-    left: 60%;
+    left: 63%;
     text-align: center;
     font-size: 120%;
     border-radius: 5px;
@@ -588,6 +588,9 @@ body {
 .enemy .effect-box {
   left: -47px;
   top: 8px;
+  .effect {
+    float: right;
+  };
 };
 
 .user .effect-box {
@@ -637,7 +640,20 @@ body {
 };
 
 
-
+////////////////////////////////////////////////////////////////////////////////////////// Retarded effect box
+.effect-info {
+  position: absolute;
+  top: 93px;
+  left: 383px;
+  width: 224px;
+  opacity: 0;
+  transition: background 0.3s;
+  .panel-body {
+    font-size: 85%;
+    padding-top: 10px;
+    height: 60px;
+  };
+};
 
 
 
