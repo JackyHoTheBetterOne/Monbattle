@@ -18,8 +18,8 @@
           </li>
         <% end %>
         <% if current_user %>
-          <li class="<%= 'active' if current_page?(new_charge_path) %> pull-right fb-nav forum">
-            <a href="http://monbattle.boards.net/" target="_blank" class="fb-nav">Forum</a>
+          <li class="<%= 'active' if current_page?(home_forum_path) %> pull-right fb-nav forum">
+            <%= link_to "Forum", home_forum_path, class: "fb-nav" %>
           </li>
           <li class="<%= 'active' if current_page?(device_store_path) %> pull-right fb-nav">
             <%= link_to "Shop", device_store_path, class: "fb-nav" %>

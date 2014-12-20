@@ -80,7 +80,8 @@ window.fixEvolMon = (monster, player) ->
           effect = a.effects[i]
           switch effect.targeta
             when "taunt", "poison-hp", "timed-phy-resist-buff", "timed-phy-resist-debuff"
-                  , "timed-spe-resist-buff", "timed-spe-resist-debuff", "shield", "curse-aoe"
+                  , "timed-spe-resist-buff", "timed-spe-resist-debuff", "shield", "aoe-curse"
+                  , "help-curse", "atk-curse"
               effect.activate abilitytargets
             when "timed-atk-buff"
               i = 0 
@@ -671,6 +672,7 @@ window.battleStartDisplay = (time) ->
 
 ################################################################################################### Display function-calling helpers
 window.singleTargetAbilityAfterClickDisplay = (ability) ->
+  $(".img").css("background", "transparent")
   offUserTargetClick()
   turnOff("click.boom", ".enemy")
   turnOff("click.help", ".user")
@@ -763,17 +765,17 @@ window.nextScene = ->
   ), 1800
 
 window.mouseOverMon = ->
-  $(this).prev().css "visibility", "visible"
-  $(this).addClass("controlling")
-  $(this).prev().css "opacity", "1"
-  mon = $(this).closest(".mon").data("index")
-  team = $(this).closest(".mon-slot").data("team")
-  window.currentMon = $(this)
-  window.targets = [
-    team
-    mon
-  ]
-  return
+  if $(this).css("opacity") isnt "0"
+    $(this).prev().css "visibility", "visible"
+    $(this).addClass("controlling")
+    $(this).prev().css "opacity", "1"
+    mon = $(this).closest(".mon").data("index")
+    team = $(this).closest(".mon-slot").data("team")
+    window.currentMon = $(this)
+    window.targets = [
+      team
+      mon
+    ]
 
 window.mouseLeaveMon = ->
   $(".user .monBut").css({"opacity":"0", "visibility":"hidden"})
