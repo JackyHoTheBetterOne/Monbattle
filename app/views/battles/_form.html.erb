@@ -11,7 +11,10 @@
     <% @levels.each do |level| %> 
       <button class="pick-level" id= "<%= level.name.delete(' ') %>" 
         name="battle[battle_level_id]" type="submit" value="<%= level.id %>">
-          <span class="level-name"><%= level.name %> - <%=level.stamina_cost%> Stamina</span>
+          <span class="level-name">
+            <span class="name"><%= level.name %></span>
+            <span class="staminacon"><%= image_tag("stamina.png", size: "25x25") %> <%=level.stamina_cost%></span>
+          </span>
           <br/>
           <div class="level-desc">
             It's my life. It wont last forever. I aint gonna live forever. I just wanna live my life.

@@ -157,6 +157,18 @@
       left: 15px;
       font-size: 120%;
       font-weight: bold;
+      width: 306px;
+      span.name {
+        float: left;
+      };
+      span.staminacon {
+        float: right;
+        position: relative;
+      };
+      img {
+        position: relative;
+        top: -2px;
+      };
     };
     .level-desc {
       position: absolute;

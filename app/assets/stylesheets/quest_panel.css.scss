@@ -68,20 +68,26 @@
     .quest-reward {
       text-align: left;
       position: absolute;
-      top: 40px;
+      top: 38px;
       width: 50%;
-      left: 132px;
+      left: 135px;
+      img {
+        height: 22px;
+        top: -2px;
+        position: relative;
+        left: 4px;
+      };
     };
     .quest-time {
       text-align: left;
       position: absolute;
       left: 40px;
-      top: 40px;
+      top: 39.5px;
     };
     .quest-clock {
       height: 16px;
       position: absolute;
-      top: 41px;
+      top: 40px;
       left: 12px;
     };
   };
