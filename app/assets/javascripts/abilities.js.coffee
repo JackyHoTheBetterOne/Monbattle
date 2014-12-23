@@ -18,6 +18,3 @@ $ ->
   $(document).on "click", ".row-2-on, .add-rem-effects-on, .show-jobs-on, .show-edit-effects-on, .change-jobs-on, .edit-images-on", ->
     targ = $(this).attr("id")
     $("." + targ).show()
-
-  $(".ability-equip-job-filter").change ->
-    console.log("fuck this shit")

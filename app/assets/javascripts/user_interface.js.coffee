@@ -13,7 +13,11 @@ window.setEnergy = ->
     region_name = document.getElementsByClassName("map-image")[0].getAttribute("data-region")
     document.getElementById(region_name).className += " current-region"
     console.log("Fixed")
-    
+
+window.setNewAbilityArray = ->
+  setTimeout (->
+    window.newAbilities.length = 0 if window.location.href.indexOf("home") isnt -1
+  ), 6000
 
 window.replenishStamina = ->
   if document.getElementById("current-stamina") isnt null
@@ -76,6 +80,7 @@ window.setQuestTimer = ->
     $(this).text(time)
 
 $ ->
+  window.newAbilities = [] if typeof window.newAbilities is "undefined"
   number = parseInt($(".current-stamina").text())
   setEnergy()
   $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
@@ -100,11 +105,13 @@ $ ->
       $(".quest-show").parent().removeClass("active")
   $(document).on "click.quest", ".fb-nav :not('.quest-show'), .back-to-select", ->
     setTimeout (->
+      setNewAbilityArray()
       setEnergy()
       console.log("sup")
     ), 700
   $(document).on "click.fix", ".battle-fin, .party_edit_button", ->
     setTimeout (->
+      setNewAbilityArray()
       setEnergy()
       console.log("sup")
     ), 1000

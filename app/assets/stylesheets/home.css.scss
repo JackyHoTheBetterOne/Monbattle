@@ -90,9 +90,10 @@ $ability-equip-dim: 75px;
   background: $main-bg;
   left: 15px;
   right: 0;
-  top: 86px;
+  top: -15px;
   margin: auto;
   border-radius: 5px;
+  position: relative;
 }
 .monster-display {
   @include abs-div(573px, 490px);

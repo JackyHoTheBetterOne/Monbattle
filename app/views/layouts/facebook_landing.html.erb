@@ -84,24 +84,35 @@
         <% end %>
       </ul>
     </nav>
-    <% flash.each do |type, message| %>
-      <% if type == "notice" %>
-        <div class="alert alert-success fade in" role="alert">
-          <button type="button" class="close" data-dismiss="alert"><span aria-hclassden="true">×</span><span class="sr-only">Close</span></button>
-          <%= message %>
-        </div>
-      <% elsif type == "alert" %>
-        <div class="alert alert-warning fade in" role="alert">
-          <button type="button" class="close" data-dismiss="alert"><span aria-hclassden="true">×</span><span class="sr-only">Close</span></button>
-          <%= message %>
-        </div>
-      <% else %>
-        <div class="alert alert-<%= type %> fade in" role="alert">
-          <button type="button" class="close" data-dismiss="alert"><span aria-hclassden="true">×</span><span class="sr-only">Close</span></button>
-          <%= message %>
-        </div>
+    <div class="flash-bank">
+      <% flash.each do |type, message| %>
+        <% if type == "notice" %>
+          <div class="alert alert-success fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">×</span>
+              <span class="sr-only">Close</span>
+            </button>
+            <%= message %>
+          </div>
+        <% elsif type == "alert" %>
+          <div class="alert alert-warning fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">×</span>
+              <span class="sr-only">Close</span>
+            </button>
+            <%= message %>
+          </div>
+        <% else %>
+          <div class="alert alert-<%= type %> fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">×</span>
+              <span class="sr-only">Close</span>
+            </button>
+            <%= message %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
     <div class="for-real">
       <%= yield %>
     </div>

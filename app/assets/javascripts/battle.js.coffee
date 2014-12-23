@@ -571,6 +571,10 @@ window.outcome = ->
       method: "get"
       success: (response) ->
         $(".message").html(response)
+        if $(".ability-earned").text() isnt ""
+          sentence = "You have earned " + $(".ability-earned").text() + ". Available Class(es): " + 
+                     $(".ability-earned").data("class") + ". Edit your team to equip the ability!" 
+          newAbilities.push(sentence)
     vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
