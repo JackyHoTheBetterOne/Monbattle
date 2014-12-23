@@ -1365,6 +1365,10 @@ $ ->
         else
           ability = battle.players[0].mons[targets[1]].abilities[$(this).data("index")]
           description.children(".panel-heading").text ability.name
+          if ability.targeta is "attack"
+            description.children("span.damage-type").text "Physical"
+          else
+            description.children("span.damage-type").text "Special"
           description.children(".panel-body").html ability.description
           description.children(".panel-footer").children("span").children(".d").text ability.change
           description.children(".panel-footer").children("span").children(".a").text "AP: " + ability.ap_cost

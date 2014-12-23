@@ -78,7 +78,6 @@ window.setQuestTimer = ->
 $ ->
   number = parseInt($(".current-stamina").text())
   setEnergy()
-  window.questTimer = setInterval(setQuestTimer, 1000)
   $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
   $(".donation-action").hide()
   $(document).on "keyup", ".donation", ->
