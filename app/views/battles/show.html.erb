@@ -1,8 +1,8 @@
 <%= javascript_include_tag "jquery.joyride-2.1" %>
 
-<audio controls loop class="hide">
+<!-- <audio controls loop class="hide">
   <source src="/sounds/battle_song.mp3" type="audio/mpeg">
-</audio>
+</audio> -->
 
 
 
@@ -11,7 +11,7 @@
     Click anywhere to 
   </div>
   <%= image_tag(@battle.battle_level.start_cut_scenes[0], class: "cutscene") %>
-  <%= image_tag("right_arrow.jpg", class: "next-scene") %>
+  <%= image_tag("story-arrow.png", class: "next-scene") %>
 </div>
 
 
@@ -22,12 +22,10 @@
   </div>
 
   <div class="battle-helper">
-
     <div class="panel-body battle-guide guide">
       I will help you
     </div>
     <button class="battle-guide cancel">Cancel</button>
-
   </div>
 
   <img class="ability-img" src="" type="image" alt="monster abiltiy">

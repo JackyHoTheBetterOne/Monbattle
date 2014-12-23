@@ -49,7 +49,7 @@ window.fixEvolMon = (monster, player) ->
             ii = 0 
             while ii < monTarget.poisoned.length
               e = monTarget.poisoned[ii]
-              delete monTarget.poisoned(ii)  if e.impact.indexOf("-") isnt -1
+              delete monTarget.poisoned(ii) if e.impact.indexOf("-") isnt -1
               removeEffectIcon(monTarget, e) 
               ii++
             i3 = 0
@@ -680,6 +680,7 @@ window.singleTargetAbilityAfterClickDisplay = (ability) ->
   $(document).off "click.cancel", ".cancel"
   $(".user .img").removeClass("controlling")
   $(".battle-guide").hide()
+  $(".battle-guide").css("z-index", "-1")
 
 window.singleTargetAbilityAfterActionDisplay = ->
   apChange()
@@ -701,6 +702,7 @@ window.allyAbilityBeforeClickDisplay = ->
 window.enemyAbilityBeforeClickDisplay = ->
   $(".battle-guide.guide").text("Select an enemy target to activate")
   $(".battle-guide").show()
+  $(".battle-guide").css("z-index", "15000")
   toggleEnemyClick()
   turnOffCommandA()
 
@@ -1291,6 +1293,7 @@ $ ->
           damageBoxAnime(0, targets[1], "+" + added_hp.toString(), "rgba(50,205,50)")
           monDiv = ".0 .mon" + targets[1].toString()
           $(monDiv + " " + ".max-hp").text("/" + " " + better_mon.max_hp)
+          $(monDiv + " " + ".mon-name").text(better_mon.name)
           $(monDiv + " " + ".attack").data("apcost", evolved_mon.abilities[0].ap_cost)
           $(monDiv + " " + ".ability").data("target", evolved_mon.abilities[1].targeta)
           $(monDiv + " " + ".ability").data("apcost", evolved_mon.abilities[1].ap_cost)
@@ -1358,7 +1361,7 @@ $ ->
             )
           description.children(".panel-footer").children("span").children(".d").text "HP: +" + added_hp
           description.children(".panel-footer").children("span").children(".a").text "AP: " + better_mon.ap_cost
-          description.css({"z-index": "6000", "opacity": "0.9"})
+          description.css({"z-index": "11000", "opacity": "0.9"})
         else
           ability = battle.players[0].mons[targets[1]].abilities[$(this).data("index")]
           description.children(".panel-heading").text ability.name
@@ -1578,7 +1581,6 @@ $ ->
                   xadBuk()
                   battle.evolve(0, targets[1], 0)
                   zetBut()
-                  $(".0 .mon" + targets[1] + " " + ".avatar").fadeOut(250).attr("src", betterMon.portrait).fadeIn(500)
                   abilityAnime.toggleClass "ability-on"
                   abilityAnime.attr("src", "")
                   apChange()

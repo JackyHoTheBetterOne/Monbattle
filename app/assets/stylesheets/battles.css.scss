@@ -177,7 +177,6 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
 .battle-message, .battle-guide {
   text-align: center;
   position: absolute;
-  z-index: 100;
   width: 300px;
   top: 2%;
   left: 2%;
@@ -408,6 +407,11 @@ body {
     z-index: -1;
     border-color: black;
     background: #353434;
+    .sword-icon {
+      height: 22px;
+      position: relative;
+      top: -3px;
+    };
     span p {
       display: inline;
     };
@@ -612,7 +616,7 @@ body {
   };
   .mon1 {
     left: -105px;
-    top: -250px;
+    top: -255px;
   };
   .mon2 {
     top: -234px;

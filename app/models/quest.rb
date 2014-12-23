@@ -22,6 +22,15 @@ class Quest < ActiveRecord::Base
     end
   }
 
+  def self.available_quests(user)
+    array = []
+    Quest.all.each do |q|
+      array << q if q.is_active && user.summoner.check_completed_daily_quest(q.name) 
+    end
+    return array.length
+  end
+
+
   def type
     self.quest_type.name
   end
