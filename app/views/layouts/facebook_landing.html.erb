@@ -12,6 +12,9 @@
     <nav class="navbar mon-front" role="navigation">
       <ul class="nav nav-pills main-nav" class="navigation">
         <%= link_to image_tag("monbattle-logo.png", class: "navbar-logo"), home_sweet_home_path %>
+        <% if Quest.available_quests(current_user) > 0  %>
+          <%= image_tag("quest-warning.png", class: "quest-warning") %>
+        <% end %>
         <% if !user_signed_in? %>
           <li class="pull-right fb-nav sign-in">
             <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), 
@@ -25,7 +28,7 @@
           <li class="<%= 'active' if current_page?(device_store_path) %> pull-right fb-nav">
             <%= link_to "Shop", device_store_path, class: "fb-nav" %>
           </li>
-          <li class="<%= 'active' if current_page?(new_battle_path) || current_page?(home_index_path) || 
+          <li class="<%= 'active' if current_page?(new_battle_path) || current_page?(home_index_path) ||
                       request.original_url.include?("battles") %>
                      pull-right fb-nav" class="party-setup">
             <%= link_to "Battle", new_battle_path, class: "fb-nav" %>
