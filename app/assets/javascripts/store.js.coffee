@@ -8,14 +8,6 @@ $ ->
   $(document).on "mouseleave", ".king-roll", ->
     $(this).attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button.png")
 
-  $.ajax 
-    url: "/store"
-    method: "get"
-    dataType: "json"
-    error: ->
-      alert("Cannot get the latest abilities")
-    success: (response) ->
-      window.latest_abilities = response
   $(document).on "click", ".king-roll", ->
     $.ajax 
       url: "/home/roll_treasure"

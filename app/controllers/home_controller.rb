@@ -7,6 +7,7 @@ class HomeController < ApplicationController
   def index
     @monster_unlocks = @user.monster_unlocks
     @base_mons = @monster_unlocks.base_mons(@user)
+    @monster_list = @base_mons
     @members = @user.parties.first.members
     @abilities = Ability.includes(:ability_purchases).includes(:abil_socket).
                  includes(:jobs).abilities_purchased(@user).alphabetical
@@ -14,6 +15,15 @@ class HomeController < ApplicationController
       render layout: "facebook_landing"
     end
   end
+
+  def equip_filter
+    @monster_list = current_user.monster_unlocks.search(params[:keyword])
+                             .base_mons(current_user)
+    respond_to do |format|
+      format.js
+    end
+  end
+
 
   def abilities_for_mon
     @mon = MonsterUnlock.find params[:mon]

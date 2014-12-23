@@ -12,11 +12,18 @@ class MonsterUnlock < ActiveRecord::Base
                                     uniqueness: {scope: :user_id}
   validates :user_id, presence: {message: 'Must be entered'}
 
+  scope :search, -> (keyword) {
+    if keyword.present?
+      joins(:monster).where("monsters.keywords LIKE ?", 
+                            "%#{keyword.downcase}%")
+    end
+  }
+
 ##############################
   after_create :default_equips
   before_destroy :clear_ability_purchase
 
-  scope :lvl1_evolves, -> { joins(:job).where('job')}
+  scope :lvl1_evolves, -> {joins(:job).where('job')}
 
   def find_abil_purchases_in_socket(socket_num)
     ability_purchases.find_ability_purchases_for_socket(socket_num)

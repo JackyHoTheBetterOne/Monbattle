@@ -1,0 +1,5 @@
+<%= form_tag equip_filter_path, :method => "get", remote: true,
+    class: "monster-equip-search-form" %>
+  <%= text_field_tag :keyword, params[:keyword], 
+      class: "monster-equip-search-words" %>
+  <%= submit_tag "Search", class: "monster-equip-search" %>
