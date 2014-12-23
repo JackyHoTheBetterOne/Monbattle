@@ -97,6 +97,11 @@ class BattlesController < ApplicationController
       @array = array
       @class_list = array.join(", ")
     end
+    if @ability.targeta == "attack"
+      @slot = 1
+    else
+      @slot = 2
+    end
     render template: "battles/victory", :layout => false
   end
 

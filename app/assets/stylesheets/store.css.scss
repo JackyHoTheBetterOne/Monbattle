@@ -84,14 +84,22 @@ div.store-front {
 
 .roll-message {
   position: relative;
-  background: #353434;
-  top: 248px;
-  height: 85px;
-  width: 350px;
+  background: url("https://s3-us-west-2.amazonaws.com/monbattle/Roll-Result-Screen-Blank.png");
+  top: 50px;
+  height: 500px;
+  width: 515px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 5px;
+  padding-top: 228px !important;
+  padding-left: 45px !important;
+  padding-right: 45px !important;
+  font-weight: bold;
+  font-size: 120%;
+  opacity: 0;
 };
+
+
 
 
 

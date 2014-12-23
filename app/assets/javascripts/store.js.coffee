@@ -16,14 +16,20 @@ $ ->
       error: ->
         alert("Can't process the roll")
       success: (response) ->
+        document.getElementsByClassName("king-roll")[0].disabled = true
         overlay = document.getElementsByClassName("store-overlay")[0]
         gp = document.getElementById("summoner-gp")
         message = document.getElementsByClassName("roll-message")[0]
         overlay.className += " fadeIn-1s"
         gp.innerHTML = response.gp 
         message.innerHTML = response.message
+        setTimeout (->
+          message.className += " bounceIn animated"
+        ), 500
     $(document).on "click", ->
+      document.getElementsByClassName("king-roll")[0].disabled = false
       overlay = document.getElementsByClassName("store-overlay")[0]
-      overlay.classList.remove("fadeIn-1s")
+      document.getElementsByClassName("store-overlay")[0].className = "store-overlay"
+      document.getElementsByClassName("roll-message")[0].className = "panel-body roll-message"
   $(document).on "mouseover", ".showcase", ->
     $(".ability-detail").text latest_abilities[$(this).data("index")].description

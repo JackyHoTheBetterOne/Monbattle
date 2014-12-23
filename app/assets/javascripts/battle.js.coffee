@@ -572,8 +572,10 @@ window.outcome = ->
       success: (response) ->
         $(".message").html(response)
         if $(".ability-earned").text() isnt ""
-          sentence = "You have earned " + $(".ability-earned").text() + ". Available Class(es): " + 
-                     $(".ability-earned").data("class") + ". Edit your team to equip the ability!" 
+          sentence = "You have gained " + $(".ability-earned").text().replace(/\s+/g, '-') + 
+                     "! It can be equipped to monsters with the following class names: " + 
+                     $(".ability-earned").data("class") + ", on slot " + $(".ability-earned").data("slot") +
+                     ". Go to the team editing page and find it by searching for the class name." 
           newAbilities.push(sentence)
     vitBop()
     toggleImg()
