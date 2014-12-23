@@ -1,1 +1,1 @@
-=link_to image_tag("remove-member.png"), monster_unlock_member_for_user_path(mon, mon.members.first, {member: {user_id: @user, portrait_destroy: "member_#{mon.members.first.id}"}}), method: :delete, remote: true
+=link_to image_tag("remove-member.png"), monster_unlock_member_for_user_path(mon, mon.members.first, {member: {user_id: current_user, portrait_destroy: "member_#{mon.members.first.id}"}}), method: :delete, remote: true

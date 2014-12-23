@@ -43,7 +43,7 @@ class AbilitiesController < ApplicationController
 
   def find_abilities
     if params[:filter]
-      @abilities = policy_scope( Ability.unscoped.filter_it(params[:filter]) )
+      @abilities = policy_scope( Ability.unscoped.filter_it(params[:filter]))
     else
       @abilities = policy_scope( Ability.alphabetical )
     end

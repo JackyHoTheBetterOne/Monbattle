@@ -1,6 +1,0 @@
-=form_for @party do |f|
-  div class="form-group"
-    =f.label :name
-    =f.text_field :name, class: "form-control"
-    =f.hidden_field :user_id, value: current_user.id
-    hr=f.submit "Create Party", class: "btn btn-primary"

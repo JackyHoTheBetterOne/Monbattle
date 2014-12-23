@@ -17,7 +17,7 @@ class Battle::New
   def call
     self.battle = Battle.new
     self.summoner = user.summoner
-    self.regions = Region.all.unlocked_regions(summoner.completed_regions)
+    self.regions = Region.order(:id).all.unlocked_regions(summoner.completed_regions)
 
     Party.generate(user)
 

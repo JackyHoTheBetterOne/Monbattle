@@ -432,3 +432,66 @@ $ability-equip-dim: 75px;
 #topcontrol {
   bottom: -10px !important;
 };
+
+
+/////////////////////////////////////////////////////////////////// Modification
+.ability-list p {
+  margin-top: 8px !important;
+};
+
+.monsters-image-area {
+  .monsters-image-display {
+    height: 305px;
+    bottom: 2px;
+  };
+  .monster-title-area {
+    margin-top: 8px;
+  };
+};
+
+.monster-job-filter {
+  position: relative;
+  left: 265px;
+  top: -24px;
+  .monster-equip-search {
+    background: #4B4B4B;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: white;
+    transition: background 0.3s;
+    top: -1px;
+  };
+  .monster-equip-search:hover {
+    background: #0D47A1;
+  };
+  .monster-equip-search-words {
+    border-radius: 5px;
+  };
+};
+
+
+.monster-equip-search-form {
+  input {
+    position: absolute;
+  };
+  .monster-equip-search {
+    left: -82px;
+  };
+  .monster-equip-search-words {
+    left: -11px;
+    width: 106px;
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+

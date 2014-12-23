@@ -1,4 +1,4 @@
--if @user
+-if current_user
   .master-bg
     .top-section
       .party-title
@@ -12,15 +12,10 @@
     .monsters-image-area
       .monster-title-area
         p Monster Box
+      .monster-job-filter
+        =render "equip_search"
       .monsters-image-display
-        -@base_mons.each do |mon|
-          .monster-thumb.btn.shadowed2 id="#{dom_id(mon)}-box"
-            =render partial: "home/abils_for_mon", locals: {mon: mon, socket: 1, class_info: "mon-thumb", link_info: image_tag(mon.mon_portrait(@user))}
-            .add-rem-icon
-              -if @user.can_add_to_party?(mon)
-                =render partial: "home/add_icon", locals: {mon: mon}
-              -if @user.can_remove_from_party?(mon)
-                =render partial: "home/remove_icon", locals: {mon: mon}
+        =render partial: "monster_image", :locals => {monster_list: @monster_list} 
     .monster-display
       .abilities-display-area
         .ability-list

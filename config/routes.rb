@@ -43,6 +43,7 @@ get "/home" => "home#index", as: :battle_preparation
 get "/store" => "home#store", as: :device_store
 get "/landing" => "home#facebook", as: :home_sweet_home
 get "/forum" => "home#forum", as: :home_forum
+get "/equip_filter" => "home#equip_filter", as: :equip_filter
 
 
 root 'home#facebook'
