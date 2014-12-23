@@ -89,6 +89,19 @@ class BattlesController < ApplicationController
   end
 
   def win
+    @ability = Ability.find_by_name(@battle.battle_level.ability_reward[0])
+    @class_list = ""
+    array = []
+    @ability.ability_restrictions.each do |a|
+      array.push(a.job.name)
+      @array = array
+      @class_list = array.join(", ")
+    end
+    if @ability.targeta == "attack"
+      @slot = 1
+    else
+      @slot = 2
+    end
     render template: "battles/victory", :layout => false
   end
 

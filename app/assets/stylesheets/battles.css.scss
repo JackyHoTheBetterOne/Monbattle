@@ -40,13 +40,13 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
 };
 
 .aoePositionUser {
-  top: -10px;
-  left: 595px;
+  top: 114px;
+  left: 474px;
 };
 
 .aoePositionFoe {
-  top: -10px;
-  left: 2px;
+  top: 114px;
+  left: 16px;
 };
 
 .controlling {
@@ -243,8 +243,8 @@ body {
 
 .ability-img {
   position: absolute;
-  height: 80%;
-  width: 40%;
+  height: 380px;
+  width: 480px;
   z-index: -100000;
   outline: none;
   visibility: hidden;
@@ -436,6 +436,13 @@ body {
     position: absolute;
     top: 21px;
     left: -113px;
+    span.damage-type {
+      float: right;
+      position: relative;
+      color: white;
+      top: -26px;
+      left: -4px;
+    };
   };
 
   .monBut {

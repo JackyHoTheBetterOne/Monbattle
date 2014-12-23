@@ -1,7 +1,9 @@
 <div class="end-battle-box">
   <p class="gp-earned"><%= @battle.battle_level.gp_reward %></p>
   <p class="exp-earned"><%= @battle.battle_level.exp_given %></p>
-  <p class="ability-earned"><%= @battle.battle_level.ability_reward[0] %></p>
+  <p class="ability-earned" data-class="<%= @class_list %>" data-slot= "<%= @slot %>">
+    <%= @ability.name %>
+  </p>
   <%= link_to "Equip Ability", home_index_path, class: "end-battle-but ability-equip battle-fin" %>
   <%= link_to "Battle", new_battle_path, class: "end-battle-but level-select battle-fin" %>
 </div>

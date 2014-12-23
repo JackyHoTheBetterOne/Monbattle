@@ -571,6 +571,12 @@ window.outcome = ->
       method: "get"
       success: (response) ->
         $(".message").html(response)
+        if $(".ability-earned").text() isnt ""
+          sentence = "You have gained " + $(".ability-earned").text().replace(/\s+/g, '-') + 
+                     "! It can be equipped to monsters with the following class names: " + 
+                     $(".ability-earned").data("class") + ", on slot " + $(".ability-earned").data("slot") +
+                     ". Go to the team editing page and find it by searching for the class name." 
+          newAbilities.push(sentence)
     vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
@@ -1365,6 +1371,10 @@ $ ->
         else
           ability = battle.players[0].mons[targets[1]].abilities[$(this).data("index")]
           description.children(".panel-heading").text ability.name
+          if ability.targeta is "attack"
+            description.children("span.damage-type").text "Physical"
+          else
+            description.children("span.damage-type").text "Special"
           description.children(".panel-body").html ability.description
           description.children(".panel-footer").children("span").children(".d").text ability.change
           description.children(".panel-footer").children("span").children(".a").text "AP: " + ability.ap_cost
