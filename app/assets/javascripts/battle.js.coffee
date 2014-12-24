@@ -49,7 +49,7 @@ window.fixEvolMon = (monster, player) ->
             ii = 0 
             while ii < monTarget.poisoned.length
               e = monTarget.poisoned[ii]
-              delete monTarget.poisoned(ii) if e.impact.indexOf("-") isnt -1
+              delete monTarget.poisoned[ii] if e.impact.indexOf("-") isnt -1
               removeEffectIcon(monTarget, e) 
               ii++
             i3 = 0
