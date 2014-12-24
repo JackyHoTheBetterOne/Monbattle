@@ -686,7 +686,7 @@ window.singleTargetAbilityAfterClickDisplay = (ability) ->
   $(document).off "click.cancel", ".cancel"
   $(".user .img").removeClass("controlling")
   $(".battle-guide").hide()
-  $(".battle-guide").css("z-index", "-1")
+  $(".battle-guide, .battle-guide.cancel").css("z-index", "-1")
 
 window.singleTargetAbilityAfterActionDisplay = ->
   apChange()
@@ -708,7 +708,7 @@ window.allyAbilityBeforeClickDisplay = ->
 window.enemyAbilityBeforeClickDisplay = ->
   $(".battle-guide.guide").text("Select an enemy target to activate")
   $(".battle-guide").show()
-  $(".battle-guide").css("z-index", "15000")
+  $(".battle-guide.cancel, .battle-guide").css("z-index", "15000")
   toggleEnemyClick()
   turnOffCommandA()
 
