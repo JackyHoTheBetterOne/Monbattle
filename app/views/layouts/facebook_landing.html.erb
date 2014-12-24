@@ -12,9 +12,6 @@
     <nav class="navbar mon-front" role="navigation">
       <ul class="nav nav-pills main-nav" class="navigation">
         <%= link_to image_tag("monbattle-logo.png", class: "navbar-logo"), home_sweet_home_path %>
-        <% if Quest.available_quests(current_user) > 0  %>
-          <%= image_tag("quest-warning.png", class: "quest-warning") %>
-        <% end %>
         <% if !user_signed_in? %>
           <li class="pull-right fb-nav sign-in">
             <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), 
@@ -22,6 +19,9 @@
           </li>
         <% end %>
         <% if current_user %>
+          <% if Quest.available_quests(current_user) > 0  %>
+            <%= image_tag("quest-warning.png", class: "quest-warning") %>
+          <% end %>
           <li class="<%= 'active' if current_page?(home_forum_path) %> pull-right fb-nav forum">
             <%= link_to "Forum", home_forum_path, class: "fb-nav" %>
           </li>
