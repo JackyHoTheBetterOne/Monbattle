@@ -68,7 +68,7 @@ class Party < ActiveRecord::Base
       npc_mons = MonsterUnlock.where("user_id = 2")
       level_mons = []
       npc_mons.each do |m|
-        if npc_mons.monster.beaten_levels.include?level
+        if m.monster.battle_levels.include?level
           level_mons << m
         end
       end
