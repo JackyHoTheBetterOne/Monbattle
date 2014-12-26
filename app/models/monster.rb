@@ -143,6 +143,10 @@ class Monster < ActiveRecord::Base
 
   private
   def set_keywords
+    level_array = []
+    self.battle_levels.each do |b|
+      level_array << b.name.downcase
+    end
     if self.evolved_from != nil
       self.keywords = [name, description, self.job.name, self.element.name, self.evolved_from.name, self.evolved_from.name]
                         .map(&:downcase).concat([max_hp, summon_cost]).join(" ")
@@ -150,6 +154,7 @@ class Monster < ActiveRecord::Base
       self.keywords = [name, description, self.job.name, self.element.name]
                         .map(&:downcase).concat([max_hp, summon_cost]).join(" ")
     end
+    self.keywords += level_array.join(" ")
   end
 
   def check_for_default
