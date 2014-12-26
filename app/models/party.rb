@@ -66,7 +66,13 @@ class Party < ActiveRecord::Base
         enemy: user.user_name
         )
       npc_mons = MonsterUnlock.where("user_id = 2")
-      party.mons = npc_mons.shuffle[0..3]
+      level_mons = []
+      npc_mons.each do |m|
+        if npc_mons.monster.beaten_levels.include?level
+          level_mons << m
+        end
+      end
+      party.mons = level_mons.shuffle[0..3]
       party.save
     end
   end
