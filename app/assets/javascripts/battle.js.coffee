@@ -1358,6 +1358,7 @@ $ ->
       $(document).on("mouseover", ".user .monBut button", ->
         description = $(this).parent().parent().children(".abilityDesc")
         if $(this).data("target") is "evolve"
+          description.children("span.damage-type").text ""
           better_mon = battle.players[0].mons[targets[1]].mon_evols[0]
           worse_mon = battle.players[0].mons[targets[1]]
           added_hp = better_mon.max_hp - worse_mon.max_hp
@@ -1604,6 +1605,7 @@ $ ->
                 return
         else
           $(this).add(".ap").effect("highlight", {color: "red"}, 100)
+          alert("You have insufficient ap to use this skill.")
           $(".end-turn").prop("disabled", false)
 
 
