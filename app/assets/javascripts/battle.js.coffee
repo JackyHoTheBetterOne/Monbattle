@@ -364,7 +364,10 @@ window.numOfDeadFoe = ->
     i++
   return num
 window.checkEnemyDeath = (index) ->
-  return !battle.players[1].mons[index].isAlive()
+  if typeof battle.players[1].mons[index] is "undefined"
+    return false
+  else
+    return !battle.players[1].mons[index].isAlive()
 
 window.shuffle = (array) ->
   i = array.length - 1
