@@ -356,16 +356,18 @@ window.pcMon = (index) ->
 
 window.numOfDeadFoe = ->
   num = 0
-  n = pcMonNum
+  n = 4
   i = 0
   while i < n
-    if battle.players[1].mons[i].isAlive() is false
+    if typeof battle.players[1].mons[i] is "undefined"
+      num += 1
+    else if battle.players[1].mons[i].isAlive() is false
       num += 1
     i++
   return num
 window.checkEnemyDeath = (index) ->
   if typeof battle.players[1].mons[index] is "undefined"
-    return false
+    return true
   else
     return !battle.players[1].mons[index].isAlive()
 
@@ -1006,146 +1008,147 @@ window.feedAiTargets = ->
 window.controlAI = (monIndex) ->
   xadBuk()
   monster = battle.players[1].mons[monIndex]
-  if monster.hp > 0
-    $(".battle-message").text(
-      monster.name + ":" + " " + getRandom(monster.speech)).
-      effect("highlight", 500)
-    abilityIndex = getRandom(aiAbilities)
-    if monster.taunted.target is undefined || parseInt(battle.players[0].mons[monster.taunted.target].hp) <= 0 
-      window.targetIndex = getRandom(aiTargets)
-    else 
-      window.targetIndex = monster.taunted.target
-    ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
-    switch ability.targeta
-      when "attack"
-        window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
-        currentMon = pcMon(monIndex)
-        currentPosition = currentMon.offset()
-        targetMon = userMon(targetIndex)
-        targetPosition = targetMon.offset()
-        backPosition = currentMon.position()
-        topMove = targetPosition.top - currentPosition.top
-        leftMove = targetPosition.left - currentPosition.left - 60
-        action()
-        singleTargetAbilityDisplayVariable()
-        currentMon.finish().animate(
-          "left": "+=" + leftMove.toString() + "px"
-          "top": "+=" + topMove.toString() + "px"
-        , 540)
-        setTimeout (->
-          if targetMon.css("display") isnt "none"
-            if enemyHurt.isAlive() is false
-              targetMon.effect("explode", {pieces: 30}, 1000).hide()
-            else
-              targetMon.effect "shake", 800
-          currentMon.finish().animate backPosition, 540
-          ), 560
-        setTimeout (->
-          showDamageSingle()
-          hpChangeBattle()
-          checkMonHealthAfterEffect()
-          ), 1100
-      when "targetenemy"
-        window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
-        currentMon = $(".enemy .mon" + monIndex + " " + ".img")
-        currentMon.effect("bounce", {distance: 50, times: 1}, 800)
-        targetMon = userMon(targetIndex)
-        targetPosition = targetMon.offset()
-        abilityAnime = $(".single-ability-img")
-        singleTargetAbilityDisplayVariable()
-        abilityAnime.css(targetPosition)
-        abilityAnime.finish().attr("src", callAbilityImg).toggleClass "flipped ability-on", ->
+  if typeof monster isnt "undefined" 
+    if monster.hp > 0
+      $(".battle-message").text(
+        monster.name + ":" + " " + getRandom(monster.speech)).
+        effect("highlight", 500)
+      abilityIndex = getRandom(aiAbilities)
+      if monster.taunted.target is undefined || parseInt(battle.players[0].mons[monster.taunted.target].hp) <= 0 
+        window.targetIndex = getRandom(aiTargets)
+      else 
+        window.targetIndex = monster.taunted.target
+      ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
+      switch ability.targeta
+        when "attack"
+          window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
+          currentMon = pcMon(monIndex)
+          currentPosition = currentMon.offset()
+          targetMon = userMon(targetIndex)
+          targetPosition = targetMon.offset()
+          backPosition = currentMon.position()
+          topMove = targetPosition.top - currentPosition.top
+          leftMove = targetPosition.left - currentPosition.left - 60
           action()
-          if targetMon.css("display") isnt "none"
-            if enemyHurt.isAlive() is false
-              targetMon.effect("explode", {pieces: 30}, 1000).hide()
-            else
-              targetMon.effect "shake", times: 10, 750
-          element = $(this)
+          singleTargetAbilityDisplayVariable()
+          currentMon.finish().animate(
+            "left": "+=" + leftMove.toString() + "px"
+            "top": "+=" + topMove.toString() + "px"
+          , 540)
+          setTimeout (->
+            if targetMon.css("display") isnt "none"
+              if enemyHurt.isAlive() is false
+                targetMon.effect("explode", {pieces: 30}, 1000).hide()
+              else
+                targetMon.effect "shake", 800
+            currentMon.finish().animate backPosition, 540
+            ), 560
           setTimeout (->
             showDamageSingle()
             hpChangeBattle()
             checkMonHealthAfterEffect()
-            element.toggleClass "flipped ability-on"
-            element.attr("src", "")
-            return
-          ), 1200
-          return
-      when "aoeenemy"
-        window.targets = [1].concat [monIndex, abilityIndex]
-        currentMon = $(".enemy .mon" + monIndex + " " + ".img")
-        currentMon.effect("bounce", {distance: 50, times: 1}, 800)
-        abilityAnime = $(".ability-img")
-        multipleAction()
-        multipleTargetAbilityDisplayVariable()
-        $(".ability-img").toggleClass "aoePositionUser", ->
-          element = $(this)
-          element.finish().attr("src", callAbilityImg).toggleClass("flipped ability-on")
-          $(".user.mon-slot .img").each ->
-            if $(this).css("display") isnt "none"
-              if battle.players[0].mons[$(this).data("index")].isAlive() is false
-                $(this).effect("explode", {pieces: 30}, 1200).hide()
+            ), 1100
+        when "targetenemy"
+          window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
+          currentMon = $(".enemy .mon" + monIndex + " " + ".img")
+          currentMon.effect("bounce", {distance: 50, times: 1}, 800)
+          targetMon = userMon(targetIndex)
+          targetPosition = targetMon.offset()
+          abilityAnime = $(".single-ability-img")
+          singleTargetAbilityDisplayVariable()
+          abilityAnime.css(targetPosition)
+          abilityAnime.finish().attr("src", callAbilityImg).toggleClass "flipped ability-on", ->
+            action()
+            if targetMon.css("display") isnt "none"
+              if enemyHurt.isAlive() is false
+                targetMon.effect("explode", {pieces: 30}, 1000).hide()
               else
-                $(this).effect "shake", {times: 5, distance: 40}, 750
-          setTimeout (->
-            element.toggleClass "flipped ability-on aoePositionUser"
-            element.attr("src", "")
-            showDamageTeam(0)
-            hpChangeBattle()
-            checkMonHealthAfterEffect()            
+                targetMon.effect "shake", times: 10, 750
+            element = $(this)
+            setTimeout (->
+              showDamageSingle()
+              hpChangeBattle()
+              checkMonHealthAfterEffect()
+              element.toggleClass "flipped ability-on"
+              element.attr("src", "")
+              return
+            ), 1200
             return
-          ), 1200
-          return
-      when "aoeally", "aoecleanse"
-        window.targets = [1].concat [monIndex, abilityIndex]
-        currentMon = $(".enemy .mon" + monIndex + " " + ".img")
-        currentMon.effect("bounce", {distance: 50, times: 1}, 800)
-        abilityAnime = $(".ability-img")
-        checkMin()
-        multipleAction()
-        multipleTargetAbilityDisplayVariable()
-        $(".ability-img").toggleClass "aoePositionFoe", ->
-          element = $(this)
-          element.finish().attr("src", callAbilityImg).toggleClass("ability-on")
-          $(".enemy.mon-slot .img").each ->
-            if battle.players[0].mons[$(this).data("index")].hp > 0
-              $(this).effect "bounce",
-                distance: 100
-                times: 1
+        when "aoeenemy"
+          window.targets = [1].concat [monIndex, abilityIndex]
+          currentMon = $(".enemy .mon" + monIndex + " " + ".img")
+          currentMon.effect("bounce", {distance: 50, times: 1}, 800)
+          abilityAnime = $(".ability-img")
+          multipleAction()
+          multipleTargetAbilityDisplayVariable()
+          $(".ability-img").toggleClass "aoePositionUser", ->
+            element = $(this)
+            element.finish().attr("src", callAbilityImg).toggleClass("flipped ability-on")
+            $(".user.mon-slot .img").each ->
+              if $(this).css("display") isnt "none"
+                if battle.players[0].mons[$(this).data("index")].isAlive() is false
+                  $(this).effect("explode", {pieces: 30}, 1200).hide()
+                else
+                  $(this).effect "shake", {times: 5, distance: 40}, 750
+            setTimeout (->
+              element.toggleClass "flipped ability-on aoePositionUser"
+              element.attr("src", "")
+              showDamageTeam(0)
+              hpChangeBattle()
+              checkMonHealthAfterEffect()            
+              return
+            ), 1200
+            return
+        when "aoeally", "aoecleanse"
+          window.targets = [1].concat [monIndex, abilityIndex]
+          currentMon = $(".enemy .mon" + monIndex + " " + ".img")
+          currentMon.effect("bounce", {distance: 50, times: 1}, 800)
+          abilityAnime = $(".ability-img")
+          checkMin()
+          multipleAction()
+          multipleTargetAbilityDisplayVariable()
+          $(".ability-img").toggleClass "aoePositionFoe", ->
+            element = $(this)
+            element.finish().attr("src", callAbilityImg).toggleClass("ability-on")
+            $(".enemy.mon-slot .img").each ->
+              if battle.players[0].mons[$(this).data("index")].hp > 0
+                $(this).effect "bounce",
+                  distance: 100
+                  times: 1
+                , 800
+            setTimeout (->
+              element.toggleClass "ability-on aoePositionFoe"
+              element.attr("src", "")
+              showHealTeam(1) if ability.stat isnt "cleanse"
+              hpChangeBattle()
+              checkMonHealthAfterEffect()
+              return
+            ), 1200
+            return
+        when "targetally"     
+          index = minimumHpPC()
+          window.targets = [1].concat [monIndex, abilityIndex, index]
+          currentMon = $(".enemy .mon" + monIndex + " " + ".img")
+          currentMon.effect("bounce", {distance: 50, times: 1}, 800)
+          targetMon = pcMonNum(index)
+          targetPosition = targetMon.offset()
+          abilityAnime = $(".single-ability-img")
+          singleHealTargetAbilityDisplayVariable()
+          abilityAnime.css(targetPosition)
+          action()
+          abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
+            targetMon.effect "bounce",
+              distance: 100
+              times: 1
               , 800
-          setTimeout (->
-            element.toggleClass "ability-on aoePositionFoe"
-            element.attr("src", "")
-            showHealTeam(1) if ability.stat isnt "cleanse"
-            hpChangeBattle()
-            checkMonHealthAfterEffect()
-            return
-          ), 1200
-          return
-      when "targetally"     
-        index = minimumHpPC()
-        window.targets = [1].concat [monIndex, abilityIndex, index]
-        currentMon = $(".enemy .mon" + monIndex + " " + ".img")
-        currentMon.effect("bounce", {distance: 50, times: 1}, 800)
-        targetMon = pcMonNum(index)
-        targetPosition = targetMon.offset()
-        abilityAnime = $(".single-ability-img")
-        singleHealTargetAbilityDisplayVariable()
-        abilityAnime.css(targetPosition)
-        action()
-        abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
-          targetMon.effect "bounce",
-            distance: 100
-            times: 1
-            , 800
-          element = $(this)
-          setTimeout (->
-            showHealSingle() if ability.stat isnt "cleanse"
-            element.toggleClass "ability-on"
-            element.attr("src", "")
-            hpChangeBattle()
-            checkMonHealthAfterEffect()            
-          ), 1200
+            element = $(this)
+            setTimeout (->
+              showHealSingle() if ability.stat isnt "cleanse"
+              element.toggleClass "ability-on"
+              element.attr("src", "")
+              hpChangeBattle()
+              checkMonHealthAfterEffect()            
+            ), 1200
 
 ############################################################################################################### AI action happening
 window.ai = ->
