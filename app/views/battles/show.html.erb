@@ -1,5 +1,6 @@
 <%= javascript_include_tag "jquery.joyride-2.1" %>
 
+<<<<<<< HEAD
 <script language="javascript">
   function playIt()
   {
@@ -10,11 +11,16 @@
   }
 </script>
 
+=======
+>>>>>>> ce2694aa3bdd29fc7122ce881d86ddbbe3f3c228
 <% if @battle.battle_level.music %>
   <audio controls autoplay loop class="hide">
     <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
   </audio>
 <% end %>
+
+<div id="button-click">
+</div>
 
 <div id="overlay">
   <div class="panel-body message">
@@ -34,7 +40,7 @@
     <div class="panel-body battle-guide guide">
       I will help you
     </div>
-    <button class="battle-guide cancel">Cancel</button>
+    <button class="battle-guide cancel" onclick="playIt()">Cancel</button>
   </div>
 
   <img class="ability-img" src="" type="image" alt="monster abiltiy">
@@ -63,7 +69,7 @@
     </div>
   </div>
 
-  <button class="end-turn" id="end-turn-tip">End Turn</button>
+  <button class="end-turn" id="end-turn-tip" onclick="playIt()">End Turn</button>
 </div>
 
 <div class="effect-info panel panel-default">
@@ -73,6 +79,7 @@
   <div class="panel-heading">Effect name</div>
 </div>
 
+<div id="embed"></div>
 
 
 <!-- Joy Ride -->
