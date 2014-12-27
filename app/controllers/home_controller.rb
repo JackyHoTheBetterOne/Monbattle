@@ -42,7 +42,7 @@ class HomeController < ApplicationController
   end
 
   def facebook
-    @notices = Notice.where(is_active: true)
+    @notices = Notice.order("created_at DESC").where(is_active: true)
     params[:selected_notice] ||= session[:selected_notice]
     session[:selected_notice] = params[:selected_notice]
     if Notice.find_by_title(params[:selected_notice])
