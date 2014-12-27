@@ -90,6 +90,9 @@ class BattlesController < ApplicationController
 
   def win
     @ability = Ability.find_by_name(@battle.battle_level.ability_reward[0])
+    if current_user
+      @ability = nil if !current_user.beaten_levels.include?(@battle.battle_level.name)
+    end
     @class_list = ""
     @slot = ""
     array = []

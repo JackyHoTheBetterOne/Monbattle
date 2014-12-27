@@ -99,7 +99,21 @@ div.store-front {
   opacity: 0;
 };
 
+.back-to-store {
+  z-index: 1000000;
+  position: relative;
+  top: 480px;
+  opacity: 0;
+  background: #353434;
+  color: white;
+  transition: background 0.3s;
+  border: 2px solid black;
+  border-radius: 5px;
+};
 
+.back-to-store:hover {
+  background: #0D47A1;
+};
 
 
 
