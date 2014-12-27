@@ -15,7 +15,7 @@ window.flashMaking = ->
         $(".flash-bank").append(html)
         $(".fade.in.ability").addClass("bounceIn animated")
         i++
-  ), 1000
+  ), 2500
 
 $ ->
   $(document).on "click.fix", ".battle-fin, .party_edit_button", ->
