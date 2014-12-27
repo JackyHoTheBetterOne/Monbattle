@@ -6,9 +6,6 @@ class BattleLevel < ActiveRecord::Base
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :stamina_cost, presence: true
 
-  has_attached_file :background, :styles => { :cool => "960x600>", :thumb => "100x100>" }
-  validates_attachment_content_type :background, :content_type => /\Aimage\/.*\Z/
-
   has_many :cut_scenes, dependent: :destroy
   has_many :monster_assignments
   has_many :monsters, through: :monster_assignments

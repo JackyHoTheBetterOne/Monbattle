@@ -129,7 +129,7 @@ class Battle < ActiveRecord::Base
   end
 
   def background
-    self.battle_level.background.url(:cool)
+    self.battle_level.background
   end
 
   def start_cutscene
