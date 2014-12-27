@@ -522,9 +522,10 @@ window.damageBoxAnime= (team, target, damage, color) ->
             $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
               setTimeout (->
                 $("p.dam").promise().done ->
-                  outcome()
-              ), 300
-        ), 300
+                  $(document).finish ->
+                    outcome()
+              ), 450
+        ), 450
 
 window.showDamageSingle = ->
   damageBoxAnime(enemyHurt.team, enemyHurt.index, ability.modifier + window["change" + enemyHurt.index], "rgba(255, 0, 0)")
