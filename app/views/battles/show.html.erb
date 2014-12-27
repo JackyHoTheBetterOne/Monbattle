@@ -1,9 +1,20 @@
 <%= javascript_include_tag "jquery.joyride-2.1" %>
 
-<audio controls autoplay loop class="hide">
-  <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
-</audio>
+<script language="javascript">
+  function playIt()
+  {
+     document.getElementById("embed").innerHTML=
+       "<embed src='https://s3-us-west-2.amazonaws.com/monbattle/music/button-press-sound-fx.wav' 
+          autostart=true loop=false volume=100 hidden=true>";
+     return true;
+  }
+</script>
 
+<% if @battleq.battle_level.music %>
+  <audio controls autoplay loop class="hide">
+    <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
+  </audio>
+<% end %>
 
 <div id="overlay">
   <div class="panel-body message">
