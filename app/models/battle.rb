@@ -55,6 +55,7 @@ class Battle < ActiveRecord::Base
   end
 
   def give_reward
+    @battle_level        = self.battle_level
     @mp_reward           = self.battle_level.mp_reward 
     @gp_reward           = self.battle_level.gp_reward 
     @vk_reward           = self.battle_level.vk_reward 
@@ -67,8 +68,7 @@ class Battle < ActiveRecord::Base
 
     self.battle_level.ability_reward.each do |r|
       ability = Ability.find_by_name(r)
-      ability = Ability.find_by_name(r)
-      if ability 
+      if ability && !@victorious_summoner.beaten_levels.include?(@battle_level.name)
         ability_id = ability.id 
         user_id = @victorious_summoner.id
         AbilityPurchase.create(ability_id: ability_id, user_id: user_id)
