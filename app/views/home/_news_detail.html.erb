@@ -1,4 +1,4 @@
 <%= image_tag(notice.description_image.url(:cool), class: "description-image")%>
 <p class="notice-body"> 
-  <%= notice.body %>
+  <%= notice.body.html_safe %>
 </p>
