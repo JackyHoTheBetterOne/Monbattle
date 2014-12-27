@@ -522,8 +522,8 @@ window.damageBoxAnime= (team, target, damage, color) ->
             setTimeout (->
               $("p.dam").promise().done ->
                 outcome()
-            ), 300
-      ), 500
+            ), 500
+      ), 700
 
 window.showDamageSingle = ->
   damageBoxAnime(enemyHurt.team, enemyHurt.index, ability.modifier + window["change" + enemyHurt.index], "rgba(255, 0, 0)")
@@ -554,6 +554,7 @@ window.showHealTeam = (index) ->
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
+    turnOffCommandA()
     $.ajax
       url: "/battles/" + battle.id + "/loss"
       method: "get"
@@ -581,6 +582,7 @@ window.outcome = ->
         }
     ), 1000
   else if battle.players[1].mons.every(isTeamDead) is true
+    turnOffCommandA()
     $.ajax
       url: "/battles/" + battle.id + "/win"
       method: "get"
