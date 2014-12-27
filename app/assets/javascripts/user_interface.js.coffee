@@ -12,6 +12,8 @@ window.setEnergy = ->
   if window.location.href.indexOf("battles/new") isnt -1
     region_name = document.getElementsByClassName("map-image")[0].getAttribute("data-region")
     document.getElementById(region_name).className += " current-region"
+    area_name = document.getElementsByClassName("map-level")[0].getAttribute("id")
+    document.getElementById(area_name).className += " current-area" 
     console.log("Fixed")
 
 window.setNewAbilityArray = ->

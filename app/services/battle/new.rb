@@ -34,13 +34,13 @@ class Battle::New
     elsif session_area_filter
       self.areas = Area.filter(session_area_filter).unlocked_areas(summoner.completed_areas)
     else
-      self.areas = []
+      self.areas = Area.filter(regions.last.name).unlocked_areas(summoner.completed_areas)
     end
 
     if params_level_filter
       self.levels = BattleLevel.order(:id).filter(params_level_filter).unlocked_levels(summoner.beaten_levels)
     elsif 
-      self.levels = []
+      self.levels = BattleLevel.order(:id).filter(areas.first.name).unlocked_levels(summoner.beaten_levels)
     end
 
     if user 
