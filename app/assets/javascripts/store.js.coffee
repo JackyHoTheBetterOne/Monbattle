@@ -28,7 +28,7 @@ $ ->
         setTimeout (->
           message.className += " bounceIn animated"
           button.className += " bounceIn animated"
-        ), 1200
+        ), 1000
     $(document).on "click", ".back-to-store", ->
       document.getElementsByClassName("king-roll")[0].disabled = false
       document.getElementsByClassName("store-overlay")[0].className = "store-overlay"
