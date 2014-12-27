@@ -15,6 +15,10 @@ window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
     if @hp <= 0
       setTimeout (->
+        $("p.dam").promise().done ->
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".bar").css("width", "0%")
+      ), 1200
+      setTimeout (->
         $("p.dam, .bar").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".img").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").css("opacity", "0")
@@ -521,7 +525,7 @@ window.damageBoxAnime= (team, target, damage, color) ->
               $("p.dam").promise().done ->
                 outcome()
             ), 300
-      ), 300
+      ), 500
 
 window.showDamageSingle = ->
   damageBoxAnime(enemyHurt.team, enemyHurt.index, ability.modifier + window["change" + enemyHurt.index], "rgba(255, 0, 0)")
@@ -780,12 +784,12 @@ window.nextScene = ->
   ), 300
   setTimeout (->
     $(".cutscene").css("opacity", "1")
-  ), 800
+  ), 1000
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     if document.getElementById('overlay') isnt null
       document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 1800
+  ), 2000
 
 window.mouseOverMon = ->
   if $(this).css("opacity") isnt "0"

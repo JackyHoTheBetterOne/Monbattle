@@ -104,17 +104,13 @@ $ ->
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
       $(".quest-show").parent().removeClass("active")
   $(document).on "click.quest", ".fb-nav :not('.quest-show'), .back-to-select", ->
-    setTimeout (->
-      setNewAbilityArray()
-      setEnergy()
-      console.log("sup")
-    ), 700
+    setNewAbilityArray()
+    setEnergy()
+    console.log("sup")
   $(document).on "click.fix", ".battle-fin, .party_edit_button", ->
-    setTimeout (->
-      setNewAbilityArray()
-      setEnergy()
-      console.log("sup")
-    ), 1000
+    setNewAbilityArray()
+    setEnergy()
+    console.log("sup")
 
 
 
