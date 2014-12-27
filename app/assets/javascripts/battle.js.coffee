@@ -2,6 +2,14 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+window.playIt = ->
+  document.getElementById("button-click").innerHTML= "
+      <audio controls autoplay class='hide'>
+        <source src='https://s3-us-west-2.amazonaws.com/monbattle/music/button-press-sound-fx.wav' type='audio/mpeg'>
+      </audio>
+    ";
+  return true;
+
 ######################################################################################################## Monster logics
 window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
