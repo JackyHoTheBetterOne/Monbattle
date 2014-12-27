@@ -8,7 +8,8 @@ $ ->
   $(document).on "mouseleave", ".king-roll", ->
     $(this).attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button.png")
 
-  $(document).on "click", ".king-roll", ->
+  $(document).on "click", ".king-roll", (event) ->
+    event.stopPropagation()
     $.ajax 
       url: "/home/roll_treasure"
       method: "get"
