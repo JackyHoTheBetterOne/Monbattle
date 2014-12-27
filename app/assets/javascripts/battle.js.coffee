@@ -516,14 +516,15 @@ window.damageBoxAnime= (team, target, damage, color) ->
     "top":"+=50px"
     "z-index":"-=10000"
     , 5, ->
-      setTimeout (->
-        $(".img, .ability-img, .single-ability-img").promise().done ->
-          $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
-            setTimeout (->
-              $("p.dam").promise().done ->
-                outcome()
-            ), 500
-      ), 700
+      if battle.players[0].mons.every(isTeamDead) or battle.players[1].mons.every(isTeamDead) is true
+        setTimeout (->
+          $(".img, .ability-img, .single-ability-img").promise().done ->
+            $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
+              setTimeout (->
+                $("p.dam").promise().done ->
+                  outcome()
+              ), 300
+        ), 300
 
 window.showDamageSingle = ->
   damageBoxAnime(enemyHurt.team, enemyHurt.index, ability.modifier + window["change" + enemyHurt.index], "rgba(255, 0, 0)")

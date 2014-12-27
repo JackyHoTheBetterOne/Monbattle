@@ -157,24 +157,22 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
     transition: opacity 0.3s;
     height: 600px;
     width: 960px;
-    top: 2.5%;
+    top: 5px;
     left: 0px;
     right: 0px;
     border-radius: 5px;
     margin: auto;
   };
   .next-scene {
-    position: fixed;
-    top: 47.5%;
-    left: 77%;
+    position: relative;
     opacity: 0;
     transition: opacity 0.2s;
     z-index: 10;
-    margin: auto;
     height: 80px;
     width: 80px;
+    top: 260px;
+    left: 480px;
   };
-
 };
 
 .battle-message, .battle-guide {
