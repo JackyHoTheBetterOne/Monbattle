@@ -14,7 +14,6 @@ window.setEnergy = ->
     document.getElementById(region_name).className += " current-region"
     area_name = document.getElementsByClassName("map-level")[0].getAttribute("id")
     document.getElementById(area_name).className += " current-area" 
-    console.log("Fixed")
   if window.location.href.indexOf("landing") isnt -1
     document.getElementsByClassName("news-entry")[0].className += " notice-selected"
 
@@ -88,6 +87,7 @@ $ ->
   window.newAbilities = [] if typeof window.newAbilities is "undefined"
   number = parseInt($(".current-stamina").text())
   setEnergy()
+  setNewAbilityArray()
   $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
   $(".donation-action").hide()
   $(document).on "keyup", ".donation", ->
@@ -108,14 +108,14 @@ $ ->
   $(document).on "click", ".for-real, .close-quest, .quest-close-footer", ->
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
       $(".quest-show").parent().removeClass("active")
-  $(document).on "click.quest", ".fb-nav :not('.quest-show'), .back-to-select", ->
-    setNewAbilityArray()
-    setEnergy()
-    console.log("sup")
-  $(document).on "click.fix", ".battle-fin, .party_edit_button", ->
-    setNewAbilityArray()
-    setEnergy()
-    console.log("sup")
+  # $(document).on "click.quest", ".fb-nav :not('.quest-show'), .back-to-select", ->
+  #   setNewAbilityArray()
+  #   setEnergy()
+  #   console.log("sup")
+  # $(document).on "click.fix", ".battle-fin, .party_edit_button", ->
+  #   setNewAbilityArray()
+  #   setEnergy()
+  #   console.log("sup")
 
 
 

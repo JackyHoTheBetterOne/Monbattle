@@ -9,7 +9,6 @@ class BattlesController < ApplicationController
   def new
     params[:area_filter] ||= session[:area_filter]
     session[:area_filter] = params[:area_filter]
-
     new_battle = Battle::New.new(user: current_user, 
                                  params_area_filter: params[:area_filter],
                                  params_level_filter: params[:level_filter],
@@ -27,11 +26,9 @@ class BattlesController < ApplicationController
 
     unlock_message(@summoner)
 
-    if current_user
-      respond_to do |format|
-        format.html {render :layout => "facebook_landing"}
-        format.js
-      end
+    respond_to do |format|
+      format.html {render :layout => "facebook_landing"}
+      format.js
     end
   end
 

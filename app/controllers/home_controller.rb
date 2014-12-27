@@ -54,10 +54,6 @@ class HomeController < ApplicationController
     end
   end
 
-  def level_select
-    render new_battle_path, layout: "facebook_landing"
-  end
-
   def illegal_access
   end
 

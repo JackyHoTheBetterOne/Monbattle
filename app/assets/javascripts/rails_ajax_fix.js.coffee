@@ -2,7 +2,7 @@ window.reloadObjects = (obj, but) ->
   if window.location.href.indexOf(obj) isnt -1
     setTimeout (->
       $(but).trigger "click"
-      ), 400
+      ), 500
 
 window.fixTurbo = () ->
   setTimeout (->
