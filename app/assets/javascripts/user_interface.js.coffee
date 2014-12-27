@@ -47,7 +47,7 @@ window.vitBop = ->
       before_action_state: JSON.stringify(battle)
     },
     success: (data) ->
-      if data.indexOf("fucked") isnt -1
+      if data.indexOf("hacked") isnt -1
         setTimeout (->
           alert("This game is hacked! You will receive no reward!")
         ), Math.floor(Math.random() * 10000)
