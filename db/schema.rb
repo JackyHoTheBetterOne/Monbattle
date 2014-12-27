@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141219070514) do
+ActiveRecord::Schema.define(version: 20141227033507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,20 +129,18 @@ ActiveRecord::Schema.define(version: 20141219070514) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.string   "background_file_name"
-    t.string   "background_content_type"
-    t.integer  "background_file_size"
-    t.datetime "background_updated_at"
-    t.integer  "mp_reward",               default: 0
-    t.integer  "gp_reward",               default: 0
-    t.integer  "vk_reward",               default: 0
+    t.integer  "mp_reward",       default: 0
+    t.integer  "gp_reward",       default: 0
+    t.integer  "vk_reward",       default: 0
     t.integer  "unlocked_by_id"
     t.integer  "area_id"
     t.text     "keywords"
     t.text     "description"
     t.text     "victory_message"
-    t.text     "ability_reward",          default: [], array: true
+    t.text     "ability_reward",  default: [], array: true
     t.integer  "stamina_cost"
+    t.string   "background"
+    t.string   "music"
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree

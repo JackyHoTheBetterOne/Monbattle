@@ -1,8 +1,8 @@
 <%= javascript_include_tag "jquery.joyride-2.1" %>
 
-<!-- <audio controls loop class="hide">
-  <source src="/sounds/battle_song.mp3" type="audio/mpeg">
-</audio> -->
+<audio controls autoplay loop class="hide">
+  <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
+</audio>
 
 
 <div id="overlay">
