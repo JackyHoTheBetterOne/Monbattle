@@ -16,8 +16,9 @@ $ ->
       $(".map-image, .map-level").fadeIn(300)
     ), 300
     setTimeout (->
-      $(".map-level").first().trigger("click")
-    ), 750
+      $(".map-image").promise().done ->
+        $(".map-level").first().trigger("click")
+    ), 350
     index = $(".region-select").index($(this))
     i = 0
     while i < document.getElementsByClassName("region-select").length
