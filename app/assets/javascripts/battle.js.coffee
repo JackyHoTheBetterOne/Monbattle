@@ -840,7 +840,7 @@ window.flashEndButton = ->
   window.buttonArray = []
   $(".end-turn").prop("disabled", false)
   $(".monBut button").each ->
-    if $(this).parent().parent().children(".img").css("display") isnt "none" && $(this).attr("disabled") isnt "disabled"
+    if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
   if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
     zetBut()
