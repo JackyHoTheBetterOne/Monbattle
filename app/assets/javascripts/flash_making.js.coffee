@@ -1,7 +1,6 @@
 window.flashMaking = ->
   setTimeout (->
     if typeof window.newAbilities isnt "undefined"
-      console.log("my dick")
       flash_array = window.newAbilities
       i = 0
       while i < flash_array.length
@@ -15,7 +14,7 @@ window.flashMaking = ->
         $(".flash-bank").append(html)
         $(".fade.in.ability").addClass("bounceIn animated")
         i++
-  ), 2500
+  ), 3000
 
 $ ->
   $(document).on "click.fix", ".battle-fin, .party_edit_button", ->

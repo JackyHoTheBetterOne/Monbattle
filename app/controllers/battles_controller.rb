@@ -61,7 +61,7 @@ class BattlesController < ApplicationController
         format.json { render json: @battle.build_json  }
       end
     else
-      flash[:alert] = "You need to fuck off!"
+      flash[:alert] = "A battle cannot be played twice!"
       redirect_to new_battle_path
     end
   end

@@ -38,7 +38,7 @@ class User::RollTrash
           @summoner.gp += @gp 
 
           if @summoner.save
-            self.message = "You won #{@gp} Genetic Points you stupid fuck"
+            self.message = "You won #{@gp} Genetic Points!"
             return self.message
           else
             return false
