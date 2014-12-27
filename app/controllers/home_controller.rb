@@ -50,7 +50,7 @@ class HomeController < ApplicationController
     elsif @notices.count == 0
       @notice = nil
     else 
-      @notice = @notices[0]
+      @notice = @notices.last
     end
   end
 

@@ -15,6 +15,9 @@ window.setEnergy = ->
     area_name = document.getElementsByClassName("map-level")[0].getAttribute("id")
     document.getElementById(area_name).className += " current-area" 
     console.log("Fixed")
+  if window.location.href.indexOf("landing") isnt -1
+    document.getElementsByClassName("news-entry")[0].className += " notice-selected"
+
 
 window.setNewAbilityArray = ->
   setTimeout (->
