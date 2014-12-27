@@ -19,8 +19,6 @@ class Battle::New
     self.summoner = user.summoner
     self.regions = Region.order(:id).all.unlocked_regions(summoner.completed_regions)
 
-    Party.generate(user)
-
     if Region.find_by_name(session_area_filter)
       self.map_url = Region.find_by_name(session_area_filter).map.url(:cool)
       self.current_region = session_area_filter

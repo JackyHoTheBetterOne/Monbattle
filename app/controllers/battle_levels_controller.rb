@@ -14,6 +14,9 @@ class BattleLevelsController < ApplicationController
   def destroy
     authorize @battle_level
     @battle_level.destroy
+    respond_to do |format|
+      format.js
+    end
   end
 
   def update

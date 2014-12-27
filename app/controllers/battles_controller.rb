@@ -4,6 +4,7 @@ class BattlesController < ApplicationController
   before_action :check_energy
   before_action :quest_start
   after_action :deduct_energy, only: :create
+  after_action :generate_enemies, only: :new
   # after_action :change_id, only: :end
 
   def new
@@ -123,6 +124,11 @@ class BattlesController < ApplicationController
       summoner.clear_recent_level
     end
   end
+
+  def generate_enemies
+    Party.generate(current_user)
+  end
+
 
   def change_id
     self.change_code
