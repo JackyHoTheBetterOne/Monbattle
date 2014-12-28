@@ -353,6 +353,8 @@ window.action = ->
   fixHp()
   checkMax()
   zetBut()
+  checkOutcome()
+
 window.multipleAction = ->
   xadBuk()
   checkMin()
@@ -360,6 +362,7 @@ window.multipleAction = ->
   fixHp()
   checkMax()
   zetBut()
+  checkOutcome()
 
 window.userMon = (index) ->
   $(".user .mon" + index + " " + ".img")
@@ -492,6 +495,20 @@ window.hpBarChange = (side, index) ->
   "." + side + " " + ".mon" + index + " " + ".hp .bar"
 
 
+window.checkOutcome = ->
+  if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
+    turnOffCommandA()
+    toggleImg()
+    setTimeout (-> 
+      $(".img, .ability-img, .single-ability-img").promise().done ->
+        $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
+          setTimeout (->
+            $("p.dam").promise().done ->
+              outcome()
+          ), 600
+    ), 700
+
+
 window.hpChangeBattle = ->
   n = playerMonNum
   i = 0
@@ -507,17 +524,6 @@ window.hpChangeBattle = ->
     $(maxHpChange("1", i)).text " " + "/" + " " + battle.players[1].mons[i].max_hp
     $(hpChange("1", i)).text battle.players[1].mons[i].hp
     i++
-  if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
-      turnOffCommandA()
-      toggleImg()
-      setTimeout (-> 
-        $(".img, .ability-img, .single-ability-img").promise().done ->
-          $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
-            setTimeout (->
-              $("p.dam").promise().done ->
-                outcome()
-            ), 350
-      ), 350
 
 
 window.damageBoxAnime= (team, target, damage, color) ->
