@@ -47,7 +47,7 @@ window.setEnergy = ->
 window.setNewAbilityArray = ->
   setTimeout (->
     window.newAbilities.length = 0 if window.location.href.indexOf("home") isnt -1
-  ), 6000
+  ), 3000
 
 window.replenishStamina = ->
   if document.getElementById("current-stamina") isnt null
