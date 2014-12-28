@@ -510,6 +510,7 @@ window.hpChangeBattle = ->
   setTimeout (->
     if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
         turnOffCommandA()
+        toggleImg()
         $(".img, .ability-img, .single-ability-img").promise().done ->
           $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
             setTimeout (->
@@ -593,7 +594,7 @@ window.outcome = ->
                      "! It can be equipped to monsters with the following class names: " + 
                      $(".ability-earned").data("class") + ", on slot " + $(".ability-earned").data("slot") +
                      ". Go to the team editing page and find it by searching for the class name." 
-          newAbilities.push(sentence) if newAbilities.indexOf(sentence) isnt -1
+          newAbilities.push(sentence)
     vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
