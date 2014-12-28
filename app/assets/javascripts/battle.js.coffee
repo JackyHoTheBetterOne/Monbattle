@@ -353,6 +353,8 @@ window.action = ->
   fixHp()
   checkMax()
   zetBut()
+  checkOutcome()
+
 window.multipleAction = ->
   xadBuk()
   checkMin()
@@ -360,6 +362,7 @@ window.multipleAction = ->
   fixHp()
   checkMax()
   zetBut()
+  checkOutcome()
 
 window.userMon = (index) ->
   $(".user .mon" + index + " " + ".img")
@@ -492,6 +495,20 @@ window.hpBarChange = (side, index) ->
   "." + side + " " + ".mon" + index + " " + ".hp .bar"
 
 
+window.checkOutcome = ->
+  if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
+    turnOffCommandA()
+    toggleImg()
+    setTimeout (-> 
+      $(".img, .ability-img, .single-ability-img").promise().done ->
+        $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
+          setTimeout (->
+            $("p.dam").promise().done ->
+              outcome()
+          ), 600
+    ), 700
+
+
 window.hpChangeBattle = ->
   n = playerMonNum
   i = 0
@@ -515,17 +532,7 @@ window.damageBoxAnime= (team, target, damage, color) ->
   animate
     "top":"+=50px"
     "z-index":"-=10000"
-    , 5, ->
-      if battle.players[0].mons.every(isTeamDead) or battle.players[1].mons.every(isTeamDead) is true
-        setTimeout (->
-          $(".img, .ability-img, .single-ability-img").promise().done ->
-            $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
-              setTimeout (->
-                $("p.dam").promise().done ->
-                  $(document).finish ->
-                    outcome()
-              ), 450
-        ), 450
+    , 5
 
 window.showDamageSingle = ->
   damageBoxAnime(enemyHurt.team, enemyHurt.index, ability.modifier + window["change" + enemyHurt.index], "rgba(255, 0, 0)")
@@ -556,7 +563,6 @@ window.showHealTeam = (index) ->
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
-    turnOffCommandA()
     $.ajax
       url: "/battles/" + battle.id + "/loss"
       method: "get"
@@ -584,7 +590,6 @@ window.outcome = ->
         }
     ), 1000
   else if battle.players[1].mons.every(isTeamDead) is true
-    turnOffCommandA()
     $.ajax
       url: "/battles/" + battle.id + "/win"
       method: "get"

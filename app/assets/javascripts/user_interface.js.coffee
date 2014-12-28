@@ -1,36 +1,3 @@
-window.setEnergy = ->
-  if document.getElementById("summoner-level") isnt null
-    energy_seconds = parseInt(document.getElementById("summoner-level").getAttribute("data-seconds")) 
-  $(".quests-info").click(false)
-  window.clearInterval(staminaTimer) if typeof staminaTimer isnt "undefined"
-  window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
-  setTimeout (->
-    replenishStamina()
-    window.staminaTimer = setInterval(replenishStamina, 301000)
-  ), energy_seconds*1000
-  window.questTimer = setInterval(setQuestTimer, 1000)
-  if window.location.href.indexOf("battles/new") isnt -1
-    region_name = document.getElementsByClassName("map-image")[0].getAttribute("data-region")
-    document.getElementById(region_name).className += " current-region"
-    area_name = document.getElementsByClassName("map-level")[0].getAttribute("id")
-    document.getElementById(area_name).className += " current-area" 
-  if window.location.href.indexOf("landing") isnt -1
-    document.getElementsByClassName("news-entry")[0].className += " notice-selected"
-
-
-window.setNewAbilityArray = ->
-  setTimeout (->
-    window.newAbilities.length = 0 if window.location.href.indexOf("home") isnt -1
-  ), 6000
-
-window.replenishStamina = ->
-  if document.getElementById("current-stamina") isnt null
-    if parseInt(document.getElementById("current-stamina").innerHTML) isnt 100
-      number = parseInt(document.getElementById("current-stamina").innerHTML)
-      number += 1
-      document.getElementById("current-stamina").innerHTML = number.toString()
-      $(".summoner-stamina-bar .bar").css("width", number.toString() + "%")
-
 window.zetBut = ->
   window.gigSet = JSON.stringify(battle)
   console.log("setting")
@@ -55,6 +22,40 @@ window.vitBop = ->
         setTimeout (->
           alert("This game is hacked! You will receive no reward!")
         ), Math.floor(Math.random() * 10000)
+
+
+window.setEnergy = ->
+  if document.getElementById("summoner-level") isnt null
+    energy_seconds = parseInt(document.getElementById("summoner-level").getAttribute("data-seconds")) 
+  $(".quests-info").click(false)
+  window.clearInterval(staminaTimer) if typeof staminaTimer isnt "undefined"
+  window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
+  setTimeout (->
+    replenishStamina()
+    window.staminaTimer = setInterval(replenishStamina, 301000)
+  ), energy_seconds*1000
+  window.questTimer = setInterval(setQuestTimer, 1000)
+  if window.location.href.indexOf("battles/new") isnt -1
+    region_name = document.getElementsByClassName("map-image")[0].getAttribute("data-region")
+    document.getElementById(region_name).className += " current-region"
+    area_name = document.getElementsByClassName("map-level")[0].getAttribute("id")
+    document.getElementById(area_name).className += " current-area" 
+  if window.location.href.indexOf("landing") isnt -1
+    document.getElementsByClassName("news-entry")[0].className += " notice-selected"
+
+
+window.setNewAbilityArray = ->
+  setTimeout (->
+    window.newAbilities.length = 0 if window.location.href.indexOf("home") isnt -1
+  ), 3000
+
+window.replenishStamina = ->
+  if document.getElementById("current-stamina") isnt null
+    if parseInt(document.getElementById("current-stamina").innerHTML) isnt 100
+      number = parseInt(document.getElementById("current-stamina").innerHTML)
+      number += 1
+      document.getElementById("current-stamina").innerHTML = number.toString()
+      $(".summoner-stamina-bar .bar").css("width", number.toString() + "%")
 
 setDonationAmount = ->
   window.money = $(".donation").val().replace(/,/g,'')*100
