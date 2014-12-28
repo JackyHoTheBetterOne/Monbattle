@@ -14,7 +14,7 @@ window.flashMaking = ->
         $(".flash-bank").append(html)
         $(".fade.in.ability").addClass("bounceIn animated")
         i++
-  ), 250
+  ), 100
 
 $ ->
   flashMaking()
