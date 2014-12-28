@@ -19,8 +19,6 @@ class Battle::New
     self.summoner = user.summoner
     self.regions = Region.order(:id).all.unlocked_regions(summoner.completed_regions)
 
-    Party.generate(user)
-
     if Region.find_by_name(session_area_filter)
       self.map_url = Region.find_by_name(session_area_filter).map.url(:cool)
       self.current_region = session_area_filter
@@ -34,13 +32,13 @@ class Battle::New
     elsif session_area_filter
       self.areas = Area.filter(session_area_filter).unlocked_areas(summoner.completed_areas)
     else
-      self.areas = []
+      self.areas = Area.filter(regions.last.name).unlocked_areas(summoner.completed_areas)
     end
 
     if params_level_filter
       self.levels = BattleLevel.order(:id).filter(params_level_filter).unlocked_levels(summoner.beaten_levels)
     elsif 
-      self.levels = []
+      self.levels = BattleLevel.order(:id).filter(areas.first.name).unlocked_levels(summoner.beaten_levels)
     end
 
     if user 

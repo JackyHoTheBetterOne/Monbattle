@@ -50,12 +50,8 @@ class HomeController < ApplicationController
     elsif @notices.count == 0
       @notice = nil
     else 
-      @notice = @notices[0]
+      @notice = @notices.last
     end
-  end
-
-  def level_select
-    render new_battle_path, layout: "facebook_landing"
   end
 
   def illegal_access

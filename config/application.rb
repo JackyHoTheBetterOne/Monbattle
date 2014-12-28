@@ -31,6 +31,7 @@ module Monbattle
     config.paperclip_defaults = {
       :preserve_files => false,
       :storage => :s3,
+      :s3_protocol => :https,
       :s3_host_name => "s3-us-west-2.amazonaws.com",
       :default_url => "https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg",
       :s3_credentials => {:bucket => "monbattle",

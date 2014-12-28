@@ -4,12 +4,12 @@ class BattlesController < ApplicationController
   before_action :check_energy
   before_action :quest_start
   after_action :deduct_energy, only: :create
+  after_action :generate_enemies, only: :new
   # after_action :change_id, only: :end
 
   def new
     params[:area_filter] ||= session[:area_filter]
     session[:area_filter] = params[:area_filter]
-
     new_battle = Battle::New.new(user: current_user, 
                                  params_area_filter: params[:area_filter],
                                  params_level_filter: params[:level_filter],
@@ -27,11 +27,9 @@ class BattlesController < ApplicationController
 
     unlock_message(@summoner)
 
-    if current_user
-      respond_to do |format|
-        format.html {render :layout => "facebook_landing"}
-        format.js
-      end
+    respond_to do |format|
+      format.html {render :layout => "facebook_landing"}
+      format.js
     end
   end
 
@@ -61,7 +59,6 @@ class BattlesController < ApplicationController
         format.json { render json: @battle.build_json  }
       end
     else
-      flash[:alert] = "A battle cannot be played twice!"
       redirect_to new_battle_path
     end
   end
@@ -127,6 +124,11 @@ class BattlesController < ApplicationController
       summoner.clear_recent_level
     end
   end
+
+  def generate_enemies
+    Party.generate(current_user)
+  end
+
 
   def change_id
     self.change_code
