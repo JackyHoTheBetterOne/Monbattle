@@ -5,7 +5,6 @@ class BattlesController < ApplicationController
   before_action :quest_start
   after_action :deduct_energy, only: :create
   after_action :generate_enemies, only: :new
-  # after_action :change_id, only: :end
 
   def new
     params[:area_filter] ||= session[:area_filter]

@@ -11,8 +11,7 @@ class Battle < ActiveRecord::Base
   has_many :parties, through: :fights
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
-  before_save :generate_code
-  # before_save :update_date
+  before_create :generate_code
 
   scope :find_matching_date, -> (date, party) {
     joins(:fights).where(finished: date, "fights.party_id" => party.id)
@@ -154,16 +153,9 @@ class Battle < ActiveRecord::Base
     end
   end
 
-  def change_code
-    self.id_code = SecureRandom.uuid
-    self.save
-  end
-
   private
 
   def generate_code
-    if !self.id_code
-      self.id_code = SecureRandom.uuid
-    end
+    self.id_code = SecureRandom.uuid
   end
 end
