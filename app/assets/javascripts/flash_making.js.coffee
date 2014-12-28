@@ -14,10 +14,7 @@ window.flashMaking = ->
         $(".flash-bank").append(html)
         $(".fade.in.ability").addClass("bounceIn animated")
         i++
-  ), 3000
+  ), 250
 
 $ ->
-  $(document).on "click.fix", ".battle-fin, .party_edit_button", ->
-    flashMaking()
-  $(document).on "click.quest", ".fb-nav :not('.quest-show'), .back-to-select", ->
-    flashMaking()
+  flashMaking()
