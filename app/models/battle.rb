@@ -4,14 +4,14 @@ class Battle < ActiveRecord::Base
 
   is_impressionable
   include AASM
-  # extend FriendlyId
-  # friendly_id :id_code
+  extend FriendlyId
+  friendly_id :id_code
   belongs_to :battle_level
   has_many :fights, dependent: :destroy
   has_many :parties, through: :fights
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
-  # before_create :generate_code
+  before_create :generate_code
 
   scope :find_matching_date, -> (date, party) {
     joins(:fights).where(finished: date, "fights.party_id" => party.id)
