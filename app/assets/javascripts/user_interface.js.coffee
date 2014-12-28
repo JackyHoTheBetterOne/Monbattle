@@ -1,3 +1,29 @@
+window.zetBut = ->
+  window.gigSet = JSON.stringify(battle)
+  console.log("setting")
+
+window.xadBuk = ->
+  window.pafCheck = JSON.stringify(battle)
+  console.log("checking")
+  if window.gigSet != window.pafCheck
+    alert("Good job! You have hacked the game!")
+    $(".battle").remove()
+
+window.vitBop = ->
+  $.ajax
+    url: "/battles/" + battle.id + "/showing",
+    method: "patch",
+    data: {
+      after_action_state: window.gigSet,
+      before_action_state: JSON.stringify(battle)
+    },
+    success: (data) ->
+      if data.indexOf("hacked") isnt -1
+        setTimeout (->
+          alert("This game is hacked! You will receive no reward!")
+        ), Math.floor(Math.random() * 10000)
+
+
 window.setEnergy = ->
   if document.getElementById("summoner-level") isnt null
     energy_seconds = parseInt(document.getElementById("summoner-level").getAttribute("data-seconds")) 
