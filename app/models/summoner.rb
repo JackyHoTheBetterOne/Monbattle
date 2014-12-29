@@ -5,7 +5,6 @@ class Summoner < ActiveRecord::Base
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :user_id, presence: {message: 'Must be entered'}, uniqueness: true
 
-  before_create :set_beaten_levels
   before_save :check_energy
 
   def self.find_summoner(user_name)
@@ -176,12 +175,6 @@ class Summoner < ActiveRecord::Base
       self.seconds_left_for_next_energy = 300 - seconds
       self.stamina = 100 if self.stamina > 100 
     end
-  end
-
-  private
-
-  def set_beaten_levels
-    self.beaten_levels = []
   end
 
 end

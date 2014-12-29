@@ -77,47 +77,52 @@ class BattleLevel < ActiveRecord::Base
 
 ############################################################################ Unlock level, area or region
   def unlock_for_summoner(summoner)
-    @summoner = Summoner.find(summoner.id)
-    level_array = @summoner.beaten_levels.clone
-    area_array = @summoner.completed_areas.clone
-    region_array = @summoner.completed_regions.clone
+    @summoner = Summoner.find_by_name(summoner)
+    if @summoner.name != "NPC"
+      p "=================================================================================================================="
+      p "Unlocking levels"
+      p "=================================================================================================================="
+      level_array = @summoner.beaten_levels.clone
+      area_array = @summoner.completed_areas.clone
+      region_array = @summoner.completed_regions.clone
 
-    if !level_array.include?self.name
-      level_array.push(self.name) 
-      unlocked_level = BattleLevel.where(unlocked_by_id: self.id)[0]
-      @summoner.recently_unlocked_level = unlocked_level.name if unlocked_level
-    end
+      if !level_array.include?self.name
+        level_array.push(self.name) 
+        unlocked_level = BattleLevel.where(unlocked_by_id: self.id)[0]
+        @summoner.recently_unlocked_level = unlocked_level.name if unlocked_level
+      end
 
-    if !area_array.include?self.area.name
-      area_cleared = 0
-      self.area.battle_levels.each do |b|
-        if !level_array.include?b.name
-          area_cleared = false
+      if !area_array.include?self.area.name
+        area_cleared = 0
+        self.area.battle_levels.each do |b|
+          if !level_array.include?b.name
+            area_cleared = false
+          end
+        end
+
+        if area_cleared != false
+          area_array.push(self.area.name)
         end
       end
 
-      if area_cleared != false
-        area_array.push(self.area.name)
-      end
-    end
+      if !region_array.include?self.area.region.name
+        region_cleared = 0
+        self.area.region.areas.each do |a|
+          if !area_array.include?a.name
+            region_cleared = false
+          end
+        end
 
-    if !region_array.include?self.area.region.name
-      region_cleared = 0
-      self.area.region.areas.each do |a|
-        if !area_array.include?a.name
-          region_cleared = false
+        if region_cleared != false
+          region_array.push(self.area.region.name)
         end
       end
 
-      if region_cleared != false
-        region_array.push(self.area.region.name)
-      end
+      @summoner.beaten_levels = level_array
+      @summoner.completed_areas = area_array
+      @summoner.completed_regions = region_array
+      @summoner.save
     end
-
-    @summoner.beaten_levels = level_array
-    @summoner.completed_areas = area_array
-    @summoner.completed_regions = region_array
-    @summoner.save
   end
 
 #############################################################################

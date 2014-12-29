@@ -3,7 +3,6 @@ class HomeController < ApplicationController
   before_action :find_user, :find_ability_purchases, only: [:index, :abilities_for_mon]
   before_action :check_energy
   before_action :quest_start
-  after_action :generate_enemies, only: :index
 
   def index
     @monster_unlocks = @user.monster_unlocks
@@ -101,9 +100,6 @@ class HomeController < ApplicationController
     @user = current_user
   end
 
-  def generate_enemies
-    Party.generate(current_user)
-  end
 
   def quest_start
     if current_user

@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  # validates :password, presence: {message: 'Must be entered'}
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
 
@@ -11,21 +12,16 @@ class User < ActiveRecord::Base
   serialize :raw_oauth_info
 
   has_many :monster_skin_equippings, dependent: :destroy
-  # has_many :user_skin_equipped_monsters, through: :monster_skin_equippings, source: :monster
-  # has_many :user_skin_equipped_skins, through: :monster_skin_equippings, source: :monster_skin
 
   has_many :monster_unlocks, dependent: :destroy
   has_many :monsters, through: :monster_unlocks
-  # has_many :ability_equippings, through: :monster_unlocks
 
   has_many :monster_skin_purchases, dependent: :destroy
-  # has_many :user_monster_skins, through: :monster_skin_purchases, source: :monster_skin
   has_many :ability_purchases, dependent: :destroy
   has_many :abilities, through: :ability_purchases, source: :ability
 
   validates :user_name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :email, presence: {message: 'Must be entered'}
-  # validates :password, presence: {message: 'Must be entered'}
 
   after_create :create_summoner
   after_create :create_party
