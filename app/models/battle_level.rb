@@ -78,10 +78,19 @@ class BattleLevel < ActiveRecord::Base
 ############################################################################ Unlock level, area or region
   def unlock_for_summoner(summoner)
     @summoner = Summoner.find_by_name(summoner)
+    ability_reward_array = self.ability_reward
+    level_name = self.name
     if @summoner.name != "NPC"
-      p "=================================================================================================================="
-      p "Unlocking levels"
-      p "=================================================================================================================="
+
+      if !@summoner.beaten_levels.include?(level_name)
+        ability_reward_array.each do |r|
+          ability = Ability.find_by_name(r)
+          ability_id = ability.id 
+          user_id = @summoner.user.id
+          AbilityPurchase.create!(ability_id: ability_id, user_id: user_id)
+        end
+      end
+
       level_array = @summoner.beaten_levels.clone
       area_array = @summoner.completed_areas.clone
       region_array = @summoner.completed_regions.clone
