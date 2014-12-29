@@ -571,14 +571,11 @@ window.outcome = ->
     vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
-    setTimeout (->
-      $(".end-battle-but").addClass("battle-fin")
-      ), 250
     $("#overlay").fadeIn 1000, ->
       setTimeout (->
         $(".next-scene").remove()
         $(".message").addClass("animated bounceIn")
-      ), 250
+      ), 500
     setTimeout (->
       $.ajax
         url: "/battles/" + battle.id
@@ -594,6 +591,7 @@ window.outcome = ->
       url: "/battles/" + battle.id + "/win"
       method: "get"
       success: (response) ->
+        $(".message").css("z-index", "-100000000000000000")
         $(".message").html(response)
         if $(".ability-earned").text() isnt ""
           sentence = "You have gained " + $(".ability-earned").text().replace(/\s+/g, '-') + 
@@ -615,34 +613,37 @@ window.outcome = ->
           "round_taken": parseInt(battle.round)
         }
     ), 1000
-    $(document).on "click.cutscene", "#overlay", ->
-      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
-        $(".cutscene").hide(500)
-        endCutScene()
-        setTimeout (->
-          $(".next-scene").remove()
-          $(".message").addClass("animated bounceIn")
-          $(".end-battle-but").addClass("battle-fin")
-        ), 500
-      else 
-        new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
-        window.new_scene = battle.end_cut_scenes[new_index]
-        nextScene()
     if battle.end_cut_scenes.length isnt 0
       $(".cutscene").attr("src", battle.end_cut_scenes[0])
       $(".cutscene").css("opacity", "1")
       $("#overlay").fadeIn(1000)
       nextSceneInitial()
     else 
+      $(document).off "click.cutscene", "#overlay"
       $(".cutscene, .next-scene").css("opacity", "0")
       $(".message").promise().done ->
         $(".end-battle-but").addClass("battle-fin")
         $("#overlay").fadeIn(1000)
         setTimeout (->
           $(".next-scene").remove()
+          $(".message").css("z-index", "100000")
           $(".message").addClass("animated bounceIn")
-        ), 1250
-      $(document).off "click.cutscene", "#overlay"
+        ), 1500
+    $(document).on "click.cutscene", "#overlay", ->
+      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
+        $(".cutscene").hide(500)
+        $(document).off "click.cutscene", "#overlay"
+        endCutScene()
+        setTimeout (->
+          $(".next-scene").remove()
+          $(".message").css("z-index", "100000")
+          $(".message").addClass("animated bounceIn")
+        ), 750
+      else 
+        new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
+        window.new_scene = battle.end_cut_scenes[new_index]
+        nextScene()
+
 window.checkApAvailbility = ->
   $(".monBut button").each ->
     disable($(this)) if $(this).data("apcost") > battle.players[0].ap
