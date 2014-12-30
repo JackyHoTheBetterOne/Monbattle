@@ -247,13 +247,13 @@ window.fixEvolMon = (monster, player) ->
               else 
                 old_effect = usefulArray[0]
                 monTarget[old_effect.stat] = eval(monTarget[old_effect.stat] + e.restore)
+                removeEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e)
                 monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
                 usefulArray[0]["description"] = e.description
                 usefulArray[0]["stat"] = e.stat
                 usefulArray[0]["restore"] = e.restore
                 usefulArray[0]["end"] = battle.round + e.duration
-                removeEffectIcon(monTarget, e)
-                addEffectIcon(monTarget, e)
             i++
         # else if e.targeta.indexOf("attack") isnt -1
         #   while i < effectTargets.length
