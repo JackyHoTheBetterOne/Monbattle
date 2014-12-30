@@ -87,6 +87,9 @@
     .cost-input {
       @include dimensions(45px, 20px);
     }
+    .desc-input {
+      @include dimensions(495px, 20px);
+    }
     .costs-row {
       display: none;
       .abil-imgs {

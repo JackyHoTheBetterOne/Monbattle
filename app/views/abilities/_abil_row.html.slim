@@ -27,10 +27,10 @@
       p MP: &nbsp #{f.text_field :mp_cost, class: "cost-input"}
     .col-md-1.col-abils
       p GP: &nbsp #{f.text_field :gp_cost, class: "cost-input"}
-    .col-md-2.col-abils
-      p Desc:#{f.text_field :description}
     .col-md-1.col-abils
       p #{f.collection_select :element_id, @elements, :id, :name}
+    .col-md-6.col-abils
+      p Desc: &nbsp #{f.text_field :description, class: "desc-input"}
 
   .row.eff-sel-row
     .col-md-2

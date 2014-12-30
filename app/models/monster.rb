@@ -49,6 +49,10 @@ class Monster < ActiveRecord::Base
     end
   }
 
+  scope :alphabetical, -> {
+    order("lower(name)")
+  }
+
   scope :worth, -> (rarity) {
     where(rarity_id: Rarity.worth(rarity))
   }
@@ -87,7 +91,7 @@ class Monster < ActiveRecord::Base
   end
 
   def self.default_monsters
-    ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira", "Eviganon"]
+    ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira", "Saphireon"]
   end
 
   def self.find_default_monster_ids
@@ -136,8 +140,8 @@ class Monster < ActiveRecord::Base
     self.default_sock1_id = find_default_abil_id("Slap")
     self.default_sock2_id = find_default_abil_id("Groin Kick")
     if self.rarity.name == "npc"
-      self.default_sock3_id = find_default_abil_id("Omega Slash")
-      self.default_sock4_id = find_default_abil_id("Discharge")
+      self.default_sock3_id = find_default_abil_id("NPC AOE 200 PR Debuff 200-3")
+      self.default_sock4_id = find_default_abil_id("NPC AOE 400 PR Debuff 200-3")
     end
   end
 

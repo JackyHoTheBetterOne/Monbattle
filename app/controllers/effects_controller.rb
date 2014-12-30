@@ -3,7 +3,7 @@ class EffectsController < ApplicationController
 
   def index
     @effect = Effect.new
-    @effects = policy_scope(Effect.search(params[:keyword]))
+    @effects = policy_scope(Effect.search(params[:keyword]).alphabetical)
     respond_to do |format|
       format.html
       format.js

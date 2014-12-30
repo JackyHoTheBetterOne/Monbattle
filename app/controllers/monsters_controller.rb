@@ -70,7 +70,7 @@ class MonstersController < ApplicationController
 
   def find_monsters
     @monsters = policy_scope(Monster.includes(:job, :element, :personality, :battle_levels, :rarity).search(params[:keyword]).
-            paginate(:page => params[:page], :per_page => 20))
+            alphabetical.paginate(:page => params[:page], :per_page => 50))
   end
 
   def new_monster_unlock

@@ -24,12 +24,12 @@ h4=f.label "Default Ability for Socket 2"
   -if @monster.rarity.name == "npc"
     h4=f.label "Default Ability for Socket 3"
     -if @abilities.find_default_abilities_available(3, @monster.job_id).empty?
-      .form-control="No Abil Avail for Job of this Mon for Sock 3, setting default as Omega Slash"
+      .form-control="No Abil Avail for Job of this Mon for Sock 3, setting default as NPC AOE 200 PR Debuff 200-3"
     -else
       .form-control =f.collection_select :default_sock3_id, @abilities.find_default_abilities_available(3, @monster.job_id), :id, :name
     h4=f.label "Default Ability for Socket 4"
     -if @abilities.find_default_abilities_available(4, @monster.job_id).empty?
-      .form-control="No Abil Avail for Job of this Mon for Sock 4, setting default as Discharge"
+      .form-control="No Abil Avail for Job of this Mon for Sock 4, setting default as NPC AOE 400 PR Debuff 200-3"
     -else
       .form-control =f.collection_select :default_sock4_id, @abilities.find_default_abilities_available(4, @monster.job_id), :id, :name
 =f.input :description

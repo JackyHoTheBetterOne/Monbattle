@@ -83,7 +83,7 @@ class AbilitiesController < ApplicationController
   end
 
   def name_check
-    if ["Slap", "Groin Kick", "Omega Slash", "Discharge"].include? @ability.name
+    if ["Slap", "Groin Kick", "NPC AOE 200 PR Debuff 200-3", "NPC AOE 400 PR Debuff 200-3"].include? @ability.name
       params[:ability][:name] = @ability.name
     end
   end
