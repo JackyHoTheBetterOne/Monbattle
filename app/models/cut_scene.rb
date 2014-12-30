@@ -31,7 +31,13 @@ class CutScene < ActiveRecord::Base
     end
   end
 
-
+  def level_name
+    if self.battle_level
+      self.battle_level.name
+    else
+      ""
+    end
+  end
 
   private
 
