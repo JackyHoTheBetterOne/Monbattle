@@ -7,7 +7,7 @@ class BattlesController < ApplicationController
 
   after_action :deduct_energy, only: :create
   after_action :generate_enemies, only: :update
-  after_action :unlock_level_and_ability, only: :update
+  after_action [:unlock_level_and_ability, :finish_battle], only: :update
 
   def new
     params[:area_filter] ||= session[:area_filter]
@@ -70,7 +70,6 @@ class BattlesController < ApplicationController
     @battle.finished = Time.now.to_date
     @battle.update_attributes(update_params)
     @battle.save
-    @battle.to_finish
     render nothing: true
   end
 
@@ -113,9 +112,6 @@ class BattlesController < ApplicationController
   def loss  
     render template: "battles/defeat", :layout => false
   end
-
-
-
 
 
   private
@@ -183,6 +179,10 @@ class BattlesController < ApplicationController
 
   def unlock_level_and_ability
     @battle.battle_level.unlock_for_summoner(@battle.victor) 
+  end
+
+  def finish_battle
+    @battle.to_finish
   end
 end
 

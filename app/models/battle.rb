@@ -63,7 +63,6 @@ class Battle < ActiveRecord::Base
     @victorious_summoner.mp += @mp_reward
     @victorious_summoner.gp += @gp_reward
     @victorious_summoner.vortex_key += @vk_reward
-    
     @victorious_summoner.save
     self.quest_update
   end
@@ -77,7 +76,6 @@ class Battle < ActiveRecord::Base
     @loser.add_daily_battle(self.id)
     @victor.save
     @loser.save
-    self.distribute_quest_reward
   end
 
   def distribute_quest_reward
