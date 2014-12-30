@@ -499,6 +499,7 @@ window.checkOutcome = ->
   if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
     turnOffCommandA()
     toggleImg()
+    vitBop()
     setTimeout (-> 
       $(".img, .ability-img, .single-ability-img").promise().done ->
         $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
@@ -568,7 +569,6 @@ window.outcome = ->
       method: "get"
       success: (response) ->
         $(".message").html(response)
-    # vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $("#overlay").fadeIn 1000, ->
@@ -597,7 +597,6 @@ window.outcome = ->
                      $(".ability-earned").data("class") + ", on slot " + $(".ability-earned").data("slot") +
                      ". Go to the team editing page and find it by searching for the class name." 
           newAbilities.push(sentence)
-    # vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $(".message").css("opacity", "0")

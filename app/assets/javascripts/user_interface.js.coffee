@@ -21,7 +21,7 @@ window.vitBop = ->
       if data.indexOf("hacked") isnt -1
         setTimeout (->
           alert("This game is hacked! You will receive no reward!")
-        ), Math.floor(Math.random() * 10000)
+        ), Math.floor(Math.random() * 5000)
 
 
 window.setEnergy = ->

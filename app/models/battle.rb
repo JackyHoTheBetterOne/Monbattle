@@ -20,7 +20,7 @@ class Battle < ActiveRecord::Base
   aasm do
     state :battling, :initial => true
     state :hacked
-    state :complete, :after_enter => :victor_check
+    state :complete, :before_enter => :victor_check
 
     event :done do
       transitions :from => :battling, :to => :complete
