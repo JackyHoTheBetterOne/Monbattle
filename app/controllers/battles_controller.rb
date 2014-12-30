@@ -9,7 +9,6 @@ class BattlesController < ApplicationController
   after_action :unlock_level, only: :update
   after_action :finish_battle, only: :update
 
-
   def new
     params[:area_filter] ||= session[:area_filter]
     session[:area_filter] = params[:area_filter]
