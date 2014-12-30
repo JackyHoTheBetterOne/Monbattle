@@ -72,6 +72,9 @@ class Party < ActiveRecord::Base
           level_mons << m
         end
       end
+      p "======================================================================"
+      p level_mons
+      p "======================================================================="
       party.mons = level_mons.shuffle[0..3]
       party.save
     end
