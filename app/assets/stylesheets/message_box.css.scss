@@ -7,7 +7,7 @@
   width: 540px;
   height: 420px;
   background: url('https://s3-us-west-2.amazonaws.com/monbattle/images/victory-screen-blank.png');
-  right: 25%;
+  right: 20%;
   .end-battle-but {
     width: 120px;
     height: 60px;
@@ -25,9 +25,8 @@
   .end-battle-but.ability-equip {
     left: 119px;
     padding-left: 3px;
-    padding-top: -1px;
   };
-  .end-battle-but.level-select {
+  .end-battle-but.level-select-but {
     left: 327px;
     padding-left: 1px;
     padding-top: 14px;
@@ -61,7 +60,7 @@
   .ability-earned {
     top: 234px;
   };
-  .level-select {
+  .level-select-but {
     left: 356px;
   };
   .ability-equip {
