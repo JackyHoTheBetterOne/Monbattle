@@ -576,7 +576,7 @@ window.outcome = ->
       setTimeout (->
         $(".next-scene").remove()
         $(".message").addClass("animated bounceIn")
-      ), 750
+      ), 1800
     $.ajax
       url: "/battles/" + battle.id
       method: "patch"
@@ -626,7 +626,7 @@ window.outcome = ->
           $(".next-scene").remove()
           $(".message").css("z-index", "100000")
           $(".message").addClass("animated bounceIn")
-        ), 1500
+        ), 1800
     $(document).on "click.cutscene", "#overlay", ->
       if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
         $(".cutscene").hide(500)
