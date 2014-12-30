@@ -10,8 +10,6 @@ class BattlesController < ApplicationController
   after_action :finish_battle, only: :update
 
   def new
-    Party.generate(current_user)
-
     params[:area_filter] ||= session[:area_filter]
     session[:area_filter] = params[:area_filter]
     new_battle = Battle::New.new(user: current_user, 
@@ -117,6 +115,10 @@ class BattlesController < ApplicationController
 
 
   private
+  def generate_enemies
+    Party.generate(current_user)
+  end
+
   def unlock_message(summoner)
     if summoner.recently_unlocked_level != ""
       new_level = BattleLevel.find_by_name(summoner.recently_unlocked_level)
