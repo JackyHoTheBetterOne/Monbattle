@@ -1,8 +1,10 @@
 class BattlesController < ApplicationController
-  before_action :find_battle, except: [:create, :index, :new]
   impressionist :unique => [:controller_name, :action_name, :session_hash]
+
+  before_action :find_battle, except: [:create, :index, :new]
   before_action :check_energy
   before_action :quest_start
+
   after_action :deduct_energy, only: :create
   after_action :generate_enemies, only: :update
   after_action :unlock_level_and_ability, only: :update

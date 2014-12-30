@@ -34,7 +34,6 @@ class Summoner < ActiveRecord::Base
 
 
 ############################################################################################ Quest logic
-
   def check_quest
     unless self.name == "NPC"
       @summoner = self.clone

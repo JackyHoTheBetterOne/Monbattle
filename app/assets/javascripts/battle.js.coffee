@@ -1215,6 +1215,7 @@ window.ai = ->
       checkMonHealthAfterEffect()
       hpChangeBattle()
       apChange()
+      checkOutcome()
       enable($("button"))
       $(".ap").effect("highlight")
       $(".battle-message").fadeOut(100)
