@@ -575,7 +575,7 @@ window.outcome = ->
       setTimeout (->
         $(".next-scene").remove()
         $(".message").addClass("animated bounceIn")
-      ), 500
+      ), 750
     $.ajax
       url: "/battles/" + battle.id
       method: "patch"
@@ -613,10 +613,10 @@ window.outcome = ->
       $(".cutscene").css("opacity", "1")
       setTimeout (->
         $("#overlay").fadeIn(1000)
-      ), 300
+      ), 500
       nextSceneInitial()
     else 
-      $(document).off "click.cutscene", "#overlay"
+      $(document).off "click.cutscene"
       $(".cutscene, .next-scene").css("opacity", "0")
       $(".message").promise().done ->
         $(".end-battle-but").addClass("battle-fin")
@@ -629,7 +629,6 @@ window.outcome = ->
     $(document).on "click.cutscene", "#overlay", ->
       if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
         $(".cutscene").hide(500)
-        $(document).off "click.cutscene", "#overlay"
         endCutScene()
         setTimeout (->
           $(".next-scene").remove()
@@ -769,7 +768,7 @@ window.offUserTargetClick = ->
   $(document).off "mouseleave.friendly", ".user.mon-slot .img"
 
 window.endCutScene = ->
-  $(document).off "click.cutscene", "#overlay"
+  $(document).off "click.cutscene"
   $(".cutscene").css("opacity", "0")
   $(".next-scene").css("opacity", "0")
 
@@ -778,7 +777,7 @@ window.nextSceneInitial = ->
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 1200
+  ), 1500
 
 window.nextScene = ->
   if document.getElementById('overlay') isnt null
@@ -1243,7 +1242,7 @@ $ ->
           toggleImg()
           nextSceneInitial()
         else 
-          $(document).off "click.cutscene", "#overlay"
+          $(document).off "click.cutscene"
           battleStartDisplay(500)
           toggleImg()
         $(document).on "click.cutscene", "#overlay", ->
