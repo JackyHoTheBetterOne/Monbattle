@@ -132,7 +132,7 @@ class BattleLevel < ActiveRecord::Base
       @summoner.completed_regions = region_array
       @summoner.save
     end
-    Party.generate(@summoner.user)
+    # Party.generate(@summoner.user)
   end
 
 #############################################################################
