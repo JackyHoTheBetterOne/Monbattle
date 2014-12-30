@@ -68,6 +68,7 @@ class BattlesController < ApplicationController
 
   def update
     @battle.outcome = "complete"
+    @battle.is_hacked = false
     @battle.finished = Time.now.to_date
     @battle.update_attributes(update_params)
     @battle.save

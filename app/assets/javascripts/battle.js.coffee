@@ -568,7 +568,7 @@ window.outcome = ->
       method: "get"
       success: (response) ->
         $(".message").html(response)
-    vitBop()
+    # vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $("#overlay").fadeIn 1000, ->
@@ -599,7 +599,7 @@ window.outcome = ->
                      $(".ability-earned").data("class") + ", on slot " + $(".ability-earned").data("slot") +
                      ". Go to the team editing page and find it by searching for the class name." 
           newAbilities.push(sentence)
-    vitBop()
+    # vitBop()
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $(".message").css("opacity", "0")
