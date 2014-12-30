@@ -4,6 +4,7 @@ class BattlesController < ApplicationController
   before_action :find_battle, except: [:create, :index, :new]
   before_action :check_energy
   before_action :quest_start
+  before_action :generate_enemies, only: :create
 
   after_action :deduct_energy, only: :create
   after_action :unlock_level, only: :update
@@ -12,6 +13,9 @@ class BattlesController < ApplicationController
   def new
     params[:area_filter] ||= session[:area_filter]
     session[:area_filter] = params[:area_filter]
+
+    session[:level_filter] = params[:level_filter]
+
     new_battle = Battle::New.new(user: current_user, 
                                  params_area_filter: params[:area_filter],
                                  params_level_filter: params[:level_filter],
@@ -22,6 +26,9 @@ class BattlesController < ApplicationController
     @current_region = new_battle.current_region
     @regions = new_battle.regions
     @areas = new_battle.areas
+
+    session[:areas] = @areas
+
     @levels = new_battle.levels
     @battle = new_battle.battle
     @monsters = new_battle.monsters
@@ -116,7 +123,11 @@ class BattlesController < ApplicationController
 
   private
   def generate_enemies
-    Party.generate(current_user)
+    if session[:level_filter]
+      Party.generate(session[:level_filter], current_user)
+    else
+      Party.generate(session[:areas].last, current_user)
+    end
   end
 
   def unlock_message(summoner)
