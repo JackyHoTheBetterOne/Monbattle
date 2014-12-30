@@ -160,11 +160,17 @@ class Summoner < ActiveRecord::Base
 
   def check_energy
     if self.name != "NPC"
-      seconds = ((Time.now.localtime - self.last_update_for_energy.localtime)%300).to_i
-      self.stamina += ((Time.now.localtime - self.last_update_for_energy.localtime)/300).floor.to_i
-      self.last_update_for_energy = Time.now.localtime - seconds
-      self.seconds_left_for_next_energy = 300 - seconds
-      self.stamina = 100 if self.stamina > 100 
+      if self.last_update_for_energy != nil
+        seconds = ((Time.now.in_time_zone("Pacific Time (US & Canada)") - 
+                    self.last_update_for_energy.in_time_zone("Pacific Time (US & Canada)"))%300).to_i
+        self.stamina += ((Time.now.in_time_zone("Pacific Time (US & Canada)") - 
+                      self.last_update_for_energy.in_time_zone("Pacific Time (US & Canada)"))/300).floor.to_i
+        self.last_update_for_energy = Time.now.in_time_zone("Pacific Time (US & Canada)") - seconds
+        self.seconds_left_for_next_energy = 300 - seconds
+        self.stamina = 100 if self.stamina > 100
+      else
+        self.last_update_for_energy = Time.now.in_time_zone("Pacific Time (US & Canada)")
+      end 
     end
   end
 
