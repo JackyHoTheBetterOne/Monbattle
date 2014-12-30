@@ -27,7 +27,7 @@ class BattlesController < ApplicationController
     @regions = new_battle.regions
     @areas = new_battle.areas
 
-    session[:areas] = @areas
+    session[:area_name] = @areas.first.name
 
     @levels = new_battle.levels
     @battle = new_battle.battle
@@ -126,7 +126,7 @@ class BattlesController < ApplicationController
     if session[:level_filter]
       Party.generate(session[:level_filter], current_user)
     else
-      Party.generate(session[:areas].last, current_user)
+      Party.generate(session[:area_name], current_user)
     end
   end
 
