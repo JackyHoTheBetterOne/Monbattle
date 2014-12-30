@@ -136,7 +136,7 @@ class Battle < ActiveRecord::Base
 
   def update_date
     if self.created_at
-      self.finished = self.created_at.in_time_zone("Pacific Time (US & Canada)").to_date
+      self.finished = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
     end
   end
 
