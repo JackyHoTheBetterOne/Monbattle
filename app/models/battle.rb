@@ -52,7 +52,7 @@ class Battle < ActiveRecord::Base
       @loser.save
       @loser.check_quest
     else
-      give_reward
+      self.give_reward
     end
   end
 

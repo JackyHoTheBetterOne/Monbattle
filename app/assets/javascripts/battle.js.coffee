@@ -576,16 +576,14 @@ window.outcome = ->
         $(".next-scene").remove()
         $(".message").addClass("animated bounceIn")
       ), 500
-    setTimeout (->
-      $.ajax
-        url: "/battles/" + battle.id
-        method: "patch"
-        data: {
-          "victor": battle.players[1].username,
-          "loser": battle.players[0].username,
-          "round_taken": parseInt(battle.round)
-        }
-    ), 1000
+    $.ajax
+      url: "/battles/" + battle.id
+      method: "patch"
+      data: {
+        "victor": battle.players[1].username,
+        "loser": battle.players[0].username,
+        "round_taken": parseInt(battle.round)
+      }
   else if battle.players[1].mons.every(isTeamDead) is true
     $.ajax
       url: "/battles/" + battle.id + "/win"
@@ -603,16 +601,14 @@ window.outcome = ->
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $(".message").css("opacity", "0")
-    setTimeout (->
-      $.ajax
-        url: "/battles/" + battle.id
-        method: "patch"
-        data: {
-          "victor": battle.players[0].username,
-          "loser": battle.players[1].username,
-          "round_taken": parseInt(battle.round)
-        }
-    ), 1000
+    $.ajax
+      url: "/battles/" + battle.id
+      method: "patch"
+      data: {
+        "victor": battle.players[0].username,
+        "loser": battle.players[1].username,
+        "round_taken": parseInt(battle.round)
+      }
     if battle.end_cut_scenes.length isnt 0
       $(".cutscene").attr("src", battle.end_cut_scenes[0])
       $(".cutscene").css("opacity", "1")
