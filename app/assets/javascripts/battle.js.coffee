@@ -247,6 +247,7 @@ window.fixEvolMon = (monster, player) ->
               else 
                 old_effect = usefulArray[0]
                 monTarget[old_effect.stat] = eval(monTarget[old_effect.stat] + e.restore)
+                console.log(old_effect)
                 removeEffectIcon(monTarget, e)
                 addEffectIcon(monTarget, e)
                 monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
