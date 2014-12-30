@@ -26,7 +26,7 @@
           .ability_job_check_boxes
             .row
               =hidden_field_tag "ability[job_ids][]", nil
-              -Job.all.each do |job|
+              -@jobs.each do |job|
                 .col-md-6
                   li
                     =check_box_tag "ability[job_ids][]", job.id, @ability.job_ids.include?(job.id), id: dom_id(job), class: "new-job-sel-all"

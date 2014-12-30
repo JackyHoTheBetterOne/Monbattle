@@ -728,6 +728,7 @@ window.allyAbilityBeforeClickDisplay = ->
   userTargetClick()
   $(".battle-guide.guide").text("Select an ally target to activate")
   $(".battle-guide").show()
+  $(".battle-guide.cancel, .battle-guide").css("z-index", "15000")
   turnOffCommandA()
   toggleImg()
 
