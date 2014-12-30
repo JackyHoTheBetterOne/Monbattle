@@ -3,7 +3,7 @@ class BattlesController < ApplicationController
 
   before_action :find_battle, except: [:create, :index, :new]
   before_action :check_energy
-  # before_action :quest_start
+  before_action :quest_start
 
   after_action :deduct_energy, only: :create
   after_action :unlock_level, only: :update

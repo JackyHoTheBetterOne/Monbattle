@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   layout "facebook_landing"
   before_action :find_user, :find_ability_purchases, only: [:index, :abilities_for_mon]
   before_action :check_energy
-  # before_action :quest_start
+  before_action :quest_start
   after_action :generate_enemies, only: :index
 
   def index

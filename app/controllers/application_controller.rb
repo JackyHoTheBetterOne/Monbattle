@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameteres, if: :devise_controller?
   after_action :set_access_control_headers
   after_action :allow_iframe
+  before_filter :set_timezone
   include Pundit
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -17,6 +18,9 @@ class ApplicationController < ActionController::Base
     redirect_to illegal_path
   end
 
+  def set_timezone
+    Time.zone = 'Pacific Time (US & Canada)'
+  end
 
   protected
 

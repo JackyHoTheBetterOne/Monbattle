@@ -11,7 +11,7 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_create :generate_code
-  after_create :update_date
+  after_update :update_date
 
   scope :find_matching_date, -> (date, party) {
     joins(:fights).where(finished: date, "fights.party_id" => party.id)
