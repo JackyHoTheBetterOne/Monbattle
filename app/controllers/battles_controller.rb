@@ -103,10 +103,11 @@ class BattlesController < ApplicationController
     array = []
     if @ability != nil
       @ability.ability_restrictions.each do |a|
-        array.push(a.job.name)
-        @array = array
-        @class_list = array.join(", ")
+        if a.job.name.index("NPC") == nil
+          array.push(a.job.name)
+        end
       end
+      @class_list = array.join(", ")
       if @ability.targeta == "attack"
         @slot = 1
       else
