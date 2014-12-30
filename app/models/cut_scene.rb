@@ -42,8 +42,8 @@ class CutScene < ActiveRecord::Base
   private
 
   def set_keywords
-    self.keywords = [name, description, to_start.to_s, self.chapter_name, self.arc_name].map(&:downcase).
-                    concat([order]).join(" ")
+    self.keywords = [name, description, to_start.to_s, self.chapter_name, self.arc_name, self.level_name].
+                     map(&:downcase).concat([order]).join(" ")
   end
 
 
