@@ -124,11 +124,8 @@ class BattlesController < ApplicationController
 
   private
   def generate_enemies
-    if session[:level_filter]
-      Party.generate(session[:level_filter], current_user)
-    else
-      Party.generate(session[:area_name], current_user)
-    end
+    level = BattleLevel.find(battle_params[:battle_level_id])
+    Party.generate(level, current_user)
   end
 
   def unlock_message(summoner)
