@@ -497,6 +497,7 @@ window.hpBarChange = (side, index) ->
 
 window.checkOutcome = ->
   if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
+    $(document).off "mouseover"
     turnOffCommandA()
     toggleImg()
     vitBop()
