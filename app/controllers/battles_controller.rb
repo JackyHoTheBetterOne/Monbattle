@@ -4,6 +4,8 @@ class BattlesController < ApplicationController
   before_action :check_energy
   before_action :quest_start
   after_action :deduct_energy, only: :create
+  after_action :generate_enemies, only: :update
+  after_action :unlock_level, only: :update
 
   def new
     params[:area_filter] ||= session[:area_filter]
@@ -111,7 +113,6 @@ class BattlesController < ApplicationController
   end
 
 
-
   private
   def unlock_message(summoner)
     if summoner.recently_unlocked_level != ""
@@ -169,6 +170,14 @@ class BattlesController < ApplicationController
       @summoner.stamina -= @battle.battle_level.stamina_cost
       @summoner.save
     end
+  end
+
+  def generate_enemies
+    Party.generate(current_user)
+  end
+
+  def unlock_level
+    @battle.battle_level.unlock_for_summoner(@battle.victor) 
   end
 end
 

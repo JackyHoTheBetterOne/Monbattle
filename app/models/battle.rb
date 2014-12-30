@@ -1,7 +1,6 @@
 require 'aasm'
 
 class Battle < ActiveRecord::Base
-
   is_impressionable
   include AASM
   extend FriendlyId
@@ -30,7 +29,6 @@ class Battle < ActiveRecord::Base
       transitions :from => :battling, :to => :hacked
     end
   end
-
 
 ####################################################################### End Battle Update
   def to_finish
@@ -69,12 +67,11 @@ class Battle < ActiveRecord::Base
       ability = Ability.find_by_name(r)
       if ability && !@victorious_summoner.beaten_levels.include?(@battle_level.name)
         ability_id = ability.id 
-        user_id = @victorious_summoner.id
+        user_id = @victorious_summoner.user.id
         AbilityPurchase.create(ability_id: ability_id, user_id: user_id)
       end
     end
     @victorious_summoner.save
-    self.battle_level.unlock_for_summoner(@victorious_summoner)
     self.quest_update
   end
 
