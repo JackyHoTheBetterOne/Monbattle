@@ -3,12 +3,11 @@ class BattlesController < ApplicationController
 
   before_action :find_battle, except: [:create, :index, :new]
   before_action :check_energy
-  before_action :quest_start
+  # before_action :quest_start
 
   after_action :deduct_energy, only: :create
-  after_action :unlock_level_and_ability, only: :update
+  after_action :unlock_level, only: :update
   after_action :finish_battle, only: :update
-  before_action :generate_enemies, only: :new
 
 
   def new
@@ -176,11 +175,11 @@ class BattlesController < ApplicationController
   end
 
   def generate_enemies
-    Party.generate(current_user)
   end
 
-  def unlock_level_and_ability
+  def unlock_level
     @battle.battle_level.unlock_for_summoner(@battle.victor) 
+    Party.generate(current_user)
   end
 
   def finish_battle
