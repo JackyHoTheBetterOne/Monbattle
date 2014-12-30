@@ -616,7 +616,9 @@ window.outcome = ->
     if battle.end_cut_scenes.length isnt 0
       $(".cutscene").attr("src", battle.end_cut_scenes[0])
       $(".cutscene").css("opacity", "1")
-      $("#overlay").fadeIn(1000)
+      setTimeout (->
+        $("#overlay").fadeIn(1000)
+      ), 300
       nextSceneInitial()
     else 
       $(document).off "click.cutscene", "#overlay"
@@ -781,7 +783,7 @@ window.nextSceneInitial = ->
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 1000
+  ), 1200
 
 window.nextScene = ->
   if document.getElementById('overlay') isnt null
@@ -1216,7 +1218,7 @@ window.ai = ->
       checkMonHealthAfterEffect()
       hpChangeBattle()
       apChange()
-      checkOutcome()
+      checkOutcome() if $("#overlay").css("display") isnt "none"
       enable($("button"))
       $(".ap").effect("highlight")
       $(".battle-message").fadeOut(100)
@@ -1244,7 +1246,7 @@ $ ->
         if battle.start_cut_scenes.length isnt 0 
           $(".cutscene").show(500)
           toggleImg()
-          nextSceneInitial(1000)
+          nextSceneInitial()
         else 
           $(document).off "click.cutscene", "#overlay"
           battleStartDisplay(500)

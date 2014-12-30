@@ -7,7 +7,8 @@ class BattlesController < ApplicationController
 
   after_action :deduct_energy, only: :create
   after_action :generate_enemies, only: :update
-  after_action :unlock_level_and_ability, :finish_battle, only: :update
+  after_action :unlock_level_and_ability, only: :update
+  after_action :finish_battle, only: :update
 
   def new
     params[:area_filter] ||= session[:area_filter]

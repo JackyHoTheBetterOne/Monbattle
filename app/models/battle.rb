@@ -43,39 +43,38 @@ class Battle < ActiveRecord::Base
   end
 
   def victor_check
+    id = self.id
     if self.victor == "NPC"
       @loser = Summoner.find_summoner(self.loser)
-      @loser.losses += 1 
+      array = @loser.daily_battles.clone
+      array.push(id)
+      @loser.daily_battles = array 
       @loser.save
+      @loser.check_quest
     else
       give_reward
     end
   end
 
   def give_reward
+    id                   = self.id
     @battle_level        = self.battle_level
     @mp_reward           = self.battle_level.mp_reward 
     @gp_reward           = self.battle_level.gp_reward 
     @vk_reward           = self.battle_level.vk_reward 
     @victorious_summoner = Summoner.find_summoner(self.victor)
 
+    array = @victorious_summoner.daily_battles.clone
+    array.push(id)
+    @victorious_summoner.daily_battles = array 
+
     @victorious_summoner.wins += 1 
     @victorious_summoner.mp += @mp_reward
     @victorious_summoner.gp += @gp_reward
     @victorious_summoner.vortex_key += @vk_reward
     @victorious_summoner.save
-    self.quest_update
-  end
-
-  def quest_update
-    @victor = Summoner.find_summoner(self.victor)
-    @loser = Summoner.find_summoner(self.loser)
-    @victor.check_quest
-    @loser.check_quest
-    @victor.add_daily_battle(self.id)
-    @loser.add_daily_battle(self.id)
-    @victor.save
-    @loser.save
+    @victorious_summoner.check_quest
+    self.distribute_quest_reward
   end
 
   def distribute_quest_reward

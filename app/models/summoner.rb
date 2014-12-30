@@ -158,14 +158,6 @@ class Summoner < ActiveRecord::Base
 
 #############################################################################################################
 
-  def add_daily_battle(battle_id)
-    array = self.daily_battles.clone
-    array.push(battle_id)
-    self.daily_battles = array 
-    self.save
-  end
-
-
   def check_energy
     if self.name != "NPC"
       seconds = ((Time.now.localtime - self.last_update_for_energy.localtime)%300).to_i
