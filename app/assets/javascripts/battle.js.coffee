@@ -245,16 +245,16 @@ window.fixEvolMon = (monster, player) ->
                 monTarget.weakened.push(status)
                 addEffectIcon(monTarget, e)
               else 
-                old_effect = usefulArray[0]
+                old_effect = Object.create(usefulArray[0])
                 monTarget[old_effect.stat] = eval(monTarget[old_effect.stat] + e.restore)
-                console.log(old_effect)
-                removeEffectIcon(monTarget, e)
-                addEffectIcon(monTarget, e)
-                monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+                console.log(monTarget[old_effect.stat])
                 usefulArray[0]["description"] = e.description
                 usefulArray[0]["stat"] = e.stat
                 usefulArray[0]["restore"] = e.restore
                 usefulArray[0]["end"] = battle.round + e.duration
+                monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+                removeEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e)
             i++
         # else if e.targeta.indexOf("attack") isnt -1
         #   while i < effectTargets.length
