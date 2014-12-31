@@ -353,7 +353,9 @@ window.action = ->
   fixHp()
   checkMax()
   zetBut()
-  checkOutcome()
+  setTimeout (->
+    checkOutcome()
+  ), 200
 
 window.multipleAction = ->
   xadBuk()
@@ -362,7 +364,9 @@ window.multipleAction = ->
   fixHp()
   checkMax()
   zetBut()
-  checkOutcome()
+  setTimeout (->
+    checkOutcome()
+  ), 200
 
 window.userMon = (index) ->
   $(".user .mon" + index + " " + ".img")
@@ -1023,7 +1027,6 @@ window.feedAiTargets = ->
 
 ################################################################################################ AI action helpers(not very dry)
 window.controlAI = (monIndex) ->
-  xadBuk()
   monster = battle.players[1].mons[monIndex]
   if typeof monster isnt "undefined" 
     if monster.hp > 0
@@ -1212,7 +1215,9 @@ window.ai = ->
       hpChangeBattle()
       apChange()
       zetBut()
-      checkOutcome() if $("#overlay").css("display") isnt "none"
+      setTimeout (->
+        checkOutcome() if $("#overlay").css("display") isnt "none"
+      ), 200
       enable($("button"))
       $(".ap").effect("highlight")
       $(".battle-message").fadeOut(100)
