@@ -1215,9 +1215,7 @@ window.ai = ->
       hpChangeBattle()
       apChange()
       zetBut()
-      setTimeout (->
-        checkOutcome() if $("#overlay").css("display") isnt "none"
-      ), 200
+      checkOutcome() if $("#overlay").css("display") isnt "none"
       enable($("button"))
       $(".ap").effect("highlight")
       $(".battle-message").fadeOut(100)
