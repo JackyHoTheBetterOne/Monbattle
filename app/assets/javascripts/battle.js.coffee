@@ -497,10 +497,10 @@ window.hpBarChange = (side, index) ->
 
 window.checkOutcome = ->
   if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
+    vitBop()
     $(document).off "mouseover"
     turnOffCommandA()
     toggleImg()
-    vitBop()
     setTimeout (-> 
       $(".img, .ability-img, .single-ability-img").promise().done ->
         $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
@@ -620,7 +620,6 @@ window.outcome = ->
       $(document).off "click.cutscene"
       $(".cutscene, .next-scene").css("opacity", "0")
       $(".message").promise().done ->
-        $(".end-battle-but").addClass("battle-fin")
         $("#overlay").fadeIn(1000)
         setTimeout (->
           $(".next-scene").remove()
@@ -847,7 +846,6 @@ window.flashEndButton = ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
   if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
-    zetBut()
     setTimeout (->
       $(".end-turn").trigger("click")
       return
@@ -1213,6 +1211,7 @@ window.ai = ->
       checkMonHealthAfterEffect()
       hpChangeBattle()
       apChange()
+      zetBut()
       checkOutcome() if $("#overlay").css("display") isnt "none"
       enable($("button"))
       $(".ap").effect("highlight")
@@ -1221,7 +1220,6 @@ window.ai = ->
       toggleEnemyClick()
       $(".monBut button").trigger("mouseleave")
       toggleImg()
-      zetBut()
   ), timerRound
 
 
