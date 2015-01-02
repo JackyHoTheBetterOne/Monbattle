@@ -75,6 +75,14 @@ class BattleLevel < ActiveRecord::Base
     return available_levels
   end
 
+  def ability_given
+    if self.ability_reward.length == 0
+      ""
+    else
+      self.ability_reward[0]
+    end
+  end
+
 ############################################################################ Unlock level, area or region
   def unlock_for_summoner(summoner)
     @summoner = Summoner.find_by_name(summoner)
@@ -143,6 +151,6 @@ class BattleLevel < ActiveRecord::Base
   end
 
   def set_keywords
-    self.keywords = [name, self.area_name, self.region_name].map(&:downcase).join(" ")
+    self.keywords = [name, self.area_name, self.region_name. self.ability_given].map(&:downcase).join(" ")
   end
 end
