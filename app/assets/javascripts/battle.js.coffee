@@ -1209,8 +1209,8 @@ window.ai = ->
       xadBuk()
       battle.players[1].turn = false
       battle.checkRound()
-      roundEffectHappening(0)
-      roundEffectHappening(1)
+      # roundEffectHappening(0)
+      # roundEffectHappening(1)
       checkMonHealthAfterEffect()
       hpChangeBattle()
       apChange()
