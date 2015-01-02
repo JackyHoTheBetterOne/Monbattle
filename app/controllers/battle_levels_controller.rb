@@ -2,7 +2,7 @@ class BattleLevelsController < ApplicationController
   before_action :find_battle_level, except: [:index, :create]
 
   def index
-    @battle_levels = policy_scope(BattleLevel.search(params[:keyword]))
+    @battle_levels = policy_scope(BattleLevel.order("name ASC").search(params[:keyword]))
   end
 
   def create
