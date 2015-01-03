@@ -92,6 +92,7 @@ class Battle < ActiveRecord::Base
 
   def build_json
     battle_json = {}
+    battle_json[:code] = self.parties[0].user.summoner.code
     battle_json[:background] = self.background
     battle_json[:start_cut_scenes] = self.battle_level.start_cut_scenes
     battle_json[:end_cut_scenes] = self.battle_level.end_cut_scenes

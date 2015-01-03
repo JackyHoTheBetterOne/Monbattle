@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141227033507) do
+ActiveRecord::Schema.define(version: 20150102230237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,18 @@ ActiveRecord::Schema.define(version: 20141227033507) do
   add_index "ability_effects", ["ability_id"], name: "index_ability_effects_on_ability_id", using: :btree
   add_index "ability_effects", ["effect_id"], name: "index_ability_effects_on_effect_id", using: :btree
 
+  create_table "ability_equippings", force: true do |t|
+    t.integer  "ability_id"
+    t.integer  "monster_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
+  add_index "ability_equippings", ["ability_id"], name: "index_ability_equippings_on_ability_id", using: :btree
+  add_index "ability_equippings", ["monster_id"], name: "index_ability_equippings_on_monster_id", using: :btree
+  add_index "ability_equippings", ["user_id"], name: "index_ability_equippings_on_user_id", using: :btree
+
   create_table "ability_purchases", force: true do |t|
     t.integer  "ability_id"
     t.integer  "user_id"
@@ -104,6 +116,13 @@ ActiveRecord::Schema.define(version: 20141227033507) do
   end
 
   add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
+
+  create_table "backgrounds", force: true do |t|
+    t.string   "name"
+    t.string   "image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "battle_levels", force: true do |t|
     t.integer  "exp_given"
@@ -335,6 +354,20 @@ ActiveRecord::Schema.define(version: 20141227033507) do
 
   add_index "monster_skins", ["rarity_id"], name: "index_monster_skins_on_rarity_id", using: :btree
 
+  create_table "monster_templates", force: true do |t|
+    t.integer  "max_hp"
+    t.integer  "max_sp"
+    t.integer  "max_lvl"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "class_template_id"
+    t.integer  "element_template_id"
+    t.string   "name"
+  end
+
+  add_index "monster_templates", ["class_template_id"], name: "index_monster_templates_on_class_template_id", using: :btree
+  add_index "monster_templates", ["element_template_id"], name: "index_monster_templates_on_element_template_id", using: :btree
+
   create_table "monster_unlocks", force: true do |t|
     t.integer  "user_id"
     t.integer  "monster_id"
@@ -528,6 +561,7 @@ ActiveRecord::Schema.define(version: 20141227033507) do
     t.text     "completed_areas",              default: [],                    array: true
     t.text     "completed_regions",            default: [],                    array: true
     t.string   "recently_unlocked_level",      default: ""
+    t.string   "code"
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree

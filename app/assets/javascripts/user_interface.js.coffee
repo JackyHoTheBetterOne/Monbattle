@@ -34,9 +34,11 @@ window.setEnergy = ->
   ), energy_seconds*1000
   window.questTimer = setInterval(setQuestTimer, 1000)
   if window.location.href.indexOf("battles/new") isnt -1
-    region_name = document.getElementsByClassName("map-image")[0].getAttribute("data-region")
+    index = document.getElementsByClassName("map-image").length-1
+    region_name = document.getElementsByClassName("map-image")[index].getAttribute("data-region")
     document.getElementById(region_name).className += " current-region"
-    area_name = document.getElementsByClassName("map-level")[0].getAttribute("id")
+    index = document.getElementsByClassName("map-level").length-1
+    area_name = document.getElementsByClassName("map-level")[index].getAttribute("id")
     document.getElementById(area_name).className += " current-area" 
   if window.location.href.indexOf("landing") isnt -1
     document.getElementsByClassName("news-entry")[0].className += " notice-selected"

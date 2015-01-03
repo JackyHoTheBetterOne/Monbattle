@@ -27,8 +27,6 @@ class BattlesController < ApplicationController
     @regions = new_battle.regions
     @areas = new_battle.areas
 
-    session[:area_name] = @areas.first.name
-
     @levels = new_battle.levels
     @battle = new_battle.battle
     @monsters = new_battle.monsters

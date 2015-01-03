@@ -6,6 +6,7 @@ class Summoner < ActiveRecord::Base
   validates :user_id, presence: {message: 'Must be entered'}, uniqueness: true
 
   before_save :check_energy
+  before_save :generate_code
 
   def self.find_summoner(user_name)
     @user = find_user(user_name)
@@ -155,6 +156,11 @@ class Summoner < ActiveRecord::Base
     !self.completed_daily_quests.include?name
   end
 
+  def generate_code
+    if self.code == nil
+      self.code = SecureRandom.uuid
+    end
+  end
 
 #############################################################################################################
 

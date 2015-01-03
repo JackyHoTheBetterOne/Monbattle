@@ -10,6 +10,11 @@ window.playIt = ->
     ";
   return true;
 
+######################################################################################################## Battle timer 
+window.increaseTime = ->
+  window.battle.seconds_taken += 1
+
+
 ######################################################################################################## Monster logics
 window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
@@ -235,6 +240,7 @@ window.fixEvolMon = (monster, player) ->
             findObjectInArray(monTarget.weakened, "targeta", e.targeta)
             if monTarget.isAlive()
               if usefulArray.length is 0
+                console.log(monTarget[e.stat] + e.modifier + e.change)
                 monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
                 status = {}
                 status["description"] = e.description
@@ -562,7 +568,6 @@ window.showHealTeam = (index) ->
   n = battle.players[index].mons.length
   i = 0
   while i < n
-    console.log(battle.players[index].mons[i])
     if battle.players[index].mons[i].hp > 0
       damageBoxAnime(index, i, ability.modifier + window["change" + i], "rgba(50, 205, 50)")
     i++
@@ -1209,8 +1214,8 @@ window.ai = ->
       xadBuk()
       battle.players[1].turn = false
       battle.checkRound()
-      # roundEffectHappening(0)
-      # roundEffectHappening(1)
+      roundEffectHappening(0)
+      roundEffectHappening(1)
       checkMonHealthAfterEffect()
       hpChangeBattle()
       apChange()
@@ -1227,6 +1232,7 @@ window.ai = ->
 
 
 
+
 ####################################################################################################### Start of Ajax
 $ ->
   window.effectBin = []
@@ -1239,6 +1245,7 @@ $ ->
         alert("This battle cannot be loaded!")
       success: (data) ->
         window.battle = data
+        battle.seconds_taken = 0
         if battle.start_cut_scenes.length isnt 0 
           $(".cutscene").show(500)
           toggleImg()
