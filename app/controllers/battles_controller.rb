@@ -7,7 +7,7 @@ class BattlesController < ApplicationController
   before_action :generate_enemies, only: :create
 
   after_action :deduct_energy, only: :create
-  after_action :unlock_level, only: :update
+  after_action :unlock_level_and_ability, only: :update
   after_action :finish_battle, only: :update
 
   def new
@@ -145,7 +145,7 @@ class BattlesController < ApplicationController
   end
 
   def update_params
-    params.permit(:victor, :loser, :round_taken)
+    params.permit(:victor, :loser, :round_taken, :time_taken)
   end
 
   def validation_params
@@ -184,8 +184,8 @@ class BattlesController < ApplicationController
     end
   end
 
-  def unlock_level
-    @battle.battle_level.unlock_for_summoner(@battle.victor) 
+  def unlock_level_and_ability
+    @battle.battle_level.unlock_for_summoner(@battle.victor, @battle.time_taken) 
   end
 
   def finish_battle

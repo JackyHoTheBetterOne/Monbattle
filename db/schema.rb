@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150102230237) do
+ActiveRecord::Schema.define(version: 20150105055343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,18 +129,19 @@ ActiveRecord::Schema.define(version: 20150102230237) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.integer  "mp_reward",       default: 0
-    t.integer  "gp_reward",       default: 0
-    t.integer  "vk_reward",       default: 0
+    t.integer  "mp_reward",        default: 0
+    t.integer  "gp_reward",        default: 0
+    t.integer  "vk_reward",        default: 0
     t.integer  "unlocked_by_id"
     t.integer  "area_id"
     t.text     "keywords"
     t.text     "description"
     t.text     "victory_message"
-    t.text     "ability_reward",  default: [], array: true
-    t.integer  "stamina_cost",    default: 0
+    t.text     "ability_reward",   default: [], array: true
+    t.integer  "stamina_cost",     default: 0
     t.string   "background"
     t.string   "music"
+    t.integer  "time_requirement"
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
@@ -151,7 +152,6 @@ ActiveRecord::Schema.define(version: 20150102230237) do
     t.datetime "updated_at"
     t.integer  "battle_level_id"
     t.integer  "round_taken"
-    t.string   "time_taken"
     t.string   "id_code"
     t.string   "slug"
     t.string   "victor"
@@ -161,6 +161,7 @@ ActiveRecord::Schema.define(version: 20150102230237) do
     t.text     "before_action_state"
     t.boolean  "is_hacked",           default: true
     t.date     "finished"
+    t.integer  "time_taken"
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree

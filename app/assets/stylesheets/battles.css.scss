@@ -263,6 +263,20 @@ body {
   .panel-default {
     border: 0px;
   };
+  .battle-timer {
+    position: absolute;
+    background: #3D3C3C;
+    width: 110px;
+    height: 33px;
+    font-weight: bold;
+    font-size: 150%;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: white;
+    top: 60px;
+    right: 22px;
+    padding-left: 33px;
+  };
   .end-turn {
     @include stroke();
     position: absolute;
@@ -325,7 +339,6 @@ body {
     };
   };
 };
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////// Enemy Monster icons
 .enemy.mon-slot {

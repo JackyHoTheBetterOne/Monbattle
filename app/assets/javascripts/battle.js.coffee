@@ -12,7 +12,15 @@ window.playIt = ->
 
 ######################################################################################################## Battle timer 
 window.increaseTime = ->
-  window.battle.seconds_taken += 1
+  window.seconds_taken += 1
+  time = window.seconds_taken
+  minutes = Math.floor(time/60)
+  seconds = time - minutes*60
+  if seconds.toString().length > 1
+    $(".battle-timer").text(minutes.toString() + ":" + seconds.toString())
+  else
+    $(".battle-timer").text(minutes.toString() + ":" + "0" + seconds.toString())
+
 
 
 ######################################################################################################## Monster logics
@@ -507,6 +515,7 @@ window.hpBarChange = (side, index) ->
 
 window.checkOutcome = ->
   if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
+    window.clearInterval(battleTimer)
     vitBop()
     $(document).off "mouseover"
     turnOffCommandA()
@@ -592,7 +601,8 @@ window.outcome = ->
       data: {
         "victor": battle.players[1].username,
         "loser": battle.players[0].username,
-        "round_taken": parseInt(battle.round)
+        "round_taken": parseInt(battle.round),
+        "time_taken": parseInt(time_taken)
       }
   else if battle.players[1].mons.every(isTeamDead) is true
     $.ajax
@@ -616,7 +626,8 @@ window.outcome = ->
       data: {
         "victor": battle.players[0].username,
         "loser": battle.players[1].username,
-        "round_taken": parseInt(battle.round)
+        "round_taken": parseInt(battle.round),
+        "time_taken": parseInt(time_taken)
       }
     if battle.end_cut_scenes.length isnt 0
       $(".cutscene").attr("src", battle.end_cut_scenes[0])
@@ -1245,7 +1256,8 @@ $ ->
         alert("This battle cannot be loaded!")
       success: (data) ->
         window.battle = data
-        battle.seconds_taken = 0
+        window.seconds_taken = 0
+        window.battleTimer = setInterval(increaseTime, 1000)
         if battle.start_cut_scenes.length isnt 0 
           $(".cutscene").show(500)
           toggleImg()

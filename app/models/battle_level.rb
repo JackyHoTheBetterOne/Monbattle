@@ -84,13 +84,14 @@ class BattleLevel < ActiveRecord::Base
   end
 
 ############################################################################ Unlock level, area or region
-  def unlock_for_summoner(summoner)
+  def unlock_for_summoner(summoner, time_taken)
     @summoner = Summoner.find_by_name(summoner)
     ability_reward_array = self.ability_reward
+    time_requirement = self.time_requirement
     level_name = self.name
     if @summoner.name != "NPC"
 
-      if !@summoner.beaten_levels.include?(level_name)
+      if !@summoner.beaten_levels.include?(level_name) && time_taken <= time_requirement
         ability_reward_array.each do |r|
           ability = Ability.find_by_name(r)
           ability_id = ability.id 
@@ -140,7 +141,6 @@ class BattleLevel < ActiveRecord::Base
       @summoner.completed_regions = region_array
       @summoner.save
     end
-    # Party.generate(@summoner.user)
   end
 
 #############################################################################
@@ -151,6 +151,8 @@ class BattleLevel < ActiveRecord::Base
   end
 
   def set_keywords
-    self.keywords = [name, self.area_name, self.region_name. self.ability_given].map(&:downcase).join(" ")
+    self.keywords = [self.name, self.area_name, self.region_name, 
+                     self.ability_given].map(&:downcase).
+                     concat([time_requirement]).join(" ")
   end
 end
