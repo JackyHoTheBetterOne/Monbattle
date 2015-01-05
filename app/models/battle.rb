@@ -1,4 +1,9 @@
 require 'aasm'
+require 'json'
+require 'digest'
+require 'uri'
+require 'net/http'
+
 
 class Battle < ActiveRecord::Base
   is_impressionable
@@ -11,7 +16,6 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_create :generate_code
-  after_update :update_date
 
   scope :find_matching_date, -> (date, party) {
     joins(:fights).where(finished: date, "fights.party_id" => party.id)
@@ -31,8 +35,11 @@ class Battle < ActiveRecord::Base
     end
   end
 
-####################################################################### End Battle Update
+#################################################################################### End Battle Update
   def to_finish
+    if self.created_at
+      self.finished = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
+    end
     if self.aasm_state == "battling" && self.is_hacked == false
       self.done
       self.save
@@ -46,7 +53,7 @@ class Battle < ActiveRecord::Base
     id = self.id
     if self.victor == "NPC"
       @loser = Summoner.find_summoner(self.loser)
-      array = @loser.daily_battles.clone
+      array = @loser.daily_battles.dup
       array.push(id)
       @loser.daily_battles = array 
       @loser.save
@@ -64,7 +71,7 @@ class Battle < ActiveRecord::Base
     @vk_reward           = self.battle_level.vk_reward 
     @victorious_summoner = Summoner.find_summoner(self.victor)
 
-    array = @victorious_summoner.daily_battles.clone
+    array = @victorious_summoner.daily_battles.dup
     array.push(id)
     @victorious_summoner.daily_battles = array 
 
@@ -92,6 +99,7 @@ class Battle < ActiveRecord::Base
 
   def build_json
     battle_json = {}
+    battle_json[:level_name] = self.battle_level.name
     battle_json[:code] = self.parties[0].user.summoner.code
     battle_json[:background] = self.background
     battle_json[:start_cut_scenes] = self.battle_level.start_cut_scenes
@@ -135,15 +143,38 @@ class Battle < ActiveRecord::Base
     end
   end
 
-  def update_date
-    if self.created_at
-      self.finished = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
-    end
-  end
-
-  private
-
   def generate_code
     self.id_code = SecureRandom.uuid
   end
+
+####################################################################################### End battle tracking
+
+  def send_tracking_data
+    game_key = "0e5b3af8c606e3ab93a9f42fef7a650b"
+    secret_key = "6751354522b6cc4bfc238ee6392c9dd7227b6666"
+    endpoint_url = "http://api.gameanalytics.com/1"
+    category = "design"
+    message = {}
+    if self.victor == "NPC"
+      message["event_id"] = self.battle_level.name + ":" + "defeat"
+    else
+      message["event_id"] = self.battle_level.name + ":" + "victory"
+    end
+    message["user_id"] = self.parties[0].user.summoner.code
+    message["session_id"] = self.id_code
+    message["build"] = "1.00"
+    message["value"] = 1.0
+    json_message = message.to_json
+    json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
+    url = "#{endpoint_url}/#{game_key}/#{category}"
+    uri = URI(url)
+    req = Net::HTTP::Post.new(uri.path)
+    req.body = json_message
+    req['Authorization'] = json_authorization
+
+    res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+      http.request(req)
+    end
+  end
+
 end

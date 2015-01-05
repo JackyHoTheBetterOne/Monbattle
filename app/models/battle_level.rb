@@ -100,9 +100,9 @@ class BattleLevel < ActiveRecord::Base
         end
       end
 
-      level_array = @summoner.beaten_levels.clone
-      area_array = @summoner.completed_areas.clone
-      region_array = @summoner.completed_regions.clone
+      level_array = @summoner.beaten_levels.dup
+      area_array = @summoner.completed_areas.dup
+      region_array = @summoner.completed_regions.dup
 
       if !level_array.include?self.name
         level_array.push(self.name) 

@@ -15,10 +15,10 @@
   .equip-thumb.equip1
     =render partial: "abil_portrait", locals: {mon: mon, socket: 1}
   .slot-text
-    p Slot 1
+    p Attack
 .mon-equipped2.shadowed2.btn
   .equip-thumb.equip2
     =render partial: "abil_portrait", locals: {mon: mon, socket: 2}
   .slot-text
-    p Slot 2
+    p Ability
   =render partial: "abils_for_mon", locals: {mon: mon, socket: 2, class_info: "equip-link", link_info: ""}

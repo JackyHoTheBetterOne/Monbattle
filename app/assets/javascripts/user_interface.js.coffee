@@ -109,15 +109,6 @@ $ ->
   $(document).on "click", ".for-real, .close-quest, .quest-close-footer", ->
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
       $(".quest-show").parent().removeClass("active")
-  # $(document).on "click.quest", ".fb-nav :not('.quest-show'), .back-to-select", ->
-  #   setNewAbilityArray()
-  #   setEnergy()
-  #   console.log("sup")
-  # $(document).on "click.fix", ".battle-fin, .party_edit_button", ->
-  #   setNewAbilityArray()
-  #   setEnergy()
-  #   console.log("sup")
-
 
 
 

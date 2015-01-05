@@ -74,13 +74,15 @@ window.fixEvolMon = (monster, player) ->
             ii = 0 
             while ii < monTarget.poisoned.length
               e = monTarget.poisoned[ii]
-              delete monTarget.poisoned[ii] if e.impact.indexOf("-") isnt -1
+              if typeof monTarget.poisoned[ii] isnt "undefined"
+                delete monTarget.poisoned[ii] if e.impact.indexOf("-") isnt -1
               removeEffectIcon(monTarget, e) 
               ii++
             i3 = 0
             while i3 < monTarget.weakened.length
               e = monTarget.weakened[i3]
-              delete monTarget.weakened[i3] if e.restore.indexOf("+") isnt -1
+              if typeof monTarget.poisoned[ii] isnt "undefined"
+                delete monTarget.weakened[i3] if e.restore.indexOf("+") isnt -1
               removeEffectIcon(monTarget, e)
               i3++
             if a.modifier isnt ""
@@ -248,7 +250,6 @@ window.fixEvolMon = (monster, player) ->
             findObjectInArray(monTarget.weakened, "targeta", e.targeta)
             if monTarget.isAlive()
               if usefulArray.length is 0
-                console.log(monTarget[e.stat] + e.modifier + e.change)
                 monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
                 status = {}
                 status["description"] = e.description
@@ -269,16 +270,6 @@ window.fixEvolMon = (monster, player) ->
                 removeEffectIcon(monTarget, e)
                 addEffectIcon(monTarget, e)
             i++
-        # else if e.targeta.indexOf("attack") isnt -1
-        #   while i < effectTargets.length
-        #     monTarget = effectTargets[i]
-        #     addEffectIcon(monTarget, e)
-        #     setTimeout (->
-        #       $(".effect").trigger("mouseleave")
-        #       removeEffectIcon(monster, e)
-        #       ), 1200
-        #     monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-        #     i++
         else
           while i < effectTargets.length
             monTarget = effectTargets[i]
@@ -359,28 +350,6 @@ window.checkMin = ->
     mon = battle.players[1].mons[i]
     battle.players[1].mons[i].max_hp = 0 if mon.hp is 0
     i++
-
-window.action = ->
-  xadBuk()
-  checkMin()
-  battle.monAbility(targets[0], targets[1], targets[2], targets[3])
-  fixHp()
-  checkMax()
-  zetBut()
-  setTimeout (->
-    checkOutcome()
-  ), 200
-
-window.multipleAction = ->
-  xadBuk()
-  checkMin()
-  battle.monAbility(targets[0], targets[1], targets[2])
-  fixHp()
-  checkMax()
-  zetBut()
-  setTimeout (->
-    checkOutcome()
-  ), 200
 
 window.userMon = (index) ->
   $(".user .mon" + index + " " + ".img")
@@ -582,7 +551,15 @@ window.showHealTeam = (index) ->
     i++
 
 window.outcome = ->
+  object = {}
+  # object["user_id"] = battle.code
+  # object["battle_id"] = battle.id
+  # object["game_id"] = '0e5b3af8c606e3ab93a9f42fef7a650b'
+  # object["game_term"] = '6751354522b6cc4bfc238ee6392c9dd7227b6666'
+  # object["category"] = 'frequency'
   if battle.players[0].mons.every(isTeamDead) is true
+    # object["event_id"] = battle.level_name + ":" + "defeat"
+    # tracking(object)
     $.ajax
       url: "/battles/" + battle.id + "/loss"
       method: "get"
@@ -602,9 +579,11 @@ window.outcome = ->
         "victor": battle.players[1].username,
         "loser": battle.players[0].username,
         "round_taken": parseInt(battle.round),
-        "time_taken": parseInt(time_taken)
+        "time_taken": parseInt(seconds_taken)
       }
   else if battle.players[1].mons.every(isTeamDead) is true
+    # object["event_id"] = battle.level_name + ":" + "victory"
+    # tracking(object)
     $.ajax
       url: "/battles/" + battle.id + "/win"
       method: "get"
@@ -627,7 +606,7 @@ window.outcome = ->
         "victor": battle.players[0].username,
         "loser": battle.players[1].username,
         "round_taken": parseInt(battle.round),
-        "time_taken": parseInt(time_taken)
+        "time_taken": parseInt(seconds_taken)
       }
     if battle.end_cut_scenes.length isnt 0
       $(".cutscene").attr("src", battle.end_cut_scenes[0])
@@ -809,12 +788,12 @@ window.nextScene = ->
   ), 300
   setTimeout (->
     $(".cutscene").css("opacity", "1")
-  ), 1000
+  ), 1200
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     if document.getElementById('overlay') isnt null
       document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 2000
+  ), 2200
 
 window.mouseOverMon = ->
   if $(this).css("opacity") isnt "0"
@@ -1246,6 +1225,26 @@ window.ai = ->
 
 ####################################################################################################### Start of Ajax
 $ ->
+  action = ->
+    xadBuk()
+    checkMin()
+    battle.monAbility(targets[0], targets[1], targets[2], targets[3])
+    fixHp()
+    checkMax()
+    zetBut()
+    setTimeout (->
+      checkOutcome()
+    ), 200
+  multipleAction = ->
+    xadBuk()
+    checkMin()
+    battle.monAbility(targets[0], targets[1], targets[2])
+    fixHp()
+    checkMax()
+    zetBut()
+    setTimeout (->
+      checkOutcome()
+    ), 200
   window.effectBin = []
   if document.getElementById("battle") isnt null
     $.ajax 

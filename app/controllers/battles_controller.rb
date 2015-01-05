@@ -9,6 +9,7 @@ class BattlesController < ApplicationController
   after_action :deduct_energy, only: :create
   after_action :unlock_level_and_ability, only: :update
   after_action :finish_battle, only: :update
+  after_action :tracking, only: :update
 
   def new
     params[:area_filter] ||= session[:area_filter]
@@ -107,9 +108,9 @@ class BattlesController < ApplicationController
       end
       @class_list = array.join(", ")
       if @ability.targeta == "attack"
-        @slot = 1
+        @slot = "Attack"
       else
-        @slot = 2
+        @slot = "Ability"
       end
     end
     render template: "battles/victory", :layout => false
@@ -120,7 +121,16 @@ class BattlesController < ApplicationController
   end
 
 
+
+
+
+
+
   private
+  def tracking
+    @battle.send_tracking_data
+  end
+
   def generate_enemies
     level = BattleLevel.find(battle_params[:battle_level_id])
     Party.generate(level, current_user)
