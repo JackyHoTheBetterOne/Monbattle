@@ -120,15 +120,10 @@ class BattlesController < ApplicationController
     render template: "battles/defeat", :layout => false
   end
 
-
-
-
-
-
-
   private
   def tracking
-    @battle.send_tracking_data
+    @battle.track_outcome
+    @battle.track_performance
   end
 
   def generate_enemies

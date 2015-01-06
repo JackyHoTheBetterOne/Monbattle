@@ -149,16 +149,16 @@ class Battle < ActiveRecord::Base
 
 ####################################################################################### End battle tracking
 
-  def send_tracking_data
+  def track_outcome
     game_key = "0e5b3af8c606e3ab93a9f42fef7a650b"
     secret_key = "6751354522b6cc4bfc238ee6392c9dd7227b6666"
     endpoint_url = "http://api.gameanalytics.com/1"
     category = "design"
     message = {}
     if self.victor == "NPC"
-      message["event_id"] = self.battle_level.name + ":" + "defeat"
+      message["event_id"] = self.battle_level.name.gsub(" ", "_") + ":" + "defeat"
     else
-      message["event_id"] = self.battle_level.name + ":" + "victory"
+      message["event_id"] = self.battle_level.name.gsub(" ", "_") + ":" + "victory"
     end
     message["user_id"] = self.parties[0].user.summoner.code
     message["session_id"] = self.id_code
@@ -175,6 +175,53 @@ class Battle < ActiveRecord::Base
     res = Net::HTTP.start(uri.hostname, uri.port) do |http|
       http.request(req)
     end
+
+    p "======================================================================="
+    p "Outcome tracking: #{res.body}"
+    p "======================================================================="
   end
 
+  def track_performance
+    game_key = ENV["GAME_KEY"]
+    secret_key = ENV["GAME_SECRET"]
+    endpoint_url = "http://api.gameanalytics.com/1"
+    category = "design"
+    message = {}
+    message["event_id"] = self.battle_level.name.gsub(" ", "_") + ":" + "time_taken"
+    message["user_id"] = self.parties[0].user.summoner.code
+    message["session_id"] = self.id_code
+    message["build"] = "1.00"
+    message["value"] = self.time_taken
+    json_message = message.to_json
+    json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
+    url = "#{endpoint_url}/#{game_key}/#{category}"
+    uri = URI(url)
+    req = Net::HTTP::Post.new(uri.path)
+    req.body = json_message
+    req['Authorization'] = json_authorization
+
+    res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+      http.request(req)
+    end
+
+    p "======================================================================="
+    p "Performance tracking: #{res.body}"
+    p "======================================================================="
+
+    message["event_id"] = self.battle_level.name.gsub(" ", "_") + ":" + "round_taken"
+    message["value"] = self.round_taken
+    json_message = message.to_json
+    json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
+    req.body = json_message
+    req['Authorization'] = json_authorization
+
+    res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+      http.request(req)
+    end
+
+    p "======================================================================="
+    p "Performance tracking: #{res.body}"
+    p "======================================================================="
+  end
 end
+
