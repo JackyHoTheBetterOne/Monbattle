@@ -22,7 +22,6 @@ window.increaseTime = ->
     $(".battle-timer").text(minutes.toString() + ":" + "0" + seconds.toString())
 
 
-
 ######################################################################################################## Monster logics
 window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
@@ -842,7 +841,9 @@ window.toggleImg = ->
 
 window.flashEndButton = ->
   window.buttonArray = []
-  $(".end-turn").prop("disabled", false)
+  setTimeout (->
+    $(".end-turn").prop("disabled", false)
+  ), 300
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
@@ -1206,13 +1207,13 @@ window.ai = ->
       xadBuk()
       battle.players[1].turn = false
       battle.checkRound()
-      if $(".battle-round-countdown").css("opacity") isnt 0
+      if $(".battle-round-countdown").length isnt 0
         round = parseInt($(".battle-round-countdown span").text())
         round -= 1
         if round > 0
           $(".battle-round-countdown span").text(round)
         else 
-          $(".battle-round-countdown").css("opacity", "0")
+          $(".battle-round-countdown").css("opacity", "0").remove()
       roundEffectHappening(0)
       roundEffectHappening(1)
       checkMonHealthAfterEffect()
