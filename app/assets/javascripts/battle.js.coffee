@@ -616,7 +616,8 @@ window.outcome = ->
           $(".message").addClass("animated bounceIn")
         ), 1800
     $(document).on "click.cutscene", "#overlay", ->
-      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
+      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
+              battle.end_cut_scenes.length is 0
         $(".cutscene").hide(500)
         endCutScene()
         setTimeout (->
@@ -776,6 +777,7 @@ window.nextSceneInitial = ->
   document.getElementById('overlay').style.pointerEvents = 'none'
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
+    $(".skip-button").css("opacity", "1")
     document.getElementById('overlay').style.pointerEvents = 'auto'
   ), 1500
 
@@ -843,7 +845,7 @@ window.flashEndButton = ->
   window.buttonArray = []
   setTimeout (->
     $(".end-turn").prop("disabled", false)
-  ), 300
+  ), 500
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
@@ -1275,8 +1277,14 @@ $ ->
           $(document).off "click.cutscene"
           battleStartDisplay(500)
           toggleImg()
+        $(document).on "click.skip", ".skip-button", ->
+          if $(this).css("opacity") isnt 0
+            battle.start_cut_scenes.length = 0
+            battle.end_cut_scenes.length = 0
+            $(".skip-button").remove()
         $(document).on "click.cutscene", "#overlay", ->
-          if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1]
+          if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1] or 
+              battle.start_cut_scenes.length is 0
             endCutScene()
             battleStartDisplay(1000)
           else 
@@ -1396,6 +1404,10 @@ $ ->
         zetBut()
         window.currentBut = undefined
         toggleEnemyClick()
+        $(document).on("mouseover", ".battle-round-countdown", ->
+          $(".bonus-description").css("opacity", "1")
+        ).on "mouseleave", ".battle-round-countdown", ->
+          $(".bonus-description").css("opacity", "0")
         $(document).on("mouseover", ".enemy.mon-slot .img", ->
           if $(this).attr("disabled") isnt "disabled"
             $(this).css("background", "rgba(255, 241, 118, .58)")

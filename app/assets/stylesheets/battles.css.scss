@@ -136,6 +136,22 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
   left:0;
   text-align: center;
   z-index: 10000000000000000;
+  .skip-button {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    height: 30px;
+    width: 60px;
+    opacity: 0;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: white;
+    background: #3D3C3C;
+    transition: background 0.3s;
+  };
+  .skip-button:hover {
+    background: #0D47A1;
+  };
   .message {
     position: fixed;
     margin: auto;
@@ -218,6 +234,19 @@ $theme-background-color: rgba(32, 32, 32, 0.9);
   left: 400px;
 };
 
+.bonus-description {
+  position: absolute;
+  width: 230px;
+  text-align: center;
+  background: #3D3C3C;
+  border: 2px solid black;
+  border-radius: 5px;
+  left: 593px;
+  top: 98px;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// Battle
 html {
@@ -608,7 +637,7 @@ body {
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////// Effect css
+//////////////////////////////////////////////////////////////////////////////////////////////// Effect box css
 .effect-box {
   height: 124px;
   width: 60px;
@@ -684,14 +713,14 @@ body {
 };
 
 
-////////////////////////////////////////////////////////////////////////////////////////// Retarded effect box
+////////////////////////////////////////////////////////////////////////////////////////// Retarded effect description
 .effect-info {
   position: absolute;
   top: 93px;
   left: 383px;
-  width: 224px;
+  width: 230px;
   opacity: 0;
-  transition: background 0.3s;
+  transition: opacity 0.3s;
   .panel-body {
     font-size: 85%;
     padding-top: 10px;

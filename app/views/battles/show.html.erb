@@ -14,6 +14,9 @@
   </div>
   <%= image_tag(@battle.battle_level.start_cut_scenes[0], class: "cutscene") %>
   <%= image_tag("story-arrow.png", class: "next-scene") %>
+  <% if current_user.summoner.beaten_levels.include?(@battle.battle_level.name) %>
+    <button class="skip-button" id="skip-button">Skip</button>
+  <% end %>
 </div>
 
 
@@ -25,9 +28,16 @@
   <div class="battle-timer">
   </div>
 
-  <div class="battle-round-countdown">
-    Rush Bonus: <span><%= @battle.battle_level.time_requirement %></span>
-  </div>
+  <% if !current_user.summoner.beaten_levels.include?(@battle.battle_level.name) || 
+        @battle.battle_level.ability_reward.length != 0 %>
+    <div class="battle-round-countdown">
+      Rush Bonus: <span><%= @battle.battle_level.time_requirement %></span>
+    </div>
+    <div class="bonus-description">
+      Win the battle under <%= @battle.battle_level.time_requirement %> rounds 
+          and get <%= @battle.battle_level.ability_reward[0] %>
+    </div>
+  <% end %>
 
   <div class="battle-helper">
     <div class="panel-body battle-guide guide">
@@ -71,6 +81,10 @@
   </div>
   <div class="panel-heading">Effect name</div>
 </div>
+
+
+
+
 
 <div id="embed"></div>
 

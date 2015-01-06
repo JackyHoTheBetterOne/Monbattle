@@ -179,6 +179,5 @@ class Summoner < ActiveRecord::Base
       end 
     end
   end
-
 end
 

@@ -241,8 +241,8 @@ class Battle < ActiveRecord::Base
     req['Authorization'] = json_authorization
 
     res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-      http.request(req)
-    end
+            http.request(req)
+          end
 
     p "======================================================================="
     p "Ability tracking: #{res.body}"
