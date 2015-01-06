@@ -195,7 +195,7 @@ class BattlesController < ApplicationController
   end
 
   def unlock_level_and_ability
-    @battle.battle_level.unlock_for_summoner(@battle.victor, @battle.time_taken) 
+    @battle.battle_level.unlock_for_summoner(@battle.victor, @battle.round_taken) 
   end
 
   def finish_battle

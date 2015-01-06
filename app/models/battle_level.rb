@@ -84,7 +84,7 @@ class BattleLevel < ActiveRecord::Base
   end
 
 ############################################################################ Unlock level, area or region
-  def unlock_for_summoner(summoner, time_taken)
+  def unlock_for_summoner(summoner, round_taken)
     @summoner = Summoner.find_by_name(summoner)
     ability_reward_array = self.ability_reward
     time_requirement = self.time_requirement
