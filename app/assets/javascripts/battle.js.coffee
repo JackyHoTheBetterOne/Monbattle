@@ -677,15 +677,16 @@ window.battleStartDisplay = (time) ->
     $("#overlay").fadeOut 500, ->
       window.battleTimer = setInterval(increaseTime, 1000)
       toggleImg()
-      $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
+      # $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
+      $(".user .img").each ->
+        $(this).effect("bounce", {distance: 80, times: 5}, 1500)
       return
     ), time
   # setTimeout (->
   #   $("#battle-tutorial").joyride({'tipLocation': 'top'})
   #   $("#battle-tutorial").joyride({})
   #   toggleImg()
-  #   $(".user .img").each ->
-  #     $(this).effect("bounce", {distance: 80, times: 5}, 1500)
+
   # ), (time + 1500)
 
 ################################################################################################### Display function-calling helpers
