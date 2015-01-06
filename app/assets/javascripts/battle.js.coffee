@@ -575,6 +575,15 @@ window.outcome = ->
       }
   else if battle.players[1].mons.every(isTeamDead) is true
     $.ajax
+      url: "/battles/" + battle.id
+      method: "patch"
+      data: {
+        "victor": battle.players[0].username,
+        "loser": battle.players[1].username,
+        "round_taken": parseInt(battle.round),
+        "time_taken": parseInt(seconds_taken)
+      }
+    $.ajax
       url: "/battles/" + battle.id + "/win"
       method: "get"
       success: (response) ->
@@ -589,15 +598,6 @@ window.outcome = ->
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $(".message").css("opacity", "0")
-    $.ajax
-      url: "/battles/" + battle.id
-      method: "patch"
-      data: {
-        "victor": battle.players[0].username,
-        "loser": battle.players[1].username,
-        "round_taken": parseInt(battle.round),
-        "time_taken": parseInt(seconds_taken)
-      }
     if battle.end_cut_scenes.length isnt 0
       $(".cutscene").attr("src", battle.end_cut_scenes[0])
       $(".cutscene").css("opacity", "1")
