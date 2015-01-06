@@ -95,7 +95,10 @@ class BattlesController < ApplicationController
   def win
     @ability = Ability.find_by_name(@battle.battle_level.ability_reward[0])
     if current_user
-      @ability = nil if current_user.summoner.beaten_levels.include?(@battle.battle_level.name)
+      if current_user.summoner.beaten_levels.include?
+         (@battle.battle_level.name) || @battle.round_taken <= @battle.battle_level.time_requirement
+        @ability = nil 
+      end
     end
     @class_list = ""
     @slot = ""
