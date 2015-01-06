@@ -72,6 +72,7 @@ class BattlesController < ApplicationController
   end
 
   def update
+    @battle.finished = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
     @battle.outcome = "complete"
     @battle.finished = Time.now.to_date
     @battle.update_attributes(update_params)

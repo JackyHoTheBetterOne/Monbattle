@@ -37,9 +37,6 @@ class Battle < ActiveRecord::Base
 
 #################################################################################### End Battle Update
   def to_finish
-    if self.created_at
-      self.finished = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
-    end
     if self.aasm_state == "battling" && self.is_hacked == false
       self.done
       self.save
