@@ -130,11 +130,6 @@ class BattlesController < ApplicationController
   end
 
   private
-  def tracking
-    @battle.track_outcome
-    @battle.track_performance
-  end
-
   def generate_enemies
     level = BattleLevel.find(battle_params[:battle_level_id])
     Party.generate(level, current_user)
@@ -204,6 +199,11 @@ class BattlesController < ApplicationController
 
   def finish_battle
     @battle.to_finish
+  end
+
+  def tracking
+    @battle.track_outcome
+    @battle.track_performance
   end
 end
 
