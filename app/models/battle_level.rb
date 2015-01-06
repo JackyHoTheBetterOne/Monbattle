@@ -91,7 +91,7 @@ class BattleLevel < ActiveRecord::Base
     level_name = self.name
     if @summoner.name != "NPC"
 
-      if !@summoner.beaten_levels.include?(level_name) && time_taken <= time_requirement
+      if !@summoner.beaten_levels.include?(level_name) && round_taken <= time_requirement
         ability_reward_array.each do |r|
           ability = Ability.find_by_name(r)
           ability_id = ability.id 

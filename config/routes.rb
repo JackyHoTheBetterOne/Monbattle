@@ -63,6 +63,7 @@ resources :battles do
   patch :showing, on: :member
   get :win, on: :member
   get :loss, on: :member
+  get :tracking_abilities, on: :member
 end
 
 resources :ability_equippings, only: [:create, :update]

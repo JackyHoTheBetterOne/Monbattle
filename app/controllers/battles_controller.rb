@@ -120,6 +120,11 @@ class BattlesController < ApplicationController
     render template: "battles/defeat", :layout => false
   end
 
+  def tracking_abilities
+    @battle.track_ability_frequency(params[:ability_name])
+    render nothing: true
+  end
+
   private
   def tracking
     @battle.track_outcome

@@ -551,15 +551,7 @@ window.showHealTeam = (index) ->
     i++
 
 window.outcome = ->
-  object = {}
-  # object["user_id"] = battle.code
-  # object["battle_id"] = battle.id
-  # object["game_id"] = '0e5b3af8c606e3ab93a9f42fef7a650b'
-  # object["game_term"] = '6751354522b6cc4bfc238ee6392c9dd7227b6666'
-  # object["category"] = 'frequency'
   if battle.players[0].mons.every(isTeamDead) is true
-    # object["event_id"] = battle.level_name + ":" + "defeat"
-    # tracking(object)
     $.ajax
       url: "/battles/" + battle.id + "/loss"
       method: "get"
@@ -582,8 +574,6 @@ window.outcome = ->
         "time_taken": parseInt(seconds_taken)
       }
   else if battle.players[1].mons.every(isTeamDead) is true
-    # object["event_id"] = battle.level_name + ":" + "victory"
-    # tracking(object)
     $.ajax
       url: "/battles/" + battle.id + "/win"
       method: "get"
@@ -686,6 +676,7 @@ window.battleStartDisplay = (time) ->
   setTimeout (->
     $("#overlay").fadeOut 500, ->
       window.battleTimer = setInterval(increaseTime, 1000)
+      toggleImg()
       $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
       return
     ), time
@@ -709,6 +700,14 @@ window.singleTargetAbilityAfterClickDisplay = (ability) ->
   $(".user .img").removeClass("controlling")
   $(".battle-guide").hide()
   $(".battle-guide, .battle-guide.cancel").css("z-index", "-1")
+  name = $(ability).data("name")
+  $.ajax
+    type: "GET"
+    url: "/battles/"+ battle.id + "/tracking_abilities"
+    data: { ability_name: name },
+    success: (data) ->
+      console.log("Successful")
+
 
 window.singleTargetAbilityAfterActionDisplay = ->
   apChange()
@@ -1205,6 +1204,13 @@ window.ai = ->
       xadBuk()
       battle.players[1].turn = false
       battle.checkRound()
+      if $(".battle-round-countdown").css("opacity") isnt 0
+        round = parseInt($(".battle-round-countdown span").text())
+        round -= 1
+        if round > 0
+          $(".battle-round-countdown span").text(round)
+        else 
+          $(".battle-round-countdown").css("opacity", "0")
       roundEffectHappening(0)
       roundEffectHappening(1)
       checkMonHealthAfterEffect()
@@ -1221,31 +1227,32 @@ window.ai = ->
       toggleImg()
   ), timerRound
 
+####################################################################################################### Action helpers
+window.action = ->
+  xadBuk()
+  checkMin()
+  battle.monAbility(targets[0], targets[1], targets[2], targets[3])
+  fixHp()
+  checkMax()
+  zetBut()
+  setTimeout (->
+    checkOutcome()
+  ), 200
 
+window.multipleAction = ->
+  xadBuk()
+  checkMin()
+  battle.monAbility(targets[0], targets[1], targets[2])
+  fixHp()
+  checkMax()
+  zetBut()
+  setTimeout (->
+    checkOutcome()
+  ), 200
 
 
 ####################################################################################################### Start of Ajax
 $ ->
-  action = ->
-    xadBuk()
-    checkMin()
-    battle.monAbility(targets[0], targets[1], targets[2], targets[3])
-    fixHp()
-    checkMax()
-    zetBut()
-    setTimeout (->
-      checkOutcome()
-    ), 200
-  multipleAction = ->
-    xadBuk()
-    checkMin()
-    battle.monAbility(targets[0], targets[1], targets[2])
-    fixHp()
-    checkMax()
-    zetBut()
-    setTimeout (->
-      checkOutcome()
-    ), 200
   window.effectBin = []
   if document.getElementById("battle") isnt null
     $.ajax 
