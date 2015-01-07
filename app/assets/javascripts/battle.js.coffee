@@ -451,6 +451,15 @@ window.enemyTimer = ->
 
 
 ######################################################################################################## Battle display helpers
+window.availableAbilities = ->
+  $(".monBut button").each ->
+    button = $(this)
+    if $(this).css("opacity") isnt "0"
+      if $(this).data("apcost") > battle.players[0].ap
+        $(button).children("img").css("opacity", "0")
+      else 
+        $(button).children("img").css("opacity", "1")
+
 window.callAbilityImg = ->
   battle.players[targets[0]].mons[targets[1]].abilities[targets[2]].img
 
@@ -842,6 +851,7 @@ window.toggleImg = ->
       $(this).attr("disabled", "true")
 
 window.flashEndButton = ->
+  availableAbilities()
   window.buttonArray = []
   setTimeout (->
     $(".end-turn").prop("disabled", false)
@@ -1275,19 +1285,20 @@ $ ->
           nextSceneInitial()
         else 
           $(document).off "click.cutscene"
-          battleStartDisplay(500)
+          battleStartDisplay(1000)
           toggleImg()
         $(document).on "click.skip", ".skip-button", ->
           if $(this).css("opacity") isnt 0
             battle.start_cut_scenes.length = 0
             battle.end_cut_scenes.length = 0
             $(".skip-button").remove()
+            $(".next-scene").remove()
             zetBut()
         $(document).on "click.cutscene", "#overlay", ->
           if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1] or 
               battle.start_cut_scenes.length is 0
             endCutScene()
-            battleStartDisplay(1000)
+            battleStartDisplay(1500)
           else 
             new_index = battle.start_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
             window.new_scene = battle.start_cut_scenes[new_index]
@@ -1404,6 +1415,7 @@ $ ->
           targets.shift()
         window.currentBut = undefined
         zetBut()
+        availableAbilities()
         toggleEnemyClick()
         $(document).on("mouseover", ".battle-round-countdown", ->
           $(".bonus-description").css("opacity", "1")

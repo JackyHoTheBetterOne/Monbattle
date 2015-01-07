@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css?family=Sigmar+One");
 @import "compass";
 
-$theme-background-color: rgba(32, 32, 32, 0.9);
+$theme-background-color: rgba(32, 32, 32, 1);
 
 @mixin flipped() {
   -moz-transform: scaleX(-1);
