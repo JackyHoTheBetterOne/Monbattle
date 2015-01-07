@@ -1109,7 +1109,7 @@ window.controlAI = (monIndex) ->
               hpChangeBattle()
               checkMonHealthAfterEffect()
               element.toggleClass "flipped ability-on"
-              element.attr("src", "")
+              element.finish().attr("src", "#")
               return
             ), 1200
             return
@@ -1131,7 +1131,7 @@ window.controlAI = (monIndex) ->
                   $(this).effect "shake", {times: 5, distance: 40}, 750
             setTimeout (->
               element.toggleClass "flipped ability-on aoePositionUser"
-              element.attr("src", "")
+              element.finish().attr("src", "#")
               showDamageTeam(0)
               hpChangeBattle()
               checkMonHealthAfterEffect()            
@@ -1157,7 +1157,7 @@ window.controlAI = (monIndex) ->
                 , 800
             setTimeout (->
               element.toggleClass "ability-on aoePositionFoe"
-              element.attr("src", "")
+              element.finish().attr("src", "#")
               showHealTeam(1) if ability.stat isnt "cleanse"
               hpChangeBattle()
               checkMonHealthAfterEffect()
@@ -1184,7 +1184,7 @@ window.controlAI = (monIndex) ->
             setTimeout (->
               showHealSingle() if ability.stat isnt "cleanse"
               element.toggleClass "ability-on"
-              element.attr("src", "")
+              element.finish().attr("src", "#")
               hpChangeBattle()
               checkMonHealthAfterEffect()            
             ), 1200
@@ -1580,7 +1580,7 @@ $ ->
                       element = $(this)
                       setTimeout (->
                         element.toggleClass "ability-on"
-                        element.attr("src", "")
+                        element.finish().attr("src", "#")
                         singleTargetAbilityAfterActionDisplay()
                         showDamageSingle()
                         toggleEnemyClick()
@@ -1610,7 +1610,7 @@ $ ->
                         if ability.stat isnt "cleanse"
                           showHealSingle()
                         element.toggleClass "ability-on"
-                        element.attr("src", "")
+                        element.finish().attr("src", "#")
                         singleTargetAbilityAfterActionDisplay()
                         return
                       ), 1200
@@ -1634,6 +1634,7 @@ $ ->
                             else
                               $(this).effect "shake", {times: 5, distance: 40}, 750
                         element.toggleClass "ability-on aoePositionFoe"
+                        element.finish().attr("src", "#")
                         showDamageTeam(1)
                         singleTargetAbilityAfterActionDisplay()
                         return
@@ -1658,7 +1659,7 @@ $ ->
                           , 800
                       setTimeout (->
                         element.toggleClass "ability-on aoePositionUser"
-                        element.attr("src", "")
+                        element.finish().attr("src", "#")
                         showHealTeam(0) if ability.stat isnt "cleanse"
                         singleTargetAbilityAfterActionDisplay()
                         return
@@ -1687,7 +1688,7 @@ $ ->
                     battle.evolve(0, targets[1], 0)
                     zetBut()
                     abilityAnime.toggleClass "ability-on"
-                    abilityAnime.attr("src", "")
+                    abilityAnime.finish().attr("src", "#")
                     apChange()
                     setTimeout (->
                       toggleImg()
