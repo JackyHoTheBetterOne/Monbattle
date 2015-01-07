@@ -1302,6 +1302,7 @@ $ ->
           toggleImg()
           nextSceneInitial()
         else 
+          $(".skip-button").remove()
           $(document).off "click.cutscene"
           battleStartDisplay(1000)
           toggleImg()
