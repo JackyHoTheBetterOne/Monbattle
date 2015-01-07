@@ -12,7 +12,7 @@ class Quest < ActiveRecord::Base
                   styles: { medium: "300 x 300>",
                             small: "150x150>",
                             thumb: "100 x 100>",
-                            tiny: "50 x 50>"}
+                            tiny: "50 x 50>" }
 
   validates_attachment_content_type :icon, :content_type => /\Aimage\/.*\Z/
 

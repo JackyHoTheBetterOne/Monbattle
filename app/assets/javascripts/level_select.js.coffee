@@ -16,7 +16,8 @@ $ ->
       $(".map-image, .map-level").fadeIn(300)
     ), 300
     setTimeout (->
-      document.getElementsByClassName("map-level")[0].className += " current-area"
+      index = document.getElementsByClassName("map-level").length-1
+      document.getElementsByClassName("map-level")[index].className += " current-area"
     ), 750
     index = $(".region-select").index($(this))
     i = 0

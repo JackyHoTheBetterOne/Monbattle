@@ -4,11 +4,16 @@ class BattlesController < ApplicationController
   before_action :find_battle, except: [:create, :index, :new]
   before_action :check_energy
   before_action :quest_start
-  before_action :generate_enemies, only: :create
 
+
+  before_action :generate_enemies, only: :create
   after_action :deduct_energy, only: :create
-  after_action :unlock_level, only: :update
+
+
+  after_action :unlock_level_and_ability, only: :update
   after_action :finish_battle, only: :update
+  after_action :tracking, only: :update
+  after_action :update_general_summoner_fields, only: :update
 
   def new
     params[:area_filter] ||= session[:area_filter]
@@ -26,8 +31,6 @@ class BattlesController < ApplicationController
     @current_region = new_battle.current_region
     @regions = new_battle.regions
     @areas = new_battle.areas
-
-    session[:area_name] = @areas.first.name
 
     @levels = new_battle.levels
     @battle = new_battle.battle
@@ -73,6 +76,7 @@ class BattlesController < ApplicationController
   end
 
   def update
+    @battle.finished = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
     @battle.outcome = "complete"
     @battle.finished = Time.now.to_date
     @battle.update_attributes(update_params)
@@ -96,7 +100,9 @@ class BattlesController < ApplicationController
   def win
     @ability = Ability.find_by_name(@battle.battle_level.ability_reward[0])
     if current_user
-      @ability = nil if current_user.summoner.beaten_levels.include?(@battle.battle_level.name)
+      if current_user.summoner.beaten_levels.include?(@battle.battle_level.name) || params[:round_taken].to_i > @battle.battle_level.time_requirement
+        @ability = nil 
+      end
     end
     @class_list = ""
     @slot = ""
@@ -109,9 +115,9 @@ class BattlesController < ApplicationController
       end
       @class_list = array.join(", ")
       if @ability.targeta == "attack"
-        @slot = 1
+        @slot = "Attack"
       else
-        @slot = 2
+        @slot = "Ability"
       end
     end
     render template: "battles/victory", :layout => false
@@ -121,6 +127,10 @@ class BattlesController < ApplicationController
     render template: "battles/defeat", :layout => false
   end
 
+  def tracking_abilities
+    @battle.track_ability_frequency(params[:ability_name])
+    render nothing: true
+  end
 
   private
   def generate_enemies
@@ -147,7 +157,7 @@ class BattlesController < ApplicationController
   end
 
   def update_params
-    params.permit(:victor, :loser, :round_taken)
+    params.permit(:victor, :loser, :round_taken, :time_taken)
   end
 
   def validation_params
@@ -186,12 +196,38 @@ class BattlesController < ApplicationController
     end
   end
 
-  def unlock_level
-    @battle.battle_level.unlock_for_summoner(@battle.victor) 
+  def unlock_level_and_ability
+    @battle.battle_level.unlock_for_summoner(@battle.victor, @battle.round_taken) 
   end
 
   def finish_battle
     @battle.to_finish
   end
+
+  def tracking
+    @battle.track_outcome
+    @battle.track_performance
+  end
+
+  def update_general_summoner_fields
+    @summoner = current_user.summoner
+    level_name = @battle.battle_level.name
+    id = @battle.id
+    array = @summoner.daily_battles.dup
+    level_array = @summoner.played_levels.dup
+    level_array.push(level_name) if !level_array.include?(level_name)
+    array.push(id)
+    @summoner.daily_battles = array 
+    @summoner.played_levels = level_array
+    @summoner.save
+  end
 end
+
+
+
+
+
+
+
+
 

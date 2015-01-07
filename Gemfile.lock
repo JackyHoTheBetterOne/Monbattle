@@ -97,6 +97,11 @@ GEM
       compass (>= 0.12.2)
     daemons (1.1.9)
     debug_inspector (0.0.2)
+    delayed_job (4.0.4)
+      activesupport (>= 3.0, < 4.2)
+    delayed_job_active_record (4.0.2)
+      activerecord (>= 3.0, < 4.2)
+      delayed_job (>= 3.0, < 4.1)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     devise (3.3.0)
@@ -275,6 +280,7 @@ DEPENDENCIES
   cocoon
   coffee-rails (~> 4.0.0)
   compass-rails
+  delayed_job_active_record
   devise
   figaro
   font-awesome-rails

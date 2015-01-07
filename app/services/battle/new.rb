@@ -37,8 +37,8 @@ class Battle::New
 
     if params_level_filter
       self.levels = BattleLevel.order(:id).filter(params_level_filter).unlocked_levels(summoner.beaten_levels)
-    elsif 
-      self.levels = BattleLevel.order(:id).filter(areas.first.name).unlocked_levels(summoner.beaten_levels)
+    else
+      self.levels = BattleLevel.order(:id).filter(areas.last.name).unlocked_levels(summoner.beaten_levels)
     end
 
     if user 

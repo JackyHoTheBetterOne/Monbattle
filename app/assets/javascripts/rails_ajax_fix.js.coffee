@@ -15,4 +15,3 @@ window.fixTurbo = () ->
 
 $ ->
   fixTurbo()
-#   # $(document).on "click", ".navbar.nav-admin .nav-btn-group .btn", fixTurbo

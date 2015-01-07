@@ -10,6 +10,17 @@ window.playIt = ->
     ";
   return true;
 
+######################################################################################################## Battle timer 
+window.increaseTime = ->
+  window.seconds_taken += 1
+  time = window.seconds_taken
+  minutes = Math.floor(time/60)
+  seconds = time - minutes*60
+  if seconds.toString().length > 1
+    $(".battle-timer").text(minutes.toString() + ":" + seconds.toString())
+  else
+    $(".battle-timer").text(minutes.toString() + ":" + "0" + seconds.toString())
+
 ######################################################################################################## Monster logics
 window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
@@ -20,6 +31,7 @@ window.fixEvolMon = (monster, player) ->
       ), 1200
       setTimeout (->
         $("p.dam, .bar").promise().done ->
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".availability-arrow").remove()
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".img").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
@@ -61,13 +73,15 @@ window.fixEvolMon = (monster, player) ->
             ii = 0 
             while ii < monTarget.poisoned.length
               e = monTarget.poisoned[ii]
-              delete monTarget.poisoned[ii] if e.impact.indexOf("-") isnt -1
+              if typeof monTarget.poisoned[ii] isnt "undefined"
+                delete monTarget.poisoned[ii] if e.impact.indexOf("-") isnt -1
               removeEffectIcon(monTarget, e) 
               ii++
             i3 = 0
             while i3 < monTarget.weakened.length
               e = monTarget.weakened[i3]
-              delete monTarget.weakened[i3] if e.restore.indexOf("+") isnt -1
+              if typeof monTarget.poisoned[ii] isnt "undefined"
+                delete monTarget.weakened[i3] if e.restore.indexOf("+") isnt -1
               removeEffectIcon(monTarget, e)
               i3++
             if a.modifier isnt ""
@@ -255,16 +269,6 @@ window.fixEvolMon = (monster, player) ->
                 removeEffectIcon(monTarget, e)
                 addEffectIcon(monTarget, e)
             i++
-        # else if e.targeta.indexOf("attack") isnt -1
-        #   while i < effectTargets.length
-        #     monTarget = effectTargets[i]
-        #     addEffectIcon(monTarget, e)
-        #     setTimeout (->
-        #       $(".effect").trigger("mouseleave")
-        #       removeEffectIcon(monster, e)
-        #       ), 1200
-        #     monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-        #     i++
         else
           while i < effectTargets.length
             monTarget = effectTargets[i]
@@ -345,28 +349,6 @@ window.checkMin = ->
     mon = battle.players[1].mons[i]
     battle.players[1].mons[i].max_hp = 0 if mon.hp is 0
     i++
-
-window.action = ->
-  xadBuk()
-  checkMin()
-  battle.monAbility(targets[0], targets[1], targets[2], targets[3])
-  fixHp()
-  checkMax()
-  zetBut()
-  setTimeout (->
-    checkOutcome()
-  ), 200
-
-window.multipleAction = ->
-  xadBuk()
-  checkMin()
-  battle.monAbility(targets[0], targets[1], targets[2])
-  fixHp()
-  checkMax()
-  zetBut()
-  setTimeout (->
-    checkOutcome()
-  ), 200
 
 window.userMon = (index) ->
   $(".user .mon" + index + " " + ".img")
@@ -469,6 +451,24 @@ window.enemyTimer = ->
 
 
 ######################################################################################################## Battle display helpers
+window.availableAbilities = () ->
+  $(".availability-arrow").each ->
+    $(this).data("available", "false")
+  $(".monBut button").each ->
+    button = $(this)
+    if $(this).css("opacity") isnt "0"
+      if $(this).data("apcost") > battle.players[0].ap
+        $(button).children("img").css("opacity", "0")
+      else 
+        $(button).children("img").css("opacity", "1")
+        $(button).parent().parent().children(".availability-arrow").data("available", "true")
+  # if arrow is true
+  $(".availability-arrow").each ->
+    if $(this).data("available") is "true"
+      $(this).css("opacity", "1")
+    else
+      $(this).css("opacity", "0")
+
 window.callAbilityImg = ->
   battle.players[targets[0]].mons[targets[1]].abilities[targets[2]].img
 
@@ -501,6 +501,7 @@ window.hpBarChange = (side, index) ->
 
 window.checkOutcome = ->
   if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
+    window.clearInterval(battleTimer)
     vitBop()
     $(document).off "mouseover"
     turnOffCommandA()
@@ -562,7 +563,6 @@ window.showHealTeam = (index) ->
   n = battle.players[index].mons.length
   i = 0
   while i < n
-    console.log(battle.players[index].mons[i])
     if battle.players[index].mons[i].hp > 0
       damageBoxAnime(index, i, ability.modifier + window["change" + i], "rgba(50, 205, 50)")
     i++
@@ -587,12 +587,14 @@ window.outcome = ->
       data: {
         "victor": battle.players[1].username,
         "loser": battle.players[0].username,
-        "round_taken": parseInt(battle.round)
+        "round_taken": parseInt(battle.round),
+        "time_taken": parseInt(seconds_taken)
       }
   else if battle.players[1].mons.every(isTeamDead) is true
     $.ajax
       url: "/battles/" + battle.id + "/win"
       method: "get"
+      data: {round_taken: parseInt(battle.round)},
       success: (response) ->
         $(".message").css("z-index", "-100000000000000000")
         $(".message").html(response)
@@ -611,7 +613,8 @@ window.outcome = ->
       data: {
         "victor": battle.players[0].username,
         "loser": battle.players[1].username,
-        "round_taken": parseInt(battle.round)
+        "round_taken": parseInt(battle.round),
+        "time_taken": parseInt(seconds_taken)
       }
     if battle.end_cut_scenes.length isnt 0
       $(".cutscene").attr("src", battle.end_cut_scenes[0])
@@ -626,18 +629,19 @@ window.outcome = ->
       $(".message").promise().done ->
         $("#overlay").fadeIn(1000)
         setTimeout (->
-          $(".next-scene").remove()
-          $(".message").css("z-index", "100000")
-          $(".message").addClass("animated bounceIn")
+          $(".next-scene, .cutscene").remove()
+          $(".message").css("z-index", "1000")
+          $(".message").addClass("bounceIn animated")
         ), 1800
     $(document).on "click.cutscene", "#overlay", ->
-      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1]
+      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
+              battle.end_cut_scenes.length is 0
         $(".cutscene").hide(500)
         endCutScene()
         setTimeout (->
-          $(".next-scene").remove()
-          $(".message").css("z-index", "100000")
-          $(".message").addClass("animated bounceIn")
+          $(".next-scene, .cutscene").remove()
+          $(".message").css("z-index", "1000")
+          $(".message").addClass("bounceIn animated")
         ), 750
       else 
         new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
@@ -690,19 +694,23 @@ window.battleStartDisplay = (time) ->
   $(".message").css("opacity", "0")
   setTimeout (->
     $("#overlay").fadeOut 500, ->
-      $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
+      window.battleTimer = setInterval(increaseTime, 1000)
+      toggleImg()
+      # $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
+      $(".user .img").each ->
+        $(this).effect("bounce", {distance: 80, times: 5}, 1500)
       return
     ), time
-  setTimeout (->
-    $("#battle-tutorial").joyride({'tipLocation': 'top'})
-    $("#battle-tutorial").joyride({})
-    toggleImg()
-    $(".user .img").each ->
-      $(this).effect("bounce", {distance: 80, times: 5}, 1500)
-  ), (time + 1500)
+  # setTimeout (->
+  #   $("#battle-tutorial").joyride({'tipLocation': 'top'})
+  #   $("#battle-tutorial").joyride({})
+  #   toggleImg()
+  # ), (time + 1500)
 
 ################################################################################################### Display function-calling helpers
 window.singleTargetAbilityAfterClickDisplay = (ability) ->
+  $(".availability-arrow").each ->
+    $(this).css("opacity", "0")
   disable(ability)
   $(".img").css("background", "transparent")
   $(".enemy .mon-name").css("opacity", "0")
@@ -713,6 +721,14 @@ window.singleTargetAbilityAfterClickDisplay = (ability) ->
   $(".user .img").removeClass("controlling")
   $(".battle-guide").hide()
   $(".battle-guide, .battle-guide.cancel").css("z-index", "-1")
+  name = $(ability).data("name")
+  $.ajax
+    type: "GET"
+    url: "/battles/"+ battle.id + "/tracking_abilities"
+    data: { ability_name: name },
+    success: (data) ->
+      console.log("Successful")
+
 
 window.singleTargetAbilityAfterActionDisplay = ->
   apChange()
@@ -778,6 +794,7 @@ window.endCutScene = ->
 
 window.nextSceneInitial = ->
   document.getElementById('overlay').style.pointerEvents = 'none'
+  document.getElementById('skip-button').style.pointerEvents = 'auto' if $(".skip-button").length isnt 0
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     document.getElementById('overlay').style.pointerEvents = 'auto'
@@ -786,6 +803,7 @@ window.nextSceneInitial = ->
 window.nextScene = ->
   if document.getElementById('overlay') isnt null
     document.getElementById('overlay').style.pointerEvents = 'none' 
+    document.getElementById('skip-button').style.pointerEvents = 'auto' if $(".skip-button").length isnt 0
   $(".cutscene").css("opacity", "0")
   $(".next-scene").css("opacity", "0")
   setTimeout (->
@@ -793,12 +811,12 @@ window.nextScene = ->
   ), 300
   setTimeout (->
     $(".cutscene").css("opacity", "1")
-  ), 1000
+  ), 1200
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     if document.getElementById('overlay') isnt null
       document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 2000
+  ), 2200
 
 window.mouseOverMon = ->
   if $(this).css("opacity") isnt "0"
@@ -844,8 +862,11 @@ window.toggleImg = ->
       $(this).attr("disabled", "true")
 
 window.flashEndButton = ->
+  availableAbilities()
   window.buttonArray = []
-  $(".end-turn").prop("disabled", false)
+  setTimeout (->
+    $(".end-turn").prop("disabled", false)
+  ), 500
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
@@ -1172,6 +1193,8 @@ window.controlAI = (monIndex) ->
 
 ############################################################################################################### AI action happening
 window.ai = ->
+  $(".availability-arrow").each ->
+    $(this).css("opacity", "0")
   xadBuk()
   $(".img").removeClass("controlling")
   $(".monBut").css("visibility", "hidden")
@@ -1209,6 +1232,13 @@ window.ai = ->
       xadBuk()
       battle.players[1].turn = false
       battle.checkRound()
+      if $(".battle-round-countdown").length isnt 0
+        round = parseInt($(".battle-round-countdown span").text())
+        round -= 1
+        if round > 0
+          $(".battle-round-countdown span").text(round)
+        else 
+          $(".battle-round-countdown").css("opacity", "0").remove()
       roundEffectHappening(0)
       roundEffectHappening(1)
       checkMonHealthAfterEffect()
@@ -1222,9 +1252,32 @@ window.ai = ->
       $(".enemy .img").removeAttr("disabled")
       toggleEnemyClick()
       $(".monBut button").trigger("mouseleave")
+      availableAbilities()
       toggleImg()
   ), timerRound
 
+####################################################################################################### Action helpers
+window.action = ->
+  xadBuk()
+  checkMin()
+  battle.monAbility(targets[0], targets[1], targets[2], targets[3])
+  fixHp()
+  checkMax()
+  zetBut()
+  setTimeout (->
+    checkOutcome()
+  ), 200
+
+window.multipleAction = ->
+  xadBuk()
+  checkMin()
+  battle.monAbility(targets[0], targets[1], targets[2])
+  fixHp()
+  checkMax()
+  zetBut()
+  setTimeout (->
+    checkOutcome()
+  ), 200
 
 
 ####################################################################################################### Start of Ajax
@@ -1239,18 +1292,28 @@ $ ->
         alert("This battle cannot be loaded!")
       success: (data) ->
         window.battle = data
+        window.seconds_taken = 0
         if battle.start_cut_scenes.length isnt 0 
           $(".cutscene").show(500)
           toggleImg()
           nextSceneInitial()
         else 
           $(document).off "click.cutscene"
-          battleStartDisplay(500)
+          battleStartDisplay(1000)
           toggleImg()
+        $(document).on "click.skip", ".skip-button", ->
+          if $(this).css("opacity") isnt 0
+            battle.start_cut_scenes.length = 0
+            battle.end_cut_scenes.length = 0
+            $(".skip-button").remove()
+            $(".next-scene").remove()
+            $(document).off "click.skip", ".skip-button"
+            zetBut()
         $(document).on "click.cutscene", "#overlay", ->
-          if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1]
+          if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1] or 
+              battle.start_cut_scenes.length is 0
             endCutScene()
-            battleStartDisplay(1000)
+            battleStartDisplay(1500)
           else 
             new_index = battle.start_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
             window.new_scene = battle.start_cut_scenes[new_index]
@@ -1365,9 +1428,14 @@ $ ->
                                                                         window.battle.players[1].commandMon.toString()
         window.feed = ->
           targets.shift()
-        zetBut()
         window.currentBut = undefined
+        zetBut()
+        availableAbilities()
         toggleEnemyClick()
+        $(document).on("mouseover", ".battle-round-countdown", ->
+          $(".bonus-description").css("opacity", "1")
+        ).on "mouseleave", ".battle-round-countdown", ->
+          $(".bonus-description").css("opacity", "0")
         $(document).on("mouseover", ".enemy.mon-slot .img", ->
           if $(this).attr("disabled") isnt "disabled"
             $(this).css("background", "rgba(255, 241, 118, .58)")
@@ -1381,6 +1449,7 @@ $ ->
         $(".ap .ap-number").text apInfo(battle.maxAP)
         turnOnCommandA()
         $(document).on("mouseover", ".user .monBut button", ->
+          ability_target = $(this).data("target")
           description = $(this).parent().parent().children(".abilityDesc")
           if $(this).css("opacity") isnt "0"
             if $(this).data("target") is "evolve"
@@ -1399,7 +1468,7 @@ $ ->
             else
               ability = battle.players[0].mons[targets[1]].abilities[$(this).data("index")]
               description.children(".panel-heading").text ability.name
-              if ability.targeta is "attack"
+              if ability_target is "attack"
                 description.children("span.damage-type").text "Physical"
               else
                 description.children("span.damage-type").text "Special"
@@ -1567,6 +1636,7 @@ $ ->
                             else
                               $(this).effect "shake", {times: 5, distance: 40}, 750
                         element.toggleClass "ability-on aoePositionFoe"
+                        element.attr("src","")
                         showDamageTeam(1)
                         singleTargetAbilityAfterActionDisplay()
                         return

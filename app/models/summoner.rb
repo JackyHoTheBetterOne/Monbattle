@@ -6,6 +6,7 @@ class Summoner < ActiveRecord::Base
   validates :user_id, presence: {message: 'Must be entered'}, uniqueness: true
 
   before_save :check_energy
+  before_save :generate_code
 
   def self.find_summoner(user_name)
     @user = find_user(user_name)
@@ -36,7 +37,7 @@ class Summoner < ActiveRecord::Base
 ############################################################################################ Quest logic
   def check_quest
     unless self.name == "NPC"
-      @summoner = self.clone
+      @summoner = self.dup
       @summoner.starting_status = {}
       @summoner.ending_status = {}
       @summoner.completed_daily_quests = []
@@ -53,7 +54,7 @@ class Summoner < ActiveRecord::Base
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) >= 
             q.stat_requirement
           @questing_summoner[q.reward] += q.reward_amount
-          array = @questing_summoner.completed_daily_quests.clone
+          array = @questing_summoner.completed_daily_quests.dup
           array.push(q.name)
           @questing_summoner.completed_daily_quests = array
         end
@@ -66,7 +67,7 @@ class Summoner < ActiveRecord::Base
         end
         if successful_entries.count >= q.requirement
           @questing_summoner[q.reward] += q.reward_amount
-          array = @questing_summoner.completed_daily_quests.clone
+          array = @questing_summoner.completed_daily_quests.dup
           array.push(q.name)
           @questing_summoner.completed_daily_quests = array
         end
@@ -84,9 +85,9 @@ class Summoner < ActiveRecord::Base
             q.stat_requirement
           @questing_summoner[q.reward] += q.reward_amount
         end
-        if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) == 
+        if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) >= 
             q.stat_requirement
-          array = @questing_summoner.completed_daily_quests.clone
+          array = @questing_summoner.completed_daily_quests.dup
           array.push(q.name)
           @questing_summoner.completed_daily_quests = array
         end
@@ -99,7 +100,7 @@ class Summoner < ActiveRecord::Base
 
   def quest_begin
     unless self.name == "NPC"
-      @summoner = self.clone
+      @summoner = self.dup
       @summoner.starting_status = {}
       @summoner.ending_status = {}
       self.starting_status = @summoner.serializable_hash
@@ -155,6 +156,11 @@ class Summoner < ActiveRecord::Base
     !self.completed_daily_quests.include?name
   end
 
+  def generate_code
+    if self.code == nil
+      self.code = SecureRandom.uuid
+    end
+  end
 
 #############################################################################################################
 
@@ -173,6 +179,5 @@ class Summoner < ActiveRecord::Base
       end 
     end
   end
-
 end
 

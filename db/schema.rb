@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141227033507) do
+ActiveRecord::Schema.define(version: 20150106231344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,18 @@ ActiveRecord::Schema.define(version: 20141227033507) do
   add_index "ability_effects", ["ability_id"], name: "index_ability_effects_on_ability_id", using: :btree
   add_index "ability_effects", ["effect_id"], name: "index_ability_effects_on_effect_id", using: :btree
 
+  create_table "ability_equippings", force: true do |t|
+    t.integer  "ability_id"
+    t.integer  "monster_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
+  add_index "ability_equippings", ["ability_id"], name: "index_ability_equippings_on_ability_id", using: :btree
+  add_index "ability_equippings", ["monster_id"], name: "index_ability_equippings_on_monster_id", using: :btree
+  add_index "ability_equippings", ["user_id"], name: "index_ability_equippings_on_user_id", using: :btree
+
   create_table "ability_purchases", force: true do |t|
     t.integer  "ability_id"
     t.integer  "user_id"
@@ -105,23 +117,31 @@ ActiveRecord::Schema.define(version: 20141227033507) do
 
   add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
 
+  create_table "backgrounds", force: true do |t|
+    t.string   "name"
+    t.string   "image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "battle_levels", force: true do |t|
     t.integer  "exp_given"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.integer  "mp_reward",       default: 0
-    t.integer  "gp_reward",       default: 0
-    t.integer  "vk_reward",       default: 0
+    t.integer  "mp_reward",        default: 0
+    t.integer  "gp_reward",        default: 0
+    t.integer  "vk_reward",        default: 0
     t.integer  "unlocked_by_id"
     t.integer  "area_id"
     t.text     "keywords"
     t.text     "description"
     t.text     "victory_message"
-    t.text     "ability_reward",  default: [], array: true
-    t.integer  "stamina_cost",    default: 0
+    t.text     "ability_reward",   default: [], array: true
+    t.integer  "stamina_cost",     default: 0
     t.string   "background"
     t.string   "music"
+    t.integer  "time_requirement"
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
@@ -132,7 +152,6 @@ ActiveRecord::Schema.define(version: 20141227033507) do
     t.datetime "updated_at"
     t.integer  "battle_level_id"
     t.integer  "round_taken"
-    t.string   "time_taken"
     t.string   "id_code"
     t.string   "slug"
     t.string   "victor"
@@ -142,6 +161,7 @@ ActiveRecord::Schema.define(version: 20141227033507) do
     t.text     "before_action_state"
     t.boolean  "is_hacked",           default: true
     t.date     "finished"
+    t.integer  "time_taken"
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
@@ -174,6 +194,22 @@ ActiveRecord::Schema.define(version: 20141227033507) do
 
   add_index "cut_scenes", ["battle_level_id"], name: "index_cut_scenes_on_battle_level_id", using: :btree
   add_index "cut_scenes", ["chapter_id"], name: "index_cut_scenes_on_chapter_id", using: :btree
+
+  create_table "delayed_jobs", force: true do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "effects", force: true do |t|
     t.string   "name"
@@ -334,6 +370,20 @@ ActiveRecord::Schema.define(version: 20141227033507) do
   end
 
   add_index "monster_skins", ["rarity_id"], name: "index_monster_skins_on_rarity_id", using: :btree
+
+  create_table "monster_templates", force: true do |t|
+    t.integer  "max_hp"
+    t.integer  "max_sp"
+    t.integer  "max_lvl"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "class_template_id"
+    t.integer  "element_template_id"
+    t.string   "name"
+  end
+
+  add_index "monster_templates", ["class_template_id"], name: "index_monster_templates_on_class_template_id", using: :btree
+  add_index "monster_templates", ["element_template_id"], name: "index_monster_templates_on_element_template_id", using: :btree
 
   create_table "monster_unlocks", force: true do |t|
     t.integer  "user_id"
@@ -528,6 +578,8 @@ ActiveRecord::Schema.define(version: 20141227033507) do
     t.text     "completed_areas",              default: [],                    array: true
     t.text     "completed_regions",            default: [],                    array: true
     t.string   "recently_unlocked_level",      default: ""
+    t.string   "code"
+    t.text     "played_levels",                default: [],                    array: true
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree

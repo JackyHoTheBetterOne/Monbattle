@@ -84,13 +84,14 @@ class BattleLevel < ActiveRecord::Base
   end
 
 ############################################################################ Unlock level, area or region
-  def unlock_for_summoner(summoner)
+  def unlock_for_summoner(summoner, round_taken)
     @summoner = Summoner.find_by_name(summoner)
     ability_reward_array = self.ability_reward
+    time_requirement = self.time_requirement
     level_name = self.name
     if @summoner.name != "NPC"
 
-      if !@summoner.beaten_levels.include?(level_name)
+      if !@summoner.beaten_levels.include?(level_name) && round_taken <= time_requirement
         ability_reward_array.each do |r|
           ability = Ability.find_by_name(r)
           ability_id = ability.id 
@@ -99,9 +100,9 @@ class BattleLevel < ActiveRecord::Base
         end
       end
 
-      level_array = @summoner.beaten_levels.clone
-      area_array = @summoner.completed_areas.clone
-      region_array = @summoner.completed_regions.clone
+      level_array = @summoner.beaten_levels.dup
+      area_array = @summoner.completed_areas.dup
+      region_array = @summoner.completed_regions.dup
 
       if !level_array.include?self.name
         level_array.push(self.name) 
@@ -140,7 +141,6 @@ class BattleLevel < ActiveRecord::Base
       @summoner.completed_regions = region_array
       @summoner.save
     end
-    # Party.generate(@summoner.user)
   end
 
 #############################################################################
@@ -151,6 +151,8 @@ class BattleLevel < ActiveRecord::Base
   end
 
   def set_keywords
-    self.keywords = [name, self.area_name, self.region_name. self.ability_given].map(&:downcase).join(" ")
+    self.keywords = [self.name, self.area_name, self.region_name, 
+                     self.ability_given].map(&:downcase).
+                     concat([time_requirement]).join(" ")
   end
 end
