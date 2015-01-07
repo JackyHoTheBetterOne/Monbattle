@@ -1305,6 +1305,7 @@ $ ->
             battle.end_cut_scenes.length = 0
             $(".skip-button").remove()
             $(".next-scene").remove()
+            $(document).off "click.skip", ".skip-button"
             zetBut()
         $(document).on "click.cutscene", "#overlay", ->
           if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1] or 
