@@ -1246,13 +1246,13 @@ window.ai = ->
       apChange()
       zetBut()
       checkOutcome() if $("#overlay").css("display") isnt "none"
-      availableAbilities()
       enable($("button"))
       $(".ap").effect("highlight")
       $(".battle-message").fadeOut(100)
       $(".enemy .img").removeAttr("disabled")
       toggleEnemyClick()
       $(".monBut button").trigger("mouseleave")
+      availableAbilities()
       toggleImg()
   ), timerRound
 
