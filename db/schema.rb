@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150105055343) do
+ActiveRecord::Schema.define(version: 20150106231344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,6 +194,22 @@ ActiveRecord::Schema.define(version: 20150105055343) do
 
   add_index "cut_scenes", ["battle_level_id"], name: "index_cut_scenes_on_battle_level_id", using: :btree
   add_index "cut_scenes", ["chapter_id"], name: "index_cut_scenes_on_chapter_id", using: :btree
+
+  create_table "delayed_jobs", force: true do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "effects", force: true do |t|
     t.string   "name"
@@ -563,6 +579,7 @@ ActiveRecord::Schema.define(version: 20150105055343) do
     t.text     "completed_regions",            default: [],                    array: true
     t.string   "recently_unlocked_level",      default: ""
     t.string   "code"
+    t.text     "played_levels",                default: [],                    array: true
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree

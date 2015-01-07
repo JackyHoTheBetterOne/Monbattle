@@ -611,9 +611,9 @@ window.outcome = ->
       $(".message").promise().done ->
         $("#overlay").fadeIn(1000)
         setTimeout (->
-          $(".next-scene").remove()
-          $(".message").css("z-index", "100000")
-          $(".message").addClass("animated bounceIn")
+          $(".next-scene, .cutscene").remove()
+          $(".message").css("z-index", "1000")
+          $(".message").addClass("bounceIn animated")
         ), 1800
     $(document).on "click.cutscene", "#overlay", ->
       if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
@@ -621,9 +621,9 @@ window.outcome = ->
         $(".cutscene").hide(500)
         endCutScene()
         setTimeout (->
-          $(".next-scene").remove()
-          $(".message").css("z-index", "100000")
-          $(".message").addClass("animated bounceIn")
+          $(".next-scene, .cutscene").remove()
+          $(".message").css("z-index", "1000")
+          $(".message").addClass("bounceIn animated")
         ), 750
       else 
         new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
@@ -687,7 +687,6 @@ window.battleStartDisplay = (time) ->
   #   $("#battle-tutorial").joyride({'tipLocation': 'top'})
   #   $("#battle-tutorial").joyride({})
   #   toggleImg()
-
   # ), (time + 1500)
 
 ################################################################################################### Display function-calling helpers
@@ -775,15 +774,16 @@ window.endCutScene = ->
 
 window.nextSceneInitial = ->
   document.getElementById('overlay').style.pointerEvents = 'none'
+  document.getElementById('skip-button').style.pointerEvents = 'auto' if $(".skip-button").length isnt 0
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
-    $(".skip-button").css("opacity", "1")
     document.getElementById('overlay').style.pointerEvents = 'auto'
   ), 1500
 
 window.nextScene = ->
   if document.getElementById('overlay') isnt null
     document.getElementById('overlay').style.pointerEvents = 'none' 
+    document.getElementById('skip-button').style.pointerEvents = 'auto' if $(".skip-button").length isnt 0
   $(".cutscene").css("opacity", "0")
   $(".next-scene").css("opacity", "0")
   setTimeout (->
@@ -1282,6 +1282,7 @@ $ ->
             battle.start_cut_scenes.length = 0
             battle.end_cut_scenes.length = 0
             $(".skip-button").remove()
+            zetBut()
         $(document).on "click.cutscene", "#overlay", ->
           if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1] or 
               battle.start_cut_scenes.length is 0
@@ -1401,8 +1402,8 @@ $ ->
                                                                         window.battle.players[1].commandMon.toString()
         window.feed = ->
           targets.shift()
-        zetBut()
         window.currentBut = undefined
+        zetBut()
         toggleEnemyClick()
         $(document).on("mouseover", ".battle-round-countdown", ->
           $(".bonus-description").css("opacity", "1")
@@ -1421,6 +1422,7 @@ $ ->
         $(".ap .ap-number").text apInfo(battle.maxAP)
         turnOnCommandA()
         $(document).on("mouseover", ".user .monBut button", ->
+          ability_target = $(this).data("target")
           description = $(this).parent().parent().children(".abilityDesc")
           if $(this).css("opacity") isnt "0"
             if $(this).data("target") is "evolve"
@@ -1439,7 +1441,7 @@ $ ->
             else
               ability = battle.players[0].mons[targets[1]].abilities[$(this).data("index")]
               description.children(".panel-heading").text ability.name
-              if ability.targeta is "attack"
+              if ability_target is "attack"
                 description.children("span.damage-type").text "Physical"
               else
                 description.children("span.damage-type").text "Special"

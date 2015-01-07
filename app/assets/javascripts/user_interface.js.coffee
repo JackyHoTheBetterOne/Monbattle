@@ -1,7 +1,10 @@
 window.zetBut = ->
+  console.log("setting")
   window.gigSet = JSON.stringify(battle)
 
+
 window.xadBuk = ->
+  console.log("checking")
   window.pafCheck = JSON.stringify(battle)
   if window.gigSet != window.pafCheck
     alert("Good job! You have hacked the game!")
@@ -26,8 +29,6 @@ window.setEnergy = ->
   if document.getElementById("summoner-level") isnt null
     energy_seconds = parseInt(document.getElementById("summoner-level").getAttribute("data-seconds")) 
   $(".quests-info").click(false)
-  window.clearInterval(staminaTimer) if typeof staminaTimer isnt "undefined"
-  window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
   setTimeout (->
     replenishStamina()
     window.staminaTimer = setInterval(replenishStamina, 301000)
@@ -85,6 +86,8 @@ window.setQuestTimer = ->
     $(this).text(time)
 
 $ ->
+  window.clearInterval(staminaTimer) if typeof staminaTimer isnt "undefined"
+  window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
   window.newAbilities = [] if typeof window.newAbilities is "undefined"
   number = parseInt($(".current-stamina").text())
   setEnergy()
@@ -99,13 +102,14 @@ $ ->
     $(".stripe-button-el").trigger("click")
   $(document).on "click", ".quest-show", (event) ->
     event.preventDefault()
-    if $(".quests-info").css("opacity") is "0"
-      $(this).parent().addClass("active")
-      $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "1").css("z-index", "5000")
-      $(".quest-arrow").css("z-index", "6000")
-    else 
-      $(this).parent().removeClass("active")
-      $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
+    if $(".quest").length isnt 0
+      if $(".quests-info").css("opacity") is "0"
+        $(this).parent().addClass("active")
+        $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "1").css("z-index", "5000")
+        $(".quest-arrow").css("z-index", "6000")
+      else 
+        $(this).parent().removeClass("active")
+        $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
   $(document).on "click", ".for-real, .close-quest, .quest-close-footer", ->
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
       $(".quest-show").parent().removeClass("active")

@@ -1,9 +1,9 @@
 <%= javascript_include_tag "jquery.joyride-2.1" %>
 
 <% if @battle.battle_level.music %>
-  <audio controls autoplay loop class="hide">
-    <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
-  </audio>
+<!--   <audio controls autoplay loop class="hide">
+    <source src="@battle.battle_level.music" type="audio/mpeg">
+  </audio> -->
 <% end %>
 
 <div id="button-click">
@@ -14,7 +14,7 @@
   </div>
   <%= image_tag(@battle.battle_level.start_cut_scenes[0], class: "cutscene") %>
   <%= image_tag("story-arrow.png", class: "next-scene") %>
-  <% if current_user.summoner.beaten_levels.include?(@battle.battle_level.name) %>
+  <% if current_user.summoner.played_levels.include?(@battle.battle_level.name) %>
     <button class="skip-button" id="skip-button">Skip</button>
   <% end %>
 </div>
@@ -28,7 +28,7 @@
   <div class="battle-timer">
   </div>
 
-  <% if !current_user.summoner.beaten_levels.include?(@battle.battle_level.name) || 
+  <% if !current_user.summoner.beaten_levels.include?(@battle.battle_level.name) && 
         @battle.battle_level.ability_reward.length != 0 %>
     <div class="battle-round-countdown">
       Rush Bonus: <span><%= @battle.battle_level.time_requirement %></span>
