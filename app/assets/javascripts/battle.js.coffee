@@ -450,7 +450,9 @@ window.enemyTimer = ->
 
 
 ######################################################################################################## Battle display helpers
-window.availableAbilities = ->
+window.availableAbilities = () ->
+  $(".availability-arrow").each ->
+    $(this).data("available", "false")
   $(".monBut button").each ->
     button = $(this)
     if $(this).css("opacity") isnt "0"
@@ -458,6 +460,13 @@ window.availableAbilities = ->
         $(button).children("img").css("opacity", "0")
       else 
         $(button).children("img").css("opacity", "1")
+        $(button).parent().parent().children(".availability-arrow").data("available", "true")
+  # if arrow is true
+  $(".availability-arrow").each ->
+    if $(this).data("available") is "true"
+      $(this).css("opacity", "1")
+    else
+      $(this).css("opacity", "0")
 
 window.callAbilityImg = ->
   battle.players[targets[0]].mons[targets[1]].abilities[targets[2]].img
