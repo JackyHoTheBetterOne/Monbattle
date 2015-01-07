@@ -21,7 +21,6 @@ window.increaseTime = ->
   else
     $(".battle-timer").text(minutes.toString() + ":" + "0" + seconds.toString())
 
-
 ######################################################################################################## Monster logics
 window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
@@ -1233,6 +1232,7 @@ window.ai = ->
       apChange()
       zetBut()
       checkOutcome() if $("#overlay").css("display") isnt "none"
+      availableAbilities()
       enable($("button"))
       $(".ap").effect("highlight")
       $(".battle-message").fadeOut(100)

@@ -241,6 +241,5 @@ class Battle < ActiveRecord::Base
     p "======================================================================="
   end
   handle_asynchronously :track_ability_frequency
-
 end
 

@@ -727,5 +727,15 @@ body {
 };
 
 
+///////////////////////////////////////////////////////////////////////////////////////// Availability arrow
+.availability-arrow {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: 82px;
+  left: 168px;
+  opacity: 0;
+  transition: opacity 0.3s;
+};
 
 
