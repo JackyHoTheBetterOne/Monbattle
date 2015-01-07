@@ -31,6 +31,7 @@ window.fixEvolMon = (monster, player) ->
       ), 1200
       setTimeout (->
         $("p.dam, .bar").promise().done ->
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".availability-arrow").remove()
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".img").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
@@ -1190,6 +1191,8 @@ window.controlAI = (monIndex) ->
 
 ############################################################################################################### AI action happening
 window.ai = ->
+  $(".availability-arrow").each ->
+    $(this).css("opacity", "0")
   xadBuk()
   $(".img").removeClass("controlling")
   $(".monBut").css("visibility", "hidden")
