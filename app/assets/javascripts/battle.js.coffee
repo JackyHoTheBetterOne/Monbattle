@@ -709,6 +709,8 @@ window.battleStartDisplay = (time) ->
 
 ################################################################################################### Display function-calling helpers
 window.singleTargetAbilityAfterClickDisplay = (ability) ->
+  $(".availability-arrow").each ->
+    $(this).css("opacity", "0")
   disable(ability)
   $(".img").css("background", "transparent")
   $(".enemy .mon-name").css("opacity", "0")
