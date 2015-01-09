@@ -1,11 +1,11 @@
 window.zetBut = ->
-  console.log("setting")
   window.gigSet = JSON.stringify(battle)
+  console.log("shooting")
 
 
 window.xadBuk = ->
-  console.log("checking")
   window.pafCheck = JSON.stringify(battle)
+  console.log("catching")
   if window.gigSet != window.pafCheck
     alert("Good job! You have hacked the game!")
     $(".battle").remove()

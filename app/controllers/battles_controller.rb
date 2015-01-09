@@ -115,7 +115,7 @@ class BattlesController < ApplicationController
       if @ability.targeta == "attack"
         @slot = "Attack"
       else
-        @slot = "Ability"
+        @slot = "Skill"
       end
     end
     render template: "battles/victory", :layout => false
