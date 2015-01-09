@@ -3,7 +3,6 @@ class HomeController < ApplicationController
   before_action :find_user, :find_ability_purchases, only: [:index, :abilities_for_mon]
   before_action :check_energy
   before_action :quest_start
-  # after_action :generate_enemies, only: :index
 
   def index
     @monster_unlocks = @user.monster_unlocks
@@ -92,6 +91,25 @@ class HomeController < ApplicationController
 
   def forum
     render template: "home/forum"
+  end
+
+  def learn_ability
+    user_id = current_user.id
+    @unlearned_abilities = AbilityPurchase.not_learned(user_id).limit(20)
+    if params[:learning_filter]
+      @monster_students = []
+
+      @ability = AbilityPurchase.find_by_id_code(params[:learning_filter]).ability
+      @students = MonsterUnlock.learning_filter(user_id, params[:learning_filter])
+
+      @students.each do |s|
+        if !s.learned_ability_array.include?(@ability)
+          @monster_students << s
+        end
+      end
+    else 
+      @monster_students = "initial"
+    end
   end
 
 

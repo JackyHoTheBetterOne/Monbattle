@@ -35,7 +35,7 @@ end
 
 resources :ability_equipping_for_users, only:[:update]
 resources :abilities, except: [:destroy]
-resources :ability_purchases, only: [:create, :edit]
+resources :ability_purchases, only: [:create, :update]
 
 post "/facebook" => "home#facebook"
 get "/cannot" => "home#illegal_access", as: :illegal
@@ -44,6 +44,7 @@ get "/store" => "home#store", as: :device_store
 get "/landing" => "home#facebook", as: :home_sweet_home
 get "/forum" => "home#forum", as: :home_forum
 get "/equip_filter" => "home#equip_filter", as: :equip_filter
+get "/learn_ability" => "home#learn_ability", as: :learn_ability
 
 
 root 'home#facebook'

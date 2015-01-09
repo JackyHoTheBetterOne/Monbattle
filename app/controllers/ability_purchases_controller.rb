@@ -1,8 +1,7 @@
 class AbilityPurchasesController < ApplicationController
-  before_action :find_ability
+  before_action :find_ability, except: [:update]
 
   def create
-    # render text: params.to_s
     @ability_purchase = @ability.ability_purchases.new ability_purchase_params
     respond_to do |format|
       if @ability_purchase.save
@@ -13,6 +12,15 @@ class AbilityPurchasesController < ApplicationController
       end
     end
   end
+
+  def update
+    @ability_purchase = AbilityPurchase.friendly.find(params[:id])
+    @monster_unlock = MonsterUnlock.find_by_id_code(update_params[:learner_id])
+    @ability_purchase.learner_id = @monster_unlock.id
+    @ability_purchase.save
+    render text: "success"
+  end
+
 
   # def destroy
   #   respond_to do |format|
@@ -27,6 +35,10 @@ class AbilityPurchasesController < ApplicationController
   # end
 
   private
+
+  def update_params
+    params.permit(:learner_id)
+  end
 
   def find_ability
     @ability = Ability.find params[:ability_purchase][:ability_id]

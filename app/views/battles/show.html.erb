@@ -2,7 +2,7 @@
 
 <% if @battle.battle_level.music %>
   <audio controls autoplay loop class="hide">
-    <source src="@battle.battle_level.music" type="audio/mpeg">
+    <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
   </audio>
 <% end %>
 

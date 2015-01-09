@@ -10,7 +10,6 @@ class Ability < ActiveRecord::Base
   has_many :jobs, through: :ability_restrictions
 
   has_many :ability_purchases, dependent: :destroy
-  # has_many :ability_purchased_users, through: :ability_purchases, source: :user
   has_many :ability_effects, dependent: :destroy
   has_many :effects, through: :ability_effects
 
@@ -39,7 +38,6 @@ class Ability < ActiveRecord::Base
   validates :rarity_id, presence: {message: 'Must be entered'}
   validates :mp_cost, numericality: {greater_than_or_equal_to: 0}
   validates :gp_cost, numericality: {greater_than_or_equal_to: 0}
-  # validates :min_level, presence: {message: 'Must be entered'}
 
   delegate :name, to: :ability_equipping, prefix: true
 

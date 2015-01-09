@@ -1,0 +1,8 @@
+$(".student-list").css("opacity", "0");
+setTimeout((function() {
+  $(".student-list").html("<%= j render partial: 'student_list', 
+                          locals: { monster_students: @monster_students} %>");
+}), 200);
+setTimeout((function() {
+  $(".student-list").css("opacity", "1");
+}), 700);
