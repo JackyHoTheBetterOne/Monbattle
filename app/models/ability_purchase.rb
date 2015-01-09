@@ -17,7 +17,8 @@ class AbilityPurchase < ActiveRecord::Base
     @user_id           = params[:user_id]
     @abil_id           = params[:abil_id]
     @monster_unlock_id = params[:monster_unlock_id]
-    create(user_id: @user_id, ability_id: @abil_id, monster_unlock_id: @monster_unlock_id)
+    create(user_id: @user_id, ability_id: @abil_id, 
+           monster_unlock_id: @monster_unlock_id, learner_id: @monster_unlock_id)
   end
 
   scope :number_of_ability_owned, -> (user, ability) {
