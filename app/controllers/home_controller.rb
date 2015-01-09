@@ -29,6 +29,7 @@ class HomeController < ApplicationController
     @mon = MonsterUnlock.find params[:mon]
     @socket = params[:socket]
     @current_abil_purchase = @mon.abil_purch_in_sock(@socket)
+    # @abilities = @mon.learned_ability_array
     @abilities = Ability.find_default_abilities_available(@socket, @mon.job).abilities_purchased(@user)
     render :abilities_for_mon
   end

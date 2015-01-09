@@ -251,7 +251,6 @@ class MonsterUnlock < ActiveRecord::Base
                                         abil_id: @default_sock4_id,
                                         monster_unlock_id: @monster_unlock_id
                                         )
-    else
     end
   end
 
