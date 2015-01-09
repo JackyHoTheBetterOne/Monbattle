@@ -84,6 +84,16 @@ class MonsterUnlock < ActiveRecord::Base
     return learned_abilities
   end
 
+  def learned_ability_array_with_socket(number)
+    learned_abilities = []
+
+    self.learned_abilities.each do |a|
+      learned_abilities << a.ability if a.ability.socket.to_i == number.to_i
+    end
+
+    return learned_abilities
+  end
+
   def job 
     self.monster.job
   end

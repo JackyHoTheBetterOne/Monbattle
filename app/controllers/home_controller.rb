@@ -24,13 +24,16 @@ class HomeController < ApplicationController
     end
   end
 
-
   def abilities_for_mon
     @mon = MonsterUnlock.find params[:mon]
     @socket = params[:socket]
     @current_abil_purchase = @mon.abil_purch_in_sock(@socket)
-    # @abilities = @mon.learned_ability_array
-    @abilities = Ability.find_default_abilities_available(@socket, @mon.job).abilities_purchased(@user)
+    if current_user.admin == true
+      @abilities = Ability.find_default_abilities_available(@socket, @mon.job).abilities_purchased(@user)
+    else
+      @abilities = @mon.learned_ability_array_with_socket(@socket)
+      # @abilities = @mon.learned_ability_array
+    end
     render :abilities_for_mon
   end
 
@@ -96,7 +99,7 @@ class HomeController < ApplicationController
 
   def learn_ability
     user_id = current_user.id
-    @unlearned_abilities = AbilityPurchase.not_learned(user_id).limit(20)
+    @unlearned_abilities = AbilityPurchase.not_learned(user_id).limit(50)
     if params[:learning_filter]
       @monster_students = []
 

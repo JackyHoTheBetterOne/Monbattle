@@ -1,1 +1,2 @@
-<%= image_tag("unauthorized.jpg", id: "unauthorized") %>
+<%= link_to image_tag("unauthorized.jpg", id: "unauthorized"), 
+            destroy_user_session_path, method: :delete, class: "sign-out" %>

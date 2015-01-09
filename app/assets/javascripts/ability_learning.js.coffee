@@ -1,6 +1,6 @@
 $ ->
   window.purchaseLearning = {}
-  $(document).on "mouseover", ".ability-icon", ->
+  $(document).on "mouseover", ".abilities-to-learn .ability-icon", ->
     document.getElementsByClassName("name")[0].innerHTML = $(this).data("name")
     if $(this).data("slot") is 1
       document.getElementsByClassName("slot")[0].innerHTML = "Attack"
