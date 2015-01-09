@@ -10,13 +10,13 @@
       .jumbotron.sweet-home
         h2 Please add 4 members to your team
         br /
-        = link_to "Form a team", battle_preparation_path, class: "btn btn-info party_edit_button"
+        = link_to "Form a team", battle_preparation_path, class: "btn btn-primary party_edit_button"
     -else
       -if Party.members_count_for(current_user) == 0
         .jumbotron.sweet-home
           h2 Please add 4 members to your team
           br /
-          = link_to "Form a team", battle_preparation_path, class: "btn btn-info party_edit_button"
+          = link_to "Form a team", battle_preparation_path, class: "btn btn-primary party_edit_button"
       -else
         div class="level-select"
           .region-panel
