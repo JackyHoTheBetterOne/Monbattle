@@ -37,6 +37,12 @@ class AbilityPurchase < ActiveRecord::Base
     where(learner_id: nil, user_id: user_id)
   }
 
+  scope :search, -> (keyword) {
+    if keyword.present?
+      joins(:ability).where("abilities.keywords LIKE ?", "%#{keyword.downcase}%")
+    end
+  }
+
   def available(monster_unlock, ability)
     ability_owned(ability).not_equipped(monster_unlock).count
   end

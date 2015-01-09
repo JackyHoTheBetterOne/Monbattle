@@ -27,6 +27,20 @@
   .path-but:hover {
     background: #0D47A1;
   };
+  .ability-learning-search {
+    color: white;
+    width: 75px;
+    left: 311px;
+    width: 75px;
+    padding-top: 3px;
+  };
+  .ability-learning-search-words {
+    position: absolute;
+    top: 14px;
+    left: 394px;
+    width: 106px;
+    border-radius: 5px;
+  };
   .level-select-path {
     right: 142px;
     padding-left: 7px;
@@ -67,6 +81,7 @@
       left: 6px;
       top: 63px;
       overflow: scroll;
+      transition: opacity 0.3s;
       .ability-icon {
         margin: 5px 8.5px 5px;
         box-shadow: 5px 5px 5px #000000;

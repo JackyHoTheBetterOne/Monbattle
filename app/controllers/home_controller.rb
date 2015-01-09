@@ -99,7 +99,14 @@ class HomeController < ApplicationController
 
   def learn_ability
     user_id = current_user.id
-    @unlearned_abilities = AbilityPurchase.not_learned(user_id).limit(50)
+    @unlearned_abilities = AbilityPurchase.order(:created_at).not_learned(user_id).
+                           search(params[:keyword]).limit(50)
+    if params[:keyword]
+      @search = true
+    else
+      @search = false
+    end
+
     if params[:learning_filter]
       @monster_students = []
 
