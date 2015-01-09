@@ -622,7 +622,7 @@ window.outcome = ->
       $(".cutscene").css("opacity", "1")
       setTimeout (->
         $("#overlay").fadeIn(1000)
-      ), 500
+      ), 750
       nextSceneInitial()
     else 
       $(document).off "click.cutscene"
@@ -812,7 +812,7 @@ window.nextScene = ->
   ), 300
   setTimeout (->
     $(".cutscene").css("opacity", "1")
-  ), 1200
+  ), 1300
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     if document.getElementById('overlay') isnt null

@@ -112,7 +112,7 @@ $ability-equip-dim: 75px;
   top: 0;
   left: 0;
   margin: $top-margin $middle-margin $divide-margin $left-margin;
-  .back-to-select {
+  .back-to-select, .back-to-learn {
     position: absolute;
     left: 267px;
     top: 5px;
@@ -125,7 +125,12 @@ $ability-equip-dim: 75px;
     border-radius: 5px;
     transition: background 0.5s;
   };
-  .back-to-select:hover {
+  .back-to-learn {
+    left: 160px;
+    width: 102px;
+    padding-left: 5px;
+  };
+  .back-to-select:hover, .back-to-learn:hover {
     background: #0D47A1;
   };
   .party-title {
