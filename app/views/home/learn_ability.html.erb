@@ -1,0 +1,59 @@
+<div class="ability-learning">
+  <h3 class="page-heading">Learn Abilities</h3>
+  <%= link_to "Edit Team", home_index_path, class: "path-but edit-team-path" %>
+  <%= link_to "Level Select", new_battle_path, class: "path-but level-select-path" %>
+  <div class="abilities-to-learn">
+    <h3>1. Click the ability you want to teach:</h3>
+    <div class="unlearned-abilities">
+      <% @unlearned_abilities.each do |a| %>
+        <%= 
+          link_to(
+            image_tag(a.portrait, class: "ability-icon", id:"#{a.id_code}",
+                        data: {name: "#{a.ability.name}",
+                               description: "#{a.ability.description}",
+                               slot: "#{a.ability.slot}",
+                               ap: "#{a.ability.ap_cost}",
+                               id: "#{a.id_code}"}
+                      ), 
+            learn_ability_path(learning_filter: a.id_code),
+            remote: true
+          )
+        %>
+      <% end %>
+    </div>
+    <div class="ability-detail">
+      <div class="detail-heading">
+        <span class="name">Ability Name</span>
+        <span class="slot">Type</span>
+        <span class="ap-cost">AP cost</span>
+      </div> 
+      <div class="detail-description">
+        Description
+      </div>
+    </div>
+  </div>
+  <div class="monster-students">
+    <h3>2. Which monster do you want to teach to?</h3>
+    <div class="student-list">
+      <%= render partial: "student_list", locals: { monster_students: @monster_students} %> 
+    </div>
+  </div>
+</div>
+
+<div class="learning-overlay">
+  <div class="warning-message">
+    <h3 class="message-line">Are you sure you want to teach?</h3>
+    <%= image_tag("check-mark-100.png", class: "go-ahead-learn") %>
+    <%= image_tag("cancel.png", class: "cancel-learn") %>
+  </div>
+  <div class="success-message">
+    Learning Completed!
+  </div>
+</div>
+
+
+
+
+
+
+

@@ -1,8 +1,9 @@
 class MonsterUnlock < ActiveRecord::Base
   belongs_to :user
   belongs_to :monster
-  has_one    :job, through: :monster
   has_many :ability_purchases
+  has_many :learned_abilities, class_name: "AbilityPurchase", 
+                               foreign_key: "learner_id"
 
   has_many :abilities, through: :ability_purchases
   has_many :members, dependent: :destroy
@@ -12,10 +13,25 @@ class MonsterUnlock < ActiveRecord::Base
                                     uniqueness: {scope: :user_id}
   validates :user_id, presence: {message: 'Must be entered'}
 
+  before_create :generate_code
+
   scope :search, -> (keyword) {
     if keyword.present?
       joins(:monster).where("monsters.keywords LIKE ?", 
                             "%#{keyword.downcase}%")
+    end
+  }
+
+  scope :learning_filter, -> (user_id, ability_purchase_id) {
+    if ability_purchase_id.present?
+      @ability = AbilityPurchase.find_by_id_code(ability_purchase_id).ability
+      @job_array = []
+      @ability.jobs.each do |j|
+        @job_array << j.id
+      end
+      joins(:monster).where("monsters.job_id IN (?) AND user_id = #{user_id}", @job_array)
+    else
+      []
     end
   }
 
@@ -51,6 +67,35 @@ class MonsterUnlock < ActiveRecord::Base
 
   def self.unlock_check(user, monster_id)
     where(user_id: user, monster_id: monster_id)
+  end
+
+
+
+
+
+
+  def learned_ability_array
+    learned_abilities = []
+
+    self.learned_abilities.each do |a|
+      learned_abilities << a.ability
+    end
+
+    return learned_abilities
+  end
+
+  def learned_ability_array_with_socket(number)
+    learned_abilities = []
+
+    self.learned_abilities.each do |a|
+      learned_abilities << a.ability if a.ability.socket.to_i == number.to_i
+    end
+
+    return learned_abilities
+  end
+
+  def job 
+    self.monster.job
   end
 
   def speech
@@ -178,6 +223,10 @@ class MonsterUnlock < ActiveRecord::Base
 
   private
 
+  def generate_code
+    self.id_code = SecureRandom.uuid
+  end
+
   def clear_ability_purchase
     self.ability_purchases.update_all(monster_unlock_id: 0)
   end
@@ -197,9 +246,6 @@ class MonsterUnlock < ActiveRecord::Base
                                       abil_id: @default_sock2_id,
                                       monster_unlock_id: @monster_unlock_id
                                       )
-    # MonsterSkinPurchase.on_monster_unlock(user_id: @user_id,
-    #                                       mon_skin_id: @default_skin_id
-    #                                       )
     MonsterSkinEquipping.create(monster_id: @monster_id, user_id: @user_id,
                                 monster_skin_id: @default_skin_id
                                 )
@@ -215,7 +261,6 @@ class MonsterUnlock < ActiveRecord::Base
                                         abil_id: @default_sock4_id,
                                         monster_unlock_id: @monster_unlock_id
                                         )
-    else
     end
   end
 

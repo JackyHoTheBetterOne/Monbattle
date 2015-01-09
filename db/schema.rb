@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150106231344) do
+ActiveRecord::Schema.define(version: 20150108235234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,8 @@ ActiveRecord::Schema.define(version: 20150106231344) do
     t.datetime "updated_at"
     t.integer  "monster_unlock_id", default: 0
     t.integer  "socket_num"
+    t.integer  "learner_id"
+    t.string   "id_code"
   end
 
   add_index "ability_purchases", ["ability_id"], name: "index_ability_purchases_on_ability_id", using: :btree
@@ -295,6 +297,13 @@ ActiveRecord::Schema.define(version: 20150106231344) do
     t.datetime "updated_at"
   end
 
+  create_table "learned_abilities", force: true do |t|
+    t.integer  "monster_unlock_id"
+    t.integer  "ability_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "members", force: true do |t|
     t.integer  "party_id"
     t.datetime "created_at"
@@ -357,6 +366,7 @@ ActiveRecord::Schema.define(version: 20150106231344) do
     t.integer  "monster_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "id_code"
   end
 
   add_index "monster_unlocks", ["monster_id"], name: "index_monster_unlocks_on_monster_id", using: :btree

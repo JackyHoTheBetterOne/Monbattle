@@ -1,11 +1,17 @@
+require 'aasm'
+
 class AbilityPurchase < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :id_code
   belongs_to :ability
   belongs_to :user
   belongs_to :monster_unlock
+  belongs_to :learner, class_name: "MonsterUnlock"
 
   validates :user_id, presence: {message: 'Must be entered'}
   validates :ability_id, presence: {message: 'Must be entered'}
   after_create :set_socket
+  before_create :generate_code
 
   def self.on_monster_unlock(params = {})
     @user_id           = params[:user_id]
@@ -26,6 +32,10 @@ class AbilityPurchase < ActiveRecord::Base
     where(monster_unlock_id: 0, ability_id: ability)
   }
 
+  scope :not_learned, -> (user_id) {
+    where(learner_id: nil, user_id: user_id)
+  }
+
   def available(monster_unlock, ability)
     ability_owned(ability).not_equipped(monster_unlock).count
   end
@@ -38,7 +48,15 @@ class AbilityPurchase < ActiveRecord::Base
     where(user_id: user, ability_id: ability_id)
   end
 
+  def portrait 
+    self.ability.portrait.url(:thumb)
+  end
+
   private
+
+  def generate_code
+    self.id_code = SecureRandom.uuid
+  end
 
   def set_socket
     @socket = self.ability.socket

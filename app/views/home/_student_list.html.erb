@@ -1,0 +1,13 @@
+<% if monster_students != "initial" %>
+  <% if monster_students.count != 0 %>
+    <% monster_students.each do |s| %>
+      <%= image_tag("#{s.mon_portrait(current_user)}", class: "mon-avatar", 
+          id: "#{s.id_code}", data: {id: "#{s.id_code}", 
+          name: "#{s.monster.name}"}) %>
+    <% end %>
+  <% else %>
+    <h3>No monster available to learn this ability</h3>
+  <% end %>
+<% else %>
+  <h3> Select an ability to teach </h3>
+<% end %>

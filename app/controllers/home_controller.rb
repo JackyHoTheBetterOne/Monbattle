@@ -3,7 +3,6 @@ class HomeController < ApplicationController
   before_action :find_user, :find_ability_purchases, only: [:index, :abilities_for_mon]
   before_action :check_energy
   before_action :quest_start
-  # after_action :generate_enemies, only: :index
 
   def index
     @monster_unlocks = @user.monster_unlocks
@@ -25,12 +24,16 @@ class HomeController < ApplicationController
     end
   end
 
-
   def abilities_for_mon
     @mon = MonsterUnlock.find params[:mon]
     @socket = params[:socket]
     @current_abil_purchase = @mon.abil_purch_in_sock(@socket)
-    @abilities = Ability.find_default_abilities_available(@socket, @mon.job).abilities_purchased(@user)
+    if current_user.admin == true
+      @abilities = Ability.find_default_abilities_available(@socket, @mon.job).abilities_purchased(@user)
+    else
+      @abilities = @mon.learned_ability_array_with_socket(@socket)
+      # @abilities = @mon.learned_ability_array
+    end
     render :abilities_for_mon
   end
 
@@ -92,6 +95,25 @@ class HomeController < ApplicationController
 
   def forum
     render template: "home/forum"
+  end
+
+  def learn_ability
+    user_id = current_user.id
+    @unlearned_abilities = AbilityPurchase.not_learned(user_id).limit(50)
+    if params[:learning_filter]
+      @monster_students = []
+
+      @ability = AbilityPurchase.find_by_id_code(params[:learning_filter]).ability
+      @students = MonsterUnlock.learning_filter(user_id, params[:learning_filter])
+
+      @students.each do |s|
+        if !s.learned_ability_array.include?(@ability)
+          @monster_students << s
+        end
+      end
+    else 
+      @monster_students = "initial"
+    end
   end
 
 

@@ -147,7 +147,7 @@ class Battle < ActiveRecord::Base
     else
       message["event_id"] = self.battle_level.name.gsub(" ", "_") + ":" + "victory"
     end
-    message["user_id"] = self.parties[0].user.summoner.code
+    message["user_id"] = self.parties[0].user.summoner.name
     message["session_id"] = self.id_code
     message["build"] = "1.00"
     message["value"] = 1.0
@@ -176,7 +176,7 @@ class Battle < ActiveRecord::Base
     category = "design"
     message = {}
     message["event_id"] = self.battle_level.name.gsub(" ", "_") + ":" + "time_taken"
-    message["user_id"] = self.parties[0].user.summoner.code
+    message["user_id"] = self.parties[0].user.summoner.name
     message["session_id"] = self.id_code
     message["build"] = "1.00"
     message["value"] = self.time_taken
@@ -220,7 +220,7 @@ class Battle < ActiveRecord::Base
     category = "design"
     message = {}
     message["event_id"] = "abilities:" + name.gsub(" ", "_")
-    message["user_id"] = self.parties[0].user.summoner.code
+    message["user_id"] = self.parties[0].user.summoner.name
     message["session_id"] = self.id_code
     message["build"] = "1.00"
     message["value"] = 1.0

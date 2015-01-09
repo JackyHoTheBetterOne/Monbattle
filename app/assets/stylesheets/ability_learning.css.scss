@@ -1,0 +1,219 @@
+.ability-selected-to-learn {
+  box-shadow: 1px -1px 11px #FFFF00 !important;
+};
+
+.ability-learning {
+  position: relative;
+  height: 500px;
+  width: 960px;
+  background: #4B4B4B;
+  background-size: cover;
+  border-radius: 5px;
+  left: 15px;
+  top: -15px;
+  .path-but {
+    position: absolute;
+    z-index: 10;
+    background: #757575;
+    text-decoration: none;
+    transition: background 0.3s;
+    width: 105px;
+    height: 35px;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding-top: 6px;
+    top: 10px;
+  };
+  .path-but:hover {
+    background: #0D47A1;
+  };
+  .level-select-path {
+    right: 142px;
+    padding-left: 7px;
+  };
+  .edit-team-path {
+    right: 16px;
+    padding-left: 16px;
+  };
+  h3 {
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    text-shadow: 2px 2px #000000;
+  };
+  h3.page-heading {
+    text-align: left;
+    margin-left: 10px;
+    position: relative;
+    top: 12px;
+    font-size: 200%;
+  };
+  .abilities-to-learn {
+    position: absolute;
+    box-shadow: 7px 4px 10px #000000;
+    top: 50px;
+    width: 500px;
+    left: 4px;
+    height: 435px;
+    background: #757575;
+    margin-top: 5px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+    .unlearned-abilities {
+      position: absolute;
+      background: transparent;
+      width: 98%;
+      height: 60%;
+      left: 6px;
+      top: 63px;
+      overflow: scroll;
+      .ability-icon {
+        margin: 5px 8.5px 5px;
+        box-shadow: 5px 5px 5px #000000;
+        border-radius: 5px;
+        transition: box-shadow 0.3s;
+      };
+      .ability-icon:hover {
+        box-shadow: 1px -1px 11px #FFFF00;
+      };
+    };
+    .ability-detail {
+      position: absolute;
+      background: #4B4B4B;
+      height: 24%;
+      width: 99%;
+      bottom: 4px;
+      left: 4px;
+      border-radius: 5px;
+      .detail-heading {
+        position: absolute;
+        top: 1px;
+        left: 1.5px;
+        background: #0D47A1;
+        width: 99.5%;
+        height: 30%;
+        border: 3px solid black;
+        border-radius: 5px;
+        span {
+          position: absolute;
+          top: 2px;
+        };
+        span.slot {
+          left: 48%
+        };
+        span.ap-cost {
+          right: 2%;
+        };
+        span.name {
+          left: 2%;
+        };
+      };
+    };
+    .detail-description {
+      position: absolute;
+      height: 65%;
+      width: 99%;
+      top: 34px;
+      left: 3px;
+      border-radius: 5px;
+      padding: 1px 5px;
+    };
+  };
+  .monster-students {
+    position: absolute;
+    height: 435px;
+    width: 45%;
+    background: #757575;
+    top: 55px;
+    right: 10px;
+    box-shadow: 7px 4px 10px #000000;
+    border-radius: 5px;
+    h3 {
+      position: relative;
+      top: 2px;
+      font-size: 20px;
+    };
+    .student-list {
+      position: absolute;
+      height: 80%;
+      width: 98%;
+      border-radius: 5px;
+      left: 5px;
+      top: 68px;
+      overflow: scroll;
+      transition: opacity .25s;
+      .mon-avatar {
+        height: 85px;
+        width: 85px;
+        margin: 5px 8.5px 5px;
+        box-shadow: 5px 5px 5px #000000;
+      };
+      .mon-avatar:hover {
+        box-shadow: 1px -1px 11px #FFFF00;
+        cursor: pointer;
+      };
+    };
+  };
+};
+
+
+.learning-overlay {
+  background: rgba(0,0,0,0.9);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top:0px;
+  left:0px;
+  text-align: center;
+  z-index: -10;
+  opacity: 0;
+  transition: opacity 1s;
+  h3 {
+    position: relative;
+    top: 5px;
+    padding: 2px;
+  };
+  .warning-message {
+    position: fixed;
+    height: 200px;
+    width: 400px;
+    background: #0D47A1;
+    border-radius: 5px;
+    top: 100px;
+    right: 0;
+    left: 0;
+    box-shadow: 1px -1px 11px #FFFF00;
+    opacity: 1;
+    margin: 5% auto;
+    z-index: 50;
+    .go-ahead-learn, .cancel-learn {
+      margin-right: 10px;
+      margin-top: 20px;
+      height: 80px;
+      width: 80px;
+    };
+    .go-ahead-learn:hover, .cancel-learn:hover {
+      cursor: pointer;
+    };
+  };
+  .success-message {
+    position: fixed;
+    height: 200px;
+    width: 400px;
+    background: #0D47A1;
+    border-radius: 5px;
+    top: 100px;
+    right: 0;
+    left: 0;
+    box-shadow: 1px -1px 11px #FFFF00;
+    opacity: 0;
+    margin: 5% auto;
+    font-size: 220%;
+    padding-top: 75px;
+    transition: opacity 0.2s;
+  };
+};
+
+
+
+

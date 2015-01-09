@@ -75,14 +75,14 @@ window.fixEvolMon = (monster, player) ->
               e = monTarget.poisoned[ii]
               if typeof monTarget.poisoned[ii] isnt "undefined"
                 delete monTarget.poisoned[ii] if e.impact.indexOf("-") isnt -1
-              removeEffectIcon(monTarget, e) 
+                removeEffectIcon(monTarget, e) 
               ii++
             i3 = 0
             while i3 < monTarget.weakened.length
               e = monTarget.weakened[i3]
-              if typeof monTarget.poisoned[ii] isnt "undefined"
+              if typeof monTarget.weakened[i3] isnt "undefined"
                 delete monTarget.weakened[i3] if e.restore.indexOf("+") isnt -1
-              removeEffectIcon(monTarget, e)
+                removeEffectIcon(monTarget, e)
               i3++
             if a.modifier isnt ""
               window["change" + index] = a.change
@@ -459,10 +459,11 @@ window.availableAbilities = () ->
     if $(this).css("opacity") isnt "0"
       if $(this).data("apcost") > battle.players[0].ap
         $(button).children("img").css("opacity", "0")
+        $(button).css("opacity", "0.5")
       else 
         $(button).children("img").css("opacity", "1")
+        $(button).css("opacity", "1")
         $(button).parent().parent().children(".availability-arrow").data("available", "true")
-  # if arrow is true
   $(".availability-arrow").each ->
     if $(this).data("available") is "true"
       $(this).css("opacity", "1")
@@ -821,8 +822,10 @@ window.nextScene = ->
 window.mouseOverMon = ->
   if $(this).css("opacity") isnt "0"
     $(this).prev().css "visibility", "visible"
+    $(this).parent().children(".availability-arrow").css("visibility", "hidden")
+    $(this).parent().children(".availability-arrow")
     $(this).addClass("controlling")
-    $(this).prev().css "opacity", "1"
+    $(this).parent().children(".monBut").css({"opacity":"1", "z-index":"20000"})
     mon = $(this).closest(".mon").data("index")
     team = $(this).closest(".mon-slot").data("team")
     window.currentMon = $(this)
@@ -832,7 +835,8 @@ window.mouseOverMon = ->
     ]
 
 window.mouseLeaveMon = ->
-  $(".user .monBut").css({"opacity":"0", "visibility":"hidden"})
+  $(".availability-arrow").css("visibility", "visible")
+  $(".user .monBut").css({"opacity":"0", "visibility":"hidden", "z-index":"-1"})
   $(".user .img").removeClass("controlling")
 
 window.turnOnCommandA = ->
@@ -1298,6 +1302,7 @@ $ ->
           toggleImg()
           nextSceneInitial()
         else 
+          $(".skip-button").remove()
           $(document).off "click.cutscene"
           battleStartDisplay(1000)
           toggleImg()

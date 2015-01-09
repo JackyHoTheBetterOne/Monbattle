@@ -32,7 +32,7 @@ class AbilityEquippingForUsersController < ApplicationController
   end
 
   def find_ability_purchase
-    @ability_purchase = AbilityPurchase.find params[:id]
+    @ability_purchase = AbilityPurchase.friendly.find params[:id]
   end
 
   def find_ability
@@ -40,7 +40,7 @@ class AbilityEquippingForUsersController < ApplicationController
   end
 
   def find_old_ability_purchase
-    @old_ability_purchase = AbilityPurchase.find params[:ability_equipping][:old_abil_purch_id]
+    @old_ability_purchase = AbilityPurchase.friendly.find params[:ability_equipping][:old_abil_purch_id]
   end
 
   def find_old_ability
