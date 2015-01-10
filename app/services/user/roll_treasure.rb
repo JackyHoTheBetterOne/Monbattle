@@ -14,8 +14,8 @@ class User::RollTreasure
       @summoner.gp -= 5
       @summoner.save
       roll = Random.new
-      reward_category_roll = roll.rand(1000)+1
-      reward_level_roll = roll.rand(1000)+1
+      reward_category_roll = roll.rand(1..1000)
+      reward_level_roll = roll.rand(1..1000)
       case
         when (1..400).include?(reward_category_roll) #40% resource
           case
@@ -36,13 +36,9 @@ class User::RollTreasure
           end
 
           @summoner.gp += @gp
-
-          if @summoner.save
-            self.message = "You won #{@gp} Genetic Points, go roll some more!"
-            return self.message
-          else
-            return false
-          end
+          @summoner.save
+          self.message = "You won #{@gp} Genetic Points, go roll some more!"
+          return self.message
 
         when (401..700).include?(reward_category_roll) #30% ability
           case
@@ -60,14 +56,16 @@ class User::RollTreasure
               return false
           end
 
-          @summoner.save
-          @abilities = Ability.can_win(@rarity)
-          @abil_array = @abilities.pluck(:id)
-          @abil_id_won = @abil_array.sample
+          @abil_id_won = Ability.can_win(@rarity).pluck(:id).sample
           @abil_won_name = @abilities.find_name(@abil_id_won)
 
+          if @abil_id_won == nil
+            self.message = "The #{@rarity} abilities are currently unavailable!"
+            return self.message
+          end
+
           AbilityPurchase.create(user_id: @user.id, ability_id: @abil_id_won)
-          self.message = "You unlocked ability #{@abil_won_name} that has rarity #{@rarity}!"
+          self.message = "You unlocked ability #{@abil_won_name}!"
           return self.message
 
         when (701..1000).include?(reward_category_roll) #30% monsters
@@ -86,25 +84,27 @@ class User::RollTreasure
               return "hack attempt"
           end
 
-          @summoner.save
-          @monsters     = Monster.can_win(@rarity)
-          @mon_array    = @monsters.pluck(:id)
-          @mon_id_won   = @mon_array.sample
+          @mon_id_array = Monster.can_win(@rarity).pluck(:id)
+          @id_array = []
+
+          @mon_id_array.each do |d|
+            @id_array << d if MonsterUnlock.unlock_check(@user, d).exists?
+          end
+
+          @mon_id_won = @id_array.sample
           @mon_won_name = @monsters.find_name(@mon_id_won)
 
-          if MonsterUnlock.unlock_check(@user, @mon_id_won).exists?
-            self.message =  "You already own the monster #{@mon_won_name} that has rarity #{@rarity}, SO YOU GET NOTHING!"
-            return self.message
-          else
-            @monster_unlock = MonsterUnlock.new
-            @monster_unlock.user_id = @user.id
-            @monster_unlock.monster_id = @mon_id_won
-            @monster_unlock.save
-            self.message = "You unlocked monster #{@mon_won_name} that has rarity #{@rarity}!"
+          if @mon_id_won == nil
+            self.message = "You have unlocked all the #{@rarity} monsters!"
             return self.message
           end
-        else
-          return false
+
+          @monster_unlock = MonsterUnlock.new
+          @monster_unlock.user_id = @user.id
+          @monster_unlock.monster_id = @mon_id_won
+          @monster_unlock.save
+          self.message = "You unlocked monster #{@mon_won_name}!"
+          return self.message
       end
     end
   end

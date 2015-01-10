@@ -601,9 +601,9 @@ window.outcome = ->
         $(".message").html(response)
         if $(".ability-earned").text() isnt ""
           sentence = "You have gained " + $(".ability-earned").text().replace(/\s+/g, '-') + 
-                     "! It can be equipped to monsters with the following class names: " + 
+                     "! It can be taught to monsters with the following class names: " + 
                      $(".ability-earned").data("class") + ", on slot " + $(".ability-earned").data("slot") +
-                     ". Go to the team editing page and find it by searching for the class name." 
+                     ". Go to Ability Learning and find it by searching for the ability name." 
           newAbilities.push(sentence)
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
@@ -622,7 +622,7 @@ window.outcome = ->
       $(".cutscene").css("opacity", "1")
       setTimeout (->
         $("#overlay").fadeIn(1000)
-      ), 500
+      ), 750
       nextSceneInitial()
     else 
       $(document).off "click.cutscene"
@@ -812,7 +812,7 @@ window.nextScene = ->
   ), 300
   setTimeout (->
     $(".cutscene").css("opacity", "1")
-  ), 1200
+  ), 1300
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     if document.getElementById('overlay') isnt null

@@ -5,7 +5,7 @@ $ ->
     if $(this).data("slot") is 1
       document.getElementsByClassName("slot")[0].innerHTML = "Attack"
     else 
-      document.getElementsByClassName("slot")[0].innerHTML = "Ability"
+      document.getElementsByClassName("slot")[0].innerHTML = "Skill"
     document.getElementsByClassName("ap-cost")[0].innerHTML = "AP: " + $(this).data("ap")
     document.getElementsByClassName("detail-description")[0].innerHTML = $(this).data("description")
   $(document).on "click.learning", ".ability-icon", ->
@@ -22,8 +22,8 @@ $ ->
     document.getElementsByClassName("learning-overlay")[0].style["z-index"] = "10000"
     document.getElementsByClassName("learning-overlay")[0].style.opacity = "1"
     document.getElementsByClassName("message-line")[0].innerHTML = 
-      "Are you sure you want to teach " + purchaseLearning.monster_name + " " + 
-      purchaseLearning.ability_name + "?"
+      "Are you sure you want to teach " + purchaseLearning.ability_name + " to " + 
+      purchaseLearning.monster_name + "?"
   $(document).on "click.cancel", ".cancel-learn", ->
     document.getElementsByClassName("learning-overlay")[0].style.opacity = "0"
     setTimeout (->
@@ -37,6 +37,8 @@ $ ->
       data: {"learner_id": purchaseLearning.monster_id}
       success: (response) ->
         if response is "success"
+          document.getElementsByClassName("success-message")[0].innerHTML = 
+            purchaseLearning.monster_name + " has learned " + purchaseLearning.ability_name + "!"
           $(".mon-avatar").remove()
           $("#" + purchaseLearning.ability_id).remove()
           document.getElementsByClassName("student-list")[0].innerHTML = 

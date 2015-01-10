@@ -14,6 +14,8 @@ class MonsterUnlock < ActiveRecord::Base
   validates :user_id, presence: {message: 'Must be entered'}
 
   before_create :generate_code
+  after_create :default_equips
+  before_destroy :clear_ability_purchase
 
   scope :search, -> (keyword) {
     if keyword.present?
@@ -34,10 +36,6 @@ class MonsterUnlock < ActiveRecord::Base
       []
     end
   }
-
-##############################
-  after_create :default_equips
-  before_destroy :clear_ability_purchase
 
   scope :lvl1_evolves, -> {joins(:job).where('job')}
 
