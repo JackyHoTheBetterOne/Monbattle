@@ -176,24 +176,32 @@
       font-weight: bold;
       width: 306px;
       span.name {
+        position: relative;
         float: left;
+        top: -6px;
       };
       span.staminacon {
         float: right;
         position: relative;
+        top: -6px;
+        left: -8px;
       };
       img {
+        height: 20px;
+        width: 20px;
         position: relative;
         top: -2px;
+        left: -5px;
       };
     };
     .level-desc {
       position: absolute;
       width: 308px;
       left: 15px;
-      top: 35px;
+      top: 27px;
       word-wrap: break-word !important;
       text-align: left;
+      font-size: 85%;
     };
   };
 }
