@@ -5,7 +5,7 @@ $ ->
     if $(this).data("slot") is 1
       document.getElementsByClassName("slot")[0].innerHTML = "Attack"
     else 
-      document.getElementsByClassName("slot")[0].innerHTML = "Ability"
+      document.getElementsByClassName("slot")[0].innerHTML = "Skill"
     document.getElementsByClassName("ap-cost")[0].innerHTML = "AP: " + $(this).data("ap")
     document.getElementsByClassName("detail-description")[0].innerHTML = $(this).data("description")
   $(document).on "click.learning", ".ability-icon", ->
