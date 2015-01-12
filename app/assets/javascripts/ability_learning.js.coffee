@@ -1,5 +1,10 @@
 $ ->
   window.purchaseLearning = {}
+  $(document).on "click", ".learning-search-cross", ->
+    document.getElementsByClassName("ability-learning-search-words")[0].value = ""
+    setTimeout (->
+      document.getElementsByClassName("ability-learning-search")[0].click()
+    ), 250
   $(document).on "mouseover", ".abilities-to-learn .ability-icon", ->
     document.getElementsByClassName("name")[0].innerHTML = $(this).data("name")
     if $(this).data("slot") is 1
@@ -13,6 +18,7 @@ $ ->
     if $(this).attr("class").indexOf("ability-selected-to-learn") is -1
       purchaseLearning.ability_id = $(ability).data("id")
       purchaseLearning.ability_name = $(ability).data("name")
+      purchaseLearning.ability_slot = $(ability).data("slot")
       if document.getElementsByClassName("ability-selected-to-learn").length isnt 0
         document.getElementsByClassName("ability-selected-to-learn")[0].className = "ability-icon"
       $(ability).addClass("ability-selected-to-learn")
@@ -37,6 +43,15 @@ $ ->
       data: {"learner_id": purchaseLearning.monster_id}
       success: (response) ->
         if response is "success"
+          slot = undefined
+          if purchaseLearning.ability_slot = 1
+            slot = "Attack"
+          else 
+            slot = "Skill"
+          message = "To equip #{purchaseLearning.ability_name}, 
+                     go to <a href='/home'>Edit Team</a>, then click on 
+                     #{purchaseLearning.monster_name} and find it under #{slot}!"
+          window.newAbilitiesLearned.push(message)
           document.getElementsByClassName("success-message")[0].innerHTML = 
             purchaseLearning.monster_name + " has learned " + purchaseLearning.ability_name + "!"
           $(".mon-avatar").remove()

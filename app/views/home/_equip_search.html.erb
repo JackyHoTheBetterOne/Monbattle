@@ -1,3 +1,4 @@
+<%= image_tag("cross.png", size: "12x12", class: "equip-search-cross") %>
 <%= form_tag equip_filter_path, :method => "get", remote: true,
     class: "monster-equip-search-form" %>
   <%= text_field_tag :keyword, params[:keyword], 

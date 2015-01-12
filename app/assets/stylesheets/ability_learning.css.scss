@@ -11,6 +11,13 @@
   border-radius: 5px;
   left: 15px;
   top: -15px;
+  .learning-search-cross {
+    position: absolute;
+    top: 21.5px;
+    left: 488px;
+    z-index: 500;
+    cursor: pointer;
+  };
   .path-but {
     position: absolute;
     z-index: 10;
@@ -30,7 +37,7 @@
   .ability-learning-search {
     color: white;
     width: 75px;
-    left: 311px;
+    left: 290px;
     width: 75px;
     padding-top: 3px;
     outline: none;
@@ -38,7 +45,7 @@
   .ability-learning-search-words {
     position: absolute;
     top: 14px;
-    left: 394px;
+    left: 373px;
     width: 106px;
     border-radius: 5px;
   };
@@ -202,8 +209,8 @@
   };
   .warning-message {
     position: fixed;
-    height: 200px;
-    width: 400px;
+    height: 225px;
+    width: 425px;
     background: #0D47A1;
     border-radius: 5px;
     top: 100px;
@@ -225,8 +232,8 @@
   };
   .success-message {
     position: fixed;
-    height: 200px;
-    width: 412px;
+    height: 225px;
+    width: 425px;
     background: #0D47A1;
     border-radius: 5px;
     top: 100px;

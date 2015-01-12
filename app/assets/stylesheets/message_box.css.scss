@@ -23,13 +23,16 @@
     outline: none;
   };
   .end-battle-but.ability-equip {
-    left: 119px;
+    left: 66px;
     padding-left: 3px;
   };
   .end-battle-but.level-select-but {
-    left: 327px;
+    left: 350px;
     padding-left: 1px;
     padding-top: 14px;
+  };
+  .end-battle-but.learn-ability-but {
+    left: 211px;
   };
   .end-battle-but:hover {
     background: #0D47A1; 

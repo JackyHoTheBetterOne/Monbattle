@@ -600,11 +600,10 @@ window.outcome = ->
         $(".message").css("z-index", "-100000000000000000")
         $(".message").html(response)
         if $(".ability-earned").text() isnt ""
-          sentence = "You have gained " + $(".ability-earned").text().replace(/\s+/g, '-') + 
-                     "! It can be taught to monsters with the following class names: " + 
-                     $(".ability-earned").data("class") + ", on slot " + $(".ability-earned").data("slot") +
-                     ". Go to Ability Learning and find it by searching for the ability name." 
+          sentence = "You have gained " + $(".ability-earned").text() + "! Teach it to your monster through the " + 
+                     "<a href='/learn_ability'>Ability Learning</a>" + " page!" 
           newAbilities.push(sentence)
+# .replace(/\s+/g, '-')
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $(".message").css("opacity", "0")

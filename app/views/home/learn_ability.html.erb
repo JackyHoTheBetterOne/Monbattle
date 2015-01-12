@@ -1,18 +1,21 @@
 <div class="ability-learning">
   <h3 class="page-heading">Learn Abilities</h3>
-  <%= link_to "Edit Team", home_index_path, class: "path-but edit-team-path" %>
-  <%= link_to "Level Select", new_battle_path, class: "path-but level-select-path" %>
+  <%= image_tag("cross.png", size: "12x12", 
+      class: "learning-search-cross") %>
+  <%= link_to "Edit Team", home_index_path, 
+      class: "path-but edit-team-path" %>
+  <%= link_to "Level Select", new_battle_path, 
+      class: "path-but level-select-path" %>
   <%= form_tag learn_ability_path, :method => "get", remote: true,
       class: "ability-learning-search-form" %>
     <%= text_field_tag :keyword, params[:keyword],
       class: "ability-learning-search-words" %>
     <%= submit_tag "Search", class: "path-but ability-learning-search" %>
   <div class="abilities-to-learn">
-    <h3>1. Click the ability you want to teach:</h3>
-    <div class="unlearned-abilities">
-      <%= render partial: "learning_list", 
-          locals: {unlearned_abilities: @unlearned_abilities} %>
-    </div>
+      <div class="lesson-list">
+        <%= render partial: "learning_list", 
+            locals: {unlearned_abilities: @unlearned_abilities} %>
+      </div>
     <div class="ability-detail">
       <div class="detail-heading">
         <span class="name">Ability Name</span>
@@ -25,10 +28,10 @@
     </div>
   </div>
   <div class="monster-students">
-    <h3 class="teaching-instruction">2. Teach to which monster?</h3>
-    <div class="student-list">
+    <div class="whole-student-list">
       <%= render partial: "student_list", 
-          locals: { monster_students: @monster_students} %> 
+          locals: {monster_students: @monster_students, 
+                   unlearned_abilities: @unlearned_abilities} %> 
     </div>
   </div>
 </div>

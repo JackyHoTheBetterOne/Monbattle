@@ -481,15 +481,26 @@ $ability-equip-dim: 75px;
     position: absolute;
   };
   .monster-equip-search {
-    left: -82px;
+    left: -114px;
   };
   .monster-equip-search-words {
-    left: -11px;
+    left: -41px;
     width: 106px;
   };
 };
 
 
+.word-available, .avail, .word-of, .own {
+  opacity: 0 !important;
+};
+
+.equip-search-cross {
+  position: absolute;
+  z-index: 500;
+  top: 7.5px;
+  left: 75px;
+  cursor: pointer;
+}
 
 
 
