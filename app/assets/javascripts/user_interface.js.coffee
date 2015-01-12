@@ -87,6 +87,12 @@ window.setQuestTimer = ->
     $(this).text(time)
 
 $ ->
+  $(document).on "page:before-change", ->
+    document.getElementsByClassName("turbolinks-overlay")[0].style["z-index"] = ("10000")
+    document.getElementsByClassName("turbolinks-overlay")[0].style.opacity = ("0.95")
+  $(document).on "page:change", ->
+    document.getElementsByClassName("turbolinks-overlay")[0].style.opacity = ("0")
+    document.getElementsByClassName("turbolinks-overlay")[0].style["z-index"] = ("-1")
   window.clearInterval(staminaTimer) if typeof staminaTimer isnt "undefined"
   window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
   window.newAbilities = [] if typeof window.newAbilities is "undefined"

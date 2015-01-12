@@ -1,7 +1,8 @@
 $ ->
   $(document).off("click.learn", ".go-ahead-learn")
+  $(document).off("click.learning-search", ".learning-search-cross")
   window.purchaseLearning = {}
-  $(document).on "click", ".learning-search-cross", ->
+  $(document).on "click.learning-search", ".learning-search-cross", ->
     document.getElementsByClassName("ability-learning-search-words")[0].value = ""
     setTimeout (->
       document.getElementsByClassName("ability-learning-search")[0].click()
