@@ -36,7 +36,6 @@ $ ->
       document.getElementsByClassName("learning-overlay")[0].style["z-index"] = "-100"
     ), 400
   $(document).on "click.learn", ".go-ahead-learn", ->
-    window.newAbilitiesLearned.push(message)
     document.getElementsByClassName("warning-message")[0].style["opacity"] = "0"
     $.ajax 
       url: "/ability_purchases/" + purchaseLearning.ability_id
@@ -52,6 +51,7 @@ $ ->
           message = "To equip #{purchaseLearning.ability_name}, 
                      go to <a href='/home'>Edit Team</a>, then click on 
                      #{purchaseLearning.monster_name} and find it under #{slot}!"
+          window.newAbilitiesLearned.push(message)
           document.getElementsByClassName("success-message")[0].innerHTML = 
             purchaseLearning.monster_name + " has learned " + purchaseLearning.ability_name + "!"
           $(".mon-avatar").remove()

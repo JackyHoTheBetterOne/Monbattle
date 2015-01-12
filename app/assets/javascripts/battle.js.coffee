@@ -600,10 +600,10 @@ window.outcome = ->
         $(".message").css("z-index", "-100000000000000000")
         $(".message").html(response)
         if $(".ability-earned").text() isnt ""
-          sentence = "You have gained " + $(".ability-earned").text().replace(/\s+/g, '-') + 
-                     "! Teach it to your monster through the " + "<a href='/learn_ability'>Ability Learning</a>" +
-                     " page!" 
+          sentence = "You have gained " + $(".ability-earned").text() + "! Teach it to your monster through the " + 
+                     "<a href='/learn_ability'>Ability Learning</a>" + " page!" 
           newAbilities.push(sentence)
+# .replace(/\s+/g, '-')
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $(".message").css("opacity", "0")
