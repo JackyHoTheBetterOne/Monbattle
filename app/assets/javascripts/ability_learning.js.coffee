@@ -43,14 +43,15 @@ $ ->
       method: "patch"
       data: {"learner_id": purchaseLearning.monster_id}
       success: (response) ->
-        slot = undefined
-        if purchaseLearning.ability_slot = 1
-          slot = "Attack"
-        else 
-          slot = "Skill"
-        message = "To equip #{purchaseLearning.ability_name}, go to <a href='/home'>Edit Team</a>, then click on 
-                   #{purchaseLearning.monster_name} and find it under #{slot}! slot"
         if response is "success"
+          slot = undefined
+          if purchaseLearning.ability_slot = 1
+            slot = "Attack"
+          else 
+            slot = "Skill"
+          message = "To equip #{purchaseLearning.ability_name}, 
+                     go to <a href='/home'>Edit Team</a>, then click on 
+                     #{purchaseLearning.monster_name} and find it under #{slot}!"
           document.getElementsByClassName("success-message")[0].innerHTML = 
             purchaseLearning.monster_name + " has learned " + purchaseLearning.ability_name + "!"
           $(".mon-avatar").remove()
