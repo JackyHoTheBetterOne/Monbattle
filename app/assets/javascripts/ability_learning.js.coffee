@@ -1,4 +1,5 @@
 $ ->
+  $(document).off("click.learn", ".go-ahead-learn")
   window.purchaseLearning = {}
   $(document).on "click", ".learning-search-cross", ->
     document.getElementsByClassName("ability-learning-search-words")[0].value = ""

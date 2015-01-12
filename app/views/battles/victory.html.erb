@@ -2,9 +2,8 @@
   <p class="gp-earned"><%= @battle.battle_level.gp_reward %></p>
   <p class="exp-earned"><%= @battle.battle_level.exp_given %></p>
   <% if @ability != nil %>
-    <p class="ability-earned" data-class="<%= @class_list %>" data-slot= "<%= @slot %>">
-      <%= @ability.name %>
-    </p>
+    <p class="ability-earned" data-class="<%= @class_list %>" 
+      data-slot= "<%= @slot %>"><%= @ability.name %></p>
   <% else %>
     <p class="ability-earned"></p>
   <% end %>
