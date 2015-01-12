@@ -1,18 +1,22 @@
 <% if @search == false %>
   $(".student-list").css("opacity", "0");
   setTimeout((function() {
-    $(".student-list").html("<%= j render partial: 'student_list', 
-                            locals: { monster_students: @monster_students} %>");
+    $(".whole-student-list").html("<%= j render partial: 'student_list', 
+                            locals: {monster_students: @monster_students,
+                              unlearned_abilities: @unlearned_abilities} %>");
   }), 200);
   setTimeout((function() {
     $(".student-list").css("opacity", "1");
   }), 700);
 <% elsif @search == true %>
   $(".unlearned-abilities").css("opacity", "0");
-  $(".student-list").html("<h3>Select an ability to teach</h3>");
+  <% if @unlearned_abilities.length != 0 %>
+    $(".student-list").html("<h3>Select an ability to teach</h3>");
+  <% end %>
   setTimeout((function() {
-    $(".unlearned-abilities").html("<%= j render partial: 'learning_list', 
-                                   locals: {unlearned_abilities: @unlearned_abilities} %>");
+    $(".lesson-list").html("<%= j render partial: 'learning_list', 
+                                locals: {unlearned_abilities: @unlearned_abilities} 
+                                %>");
   }), 200);
   setTimeout((function() {
     $(".unlearned-abilities").css("opacity", "1");

@@ -1,5 +1,10 @@
 $ ->
   window.purchaseLearning = {}
+  $(document).on "click", ".learning-search-cross", ->
+    document.getElementsByClassName("ability-learning-search-words")[0].value = ""
+    setTimeout (->
+      document.getElementsByClassName("ability-learning-search")[0].click()
+    ), 250
   $(document).on "mouseover", ".abilities-to-learn .ability-icon", ->
     document.getElementsByClassName("name")[0].innerHTML = $(this).data("name")
     if $(this).data("slot") is 1
