@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150108235234) do
+ActiveRecord::Schema.define(version: 20150112204231) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20150108235234) do
     t.integer  "rarity_id"
     t.integer  "mp_cost"
     t.integer  "gp_cost"
+    t.boolean  "is_featured"
   end
 
   add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree
@@ -516,6 +517,7 @@ ActiveRecord::Schema.define(version: 20150108235234) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "chance"
   end
 
   create_table "regions", force: true do |t|
