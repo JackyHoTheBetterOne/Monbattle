@@ -36,13 +36,6 @@ $ ->
       document.getElementsByClassName("learning-overlay")[0].style["z-index"] = "-100"
     ), 400
   $(document).on "click.learn", ".go-ahead-learn", ->
-    slot = undefined
-    if purchaseLearning.ability_slot = 1
-      slot = "Attack"
-    else 
-      slot = "Skill"
-    message = "To equip #{purchaseLearning.ability_name}, go to <a href='/home'>Edit Team</a>, then click on 
-               #{purchaseLearning.monster_name} and find it under #{slot}!"
     window.newAbilitiesLearned.push(message)
     document.getElementsByClassName("warning-message")[0].style["opacity"] = "0"
     $.ajax 
@@ -50,6 +43,13 @@ $ ->
       method: "patch"
       data: {"learner_id": purchaseLearning.monster_id}
       success: (response) ->
+        slot = undefined
+        if purchaseLearning.ability_slot = 1
+          slot = "Attack"
+        else 
+          slot = "Skill"
+        message = "To equip #{purchaseLearning.ability_name}, go to <a href='/home'>Edit Team</a>, then click on 
+                   #{purchaseLearning.monster_name} and find it under #{slot}! slot"
         if response is "success"
           document.getElementsByClassName("success-message")[0].innerHTML = 
             purchaseLearning.monster_name + " has learned " + purchaseLearning.ability_name + "!"
