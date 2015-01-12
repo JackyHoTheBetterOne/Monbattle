@@ -18,6 +18,7 @@ $ ->
     if $(this).attr("class").indexOf("ability-selected-to-learn") is -1
       purchaseLearning.ability_id = $(ability).data("id")
       purchaseLearning.ability_name = $(ability).data("name")
+      purchaseLearning.ability_slot = $(ability).data("slot")
       if document.getElementsByClassName("ability-selected-to-learn").length isnt 0
         document.getElementsByClassName("ability-selected-to-learn")[0].className = "ability-icon"
       $(ability).addClass("ability-selected-to-learn")
@@ -35,6 +36,14 @@ $ ->
       document.getElementsByClassName("learning-overlay")[0].style["z-index"] = "-100"
     ), 400
   $(document).on "click.learn", ".go-ahead-learn", ->
+    slot = undefined
+    if purchaseLearning.ability_slot = 1
+      slot = "Attack"
+    else 
+      slot = "Skill"
+    message = "To equip #{purchaseLearning.ability_name}, go to <a href='/home'>Edit Team</a>, then click on 
+               #{purchaseLearning.monster_name} and find it under #{slot}!"
+    window.newAbilitiesLearned.push(message)
     document.getElementsByClassName("warning-message")[0].style["opacity"] = "0"
     $.ajax 
       url: "/ability_purchases/" + purchaseLearning.ability_id

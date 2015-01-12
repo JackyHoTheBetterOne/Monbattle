@@ -48,6 +48,7 @@ window.setEnergy = ->
 window.setNewAbilityArray = ->
   setTimeout (->
     window.newAbilities.length = 0 if window.location.href.indexOf("learn_ability") isnt -1
+    window.newAbilitiesLearned.length = 0 if window.location.href.indexOf("home") isnt -1
   ), 2000
 
 window.replenishStamina = ->
@@ -89,6 +90,7 @@ $ ->
   window.clearInterval(staminaTimer) if typeof staminaTimer isnt "undefined"
   window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
   window.newAbilities = [] if typeof window.newAbilities is "undefined"
+  window.newAbilitiesLearned = [] if typeof window.newAbilitiesLearned is "undefined"
   number = parseInt($(".current-stamina").text())
   setEnergy()
   setNewAbilityArray()

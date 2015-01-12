@@ -8,6 +8,10 @@
   <% else %>
     <p class="ability-earned"></p>
   <% end %>
-  <%= link_to "Equip Ability", home_index_path, class: "end-battle-but ability-equip battle-fin" %>
-  <%= link_to "Battle", new_battle_path, class: "end-battle-but level-select-but battle-fin" %>
+  <%= link_to "Equip Ability", home_index_path, 
+      class: "end-battle-but ability-equip battle-fin" %>
+  <%= link_to "Learn Ability", learn_ability_path, 
+      class: "end-battle-but battle-fin learn-ability-but" %>
+  <%= link_to "Battle", new_battle_path, 
+      class: "end-battle-but level-select-but battle-fin" %>
 </div>
