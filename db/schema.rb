@@ -297,13 +297,6 @@ ActiveRecord::Schema.define(version: 20150108235234) do
     t.datetime "updated_at"
   end
 
-  create_table "learned_abilities", force: true do |t|
-    t.integer  "monster_unlock_id"
-    t.integer  "ability_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "members", force: true do |t|
     t.integer  "party_id"
     t.datetime "created_at"
