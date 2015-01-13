@@ -33,6 +33,10 @@ class AbilityPurchase < ActiveRecord::Base
     where(ability_id: ability)
   }
 
+  # scope :not_equipped, -> (ability) {
+  #   where(monster_unlock_id: 0, ability_id: ability)
+  # }
+ 
   scope :not_learned, -> (user_id) {
     where(learner_id: nil, user_id: user_id)
   }

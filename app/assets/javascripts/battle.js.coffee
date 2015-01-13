@@ -1440,9 +1440,9 @@ $ ->
         availableAbilities()
         toggleEnemyClick()
         $(document).on("mouseover", ".battle-round-countdown", ->
-          $(".bonus-description").css("opacity", "1")
+          $(".bonus-description").css({"opacity":"1", "z-index":"10000"})
         ).on "mouseleave", ".battle-round-countdown", ->
-          $(".bonus-description").css("opacity", "0")
+          $(".bonus-description").css({"opacity":"0", "z-index":"-1"})
         $(document).on("mouseover", ".enemy.mon-slot .img", ->
           if $(this).attr("disabled") isnt "disabled"
             $(this).css("background", "rgba(255, 241, 118, .58)")

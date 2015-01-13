@@ -29,7 +29,7 @@ class BattlesController < ApplicationController
     @current_region = new_battle.current_region
     @regions = new_battle.regions
     @areas = new_battle.areas
-
+    @latest_level = current_user.summoner.latest_level
     @levels = new_battle.levels
     @battle = new_battle.battle
     @monsters = new_battle.monsters
