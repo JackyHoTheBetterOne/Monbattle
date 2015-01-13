@@ -8,13 +8,13 @@
   -else
     -if current_user.parties.empty?
       .jumbotron.sweet-home
-        h2 Please add 4 members to your team
+        h2 Please add 4 monsters to your team
         br /
         = link_to "Form a team", battle_preparation_path, class: "btn btn-primary party-form-button"
     -else
       -if Party.members_count_for(current_user) == 0
         .jumbotron.sweet-home
-          h2 Please add 4 members to your team
+          h2 Please add 4 monsters to your team
           br /
           = link_to "Form a team", battle_preparation_path, class: "btn btn-primary party-form-button"
       -else

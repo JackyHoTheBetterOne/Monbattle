@@ -25,10 +25,11 @@ window.increaseTime = ->
 window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
     if @hp <= 0
+      $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").remove()
       setTimeout (->
         $("p.dam").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".bar").css("width", "0%")
-      ), 1200
+      ), 1100
       setTimeout (->
         $("p.dam, .bar").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".availability-arrow").remove()
@@ -37,7 +38,7 @@ window.fixEvolMon = (monster, player) ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
-      ), 1000
+      ), 1100
       return false
     else
       return true
@@ -513,8 +514,8 @@ window.checkOutcome = ->
           setTimeout (->
             $("p.dam").promise().done ->
               outcome()
-          ), 600
-    ), 700
+          ), 300
+    ), 800
 
 
 window.hpChangeBattle = ->
