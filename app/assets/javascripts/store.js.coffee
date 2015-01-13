@@ -33,6 +33,7 @@ $ ->
           button.className += " bounceIn animated"
         ), 1000
     $(document).on "click", ".back-to-store", ->
+      flashMaking()
       document.getElementsByClassName("store-overlay")[0].className = "store-overlay"
       document.getElementsByClassName("back-to-store")[0].className = "back-to-store"
       document.getElementsByClassName("roll-message")[0].className = "panel-body roll-message"

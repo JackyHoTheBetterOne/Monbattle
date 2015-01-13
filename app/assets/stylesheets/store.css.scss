@@ -85,7 +85,7 @@ div.store-front {
 .roll-message {
   position: relative;
   background: url("https://s3-us-west-2.amazonaws.com/monbattle/Roll-Result-Screen-Blank.png");
-  top: 50px;
+  top: 40px;
   height: 500px;
   width: 515px;
   margin-left: auto;
@@ -109,6 +109,9 @@ div.store-front {
   transition: background 0.3s;
   border: 2px solid black;
   border-radius: 5px;
+  box-shadow: 3px 3px 5px #000000;
+  padding-left: 8px;
+  font-size: 130%;
 };
 
 .back-to-store:hover {
