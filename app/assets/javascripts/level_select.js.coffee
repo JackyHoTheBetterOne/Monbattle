@@ -3,7 +3,7 @@ $ ->
     region_name = document.getElementsByClassName("map-image")[0].getAttribute("data-region")
     document.getElementById(region_name).className += " current-region"
     id = document.getElementsByClassName("party_edit_button")[0].getAttribute("data-latest-level")
-    document.getElementById(id).className += " latest-level"
+    document.getElementById(id).className += " latest-level" if document.getElementById(id)
   $(document).on "click.filter_levels", ".map-level", ->
     area_index = $(".map-level").index($(this))
     area = $(this)
