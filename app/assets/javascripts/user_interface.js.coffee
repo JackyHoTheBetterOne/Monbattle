@@ -34,7 +34,7 @@ window.setEnergy = ->
     window.staminaTimer = setInterval(replenishStamina, 301000)
   ), energy_seconds*1000
   window.questTimer = setInterval(setQuestTimer, 1000)
-  if window.location.href.indexOf("battles/new") isnt -1 and document.getElementsByClassName("sweet-home").length is -1
+  if window.location.href.indexOf("battles/new") isnt -1 and document.getElementsByClassName("sweet-home").length is 0
     index = document.getElementsByClassName("map-image").length-1
     region_name = document.getElementsByClassName("map-image")[index].getAttribute("data-region")
     document.getElementById(region_name).className += " current-region"
