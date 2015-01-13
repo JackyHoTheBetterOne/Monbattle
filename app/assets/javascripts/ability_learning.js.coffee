@@ -1,6 +1,8 @@
 $ ->
+  $(document).off("click.learn", ".go-ahead-learn")
+  $(document).off("click.learning-search", ".learning-search-cross")
   window.purchaseLearning = {}
-  $(document).on "click", ".learning-search-cross", ->
+  $(document).on "click.learning-search", ".learning-search-cross", ->
     document.getElementsByClassName("ability-learning-search-words")[0].value = ""
     setTimeout (->
       document.getElementsByClassName("ability-learning-search")[0].click()
@@ -65,6 +67,8 @@ $ ->
               document.getElementsByClassName("learning-overlay")[0].style["z-index"] = "-100"
               document.getElementsByClassName("warning-message")[0].style["opacity"] = "1"
               document.getElementsByClassName("success-message")[0].style["opacity"] = "0"
+              document.getElementsByClassName("path-but ability-learning-search")[0].
+                click() if document.getElementsByClassName("ability-icon").length is 0
             ), 400
           ), 800
 

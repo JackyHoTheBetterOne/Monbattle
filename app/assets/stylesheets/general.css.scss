@@ -75,6 +75,25 @@ h1, h3, h2 {
   margin: 0% auto;
 };
 
+.turbolinks-overlay {
+  position: fixed;
+  height: 700px;
+  width: 1100px;
+  background: #000000;
+  border-radius: 5px;
+  transition: opacity 0.05;
+  right: 0px;
+  left: 0px;
+  margin: 6.5% auto;
+  img {
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    margin: 10% auto;
+    height: 200px;
+    width: 200px;
+  };
+};
 
 
 

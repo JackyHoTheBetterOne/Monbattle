@@ -1,4 +1,5 @@
 $ ->
+  $(document).off "click", ".equip-search-cross"
   $(document).on "click", ".equip-search-cross", ->
     document.getElementsByClassName("monster-equip-search-words")[0].value = ""
     setTimeout (->

@@ -37,7 +37,7 @@ window.fixEvolMon = (monster, player) ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
-      ), 1500
+      ), 1000
       return false
     else
       return true
@@ -600,22 +600,24 @@ window.outcome = ->
         $(".message").css("z-index", "-100000000000000000")
         $(".message").html(response)
         if $(".ability-earned").text() isnt ""
-          sentence = "You have gained " + $(".ability-earned").text() + "! Teach it to your monster through the " + 
+          sentence = "You have gained " + $(".ability-earned").text() + 
+                     "! Teach it to your monster through the " + 
                      "<a href='/learn_ability'>Ability Learning</a>" + " page!" 
           newAbilities.push(sentence)
-# .replace(/\s+/g, '-')
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $(".message").css("opacity", "0")
-    $.ajax
-      url: "/battles/" + battle.id
-      method: "patch"
-      data: {
-        "victor": battle.players[0].username,
-        "loser": battle.players[1].username,
-        "round_taken": parseInt(battle.round),
-        "time_taken": parseInt(seconds_taken)
-      }
+    setTimeout (->
+      $.ajax
+        url: "/battles/" + battle.id
+        method: "patch"
+        data: {
+          "victor": battle.players[0].username,
+          "loser": battle.players[1].username,
+          "round_taken": parseInt(battle.round),
+          "time_taken": parseInt(seconds_taken)
+        }
+      ), 200
     if battle.end_cut_scenes.length isnt 0
       $(".cutscene").attr("src", battle.end_cut_scenes[0])
       $(".cutscene").css("opacity", "1")

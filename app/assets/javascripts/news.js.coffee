@@ -1,5 +1,6 @@
 $ ->
-  $(document).on "click", ".news-entry-click", ->
+  $(document).off("click.news", ".news-entry-click")
+  $(document).on "click.news", ".news-entry-click", ->
     i = 0
     while i < document.getElementsByClassName("news-entry").length
       document.getElementsByClassName("news-entry")[i].className =

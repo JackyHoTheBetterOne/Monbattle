@@ -23,6 +23,11 @@ $ ->
         overlay.className += " fadeIn-1s"
         gp.innerHTML = response.gp 
         message.innerHTML = response.message
+        if response.type == "ability"
+          sentence = "You have gained " + response.reward + 
+                     "! Teach it to your monster through the " + 
+                     "<a href='/learn_ability'>Ability Learning</a>" + " page!" 
+          newAbilities.push(sentence)
         setTimeout (->
           message.className += " bounceIn animated"
           button.className += " bounceIn animated"
@@ -33,3 +38,8 @@ $ ->
       document.getElementsByClassName("roll-message")[0].className = "panel-body roll-message"
   $(document).on "mouseover", ".showcase", ->
     $(".ability-detail").text latest_abilities[$(this).data("index")].description
+
+
+
+
+

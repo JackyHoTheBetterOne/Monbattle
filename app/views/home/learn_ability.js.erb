@@ -12,6 +12,16 @@
   $(".unlearned-abilities").css("opacity", "0");
   <% if @unlearned_abilities.length != 0 %>
     $(".student-list").html("<h3>Select an ability to teach</h3>");
+  <% else %>
+    setTimeout((function() {
+      $(".whole-student-list").html("<%= j render partial: 'student_list', 
+                              locals: {monster_students: @monster_students,
+                                unlearned_abilities: @unlearned_abilities} %>");
+    }), 200);
+    $(".name").text("Ability Name");
+    $(".slot").text("Type");
+    $(".ap-cost").text("AP cost");
+    $(".detail-description").text("Description");
   <% end %>
   setTimeout((function() {
     $(".lesson-list").html("<%= j render partial: 'learning_list', 

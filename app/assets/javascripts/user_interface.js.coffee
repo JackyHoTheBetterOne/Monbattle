@@ -87,6 +87,14 @@ window.setQuestTimer = ->
     $(this).text(time)
 
 $ ->
+  $(document).on "page:before-change", ->
+    document.getElementById("turbolinks-overlay").style["z-index"] = ("10000")
+    document.getElementById("turbolinks-overlay").style.opacity = ("0.95")
+  $(document).on "page:change", ->
+    setTimeout (->
+      document.getElementById("turbolinks-overlay").style.opacity = ("0")
+      document.getElementById("turbolinks-overlay").style["z-index"] = ("-1")
+    ), 100
   window.clearInterval(staminaTimer) if typeof staminaTimer isnt "undefined"
   window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
   window.newAbilities = [] if typeof window.newAbilities is "undefined"
@@ -102,7 +110,7 @@ $ ->
   $(document).on "click.donate", ".donation-click", (event) ->
     event.preventDefault()
     $(".stripe-button-el").trigger("click")
-  $(document).on "click", ".quest-show", (event) ->
+  $(document).on "click.quest-show", ".quest-show", (event) ->
     event.preventDefault()
     if $(".quest").length isnt 0
       if $(".quests-info").css("opacity") is "0"
@@ -112,7 +120,7 @@ $ ->
       else 
         $(this).parent().removeClass("active")
         $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
-  $(document).on "click", ".for-real, .close-quest, .quest-close-footer", ->
+  $(document).on "click.quest-hide", ".for-real, .close-quest, .quest-close-footer", ->
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
       $(".quest-show").parent().removeClass("active")
 
