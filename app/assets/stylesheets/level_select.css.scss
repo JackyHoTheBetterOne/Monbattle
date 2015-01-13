@@ -9,7 +9,7 @@
 };
 
 .latest-level {
-  box-shadow: 1px -1px 11px #FFFF00;
+  box-shadow: 1px -1px 11px #FFFF00 !important;
 };
 
 
@@ -168,9 +168,9 @@
     transition: background 0.5s;
     display: block;
     width: 97%;
-    height: 84px;
+    height: 83px;
     margin-left: 5px;
-    margin-top: 4px;
+    margin-top: 5px;
     position: relative;
     color: white;
     border-radius: 5px;
@@ -178,6 +178,7 @@
     z-index: 4000;
     border: 2px solid black;
     transition: box-shadow 0.3s;
+    box-shadow: 2px 3px 10px #000000;
     .level-name {
       position: absolute;
       top: 10px;
@@ -212,6 +213,7 @@
       word-wrap: break-word !important;
       text-align: left;
       font-size: 85%;
+      line-height: 16px;
     };
   };
 }
