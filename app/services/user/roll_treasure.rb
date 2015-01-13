@@ -4,61 +4,59 @@ class User::RollTreasure
   attribute :user, User
   attribute :message
 
-
   def call
     @summoner = user.summoner
-    if @summoner.gp <= 5
-      self.message = "You ain't got no gp. Get more to roll."
+    if @summoner.gp < 100
+      self.message = "You ain't got enough gp. Get more to roll."
       return self.message
     else
-      @summoner.gp -= 5
+      chance = Rarity.find_by_name("common").chance
+      @common_chance = (chance*10000).to_i
+      chance = Rarity.find_by_name("rare").chance
+      @rare_chance = (chance*10000).to_i
+      chance = Rarity.find_by_name("super rare").chance
+      @super_rare_chance = (chance*10000).to_i
+      chance = Rarity.find_by_name("ultra rare").chance
+      @ultra_rare_chance = (chance*10000).to_i
+      chance = Rarity.find_by_name("latest").chance
+      @latest_chance = (chance*10000).to_i
+      @summoner.gp -= 100
       @summoner.save
       roll = Random.new
       reward_category_roll = roll.rand(1..1000)
       reward_level_roll = roll.rand(1..1000)
+
+
       case
-        when (1..400).include?(reward_category_roll) #40% resource
-          case
-            when (1..370).include?(reward_level_roll) #37%
-              @gp = 5
-            when (371..620).include?(reward_level_roll) #25%
-              @gp = 7
-            when (621..820).include?(reward_level_roll) #20%
-              @gp = 10
-            when (821..920).include?(reward_level_roll) #10%
-              @gp = 15
-            when (921..975).include?(reward_level_roll) #5.5%
-              @gp = 20
-            when (976..1000).include?(reward_level_roll) #2.5%
-              @gp = 30
-            else
-              return false
+        when (1..@common_chance).include?(reward_level_roll) #70%
+          @rarity = "common"
+        when ((@common_chance+1)..@rare_chance).include?(reward_level_roll) #20%
+          @rarity = "rare"
+        when ((@rare_chance+1)..@super_rare_chance).include?(reward_level_roll) #7%
+          @rarity = "super rare"
+        when ((@super_rare_chance-1)..@ultra_rare_chance).include?(reward_level_roll) #3%
+          @rarity = "ultra rare"
+        else
+          return false
+      end
+
+
+      case
+        when (1..970).include?(reward_category_roll) #97% ability
+          @abil_array = Ability.can_win(@rarity).pluck(:id)
+
+          if @rarity == "common"
+            @latest_abil_array = Ability.can_win("latest").pluck(:id)
+            chance = @latest_abil_array.count*@latest_chance
+            ability_roll = Random.new.rand(1..1000)
+            if (1..chance).include?(ability_roll)
+              @rarity = "latest"
+              @abil_array = @latest_mon_array
+            end
           end
 
-          @summoner.gp += @gp
-          @summoner.save
-          self.message = "You won #{@gp} Genetic Points, go roll some more!"
-          return self.message
-
-        when (401..700).include?(reward_category_roll) #30% ability
-          case
-            when (1..820).include?(reward_level_roll) #82%
-              @rarity = "common"
-            when (821..920).include?(reward_level_roll) #10%
-              @rarity = "rare"
-            when (921..970).include?(reward_level_roll) #5%
-              @rarity = "super rare"
-            when (971..995).include?(reward_level_roll) #2.5%
-              @rarity = "ultra rare"
-            when (996..1000).include?(reward_level_roll) #.5%
-              @rarity = "mythical"
-            else
-              return false
-          end
-
-          @abil_id_won = Ability.can_win(@rarity).pluck(:id).sample
-          @abil_won_name = @abilities.find_name(@abil_id_won)
-
+          @abil_id_won = @abil_array.sample
+          @abil_won_name = Ability.find_name(@abil_id_won)[0]
           if @abil_id_won == nil
             self.message = "The #{@rarity} abilities are currently unavailable!"
             return self.message
@@ -68,31 +66,26 @@ class User::RollTreasure
           self.message = "You unlocked ability #{@abil_won_name}!"
           return self.message
 
-        when (701..1000).include?(reward_category_roll) #30% monsters
-          case
-            when (1..820).include?(reward_level_roll) #82%
-              @rarity = "common"
-            when (821..920).include?(reward_level_roll) #10%
-              @rarity = "rare"
-            when (921..970).include?(reward_level_roll) #5%
-              @rarity = "super rare"
-            when (971..995).include?(reward_level_roll) #2.5%
-              @rarity = "ultra rare"
-            when (996..1000).include?(reward_level_roll) #.5%
-              @rarity = "mythical"
-            else
-              return "hack attempt"
-          end
-
+        when (970..1000).include?(reward_category_roll) #3% monsters
           @mon_id_array = Monster.can_win(@rarity).pluck(:id)
           @id_array = []
+
+          if @rarity == "common"
+            @latest_mon_array = Monster.can_win("latest").pluck(:id)
+            chance = @latest_mon_array.count*@latest_chance
+            monster_roll = Random.new.rand(1..1000)
+            if (1..chance).include?(monster_roll)
+              @rarity = "latest"
+              @mon_id_array = @latest_mon_array
+            end
+          end
 
           @mon_id_array.each do |d|
             @id_array << d if MonsterUnlock.unlock_check(@user, d).exists?
           end
 
           @mon_id_won = @id_array.sample
-          @mon_won_name = @monsters.find_name(@mon_id_won)
+          @mon_won_name = @monsters.find_name(@mon_id_won)[0]
 
           if @mon_id_won == nil
             self.message = "You have unlocked all the #{@rarity} monsters!"

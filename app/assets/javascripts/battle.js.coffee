@@ -37,7 +37,7 @@ window.fixEvolMon = (monster, player) ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
-      ), 1500
+      ), 1000
       return false
     else
       return true
@@ -607,15 +607,17 @@ window.outcome = ->
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $(".message").css("opacity", "0")
-    $.ajax
-      url: "/battles/" + battle.id
-      method: "patch"
-      data: {
-        "victor": battle.players[0].username,
-        "loser": battle.players[1].username,
-        "round_taken": parseInt(battle.round),
-        "time_taken": parseInt(seconds_taken)
-      }
+    setTimeout (->
+      $.ajax
+        url: "/battles/" + battle.id
+        method: "patch"
+        data: {
+          "victor": battle.players[0].username,
+          "loser": battle.players[1].username,
+          "round_taken": parseInt(battle.round),
+          "time_taken": parseInt(seconds_taken)
+        }
+      ), 200
     if battle.end_cut_scenes.length isnt 0
       $(".cutscene").attr("src", battle.end_cut_scenes[0])
       $(".cutscene").css("opacity", "1")
