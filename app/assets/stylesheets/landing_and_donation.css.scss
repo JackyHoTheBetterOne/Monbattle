@@ -20,6 +20,13 @@
   top: -15px;
   background: #4B4B4B !important;
   color: white !important;
+  .party-form-button {
+    background: #3e444c;
+    transition: background 0.2s;
+  };
+  .party-form-button:hover {
+    background: #0D47A1;
+  };
 };
 
 .navbar-logo {

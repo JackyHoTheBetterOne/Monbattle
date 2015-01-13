@@ -3,6 +3,8 @@ class User::RollTreasure
 
   attribute :user, User
   attribute :message
+  attribute :reward_name
+  attribute :type
 
   def call
     @summoner = user.summoner
@@ -64,6 +66,8 @@ class User::RollTreasure
 
           AbilityPurchase.create(user_id: @user.id, ability_id: @abil_id_won)
           self.message = "You unlocked ability #{@abil_won_name}!"
+          self.reward_name = @abil_won_name
+          self.type = "ability"
           return self.message
 
         when (970..1000).include?(reward_category_roll) #3% monsters
@@ -86,6 +90,8 @@ class User::RollTreasure
 
           @mon_id_won = @id_array.sample
           @mon_won_name = @monsters.find_name(@mon_id_won)[0]
+          self.reward_name = @mon_won_name
+          self.type = "monster"
 
           if @mon_id_won == nil
             self.message = "You have unlocked all the #{@rarity} monsters!"
