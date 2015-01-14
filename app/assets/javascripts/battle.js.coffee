@@ -642,7 +642,7 @@ window.outcome = ->
         $(".cutscene").hide(500)
         endCutScene()
         setTimeout (->
-          $(".next-scene, .cutscene").remove()
+          $(".next-scene, .cutscene, .skip-button").remove()
           $(".message").css("z-index", "1000")
           $(".message").addClass("bounceIn animated")
         ), 750
@@ -823,10 +823,10 @@ window.nextScene = ->
 
 window.mouseOverMon = ->
   if $(this).css("opacity") isnt "0"
-    $(this).prev().css "visibility", "visible"
+    $(this).parent().children(".monBut").css "visibility", "visible"
     $(this).parent().children(".availability-arrow").css("visibility", "hidden")
     $(this).parent().children(".availability-arrow")
-    $(this).addClass("controlling")
+    $(this).parent().children(".img").addClass("controlling") 
     $(this).parent().children(".monBut").css({"opacity":"1", "z-index":"20000"})
     mon = $(this).closest(".mon").data("index")
     team = $(this).closest(".mon-slot").data("team")
@@ -843,11 +843,13 @@ window.mouseLeaveMon = ->
 
 window.turnOnCommandA = ->
   $(document).on "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
-  $(document).on "mouseover.command, mousemove.command", ".user.mon-slot .img", mouseOverMon
+  $(document).on "mouseover.command", 
+                 ".user.mon-slot .img, .availability-arrow", mouseOverMon
 
 window.turnOffCommandA = ->
   $(document).off "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
-  $(document).off "mouseover.command, mousemove.command", ".user.mon-slot .img", mouseOverMon
+  $(document).off "mouseover.command,", 
+                  ".user.mon-slot .img, .availability-arrow", mouseOverMon
 
 window.turnOff = (name, team) ->
   $(document).off name, team + ".mon-slot .img"
