@@ -221,7 +221,7 @@ class Ability < ActiveRecord::Base
 
   def unlock_for_admins
     20.times{AbilityPurchase.create(user_id: find_user("admin").id, ability_id: self.id)}
-    5.times{AbilityPurchase.create(user_id: find_user("NPC").id, ability_id: self.id)}
+    10.times{AbilityPurchase.create(user_id: find_user("NPC").id, ability_id: self.id)}
   end
 
   private
