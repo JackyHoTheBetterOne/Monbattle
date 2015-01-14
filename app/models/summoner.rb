@@ -58,7 +58,7 @@ class Summoner < ActiveRecord::Base
           array.push(q.name)
           @questing_summoner.completed_daily_quests = array
         end
-      elsif q.type == "Daily-Turn-Based-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) &&
+      elsif q.type == "Daily-Turn-Based-Achievement" && (!@questing_summoner.completed_daily_quests.include?(q.name)) &&
         @questing_summoner.name != "NPC" && q.is_active
         successful_entries = []
         self.daily_battles.each do |b|

@@ -29,7 +29,7 @@ window.fixEvolMon = (monster, player) ->
       setTimeout (->
         $("p.dam").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".bar").css("width", "0%")
-      ), 1100
+      ), 600
       setTimeout (->
         $("p.dam, .bar").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".availability-arrow").remove()
@@ -38,7 +38,7 @@ window.fixEvolMon = (monster, player) ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
-      ), 1100
+      ), 1200
       return false
     else
       return true
@@ -740,7 +740,7 @@ window.singleTargetAbilityAfterActionDisplay = ->
   turnOnCommandA()
   setTimeout (->
     toggleImg()
-  ), 200
+  ), 250
   flashEndButton()
 
 window.allyAbilityBeforeClickDisplay = ->
@@ -873,6 +873,7 @@ window.flashEndButton = ->
   window.buttonArray = []
   setTimeout (->
     $(".end-turn").prop("disabled", false)
+    $(".end-turn").css("opacity", "1")
   ), 500
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
@@ -1513,6 +1514,7 @@ $ ->
   ##########################################################################################################  User move interaction
         $(document).on "click.button", ".user.mon-slot .monBut button", ->
           $(".end-turn").prop("disabled", true)
+          $(".end-turn").css("opacity", "0.5")
           ability = $(this)
           if window.battle.players[0].ap >= ability.data("apcost")
             $(".abilityDesc").css({"opacity":"0", "z-index":"-1"})
@@ -1524,6 +1526,7 @@ $ ->
               $(".user .img").removeClass("controlling")
               $(".battle-guide").hide()
               $(".end-turn").prop("disabled", false)
+              $(".end-turn").css("opacity", "1")
               $(document).off "click.boom", ".enemy.mon-slot .img"
               $(document).off "click.help", ".user.mon-slot .img"
               $(document).off "click.cancel", ".cancel"
@@ -1712,6 +1715,7 @@ $ ->
             $(this).add(".ap").effect("highlight", {color: "red"}, 100)
             alert("You have insufficient ap to use this skill.")
             $(".end-turn").prop("disabled", false)
+            $(".end-turn").css("opacity", "1")
 
 
 

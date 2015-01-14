@@ -7,6 +7,8 @@ window.xadBuk = ->
   window.pafCheck = JSON.stringify(battle)
   console.log("catching")
   if window.gigSet != window.pafCheck
+    console.log(window.gigSet)
+    console.log(window.pafCheck)
     alert("Good job! You have hacked the game!")
     $(".battle").remove()
 
