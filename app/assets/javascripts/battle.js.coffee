@@ -846,8 +846,8 @@ window.turnOnCommandA = ->
   $(document).on "mouseover.command", ".user.mon-slot .img", mouseOverMon
 
 window.turnOffCommandA = ->
-  $(document).off "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
-  $(document).off "mouseover.command,", ".user.mon-slot .img", mouseOverMon
+  $(document).off "mouseleave.command", ".user.mon-slot .mon"
+  $(document).off "mouseover.command", ".user.mon-slot .img"
 
 window.turnOff = (name, team) ->
   $(document).off name, team + ".mon-slot .img"
