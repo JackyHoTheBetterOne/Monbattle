@@ -1271,8 +1271,8 @@ window.action = ->
   battle.monAbility(targets[0], targets[1], targets[2], targets[3])
   fixHp()
   checkMax()
-  zetBut()
   setTimeout (->
+    zetBut()
     checkOutcome()
   ), 200
 
@@ -1282,8 +1282,8 @@ window.multipleAction = ->
   battle.monAbility(targets[0], targets[1], targets[2])
   fixHp()
   checkMax()
-  zetBut()
   setTimeout (->
+    zetBut()
     checkOutcome()
   ), 200
 
