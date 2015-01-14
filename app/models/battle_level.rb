@@ -41,6 +41,14 @@ class BattleLevel < ActiveRecord::Base
     return array
   end
 
+  def has_cut_scene
+    if self.start_cut_scenes.length == 0 && self.end_cut_scenes.length == 0
+      return false
+    else
+      return true
+    end 
+  end
+
   def area_name
     if self.area
       self.area.name

@@ -50,8 +50,7 @@ $theme-background-color: rgba(32, 32, 32, 1);
 };
 
 .controlling {
-  border: 1px solid;
-  border-color: $theme-background-color !important;
+  background: rgba(13, 71, 161, 0.3);
   border-radius: 5px;
 };
 
@@ -152,17 +151,9 @@ $theme-background-color: rgba(32, 32, 32, 1);
     background: #0D47A1;
   };
   .message {
-    position: fixed;
     margin: auto;
-    left: 0px;
-    right: 0px;
-    top: 10px;
     color: white;
-    transition: opacity 0.4s;
     opacity: 0;
-    width: 400px;
-    border-radius: 10px;
-    background: transparent;
   };
   .cutscene {
     position: fixed;
@@ -215,8 +206,8 @@ $theme-background-color: rgba(32, 32, 32, 1);
 };
 
 .cancel {
-  background: rgba(235, 0, 22, 0.95) !important;
-  border-color: rgba(235, 0, 22, 0.95) !important;
+  background: rgba(153, 61, 57, 0.95) !important;
+  border-color: rgba(153, 61, 57, 0.95) !important;
   box-shadow: 2px 3px 4px #000000;
   border-radius: 5px;
   position: absolute;
@@ -334,6 +325,7 @@ body {
     color: white;
     border-radius: 5px;
     transition: 0.4s;
+    box-shadow: 2px 3px 5px #000000;
   };
   .ap {
     position: absolute;
@@ -359,6 +351,7 @@ body {
       top: 0px;
       z-index: 1;
       left: 45px; 
+      width: 160px;
     };
     .ap-meter {
       background: black;

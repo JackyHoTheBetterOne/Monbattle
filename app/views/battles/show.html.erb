@@ -14,7 +14,8 @@
   </div>
   <%= image_tag(@battle.battle_level.start_cut_scenes[0], class: "cutscene") %>
   <%= image_tag("story-arrow.png", class: "next-scene") %>
-  <% if current_user.summoner.played_levels.include?(@battle.battle_level.name) %>
+  <% if current_user.summoner.played_levels.include?(@battle.battle_level.name) && @battle.
+        battle_level.has_cut_scene %>
     <button class="skip-button" id="skip-button">Skip</button>
   <% end %>
 </div>
@@ -43,7 +44,9 @@
     <div class="panel-body battle-guide guide">
       I will help you
     </div>
-    <button class="battle-guide cancel" onclick="playIt()">Cancel</button>
+    <button class="battle-guide cancel" onclick="playIt()">
+      Cancel Action
+    </button>
   </div>
 
   <img class="ability-img" src="" type="image" alt="monster abiltiy">

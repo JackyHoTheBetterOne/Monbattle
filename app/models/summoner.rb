@@ -48,6 +48,7 @@ class Summoner < ActiveRecord::Base
 
   def get_achievement
     @questing_summoner = self
+    array = @questing_summoner.completed_daily_quests
     Quest.all.each do |q|
       if q.type == "Daily-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) && 
           @questing_summoner.name != "NPC" && q.is_active
@@ -56,23 +57,22 @@ class Summoner < ActiveRecord::Base
           @questing_summoner[q.reward] += q.reward_amount
           array = @questing_summoner.completed_daily_quests.dup
           array.push(q.name)
-          @questing_summoner.completed_daily_quests = array
         end
       elsif q.type == "Daily-Turn-Based-Achievement" && (!@questing_summoner.completed_daily_quests.include?(q.name)) &&
         @questing_summoner.name != "NPC" && q.is_active
         successful_entries = []
         self.daily_battles.each do |b|
           battle = Battle.find(b)
-          successful_entries.push(battle.id) if battle[q.stat].to_i < q.stat_requirement
+          successful_entries.push(battle.id) if battle[q.stat].to_i < q.stat_requirement && battle.victor != "NPC"
         end
         if successful_entries.count >= q.requirement
           @questing_summoner[q.reward] += q.reward_amount
           array = @questing_summoner.completed_daily_quests.dup
           array.push(q.name)
-          @questing_summoner.completed_daily_quests = array
         end
       end
     end
+    @questing_summoner.completed_daily_quests = array
     @questing_summoner.save
   end
 

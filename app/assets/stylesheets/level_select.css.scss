@@ -1,10 +1,6 @@
 @import "compass";
 
-.current-area {
-  background: #0D47A1 !important;
-};
-
-.current-region {
+.current-area, .current-region {
   background: #0D47A1 !important;
 };
 
@@ -177,7 +173,7 @@
     background: #4B4B4B;
     z-index: 4000;
     border: 2px solid black;
-    transition: box-shadow 0.3s;
+    transition: 0.3s;
     box-shadow: 2px 3px 10px #000000;
     .level-name {
       position: absolute;
