@@ -843,13 +843,11 @@ window.mouseLeaveMon = ->
 
 window.turnOnCommandA = ->
   $(document).on "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
-  $(document).on "mouseover.command", 
-                 ".user.mon-slot .img, .availability-arrow", mouseOverMon
+  $(document).on "mouseover.command", ".user.mon-slot .img", mouseOverMon
 
 window.turnOffCommandA = ->
   $(document).off "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
-  $(document).off "mouseover.command,", 
-                  ".user.mon-slot .img, .availability-arrow", mouseOverMon
+  $(document).off "mouseover.command,", ".user.mon-slot .img", mouseOverMon
 
 window.turnOff = (name, team) ->
   $(document).off name, team + ".mon-slot .img"
@@ -868,6 +866,7 @@ window.toggleImg = ->
       $(this).removeAttr("disabled")
     else
       $(this).attr("disabled", "true")
+
 
 window.flashEndButton = ->
   availableAbilities()
@@ -1520,6 +1519,7 @@ $ ->
             $(".user .monBut").css({"visibility":"hidden", "opacity":"0"})
             toggleImg()
             $(document).on "click.cancel",".cancel", ->
+              availableAbilities()
               offUserTargetClick()
               $(".user .img").removeClass("controlling")
               $(".battle-guide").hide()
