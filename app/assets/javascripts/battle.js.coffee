@@ -25,10 +25,11 @@ window.increaseTime = ->
 window.fixEvolMon = (monster, player) ->
   monster.isAlive = ->
     if @hp <= 0
+      $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").remove()
       setTimeout (->
         $("p.dam").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".bar").css("width", "0%")
-      ), 1200
+      ), 1100
       setTimeout (->
         $("p.dam, .bar").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".availability-arrow").remove()
@@ -37,7 +38,7 @@ window.fixEvolMon = (monster, player) ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
-      ), 1000
+      ), 1100
       return false
     else
       return true
@@ -513,8 +514,8 @@ window.checkOutcome = ->
           setTimeout (->
             $("p.dam").promise().done ->
               outcome()
-          ), 600
-    ), 700
+          ), 300
+    ), 800
 
 
 window.hpChangeBattle = ->
@@ -581,7 +582,7 @@ window.outcome = ->
       setTimeout (->
         $(".next-scene").remove()
         $(".message").addClass("animated bounceIn")
-      ), 1800
+      ), 750
     $.ajax
       url: "/battles/" + battle.id
       method: "patch"
@@ -641,7 +642,7 @@ window.outcome = ->
         $(".cutscene").hide(500)
         endCutScene()
         setTimeout (->
-          $(".next-scene, .cutscene").remove()
+          $(".next-scene, .cutscene, .skip-button").remove()
           $(".message").css("z-index", "1000")
           $(".message").addClass("bounceIn animated")
         ), 750
@@ -822,10 +823,10 @@ window.nextScene = ->
 
 window.mouseOverMon = ->
   if $(this).css("opacity") isnt "0"
-    $(this).prev().css "visibility", "visible"
+    $(this).parent().children(".monBut").css "visibility", "visible"
     $(this).parent().children(".availability-arrow").css("visibility", "hidden")
     $(this).parent().children(".availability-arrow")
-    $(this).addClass("controlling")
+    $(this).parent().children(".img").addClass("controlling") 
     $(this).parent().children(".monBut").css({"opacity":"1", "z-index":"20000"})
     mon = $(this).closest(".mon").data("index")
     team = $(this).closest(".mon-slot").data("team")
@@ -842,11 +843,11 @@ window.mouseLeaveMon = ->
 
 window.turnOnCommandA = ->
   $(document).on "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
-  $(document).on "mouseover.command, mousemove.command", ".user.mon-slot .img", mouseOverMon
+  $(document).on "mouseover.command", ".user.mon-slot .img", mouseOverMon
 
 window.turnOffCommandA = ->
-  $(document).off "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
-  $(document).off "mouseover.command, mousemove.command", ".user.mon-slot .img", mouseOverMon
+  $(document).off "mouseleave.command", ".user.mon-slot .mon"
+  $(document).off "mouseover.command", ".user.mon-slot .img"
 
 window.turnOff = (name, team) ->
   $(document).off name, team + ".mon-slot .img"
@@ -865,6 +866,7 @@ window.toggleImg = ->
       $(this).removeAttr("disabled")
     else
       $(this).attr("disabled", "true")
+
 
 window.flashEndButton = ->
   availableAbilities()
@@ -1439,9 +1441,9 @@ $ ->
         availableAbilities()
         toggleEnemyClick()
         $(document).on("mouseover", ".battle-round-countdown", ->
-          $(".bonus-description").css("opacity", "1")
+          $(".bonus-description").css({"opacity":"1", "z-index":"10000"})
         ).on "mouseleave", ".battle-round-countdown", ->
-          $(".bonus-description").css("opacity", "0")
+          $(".bonus-description").css({"opacity":"0", "z-index":"-1"})
         $(document).on("mouseover", ".enemy.mon-slot .img", ->
           if $(this).attr("disabled") isnt "disabled"
             $(this).css("background", "rgba(255, 241, 118, .58)")
@@ -1517,6 +1519,7 @@ $ ->
             $(".user .monBut").css({"visibility":"hidden", "opacity":"0"})
             toggleImg()
             $(document).on "click.cancel",".cancel", ->
+              availableAbilities()
               offUserTargetClick()
               $(".user .img").removeClass("controlling")
               $(".battle-guide").hide()

@@ -33,6 +33,10 @@ class AbilityPurchase < ActiveRecord::Base
     where(monster_unlock_id: 0, ability_id: ability)
   }
 
+  # scope :not_equipped, -> (ability) {
+  #   where(monster_unlock_id: 0, ability_id: ability)
+  # }
+ 
   scope :not_learned, -> (user_id) {
     where(learner_id: nil, user_id: user_id)
   }
@@ -44,7 +48,7 @@ class AbilityPurchase < ActiveRecord::Base
   }
 
   def available(monster_unlock, ability)
-    ability_owned(ability).not_equipped(monster_unlock).count
+    10000
   end
 
   def self.abils_purchased(user)

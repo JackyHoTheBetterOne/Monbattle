@@ -64,7 +64,7 @@ class User::RollTreasure
             return self.message
           end
 
-          AbilityPurchase.create(user_id: @user.id, ability_id: @abil_id_won)
+          AbilityPurchase.create!(user_id: user.id, ability_id: @abil_id_won)
           self.message = "You unlocked ability #{@abil_won_name}!"
           self.reward_name = @abil_won_name
           self.type = "ability"
@@ -85,7 +85,7 @@ class User::RollTreasure
           end
 
           @mon_id_array.each do |d|
-            @id_array << d if MonsterUnlock.unlock_check(@user, d).exists?
+            @id_array << d if MonsterUnlock.unlock_check(user, d).exists?
           end
 
           @mon_id_won = @id_array.sample
@@ -99,7 +99,7 @@ class User::RollTreasure
           end
 
           @monster_unlock = MonsterUnlock.new
-          @monster_unlock.user_id = @user.id
+          @monster_unlock.user_id = user.id
           @monster_unlock.monster_id = @mon_id_won
           @monster_unlock.save
           self.message = "You unlocked monster #{@mon_won_name}!"

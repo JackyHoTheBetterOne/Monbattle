@@ -107,7 +107,10 @@ class BattleLevel < ActiveRecord::Base
       if !level_array.include?self.name
         level_array.push(self.name) 
         unlocked_level = BattleLevel.where(unlocked_by_id: self.id)[0]
-        @summoner.recently_unlocked_level = unlocked_level.name if unlocked_level
+        if unlocked_level
+          @summoner.recently_unlocked_level = unlocked_level.name 
+          @summoner.latest_level = unlocked_level.name.gsub(" ","")
+        end
       end
 
       if !area_array.include?self.area.name
@@ -120,6 +123,9 @@ class BattleLevel < ActiveRecord::Base
 
         if area_cleared != false
           area_array.push(self.area.name)
+          latest_level_name = Area.find_by_unlocked_by_id(self.area.id).battle_levels.
+            first.name.gsub(" ", "") if Area.find_by_unlocked_by_id(self.area.id)
+          @summoner.latest_level = latest_level_name
         end
       end
 
@@ -133,6 +139,9 @@ class BattleLevel < ActiveRecord::Base
 
         if region_cleared != false
           region_array.push(self.area.region.name)
+          latest_level_name = Region.find_by_unlocked_by_id(1).areas.first.battle_levels.
+            first.name.gsub(" ", "") if Region.find_by_unlocked_by_id(self.area.region.id)
+          @summoner.latest_level = latest_level_name
         end
       end
 

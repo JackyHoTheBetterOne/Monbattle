@@ -46,13 +46,13 @@ $ ->
       success: (response) ->
         if response is "success"
           slot = undefined
-          if purchaseLearning.ability_slot = 1
+          if purchaseLearning.ability_slot is 1
             slot = "Attack"
           else 
             slot = "Skill"
           message = "To equip #{purchaseLearning.ability_name}, 
                      go to <a href='/home'>Edit Team</a>, then click on 
-                     #{purchaseLearning.monster_name} and find it under #{slot}!"
+                     #{purchaseLearning.monster_name} and find it under the #{slot} slot!"
           window.newAbilitiesLearned.push(message)
           document.getElementsByClassName("success-message")[0].innerHTML = 
             purchaseLearning.monster_name + " has learned " + purchaseLearning.ability_name + "!"
@@ -67,6 +67,7 @@ $ ->
               document.getElementsByClassName("learning-overlay")[0].style["z-index"] = "-100"
               document.getElementsByClassName("warning-message")[0].style["opacity"] = "1"
               document.getElementsByClassName("success-message")[0].style["opacity"] = "0"
+              flashMaking()
               document.getElementsByClassName("path-but ability-learning-search")[0].
                 click() if document.getElementsByClassName("ability-icon").length is 0
             ), 400

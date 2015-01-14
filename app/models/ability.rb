@@ -219,6 +219,11 @@ class Ability < ActiveRecord::Base
     self.slot = self.abil_socket.socket_num
   end
 
+  def unlock_for_admins
+    20.times{AbilityPurchase.create(user_id: find_user("admin").id, ability_id: self.id)}
+    10.times{AbilityPurchase.create(user_id: find_user("NPC").id, ability_id: self.id)}
+  end
+
   private
 
   def capitalize_name
@@ -228,11 +233,6 @@ class Ability < ActiveRecord::Base
   def set_keywords
     self.keywords = [name, description, self.targeta, self.stat_target.name, self.element.name].map(&:downcase).
                       concat([ap_cost, stat_change]).join(" ")
-  end
-
-  def unlock_for_admins
-    4.times{AbilityPurchase.create(user_id: find_user("admin").id, ability_id: self.id)}
-    8.times{AbilityPurchase.create(user_id: find_user("NPC").id, ability_id: self.id)}
   end
 
 end
