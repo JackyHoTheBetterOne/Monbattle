@@ -8,9 +8,7 @@ class AbilityEquippingForUsersController < ApplicationController
     respond_to do |format|
       if @ability_purchase.save
         @current_abil_purchase = @mon.abil_purch_in_sock(@socket)
-        # @abil_avail = @ability_purchases.not_equipped(@ability)
         @abil_avail_count = 10000
-        # @old_abil_avail = @ability_purchases.not_equipped(@old_ability)
         @old_abil_avail_count = 10000
          format.js { render :action }
          format.html { render :new }

@@ -28,6 +28,7 @@ class HomeController < ApplicationController
     @mon = MonsterUnlock.find params[:mon]
     @socket = params[:socket]
     @current_abil_purchase = @mon.abil_purch_in_sock(@socket)
+
     if current_user.admin == true
       @abilities = Ability.find_default_abilities_available(@socket, @mon.job).abilities_purchased(@user)
     else

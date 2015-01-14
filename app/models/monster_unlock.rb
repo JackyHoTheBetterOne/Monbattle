@@ -60,7 +60,7 @@ class MonsterUnlock < ActiveRecord::Base
   end
 
   def abil_portrait(sock_num)
-    abilities.abil_portrait(sock_num)
+    self.abilities.abil_portrait(sock_num)
   end
 
   def self.unlock_check(user, monster_id)

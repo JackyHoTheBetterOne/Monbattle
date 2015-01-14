@@ -33,7 +33,7 @@
             <%= link_to "Shop", device_store_path, class: "fb-nav" %>
           </li>
           <li class="<%= 'active' if current_page?(new_battle_path) || current_page?(home_index_path) ||
-                      request.original_url.include?("battles") %>
+                      request.original_url.include?("battles") || current_page?(learn_ability_path)  %>
                      pull-right fb-nav" class="party-setup">
             <%= link_to "Battle", new_battle_path, class: "fb-nav" %>
           </li>
