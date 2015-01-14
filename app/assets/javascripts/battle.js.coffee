@@ -582,7 +582,7 @@ window.outcome = ->
       setTimeout (->
         $(".next-scene").remove()
         $(".message").addClass("animated bounceIn")
-      ), 1800
+      ), 750
     $.ajax
       url: "/battles/" + battle.id
       method: "patch"
