@@ -11,7 +11,7 @@ class BattlesController < ApplicationController
   after_action :unlock_level_and_ability, only: :update
   after_action :finish_battle, only: :update
   after_action :tracking, only: :update
-  after_action :update_general_summoner_fields, only: :show
+
 
   def new
     params[:area_filter] ||= session[:area_filter]
@@ -207,21 +207,21 @@ class BattlesController < ApplicationController
     @battle.track_performance
   end
 
-  def update_general_summoner_fields
-    # @summoner = current_user.summoner
-    # level_name = @battle.battle_level.name
-    # id = @battle.id
+  # def update_general_summoner_fields
+  #   @summoner = current_user.summoner
+  #   level_name = @battle.battle_level.name
+  #   id = @battle.id
 
-    # array = @summoner.daily_battles.dup
-    # level_array = @summoner.played_levels.dup
+  #   array = @summoner.daily_battles.dup
+  #   level_array = @summoner.played_levels.dup
 
-    # level_array.push(level_name) if !level_array.include?(level_name)
-    # array << id if !array.include?(id)
+  #   level_array.push(level_name) if !level_array.include?(level_name)
+  #   array << id if !array.include?(id)
     
-    # @summoner.daily_battles = array 
-    # @summoner.played_levels = level_array
-    # @summoner.save
-  end
+  #   @summoner.daily_battles = array 
+  #   @summoner.played_levels = level_array
+  #   @summoner.save
+  # end
 end
 
 
