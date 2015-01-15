@@ -514,7 +514,7 @@ window.checkOutcome = ->
           setTimeout (->
             $("p.dam").promise().done ->
               outcome()
-          ), 300
+          ), 500
     ), 800
 
 
@@ -740,6 +740,7 @@ window.singleTargetAbilityAfterActionDisplay = ->
   turnOnCommandA()
   setTimeout (->
     toggleImg()
+    availableAbilities()
   ), 250
   flashEndButton()
 
@@ -1706,6 +1707,7 @@ $ ->
                     apChange()
                     setTimeout (->
                       toggleImg()
+                      availableAbilities()
                     ), 200
                     flashEndButton()
                     return
