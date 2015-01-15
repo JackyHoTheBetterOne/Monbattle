@@ -8,6 +8,8 @@
   height: 420px;
   background: url('https://s3-us-west-2.amazonaws.com/monbattle/images/victory-screen-blank.png');
   margin: 4% auto;
+  opacity: 0;
+  z-index: -1;
   .end-battle-but {
     width: 120px;
     height: 60px;

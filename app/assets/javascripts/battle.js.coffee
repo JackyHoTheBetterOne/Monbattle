@@ -581,7 +581,8 @@ window.outcome = ->
     $("#overlay").fadeIn 1000, ->
       setTimeout (->
         $(".next-scene").remove()
-        $(".message").addClass("animated bounceIn")
+        $(".end-battle-box").css("z-index", "1000")
+        $(".end-battle-box").addClass("animated bounceIn")
       ), 750
     $.ajax
       url: "/battles/" + battle.id
@@ -598,7 +599,6 @@ window.outcome = ->
       method: "get"
       data: {round_taken: parseInt(battle.round)},
       success: (response) ->
-        $(".message").css("z-index", "-100000000000000000")
         $(".message").html(response)
         if $(".ability-earned").text() isnt ""
           sentence = "You have gained " + $(".ability-earned").text() + 
@@ -607,7 +607,6 @@ window.outcome = ->
           newAbilities.push(sentence)
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
-    $(".message").css("opacity", "0")
     setTimeout (->
       $.ajax
         url: "/battles/" + battle.id
@@ -633,8 +632,8 @@ window.outcome = ->
         $("#overlay").fadeIn(1000)
         setTimeout (->
           $(".next-scene, .cutscene").remove()
-          $(".message").css("z-index", "1000")
-          $(".message").addClass("bounceIn animated")
+          $(".end-battle-box").css("z-index", "1000")
+          $(".end-battle-box").addClass("bounceIn animated")
         ), 1800
     $(document).on "click.cutscene", "#overlay", ->
       if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
@@ -643,8 +642,8 @@ window.outcome = ->
         endCutScene()
         setTimeout (->
           $(".next-scene, .cutscene, .skip-button").remove()
-          $(".message").css("z-index", "1000")
-          $(".message").addClass("bounceIn animated")
+          $(".end-battle-box").css("z-index", "1000")
+          $(".end-battle-box").addClass("bounceIn animated")
         ), 750
       else 
         new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
@@ -694,7 +693,6 @@ window.massRemoveEffectIcon = (effect) ->
 
 
 window.battleStartDisplay = (time) ->
-  $(".message").css("opacity", "0")
   setTimeout (->
     $("#overlay").fadeOut 500, ->
       window.battleTimer = setInterval(increaseTime, 1000)
@@ -845,10 +843,12 @@ window.mouseLeaveMon = ->
 window.turnOnCommandA = ->
   $(document).on "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
   $(document).on "mouseover.command", ".user.mon-slot .img", mouseOverMon
+  $(document).on "mousemove.command", ".user.mon-slot .img", mouseOverMon
 
 window.turnOffCommandA = ->
   $(document).off "mouseleave.command", ".user.mon-slot .mon"
   $(document).off "mouseover.command", ".user.mon-slot .img"
+  $(document).off "mousemove.command", ".user.mon-slot .img"
 
 window.turnOff = (name, team) ->
   $(document).off name, team + ".mon-slot .img"
