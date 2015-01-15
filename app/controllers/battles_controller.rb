@@ -11,7 +11,7 @@ class BattlesController < ApplicationController
   after_action :unlock_level_and_ability, only: :update
   after_action :finish_battle, only: :update
   after_action :tracking, only: :update
-  after_action :update_general_summoner_fields, only: :create
+  after_action :update_general_summoner_fields, only: :show
 
   def new
     params[:area_filter] ||= session[:area_filter]

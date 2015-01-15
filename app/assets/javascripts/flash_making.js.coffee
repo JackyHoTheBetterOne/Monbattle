@@ -1,5 +1,5 @@
 window.flashMaking = ->
-  document.getElementsByClassName("flash-bank")[0].innerHTML= ""
+  document.getElementsByClassName("flash-bank")[0].innerHTML= "" if document.getElementsByClassName("flash-bank").length isnt 0
   setTimeout (->
     if typeof window.newAbilities isnt "undefined"
       flash_array = window.newAbilities

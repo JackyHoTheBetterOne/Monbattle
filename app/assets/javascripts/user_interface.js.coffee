@@ -89,20 +89,21 @@ window.setQuestTimer = ->
     $(this).text(time)
 
 $ ->
-  if $(".quest").length is 0
+  if $(".quest").length is 0 and document.getElementsByClassName("quests-outline").length isnt 0
     document.getElementsByClassName("quests-outline")[0].innerHTML =
-      "<div class='quest'></div>"
+      "<div class='quest'></div>" 
     document.getElementsByClassName("quests-info")[0].innerHTML = 
       "<div class='quest none'>Come back tomorrow for more daily quests!</div>"
     document.getElementsByClassName("none")[0].style["padding-top"] = "12px"
-  $(document).on "page:before-change", ->
-    document.getElementById("turbolinks-overlay").style["z-index"] = ("10000")
-    document.getElementById("turbolinks-overlay").style.opacity = ("0.95")
-  $(document).on "page:change", ->
-    setTimeout (->
-      document.getElementById("turbolinks-overlay").style.opacity = ("0")
-      document.getElementById("turbolinks-overlay").style["z-index"] = ("-1")
-    ), 100
+  if document.getElementById("turbolinks-overlay") isnt null
+    $(document).on "page:before-change", ->
+      document.getElementById("turbolinks-overlay").style["z-index"] = ("10000")
+      document.getElementById("turbolinks-overlay").style.opacity = ("0.95")
+    $(document).on "page:change", ->
+      setTimeout (->
+        document.getElementById("turbolinks-overlay").style.opacity = ("0")
+        document.getElementById("turbolinks-overlay").style["z-index"] = ("-1")
+      ), 100
   window.clearInterval(staminaTimer) if typeof staminaTimer isnt "undefined"
   window.clearInterval(questTimer) if typeof questTimer isnt "undefined"
   window.newAbilities = [] if typeof window.newAbilities is "undefined"
