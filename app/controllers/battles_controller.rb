@@ -3,7 +3,7 @@ class BattlesController < ApplicationController
 
   before_action :find_battle, except: [:create, :index, :new]
   before_action :check_energy
-  before_action :quest_start
+  after_action :quest_start, only: [:new]
 
   before_action :generate_enemies, only: :create
   after_action :deduct_energy, only: :create
@@ -208,19 +208,19 @@ class BattlesController < ApplicationController
   end
 
   def update_general_summoner_fields
-    @summoner = current_user.summoner
-    level_name = @battle.battle_level.name
-    id = @battle.id
+    # @summoner = current_user.summoner
+    # level_name = @battle.battle_level.name
+    # id = @battle.id
 
-    array = @summoner.daily_battles.dup
-    level_array = @summoner.played_levels.dup
+    # array = @summoner.daily_battles.dup
+    # level_array = @summoner.played_levels.dup
 
-    level_array.push(level_name) if !level_array.include?(level_name)
-    array << id if !array.include?(id)
+    # level_array.push(level_name) if !level_array.include?(level_name)
+    # array << id if !array.include?(id)
     
-    @summoner.daily_battles = array 
-    @summoner.played_levels = level_array
-    @summoner.save
+    # @summoner.daily_battles = array 
+    # @summoner.played_levels = level_array
+    # @summoner.save
   end
 end
 
