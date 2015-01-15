@@ -11,6 +11,7 @@ class BattlesController < ApplicationController
   after_action :unlock_level_and_ability, only: :update
   after_action :finish_battle, only: :update
   after_action :tracking, only: :update
+  before_action :update_general_summoner_fields, only: [:win, :loss]
 
 
   def new
@@ -207,21 +208,21 @@ class BattlesController < ApplicationController
     @battle.track_performance
   end
 
-  # def update_general_summoner_fields
-  #   @summoner = current_user.summoner
-  #   level_name = @battle.battle_level.name
-  #   id = @battle.id
-
-  #   array = @summoner.daily_battles.dup
-  #   level_array = @summoner.played_levels.dup
-
-  #   level_array.push(level_name) if !level_array.include?(level_name)
-  #   array << id if !array.include?(id)
+  def update_general_summoner_fields
+    @summoner = current_user.summoner
     
-  #   @summoner.daily_battles = array 
-  #   @summoner.played_levels = level_array
-  #   @summoner.save
-  # end
+    level_name = @battle.battle_level.name
+    level_array = @summoner.played_levels.dup
+    level_array.push(level_name) if !level_array.include?(level_name)
+    @summoner.played_levels = level_array
+    
+    id = @battle.id.to_s
+    array = @summoner.daily_battles.dup
+    array.push(id) if !array.include?(id)
+    @summoner.daily_battles = array 
+
+    @summoner.save
+  end
 end
 
 
