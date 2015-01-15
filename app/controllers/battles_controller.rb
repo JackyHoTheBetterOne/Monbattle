@@ -211,10 +211,13 @@ class BattlesController < ApplicationController
     @summoner = current_user.summoner
     level_name = @battle.battle_level.name
     id = @battle.id
+
     array = @summoner.daily_battles.dup
     level_array = @summoner.played_levels.dup
+
     level_array.push(level_name) if !level_array.include?(level_name)
-    array.push(id) if !array.include?(id)
+    array << id if !array.include?(id)
+    
     @summoner.daily_battles = array 
     @summoner.played_levels = level_array
     @summoner.save
