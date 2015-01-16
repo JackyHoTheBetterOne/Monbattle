@@ -161,7 +161,6 @@ class Summoner < ActiveRecord::Base
   end
 
 #############################################################################################################
-
   def check_energy
     if self.name != "NPC"
       if self.last_update_for_energy != nil

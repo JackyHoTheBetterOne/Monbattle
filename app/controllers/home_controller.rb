@@ -83,12 +83,17 @@ class HomeController < ApplicationController
     rolling.call
     @treasure = rolling
     @summoner = current_user.summoner
+
     if rolling.message
       render :json => {
         message: @treasure.message,
         gp: @summoner.gp,
         type: @treasure.type,
-        reward: @treasure.reward_name
+        reward: @treasure.reward_name,
+        rarity: @treasure.rarity,
+        image: @treasure.image,
+        rarity_image: @treasure.rarity_image,
+        rarity_color: @treasure.rarity_color
       }
     else
       flash[:alert] = "Something went wrong. It's your fault."

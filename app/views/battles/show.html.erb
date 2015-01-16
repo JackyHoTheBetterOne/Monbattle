@@ -29,8 +29,9 @@
   <div class="battle-timer">
   </div>
 
-  <% if !current_user.summoner.beaten_levels.include?(@battle.battle_level.name) && 
-        @battle.battle_level.ability_reward.length != 0 %>
+  <% if current_user.summoner.beaten_levels.include?(@battle.battle_level.name) && 
+        @battle.battle_level.ability_reward.length != 0 && 
+        !current_user.summoner.cleared_twice_levels.include?(@battle.battle_level.name) %>
     <div class="battle-round-countdown">
       Rush Bonus: <span><%= @battle.battle_level.time_requirement %></span>
     </div>

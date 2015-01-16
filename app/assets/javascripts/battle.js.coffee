@@ -594,6 +594,7 @@ window.outcome = ->
         "time_taken": parseInt(seconds_taken)
       }
   else if battle.players[1].mons.every(isTeamDead) is true
+    $(".next-scene").css("top", "-265px")
     $.ajax
       url: "/battles/" + battle.id + "/win"
       method: "get"
@@ -800,7 +801,7 @@ window.nextSceneInitial = ->
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 1500
+  ), 2000
 
 window.nextScene = ->
   if document.getElementById('overlay') isnt null
@@ -818,7 +819,7 @@ window.nextScene = ->
     $(".next-scene").css("opacity", "0.9")
     if document.getElementById('overlay') isnt null
       document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 2200
+  ), 2500
 
 window.mouseOverMon = ->
   if $(this).css("opacity") isnt "0"

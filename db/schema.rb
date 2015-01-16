@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150113193439) do
+ActiveRecord::Schema.define(version: 20150115190832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -593,6 +593,8 @@ ActiveRecord::Schema.define(version: 20150113193439) do
     t.string   "code"
     t.text     "played_levels",                default: [],                    array: true
     t.string   "latest_level",                 default: "AreaA-Stage1"
+    t.text     "cleared_twice_levels",         default: [],                    array: true
+    t.text     "cleared_thrice_levels",        default: [],                    array: true
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree

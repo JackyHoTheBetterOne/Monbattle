@@ -5,43 +5,83 @@ class User::RollTreasure
   attribute :message
   attribute :reward_name
   attribute :type
+  attribute :rarity
+  attribute :image
+  attribute :rarity_image
+  attribute :rarity_color
 
   def call
+    self.message = "1"
+    self.reward_name = "1"
+    self.type = "1"
+    self.rarity = "1"
+    self.image = "1"
+    self.rarity_image = "1"
+    self.rarity_color = "1"
+
     @summoner = user.summoner
     if @summoner.gp < 100
       self.message = "You ain't got enough gp. Get more to roll."
       return self.message
     else
       chance = Rarity.find_by_name("common").chance
-      @common_chance = (chance*10000).to_i
+      @common_chance = (chance*1000).to_i
       chance = Rarity.find_by_name("rare").chance
-      @rare_chance = (chance*10000).to_i
+      @rare_chance = (chance*1000).to_i
       chance = Rarity.find_by_name("super rare").chance
-      @super_rare_chance = (chance*10000).to_i
+      @super_rare_chance = (chance*1000).to_i
       chance = Rarity.find_by_name("ultra rare").chance
-      @ultra_rare_chance = (chance*10000).to_i
+      @ultra_rare_chance = (chance*1000).to_i
       chance = Rarity.find_by_name("latest").chance
-      @latest_chance = (chance*10000).to_i
+      @latest_chance = (chance*1000).to_i
       @summoner.gp -= 100
       @summoner.save
-      roll = Random.new
-      reward_category_roll = roll.rand(1..1000)
-      reward_level_roll = roll.rand(1..1000)
+      reward_category_roll = Random.new.rand(1..1000)
+      reward_level_roll = Random.new.rand(1..1000)
 
 
       case
         when (1..@common_chance).include?(reward_level_roll) #70%
+          p "==================================================="
+          p @common_chance
+          p reward_level_roll
+          p "==================================================="
           @rarity = "common"
-        when ((@common_chance+1)..@rare_chance).include?(reward_level_roll) #20%
+          @rarity_color = "-1px 1px 20px #30f3ff"
+          @rarity_image = "/assets/common-text.png"
+        when ((@common_chance+1)..(@common_chance+@rare_chance)).include?(reward_level_roll) #20%
+          p "==================================================="
+          p @common_chance+@rare_chance
+          p reward_level_roll
+          p "==================================================="
           @rarity = "rare"
-        when ((@rare_chance+1)..@super_rare_chance).include?(reward_level_roll) #7%
+          @rarity_color = "-1px 1px 20px #304dff"
+          @rarity_image = "/assets/rare-text.png"
+        when ((@common_chance+@rare_chance+1)..(@common_chance+@rare_chance+@super_rare_chance)).
+                include?(reward_level_roll) #7%
+          p "==================================================="
+          p @common_chance+@rare_chance+@super_rare_chance
+          p reward_level_roll
+          p "==================================================="
           @rarity = "super rare"
-        when ((@super_rare_chance-1)..@ultra_rare_chance).include?(reward_level_roll) #3%
+          @rarity_color = "-1px 1px 20px #bd30ff"
+          @rarity_image = "/assets/epic-text.png"
+        when ((@common_chance+@rare_chance+@super_rare_chance+1)..1000).
+                include?(reward_level_roll) #3%
+          p "==================================================="
+          p @common_chance+@rare_chance+@super_rare_chance+1
+          p reward_level_roll
+          p "==================================================="
           @rarity = "ultra rare"
+          @rarity_color = "-1px 1px 20px #ffaa30"
+          @rarity_image = "/assets/legendary-text.png"
         else
           return false
       end
 
+      self.rarity_color = @rarity_color
+      self.rarity = @rarity
+      self.rarity_image = @rarity_image
 
       case
         when (1..970).include?(reward_category_roll) #97% ability
@@ -67,6 +107,7 @@ class User::RollTreasure
           AbilityPurchase.create!(user_id: user.id, ability_id: @abil_id_won)
           self.message = "You unlocked ability #{@abil_won_name}!"
           self.reward_name = @abil_won_name
+          self.image = Ability.find(@abil_id_won).portrait.url(:thumb)
           self.type = "ability"
           return self.message
 
@@ -85,11 +126,11 @@ class User::RollTreasure
           end
 
           @mon_id_array.each do |d|
-            @id_array << d if MonsterUnlock.unlock_check(user, d).exists?
+            @id_array << d if !MonsterUnlock.unlock_check(user, d).exists?
           end
 
           @mon_id_won = @id_array.sample
-          @mon_won_name = @monsters.find_name(@mon_id_won)[0]
+          @mon_won_name = Monster.find(@mon_id_won).name
           self.reward_name = @mon_won_name
           self.type = "monster"
 
@@ -102,6 +143,8 @@ class User::RollTreasure
           @monster_unlock.user_id = user.id
           @monster_unlock.monster_id = @mon_id_won
           @monster_unlock.save
+
+          self.image = @monster_unlock.mon_portrait(user)
           self.message = "You unlocked monster #{@mon_won_name}!"
           return self.message
       end
