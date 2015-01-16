@@ -83,9 +83,11 @@ div.store-front {
 };
 
 .roll-message {
-  position: relative;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  margin: 40px auto;
   background: url("https://s3-us-west-2.amazonaws.com/monbattle/Roll-Result-Screen-Blank.png");
-  top: 0px;
   height: 500px;
   width: 515px;
   margin-left: auto;
@@ -102,8 +104,12 @@ div.store-front {
 
 .back-to-store {
   z-index: -1;
-  position: relative;
-  top: 475px;
+  position: fixed;
+  margin: 480px auto;
+  right: auto;
+  left: auto;
+  margin-left: -32px;
+  padding-right: 7px;
   opacity: 0;
   background: #353434;
   color: white;
@@ -111,7 +117,6 @@ div.store-front {
   border: 2px solid black;
   border-radius: 5px;
   box-shadow: 3px 3px 5px #000000;
-  padding-left: 6px;
   font-size: 120%;
 };
 
@@ -121,7 +126,7 @@ div.store-front {
 
 .rarity-icon {
   position: absolute;
-  margin: 14% auto;
+  margin: 188px auto;
   height: 85px;
   left: 0px;
   right: 0px;
@@ -134,7 +139,7 @@ div.store-front {
 .ability-won-icon {
   opacity: 0;
   position: absolute;
-  margin: 29% auto;
+  margin: 377px auto;
   left: 0px;
   right: 0px;
   z-index: 10;
@@ -146,7 +151,7 @@ div.store-front {
   opacity: 0;
   z-index: -1;
   position: absolute;
-  margin: -12% auto;
+  margin: 377px auto;
   right: 0px;
   left: 0px;
   transition: opacity 0.3s, box-shadow 0.2s;

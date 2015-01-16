@@ -15,8 +15,8 @@ class User::RollTreasure
     self.reward_name = "1"
     self.type = "1"
     self.rarity = "1"
-    self.image = "1"
-    self.rarity_image = "1"
+    self.image = "https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg"
+    self.rarity_image = "https://s3-us-west-2.amazonaws.com/monbattle/images/legendary-text.png"
     self.rarity_color = "1"
 
     @summoner = user.summoner

@@ -189,7 +189,7 @@ $theme-background-color: rgba(32, 32, 32, 1);
 };
 
 .battle-guide {
-  top: 0px;
+  top: -42px;
   left: 0px;
   width: 155px;
   color: white;
@@ -209,7 +209,7 @@ $theme-background-color: rgba(32, 32, 32, 1);
   box-shadow: 2px 3px 4px #000000;
   border-radius: 5px;
   position: absolute;
-  top: 70px;
+  top: 28px;
   transition: background 0.5s;
 };
 
