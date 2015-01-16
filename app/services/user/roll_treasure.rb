@@ -48,7 +48,7 @@ class User::RollTreasure
           p "==================================================="
           @rarity = "common"
           @rarity_color = "-1px 1px 20px #30f3ff"
-          @rarity_image = "/assets/common-text.png"
+          @rarity_image = "https://s3-us-west-2.amazonaws.com/monbattle/images/common-text.png"
         when ((@common_chance+1)..(@common_chance+@rare_chance)).include?(reward_level_roll) #20%
           p "==================================================="
           p @common_chance+@rare_chance
@@ -56,7 +56,7 @@ class User::RollTreasure
           p "==================================================="
           @rarity = "rare"
           @rarity_color = "-1px 1px 20px #304dff"
-          @rarity_image = "/assets/rare-text.png"
+          @rarity_image = "https://s3-us-west-2.amazonaws.com/monbattle/images/rare-text.png"
         when ((@common_chance+@rare_chance+1)..(@common_chance+@rare_chance+@super_rare_chance)).
                 include?(reward_level_roll) #7%
           p "==================================================="
@@ -65,7 +65,7 @@ class User::RollTreasure
           p "==================================================="
           @rarity = "super rare"
           @rarity_color = "-1px 1px 20px #bd30ff"
-          @rarity_image = "/assets/epic-text.png"
+          @rarity_image = "https://s3-us-west-2.amazonaws.com/monbattle/images/epic-text.png"
         when ((@common_chance+@rare_chance+@super_rare_chance+1)..1000).
                 include?(reward_level_roll) #3%
           p "==================================================="
@@ -74,7 +74,7 @@ class User::RollTreasure
           p "==================================================="
           @rarity = "ultra rare"
           @rarity_color = "-1px 1px 20px #ffaa30"
-          @rarity_image = "/assets/legendary-text.png"
+          @rarity_image = "https://s3-us-west-2.amazonaws.com/monbattle/images/legendary-text.png"
         else
           return false
       end
