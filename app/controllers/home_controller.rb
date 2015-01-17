@@ -29,7 +29,7 @@ class HomeController < ApplicationController
     @socket = params[:socket]
     @current_abil_purchase = @mon.abil_purch_in_sock(@socket)
 
-    if current_user.user_name = "admin"
+    if current_user.user_name == "admin"
       @abilities = Ability.find_default_abilities_available(@socket, @mon.job).abilities_purchased(@user)
     else
       @abilities = @mon.learned_ability_array_with_socket(@socket)
@@ -83,12 +83,17 @@ class HomeController < ApplicationController
     rolling.call
     @treasure = rolling
     @summoner = current_user.summoner
+
     if rolling.message
       render :json => {
         message: @treasure.message,
         gp: @summoner.gp,
         type: @treasure.type,
-        reward: @treasure.reward_name
+        reward: @treasure.reward_name,
+        rarity: @treasure.rarity,
+        image: @treasure.image,
+        rarity_image: @treasure.rarity_image,
+        rarity_color: @treasure.rarity_color
       }
     else
       flash[:alert] = "Something went wrong. It's your fault."

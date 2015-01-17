@@ -10,10 +10,17 @@
     <%= image_tag("ai-happy-avatar.png", class: "ai-happy-avatar") %>
   </div>
   <div class="store-overlay">
-    <button class="back-to-store">Back to the store</button>
-    <div class="panel-body roll-message">
-      Yes I win
+    <div class="store-overlay-objects">
+      <%= image_tag("legendary-text.png", class: "rarity-icon") %>
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/abilities/portraits/000/000/059/thumb/abil-spe-buff.png?1419284221", 
+        class: "ability-won-icon") %>
     </div>
+    <div class="panel-body roll-message">
+    </div>
+
+    <%= image_tag("reveal-button.png", class: "reveal-button")%>
+    <button class="back-to-store">Close</button>
+
   </div>
 <% else %>
   <%= render "no_user" %>

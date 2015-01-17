@@ -211,7 +211,7 @@
   .warning-message {
     position: fixed;
     height: 220px;
-    width: 445px;
+    width: 515px;
     background: #0D47A1;
     border-radius: 5px;
     top: 100px;
@@ -219,7 +219,7 @@
     left: 0;
     box-shadow: 1px -1px 11px #FFFF00;
     opacity: 1;
-    margin: 5% auto;
+    margin: 20px auto;
     z-index: 50;
     .go-ahead-learn, .cancel-learn {
       margin-right: 10px;
@@ -242,7 +242,7 @@
     left: 0;
     box-shadow: 1px -1px 11px #FFFF00;
     opacity: 0;
-    margin: 5% auto;
+    margin: 20px auto;
     font-size: 220%;
     padding-top: 55px;
     transition: opacity 0.2s;

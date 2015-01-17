@@ -41,6 +41,14 @@ class BattleLevel < ActiveRecord::Base
     return array
   end
 
+  def has_cut_scene
+    if self.start_cut_scenes.length == 0 && self.end_cut_scenes.length == 0
+      return false
+    else
+      return true
+    end 
+  end
+
   def area_name
     if self.area
       self.area.name
@@ -89,14 +97,21 @@ class BattleLevel < ActiveRecord::Base
     ability_reward_array = self.ability_reward
     time_requirement = self.time_requirement
     level_name = self.name
+    cleared_twice_level_array = @summoner.cleared_twice_levels.dup
+
+
     if @summoner.name != "NPC"
 
-      if !@summoner.beaten_levels.include?(level_name) && round_taken <= time_requirement
-        ability_reward_array.each do |r|
-          ability = Ability.find_by_name(r)
+      if @summoner.beaten_levels.include?(level_name) && round_taken < time_requirement &&
+          !cleared_twice_level_array.include?(level_name) && ability_reward_array.length != 0
+        cleared_twice_level_array.push(level_name)
+        if ability_reward_array.length == 1
+          ability = Ability.find_by_name(ability_reward_array[0])
           ability_id = ability.id 
           user_id = @summoner.user.id
           AbilityPurchase.create!(ability_id: ability_id, user_id: user_id)
+        elsif ability_reward_array.length == 2
+          @summoner[ability_reward_array[0]] += ability_reward_array[1].to_i
         end
       end
 
@@ -145,6 +160,7 @@ class BattleLevel < ActiveRecord::Base
         end
       end
 
+      @summoner.cleared_twice_levels = cleared_twice_level_array
       @summoner.beaten_levels = level_array
       @summoner.completed_areas = area_array
       @summoner.completed_regions = region_array

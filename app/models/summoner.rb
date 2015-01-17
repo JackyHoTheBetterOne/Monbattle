@@ -48,31 +48,29 @@ class Summoner < ActiveRecord::Base
 
   def get_achievement
     @questing_summoner = self
+    array = @questing_summoner.completed_daily_quests.dup
     Quest.all.each do |q|
       if q.type == "Daily-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) && 
           @questing_summoner.name != "NPC" && q.is_active
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) >= 
             q.stat_requirement
           @questing_summoner[q.reward] += q.reward_amount
-          array = @questing_summoner.completed_daily_quests.dup
           array.push(q.name)
-          @questing_summoner.completed_daily_quests = array
         end
-      elsif q.type == "Daily-Turn-Based-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) &&
+      elsif q.type == "Daily-Turn-Based-Achievement" && (!@questing_summoner.completed_daily_quests.include?(q.name)) &&
         @questing_summoner.name != "NPC" && q.is_active
         successful_entries = []
         self.daily_battles.each do |b|
           battle = Battle.find(b)
-          successful_entries.push(battle.id) if battle[q.stat].to_i < q.stat_requirement
+          successful_entries.push(battle.id) if battle[q.stat].to_i < q.stat_requirement && battle.victor != "NPC"
         end
-        if successful_entries.count >= q.requirement
+        if successful_entries.count >= q.requirement.to_i
           @questing_summoner[q.reward] += q.reward_amount
-          array = @questing_summoner.completed_daily_quests.dup
           array.push(q.name)
-          @questing_summoner.completed_daily_quests = array
         end
       end
     end
+    @questing_summoner.completed_daily_quests = array
     @questing_summoner.save
   end
 
@@ -145,7 +143,7 @@ class Summoner < ActiveRecord::Base
     count = 0
     self.daily_battles.each do |b|
       battle = Battle.find(b)
-      if battle.victor == self.name && battle.round_taken <= round 
+      if battle.victor == self.name && battle.round_taken < round 
         count += 1
       end
     end
@@ -163,7 +161,6 @@ class Summoner < ActiveRecord::Base
   end
 
 #############################################################################################################
-
   def check_energy
     if self.name != "NPC"
       if self.last_update_for_energy != nil

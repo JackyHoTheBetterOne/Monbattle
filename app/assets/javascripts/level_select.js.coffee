@@ -27,7 +27,7 @@ $ ->
     setTimeout (->
       index = document.getElementsByClassName("map-level").length-1
       document.getElementsByClassName("map-level")[index].className += " current-area"
-    ), 600
+    ), 800
     index = $(".region-select").index($(this))
     i = 0
     while i < document.getElementsByClassName("region-select").length

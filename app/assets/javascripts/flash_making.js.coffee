@@ -1,8 +1,5 @@
 window.flashMaking = ->
-  i = 0
-  while i < document.getElementsByClassName("alert-info").length
-    document.getElementsByClassName("alert-info")[i].remove()
-    i++
+  document.getElementsByClassName("flash-bank")[0].innerHTML= "" if document.getElementsByClassName("flash-bank").length isnt 0
   setTimeout (->
     if typeof window.newAbilities isnt "undefined"
       flash_array = window.newAbilities
