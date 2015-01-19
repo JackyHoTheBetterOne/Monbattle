@@ -97,31 +97,17 @@ class BattlesController < ApplicationController
   end
 
   def win
-    if current_user
-      if current_user.summoner.beaten_levels.include?(@battle.battle_level.name) && 
-          params[:round_taken].to_i < @battle.battle_level.time_requirement &&
-          !current_user.summoner.cleared_twice_levels.include?(@battle.battle_level.name)
-        @ability = Ability.find_by_name(@battle.battle_level.ability_reward[0])
-      else
-        @ability = nil
-      end
-    end
-    @class_list = ""
-    @slot = ""
-    array = []
-    if @ability != nil
-      @ability.ability_restrictions.each do |a|
-        if a.job.name.index("NPC") == nil
-          array.push(a.job.name)
-        end
-      end
-      @class_list = array.join(", ")
-      if @ability.targeta == "attack"
-        @slot = "Attack"
-      else
-        @slot = "Skill"
-      end
-    end
+    victory = Battle::Victory.new(summoner: current_user.summoner, 
+                                  battle_level: @battle.battle_level,
+                                  round_taken: params[:round_taken])
+
+    victory.call
+
+    @ability = victory.ability
+    @slot = victory.slot
+    @class_list = victory.class_list
+    @level_cleared = victory.level_cleared
+
     render template: "battles/victory", :layout => false
   end
 

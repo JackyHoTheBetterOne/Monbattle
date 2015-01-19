@@ -91,6 +91,16 @@ class BattleLevel < ActiveRecord::Base
     end
   end
 
+  def reward
+    if self.ability_reward.length == 0
+      "None"
+    elsif self.ability_reward.length == 1
+      self.ability_reward[0]
+    elsif self.ability_reward.length == 2
+      self.ability_reward[1] + " " + self.ability_reward[0]
+    end
+  end
+
 ############################################################################ Unlock level, area or region
   def unlock_for_summoner(summoner, round_taken)
     @summoner = Summoner.find_by_name(summoner)

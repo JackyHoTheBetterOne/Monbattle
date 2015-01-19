@@ -62,10 +62,12 @@ class Battle < ActiveRecord::Base
     @vk_reward           = self.battle_level.vk_reward 
     @victorious_summoner = Summoner.find_summoner(self.victor)
 
-    @victorious_summoner.wins += 1 
-    @victorious_summoner.mp += @mp_reward
-    @victorious_summoner.gp += @gp_reward
-    @victorious_summoner.vortex_key += @vk_reward
+    if @victorious_summoner.beaten_levels.include?(@battle_level.name)
+      @victorious_summoner.wins += 1 
+      @victorious_summoner.mp += @mp_reward
+      @victorious_summoner.gp += @gp_reward
+    end
+
     @victorious_summoner.save
     @victorious_summoner.check_quest
     self.distribute_quest_reward

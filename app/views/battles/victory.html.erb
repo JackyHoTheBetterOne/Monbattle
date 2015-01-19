@@ -1,6 +1,13 @@
 <div class="end-battle-box">
-  <p class="gp-earned"><%= @battle.battle_level.gp_reward %></p>
-  <p class="exp-earned"><%= @battle.battle_level.exp_given %></p>
+  
+  <% if @level_cleared %>
+    <p class="gp-earned"><%= @battle.battle_level.gp_reward %></p>
+    <p class="exp-earned"><%= @battle.battle_level.exp_given %></p>
+  <% else %>
+    <p class="gp-earned"></p>
+    <p class="exp-earned"></p>
+  <% end %>
+
   <% if @ability != nil %>
     <p class="ability-earned" data-class="<%= @class_list %>" 
       data-slot= "<%= @slot %>"><%= @ability.name %></p>

@@ -36,4 +36,15 @@ $ ->
     document.getElementsByClassName("region-select")[index].className += " current-region"
   $(document).on "click.select_level", ".pick-level", ->
     $(this).click(false)
+  $(document).on("mouseover.challenge", ".stage-stars", ->
+    $(".stage-challenge-description").css("z-index", "10000")
+    $(".stage-challenge-description").css("opacity", "0.95")
+    document.getElementsByClassName("stage-name")[0].innerHTML = $(this).data("name")
+    document.getElementsByClassName("reward-desc")[1].innerHTML = 
+      "Currency. Completion bonus: " + $(this).data("reward")
+    document.getElementsByClassName("objective-desc")[1].innerHTML = 
+      "Complete the level under " + $(this).data("requirement") + " rounds"
+  ).on "mouseleave.challenge", ".stage-stars", ->
+    $(".stage-challenge-description").css("opacity", "0")
+    $(".stage-challenge-description").css("z-index", "-1")
 
