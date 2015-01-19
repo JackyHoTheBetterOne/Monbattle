@@ -6,6 +6,39 @@
   <%= image_tag(@map_url, class: "map-image", data: {region: @current_region}) %>
 </div>
 
+<div class="stage-challenge-description">
+  <div class="title">
+    CHALLENGES
+  </div>
+  <div class="stage-name">
+    Area A - Stage 1
+  </div>
+  <div class="stage-column objective">
+    Objective
+  </div>
+  <div class="stage-column reward">
+    Reward
+  </div>
+  <div class="stage-panel">
+    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "description-star") %>
+    <div class="objective-desc">Complete the level</div>
+    <div class="reward-desc">Unlock the next level</div>
+  </div>
+  <div class="stage-panel second">
+    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "description-star") %>
+    <div class="objective-desc">Complete the level under 5 rounds</div>
+    <div class="reward-desc">Unlock the next level</div>
+    <div class="repeatable">Repeatable</div>
+  </div>
+  <div class="stage-panel third">
+    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "description-star") %>
+    <div class="objective-desc">?????????????????????????????????????????????</div>
+    <div class="reward-desc">????????????????????????????????????????????????</div>
+  </div>
+</div>
+
+
+
 <div class="level-description">
   <%= form_for(Battle.new) do |f| %>
     <% @levels.each do |level| %> 
@@ -14,6 +47,20 @@
           <span class="level-name">
             <span class="name"><%= level.name %></span>
             <span class="staminacon"><%= image_tag("stamina.png", size: "25x25") %> <%=level.stamina_cost%></span>
+          </span>
+          <span class="stage-stars" data-name = "<%= level.name %>" 
+            data-reward = "<%= level.reward %>" data-requirement= "<%= level.time_requirement %>">
+            <% if current_user.summoner.beaten_levels.include?(level.name)  %>
+              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "star first-star", size: "20x20") %>
+            <% else %>
+              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/empty-star.png", class: "star first-star", size: "20x20") %>
+            <% end %>
+            <% if current_user.summoner.cleared_twice_levels.include?(level.name)  %>
+              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "star second-star", size: "20x20") %>
+            <% else %>
+              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/empty-star.png", class: "star second-star", size: "20x20") %>
+            <% end %>
+            <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/empty-star.png", class: "star third-star", size: "20x20") %>
           </span>
           <br/>
           <div class="level-desc">

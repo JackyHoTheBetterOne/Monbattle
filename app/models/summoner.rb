@@ -81,6 +81,11 @@ class Summoner < ActiveRecord::Base
         @questing_summoner.name != "NPC" && q.is_active
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) <= 
             q.stat_requirement
+          p "================================================================================================"
+          p @questing_summoner.ending_status[q.stat]
+          p @questing_summoner.starting_status[q.stat]
+          p q.stat_requirement
+          p "================================================================================================="
           @questing_summoner[q.reward] += q.reward_amount
         end
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) >= 

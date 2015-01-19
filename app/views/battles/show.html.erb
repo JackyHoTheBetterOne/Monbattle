@@ -39,6 +39,14 @@
       Win the battle under <%= @battle.battle_level.time_requirement %> rounds 
           and get <%= @battle.battle_level.ability_reward[0] %>
     </div>
+  <% elsif current_user.summoner.cleared_twice_levels.include?(@battle.battle_level.name) %>
+    <div class="battle-round-countdown">
+      Rush Bonus: <span><%= @battle.battle_level.time_requirement %></span>
+    </div>
+    <div class="bonus-description">
+      Win the battle under <%= @battle.battle_level.time_requirement %> rounds 
+          and get the currency reward
+    </div>
   <% end %>
 
   <div class="battle-helper">
