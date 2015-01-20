@@ -22,6 +22,9 @@
 
 <input class="img" src="<%= mon.image(party.user) %>" data-index="<%= party.mon_dex(mon) %>" 
       type="image" alt="monster image">
+<% if mon.passive_img != nil %>
+  <input class="img passive" src="<%= mon.passive_img %>" type="image" alt="passive image">
+<% end %>
       
 <div class="effect-box"></div>
 <p class="dam"><p>

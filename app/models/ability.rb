@@ -12,6 +12,7 @@ class Ability < ActiveRecord::Base
   has_many :ability_purchases, dependent: :destroy
   has_many :ability_effects, dependent: :destroy
   has_many :effects, through: :ability_effects
+  has_many :monsters, foreign_key: "passive_id"
 
   has_many :monster_unlocks, through: :ability_purchases
 
@@ -91,6 +92,11 @@ class Ability < ActiveRecord::Base
       joins(:effects).where("effects.keywords LIKE ?", "%#{effect.downcase}%")
     end
   }
+
+  scope :collect_passive, -> {
+    joins(:rarity).where("rarities.name LIKE ?","%passive%")
+  }
+
 
   scope :find_abilities_for_socket, -> (socket_num) {
     @socket_id = find_socket_id(socket_num)
@@ -205,7 +211,8 @@ class Ability < ActiveRecord::Base
 
   def as_json(options={})
     super(
-      :methods => [:targeta, :elementa, :stat, :img, :port],
+      :only => [:name, :ap_cost, :stat_change, :description],
+      :methods => [:stat, :targeta, :elementa, :change, :modifier, :img, :slot]
       )
   end
 

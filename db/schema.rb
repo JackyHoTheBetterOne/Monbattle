@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150115190832) do
+ActiveRecord::Schema.define(version: 20150119231023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -433,6 +433,7 @@ ActiveRecord::Schema.define(version: 20150115190832) do
     t.string   "stage"
     t.integer  "default_sock3_id"
     t.integer  "default_sock4_id"
+    t.integer  "passive_id"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree

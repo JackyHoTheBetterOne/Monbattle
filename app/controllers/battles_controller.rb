@@ -64,6 +64,23 @@ class BattlesController < ApplicationController
     impressionist(@battle)
     @user_party = @battle.parties[0]
     @pc_party   = @battle.parties[1]
+
+    if current_user.summoner.beaten_levels.include?(@battle.battle_level.name) && 
+        @battle.battle_level.ability_reward.length != 0 && 
+        !current_user.summoner.cleared_twice_levels.include?(@battle.battle_level.name)
+      @first_cleared = true
+    else
+      @first_cleared = false
+    end
+
+    if current_user.summoner.cleared_twice_levels.include?(@battle.battle_level.name)
+      @twice_cleared = true
+    else
+      @twice_cleared = false
+    end
+
+
+
     if @battle.impressionist_count <= 2 || current_user.admin
       respond_to do |format|
         format.html { render layout: "facebook_landing" }

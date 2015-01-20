@@ -37,5 +37,4 @@ h4=f.label "Default Ability for Socket 2"
 =f.input :mp_cost
 =f.input :gp_cost
 =f.input :summon_cost
-/ =f.input :hp_modifier
-/ =f.input :dmg_modifier
+=f.association :passive, collection: Ability.collect_passive
