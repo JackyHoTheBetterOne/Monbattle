@@ -1408,7 +1408,6 @@ $ ->
             new_mon.cursed = old_mon.cursed
             new_mon.team = old_mon.team
             new_mon.index = old_mon.index
-            new_mon.passive = old_mon.passive
             fixEvolMon(new_mon, battle.players[playerIndex])
             evolved_mon = battle.players[playerIndex].mons[monIndex]
             battle.players[playerIndex].mons[monIndex].hp = evolved_hp
