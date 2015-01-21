@@ -121,6 +121,10 @@ $theme-background-color: rgba(32, 32, 32, 1);
       height: 110px;
       transition: opacity 0.3s, background 0.3s;
     };
+    .passive {
+      opacity: 0.5;
+      transition: opacity 0.3s, background 0.3s;
+    };
   };
 };
 

@@ -67,6 +67,19 @@ class MonsterUnlock < ActiveRecord::Base
     where(user_id: user, monster_id: monster_id)
   end
 
+  def passive_img
+    if self.monster.passive
+      self.monster.passive.img
+    else
+      nil
+    end
+  end
+
+
+
+
+
+
 
 
 
@@ -164,6 +177,10 @@ class MonsterUnlock < ActiveRecord::Base
     return MonsterUnlock.where(user_id: user, monster_id: evolved_from_id)
   end
 
+  def passive_ability
+    self.monster.passive.as_json
+  end
+
   def mon_evols
     json_array    = []
     abil_array    = []
@@ -209,7 +226,8 @@ class MonsterUnlock < ActiveRecord::Base
                       image:     unlocked_evo.image(self.user),
                       animation: unlocked_evo.evolve_animation,
                       abilities: abil_array,
-                      portrait:  unlocked_evo.mon_portrait(self.user)
+                      portrait:  unlocked_evo.mon_portrait(self.user),
+                      passive: unlocked_evo.passive_ability
                     }
 
       json_array.push(evolve_hash)

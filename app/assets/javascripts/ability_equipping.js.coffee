@@ -5,3 +5,7 @@ $ ->
     setTimeout (->
       document.getElementsByClassName("monster-equip-search")[0].click()
     ), 250
+  if window.location.href.indexOf("home") isnt -1
+    setTimeout (->
+      $(".mon-thumb img")[0].click() 
+      ), 250

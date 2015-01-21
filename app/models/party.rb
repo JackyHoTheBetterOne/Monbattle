@@ -39,7 +39,7 @@ class Party < ActiveRecord::Base
       :include => {
         :mons => {
           :only => [],
-          :methods => [:name, :max_hp, :hp,:speech, :mon_evols],
+          :methods => [:name, :max_hp, :hp, :speech, :passive_ability, :mon_evols],
           :include => {
             :abilities => {
               :only => [:name, :ap_cost, :stat_change, :description],

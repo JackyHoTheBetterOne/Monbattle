@@ -1,35 +1,27 @@
--if !user_signed_in? 
-  = render "home/no_user"
+-if current_user.parties.empty?
+  .jumbotron.sweet-home
+    h2 Please add 4 monsters to your team
+    br /
+    = link_to "Form a team", battle_preparation_path, class: "btn btn-primary party-form-button"
 -else
-  -if @battle.errors.any?
-    ul
-    -@battle.errors.full_messages.each do |msg|
-      li= msg
+  -if Party.members_count_for(current_user) == 0
+    .jumbotron.sweet-home
+      h2 Please add 4 monsters to your team
+      br /
+      = link_to "Form a team", battle_preparation_path, class: "btn btn-primary party-form-button"
   -else
-    -if current_user.parties.empty?
-      .jumbotron.sweet-home
-        h2 Please add 4 monsters to your team
-        br /
-        = link_to "Form a team", battle_preparation_path, class: "btn btn-primary party-form-button"
-    -else
-      -if Party.members_count_for(current_user) == 0
-        .jumbotron.sweet-home
-          h2 Please add 4 monsters to your team
-          br /
-          = link_to "Form a team", battle_preparation_path, class: "btn btn-primary party-form-button"
-      -else
-        div class="level-select"
-          .region-panel
-            .region-box
-              -@regions.each do |r|
-                =link_to r.name, new_battle_path(area_filter: r.name), remote: true, class: "btn btn-primary region-select", id: r.name
-          .user_team
-            h2.the_obvious Your Team
-            .party_portraits
-              - @monsters.each do |mon|
-                = image_tag(mon.mon_portrait(current_user), class: "user_party_portrait")
-            = link_to "Edit team", battle_preparation_path, class: "btn btn-primary party_edit_button", data: {latest_level: @latest_level}
-            = link_to "Learn Ability", learn_ability_path, class: "learn-ability-button"
-          div class="battle_map"
-            = render "form"
+    div class="level-select"
+      .region-panel
+        .region-box
+          -@regions.each do |r|
+            =link_to r.name, new_battle_path(area_filter: r.name), remote: true, class: "btn btn-primary region-select", id: r.name
+      .user_team
+        h2.the_obvious Your Team
+        .party_portraits
+          - @monsters.each do |mon|
+            = image_tag(mon.mon_portrait(current_user), class: "user_party_portrait")
+        = link_to "Edit team", battle_preparation_path, class: "btn btn-primary party_edit_button", data: {latest_level: @latest_level}
+        = link_to "Learn Ability", learn_ability_path, class: "learn-ability-button"
+      div class="battle_map"
+        = render "form"
 

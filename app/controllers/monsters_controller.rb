@@ -1,8 +1,8 @@
 class MonstersController < ApplicationController
   before_action :find_monster, except: [:index, :create]
   before_action :name_check, only: [:update]
-  before_action :find_monsters, :new_monster_unlock, :find_rarities, :find_levels, :find_jobs, :find_elements,
-                :find_personalities, :find_abilities, :find_monster_skins
+  before_action :find_monsters, :new_monster_unlock, :find_rarities, :find_levels, :find_jobs, 
+                :find_elements, :find_personalities, :find_abilities, :find_monster_skins
 
   def index
     @monster = Monster.new
@@ -117,10 +117,12 @@ class MonstersController < ApplicationController
 
   def monster_params
     params.require(:monster).permit(
-                                    :name, :max_hp, :monster_skin_id, :job_id, :element_id, :description, :rarity_id,
-                                    :personality_id, :evolved_from_id, :hp_modifier, :dmg_modifier, :summon_cost,
-                                    :evolve_animation, :gp_cost, :mp_cost, :default_skin_id, :default_sock1_id,
-                                    :default_sock2_id, :default_sock3_id, :default_sock4_id, { battle_level_ids: []}
+                                    :name, :max_hp, :monster_skin_id, :job_id, :element_id, 
+                                    :description, :rarity_id, :personality_id, :evolved_from_id, 
+                                    :hp_modifier, :dmg_modifier, :summon_cost, :evolve_animation, 
+                                    :gp_cost, :mp_cost, :default_skin_id, :default_sock1_id, 
+                                    :passive_id, :default_sock2_id, :default_sock3_id, 
+                                    :default_sock4_id, {battle_level_ids: []}
                                     )
   end
 

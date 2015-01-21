@@ -68,6 +68,7 @@
   opacity: 0;
   z-index: -1;
   transition: 0.2s opacity;
+  color: white;
   .title {
     @include stroke();
     position: absolute;
@@ -96,7 +97,7 @@
     position: absolute;
     top: 66px;
     left: 6px;
-    color: #0D47A1;
+    color: #43A037;
   };
 
   .stage-column.objective {
@@ -130,7 +131,8 @@
     .reward-desc, .objective-desc {
       position: absolute;
       font-size: 90%;
-      top: 2px;
+      top: 5px;
+      line-height: 1.2;
     };
     .reward-desc {
       left: 182px;

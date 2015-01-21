@@ -8,6 +8,8 @@ class Monster < ActiveRecord::Base
   has_many :evolutions, class_name: "Monster",
                         foreign_key: "evolved_from_id"
   belongs_to :evolved_from, class_name: "Monster"
+  
+  belongs_to :passive, class_name: "Ability"
 
   has_many :monster_skin_equippings, dependent: :destroy
   has_many :monster_skin_equipped_skins, through: :monster_skin_equippings, source: :monster_skin

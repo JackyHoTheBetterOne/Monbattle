@@ -70,6 +70,17 @@ window.fixEvolMon = (monster, player) ->
         index = monTarget.index
         monTarget.isAlive()
         if monTarget.isAlive()
+          if monTarget.passive_ability isnt null
+            passive = monTarget.passive_ability
+            if passive.targeta is "spiked-spe-shield" and a.modifier is "-"
+              monster[passive.stat] = eval(monster[passive.stat] + passive.modifier + passive.change)
+              showDamageSingleVariable(@team, @index, passive.modifier, passive.change)
+            else if passive.targeta is "spiked-shield" and a.targeta is "attack"
+              monster[passive.stat] = eval(monster[passive.stat] + passive.modifier + passive.change)
+              showDamageSingleVariable(@team, @index, passive.modifier, passive.change)
+            else if passive.targeta is "spe-shield" and a.modifier is "-"
+              monster[passive.stat] = eval(monster[passive.stat] + passive.modifier + passive.change)
+              showDamageSingleVariable(@team, @index, passive.modifier, passive.change)
           if a.targeta is "cleanseally" or a.targeta is "aoecleanse"
             ii = 0 
             while ii < monTarget.poisoned.length
@@ -545,6 +556,11 @@ window.damageBoxAnime= (team, target, damage, color) ->
 
 window.showDamageSingle = ->
   damageBoxAnime(enemyHurt.team, enemyHurt.index, ability.modifier + window["change" + enemyHurt.index], "rgba(255, 0, 0)")
+
+window.showDamageSingleVariable = (team, monster, modifier, impact) ->
+  setTimeout (->
+    damageBoxAnime(team, monster, modifier + impact, "rgba(255, 0, 0)")
+  ), 1100
 
 window.showHealSingle = ->
   damageBoxAnime(allyHealed.team, allyHealed.index, ability.modifier + window["change" + allyHealed.index], "rgba(50,205,50)")
@@ -1392,6 +1408,7 @@ $ ->
             new_mon.cursed = old_mon.cursed
             new_mon.team = old_mon.team
             new_mon.index = old_mon.index
+            new_mon.passive = old_mon.passive
             fixEvolMon(new_mon, battle.players[playerIndex])
             evolved_mon = battle.players[playerIndex].mons[monIndex]
             battle.players[playerIndex].mons[monIndex].hp = evolved_hp
