@@ -1319,6 +1319,13 @@ window.multipleAction = ->
 
 ####################################################################################################### Start of Ajax
 $ ->
+  $(".img.mon-battle-image").each ->
+    mon_image = $(this)
+    href = mon_image.data("passive")
+    if href is ""
+      mon_image.next().css("opacity", "0")
+    else
+      mon_image.next().attr("src", href)
   window.effectBin = []
   if document.getElementById("battle") isnt null
     $("a.fb-nav").not(".quest-show").on "click.leave", (event) ->
