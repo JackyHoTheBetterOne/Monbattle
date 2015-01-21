@@ -1322,6 +1322,7 @@ $ ->
   window.effectBin = []
   if document.getElementById("battle") isnt null
     $("a.fb-nav").not(".quest-show").on "click.leave", (event) ->
+      $(document).off "click.cutscene", "#overlay"
       nav = $(this)
       link = $(this).attr("href")
       text = $(this).text()
