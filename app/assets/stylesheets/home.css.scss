@@ -3,6 +3,11 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import url("https://fonts.googleapis.com/css?family=Montserrat+Alternates");
 
+.selected-equipping-mon {
+  border: 2px solid yellow;
+  border-radius: 5px;
+};
+
 $home-font: 'Montserrat Alternates', sans-serif;
 $main-bg: #4b4b4b;
 $panel-bg: #757575;
@@ -506,10 +511,11 @@ $ability-equip-dim: 75px;
 }
 
 
-
-
-
-
+a.mon-thumb:hover {
+  transition: border 0.25s;
+  border: 2px solid yellow !important;
+  border-radius: 5px !important;
+};
 
 
 

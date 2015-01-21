@@ -122,7 +122,8 @@ $theme-background-color: rgba(32, 32, 32, 1);
       transition: opacity 0.3s, background 0.3s;
     };
     .passive {
-      opacity: 0.5;
+      z-index: 5;
+      opacity: 0.3;
       transition: opacity 0.3s, background 0.3s;
     };
   };
@@ -156,6 +157,34 @@ $theme-background-color: rgba(32, 32, 32, 1);
   };
   .message {
     color: white;
+    .confirmation {
+      position: absolute;
+      margin: 7% auto;
+      left: 0px;
+      right: 0px;
+      height: 100px;
+      width: 343px;
+      background: white;
+      color: black;
+      padding-top: 11px;
+      padding-left: 5px;
+      padding-right: 5px;
+      border: 7.5px solid #0D47A1;
+      border-radius: 5px;
+      opacity: 0;
+      a {
+        position: relative;
+        top: 6px;
+        color: black;
+        font-weight: bold;
+        left: -8px;
+        margin-left: 15px;
+        cursor: pointer;
+      };
+      a:hover {
+        text-decoration: underline;
+      };
+    };
   };
   .cutscene {
     position: fixed;
@@ -227,7 +256,7 @@ $theme-background-color: rgba(32, 32, 32, 1);
 
 .bonus-description {
   position: absolute;
-  width: 230px;
+  width: 236px;
   text-align: center;
   background: #3D3C3C;
   border: 2px solid black;
@@ -733,5 +762,21 @@ body {
   transition: opacity 0.3s;
   border: none !important;
 };
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+.foe-indication {
+  @include stroke();
+  color: red;
+  font-weight: bold;
+  position: absolute;
+  top: 51px;
+  left: 158px;
+  opacity: 0;
+  transition: opacity 0.25s;
+};
+
+
+
 
 

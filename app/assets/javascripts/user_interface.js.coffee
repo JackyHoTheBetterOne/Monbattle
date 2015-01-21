@@ -97,7 +97,6 @@ $ ->
     document.getElementsByClassName("none")[0].style["padding-top"] = "12px"
   if document.getElementById("turbolinks-overlay") isnt null
     $(document).on "page:before-change", ->
-      document.getElementsByClassName("flash-bank")[0].innerHTML= ""
       document.getElementById("turbolinks-overlay").style["z-index"] = ("10000")
       document.getElementById("turbolinks-overlay").style.opacity = ("0.95")
     $(document).on "page:change", ->

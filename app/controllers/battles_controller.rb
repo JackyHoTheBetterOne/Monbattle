@@ -151,6 +151,14 @@ class BattlesController < ApplicationController
       flash.now[:success] = "You have unlocked a new level in #{area_name} of #{region_name}!"
       summoner.clear_recent_level
     end
+
+    if summoner.just_achieved_quests != []
+      flash.now[:quest] = []
+      summoner.just_achieved_quests.each do |q|
+        flash.now[:quest].push(q)
+      end
+      summoner.clear_just_achieved_quests
+    end
   end
 
   def change_id

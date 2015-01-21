@@ -2,7 +2,7 @@
 
 <% if @battle.battle_level.music %>
   <audio controls autoplay loop class="hide">
-    <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
+
   </audio>
 <% end %>
 
@@ -11,6 +11,12 @@
 
 <div id="overlay">
   <div class="message">
+    <div class="confirmation">
+      Are you sure you want to leave the battle? This battle’s progress will NOT be saved!
+      <br />
+      <a href="" class="leave-battle-but">Yes</a>
+      <a href="" class="back-to-battle-but">No</a>
+    </div>
   </div>
   <%= image_tag(@battle.battle_level.start_cut_scenes[0], class: "cutscene") %>
   <%= image_tag("story-arrow.png", class: "next-scene") %>
@@ -35,7 +41,7 @@
     </div>
     <div class="bonus-description">
       Win the battle under <%= @battle.battle_level.time_requirement %> rounds 
-          and get <%= @battle.battle_level.ability_reward[0] %>
+          and get <%= @battle.battle_level.reward %>
     </div>
   <% elsif @twice_cleared %>
     <div class="battle-round-countdown">
@@ -65,6 +71,8 @@
       </div>
     <% end %>
   </div>
+
+  <h2 class="foe-indication">Enemy</h3>
 
   <div class="1 enemy mon-slot" id="tutorial-end" data-team="1">
     <% @pc_party.mons.each do |mon| %>

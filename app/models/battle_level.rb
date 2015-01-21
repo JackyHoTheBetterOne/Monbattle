@@ -93,7 +93,7 @@ class BattleLevel < ActiveRecord::Base
 
   def reward
     if self.ability_reward.length == 0
-      "None"
+      "NOTHING"
     elsif self.ability_reward.length == 1
       self.ability_reward[0]
     elsif self.ability_reward.length == 2
