@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150119231023) do
+ActiveRecord::Schema.define(version: 20150120234750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -469,6 +469,7 @@ ActiveRecord::Schema.define(version: 20150119231023) do
     t.integer  "icon_file_size"
     t.datetime "icon_updated_at"
     t.integer  "stat_requirement"
+    t.text     "message"
   end
 
   add_index "quests", ["quest_type_id"], name: "index_quests_on_quest_type_id", using: :btree
@@ -556,6 +557,7 @@ ActiveRecord::Schema.define(version: 20150119231023) do
     t.string   "latest_level",                 default: "AreaA-Stage1"
     t.text     "cleared_twice_levels",         default: [],                    array: true
     t.text     "cleared_thrice_levels",        default: [],                    array: true
+    t.text     "just_achieved_quests",         default: [],                    array: true
   end
 
   add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree

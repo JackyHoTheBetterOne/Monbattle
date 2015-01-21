@@ -49,6 +49,7 @@ class Summoner < ActiveRecord::Base
   def get_achievement
     @questing_summoner = self
     array = @questing_summoner.completed_daily_quests.dup
+    completion_array = @questing_summoner.just_achieved_quests.dup
     Quest.all.each do |q|
       if q.type == "Daily-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) && 
           @questing_summoner.name != "NPC" && q.is_active
@@ -56,6 +57,7 @@ class Summoner < ActiveRecord::Base
             q.stat_requirement
           @questing_summoner[q.reward] += q.reward_amount
           array.push(q.name)
+          completion_array.push(q.message)
         end
       elsif q.type == "Daily-Turn-Based-Achievement" && (!@questing_summoner.completed_daily_quests.include?(q.name)) &&
         @questing_summoner.name != "NPC" && q.is_active
@@ -67,15 +69,19 @@ class Summoner < ActiveRecord::Base
         if successful_entries.count >= q.requirement.to_i
           @questing_summoner[q.reward] += q.reward_amount
           array.push(q.name)
+          completion_array.push(q.message)
         end
       end
     end
     @questing_summoner.completed_daily_quests = array
+    @questing_summoner.just_achieved_quests = completion_array
     @questing_summoner.save
   end
 
   def get_login_bonus_for_wins
     @questing_summoner = self
+    array = @questing_summoner.completed_daily_quests.dup
+    completion_array = @questing_summoner.just_achieved_quests.dup
     Quest.all.each do |q|
       if q.type == "Daily-Login-Bonus" && (!@questing_summoner.completed_daily_quests.include?q.name) &&
         @questing_summoner.name != "NPC" && q.is_active
@@ -90,9 +96,10 @@ class Summoner < ActiveRecord::Base
         end
         if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) >= 
             q.stat_requirement
-          array = @questing_summoner.completed_daily_quests.dup
           array.push(q.name)
+          completion_array.push(q.message)
           @questing_summoner.completed_daily_quests = array
+          @questing_summoner.just_achieved_quests = completion_array
         end
       end
     end
@@ -129,6 +136,11 @@ class Summoner < ActiveRecord::Base
 
   def clear_recent_level
     self.recently_unlocked_level = ""
+    self.save
+  end
+
+  def clear_just_achieved_quests
+    self.just_achieved_quests = []
     self.save
   end
 

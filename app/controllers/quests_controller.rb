@@ -33,7 +33,7 @@ class QuestsController < ApplicationController
 
   def quest_params
     params.require(:quest).permit(:name, :description, :stat, :requirement, :is_active, :bonus, 
-                                  :icon, :stat_requirement,:reward_amount, :end_date, 
+                                  :icon, :stat_requirement,:reward_amount, :end_date, :message,
                                   :refresh_date, :quest_type_id, :reward_category_id)
   end
 

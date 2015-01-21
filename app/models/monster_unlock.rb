@@ -227,7 +227,7 @@ class MonsterUnlock < ActiveRecord::Base
                       animation: unlocked_evo.evolve_animation,
                       abilities: abil_array,
                       portrait:  unlocked_evo.mon_portrait(self.user),
-                      passive: unlocked_evo.passive_ability
+                      passive_ability: unlocked_evo.passive_ability
                     }
 
       json_array.push(evolve_hash)

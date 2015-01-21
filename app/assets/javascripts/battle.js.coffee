@@ -717,7 +717,15 @@ window.battleStartDisplay = (time) ->
       # $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
       $(".user .img").each ->
         $(this).effect("bounce", {distance: 80, times: 5}, 1500)
-      return
+      $(".enemy .img").each ->
+        $(this).css("background", "rgba(255, 0, 0,0.5)")
+      $(".foe-indication").addClass("bounceIn animated")
+      setTimeout (->
+        $(".foe-indication").removeClass("bounceIn animated")
+        $(".foe-indication").css("opacity", "0")
+        $(".enemy .img").each ->
+          $(this).css("background", "transparent")
+      ), 1000
     ), time
   # setTimeout (->
   #   $("#battle-tutorial").joyride({'tipLocation': 'top'})
@@ -1263,6 +1271,9 @@ window.ai = ->
         round -= 1
         if round > 0
           $(".battle-round-countdown span").text(round)
+          document.getElementsByClassName("bonus-description")[0].innerHTML = 
+            document.getElementsByClassName("bonus-description")[0].
+            innerHTML.replace(/(\d+)/g,round)
         else 
           $(".battle-round-countdown").css("opacity", "0").remove()
       roundEffectHappening(0)
@@ -1310,6 +1321,19 @@ window.multipleAction = ->
 $ ->
   window.effectBin = []
   if document.getElementById("battle") isnt null
+    $("a.fb-nav").not(".quest-show").on "click.leave", (event) ->
+      nav = $(this)
+      link = $(this).attr("href")
+      text = $(this).text()
+      if text isnt "Forum"
+        event.preventDefault()
+        $(".confirmation").css({"opacity":"1", "z-index":"10000000"})
+        $(".leave-battle-but").attr("href", link)
+        $("#overlay").fadeIn()
+    $(".back-to-battle-but").on "click.back", (event) ->
+      event.preventDefault()
+      $("#overlay").fadeOut()
+      $(".confirmation").css({"opacity":"0", "z-index":"-1"})
     $.ajax 
       url: "/battles/" + $(".battle").data("index") + ".json"
       dataType: "json"
@@ -1408,7 +1432,6 @@ $ ->
             new_mon.cursed = old_mon.cursed
             new_mon.team = old_mon.team
             new_mon.index = old_mon.index
-            new_mon.passive = old_mon.passive
             fixEvolMon(new_mon, battle.players[playerIndex])
             evolved_mon = battle.players[playerIndex].mons[monIndex]
             battle.players[playerIndex].mons[monIndex].hp = evolved_hp

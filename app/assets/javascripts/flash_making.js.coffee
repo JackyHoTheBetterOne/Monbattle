@@ -1,18 +1,20 @@
 window.flashMaking = ->
-  document.getElementsByClassName("flash-bank")[0].innerHTML= "" if document.getElementsByClassName("flash-bank").length isnt 0
+  if document.getElementsByClassName("flash-store").length isnt 0 and 
+      document.getElementsByClassName("abil-note").length isnt 0
+    document.getElementsByClassName("flash-store")[0].innerHTML= "" 
   setTimeout (->
     if typeof window.newAbilities isnt "undefined"
       flash_array = window.newAbilities
       i = 0
       while i < flash_array.length
-        html = "<div class='alert alert-info fade in ability' role='alert'>
+        html = "<div class='alert alert-info fade in ability abil-note' role='alert'>
                 <button type='button' class='close' data-dismiss='alert'>
                   <span aria-hidden='true'>×</span>
                   <span class='sr-only'>Close</span>
                 </button>"
         html += flash_array[i]
         html += " </div>" 
-        $(".flash-bank").append(html)
+        $(".flash-store").append(html)
         $(".fade.in.ability").addClass("bounceIn animated")
         i++
   ), 100
@@ -21,14 +23,14 @@ window.flashMaking = ->
       flash_array = window.newAbilitiesLearned
       i = 0
       while i < flash_array.length
-        html = "<div class='alert alert-info fade in ability' role='alert'>
+        html = "<div class='alert alert-info fade in ability abil-note' role='alert'>
                 <button type='button' class='close' data-dismiss='alert'>
                   <span aria-hidden='true'>×</span>
                   <span class='sr-only'>Close</span>
                 </button>"
         html += flash_array[i]
         html += " </div>" 
-        $(".flash-bank").append(html)
+        $(".flash-store").append(html)
         $(".fade.in.ability").addClass("bounceIn animated")
         i++
   ), 100
