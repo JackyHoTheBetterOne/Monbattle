@@ -75,6 +75,14 @@ class MonsterUnlock < ActiveRecord::Base
     end
   end
 
+  def passive_target
+    if self.monster.passive
+      self.monster.passive.target.name
+    else
+      nil
+    end
+  end
+
   def passive_port
     if self.monster.passive
       self.monster.passive.port
