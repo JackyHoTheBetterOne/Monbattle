@@ -106,11 +106,25 @@ window.fixEvolMon = (monster, player) ->
               window["change" + index] = a.change*a.scaling
               monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           else if a.modifier is "-" and a.targeta is "attack"
-            window["change" + index] = eval(a.change * a.scaling - monTarget["phy_resist"])
+            if monster.passive
+              passive = monster.passive
+              if passive.targeta is "resist-penetration" 
+                if passive.stat is "phy_resist" and parseInt(monTarget["phy_resist"]) > 0
+                  bonus = 1 + passive.change/100
+                  window["change" + index] = eval(a.change * a.scaling * bonus - monTarget["phy_resist"])
+            else
+              window["change" + index] = eval(a.change * a.scaling - monTarget["phy_resist"])
             window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
-            window["change" + index] = eval(a.change * a.scaling - monTarget["spe_resist"])
+            if monster.passive
+              passive = monster.passive
+              if passive.targeta is "resist-penetration"
+                if passive.stat is "spe_resist" and parseInt(monTarget["spe_resist"]) > 0
+                  bonus = 1 + passive.change/100
+                  window["change" + index] = eval(a.change * a.scaling * bonus - monTarget["spe_resist"])
+            else
+              window["change" + index] = eval(a.change * a.scaling - monTarget["spe_resist"])
             window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           else
@@ -914,7 +928,7 @@ window.flashEndButton = ->
     setTimeout (->
       $(".end-turn").trigger("click")
       return
-    ), 1000
+    ), 1250
     return
 
 window.toggleEnemyClick = ->
