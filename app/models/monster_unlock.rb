@@ -75,6 +75,14 @@ class MonsterUnlock < ActiveRecord::Base
     end
   end
 
+  def passive_rarity
+    if self.monster.passive
+      self.monster.passive.rarity.name
+    else
+      nil
+    end
+  end
+
   def passive_target
     if self.monster.passive
       self.monster.passive.target.name

@@ -22,8 +22,9 @@
 
 <input class="img mon-battle-image" src="<%= mon.image(party.user) %>" data-index="<%= party.mon_dex(mon) %>" 
       type="image" alt="monster image" data-passive="<%= mon.passive_img %>" 
-      data-targetpassive = "<%= mon.passive_target %>">
-<input class="img passive" src="" type="image" alt="passive image" data-index="<%= party.mon_dex(mon) %>">
+      data-targetpassive = "<%= mon.passive_target %>" data-rarity = "<%= mon.passive_rarity %>" >
+<input class="img passive" src="" type="image" alt="passive image" data-target = "<%= mon.passive_target %>" 
+       data-apcost = "0" data-index="3">
       
 <div class="effect-box"></div>
 <p class="dam"><p>

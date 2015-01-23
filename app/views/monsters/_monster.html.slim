@@ -13,6 +13,7 @@ tr id=dom_id(monster)
       br=link_to "Delete Template", monster, method: :delete, data: {confirm: "Will delete this monster from all users"}, class: "btn btn-std btn-danger", remote: true
   td=monster.job.name + "/" + monster.job.evolve_lvl
   td=monster.element.name
+  td=monster.passive.name if monster.passive
   td=monster.evolved_from_id == 0 ? "Base Monster" : monster.evolved_from.name
   td.description=monster.description
   td.max_hp=monster.max_hp

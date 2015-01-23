@@ -189,6 +189,12 @@ class Ability < ActiveRecord::Base
     self.target.name.downcase
   end
 
+
+  def rarita
+    self.rarity.name
+  end
+
+
   def elementa
     self.element.name.downcase
   end
@@ -212,7 +218,7 @@ class Ability < ActiveRecord::Base
   def as_json(options={})
     super(
       :only => [:name, :ap_cost, :stat_change, :description],
-      :methods => [:stat, :targeta, :elementa, :change, :modifier, :img, :slot]
+      :methods => [:stat, :targeta, :rarita, :elementa, :change, :modifier, :img, :slot]
       )
   end
 
