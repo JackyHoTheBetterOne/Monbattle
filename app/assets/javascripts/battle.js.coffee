@@ -40,9 +40,20 @@ window.fixEvolMon = (monster, player) ->
       setTimeout (->
         $("p.dam, .bar").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".availability-arrow").remove()
-          $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").css("opacity", "0")
-          if $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").css("display") isnt "none"
-            $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").css("opacity", "0")  
+          if monster.passive_ability
+            if monster.passive_ability.rarita is "death-passive" and  $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
+                attr("src") isnt "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif"
+              setTimeout (->
+                $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
+                  attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif").
+                  css("display", "initial").css("opacity", "1").attr("disabled", "true")
+                deathAbilitiesToActivate.push(monster.abilities[2])
+              ), 750
+            else
+              $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
+                css("opacity", "0") if $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
+                attr("src") isnt "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif"
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").css("opacity", "0")  
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
@@ -913,7 +924,7 @@ window.enable = (button) ->
   button.css("opacity", 1)
 
 window.toggleImg = ->
-  $(".user .img").each ->
+  $(".user .img.mon-battle-image").each ->
     if $(this).attr("disabled") is "disabled"
       $(this).removeAttr("disabled")
     else
@@ -1341,7 +1352,7 @@ window.ai = ->
       availableAbilities()
   ), timerRound
 
-####################################################################################################### Action helpers
+####################################################################################################### Object action helpers
 window.action = ->
   xadBuk()
   battle.monAbility(targets[0], targets[1], targets[2], targets[3])
@@ -1366,6 +1377,23 @@ window.multipleAction = ->
     checkOutcome()
   ), 250
 
+# window.controlAI = (teamIndex, monIndex, type, abilityDex)
+
+window.deathAbilitiesActivation = ->
+  if deathAbilitiesToActivate.length isnt 0
+    zetBut()
+    toggleImg()
+    i = 0
+    while i < deathAbilitiesToActivate.length
+      ability = deathAbilitiesToActivate[i]
+      $("." + ability.team + " " + ".mon" + ability.index + " " + ".img.passive").
+        effect("explode", {pieces: 30}, 500).hide()
+      index = deathAbilitiesToActivate.indexOf(ability)
+      setTimeout (->
+        controlAI(ability.team, ability.index, "death", 2)
+      ), 550
+      i++
+    window.deathAbilitiesToActivate = []
 ######################################################################################################### Passive activation helpers
 window.scaling = (passive, monster) ->
   if passive.targeta is "attack-scaling"
@@ -1422,7 +1450,7 @@ $ ->
     else
       mon_image.next().attr("src", href)
   window.effectBin = []
-  window.deathAbilities = []
+  window.deathAbilitiesToActivate = []
   if document.getElementById("battle") isnt null
     $("a.fb-nav").not(".quest-show").on "click.leave", (event) ->
       $(document).off "click.cutscene", "#overlay"

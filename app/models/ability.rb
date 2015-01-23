@@ -218,8 +218,14 @@ class Ability < ActiveRecord::Base
   def as_json(options={})
     super(
       :only => [:name, :ap_cost, :stat_change, :description],
-      :methods => [:stat, :targeta, :rarita, :elementa, :change, :modifier, :img, :slot]
-      )
+      :methods => [:stat, :targeta, :rarita, :elementa, :change, :modifier, :img, :slot],
+      :include => {
+        :effects => {
+          :only => [:name, :stat_change, :restore, :duration, :description],
+          :methods => [:stat, :targeta, :change, :modifier, :img],
+        }
+      }
+    )
   end
 
   def find_user(user_name)
