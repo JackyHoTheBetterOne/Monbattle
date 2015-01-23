@@ -108,6 +108,7 @@ window.fixEvolMon = (monster, player) ->
               i3++
             if a.modifier isnt ""
               window["change" + index] = a.change*a.scaling
+              Math.round(window["change" + index])
               monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           else if a.modifier is "-" and a.targeta is "attack"
             if monster.passive
@@ -118,6 +119,7 @@ window.fixEvolMon = (monster, player) ->
                   window["change" + index] = eval(a.change * a.scaling * bonus - monTarget["phy_resist"])
             else
               window["change" + index] = eval(a.change * a.scaling - monTarget["phy_resist"])
+            Math.round(window["change" + index])
             window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
@@ -129,10 +131,12 @@ window.fixEvolMon = (monster, player) ->
                   window["change" + index] = eval(a.change * a.scaling * bonus - monTarget["spe_resist"])
             else
               window["change" + index] = eval(a.change * a.scaling - monTarget["spe_resist"])
+            Math.round(window["change" + index])
             window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           else
             window["change" + index] = a.change * a.scaling
+            Math.round(window["change" + index])
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
@@ -1371,6 +1375,8 @@ window.scaling = (passive, monster) ->
   else if passive.targeta is "ultimate-scaling"
     monster.abilities[1].change *= (1 + passive.change/100)
     monster.abilities[0].change *= (1 + passive.change/100)
+  monster.abilities[0].change = Math.round(monster.abilities[0].change)
+  monster.abilities[1].change = Math.round(monster.abilities[1].change)
 
 
 window.passiveScalingTeam = (team_num, type) ->
