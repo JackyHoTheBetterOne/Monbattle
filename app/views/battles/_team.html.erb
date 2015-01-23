@@ -20,11 +20,10 @@
   </div>
 <% end %>
 
-<input class="img" src="<%= mon.image(party.user) %>" data-index="<%= party.mon_dex(mon) %>" 
-      type="image" alt="monster image">
-<% if mon.passive_img != nil %>
-  <input class="img passive" src="<%= mon.passive_img %>" type="image" alt="passive image">
-<% end %>
+<input class="img mon-battle-image" src="<%= mon.image(party.user) %>" data-index="<%= party.mon_dex(mon) %>" 
+      type="image" alt="monster image" data-passive="<%= mon.passive_img %>" 
+      data-targetpassive = "<%= mon.passive_target %>">
+<input class="img passive" src="" type="image" alt="passive image" data-index="<%= party.mon_dex(mon) %>">
       
 <div class="effect-box"></div>
 <p class="dam"><p>

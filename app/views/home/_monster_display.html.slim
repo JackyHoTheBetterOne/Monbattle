@@ -10,6 +10,13 @@
   p #{mon.name}
   p #{mon.job.name} Class
   p HP: #{mon.max_hp}
+  .monster-passive-equipped
+    -unless !mon.passive_img
+      =image_tag(mon.passive_port, class: "equipping-passive-image")
+      .monster-equipping-passive-description
+        span.passive-name=mon.passive_name + ":"
+        br
+        span.passive-description=mon.passive_description
 .mon-equipped1.shadowed2.btn
   =render partial: "abils_for_mon", locals: {mon: mon, socket: 1, class_info: "equip-link", link_info: ""}
   .equip-thumb.equip1

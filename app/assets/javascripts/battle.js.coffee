@@ -23,8 +23,13 @@ window.increaseTime = ->
 
 ######################################################################################################## Monster logics
 window.fixEvolMon = (monster, player) ->
+  if monster.passive_ability
+    if monster.passive_ability.targeta is "resistance"
+      monster[monster.passive_ability.stat] += parseInt(monster.passive_ability.change)
   monster.isAlive = ->
     if @hp <= 0
+      if $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").length isnt 0
+        passiveScalingTeam(monster.team, "dead-friends")
       $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").remove()
       setTimeout (->
         $("p.dam").promise().done ->
@@ -50,6 +55,7 @@ window.fixEvolMon = (monster, player) ->
   $(monster.abilities).each ->
     @team = monster.team
     @index = monster.index
+    @scaling = 1
     ability = @
     a = @
     ability.use = (abilitytargets) ->
@@ -97,18 +103,32 @@ window.fixEvolMon = (monster, player) ->
                 removeEffectIcon(monTarget, e)
               i3++
             if a.modifier isnt ""
-              window["change" + index] = a.change
+              window["change" + index] = a.change*a.scaling
               monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           else if a.modifier is "-" and a.targeta is "attack"
-            window["change" + index] = eval(a.change - monTarget["phy_resist"])
+            if monster.passive
+              passive = monster.passive
+              if passive.targeta is "resist-penetration" 
+                if passive.stat is "phy_resist" and parseInt(monTarget["phy_resist"]) > 0
+                  bonus = 1 + passive.change/100
+                  window["change" + index] = eval(a.change * a.scaling * bonus - monTarget["phy_resist"])
+            else
+              window["change" + index] = eval(a.change * a.scaling - monTarget["phy_resist"])
             window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
-            window["change" + index] = eval(a.change - monTarget["spe_resist"])
+            if monster.passive
+              passive = monster.passive
+              if passive.targeta is "resist-penetration"
+                if passive.stat is "spe_resist" and parseInt(monTarget["spe_resist"]) > 0
+                  bonus = 1 + passive.change/100
+                  window["change" + index] = eval(a.change * a.scaling * bonus - monTarget["spe_resist"])
+            else
+              window["change" + index] = eval(a.change * a.scaling - monTarget["spe_resist"])
             window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           else
-            window["change" + index] = a.change 
+            window["change" + index] = a.change * a.scaling
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
@@ -908,7 +928,7 @@ window.flashEndButton = ->
     setTimeout (->
       $(".end-turn").trigger("click")
       return
-    ), 1000
+    ), 1250
     return
 
 window.toggleEnemyClick = ->
@@ -1278,7 +1298,11 @@ window.ai = ->
           $(".battle-round-countdown").css("opacity", "0").remove()
       roundEffectHappening(0)
       roundEffectHappening(1)
+      passiveScalingTeam(0, "round")
+      passiveScalingTeam(1, "round")
       checkMonHealthAfterEffect()
+      updateAbilityScaling(0, "missing-hp")
+      updateAbilityScaling(1, "missing-hp")
       hpChangeBattle()
       apChange()
       zetBut()
@@ -1300,6 +1324,8 @@ window.action = ->
   battle.monAbility(targets[0], targets[1], targets[2], targets[3])
   fixHp()
   checkMax()
+  updateAbilityScaling(0, "missing-hp")
+  updateAbilityScaling(1, "missing-hp")
   setTimeout (->
     zetBut()
     checkOutcome()
@@ -1311,17 +1337,69 @@ window.multipleAction = ->
   battle.monAbility(targets[0], targets[1], targets[2])
   fixHp()
   checkMax()
+  updateAbilityScaling(0, "missing-hp")
+  updateAbilityScaling(1, "missing-hp")
   setTimeout (->
     zetBut()
     checkOutcome()
   ), 200
 
+######################################################################################################### Passive activation helpers
+window.scaling = (passive, monster) ->
+  if passive.targeta is "attack-scaling"
+    monster.abilities[0].change *= (1 + passive.change/100)
+  else if passive.targeta is "ability-scaling"
+    monster.abilities[1].change *= (1 + passive.change/100)
+  else if passive.targeta is "ultimate-scaling"
+    monster.abilities[1].change *= (1 + passive.change/100)
+    monster.abilities[0].change *= (1 + passive.change/100)
+
+
+window.passiveScalingTeam = (team_num, type) ->
+  mons = battle.players[team_num].mons
+  i = 0
+  while i < mons.length
+    passive = mons[i].passive_ability
+    if mons[i].passive_ability
+      if passive.stat is type
+        scaling(passive, mons[i])
+    i++
+
+window.passiveScalingMon = (monster, type) ->
+  passive = monster.passive_ability
+  if monster.passive_ability
+    if passive.stat is type
+      scaling(passive, monster)
+
+window.updateAbilityScaling = (team_num, type) ->
+  mons = battle.players[team_num].mons
+  i = 0
+  while i < mons.length
+    passive = mons[i].passive_ability
+    if mons[i].passive_ability
+      if passive.stat is type
+        if passive.targeta is "attack-scaling"
+          mons[i].abilities[0].scaling = 1 + (mons[i].max_hp - mons[i].hp)*passive.change/1000
+        else if passive.targeta is "ability-scaling"
+          mons[i].abilities[1].scaling = 1 + (mons[i].max_hp - mons[i].hp)*passive.change/1000
+        else if passive.targeta is "ultimate-scaling"
+          mons[i].abilities[1].scaling = 1 + (mons[i].max_hp - mons[i].hp)*passive.change/1000
+          mons[i].abilities[0].scaling = 1 + (mons[i].max_hp - mons[i].hp)*passive.change/1000
+    i++
 
 ####################################################################################################### Start of Ajax
 $ ->
+  $(".img.mon-battle-image").each ->
+    mon_image = $(this)
+    href = mon_image.data("passive")
+    if href is ""
+      mon_image.next().css("opacity", "0")
+    else
+      mon_image.next().attr("src", href)
   window.effectBin = []
   if document.getElementById("battle") isnt null
     $("a.fb-nav").not(".quest-show").on "click.leave", (event) ->
+      $(document).off "click.cutscene", "#overlay"
       nav = $(this)
       link = $(this).attr("href")
       text = $(this).text()
@@ -1524,7 +1602,7 @@ $ ->
               else
                 description.children("span.damage-type").text "Special"
               description.children(".panel-body").html ability.description
-              description.children(".panel-footer").children("span").children(".d").text ability.change
+              description.children(".panel-footer").children("span").children(".d").text ability.change*ability.scaling
               description.children(".panel-footer").children("span").children(".a").text "AP: " + ability.ap_cost
               description.css({"z-index": "6000", "opacity": "0.9"})
           return

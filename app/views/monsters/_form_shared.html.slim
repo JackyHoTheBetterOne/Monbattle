@@ -1,4 +1,5 @@
 =f.input :name
+=f.association :passive, collection: Ability.collect_passive
 h4=f.label "The element of this monster"
 .form-control=f.collection_select :element_id, @elements, :id, :name
 h4=f.label "Monster Personality"
@@ -37,4 +38,3 @@ h4=f.label "Default Ability for Socket 2"
 =f.input :mp_cost
 =f.input :gp_cost
 =f.input :summon_cost
-=f.association :passive, collection: Ability.collect_passive
