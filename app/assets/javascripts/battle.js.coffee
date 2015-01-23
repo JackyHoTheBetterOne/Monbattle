@@ -47,7 +47,10 @@ window.fixEvolMon = (monster, player) ->
                 $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
                   attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif").
                   css("display", "initial").css("opacity", "1").attr("disabled", "true")
-                deathAbilitiesToActivate.push(monster.abilities[2])
+                if monster.team is 0
+                  deathAbilitiesToActivate["user"].push(monster.abilities[2])
+                else
+                  deathAbilitiesToActivate["pc"].push(monster.abilities[2])
               ), 750
             else
               $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
@@ -1379,21 +1382,21 @@ window.multipleAction = ->
 
 # window.controlAI = (teamIndex, monIndex, type, abilityDex)
 
-window.deathAbilitiesActivation = ->
-  if deathAbilitiesToActivate.length isnt 0
+window.deathAbilitiesActivation = (team) ->
+  if deathAbilitiesToActivate[team].length isnt 0
     zetBut()
     toggleImg()
     i = 0
-    while i < deathAbilitiesToActivate.length
-      ability = deathAbilitiesToActivate[i]
+    while i < deathAbilitiesToActivate[team].length
+      ability = deathAbilitiesToActivate[team][i]
       $("." + ability.team + " " + ".mon" + ability.index + " " + ".img.passive").
         effect("explode", {pieces: 30}, 500).hide()
-      index = deathAbilitiesToActivate.indexOf(ability)
+      index = deathAbilitiesToActivate[team].indexOf(ability)
       setTimeout (->
         controlAI(ability.team, ability.index, "death", 2)
-      ), 550
+      ), 600
       i++
-    window.deathAbilitiesToActivate = []
+    deathAbilitiesToActivate[team] = []
 ######################################################################################################### Passive activation helpers
 window.scaling = (passive, monster) ->
   if passive.targeta is "attack-scaling"
@@ -1450,7 +1453,9 @@ $ ->
     else
       mon_image.next().attr("src", href)
   window.effectBin = []
-  window.deathAbilitiesToActivate = []
+  window.deathAbilitiesToActivate = {}
+  deathAbilitiesToActivate["user"] = []
+  deathAbilitiesToActivate["pc"] = []
   if document.getElementById("battle") isnt null
     $("a.fb-nav").not(".quest-show").on "click.leave", (event) ->
       $(document).off "click.cutscene", "#overlay"
@@ -1663,7 +1668,15 @@ $ ->
         ).on "mouseleave", ".user .monBut button", ->
           $(this).parent().parent().children(".abilityDesc").css({"z-index":"-1", "opacity": "0"})
           return
-        $(document).on("click.endTurn", "button.end-turn", ai)
+        $(document).on "click.endTurn", "button.end-turn", ->
+          if deathAbilitiesToActivate["user"].length > 0
+            wait = deathAbilitiesToActivate["user"].length * 1850 + 500
+            deathAbilitiesActivation("user")
+            setTimeout (->
+              ai()
+            ), 500
+          else 
+            ai()
         $(document).on("mouseover", ".effect", ->
           index = @id
           e = effectBin[index]
