@@ -1351,17 +1351,25 @@ window.ai = ->
       updateAbilityScaling(0, "missing-hp")
       updateAbilityScaling(1, "missing-hp")
       hpChangeBattle()
-      apChange()
       zetBut()
       checkOutcome() if $("#overlay").css("display") is "none"
       enable($("button"))
-      $(".ap").effect("highlight")
       $(".battle-message").fadeOut(100)
       $(".enemy .img").removeAttr("disabled")
       toggleEnemyClick()
       $(".monBut button").trigger("mouseleave")
-      toggleImg()
-      availableAbilities()
+      deathAbilitiesActivation("pc")
+      timeout = undefined
+      if deathAbilitiesToActivate["pc"].length isnt 0 
+        timeout = deathAbilitiesToActivate["pc"].length*3000 + 750
+      else 
+        timeout = 250
+      setTimeout (->
+        apChange()
+        $(".ap").effect("highlight")
+        toggleImg()
+        availableAbilities()
+      ), timeout
   ), timerRound
 
 ####################################################################################################### Object action helpers
