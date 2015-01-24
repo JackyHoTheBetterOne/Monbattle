@@ -1353,22 +1353,25 @@ window.ai = ->
       hpChangeBattle()
       zetBut()
       checkOutcome() if $("#overlay").css("display") is "none"
-      enable($("button"))
       $(".battle-message").fadeOut(100)
       $(".enemy .img").removeAttr("disabled")
       toggleEnemyClick()
       $(".monBut button").trigger("mouseleave")
-      deathAbilitiesActivation("pc")
+      setTimeout (->
+        deathAbilitiesActivation("user")
+      ), 500
       timeout = undefined
-      if deathAbilitiesToActivate["pc"].length isnt 0 
-        timeout = deathAbilitiesToActivate["pc"].length*3000 + 750
+      if deathAbilitiesToActivate["user"].length isnt 0 
+        timeout = deathAbilitiesToActivate["user"].length*3000 + 2000
       else 
-        timeout = 250
+        timeout = 500
       setTimeout (->
         apChange()
         $(".ap").effect("highlight")
         toggleImg()
         availableAbilities()
+        deathAbilitiesToActivate["user"].length = 0
+        enable($("button"))
       ), timeout
   ), timerRound
 
@@ -1700,15 +1703,15 @@ $ ->
         $(document).on "click.endTurn", "button.end-turn", ->
           disable($(".end-turn"))
           toggleImg()
-          if deathAbilitiesToActivate["user"].length > 0
+          if deathAbilitiesToActivate["pc"].length > 0
             xadBuk()
-            wait = deathAbilitiesToActivate["user"].length * 3000 + 1500
+            wait = deathAbilitiesToActivate["pc"].length * 3000 + 1600
             setTimeout (->
-              deathAbilitiesActivation("user")
+              deathAbilitiesActivation("pc")
             ), 100
             console.log(wait)
             setTimeout (->
-              deathAbilitiesToActivate["user"] = []
+              deathAbilitiesToActivate["pc"] = []
               ai()
             ), wait
           else 
