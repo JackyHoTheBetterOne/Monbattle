@@ -50,7 +50,7 @@ window.fixEvolMon = (monster, player) ->
                 $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
                   attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif").
                   css("display", "initial").css("opacity", "1").attr("disabled", "true")
-              ), 750
+              ), 500
             else
               $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
                 css("opacity", "0") if $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
@@ -75,6 +75,8 @@ window.fixEvolMon = (monster, player) ->
     @scaling = 1
     ability = @
     a = @
+    ability.isAlive = ->
+      battle.players(@index).mons[@index].isAlive()
     ability.use = (abilitytargets) ->
       if a.targeta.indexOf("aoe") isnt -1 && findObjectInArray(monster.cursed, "targeta", "aoe-curse") > 0
         e = usefulArray[0]
@@ -172,7 +174,8 @@ window.fixEvolMon = (monster, player) ->
                 i++
               targets = teamAttackAbilities
               effect.activate targets
-            when "self"
+            when "self", "self-poison-hp", "self-timed-phy-resist-debuff"
+                  , "self-timed-spe-resist-debuff"
               effect.activate [monster]
             when "selfbuffattack"
               effect.activate [monster.abilities[0]]
@@ -203,6 +206,8 @@ window.fixEvolMon = (monster, player) ->
                 effectTargets.push abilitytargets[i].abilities[index]
                 i++
               effect.activate effectTargets
+            when "ap-overload"
+              effect.activate [battle.players[0]]
             when "tworandomallies"
               effectTargets = []
               findAliveFriends()
@@ -325,11 +330,12 @@ window.fixEvolMon = (monster, player) ->
         else
           while i < effectTargets.length
             monTarget = effectTargets[i]
-            addEffectIcon(monTarget, e)
-            setTimeout (->
-              $(".effect").trigger("mouseleave")
-              massRemoveEffectIcon(e)
-              ), 1500
+            if e.targeta isnt "ap-overload"
+              addEffectIcon(monTarget, e)
+              setTimeout (->
+                $(".effect").trigger("mouseleave")
+                massRemoveEffectIcon(e)
+                ), 1500
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
             checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
@@ -337,7 +343,7 @@ window.fixEvolMon = (monster, player) ->
 
 
 
-################################################################################################################ Logic helpers
+################################################################################################################ General Logic helpers
 window.findObjectInArray = (array, field, value) ->
   window.usefulArray = []
   i = 0 
@@ -460,6 +466,8 @@ window.findAliveMons = ->
 
 window.randomNumRange = (max, min)->
   Math.floor(Math.random() * (max - min) + min)
+
+
 
 
 #########################################################################################################  AI timer
@@ -601,7 +609,7 @@ window.showDamageSingleVariable = (team, monster, modifier, impact) ->
   setTimeout (->
     if battle.players[team].mons[monster].hp > 0
       damageBoxAnime(team, monster, modifier + impact, "rgba(255, 0, 0)") 
-  ), 1550
+  ), 1600
 
 window.showHealSingle = ->
   damageBoxAnime(allyHealed.team, allyHealed.index, ability.modifier + window["change" + allyHealed.index], "rgba(50,205,50)")
@@ -890,14 +898,14 @@ window.nextScene = ->
 
 window.mouseOverMon = ->
   if $(this).css("opacity") isnt "0"
-    $(this).parent().children(".monBut").css "visibility", "visible"
     $(this).parent().children(".availability-arrow").css("visibility", "hidden")
     $(this).parent().children(".availability-arrow")
     $(this).parent().children(".img").addClass("controlling") 
+    $(this).parent().children(".monBut").css("visibility", "visible")
     $(this).parent().children(".monBut").css({"opacity":"1", "z-index":"20000"})
     mon = $(this).closest(".mon").data("index")
     team = $(this).closest(".mon-slot").data("team")
-    window.currentMon = $(this)
+    window.currentMon = $(this).parent().children(".img")
     window.targets = [
       team
       mon
@@ -905,7 +913,8 @@ window.mouseOverMon = ->
 
 window.mouseLeaveMon = ->
   $(".availability-arrow").css("visibility", "visible")
-  $(".user .monBut").css({"opacity":"0", "visibility":"hidden", "z-index":"-1"})
+  $(".monBut").css("visibility", "hidden")
+  $(".user .monBut").css({"opacity":"0", "z-index":"-1"})
   $(".user .img").removeClass("controlling")
 
 window.turnOnCommandA = ->
@@ -950,7 +959,7 @@ window.flashEndButton = ->
   if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
     timer = undefined
     if deathAbilitiesToActivate["pc"].length isnt 0
-      timer = 1600
+      timer = 3000
     else
       timer = 1300
     setTimeout (->
@@ -1095,6 +1104,17 @@ window.minimumHpPC = ->
       window.healPC = liveFoes[i]
     i++
   return healPC.index
+
+window.updateApAbilityCost = (ap) ->
+  i = 0 
+  while i < battle.players[0].mons.length
+    if battle.players[0].mons[i].abilities[1].targeta is "action-point"
+      cost = parseInt(ap)
+      battle.players[0].mons[i].abilities[1].ap_cost = cost/2
+      $(".user " + ".mon" + i + " " + ".action.ability").data("apcost", cost/2) 
+    i++
+
+
 
 
 ############################################################################################################ AI logics
@@ -1377,6 +1397,8 @@ window.ai = ->
       else 
         timeout = 500
       setTimeout (->
+        battle.players[0].ap -= battle.players[0].ap_overload
+        battle.players[0].ap_overload = 0
         apChange()
         $(".ap").effect("highlight")
         toggleImg()
@@ -1445,6 +1467,9 @@ window.deathAbilitiesActivation = (team) ->
       setTimeout (->
         activateDeathAbility(team, 2)
       ), 6000
+
+
+
 ######################################################################################################### Passive activation helpers
 window.scaling = (passive, monster) ->
   if passive.targeta is "attack-scaling"
@@ -1489,6 +1514,8 @@ window.updateAbilityScaling = (team_num, type) ->
           mons[i].abilities[1].scaling = 1 + (mons[i].max_hp - mons[i].hp)*passive.change/1000
           mons[i].abilities[0].scaling = 1 + (mons[i].max_hp - mons[i].hp)*passive.change/1000
     i++
+
+
 
 ####################################################################################################### Start of Ajax
 $ ->
@@ -1559,7 +1586,7 @@ $ ->
         window.playerMonNum = battle.players[0].mons.length
         window.pcMonNum = battle.players[1].mons.length
         battle.round = 1
-        battle.maxAP = 40
+        battle.maxAP = 20
         battle.calculateAP = ->
           if battle.round < 5
             battle.maxAP = 30 + 10 * battle.round
@@ -1571,7 +1598,6 @@ $ ->
         battle.checkRound = ->
           if battle.players.every(isTurnOver)
             battle.round += 1
-            battle.calculateAP()
             setAll(battle.players, "turn", true)
             setAll(battle.players, "ap", battle.maxAP)
         battle.monAbility = (playerIndex, monIndex, abilityIndex, targetIndex) ->
@@ -1595,6 +1621,8 @@ $ ->
                 teamAttackAbilities.push(player.mons[i].abilities[0])
                 i++
               targets = teamAttackAbilities
+            when "action-point"
+              targets = [ battle ]
           @players[playerIndex].commandMon(monIndex, abilityIndex, targets)
           @checkRound()
         battle.evolve = (playerIndex, monIndex, evolveIndex) ->
@@ -1633,6 +1661,7 @@ $ ->
         $(battle.players).each ->
           player = @
           player.turn = true
+          player.ap_overload = 0
           player.commandMon = (monIndex, abilityIndex, targets) ->
             p = @
             mon = p.mons[monIndex]
@@ -1814,7 +1843,7 @@ $ ->
                     setTimeout (->
                       singleTargetAbilityAfterActionDisplay()
                       toggleEnemyClick()
-                      ), 1100
+                    ), 1100
                 when "targetenemy"
                   enemyAbilityBeforeClickDisplay()
                   $(document).on "click.boom", ".enemy.mon-slot .img", ->
@@ -1921,6 +1950,22 @@ $ ->
                         return
                       ), 1200
                       return
+                when "action-point"
+                  xadBuk()
+                  $(".user .img").removeClass("controlling")
+                  battle.players[0].ap -= 
+                    parseInt(battle.players[0].mons[targets[1]].abilities[targets[2]].ap_cost)
+                  battle.maxAP += parseInt(battle.players[0].mons[targets[1]].abilities[targets[2]].change)
+                  updateApAbilityCost(parseInt(battle.maxAP))
+                  zetBut()
+                  $("#ap-tip").toggleClass("flip animated")
+                  apChange()
+                  setTimeout (->
+                    $("#ap-tip").toggleClass("flip animated")
+                    toggleImg()
+                    availableAbilities()
+                    flashEndButton()
+                  ), 1000
                 when "evolve"
                   $(document).off "click.cancel", ".cancel"
                   $(".user .img").removeClass("controlling")
@@ -1955,6 +2000,7 @@ $ ->
                   ), 2000
                   return
           else
+            console.log("wtf man")
             $(this).add(".ap").effect("highlight", {color: "red"}, 100)
             alert("You have insufficient ap to use this skill.")
             $(".end-turn").prop("disabled", false)
