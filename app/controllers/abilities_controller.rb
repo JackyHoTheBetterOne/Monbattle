@@ -55,7 +55,7 @@ class AbilitiesController < ApplicationController
   end
 
   def find_targets
-    @targets = Target.alphabetical
+    @targets = Target.ability.alphabetical
   end
 
   def find_stat_targets

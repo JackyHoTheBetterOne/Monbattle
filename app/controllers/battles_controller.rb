@@ -178,7 +178,7 @@ class BattlesController < ApplicationController
   end
 
   def find_battle
-    @battle = Battle.friendly.find params[:id]
+    @battle = Battle.includes(:battle_level).friendly.find(params[:id])
     @battle.parties = @battle.parties.order(:npc)
   end
 

@@ -1804,9 +1804,8 @@ $ ->
               turnOnCommandA()
               $(".enemy .img").each ->
                 $(this).prop("disabled", true)
-              toggleImg()
-              if ability.data("target").indexOf("ally") isnt -1 || ability.data("target") is "ability"
-                toggleImg()
+              $(".user .img").each ->
+                $(this).prop("disabled", false)
               targets = []
               return
             window.targets = targets.concat(ability.data("index"))  if targets.length isnt 3
