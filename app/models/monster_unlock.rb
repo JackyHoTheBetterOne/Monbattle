@@ -173,7 +173,11 @@ class MonsterUnlock < ActiveRecord::Base
   end
 
   def cost(index)
-    self.abilities[index].ap_cost
+    if self.abilities[index].targeta != "action-point"
+      self.abilities[index].ap_cost 
+    else
+      10
+    end
   end
 
   def target(index)
