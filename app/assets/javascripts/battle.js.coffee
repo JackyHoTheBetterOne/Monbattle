@@ -26,6 +26,8 @@ window.fixEvolMon = (monster, player) ->
   if monster.passive_ability
     if monster.passive_ability.targeta is "resistance"
       monster[monster.passive_ability.stat] += parseInt(monster.passive_ability.change)
+    else if monster.passive_ability.rarita is "death-passive"
+      monster.abilities.push(monster.passive_ability)
   monster.isAlive = ->
     if @hp <= 0
       if $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").length isnt 0
@@ -38,12 +40,27 @@ window.fixEvolMon = (monster, player) ->
       setTimeout (->
         $("p.dam, .bar").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".availability-arrow").remove()
-          $("." + monster.team + " " + ".mon" + monster.index + " " + ".img").css("opacity", "0")
+          if monster.passive_ability
+            if monster.passive_ability.rarita is "death-passive"
+              if monster.team is 0
+                deathAbilitiesToActivate["user"].push(monster.abilities[2]) if deathAbilitiesToActivate["user"].indexOf(monster.abilities[2]) is -1 
+              else
+                deathAbilitiesToActivate["pc"].push(monster.abilities[4]) if deathAbilitiesToActivate["pc"].indexOf(monster.abilities[4]) is -1 
+              setTimeout (->
+                $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
+                  attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif").
+                  css("display", "initial").css("opacity", "1").attr("disabled", "true")
+              ), 750
+            else
+              $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
+                css("opacity", "0") if $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
+                attr("src") isnt "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif"
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").css("opacity", "0")  
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
-      ), 1200
+      ), 1300
       return false
     else
       return true
@@ -76,7 +93,8 @@ window.fixEvolMon = (monster, player) ->
         index = monTarget.index
         monTarget.isAlive()
         if monTarget.isAlive()
-          if monTarget.passive_ability isnt null
+          if monTarget.passive_ability isnt null and 
+              (ability.targeta is "attack" or ability.targeta is "targetenemy")
             passive = monTarget.passive_ability
             if passive.targeta is "spiked-spe-shield" and a.modifier is "-"
               monster[passive.stat] = eval(monster[passive.stat] + passive.modifier + passive.change)
@@ -104,6 +122,7 @@ window.fixEvolMon = (monster, player) ->
               i3++
             if a.modifier isnt ""
               window["change" + index] = a.change*a.scaling
+              Math.round(window["change" + index])
               monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           else if a.modifier is "-" and a.targeta is "attack"
             if monster.passive
@@ -114,6 +133,7 @@ window.fixEvolMon = (monster, player) ->
                   window["change" + index] = eval(a.change * a.scaling * bonus - monTarget["phy_resist"])
             else
               window["change" + index] = eval(a.change * a.scaling - monTarget["phy_resist"])
+            Math.round(window["change" + index])
             window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           else if a.modifier is "-" and (a.targeta is "targetenemy" or a.targeta is "aoeenemy") 
@@ -125,10 +145,12 @@ window.fixEvolMon = (monster, player) ->
                   window["change" + index] = eval(a.change * a.scaling * bonus - monTarget["spe_resist"])
             else
               window["change" + index] = eval(a.change * a.scaling - monTarget["spe_resist"])
+            Math.round(window["change" + index])
             window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
           else
             window["change" + index] = a.change * a.scaling
+            Math.round(window["change" + index])
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
@@ -219,11 +241,11 @@ window.fixEvolMon = (monster, player) ->
                 addEffectIcon(monTarget, e)
               else 
                 monTarget[e.stat] = eval(monTarget[e.stat] + e.restore)
-                monTarget["max_hp"] = eval(monTarget["max_hp"] + e.restore)
+                monTarget["max_hp"] = eval(monTarget["max_hp"] + e.restore) if monTarget.hp > 0
                 removeEffectIcon(monTarget, e)
                 addEffectIcon(monTarget, e)
               monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-              monTarget["max_hp"] = eval(monTarget["max_hp"] + e.modifier + e.change)
+              monTarget["max_hp"] = eval(monTarget["max_hp"] + e.modifier + e.change) if monTarget.hp > 0
               monTarget.shield.name = e.name
               monTarget.shield.restore = e.restore
               monTarget.shield.targeta = e.targeta
@@ -251,7 +273,6 @@ window.fixEvolMon = (monster, player) ->
             monTarget = effectTargets[i]
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
             monTarget.shield.true_damage += parseInt(e.change) if monTarget.shield.end isnt "undefined"
-            checkMin()
             checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             if monTarget.isAlive()
@@ -310,7 +331,6 @@ window.fixEvolMon = (monster, player) ->
               massRemoveEffectIcon(e)
               ), 1500
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-            checkMin()
             checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             i++
@@ -374,12 +394,12 @@ window.checkMin = ->
   i = 0
   while i < playerMonNum
     mon = battle.players[0].mons[i]
-    battle.players[0].mons[i].max_hp = 0 if mon.hp is 0
+    battle.players[0].mons[i].max_hp = 0 if mon.hp <= 0
     i++
   i = 0
   while i < pcMonNum
     mon = battle.players[1].mons[i]
-    battle.players[1].mons[i].max_hp = 0 if mon.hp is 0
+    battle.players[1].mons[i].max_hp = 0 if mon.hp <= 0
     i++
 
 window.userMon = (index) ->
@@ -444,41 +464,41 @@ window.randomNumRange = (max, min)->
 
 #########################################################################################################  AI timer
 window.enemyTimer = ->
-  window.timer1 = 0
+  window.timer1 = 250
 ######################################################################
   if checkEnemyDeath(1) is true
-    window.timer3 = 0
+    window.timer3 = 250
   else
-    window.timer3 = 2500
+    window.timer3 = 3000
 ######################################################################
   if checkEnemyDeath(1) is true && checkEnemyDeath(3) is true
-    window.timer2 = 0
+    window.timer2 = 250
   else if checkEnemyDeath(1) is true || checkEnemyDeath(3) is true
-    window.timer2 = 2500
+    window.timer2 = 3000
   else
-    window.timer2 = 5000
+    window.timer2 = 5750
 ######################################################################
   if checkEnemyDeath(1) && checkEnemyDeath(3) && checkEnemyDeath(2)
-    window.timer0 = 0
+    window.timer0 = 250
   else if ( ( checkEnemyDeath(1) && checkEnemyDeath(2) ) || ( checkEnemyDeath(1) && checkEnemyDeath(3) ) ) ||
           ( checkEnemyDeath(2) && checkEnemyDeath(3) )
-    window.timer0 = 2500
+    window.timer0 = 3000
   else if ( checkEnemyDeath(1) || checkEnemyDeath(2) ) || checkEnemyDeath(3)
-    window.timer0 = 5000
+    window.timer0 = 5750
   else
-    window.timer0 = 7500
+    window.timer0 = 8500
 ######################################################################
   switch numOfDeadFoe()
     when 0
-      window.timerRound = 10000
+      window.timerRound = 11250
     when 1
-      window.timerRound = 7500
+      window.timerRound = 8500
     when 2
-      window.timerRound = 5000
+      window.timerRound = 5750
     when 3
-      window.timerRound = 2500
+      window.timerRound = 3000
     when 4
-      window.timerRound = 0
+      window.timerRound = 250
 
 
 
@@ -579,8 +599,9 @@ window.showDamageSingle = ->
 
 window.showDamageSingleVariable = (team, monster, modifier, impact) ->
   setTimeout (->
-    damageBoxAnime(team, monster, modifier + impact, "rgba(255, 0, 0)")
-  ), 1100
+    if battle.players[team].mons[monster].hp > 0
+      damageBoxAnime(team, monster, modifier + impact, "rgba(255, 0, 0)") 
+  ), 1550
 
 window.showHealSingle = ->
   damageBoxAnime(allyHealed.team, allyHealed.index, ability.modifier + window["change" + allyHealed.index], "rgba(50,205,50)")
@@ -777,6 +798,8 @@ window.singleTargetAbilityAfterClickDisplay = (ability) ->
 
 
 window.singleTargetAbilityAfterActionDisplay = ->
+  $(".img.mon-battle-image").each ->
+    $(this).css "background", "transparent"
   apChange()
   hpChangeBattle()
   checkMonHealthAfterEffect()
@@ -907,7 +930,7 @@ window.enable = (button) ->
   button.css("opacity", 1)
 
 window.toggleImg = ->
-  $(".user .img").each ->
+  $(".user .img.mon-battle-image").each ->
     if $(this).attr("disabled") is "disabled"
       $(this).removeAttr("disabled")
     else
@@ -925,14 +948,19 @@ window.flashEndButton = ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
   if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
+    timer = undefined
+    if deathAbilitiesToActivate["pc"].length isnt 0
+      timer = 1600
+    else
+      timer = 1300
     setTimeout (->
       $(".end-turn").trigger("click")
       return
-    ), 1250
+    ), timer
     return
 
 window.toggleEnemyClick = ->
-  $(".enemy .img").each ->
+  $(".enemy .img.mon-battle-image").each ->
     if $(this).attr("disabled") is "disabled"
       $(this).prop("disabled", false)
     else
@@ -955,7 +983,7 @@ window.roundEffectHappening = (team) ->
         if battle.round is mon.shield.end || (mon.shield.old_hp - (mon.hp + mon.shield.true_damage)) > mon.shield.extra_hp
           removeEffectIcon(mon, mon.shield)
           mon.shield.end = undefined
-          mon.max_hp = mon.max_hp - mon.shield.extra_hp
+          mon.max_hp = mon.max_hp - mon.shield.extra_hp if mon.hp > 0
           if shieldy > 0 
             mon.hp = mon.hp - shieldy
             mon.shield.true_damage = 0
@@ -974,7 +1002,6 @@ window.roundEffectHappening = (team) ->
               delete mon.poisoned[ii]
             else
               mon[e.stat] = eval(mon[e.stat] + e.impact)
-              checkMin()
               checkMax()
               mon.isAlive() if typeof mon.isAlive isnt "undefined"
             if e.targeta.indexOf("poison") isnt -1
@@ -1046,8 +1073,6 @@ window.totalUserHp = ->
     i++
   return totalCurrentHp
 window.teamPct = ->
-  i = undefined
-  n = undefined
   totalMaxHp = 0
   n = playerMonNum
   i = 0
@@ -1055,6 +1080,7 @@ window.teamPct = ->
     totalMaxHp += battle.players[0].mons[i].max_hp
     i++
   return totalUserHp()/totalMaxHp
+
 window.getRandom = (array) ->
   return array[Math.floor(Math.random()*array.length)]
 window.selectTarget = ->
@@ -1101,19 +1127,25 @@ window.feedAiTargets = ->
 
 
 ################################################################################################ AI action helpers(not very dry)
-window.controlAI = (monIndex) ->
-  monster = battle.players[1].mons[monIndex]
+window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
+  monster = battle.players[teamIndex].mons[monIndex]
+  abilityIndex = undefined
   if typeof monster isnt "undefined" 
-    if monster.hp > 0
-      $(".battle-message").text(
-        monster.name + ":" + " " + getRandom(monster.speech)).
-        effect("highlight", 500)
-      abilityIndex = getRandom(aiAbilities)
-      if monster.taunted.target is undefined || parseInt(battle.players[0].mons[monster.taunted.target].hp) <= 0 
-        window.targetIndex = getRandom(aiTargets)
+    if monster.hp > 0 or type is "death"
+      if teamIndex is 1 and type isnt "death"
+        $(".battle-message").text(
+          monster.name + ":" + " " + getRandom(monster.speech)).
+          effect("highlight", 500)
+      if teamIndex is 1 and type isnt "death"
+        abilityIndex = getRandom(aiAbilities)
+        if monster.taunted.target is undefined || parseInt(battle.players[teamIndex].mons[monster.taunted.target].hp) <= 0 
+          window.targetIndex = getRandom(aiTargets)
+        else 
+          window.targetIndex = monster.taunted.target
       else 
-        window.targetIndex = monster.taunted.target
-      ability = battle.players[1].mons[monIndex].abilities[abilityIndex]
+        abilityIndex = abilityDex
+      ability = battle.players[teamIndex].mons[monIndex].abilities[abilityIndex]
+      console.log(ability)
       switch ability.targeta
         when "attack"
           window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
@@ -1170,57 +1202,85 @@ window.controlAI = (monIndex) ->
             ), 1200
             return
         when "aoeenemy"
-          window.targets = [1].concat [monIndex, abilityIndex]
-          currentMon = $(".enemy .mon" + monIndex + " " + ".img")
-          currentMon.effect("bounce", {distance: 50, times: 1}, 800)
+          window.targets = [teamIndex].concat [monIndex, abilityIndex]
+          aoePosition = undefined
+          if teamIndex is 1 and ability.rarita isnt "death-passive"
+            $(".enemy .mon" + monIndex + " " + ".img").effect("bounce", {distance: 50, times: 1}, 800) 
+          if teamIndex is 1
+            aoePosition = "aoePositionUser"
+          else
+            aoePosition = "aoePositionFoe"
           abilityAnime = $(".ability-img")
           multipleAction()
           multipleTargetAbilityDisplayVariable()
-          $(".ability-img").toggleClass "aoePositionUser", ->
+          $(".ability-img").toggleClass aoePosition, ->
             element = $(this)
             element.finish().attr("src", callAbilityImg).toggleClass("flipped ability-on")
-            $(".user.mon-slot .img").each ->
-              if $(this).css("display") isnt "none"
-                if battle.players[0].mons[$(this).data("index")].isAlive() is false
-                  $(this).effect("explode", {pieces: 30}, 1200).hide()
-                else
-                  $(this).effect "shake", {times: 5, distance: 40}, 750
+            if teamIndex is 1
+              $(".user.mon-slot .img").each ->
+                if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
+                  if battle.players[0].mons[$(this).data("index")].isAlive() is false
+                    $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1200).hide()
+                  else
+                    $(this).effect "shake", {times: 5, distance: 40}, 750
+            else 
+              $(".enemy.mon-slot .img").each ->
+                if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
+                  if battle.players[1].mons[$(this).data("index")].isAlive() is false
+                    $(this).effect("explode", {pieces: 30}, 1200).hide()
+                  else
+                    $(this).effect "shake", {times: 5, distance: 40}, 750
             setTimeout (->
-              element.toggleClass "flipped ability-on aoePositionUser"
+              element.toggleClass "flipped ability-on"
+              element.toggleClass aoePosition
               element.attr("src", "")
-              showDamageTeam(0)
+              if teamIndex is 1
+                showDamageTeam(0)
+              else 
+                showDamageTeam(1)
               hpChangeBattle()
               checkMonHealthAfterEffect()            
               return
             ), 1200
             return
         when "aoeally", "aoecleanse"
-          window.targets = [1].concat [monIndex, abilityIndex]
-          currentMon = $(".enemy .mon" + monIndex + " " + ".img")
-          currentMon.effect("bounce", {distance: 50, times: 1}, 800)
+          window.targets = [teamIndex].concat [monIndex, abilityIndex]
+          if teamIndex is 1
+            currentMon = $(".enemy .mon" + monIndex + " " + ".img")
+            currentMon.effect("bounce", {distance: 50, times: 1}, 800)
+          aoePosition = undefined
+          if teamIndex is 0
+            aoePosition = "aoePositionUser"
+          else
+            aoePosition = "aoePositionFoe"
           abilityAnime = $(".ability-img")
-          checkMin()
           multipleAction()
           multipleTargetAbilityDisplayVariable()
-          $(".ability-img").toggleClass "aoePositionFoe", ->
+          $(".ability-img").toggleClass aoePosition, ->
             element = $(this)
             element.finish().attr("src", callAbilityImg).toggleClass("ability-on")
-            $(".enemy.mon-slot .img").each ->
-              if battle.players[0].mons[$(this).data("index")].hp > 0
+            images = undefined
+            if teamIndex is 1
+              images = ".enemy.mon-slot .img.mon-battle-image"
+            else 
+              images = ".user.mon-slot .img.mon-battle-image"
+            $(images).each ->
+              if battle.players[teamIndex].mons[$(this).data("index")].hp > 0
                 $(this).effect "bounce",
                   distance: 100
                   times: 1
                 , 800
             setTimeout (->
-              element.toggleClass "ability-on aoePositionFoe"
+              element.toggleClass "ability-on"
+              element.toggleClass aoePosition
               element.attr("src", "")
-              showHealTeam(1) if ability.stat isnt "cleanse"
+              showHealTeam(teamIndex) if ability.stat isnt "cleanse" 
               hpChangeBattle()
               checkMonHealthAfterEffect()
               return
             ), 1200
             return
-        when "targetally"     
+        when "targetally"    
           index = minimumHpPC()
           window.targets = [1].concat [monIndex, abilityIndex, index]
           currentMon = $(".enemy .mon" + monIndex + " " + ".img")
@@ -1253,9 +1313,7 @@ window.ai = ->
   $(".img").removeClass("controlling")
   $(".monBut").css("visibility", "hidden")
   $(".enemy .img").attr("disabled", "true")
-  toggleImg()
   $(".battle-message").fadeIn(1)
-  disable($(".end-turn"))
   battle.players[0].ap = 0
   battle.players[0].turn = false
   battle.players[1].ap = 1000000000
@@ -1264,22 +1322,22 @@ window.ai = ->
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
-      controlAI 1
+      controlAI(1,1,"regular","")
   ), timer1
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
-      controlAI 3
+      controlAI(1,3,"regular","")
   ), timer3
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
-      controlAI 2
+      controlAI(1,2,"regular","")
   ), timer2
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
-      controlAI 0
+      controlAI(1,0,"regular","")
   ), timer0
   setTimeout (->
     if teamPct() isnt 0
@@ -1304,23 +1362,33 @@ window.ai = ->
       updateAbilityScaling(0, "missing-hp")
       updateAbilityScaling(1, "missing-hp")
       hpChangeBattle()
-      apChange()
       zetBut()
       checkOutcome() if $("#overlay").css("display") is "none"
-      enable($("button"))
-      $(".ap").effect("highlight")
       $(".battle-message").fadeOut(100)
       $(".enemy .img").removeAttr("disabled")
       toggleEnemyClick()
       $(".monBut button").trigger("mouseleave")
-      toggleImg()
-      availableAbilities()
+      setTimeout (->
+        deathAbilitiesActivation("user")
+      ), 500
+      timeout = undefined
+      if deathAbilitiesToActivate["user"].length isnt 0 
+        timeout = deathAbilitiesToActivate["user"].length*3000 + 2000
+      else 
+        timeout = 500
+      setTimeout (->
+        apChange()
+        $(".ap").effect("highlight")
+        toggleImg()
+        availableAbilities()
+        deathAbilitiesToActivate["user"].length = 0
+        enable($("button"))
+      ), timeout
   ), timerRound
 
-####################################################################################################### Action helpers
+####################################################################################################### Object action helpers
 window.action = ->
   xadBuk()
-  checkMin()
   battle.monAbility(targets[0], targets[1], targets[2], targets[3])
   fixHp()
   checkMax()
@@ -1329,11 +1397,10 @@ window.action = ->
   setTimeout (->
     zetBut()
     checkOutcome()
-  ), 200
+  ), 250
 
 window.multipleAction = ->
   xadBuk()
-  checkMin()
   battle.monAbility(targets[0], targets[1], targets[2])
   fixHp()
   checkMax()
@@ -1342,8 +1409,42 @@ window.multipleAction = ->
   setTimeout (->
     zetBut()
     checkOutcome()
-  ), 200
+  ), 250
 
+# window.controlAI = (teamIndex, monIndex, type, abilityDex)
+
+window.activateDeathAbility = (team, index) ->
+  ability = deathAbilitiesToActivate[team][index]
+  $("." + ability.team + " " + ".mon" + ability.index + " " + ".img.passive").
+    effect("explode", {pieces: 30}, 550).remove()
+  if team is "user"
+    setTimeout (->
+      controlAI(ability.team, ability.index, "death", 2)
+    ), 800
+  else 
+    setTimeout (->
+      controlAI(ability.team, ability.index, "death", 4)
+    ), 800
+
+window.deathAbilitiesActivation = (team) ->
+  if deathAbilitiesToActivate[team].length isnt 0
+    i = 0
+    while i < deathAbilitiesToActivate[team].length
+      ability = deathAbilitiesToActivate[team][i]
+      delete battle.players[ability.team].mons[ability.index].passive_ability
+      i++
+    zetBut()
+    setTimeout (->
+      activateDeathAbility(team, 0)
+    ), 0
+    if deathAbilitiesToActivate[team].length is 2
+      setTimeout (->
+        activateDeathAbility(team, 1)
+      ), 3000
+    if deathAbilitiesToActivate[team].length is 3
+      setTimeout (->
+        activateDeathAbility(team, 2)
+      ), 6000
 ######################################################################################################### Passive activation helpers
 window.scaling = (passive, monster) ->
   if passive.targeta is "attack-scaling"
@@ -1353,6 +1454,8 @@ window.scaling = (passive, monster) ->
   else if passive.targeta is "ultimate-scaling"
     monster.abilities[1].change *= (1 + passive.change/100)
     monster.abilities[0].change *= (1 + passive.change/100)
+  monster.abilities[0].change = Math.round(monster.abilities[0].change)
+  monster.abilities[1].change = Math.round(monster.abilities[1].change)
 
 
 window.passiveScalingTeam = (team_num, type) ->
@@ -1392,11 +1495,15 @@ $ ->
   $(".img.mon-battle-image").each ->
     mon_image = $(this)
     href = mon_image.data("passive")
-    if href is ""
+    rarity = mon_image.data("rarity")
+    if href is "" or rarity is "death-passive"
       mon_image.next().css("opacity", "0")
     else
       mon_image.next().attr("src", href)
   window.effectBin = []
+  window.deathAbilitiesToActivate = {}
+  deathAbilitiesToActivate["user"] = []
+  deathAbilitiesToActivate["pc"] = []
   if document.getElementById("battle") isnt null
     $("a.fb-nav").not(".quest-show").on "click.leave", (event) ->
       $(document).off "click.cutscene", "#overlay"
@@ -1609,7 +1716,22 @@ $ ->
         ).on "mouseleave", ".user .monBut button", ->
           $(this).parent().parent().children(".abilityDesc").css({"z-index":"-1", "opacity": "0"})
           return
-        $(document).on("click.endTurn", "button.end-turn", ai)
+        $(document).on "click.endTurn", "button.end-turn", ->
+          disable($(".end-turn"))
+          toggleImg()
+          if deathAbilitiesToActivate["pc"].length > 0
+            xadBuk()
+            wait = deathAbilitiesToActivate["pc"].length * 3000 + 1600
+            setTimeout (->
+              deathAbilitiesActivation("pc")
+            ), 100
+            console.log(wait)
+            setTimeout (->
+              deathAbilitiesToActivate["pc"] = []
+              ai()
+            ), wait
+          else 
+            ai()
         $(document).on("mouseover", ".effect", ->
           index = @id
           e = effectBin[index]
@@ -1687,12 +1809,12 @@ $ ->
                         else
                           targetMon.effect "shake", 800
                       showDamageSingle()
-                      currentMon.finish().animate backPosition, 440
-                    ), 460
+                      currentMon.finish().animate backPosition, 500
+                    ), 500
                     setTimeout (->
                       singleTargetAbilityAfterActionDisplay()
                       toggleEnemyClick()
-                      ), 1000
+                      ), 1100
                 when "targetenemy"
                   enemyAbilityBeforeClickDisplay()
                   $(document).on "click.boom", ".enemy.mon-slot .img", ->
@@ -1762,7 +1884,7 @@ $ ->
                       setTimeout (->
                         multipleAction()
                         $(".enemy.mon-slot .img").each ->
-                          if $(this).css("display") isnt "none"
+                          if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
                             if battle.players[1].mons[$(this).data("index")].isAlive() is false
                               $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1500).hide()
                             else
