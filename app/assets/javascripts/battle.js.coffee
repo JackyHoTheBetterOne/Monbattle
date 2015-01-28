@@ -531,8 +531,10 @@ window.availableAbilities = () ->
       $(this).css("opacity", "0")
   if battle.players[0].ap >= battle.maxAP/2
     $(".gain-ap").attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/add-member.png")
+    document.getElementById("gain-ap").style.pointerEvents = "auto"
   else 
     $(".gain-ap").attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/remove-member.png")
+    document.getElementById("gain-ap").style.pointerEvents = "none"
 
 window.callAbilityImg = ->
   battle.players[targets[0]].mons[targets[1]].abilities[targets[2]].img
@@ -567,7 +569,6 @@ window.hpBarChange = (side, index) ->
 window.checkOutcome = ->
   if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
     window.clearInterval(battleTimer)
-    vitBop()
     $(document).off "mouseover"
     turnOffCommandA()
     toggleImg()
@@ -640,6 +641,7 @@ window.showHealTeam = (index) ->
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
+    vitBop()
     $.ajax
       url: "/battles/" + battle.id + "/loss"
       method: "get"
@@ -663,7 +665,7 @@ window.outcome = ->
         "time_taken": parseInt(seconds_taken)
       }
   else if battle.players[1].mons.every(isTeamDead) is true
-    $(".next-scene").css("top", "-265px")
+    vitBop()
     $.ajax
       url: "/battles/" + battle.id + "/win"
       method: "get"
