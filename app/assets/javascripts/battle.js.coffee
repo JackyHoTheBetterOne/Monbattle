@@ -1123,6 +1123,33 @@ window.updateApAbilityCost = (ap) ->
 
 ############################################################################################################ AI logics
 window.feedAiTargets = ->
+  if battle.round <= 3
+    window.aiAbilities = [0,1]
+    findTargetsBelowPct(1)
+  else if battle.round <= 6 && teamPct() <= 0.7
+    window.aiAbilities = [0,2]
+    findTargetsBelowPct(0.65)
+    findTargetsBelowPct(0.85) if aiTargets.length is 0
+  else if battle.round <= 6 && teamPct() > 0.7
+    window.aiAbilities = [1,2] 
+    findTargetsAbovePct(0.8)
+    findTargetsAbovePct(0.7) if aiTargets.length is 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   if battle.round > 5 && teamPct() > 0.6
     window.aiAbilities = [2,3]
     findTargetsAbovePct(0.5)
