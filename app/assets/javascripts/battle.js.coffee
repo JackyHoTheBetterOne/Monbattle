@@ -131,7 +131,7 @@ window.fixEvolMon = (monster, player) ->
               passive = monster.passive
               if passive.targeta is "resist-penetration" 
                 if passive.stat is "phy_resist" and parseInt(monTarget["phy_resist"]) > 0
-                  bonus = 1 + passive.change/100
+                  bonus = 1 + (passive.change/1000)*monat
                   window["change" + index] = eval(a.change * a.scaling * bonus - monTarget["phy_resist"])
             else
               window["change" + index] = eval(a.change * a.scaling - monTarget["phy_resist"])
@@ -1123,7 +1123,7 @@ window.updateApAbilityCost = (ap) ->
 
 ############################################################################################################ AI logics
 window.feedAiTargets = ->
-  if battle.round <= 4
+  if battle.round <= 3
     window.aiAbilities = [0,1]
     findTargetsBelowPct(1)
   else if battle.round <= 7 && teamPct() <= 0.7
@@ -1343,9 +1343,9 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
 
 ############################################################################################################### AI action happening
 window.ai = ->
+  xadBuk()
   $(".availability-arrow").each ->
     $(this).css("opacity", "0")
-  xadBuk()
   $(".img").removeClass("controlling")
   $(".monBut").css("visibility", "hidden")
   $(".enemy .img").attr("disabled", "true")
@@ -1353,8 +1353,8 @@ window.ai = ->
   battle.players[0].ap = 0
   battle.players[0].turn = false
   battle.players[1].ap = 1000000000
-  zetBut()
   enemyTimer()
+  zetBut()
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
@@ -1398,8 +1398,8 @@ window.ai = ->
       updateAbilityScaling(0, "missing-hp")
       updateAbilityScaling(1, "missing-hp")
       hpChangeBattle()
-      zetBut()
       checkOutcome() if $("#overlay").css("display") is "none"
+      zetBut()
       $(".battle-message").fadeOut(100)
       $(".enemy .img").removeAttr("disabled")
       toggleEnemyClick()
@@ -1433,8 +1433,8 @@ window.action = ->
   updateAbilityScaling(0, "missing-hp")
   updateAbilityScaling(1, "missing-hp")
   setTimeout (->
-    zetBut()
     checkOutcome()
+    zetBut()
   ), 250
 
 window.multipleAction = ->
@@ -1445,8 +1445,8 @@ window.multipleAction = ->
   updateAbilityScaling(0, "missing-hp")
   updateAbilityScaling(1, "missing-hp")
   setTimeout (->
-    zetBut()
     checkOutcome()
+    zetBut()
   ), 250
 
 # window.controlAI = (teamIndex, monIndex, type, abilityDex)
@@ -1471,8 +1471,8 @@ window.deathAbilitiesActivation = (team) ->
       ability = deathAbilitiesToActivate[team][i]
       delete battle.players[ability.team].mons[ability.index].passive_ability
       i++
-    zetBut()
     if $("#overlay").css("display") is "none"
+      zetBut()
       setTimeout (->
         activateDeathAbility(team, 0)
       ), 0
@@ -1588,7 +1588,9 @@ $ ->
             $(".skip-button").remove()
             $(".next-scene").remove()
             $(document).off "click.skip", ".skip-button"
-            zetBut()
+            setTimeout (->
+              zetBut()
+            ), 200
         $(document).on "click.cutscene", "#overlay", ->
           if $(".cutscene").attr("src") is battle.start_cut_scenes[battle.start_cut_scenes.length-1] or 
               battle.start_cut_scenes.length is 0
@@ -1771,8 +1773,8 @@ $ ->
         $(document).on "click.endTurn", "button.end-turn", ->
           disable($(".end-turn"))
           toggleImg()
+          xadBuk()
           if deathAbilitiesToActivate["pc"].length > 0 and $("#overlay").css("display") is "none"
-            xadBuk()
             wait = deathAbilitiesToActivate["pc"].length * 3000 + 1600
             setTimeout (->
               deathAbilitiesActivation("pc")
@@ -1821,9 +1823,9 @@ $ ->
             apChange()
             setTimeout (->
               updateApAbilityCost(parseInt(battle.maxAP))
-              zetBut()
               $("#ap-tip").toggleClass("flip animated")
               availableAbilities()
+              zetBut()
               flashEndButton()
             ), 1000
           else 
