@@ -967,7 +967,7 @@ window.flashEndButton = ->
     else
       timer = 1300
     setTimeout (->
-      $(".end-turn").trigger("click")
+      $(".end-turn").trigger("click") if $("#overlay").css("display") is "none"
       return
     ), timer
     return
@@ -1758,7 +1758,7 @@ $ ->
         $(document).on "click.endTurn", "button.end-turn", ->
           disable($(".end-turn"))
           toggleImg()
-          if deathAbilitiesToActivate["pc"].length > 0
+          if deathAbilitiesToActivate["pc"].length > 0 and $("#overlay").css("display") is "none"
             xadBuk()
             wait = deathAbilitiesToActivate["pc"].length * 3000 + 1600
             setTimeout (->
