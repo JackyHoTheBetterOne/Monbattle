@@ -12,7 +12,7 @@
           h4=f.label "Select an Element for this Effect: element needs to be gone"
           .form-control=f.collection_select :element_id, Element.all, :id, :name
           h4=f.label "Select a Target for this Effect"
-          .form-control=f.collection_select :target_id, Target.all, :id, :name
+          .form-control=f.collection_select :target_id, Target.effect, :id, :name
           h4=f.label "Select the Stat Targeted for this Effect"
           .form-control=f.collection_select :stat_target_id, StatTarget.all, :id, :name
           =f.input :name

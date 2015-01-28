@@ -6,4 +6,13 @@ class Target < ActiveRecord::Base
 
   scope :alphabetical, -> { order('name') }
 
+  belongs_to :target_category
+
+  scope :effect, -> () {
+    joins(:target_category).where("target_categories.name = 'effect'")
+  }
+
+  scope :ability, -> () {
+    joins(:target_category).where("target_categories.name = 'ability'")
+  }
 end

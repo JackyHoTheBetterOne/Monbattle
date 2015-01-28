@@ -88,6 +88,12 @@
     <div class="ap-meter">
       <%= image_tag("APBar1px.gif", class: "bar") %>
     </div>
+    <%= image_tag("add-member.png", class: "gain-ap", onclick: "playIt()",
+        data: {index: "", apcost: 10, target: "action-point"})  %>
+  </div>
+
+  <div class="ap-gain-information">
+    Spend <span>10</span> APs this round to gain 10 maximum AP 
   </div>
 
   <button class="end-turn" id="end-turn-tip" onclick="playIt()">End Turn</button>

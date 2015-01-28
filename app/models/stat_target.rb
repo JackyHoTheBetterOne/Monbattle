@@ -5,4 +5,5 @@ class StatTarget < ActiveRecord::Base
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
 
   scope :alphabetical, -> { order('name') }
+
 end
