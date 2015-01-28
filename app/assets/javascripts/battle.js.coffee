@@ -1460,17 +1460,18 @@ window.deathAbilitiesActivation = (team) ->
       delete battle.players[ability.team].mons[ability.index].passive_ability
       i++
     zetBut()
-    setTimeout (->
-      activateDeathAbility(team, 0)
-    ), 0
-    if deathAbilitiesToActivate[team].length is 2
+    if $("#overlay").css("display") is "none"
       setTimeout (->
-        activateDeathAbility(team, 1)
-      ), 3000
-    if deathAbilitiesToActivate[team].length is 3
-      setTimeout (->
-        activateDeathAbility(team, 2)
-      ), 6000
+        activateDeathAbility(team, 0)
+      ), 0
+      if deathAbilitiesToActivate[team].length is 2
+        setTimeout (->
+          activateDeathAbility(team, 1) if $("#overlay").css("display") is "none"
+        ), 3000
+      if deathAbilitiesToActivate[team].length is 3
+        setTimeout (->
+          activateDeathAbility(team, 2) if $("#overlay").css("display") is "none"
+        ), 6000
 
 
 
