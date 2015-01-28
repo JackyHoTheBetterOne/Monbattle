@@ -1110,10 +1110,10 @@ window.minimumHpPC = ->
   return healPC.index
 
 window.updateApAbilityCost = (ap) ->
+  cost = parseInt(ap)
   i = 0 
   while i < battle.players[0].mons.length
     if battle.players[0].mons[i].abilities[1].targeta is "action-point"
-      cost = parseInt(ap)
       battle.players[0].mons[i].abilities[1].ap_cost = cost/2
       $(".user " + ".mon" + i + " " + ".action.ability").data("apcost", cost/2) 
     i++
@@ -1123,29 +1123,41 @@ window.updateApAbilityCost = (ap) ->
 
 ############################################################################################################ AI logics
 window.feedAiTargets = ->
-  if battle.round > 5 && teamPct() > 0.6
-    window.aiAbilities = [2,3]
-    findTargetsAbovePct(0.5)
-    findTargetsBelowPct(0.9) if aiTargets.length is 0
-  else if teamPct() > 0.8
+  if battle.round <= 4
     window.aiAbilities = [0,1]
     findTargetsBelowPct(1)
-  else if teamPct() <= 0.8 && teamPct() > 0.6
+  else if battle.round <= 7 && teamPct() <= 0.7
+    window.aiAbilities = [0,2]
+    findTargetsBelowPct(0.65)
+    findTargetsBelowPct(0.85) if aiTargets.length is 0
+  else if battle.round <= 7 && teamPct() > 0.7
+    window.aiAbilities = [1,2] 
+    findTargetsAbovePct(0.8)
+    findTargetsAbovePct(0.7) if aiTargets.length is 0
+  else if battle.round <= 10 && teamPct() <= 0.5
     window.aiAbilities = [1,2]
     findTargetsBelowPct(0.5)
-    findTargetsBelowPct(0.9) if aiTargets.length is 0
-  else if teamPct() <= 0.6 && teamPct() > 0.4
-    window.aiAbilities = [1,3]
-    findTargetsAbovePct(0.6)
-    findTargetsAbovePct(0.3) if aiTargets.length is 0
-  else if teamPct() <= 0.4 && teamPct() > 0.2
+    findTargetsBelowPct(0.7) if aiTargets.length is 0 
+  else if battle.round <= 10 && teamPct() > 0.5
     window.aiAbilities = [2,3]
-    findTargets(1800)
-    findTargets(3500) if aiTargets.length is 0
-  else if teamPct() <= 0.2
-    window.aiAbilities = [0,3]
-    findTargets(1000)
-    findTargets(3500) if aiTargets.length is 0
+    findTargetsAbovePct(0.75)
+    findTargetsAbovePct(0.5) if aiTargets.length is 0
+  else if battle.round <= 13 && teamPct() > 0.5
+    window.aiAbilities = [3]
+    findTargetsAbovePct(0.5) 
+    findTargetsAbovePct(0.2) if aiTargets.length is 0
+  else if battle.round <= 13 && teamPct() <= 0.5
+    window.aiAbilities = [1,2,3]
+    findTargetsBelowPct(0.3)
+    findTargetsBelowPct(0.6) if aiTargets.length is 0
+  else if battle.round > 13 && teamPct() > 0.4
+    window.aiAbilities = [3]
+    findTargetsAbovePct(0.4)
+    findTargetsAbovePct(0.01) if aiTargets.length is 0
+  else if battle.round > 13 && teamPct() <= 0.4 
+    window.aiAbilities = [0,2,3]
+    findTargetsBelowPct(0.3)
+    findTargetsBelowPct(0.7) if aiTargets.length is 0
 
 
 
@@ -2032,7 +2044,6 @@ $ ->
                   ), 2000
                   return
           else
-            console.log("wtf man")
             $(this).add(".ap").effect("highlight", {color: "red"}, 100)
             alert("You have insufficient ap to use this skill.")
             $(".end-turn").prop("disabled", false)
