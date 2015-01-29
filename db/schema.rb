@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150127231206) do
+ActiveRecord::Schema.define(version: 20150128224222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,8 @@ ActiveRecord::Schema.define(version: 20150127231206) do
     t.boolean  "is_hacked",           default: true
     t.date     "finished"
     t.integer  "time_taken"
+    t.boolean  "admin",               default: false
+    t.string   "session_id"
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree

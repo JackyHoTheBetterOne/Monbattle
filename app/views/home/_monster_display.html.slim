@@ -12,6 +12,7 @@
   p HP: #{mon.max_hp}
   .monster-passive-equipped
     -unless !mon.passive_img
+      p.passive-title Passive
       =image_tag(mon.passive_port, class: "equipping-passive-image")
       .monster-equipping-passive-description
         span.passive-name=mon.passive_name + ":"

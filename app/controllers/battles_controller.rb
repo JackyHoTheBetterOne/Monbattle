@@ -52,6 +52,8 @@ class BattlesController < ApplicationController
     @battle = create_battle.battle
 
     if current_user.summoner.stamina >= @battle.battle_level.stamina_cost
+      @battle.admin = true if current_user.email == "muffintopper420@mombattle.com"
+      @battle.session_id = request.session_options[:id]
       @battle.save
       redirect_to @battle 
     else 
@@ -93,6 +95,7 @@ class BattlesController < ApplicationController
 
   def update
     @battle.finished = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
+    @battle.is_hacked = false
     @battle.outcome = "complete"
     @battle.finished = Time.now.to_date
     @battle.update_attributes(update_params)
@@ -210,7 +213,7 @@ class BattlesController < ApplicationController
   end
 
   def unlock_level_and_ability
-    @battle.battle_level.unlock_for_summoner(@battle.victor, @battle.round_taken) 
+    @battle.battle_level.unlock_for_summoner(@battle.victor, @battle.round_taken, @battle.id) 
   end
 
   def finish_battle

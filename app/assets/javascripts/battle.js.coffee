@@ -76,7 +76,7 @@ window.fixEvolMon = (monster, player) ->
     ability = @
     a = @
     ability.isAlive = ->
-      battle.players(@index).mons[@index].isAlive()
+      battle.players[@team].mons[@index].isAlive()
     ability.use = (abilitytargets) ->
       if a.targeta.indexOf("aoe") isnt -1 && findObjectInArray(monster.cursed, "targeta", "aoe-curse") > 0
         e = usefulArray[0]
@@ -531,9 +531,10 @@ window.availableAbilities = () ->
       $(this).css("opacity", "0")
   if battle.players[0].ap >= battle.maxAP/2
     $(".gain-ap").attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/add-member.png")
+    $(".gain-ap").css("opacity", "1")
     document.getElementById("gain-ap").style.pointerEvents = "auto"
   else 
-    $(".gain-ap").attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/remove-member.png")
+    $(".gain-ap").css("opacity", "0.5")
     document.getElementById("gain-ap").style.pointerEvents = "none"
 
 window.callAbilityImg = ->
@@ -641,7 +642,6 @@ window.showHealTeam = (index) ->
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
-    vitBop()
     $.ajax
       url: "/battles/" + battle.id + "/loss"
       method: "get"
@@ -665,7 +665,6 @@ window.outcome = ->
         "time_taken": parseInt(seconds_taken)
       }
   else if battle.players[1].mons.every(isTeamDead) is true
-    vitBop()
     $.ajax
       url: "/battles/" + battle.id + "/win"
       method: "get"
@@ -860,6 +859,23 @@ window.multipleTargetAbilityDisplayVariable = ->
 
 
 ################################################################################################### Battle interaction helpers
+window.turnOnApButton = ->
+  $(document).on "click.ap-gain", ".gain-ap", ->
+    if $(this).data("apcost") <= battle.players[0].ap
+      xadBuk()
+      battle.players[0].gainAp()
+      $("#ap-tip").toggleClass("flip animated")
+      apChange()
+      setTimeout (->
+        updateApAbilityCost(parseInt(battle.maxAP))
+        $("#ap-tip").toggleClass("flip animated")
+        availableAbilities()
+        zetBut()
+        flashEndButton()
+      ), 750
+    else 
+      alert("You don't have enough ap!")
+
 window.userTargetClick = ->
   $(document).on("mouseover.friendly", ".user.mon-slot .img", ->
     $(this).css("background", "rgba(255, 241, 118, .58)")
@@ -927,11 +943,14 @@ window.turnOnCommandA = ->
   $(document).on "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
   $(document).on "mouseover.command", ".user.mon-slot .img", mouseOverMon
   $(document).on "mousemove.command", ".user.mon-slot .img", mouseOverMon
+  turnOnApButton()
 
 window.turnOffCommandA = ->
   $(document).off "mouseleave.command", ".user.mon-slot .mon"
   $(document).off "mouseover.command", ".user.mon-slot .img"
   $(document).off "mousemove.command", ".user.mon-slot .img"
+  $(".gain-ap").css("pointer-events", "none")
+  $(document).off "click.ap-gain", ".gain-ap"
 
 window.turnOff = (name, team) ->
   $(document).off name, team + ".mon-slot .img"
@@ -980,6 +999,7 @@ window.toggleEnemyClick = ->
       $(this).prop("disabled", false)
     else
       $(this).prop("disabled", true)
+
 
 
 ###################################################################################################### Effect happening helpers
@@ -1125,7 +1145,7 @@ window.updateApAbilityCost = (ap) ->
 
 ############################################################################################################ AI logics
 window.feedAiTargets = ->
-  if battle.round <= 3
+  if battle.round <= 4
     window.aiAbilities = [0,1]
     findTargetsBelowPct(1)
   else if battle.round <= 7 && teamPct() <= 0.7
@@ -1408,7 +1428,7 @@ window.ai = ->
       $(".monBut button").trigger("mouseleave")
       setTimeout (->
         deathAbilitiesActivation("user")
-      ), 500
+      ), 750
       timeout = undefined
       if deathAbilitiesToActivate["user"].length isnt 0 
         timeout = deathAbilitiesToActivate["user"].length*3000 + 2000
@@ -1436,8 +1456,11 @@ window.action = ->
   updateAbilityScaling(1, "missing-hp")
   setTimeout (->
     checkOutcome()
-    zetBut()
   ), 250
+  setTimeout (->
+    zetBut() if $("#overlay").css("display") is "none"
+  ), 400
+
 
 window.multipleAction = ->
   xadBuk()
@@ -1448,8 +1471,10 @@ window.multipleAction = ->
   updateAbilityScaling(1, "missing-hp")
   setTimeout (->
     checkOutcome()
-    zetBut()
   ), 250
+  setTimeout (->
+    zetBut() if $("#overlay").css("display") is "none"
+  ), 400
 
 # window.controlAI = (teamIndex, monIndex, type, abilityDex)
 
@@ -1780,7 +1805,7 @@ $ ->
             wait = deathAbilitiesToActivate["pc"].length * 3000 + 1600
             setTimeout (->
               deathAbilitiesActivation("pc")
-            ), 100
+            ), 250
             console.log(wait)
             setTimeout (->
               deathAbilitiesToActivate["pc"] = []
@@ -1809,6 +1834,7 @@ $ ->
           index = @id
           e = effectBin[index]
           $(".effect-info").css("opacity", "0")
+#############################################################################################################  User move interaction
         $(document).on("mouseover.ap-gain", ".gain-ap", ->
           cost = $(this).data("apcost")
           console.log($(this).data("apcost"))
@@ -1816,22 +1842,6 @@ $ ->
           $(".ap-gain-information").css({"z-index":"1000", "opacity":"1"})
         ).on "mouseleave.ap-gain", ".gain-ap", ->
           $(".ap-gain-information").css({"z-index":"-1000", "opacity":"0"})
-#############################################################################################################  User move interaction
-        $(document).on "click.ap-gain", ".gain-ap", ->
-          if $(this).data("apcost") <= battle.players[0].ap
-            xadBuk()
-            battle.players[0].gainAp()
-            $("#ap-tip").toggleClass("flip animated")
-            apChange()
-            setTimeout (->
-              updateApAbilityCost(parseInt(battle.maxAP))
-              $("#ap-tip").toggleClass("flip animated")
-              availableAbilities()
-              zetBut()
-              flashEndButton()
-            ), 1000
-          else 
-            alert("You don't have enough ap!")
         $(document).on "click.button", ".user.mon-slot .monBut button", ->
           $(".end-turn").prop("disabled", true)
           $(".end-turn").css("opacity", "0.5")
