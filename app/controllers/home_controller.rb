@@ -85,6 +85,7 @@ class HomeController < ApplicationController
     @summoner = current_user.summoner
 
     if rolling.message
+      current_user.track_rolling(@treasure.rarity)
       render :json => {
         message: @treasure.message,
         gp: @summoner.gp,
@@ -130,7 +131,6 @@ class HomeController < ApplicationController
       @monster_students = "initial"
     end
   end
-
 
   private
 

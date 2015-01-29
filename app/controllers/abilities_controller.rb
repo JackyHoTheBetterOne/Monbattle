@@ -43,9 +43,11 @@ class AbilitiesController < ApplicationController
 
   def find_abilities
     if params[:filter]
-      @abilities = policy_scope( Ability.unscoped.filter_it(params[:filter]))
+      @abilities = policy_scope( Ability.unscoped.filter_it(params[:filter]).
+                    paginate(:page => params[:page], :per_page => 20))
     else
-      @abilities = policy_scope( Ability.alphabetical )
+      @abilities = policy_scope( Ability.alphabetical.
+                    paginate(:page => params[:page], :per_page => 20))
     end
     @abilities.includes(:effects, :stat_target, :target, :abil_socket, :jobs, :rarity)
   end
