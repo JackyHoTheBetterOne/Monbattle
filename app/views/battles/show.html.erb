@@ -1,4 +1,4 @@
-<%= javascript_include_tag "jquery.joyride-2.1" %>
+<%= javascript_include_tag "hopscotch.min" %>
 
 <% if @battle.battle_level.music %>
   <audio controls autoplay loop class="hide">
@@ -107,25 +107,7 @@
 </div>
 
 
-
-
-
 <div id="embed"></div>
-
-
-<!-- Joy Ride -->
-
-<div id="first-stop"></div>
-
-<div id="last-stop"></div>
-
-<ol id="battle-tutorial" hidden>
-  <li data-id="first-stop">This is your party. You control each monster by clicking on their image.</li>
-  <li data-id="first-stop">There are three actions: Attack, Ability and Evolve.</li>
-  <li data-id="ap-tip">Each action costs ability points (AP). You have a finite amount of AP. Your total AP increases by 10 per round, to a maximum 80.</li>
-  <li data-id="end-turn-tip">When you have no other actions available or AP left, your "End Turn" button will highlight. Once the button is clicked, the enemy monsters will make their moves.</li>
-  <li data-id="last-stop"> Now let's beat these guys to a pulp!</li>
-</ol>
 
 
 

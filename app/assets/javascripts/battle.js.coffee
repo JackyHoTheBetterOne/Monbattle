@@ -1459,7 +1459,7 @@ window.action = ->
   ), 250
   setTimeout (->
     zetBut() if $("#overlay").css("display") is "none"
-  ), 400
+  ), 500
 
 
 window.multipleAction = ->
@@ -1474,7 +1474,7 @@ window.multipleAction = ->
   ), 250
   setTimeout (->
     zetBut() if $("#overlay").css("display") is "none"
-  ), 400
+  ), 500
 
 # window.controlAI = (teamIndex, monIndex, type, abilityDex)
 
