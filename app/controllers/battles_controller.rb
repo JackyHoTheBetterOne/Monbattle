@@ -95,6 +95,7 @@ class BattlesController < ApplicationController
 
   def update
     @battle.finished = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
+    @battle.is_hacked = false
     @battle.outcome = "complete"
     @battle.finished = Time.now.to_date
     @battle.update_attributes(update_params)
