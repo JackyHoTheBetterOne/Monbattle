@@ -1,8 +1,6 @@
-<%= javascript_include_tag "hopscotch.min" %>
-
-<% if @battle.battle_level.music %>
+<% if !@battle.battle_level.music %>
   <audio controls autoplay loop class="hide">
-
+    <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
   </audio>
 <% end %>
 
@@ -85,7 +83,7 @@
   <div class="ap" id="ap-tip">
     <%= image_tag("hero-icon.png", size: "42x42", class: "baby")%>
     <p class="ap-number">AP:   1000 / 1000 </p>
-    <div class="ap-meter">
+    <div class="ap-meter" id="ap-meter">
       <%= image_tag("APBar1px.gif", class: "bar") %>
     </div>
     <%= image_tag("add-member.png", class: "gain-ap", id: "gain-ap", onclick: "playIt()",
@@ -93,7 +91,7 @@
   </div>
 
   <div class="ap-gain-information">
-    Spend <span>10</span> APs this round to gain 10 maximum AP 
+    Spend <span>10</span> AP this round to gain 10 maximum AP 
   </div>
 
   <button class="end-turn" id="end-turn-tip" onclick="playIt()">End Turn</button>
@@ -109,7 +107,7 @@
 
 <div id="embed"></div>
 
-
+<%= javascript_include_tag "hopscotch" %>
 
 
 
