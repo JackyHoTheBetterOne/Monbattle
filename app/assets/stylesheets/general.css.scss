@@ -96,7 +96,46 @@ h1, h3, h2 {
 };
 
 
+///////////////////////////////////////////////////////////////// hopscotch customization
 
+.hopscotch-next {
+  background: transparent !important;
+  border: none !important;
+  position: relative;
+  left: 14px;
+  top: 5px;
+  outline: none !important;
+  transition: 0.3s;
+  img {
+    height: 30px;
+    position: relative;
+  };
+};
 
+button.hopscotch-next:hover {
+  box-shadow: none !important;
+};
 
+.hopscotch-bubble-container {
+  background: #3D3C3C;
+  color: white;
+  border-radius: 5px;
+  .hopscotch-title {
+    color: white;
+  };
+};
+
+.hopscotch-bubble {
+  background: rgba(0, 0, 0, 0.8) !important; 
+  box-shadow: 0px -1px 25px yellow;
+  transition: box-shadow 0.3s;
+};
+
+.hopscotch-close {
+  background-size: cover;
+  right: -13px !important;
+  height: 10px;
+  width: 10px;
+  top: -12px !important;
+};
 

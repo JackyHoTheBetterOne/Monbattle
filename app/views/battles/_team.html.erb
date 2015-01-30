@@ -1,5 +1,5 @@
 <% if party.npc == false %>
-  <%= image_tag("story-arrow.png", class: "availability-arrow") %>
+  <%= image_tag("story-arrow.gif", class: "availability-arrow") %>
   <div class="monBut">
     <p class="mon-name"><%= mon.name %></p>
     <button class="action attack" data-index= "0" data-apcost = "<%= mon.cost(0) %>"  
@@ -22,7 +22,8 @@
 
 <input class="img mon-battle-image" src="<%= mon.image(party.user) %>" data-index="<%= party.mon_dex(mon) %>" 
       type="image" alt="monster image" data-passive="<%= mon.passive_img %>" 
-      data-targetpassive = "<%= mon.passive_target %>" data-rarity = "<%= mon.passive_rarity %>" >
+      data-targetpassive = "<%= mon.passive_target %>" data-rarity = "<%= mon.passive_rarity %>" 
+      id="<%= party.mon_dex(mon) if party.npc == false  %><%= 'mon' if party.npc == false %>">
 <input class="img passive" src="" type="image" alt="passive image" data-target = "<%= mon.passive_target %>" 
        data-apcost = "0" data-index="<%= party.mon_dex(mon) %>">
       

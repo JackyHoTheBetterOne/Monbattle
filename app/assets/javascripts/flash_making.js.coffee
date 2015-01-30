@@ -17,7 +17,7 @@ window.flashMaking = ->
         $(".flash-store").append(html)
         $(".fade.in.ability").addClass("bounceIn animated")
         i++
-  ), 100
+  ), 250
   setTimeout (->
     if typeof window.newAbilitiesLearned isnt "undefined"
       flash_array = window.newAbilitiesLearned
@@ -33,7 +33,7 @@ window.flashMaking = ->
         $(".flash-store").append(html)
         $(".fade.in.ability").addClass("bounceIn animated")
         i++
-  ), 100
+  ), 250
 
 $ ->
   flashMaking()

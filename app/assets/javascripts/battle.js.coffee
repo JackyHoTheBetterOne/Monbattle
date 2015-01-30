@@ -642,6 +642,7 @@ window.showHealTeam = (index) ->
 
 window.outcome = ->
   if battle.players[0].mons.every(isTeamDead) is true
+    $(".skip-button").remove()
     $.ajax
       url: "/battles/" + battle.id + "/loss"
       method: "get"
@@ -665,6 +666,7 @@ window.outcome = ->
         "time_taken": parseInt(seconds_taken)
       }
   else if battle.players[1].mons.every(isTeamDead) is true
+    $(".next-scene").css("top", "10px")
     $.ajax
       url: "/battles/" + battle.id + "/win"
       method: "get"
@@ -746,6 +748,10 @@ window.addEffectIcon = (monster, effect) ->
   e.end = effect.duration + battle.round
   effectBin.push(e)
   index = effectBin.indexOf(e)
+  if index is 0
+    setTimeout (->
+      hopscotch.startTour(first_effect_tour)
+    ), 500
   $("<img src = '#{effect.img}' class = 'effect #{monster.name} #{effect.name} #{effect.targeta}' id='#{index}' >").
     prependTo("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").addClass("tada animated")
   setTimeout (->
@@ -775,6 +781,7 @@ window.battleStartDisplay = (time) ->
         $(this).css("background", "rgba(255, 0, 0,0.5)")
       $(".foe-indication").addClass("bounceIn animated")
       setTimeout (->
+        hopscotch.startTour(first_battle_tour)
         $(".foe-indication").removeClass("bounceIn animated")
         $(".foe-indication").css("opacity", "0")
         $(".enemy .img").each ->
@@ -789,14 +796,14 @@ window.battleStartDisplay = (time) ->
 
 ################################################################################################### Display function-calling helpers
 window.singleTargetAbilityAfterClickDisplay = (ability) ->
-  $(".availability-arrow").each ->
-    $(this).css("opacity", "0")
   disable(ability)
   $(".img").css("background", "transparent")
   $(".enemy .mon-name").css("opacity", "0")
   offUserTargetClick()
   turnOff("click.boom", ".enemy")
   turnOff("click.help", ".user")
+  $(".availability-arrow").each ->
+    $(this).css("opacity", "0")
   $(document).off "click.cancel", ".cancel"
   $(".user .img").removeClass("controlling")
   $(".battle-guide").hide()
@@ -824,6 +831,8 @@ window.singleTargetAbilityAfterActionDisplay = ->
   flashEndButton()
 
 window.allyAbilityBeforeClickDisplay = ->
+  $(".availability-arrow").each ->
+    $(this).css("opacity", "0")
   userTargetClick()
   $(".battle-guide.guide").text("Select an ally target to activate")
   $(".battle-guide").show()
@@ -832,6 +841,8 @@ window.allyAbilityBeforeClickDisplay = ->
   toggleImg()
 
 window.enemyAbilityBeforeClickDisplay = ->
+  $(".availability-arrow").each ->
+    $(this).css("opacity", "0")
   $(".battle-guide.guide").text("Select an enemy target to activate")
   $(".battle-guide").show()
   $(".battle-guide.cancel, .battle-guide").css("z-index", "15000")
@@ -1428,7 +1439,7 @@ window.ai = ->
       $(".monBut button").trigger("mouseleave")
       setTimeout (->
         deathAbilitiesActivation("user")
-      ), 750
+      ), 800
       timeout = undefined
       if deathAbilitiesToActivate["user"].length isnt 0 
         timeout = deathAbilitiesToActivate["user"].length*3000 + 2000
@@ -1459,7 +1470,7 @@ window.action = ->
   ), 250
   setTimeout (->
     zetBut() if $("#overlay").css("display") is "none"
-  ), 400
+  ), 500
 
 
 window.multipleAction = ->
@@ -1474,22 +1485,23 @@ window.multipleAction = ->
   ), 250
   setTimeout (->
     zetBut() if $("#overlay").css("display") is "none"
-  ), 400
+  ), 500
 
 # window.controlAI = (teamIndex, monIndex, type, abilityDex)
 
 window.activateDeathAbility = (team, index) ->
-  ability = deathAbilitiesToActivate[team][index]
-  $("." + ability.team + " " + ".mon" + ability.index + " " + ".img.passive").
-    effect("explode", {pieces: 30}, 550).remove()
-  if team is "user"
-    setTimeout (->
-      controlAI(ability.team, ability.index, "death", 2)
-    ), 800
-  else 
-    setTimeout (->
-      controlAI(ability.team, ability.index, "death", 4)
-    ), 800
+  if $("#overlay").css("display") is "none"
+    ability = deathAbilitiesToActivate[team][index]
+    $("." + ability.team + " " + ".mon" + ability.index + " " + ".img.passive").
+      effect("explode", {pieces: 30}, 550).remove()
+    if team is "user"
+      setTimeout (->
+        controlAI(ability.team, ability.index, "death", 2)
+      ), 800
+    else 
+      setTimeout (->
+        controlAI(ability.team, ability.index, "death", 4)
+      ), 800
 
 window.deathAbilitiesActivation = (team) ->
   if deathAbilitiesToActivate[team].length isnt 0
@@ -1502,15 +1514,15 @@ window.deathAbilitiesActivation = (team) ->
       zetBut()
       setTimeout (->
         activateDeathAbility(team, 0)
-      ), 0
+      ), 250
       if deathAbilitiesToActivate[team].length is 2
         setTimeout (->
           activateDeathAbility(team, 1) if $("#overlay").css("display") is "none"
-        ), 3000
+        ), 3250
       if deathAbilitiesToActivate[team].length is 3
         setTimeout (->
           activateDeathAbility(team, 2) if $("#overlay").css("display") is "none"
-        ), 6000
+        ), 6250
 
 
 
@@ -1802,10 +1814,10 @@ $ ->
           toggleImg()
           xadBuk()
           if deathAbilitiesToActivate["pc"].length > 0 and $("#overlay").css("display") is "none"
-            wait = deathAbilitiesToActivate["pc"].length * 3000 + 1600
+            wait = deathAbilitiesToActivate["pc"].length * 3000 + 2000
             setTimeout (->
               deathAbilitiesActivation("pc")
-            ), 250
+            ), 200
             console.log(wait)
             setTimeout (->
               deathAbilitiesToActivate["pc"] = []
@@ -1851,7 +1863,6 @@ $ ->
             $(".user .monBut").css({"visibility":"hidden", "opacity":"0"})
             toggleImg()
             $(document).on "click.cancel",".cancel", ->
-              availableAbilities()
               offUserTargetClick()
               $(".user .img").removeClass("controlling")
               $(".battle-guide").hide()
@@ -1865,6 +1876,7 @@ $ ->
                 $(this).prop("disabled", true)
               $(".user .img").each ->
                 $(this).prop("disabled", false)
+              availableAbilities()
               targets = []
               return
             window.targets = targets.concat(ability.data("index"))  if targets.length isnt 3

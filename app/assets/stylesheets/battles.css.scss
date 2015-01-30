@@ -142,8 +142,8 @@ $theme-background-color: rgba(32, 32, 32, 1);
   z-index: 10000000000000000;
   .skip-button {
     position: absolute;
-    bottom: 30px;
-    right: 30px;
+    top: 18px;
+    margin-left: 408px;
     height: 30px;
     width: 60px;
     border: 2px solid black;
@@ -314,6 +314,7 @@ body {
   };
   .ap-gain-information {
     width: 255px;
+    color: white;
     background: #3D3C3C;
     height: 50px;
     padding-top: 4px;

@@ -22,18 +22,30 @@
     top: 312px;
     border: 2px solid black;
     outline: none;
+    box-shadow: 5px 5px 5px black;
   };
   .end-battle-but.ability-equip {
-    left: 66px;
+    left: 111px;
     padding-left: 3px;
   };
   .end-battle-but.level-select-but {
-    left: 350px;
+    left: 462px;
+    background: transparent !important;
+    box-shadow: none;
+    border: none;
     padding-left: 1px;
     padding-top: 14px;
+    top: 190px;
+    height: 78px;
+    width: 80px;
+    .next-but {
+      height: 70px;
+      position: relative;
+      top: -12px;
+    };
   };
   .end-battle-but.learn-ability-but {
-    left: 211px;
+    left: 309px;
   };
   .end-battle-but:hover {
     background: #0D47A1; 
@@ -65,14 +77,14 @@
     top: 234px;
   };
   .level-select-but {
-    left: 356px;
+    left: 463px;
   };
   .ability-equip {
-    left: 64px;
+    left: 106px;
   };
   .replay {
     position: absolute;
-    left: 208px;
+    left: 313px;
   };
 };
 
