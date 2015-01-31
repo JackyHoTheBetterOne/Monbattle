@@ -50,8 +50,10 @@ window.setEnergy = ->
 window.setNewAbilityArray = ->
   setTimeout (->
     window.newAbilities.length = 0 if window.location.href.indexOf("learn_ability") isnt -1
-    window.newAbilitiesLearned.length = 0 if window.location.href.indexOf("home") isnt -1
   ), 2000
+  setTimeout (->
+    window.newAbilitiesLearned.length = 0
+  ), 600
 
 window.replenishStamina = ->
   if document.getElementById("current-stamina") isnt null
