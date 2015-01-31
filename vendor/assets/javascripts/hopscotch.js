@@ -713,7 +713,7 @@
       el.style.position = (step.fixedElement ? 'fixed' : 'absolute');
 
       el.style.top = top + 'px';
-      el.style.left = left + 'px';
+      el.style.left = eval(left+5) + 'px';
     },
 
     /**
