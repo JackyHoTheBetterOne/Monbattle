@@ -326,7 +326,7 @@ div.hopscotch-bubble {
   border: 5px solid rgba(0, 0, 0, 0.5);
   /* transparent, if supported */
   color: #333;
-  font-family: 'Montserrat', sans-serif
+  font-family: 'Montserrat', sans-serif;
   font-size: 13px;
   position: absolute;
   z-index: 999999;
