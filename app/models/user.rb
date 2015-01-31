@@ -35,6 +35,16 @@ class User < ActiveRecord::Base
     end
   }
 
+  def battle_count
+    count = self.parties[0].battles.count
+    if count <= 2
+      self.parties[0].battles.count
+    else 
+      "enough"
+    end
+  end
+
+
   def can_add_to_party?(mon_unlock)
     if self.members.count == 0 || self.members.count < 4 && self.members.where(monster_unlock_id: mon_unlock).empty?
       return true

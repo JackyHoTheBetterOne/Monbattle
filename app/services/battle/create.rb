@@ -11,7 +11,7 @@ class Battle::Create
       self.battle = Battle.new
       battle.battle_level_id = 99999999999999
       battle.parties.push(Party.where(name: "ur sister dead")[0])
-      battle.parties.push(Party.weher(name: "me raping ur sister")[0])
+      battle.parties.push(Party.where(name: "me raping ur sister")[0])
     else
       self.battle = Battle.new battle_params
       battle.parties.push(Party.find_by_user_id(user.id))

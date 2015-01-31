@@ -25,7 +25,8 @@
 </div>
 
 
-<div class="battle" data-index="<%= @battle.id %>" id="battle">
+<div class="battle" data-index="<%= @battle.id_code %>" 
+  data-battlecount="<%= current_user.battle_count %>"id="battle">
   <div class="panel-body battle-message">
     Time to Die!!!
   </div>
