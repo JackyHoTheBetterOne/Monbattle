@@ -36,12 +36,7 @@ class User < ActiveRecord::Base
   }
 
   def battle_count
-    count = self.parties[0].battles.count
-    if count <= 2
-      self.parties[0].battles.count
-    else 
-      "enough"
-    end
+    self.summoner.played_levels.count
   end
 
 

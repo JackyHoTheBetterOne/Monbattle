@@ -750,7 +750,7 @@ window.addEffectIcon = (monster, effect) ->
   index = effectBin.indexOf(e)
   if index is 0
     setTimeout (->
-      hopscotch.startTour(first_effect_tour) if $(".battle").data("battlecount") is 2
+      hopscotch.startTour(first_effect_tour) if $(".battle").data("battlecount") is 1
     ), 500
   $("<img src = '#{effect.img}' class = 'effect #{monster.name} #{effect.name} #{effect.targeta}' id='#{index}' >").
     prependTo("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").addClass("tada animated")
@@ -781,7 +781,7 @@ window.battleStartDisplay = (time) ->
         $(this).css("background", "rgba(255, 0, 0,0.5)")
       $(".foe-indication").addClass("bounceIn animated")
       setTimeout (->
-        hopscotch.startTour(first_battle_tour) if $(".battle").data("battlecount") is 1
+        hopscotch.startTour(first_battle_tour) if $(".battle").data("battlecount") is 0
         $(".foe-indication").removeClass("bounceIn animated")
         $(".foe-indication").css("opacity", "0")
         $(".enemy .img").each ->
