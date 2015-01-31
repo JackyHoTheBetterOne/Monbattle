@@ -1,3 +1,11 @@
+body.forest {
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  user-select: none;
+};
+
+
 .navbar {
   border: 5px;
   margin-top: 10px;
@@ -29,7 +37,7 @@
     .nav-btn-group {
       .btn-group {
         .btn-default {
-          font-size: 10px
+          font-size: 10px;
         }
       }
     }

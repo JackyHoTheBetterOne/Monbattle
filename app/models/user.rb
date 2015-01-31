@@ -35,6 +35,11 @@ class User < ActiveRecord::Base
     end
   }
 
+  def battle_count
+    self.summoner.played_levels.count
+  end
+
+
   def can_add_to_party?(mon_unlock)
     if self.members.count == 0 || self.members.count < 4 && self.members.where(monster_unlock_id: mon_unlock).empty?
       return true
