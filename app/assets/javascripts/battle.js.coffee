@@ -1432,9 +1432,9 @@ window.ai = ->
       updateAbilityScaling(1, "missing-hp")
       hpChangeBattle()
       checkOutcome() if $("#overlay").css("display") is "none"
-      zetBut()
       $(".battle-message").fadeOut(100)
       $(".enemy .img").removeAttr("disabled")
+      zetBut()
       toggleEnemyClick()
       $(".monBut button").trigger("mouseleave")
       setTimeout (->
@@ -1490,18 +1490,19 @@ window.multipleAction = ->
 # window.controlAI = (teamIndex, monIndex, type, abilityDex)
 
 window.activateDeathAbility = (team, index) ->
-  if $("#overlay").css("display") is "none"
-    ability = deathAbilitiesToActivate[team][index]
-    $("." + ability.team + " " + ".mon" + ability.index + " " + ".img.passive").
-      effect("explode", {pieces: 30}, 550).remove()
-    if team is "user"
-      setTimeout (->
-        controlAI(ability.team, ability.index, "death", 2)
-      ), 800
-    else 
-      setTimeout (->
+  ability = deathAbilitiesToActivate[team][index]
+  $("." + ability.team + " " + ".mon" + ability.index + " " + ".img.passive").
+    effect("explode", {pieces: 30}, 550).remove()
+  if team is "user"
+    setTimeout (->
+      if $("#overlay").css("display") is "none"
+        controlAI(ability.team, ability.index, "death", 2) 
+    ), 800
+  else 
+    setTimeout (->
+      if $("#overlay").css("display") is "none"
         controlAI(ability.team, ability.index, "death", 4)
-      ), 800
+    ), 800
 
 window.deathAbilitiesActivation = (team) ->
   if deathAbilitiesToActivate[team].length isnt 0
@@ -1513,7 +1514,7 @@ window.deathAbilitiesActivation = (team) ->
     if $("#overlay").css("display") is "none"
       zetBut()
       setTimeout (->
-        activateDeathAbility(team, 0)
+        activateDeathAbility(team, 0) if $("#overlay").css("display") is "none"
       ), 250
       if deathAbilitiesToActivate[team].length is 2
         setTimeout (->
@@ -2022,15 +2023,19 @@ $ ->
                       return
                 when "action-point"
                   xadBuk()
+                  $(".end-turn").prop("disabled", true)
+                  $(".end-turn").css("opacity", "0.5")
                   $(".user .img").removeClass("controlling")
                   battle.players[0].ap -= 
                     parseInt(battle.players[0].mons[targets[1]].abilities[targets[2]].ap_cost)
                   battle.maxAP += parseInt(battle.players[0].mons[targets[1]].abilities[targets[2]].change)
                   updateApAbilityCost(parseInt(battle.maxAP))
-                  zetBut()
                   $("#ap-tip").toggleClass("flip animated")
+                  zetBut()
                   apChange()
                   setTimeout (->
+                    $(".end-turn").prop("disabled", false)
+                    $(".end-turn").css("opacity", "1")
                     $("#ap-tip").toggleClass("flip animated")
                     toggleImg()
                     availableAbilities()
