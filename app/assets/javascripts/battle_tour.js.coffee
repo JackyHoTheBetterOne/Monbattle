@@ -33,3 +33,25 @@ $ ->
       }
     ]
   }
+  window.first_replay_tour = {
+    id: "first-replay",
+    steps: [
+      {
+        title: "Replaying a battle",
+        content: "When you replay a battle, there will be extra rewards but you have to complete it under certain turns to earn them. 
+                  Mouseover for extra details."
+        target: "battle-round-countdown",
+        placement: "left"
+      }
+    ]
+  }
+
+
+
+
+
+
+
+
+
+

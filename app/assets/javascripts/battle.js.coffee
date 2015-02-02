@@ -782,6 +782,8 @@ window.battleStartDisplay = (time) ->
       $(".foe-indication").addClass("bounceIn animated")
       setTimeout (->
         hopscotch.startTour(first_battle_tour) if $(".battle").data("battlecount") is 0
+        console.log(first_replay_tour)
+        hopscotch.startTour(first_replay_tour) if $(".battle").data("bonusturtorial") is true
         $(".foe-indication").removeClass("bounceIn animated")
         $(".foe-indication").css("opacity", "0")
         $(".enemy .img").each ->
