@@ -1494,7 +1494,7 @@ window.ai = ->
       ), 800
       timeout = undefined
       if deathAbilitiesToActivate["user"].length isnt 0 
-        timeout = deathAbilitiesToActivate["user"].length*3000 + 2000
+        timeout = deathAbilitiesToActivate["user"].length*3000 + 2700
       else 
         timeout = 500
       setTimeout (->
@@ -1869,7 +1869,7 @@ $ ->
           toggleImg()
           xadBuk()
           if deathAbilitiesToActivate["pc"].length > 0 and $("#overlay").css("display") is "none"
-            wait = deathAbilitiesToActivate["pc"].length * 3000 + 2000
+            wait = deathAbilitiesToActivate["pc"].length * 3000 + 2700
             setTimeout (->
               deathAbilitiesActivation("pc")
             ), 200
