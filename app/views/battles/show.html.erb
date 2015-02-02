@@ -26,7 +26,9 @@
 
 
 <div class="battle" data-index="<%= @battle.id_code %>" 
-  data-battlecount="<%= current_user.battle_count %>"id="battle">
+  data-battlecount="<%= current_user.battle_count %>" id="battle"
+  data-bonusTurtorial="<%= current_user.first_time_replay(@battle.battle_level.name) %>">
+
   <div class="panel-body battle-message">
     Time to Die!!!
   </div>
@@ -35,7 +37,7 @@
   </div>
 
   <% if @first_cleared %>
-    <div class="battle-round-countdown">
+    <div class="battle-round-countdown" id="battle-round-countdown">
       Rush Reward: <span><%= @battle.battle_level.time_requirement %></span>
     </div>
     <div class="bonus-description">
@@ -43,7 +45,7 @@
           and get <%= @battle.battle_level.reward %>
     </div>
   <% elsif @twice_cleared %>
-    <div class="battle-round-countdown">
+    <div class="battle-round-countdown" id="battle-round-countdown">
       Rush Bonus: <span><%= @battle.battle_level.time_requirement %></span>
     </div>
     <div class="bonus-description">

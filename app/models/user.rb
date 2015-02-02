@@ -39,6 +39,18 @@ class User < ActiveRecord::Base
     self.summoner.played_levels.count
   end
 
+  def first_time_replay(battle_level_name)
+    @summoner = self.summoner
+    if @summoner.played_levels.include?(battle_level_name) && @summoner.
+        cleared_twice_levels.count == 0 
+      return true
+    else
+      return false
+    end
+  end
+
+
+
 
   def can_add_to_party?(mon_unlock)
     if self.members.count == 0 || self.members.count < 4 && self.members.where(monster_unlock_id: mon_unlock).empty?
