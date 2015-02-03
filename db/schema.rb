@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150128224222) do
+ActiveRecord::Schema.define(version: 20150202233458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -222,16 +222,13 @@ ActiveRecord::Schema.define(version: 20150128224222) do
     t.datetime "updated_at"
     t.integer  "target_id"
     t.integer  "element_id"
-    t.string   "stat_change",       default: ""
+    t.string   "stat_change",    default: ""
     t.integer  "stat_target_id"
     t.text     "keywords"
-    t.integer  "duration",          default: 0
-    t.string   "restore",           default: "0"
-    t.string   "icon_file_name"
-    t.string   "icon_content_type"
-    t.integer  "icon_file_size"
-    t.datetime "icon_updated_at"
+    t.integer  "duration",       default: 0
+    t.string   "restore",        default: "0"
     t.text     "description"
+    t.string   "icon",           default: "https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg"
   end
 
   add_index "effects", ["element_id"], name: "index_effects_on_element_id", using: :btree

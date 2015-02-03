@@ -94,8 +94,8 @@ class BattleLevel < ActiveRecord::Base
   def reward
     if self.ability_reward.length == 0
       "NOTHING"
-    elsif self.ability_reward.length == 1
-      self.ability_reward[0]
+    elsif self.ability_reward[0] == "Monster" || self.ability_reward[0] == "Ability"
+      self.ability_reward[1] 
     elsif self.ability_reward.length == 2
       self.ability_reward[1] + " " + self.ability_reward[0]
     end
@@ -117,11 +117,19 @@ class BattleLevel < ActiveRecord::Base
       if @summoner.beaten_levels.include?(level_name) && round_taken < time_requirement &&
           !cleared_twice_level_array.include?(level_name) && ability_reward_array.length != 0
         cleared_twice_level_array.push(level_name)
-        if ability_reward_array.length == 1
-          ability = Ability.find_by_name(ability_reward_array[0])
+        if ability_reward_array[0] == "Ability"
+          ability = Ability.find_by_name(ability_reward_array[1])
           ability_id = ability.id 
           user_id = @summoner.user.id
           AbilityPurchase.create!(ability_id: ability_id, user_id: user_id)
+        elsif ability_reward_array[0] == "Monster"
+          monster = Monster.find_by_name(ability_reward_array[1])
+          monster_id = monster.id 
+          user_id = @summoner.user.id
+          p "=================================================================================="
+          p monster
+          p "======================================================================================="
+          MonsterUnlock.create!(monster_id: monster_id, user_id: user_id)
         elsif ability_reward_array.length == 2
           @summoner[ability_reward_array[0]] += ability_reward_array[1].to_i
         end

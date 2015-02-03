@@ -714,11 +714,16 @@ window.outcome = ->
       data: {round_taken: parseInt(battle.round)},
       success: (response) ->
         $(".message").html(response)
-        if $(".ability-earned").text() isnt ""
-          sentence = "You have gained " + $(".ability-earned").text() + 
+        if $(".ability-earned").data("type") is "ability"
+          sentence = "You have earned " + $(".ability-earned").text() + 
                      "! Teach it to your monster through the " + 
                      "<a href='/learn_ability'>Ability Learning</a>" + " page!" 
           newAbilities.push(sentence)
+        else if $(".ability-earned").data("type") is "monster"
+          sentence = "You have earned " + $(".ability-earned").text() +
+                     "! Learn more about it at the " +
+                     "<a href='/home'>Monster Equipping</a>" + " page!"
+          newMonsters.push(sentence)
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     setTimeout (->
@@ -823,7 +828,6 @@ window.battleStartDisplay = (time) ->
       $(".foe-indication").addClass("bounceIn animated")
       setTimeout (->
         hopscotch.startTour(first_battle_tour) if $(".battle").data("battlecount") is 0
-        console.log(first_replay_tour)
         hopscotch.startTour(first_replay_tour) if $(".battle").data("bonusturtorial") is true
         $(".foe-indication").removeClass("bounceIn animated")
         $(".foe-indication").css("opacity", "0")
@@ -1494,7 +1498,7 @@ window.ai = ->
       ), 800
       timeout = undefined
       if deathAbilitiesToActivate["user"].length isnt 0 
-        timeout = deathAbilitiesToActivate["user"].length*3000 + 2700
+        timeout = deathAbilitiesToActivate["user"].length*3400 + 2600
       else 
         timeout = 500
       setTimeout (->
@@ -1571,11 +1575,11 @@ window.deathAbilitiesActivation = (team) ->
       if deathAbilitiesToActivate[team].length is 2
         setTimeout (->
           activateDeathAbility(team, 1) if $("#overlay").css("display") is "none"
-        ), 3250
+        ), 3500
       if deathAbilitiesToActivate[team].length is 3
         setTimeout (->
           activateDeathAbility(team, 2) if $("#overlay").css("display") is "none"
-        ), 6250
+        ), 6750
 
 
 
@@ -1641,7 +1645,7 @@ $ ->
   deathAbilitiesToActivate["user"] = []
   deathAbilitiesToActivate["pc"] = []
   if document.getElementById("battle") isnt null
-    $("a.fb-nav").not(".quest-show").on "click.leave", (event) ->
+    $("a.fb-nav, .logo-link").not(".quest-show").on "click.leave", (event) ->
       $(document).off "click.cutscene", "#overlay"
       nav = $(this)
       link = $(this).attr("href")
@@ -1869,7 +1873,7 @@ $ ->
           toggleImg()
           xadBuk()
           if deathAbilitiesToActivate["pc"].length > 0 and $("#overlay").css("display") is "none"
-            wait = deathAbilitiesToActivate["pc"].length * 3000 + 2700
+            wait = deathAbilitiesToActivate["pc"].length * 3400 + 2600
             setTimeout (->
               deathAbilitiesActivation("pc")
             ), 200

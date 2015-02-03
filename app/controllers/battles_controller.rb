@@ -82,7 +82,6 @@ class BattlesController < ApplicationController
     end
 
 
-
     if @battle.impressionist_count <= 2 || current_user.admin
       respond_to do |format|
         format.html { render layout: "facebook_landing" }
@@ -124,6 +123,8 @@ class BattlesController < ApplicationController
     victory.call
 
     @ability = victory.ability
+    @monster = victory.monster
+    @reward = victory.reward
     @slot = victory.slot
     @class_list = victory.class_list
     @level_cleared = victory.level_cleared

@@ -9,8 +9,16 @@
   <% end %>
 
   <% if @ability != nil %>
-    <p class="ability-earned" data-class="<%= @class_list %>" 
-      data-slot= "<%= @slot %>"><%= @ability.name %></p>
+    <p class="ability-earned" data-type="ability" data-class="<%= @class_list %>" 
+      data-slot= "<%= @slot %>">
+      <%= @ability.name %>
+    </p>
+  <% elsif @monster != nil %>
+    <p class="ability-earned" data-type="monster">
+      <%= @monster.name %>
+    </p>
+  <% elsif @reward != nil %>
+    <p class="ability-earned" data-type="currency"><%= @reward %></p>
   <% else %>
     <p class="ability-earned"></p>
   <% end %>

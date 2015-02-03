@@ -33,10 +33,15 @@ $ ->
         overlay.className += " fadeIn-1s"
         gp.innerHTML = response.gp 
         if response.type == "ability"
-          sentence = "You have gained " + response.reward + 
+          sentence = "You have earned " + response.reward + 
                      "! Teach it to your monster through the " + 
                      "<a href='/learn_ability'>Ability Learning</a>" + " page!" 
           newAbilities.push(sentence)
+        else if response.type == 'monster'
+          sentence = "You have earned " + response.reward +
+                     "! Learn more about it at the " +
+                     "<a href='/home'>Monster Equipping</a>" + " page!"
+          newMonsters.push(sentence)
         setTimeout (->
           message.style["opacity"] = "1"
         ), 1000
