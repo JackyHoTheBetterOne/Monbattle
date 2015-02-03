@@ -1407,7 +1407,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           window.targets = [1].concat [monIndex, abilityIndex, index]
           currentMon = $(".enemy .mon" + monIndex + " " + ".img")
           currentMon.effect("bounce", {distance: 50, times: 1}, 800)
-          targetMon = pcMonNum(index)
+          targetMon = pcMon(index)
           targetPosition = targetMon.offset()
           abilityAnime = $(".single-ability-img")
           singleHealTargetAbilityDisplayVariable()
@@ -1613,7 +1613,6 @@ window.healthRegen = (teamIndex) ->
           window["change" + mons[i].unidex] = 
             "+" + window["change" + mons[i].unidex].toString()
     i++
-
 
 
 window.passiveScalingTeam = (team_num, type) ->

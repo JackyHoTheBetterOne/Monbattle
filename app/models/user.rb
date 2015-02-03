@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
   }
 
   def battle_count
-    self.summoner.played_levels.count
+    self.summoner.played_levels.count + self.summoner.cleared_twice_levels.count
   end
 
   def first_time_replay(battle_level_name)
