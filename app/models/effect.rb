@@ -14,10 +14,6 @@ class Effect < ActiveRecord::Base
 
   before_save :set_keywords
 
-  has_attached_file :icon, :styles => { :cool => "40x40>", :thumb => "100x100>" }
-
-  validates_attachment_content_type :icon, :content_type => /\Aimage\/.*\Z/
-
   scope :alphabetical, -> {
     order("lower(name)")
   }
@@ -49,7 +45,7 @@ class Effect < ActiveRecord::Base
   end
 
   def img
-    self.icon.url(:cool)
+    self.icon
   end
 
   private

@@ -58,7 +58,7 @@
     smoothScroll:    true,
     scrollDuration:  1000,
     scrollTopMargin: 200,
-    showCloseButton: true,
+    showCloseButton: false,
     showPrevButton:  false,
     showNextButton:  true,
     bubbleWidth:     280,

@@ -16,7 +16,8 @@ $ ->
       },
       {
         title: "Growing AP",
-        content: "You spend half of your current total AP to gain 10 maximum. Sounds like a good deal, right? Totally.",
+        content: "Spend half of your current total AP to gain 10 more AP each turn. 
+                  Make sure you click this button, or you’ll get owned pretty hard.",
         target: "gain-ap",
         placement: "left"
       },
@@ -38,8 +39,8 @@ $ ->
     steps: [
       {
         title: "Replaying a battle",
-        content: "When you replay a battle, there will be extra rewards but you have to complete it under certain turns to earn them. 
-                  Mouseover for extra details."
+        content: "When you replay a battle, there will be extra rewards, 
+                  but you have to complete it under a number of rounds in order to earn them."
         target: "battle-round-countdown",
         placement: "left"
       }

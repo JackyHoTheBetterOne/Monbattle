@@ -4,18 +4,30 @@ class Battle::Victory
   attribute :battle_level, BattleLevel
   attribute :summoner, Summoner
   attribute :ability, Ability
+  attribute :monster, Monster
+  attribute :reward
   attribute :round_taken 
   attribute :slot
   attribute :class_list
   attribute :level_cleared
 
   def call
+    self.ability = nil
+    self.monster = nil
+    self.reward = nil
+
     if summoner.beaten_levels.include?(battle_level.name) && 
         round_taken.to_i < battle_level.time_requirement &&
         !summoner.cleared_twice_levels.include?(battle_level.name)
-      self.ability = Ability.find_by_name(battle_level.ability_reward[0])
-    else
-      self.ability = nil
+      if battle_level.ability_reward.length != 0
+        if battle_level.ability_reward[0] == "Ability"
+          self.ability = Ability.find_by_name(battle_level.ability_reward[1])
+        elsif battle_level.ability_reward[0] == "Monster"
+          self.monster = Monster.find_by_name(battle_level.ability_reward[1])
+        else
+          self.reward = battle_level.ability_reward[0] + ": " + battle_level.ability_reward[1]
+        end
+      end
     end
 
     self.class_list = ""

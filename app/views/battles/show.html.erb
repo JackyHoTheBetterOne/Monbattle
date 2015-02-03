@@ -17,7 +17,7 @@
     </div>
   </div>
   <%= image_tag(@battle.battle_level.start_cut_scenes[0], class: "cutscene") %>
-  <%= image_tag("story-arrow.png", class: "next-scene") %>
+  <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/next.png", class: "next-scene") %>
   <% if current_user.summoner.played_levels.include?(@battle.battle_level.name) && @battle.
         battle_level.has_cut_scene %>
     <button class="skip-button" id="skip-button">Skip</button>
@@ -46,7 +46,7 @@
     </div>
   <% elsif @twice_cleared %>
     <div class="battle-round-countdown" id="battle-round-countdown">
-      Rush Bonus: <span><%= @battle.battle_level.time_requirement %></span>
+      Rush Reward: <span><%= @battle.battle_level.time_requirement %></span>
     </div>
     <div class="bonus-description">
       Win the battle under <%= @battle.battle_level.time_requirement %> rounds 
@@ -73,7 +73,7 @@
     <% end %>
   </div>
 
-  <h2 class="foe-indication">Enemy</h3>
+  <h2 class="foe-indication" id="foe-indication">Enemy</h3>
 
   <div class="1 enemy mon-slot" id="tutorial-end" data-team="1">
     <% @pc_party.mons.each do |mon| %>

@@ -7,7 +7,7 @@ tr
   td=effect.stat_change
   td=effect.duration
   td=effect.restore
-  td=image_tag effect.icon.url(:thumb)
+  td=image_tag effect.icon
   td
     =link_to "Delete", effect, method: :delete, class: "btn btn-sm btn-danger", data: {confirm: "This will remove this effect from all assigned abilities. Are you sure???"}
     =link_to "Edit", edit_effect_path(effect), class: "btn btn-sm btn-info"
