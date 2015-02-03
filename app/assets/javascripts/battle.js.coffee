@@ -1407,7 +1407,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           window.targets = [1].concat [monIndex, abilityIndex, index]
           currentMon = $(".enemy .mon" + monIndex + " " + ".img")
           currentMon.effect("bounce", {distance: 50, times: 1}, 800)
-          targetMon = pcMonNum(index)
+          targetMon = pcMon(index)
           targetPosition = targetMon.offset()
           abilityAnime = $(".single-ability-img")
           singleHealTargetAbilityDisplayVariable()
@@ -1479,6 +1479,9 @@ window.ai = ->
           $(".battle-round-countdown").css("opacity", "0").remove()
       roundEffectHappening(0)
       roundEffectHappening(1)
+      healthRegen(0)
+      healthRegen(1)
+      checkMax()
       showDamageTeam(0)
       showDamageTeam(1)
       passiveScalingTeam(0, "round")
@@ -1594,6 +1597,22 @@ window.scaling = (passive, monster) ->
     monster.abilities[0].change *= (1 + passive.change/100)
   monster.abilities[0].change = Math.round(monster.abilities[0].change)
   monster.abilities[1].change = Math.round(monster.abilities[1].change)
+
+
+window.healthRegen = (teamIndex) ->
+  mons = battle.players[teamIndex].mons
+  i = 0
+  while i < mons.length
+    passive = mons[i].passive_ability
+    if mons[i].passive_ability
+      if passive.targeta is "health-regen"
+        mons[i]["hp"] += parseInt(passive.change)
+        window["change" + mons[i].unidex] = 
+          eval(window["change" + mons[i].unidex] + "+" + passive.change)
+        if window["change" + mons[i].unidex].indexOf("-") is -1
+          window["change" + mons[i].unidex] = 
+            "+" + window["change" + mons[i].unidex].toString()
+    i++
 
 
 window.passiveScalingTeam = (team_num, type) ->
@@ -1877,7 +1896,6 @@ $ ->
             setTimeout (->
               deathAbilitiesActivation("pc")
             ), 200
-            console.log(wait)
             setTimeout (->
               deathAbilitiesToActivate["pc"] = []
               ai()
