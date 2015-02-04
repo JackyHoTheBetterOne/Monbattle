@@ -155,8 +155,11 @@ class BattlesController < ApplicationController
   private
   def generate_enemies
     if current_user.summoner.played_levels.count > 0 
+      p "====================================================="
+      p current_user.summoner.played_levels.count
       level = BattleLevel.find(battle_params[:battle_level_id])
       Party.generate(level, current_user)
+      p "======================================================"
     end
   end
 
