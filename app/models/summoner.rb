@@ -7,7 +7,6 @@ class Summoner < ActiveRecord::Base
   before_save :check_energy
   before_save :generate_code
   after_create :change_name
-  after_create :add_party_members
 
   def change_name
     if self.name == nil 
