@@ -1,26 +1,29 @@
 <div class="end-battle-box">
-  
+  <%= image_tag("gp.png", class: "mp-logo") %>
+  <p class="mp-title">earned:</p>
+
   <% if @level_cleared %>
     <p class="gp-earned"><%= @battle.battle_level.gp_reward %></p>
-    <p class="exp-earned"><%= @battle.battle_level.exp_given %></p>
   <% else %>
     <p class="gp-earned"></p>
-    <p class="exp-earned"></p>
   <% end %>
 
   <% if @ability != nil %>
+    <p class="extra-reward-title">Ability earned:</p>
     <p class="ability-earned" data-type="ability" data-class="<%= @class_list %>" 
       data-slot= "<%= @slot %>">
       <%= @ability.name %>
     </p>
   <% elsif @monster != nil %>
+    <p class="extra-reward-title">Monster earned:</p>
     <p class="ability-earned" data-type="monster">
       <%= @monster.name %>
     </p>
   <% elsif @reward != nil %>
     <p class="ability-earned" data-type="currency"><%= @reward %></p>
   <% else %>
-    <p class="ability-earned"></p>
+    <p class="extra-reward-title">Ascension coins:</p>
+    <p class="ability-earned">Coming soon</p>
   <% end %>
   <%= link_to "Equip Ability", home_index_path, 
       class: "end-battle-but ability-equip battle-fin" %>

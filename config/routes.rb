@@ -45,6 +45,7 @@ get "/landing" => "home#facebook", as: :home_sweet_home
 get "/forum" => "home#forum", as: :home_forum
 get "/equip_filter" => "home#equip_filter", as: :equip_filter
 get "/learn_ability" => "home#learn_ability", as: :learn_ability
+get "/create_battle" => "battles#create", as: :create_battle
 
 
 root 'home#facebook'

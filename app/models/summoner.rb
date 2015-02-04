@@ -2,11 +2,18 @@ class Summoner < ActiveRecord::Base
   belongs_to :user
   belongs_to :summoner_level
 
-  validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :user_id, presence: {message: 'Must be entered'}, uniqueness: true
 
   before_save :check_energy
   before_save :generate_code
+  after_create :change_name
+
+  def change_name
+    if self.name == nil 
+      self.name = self.user.user_name
+      self.save
+    end
+  end
 
   def self.find_summoner(user_name)
     @user = find_user(user_name)

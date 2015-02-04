@@ -21,7 +21,8 @@ class User < ActiveRecord::Base
   has_many :abilities, through: :ability_purchases, source: :ability
 
   validates :user_name, presence: {message: 'Must be entered'}, uniqueness: true
-  validates :email, presence: {message: 'Must be entered'}
+  validates :namey, presence: {message: 'Must be entered'}
+  validates :email, presence: {message: 'Must be entered'}, uniqueness: true
 
   after_create :create_summoner
   after_create :create_party
@@ -77,7 +78,8 @@ class User < ActiveRecord::Base
       if registered_user
         return registered_user
       else
-        user = User.create!(user_name: auth.extra.raw_info.name,
+        user = User.create!(user_name: auth.extra.raw_info.name + "." + Random.new.rand(0..10000).to_s,
+                            namey: auth.extra.raw_info.name, 
                             provider: auth.provider,
                             uid: auth.uid,
                             email: auth.info.email,
@@ -142,7 +144,7 @@ class User < ActiveRecord::Base
   private
 
   def create_summoner
-    Summoner.create(user_id: self.id, name: self.user_name, vortex_key: 25, gp: 100, mp: 100,
+    Summoner.create(user_id: self.id, name: self.namey, vortex_key: 25, gp: 100, mp: 100,
                      completed_daily_quests: [], completed_weekly_quests: [], completed_quests: [])
   end
 

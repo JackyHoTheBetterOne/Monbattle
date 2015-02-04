@@ -58,11 +58,11 @@ class Party < ActiveRecord::Base
   end
 
   def self.generate(level, user)
-    Party.where("user_id = 2").where(name: level.name).where(enemy: user.user_name).destroy_all
+    Party.where(user_id: 2, enemy: user.email).destroy_all
     party = Party.create!(
       user_id: 2,
       name: level.name,
-      enemy: user.user_name
+      enemy: user.email
       )
     npc_mons = MonsterUnlock.where("user_id = 2")
     level_mons = []

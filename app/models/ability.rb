@@ -45,6 +45,7 @@ class Ability < ActiveRecord::Base
   default_scope { order('abil_socket_id') }
   before_save   :set_keywords
   after_create  :unlock_for_admins
+  after_save :unlock_for_npc
 
   scope :filter_it, -> (filter = {}) {
     query = self
@@ -239,8 +240,13 @@ class Ability < ActiveRecord::Base
   end
 
   def unlock_for_admins
-    20.times{AbilityPurchase.create(user_id: find_user("admin").id, ability_id: self.id)}
-    10.times{AbilityPurchase.create(user_id: find_user("NPC").id, ability_id: self.id)}
+    4.times{AbilityPurchase.create(user_id: 1, ability_id: self.id)} if self.rarity.name != "npc"
+  end
+
+  def unlock_for_npc
+    if self.rarity.name == "npc" && AbilityPurchase.where(user_id: 2, ability_id: self.id).count < 20
+      20.times{AbilityPurchase.create(user_id: 2, ability_id: self.id)} 
+    end
   end
 
   private
