@@ -553,10 +553,10 @@ window.availableAbilities = () ->
     button = $(this)
     if $(this).css("opacity") isnt "0"
       if $(this).data("apcost") > battle.players[0].ap
-        $(button).children("img").css("opacity", "0")
+        # $(button).children("img").css("opacity", "0")
         $(button).css("opacity", "0.5")
       else 
-        $(button).children("img").css("opacity", "1")
+        # $(button).children("img").css("opacity", "1")
         $(button).css("opacity", "1")
         $(button).parent().parent().children(".availability-arrow").data("available", "true")
   $(".availability-arrow").each ->
