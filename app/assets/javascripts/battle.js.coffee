@@ -1266,7 +1266,6 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
       else 
         abilityIndex = abilityDex
       ability = battle.players[teamIndex].mons[monIndex].abilities[abilityIndex]
-      console.log(ability)
       switch ability.targeta
         when "attack"
           window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
@@ -1512,6 +1511,7 @@ window.ai = ->
         toggleImg()
         availableAbilities()
         deathAbilitiesToActivate["user"].length = 0
+        zetBut()
         enable($("button"))
       ), timeout
   ), timerRound
@@ -1529,7 +1529,7 @@ window.action = ->
   ), 250
   setTimeout (->
     zetBut() if $("#overlay").css("display") is "none"
-  ), 500
+  ), 400
 
 
 window.multipleAction = ->
@@ -1544,7 +1544,7 @@ window.multipleAction = ->
   ), 250
   setTimeout (->
     zetBut() if $("#overlay").css("display") is "none"
-  ), 500
+  ), 400
 
 # window.controlAI = (teamIndex, monIndex, type, abilityDex)
 

@@ -138,6 +138,12 @@ class BattlesController < ApplicationController
   end
 
   def loss  
+    if current_user.summoner.played_levels.count == 1
+      @first_battle = true
+    else
+      @first_battle = false
+    end
+
     render template: "battles/defeat", :layout => false
   end
 

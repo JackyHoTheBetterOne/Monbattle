@@ -7,12 +7,21 @@ class Summoner < ActiveRecord::Base
   before_save :check_energy
   before_save :generate_code
   after_create :change_name
+  after_create :add_party_members
 
   def change_name
     if self.name == nil 
       self.name = self.user.user_name
       self.save
     end
+  end
+
+  def add_party_members
+    p = self.user.parties[0]
+    self.user.monster_unlocks.each do |m|
+      p.monster_unlocks << m
+    end
+    p.save
   end
 
   def self.find_summoner(user_name)
