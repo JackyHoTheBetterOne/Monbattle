@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150202233458) do
+ActiveRecord::Schema.define(version: 20150203231422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -379,20 +379,6 @@ ActiveRecord::Schema.define(version: 20150202233458) do
   end
 
   add_index "monster_skins", ["rarity_id"], name: "index_monster_skins_on_rarity_id", using: :btree
-
-  create_table "monster_templates", force: true do |t|
-    t.integer  "max_hp"
-    t.integer  "max_sp"
-    t.integer  "max_lvl"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "class_template_id"
-    t.integer  "element_template_id"
-    t.string   "name"
-  end
-
-  add_index "monster_templates", ["class_template_id"], name: "index_monster_templates_on_class_template_id", using: :btree
-  add_index "monster_templates", ["element_template_id"], name: "index_monster_templates_on_element_template_id", using: :btree
 
   create_table "monster_unlocks", force: true do |t|
     t.integer  "user_id"
