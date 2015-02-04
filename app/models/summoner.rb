@@ -16,14 +16,6 @@ class Summoner < ActiveRecord::Base
     end
   end
 
-  def add_party_members
-    p = self.user.parties[0]
-    self.user.monster_unlocks.each do |m|
-      p.monster_unlocks << m
-    end
-    p.save
-  end
-
   def self.find_summoner(user_name)
     @user = find_user(user_name)
     Summoner.where(user_id: @user).first
