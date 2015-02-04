@@ -44,10 +44,15 @@ class BattlesController < ApplicationController
     end
   end
 
-  def create  
-    create_battle = Battle::Create.new(user: current_user,
-                                       summoner: current_user.summoner,
-                                       battle_params: battle_params)
+  def create
+    if params[:battle]
+      create_battle = Battle::Create.new(user: current_user,
+                                         summoner: current_user.summoner,
+                                         battle_params: battle_params)
+    else
+      create_battle = Battle::Create.new(user: current_user,
+                                         summoner: current_user.summoner)
+    end
     create_battle.call
     @battle = create_battle.battle
 
@@ -143,8 +148,10 @@ class BattlesController < ApplicationController
 
   private
   def generate_enemies
-    level = BattleLevel.find(battle_params[:battle_level_id])
-    Party.generate(level, current_user)
+    if current_user.summoner.played_levels.count > 0 
+      level = BattleLevel.find(battle_params[:battle_level_id])
+      Party.generate(level, current_user)
+    end
   end
 
   def unlock_message(summoner)

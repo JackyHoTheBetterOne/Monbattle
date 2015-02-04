@@ -5,9 +5,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in @user, :event => :authentication #this will throw if @user is not activated
       set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
       if @user.summoner.played_levels.count == 0 
-        redirect_to new_battle_path
-      else
         redirect_to create_battle_path
+      else
+        redirect_to new_battle_path 
       end
     else
       session["devise.facebook_data"] = request.env["omniauth.auth"]
