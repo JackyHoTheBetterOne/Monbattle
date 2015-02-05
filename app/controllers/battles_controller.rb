@@ -134,6 +134,11 @@ class BattlesController < ApplicationController
     @class_list = victory.class_list
     @level_cleared = victory.level_cleared
 
+    @level_up = victory.level_up
+    @new_level = victory.new_level
+    @stamina_upgrade = victory.stamina_upgrade
+    @new_stamina = victory.new_stamina
+
     render template: "battles/victory", :layout => false
   end
 

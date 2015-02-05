@@ -1,4 +1,4 @@
-<div class="end-battle-box">
+<div class="end-battle-box winning">
   <%= image_tag("gp.png", class: "mp-logo") %>
   <p class="mp-title">earned:</p>
 
@@ -32,3 +32,16 @@
   <%= link_to image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/next.png", class: "next-but"), 
       new_battle_path, class: "end-battle-but level-select-but battle-fin" %>
 </div>
+
+<% if @level_up %>
+  <div class="level-up-box end-battle-box">
+    <p class="level-up-message">
+      You have reached Level <span><%= @new_level %></span>! 
+    </p>
+    <% if @stamina_upgrade %>
+      <p class="stamina-increase-message">
+        Max Stamina increased to <span><%= @new_stamina %></span>! 
+      </p>
+    <% end %>
+  </div>
+<% end %>
