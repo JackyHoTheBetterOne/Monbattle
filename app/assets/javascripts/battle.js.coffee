@@ -583,10 +583,10 @@ window.apNum = ".ap .ap-number"
 window.apBar = ".ap-meter .bar"
 
 window.apInfo = (maxAP) ->
-  "AP:" + "   " + maxAP + " / " + maxAP
+  maxAP + " / " + maxAP
 
 window.apAfterUse = (current, max) ->
-  "AP:" + "   " + current + " / " + max
+  current + " / " + max
 
 window.apChange = ->
   $(apNum).text apAfterUse(battle.players[0].ap , battle.maxAP)
@@ -1525,10 +1525,12 @@ window.ai = ->
         apChange()
         $(".ap").effect("highlight")
         toggleImg()
-        availableAbilities()
         deathAbilitiesToActivate["user"].length = 0
         zetBut()
         enable($("button"))
+        setTimeout (->
+          availableAbilities()
+        ), 500
       ), timeout
   ), timerRound
 
@@ -1897,7 +1899,7 @@ $ ->
                 description.children("span.damage-type").text "Special"
               description.children(".panel-body").html ability.description
               description.children(".panel-footer").children("span").children(".d").text ability.change*ability.scaling
-              description.children(".panel-footer").children("span").children(".a").text "AP: " + ability.ap_cost
+              description.children(".panel-footer").children("span").children(".a").text ability.ap_cost
               description.css({"z-index": "6000", "opacity": "0.9"})
           return
         ).on "mouseleave", ".user .monBut button", ->

@@ -85,7 +85,9 @@
 
   <div class="ap" id="ap-tip">
     <%= image_tag("hero-icon.png", size: "42x42", class: "baby")%>
-    <p class="ap-number">AP:   1000 / 1000 </p>
+    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/ap-cost-icon-25.png", 
+        class: "ap-icon") %>
+    <p class="ap-number">1000 / 1000 </p>
     <div class="ap-meter" id="ap-meter">
       <%= image_tag("APBar1px.gif", class: "bar") %>
     </div>
@@ -94,7 +96,7 @@
   </div>
 
   <div class="ap-gain-information">
-    Spend <span>10</span> AP this round to gain 10 maximum AP 
+    Spend <span>10</span> AP this turn to gain 10 maximum AP 
   </div>
 
   <button class="end-turn" id="end-turn-tip" onclick="playIt()">End Turn</button>
