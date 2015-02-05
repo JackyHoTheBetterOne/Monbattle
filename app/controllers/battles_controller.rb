@@ -153,7 +153,7 @@ class BattlesController < ApplicationController
   end
 
   def tracking_abilities
-    @battle.track_ability_frequency(params[:ability_name])
+    @battle.track_ability_frequency(params[:ability_name], current_user.id)
     render nothing: true
   end
 
@@ -240,8 +240,8 @@ class BattlesController < ApplicationController
   end
 
   def tracking
-    @battle.track_outcome
-    @battle.track_performance
+    @battle.track_outcome(current_user.id)
+    @battle.track_performance(current_user.id)
   end
 
   def update_general_summoner_fields

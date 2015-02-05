@@ -737,6 +737,27 @@ window.outcome = ->
           "time_taken": parseInt(seconds_taken)
         }
       ), 200
+    $(document).on "click.cutscene", "#overlay", ->
+      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
+              battle.end_cut_scenes.length is 0
+        $(".cutscene").hide(500)
+        endCutScene()
+        setTimeout (->
+          $(".next-scene, .cutscene, .skip-button").remove()
+          $(".end-battle-box.winning").css("z-index", "1000")
+          $(".end-battle-box.winning").addClass("bounceIn animated")
+          if $(".level-up-box").length > 0
+            setTimeout (->
+              $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
+            ), 1200
+            setTimeout (->
+              $(".level-up-box").addClass("zoomOutUp")
+            ), 3200
+        ), 750
+      else 
+        new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
+        window.new_scene = battle.end_cut_scenes[new_index]
+        nextScene()
     if battle.end_cut_scenes.length isnt 0
       $(".cutscene").attr("src", battle.end_cut_scenes[0])
       $(".cutscene").css("opacity", "1")
@@ -747,41 +768,22 @@ window.outcome = ->
     else 
       $(document).off "click.cutscene"
       $(".cutscene, .next-scene").css("opacity", "0")
-      $(".message").promise().done ->
-        $("#overlay").fadeIn(1000)
-        setTimeout (->
-          $(".next-scene, .cutscene").remove()
-          $(".end-battle-box.winning").css("z-index", "1000")
-          $(".end-battle-box.winning").addClass("bounceIn animated")
-        ), 1800
-        if $(".level-up-box").length != 0
+      $("#overlay").fadeIn(1000)
+      setTimeout (->
+        $(".next-scene, .cutscene").remove()
+        $(".end-battle-box.winning").css("z-index", "1000")
+        $(".end-battle-box.winning").addClass("bounceIn animated")
+        if $(".level-up-box").length isnt 0
+          console.log("wtf man")
           setTimeout (->
             $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
-          ), 3000
+          ), 1200
           setTimeout (->
             $(".level-up-box").addClass("zoomOutUp")
-          ), 5000
-    $(document).on "click.cutscene", "#overlay", ->
-      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
-              battle.end_cut_scenes.length is 0
-        $(".cutscene").hide(500)
-        endCutScene()
-        setTimeout (->
-          $(".next-scene, .cutscene, .skip-button").remove()
-          $(".end-battle-box.winning").css("z-index", "1000")
-          $(".end-battle-box.winning").addClass("bounceIn animated")
-        ), 750
-        if $(".level-up-box").length != 0
-          setTimeout (->
-            $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
-          ), 2000
-          setTimeout (->
-            $(".level-up-box").addClass("zoomOutUp")
-          ), 4000
-      else 
-        new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
-        window.new_scene = battle.end_cut_scenes[new_index]
-        nextScene()
+          ), 3200
+      ), 1800
+
+
 
 window.checkApAvailbility = ->
   $(".monBut button").each ->

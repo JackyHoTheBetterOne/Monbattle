@@ -85,7 +85,7 @@ class HomeController < ApplicationController
     @summoner = current_user.summoner
 
     if rolling.message
-      current_user.track_rolling(@treasure.rarity)
+      current_user.track_rolling(@treasure.rarity, request.session_options[:id])
       render :json => {
         message: @treasure.message,
         gp: @summoner.gp,
