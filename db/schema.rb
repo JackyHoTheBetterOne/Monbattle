@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150204012155) do
+ActiveRecord::Schema.define(version: 20150204230942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -542,18 +542,16 @@ ActiveRecord::Schema.define(version: 20150204012155) do
   end
 
   create_table "summoner_levels", force: true do |t|
-    t.integer  "lvl"
-    t.integer  "exp_to_nxt_lvl"
-    t.integer  "ap"
-    t.integer  "monsters_allowed"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "level"
+    t.integer  "stamina"
+    t.integer  "exp_required_for_next_level"
   end
 
   create_table "summoners", force: true do |t|
     t.string   "name"
     t.integer  "user_id"
-    t.integer  "summoner_level_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "mp",                           default: 0
@@ -570,8 +568,7 @@ ActiveRecord::Schema.define(version: 20150204012155) do
     t.text     "daily_battles",                default: [],                    array: true
     t.text     "beaten_levels",                default: [],                    array: true
     t.text     "recently_completed_quests",    default: [],                    array: true
-    t.integer  "stamina",                      default: 100
-    t.integer  "level",                        default: 1
+    t.integer  "stamina",                      default: 15
     t.integer  "seconds_left_for_next_energy"
     t.datetime "last_update_for_energy",       default: '2014-12-09 21:13:37'
     t.text     "completed_areas",              default: [],                    array: true
@@ -583,9 +580,10 @@ ActiveRecord::Schema.define(version: 20150204012155) do
     t.text     "cleared_twice_levels",         default: [],                    array: true
     t.text     "cleared_thrice_levels",        default: [],                    array: true
     t.text     "just_achieved_quests",         default: [],                    array: true
+    t.integer  "summoner_level_id",            default: 1
+    t.integer  "exp_to_gain"
   end
 
-  add_index "summoners", ["summoner_level_id"], name: "index_summoners_on_summoner_level_id", using: :btree
   add_index "summoners", ["user_id"], name: "index_summoners_on_user_id", using: :btree
 
   create_table "target_categories", force: true do |t|

@@ -18,7 +18,7 @@ class Battle::Create
       battle.parties.push(
         Party.where(user: User.find_by_user_name("NPC")).
         where(name: battle.battle_level.name).
-        where(enemy: user.user_name).last)
+        where(enemy: user.email).last)
     end
   end
 end

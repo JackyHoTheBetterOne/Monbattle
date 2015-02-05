@@ -93,7 +93,7 @@ class Monster < ActiveRecord::Base
   end
 
   def self.default_monsters
-    ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira", "Saphireon"]
+    ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira"]
   end
 
   def self.find_default_monster_ids

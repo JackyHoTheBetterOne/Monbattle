@@ -1,12 +1,18 @@
 <div class="end-battle-box loser">
   <p class="exp-earned">0.1</p>
   <p class="ability-earned">Nothing</p>
-  <%= link_to "Equip Ability", home_index_path, class: "end-battle-but ability-equip battle-fin" %>
-  <%= form_for(Battle.new) do |f|  %>
-    <button class="end-battle-but replay" name="battle[battle_level_id]" type="submit" 
-            value="<%= @battle.battle_level.id %>">
-      <%= image_tag("restart-icon-new.png", class: "restart-icon battle-fin", size: "50x50") %>
-    </button>
+  <% if @first_battle %>
+    <%= link_to "Equip Ability", home_index_path, 
+        class: "end-battle-but first-battle-equip-but battle-fin" %>
+  <% else %>
+    <%= link_to "Equip Ability", home_index_path, 
+        class: "end-battle-but ability-equip battle-fin" %>
+    <%= form_for(Battle.new) do |f|  %>
+      <button class="end-battle-but replay" name="battle[battle_level_id]" type="submit" 
+              value="<%= @battle.battle_level.id %>">
+        <%= image_tag("restart-icon-new.png", class: "restart-icon battle-fin", size: "50x50") %>
+      </button>
+    <% end %>
   <% end %>
   <%= link_to image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/next.png", class: "next-but"), 
       new_battle_path, class: "end-battle-but level-select-but battle-fin" %>
