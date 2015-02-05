@@ -15,4 +15,8 @@ module ApplicationHelper
   def seconds_to_time(seconds)
     Time.at(seconds).utc.strftime("%H:%M:%S")
   end
+
+  def current_summoner
+    return current_user.summoner
+  end
 end

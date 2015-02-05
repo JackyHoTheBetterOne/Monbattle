@@ -60,8 +60,19 @@ class Battle < ActiveRecord::Base
     @mp_reward           = self.battle_level.mp_reward 
     @gp_reward           = self.battle_level.gp_reward 
     @vk_reward           = self.battle_level.vk_reward 
+    @exp_reward          = self.battle_level.exp_given
     @victorious_summoner = Summoner.find_summoner(self.victor)
     @victorious_summoner.wins += 1 
+
+    if @victorious_summoner.exp_required <= @exp_reward + @victorious_summoner.current_exp
+      @victorious_summoner.current_exp = @exp_reward + @victorious_summoner.current_exp - 
+        @victorious_summoner.exp_required 
+      @level = SummonerLevel.find_by_level(@victorious_summoner.level+1)
+      @victorious_summoner.summoner_level = @level
+      @victorious_summoner.stamina = @level.stamina
+    else
+      @victorious_summoner.current_exp += @exp_reward
+    end
 
     if @victorious_summoner.beaten_levels.include?(@battle_level.name)
       @victorious_summoner.mp += @mp_reward

@@ -60,11 +60,11 @@ window.setNewAbilityArray = ->
 
 window.replenishStamina = ->
   if document.getElementById("current-stamina") isnt null
-    if parseInt(document.getElementById("current-stamina").innerHTML) isnt 100
-      number = parseInt(document.getElementById("current-stamina").innerHTML)
-      number += 1
-      document.getElementById("current-stamina").innerHTML = number.toString()
-      $(".summoner-stamina-bar .bar").css("width", number.toString() + "%")
+    number = parseInt(document.getElementById("current-stamina").innerHTML)
+    max_num = parseInt(document.getElementById("max-stamina").innerHTML)
+    if number isnt max_num 
+      number += 1 
+      $(".summoner-stamina-bar .bar").css("width", (100*number/max_num).toString() + "%")
 
 setDonationAmount = ->
   window.money = $(".donation").val().replace(/,/g,'')*100
@@ -115,9 +115,10 @@ $ ->
   window.newAbilitiesLearned = [] if typeof window.newAbilitiesLearned is "undefined"
   window.newMonsters = [] if typeof window.newMonsters is "undefined"
   number = parseInt($(".current-stamina").text())
+  max_num = parseInt($(".max-stamina").text())
   setEnergy()
   setNewAbilityArray()
-  $(".summoner-stamina-bar .bar").css("width", (number/100*100).toString() + "%")
+  $(".summoner-stamina-bar .bar").css("width", (100*number/max_num).toString() + "%")
   $(".donation-action").hide()
   $(document).on "keyup", ".donation", ->
     setDonationAmount()

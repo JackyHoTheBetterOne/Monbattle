@@ -8,6 +8,28 @@ class Summoner < ActiveRecord::Base
   before_save :generate_code
   after_create :change_name
 
+
+  def level
+    self.summoner_level.level
+  end
+
+  def max_stamina
+    self.summoner_level.stamina
+  end
+
+  def exp_required
+    self.summoner_level.exp_required_for_next_level
+  end
+
+  def exp_required_further
+    return SummonerLevel.find_by_level(self.level+1).exp_required_for_next_level
+  end
+
+  def exp_percentage
+    return (100*self.current_exp/self.exp_required).to_s + "%"
+  end
+
+
   def change_name
     if self.name == nil 
       self.name = self.user.user_name
@@ -37,7 +59,7 @@ class Summoner < ActiveRecord::Base
   end
 
   def stamina_percentage
-    self.stamina.to_s + "%"
+    return (100*self.stamina/self.max_stamina).to_s + "%"
   end
 
 
@@ -194,7 +216,7 @@ class Summoner < ActiveRecord::Base
                       self.last_update_for_energy.in_time_zone("Pacific Time (US & Canada)"))/300).floor.to_i
         self.last_update_for_energy = Time.now.in_time_zone("Pacific Time (US & Canada)") - seconds
         self.seconds_left_for_next_energy = 300 - seconds
-        self.stamina = 100 if self.stamina > 100
+        self.stamina = self.max_stamina if self.stamina > self.max_stamina
       else
         self.last_update_for_energy = Time.now.in_time_zone("Pacific Time (US & Canada)")
       end 

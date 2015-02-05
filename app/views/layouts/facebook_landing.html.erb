@@ -58,31 +58,38 @@
           <li class= "summoner-info pull-right">
             <p class="username"><%= current_user.namey %></p>
             <span class="summoner-gp" id="summoner-gp">
-              <%= current_user.summoner.gp %>
+              <%= current_summoner.gp %>
             </span>
             <%= image_tag("gp.png", class: "gp-icon") %>
             <span class="summoner-mp" id="summoner-mp">
-              <%= current_user.summoner.mp %>
+              <%= current_summoner.mp %>
             </span>
             <%= image_tag("mp.png", class: "mp-icon") %>
-            <span class="summoner-level" id="summoner-level" data-seconds="<%= current_user.summoner.seconds_left_for_next_energy %>">
-              LV <%= current_user.summoner.level%>
+            <span class="summoner-level" id="summoner-level" data-seconds="<%= current_summoner.seconds_left_for_next_energy %>">
+              LV <%= current_summoner.level %>
             </span>
             <br />
             <span class="summoner-exp">EXP </span>
-            <div class="summoner-exp-bar">
-              <%= image_tag("HPBar1px.gif", class: "bar") %>
+            <div class="summoner-exp-bar" 
+              data-currentexp = "<%= current_summoner.current_exp %>"
+              data-levelupexp = "<%= current_summoner.exp_required %>"
+              data-furtherexp = "<%= current_summoner.exp_required_further %>">
+              <%= image_tag("HPBar1px.gif", class: "bar",
+                  style: "width: #{current_summoner.exp_percentage};") %>
             </div>
             <br />
             <p class="summoner-stamina">
               <span class="current-stamina" id="current-stamina" >
-                <%= current_user.summoner.stamina %>
-              </span> / 100
+                <%= current_summoner.stamina %>
+              </span> / 
+              <span class="max-stamina" id="max-stamina">
+                <%= current_summoner.max_stamina %>
+              </span>
             </p>
             <div class="summoner-stamina-bar">
               <%= image_tag("stamina.png", class: "stamina-icon") %>
               <%= image_tag("stamina-bar.png", class: "bar", 
-                  style: "width: #{current_user.summoner.stamina_percentage};") %>
+                  style: "width: #{current_summoner.stamina_percentage};") %>
             </div>
           </li>
         <% end %>
