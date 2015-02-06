@@ -37,8 +37,6 @@ class Ability < ActiveRecord::Base
   validates :stat_change, presence: {message: 'Must be entered'}, numericality: {only_integer: true}
   validates :abil_socket_id, presence: {message: 'Must be entered'}
   validates :rarity_id, presence: {message: 'Must be entered'}
-  validates :mp_cost, numericality: {greater_than_or_equal_to: 0}
-  validates :gp_cost, numericality: {greater_than_or_equal_to: 0}
 
   delegate :name, to: :ability_equipping, prefix: true
 
@@ -219,7 +217,8 @@ class Ability < ActiveRecord::Base
   def as_json(options={})
     super(
       :only => [:name, :ap_cost, :stat_change, :description],
-      :methods => [:stat, :targeta, :rarita, :elementa, :change, :modifier, :img, :slot],
+      :methods => [:stat, :targeta, :rarita, :elementa, :change, 
+                    :modifier, :img, :slot, :port],
       :include => {
         :effects => {
           :only => [:name, :stat_change, :restore, :duration, :description],

@@ -98,6 +98,7 @@ class Battle < ActiveRecord::Base
 
   def build_json
     battle_json = {}
+    battle_json[:summoner_abilities] = Ability.joins(:rarity).where("rarities.name = 'oracle'").map(&:as_json)
     battle_json[:level_name] = self.battle_level.name
     battle_json[:code] = self.parties[0].user.summoner.code
     battle_json[:background] = self.background
