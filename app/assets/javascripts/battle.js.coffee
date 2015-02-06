@@ -583,10 +583,10 @@ window.apNum = ".ap .ap-number"
 window.apBar = ".ap-meter .bar"
 
 window.apInfo = (maxAP) ->
-  "AP:" + "   " + maxAP + " / " + maxAP
+  maxAP + " / " + maxAP
 
 window.apAfterUse = (current, max) ->
-  "AP:" + "   " + current + " / " + max
+  current + " / " + max
 
 window.apChange = ->
   $(apNum).text apAfterUse(battle.players[0].ap , battle.maxAP)
@@ -737,6 +737,27 @@ window.outcome = ->
           "time_taken": parseInt(seconds_taken)
         }
       ), 200
+    $(document).on "click.cutscene", "#overlay", ->
+      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
+              battle.end_cut_scenes.length is 0
+        $(".cutscene").hide(500)
+        endCutScene()
+        setTimeout (->
+          $(".next-scene, .cutscene, .skip-button").remove()
+          $(".end-battle-box.winning").css("z-index", "1000")
+          $(".end-battle-box.winning").addClass("bounceIn animated")
+          if $(".level-up-box").length > 0
+            setTimeout (->
+              $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
+            ), 1200
+            setTimeout (->
+              $(".level-up-box").addClass("zoomOutUp")
+            ), 3200
+        ), 750
+      else 
+        new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
+        window.new_scene = battle.end_cut_scenes[new_index]
+        nextScene()
     if battle.end_cut_scenes.length isnt 0
       $(".cutscene").attr("src", battle.end_cut_scenes[0])
       $(".cutscene").css("opacity", "1")
@@ -747,27 +768,22 @@ window.outcome = ->
     else 
       $(document).off "click.cutscene"
       $(".cutscene, .next-scene").css("opacity", "0")
-      $(".message").promise().done ->
-        $("#overlay").fadeIn(1000)
-        setTimeout (->
-          $(".next-scene, .cutscene").remove()
-          $(".end-battle-box").css("z-index", "1000")
-          $(".end-battle-box").addClass("bounceIn animated")
-        ), 1800
-    $(document).on "click.cutscene", "#overlay", ->
-      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
-              battle.end_cut_scenes.length is 0
-        $(".cutscene").hide(500)
-        endCutScene()
-        setTimeout (->
-          $(".next-scene, .cutscene, .skip-button").remove()
-          $(".end-battle-box").css("z-index", "1000")
-          $(".end-battle-box").addClass("bounceIn animated")
-        ), 750
-      else 
-        new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
-        window.new_scene = battle.end_cut_scenes[new_index]
-        nextScene()
+      $("#overlay").fadeIn(1000)
+      setTimeout (->
+        $(".next-scene, .cutscene").remove()
+        $(".end-battle-box.winning").css("z-index", "1000")
+        $(".end-battle-box.winning").addClass("bounceIn animated")
+        if $(".level-up-box").length isnt 0
+          console.log("wtf man")
+          setTimeout (->
+            $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
+          ), 1200
+          setTimeout (->
+            $(".level-up-box").addClass("zoomOutUp")
+          ), 3200
+      ), 1800
+
+
 
 window.checkApAvailbility = ->
   $(".monBut button").each ->
@@ -1509,10 +1525,12 @@ window.ai = ->
         apChange()
         $(".ap").effect("highlight")
         toggleImg()
-        availableAbilities()
         deathAbilitiesToActivate["user"].length = 0
         zetBut()
         enable($("button"))
+        setTimeout (->
+          availableAbilities()
+        ), 500
       ), timeout
   ), timerRound
 
@@ -1881,7 +1899,7 @@ $ ->
                 description.children("span.damage-type").text "Special"
               description.children(".panel-body").html ability.description
               description.children(".panel-footer").children("span").children(".d").text ability.change*ability.scaling
-              description.children(".panel-footer").children("span").children(".a").text "AP: " + ability.ap_cost
+              description.children(".panel-footer").children("span").children(".a").text ability.ap_cost
               description.css({"z-index": "6000", "opacity": "0.9"})
           return
         ).on "mouseleave", ".user .monBut button", ->

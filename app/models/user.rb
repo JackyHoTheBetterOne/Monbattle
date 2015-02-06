@@ -1,3 +1,9 @@
+require 'json'
+require 'digest'
+require 'uri'
+require 'net/http'
+
+
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -90,16 +96,16 @@ class User < ActiveRecord::Base
     end
   end
 
-  def track_rolling(rarity)
+  def track_rolling(rarity, session_id)
     if self.admin == false
       game_key = ENV["GAME_KEY"]
       secret_key = ENV["GAME_SECRET"]
       endpoint_url = "http://api.gameanalytics.com/1"
       category = "design"
       message = {}
-      message["event_id"] = "rolling:" + self.name
-      message["user_id"] = self.parties[0].user.id
-      message["session_id"] = self.session_id
+      message["event_id"] = "rolling:" + self.user_name
+      message["user_id"] = self.id
+      message["session_id"] = session_id
       message["build"] = "1.00"
       message["value"] = 1.0
       json_message = message.to_json
@@ -119,7 +125,7 @@ class User < ActiveRecord::Base
       p "======================================================================="
 
       message["event_id"] =  "rolling:" + rarity
-      message["value"] = 1
+      message["value"] = 1.0
       json_message = message.to_json
       json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
       req.body = json_message

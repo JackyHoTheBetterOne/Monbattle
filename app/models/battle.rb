@@ -148,7 +148,7 @@ class Battle < ActiveRecord::Base
 
 ####################################################################################### End battle tracking
 
-  def track_outcome
+  def track_outcome(user_id)
     if self.admin == false
       game_key = ENV["GAME_KEY"]
       secret_key = ENV["GAME_SECRET"]
@@ -160,7 +160,7 @@ class Battle < ActiveRecord::Base
       else
         message["event_id"] = self.battle_level.name.gsub(" ", "_") + ":" + "victory"
       end
-      message["user_id"] = self.parties[0].user.id
+      message["user_id"] = user_id
       message["session_id"] = self.session_id
       message["build"] = "1.00"
       message["value"] = 1.0
@@ -183,7 +183,7 @@ class Battle < ActiveRecord::Base
   end
   handle_asynchronously :track_outcome
 
-  def track_progress
+  def track_progress(user_id)
     if self.admin == false
       game_key = ENV["GAME_KEY"]
       secret_key = ENV["GAME_SECRET"]
@@ -191,7 +191,7 @@ class Battle < ActiveRecord::Base
       category = "design"
       message = {}
       message["event_id"] = "level_unlock" + ":" + self.battle_level.name.gsub(" ", "_")
-      message["user_id"] = self.parties[0].user.id
+      message["user_id"] = user_id
       message["session_id"] = self.session_id
       message["build"] = "1.00"
       message["value"] = 1.0
@@ -215,7 +215,7 @@ class Battle < ActiveRecord::Base
   handle_asynchronously :track_progress
 
 
-  def track_performance
+  def track_performance(user_id)
     if self.admin == false
       game_key = ENV["GAME_KEY"]
       secret_key = ENV["GAME_SECRET"]
@@ -223,7 +223,7 @@ class Battle < ActiveRecord::Base
       category = "design"
       message = {}
       message["event_id"] = self.battle_level.name.gsub(" ", "_") + ":" + "time_taken"
-      message["user_id"] = self.parties[0].user.id
+      message["user_id"] = user_id
       message["session_id"] = self.session_id
       message["build"] = "1.00"
       message["value"] = self.time_taken
@@ -277,7 +277,7 @@ class Battle < ActiveRecord::Base
   end
   handle_asynchronously :track_performance
 
-  def track_ability_frequency(name)
+  def track_ability_frequency(name, user_id)
     if self.admin == false
       game_key = ENV["GAME_KEY"]
       secret_key = ENV["GAME_SECRET"]
@@ -285,7 +285,7 @@ class Battle < ActiveRecord::Base
       category = "design"
       message = {}
       message["event_id"] = "abilities:" + name.gsub(" ", "_")
-      message["user_id"] = self.parties[0].user.id
+      message["user_id"] = user_id
       message["session_id"] = self.session_id
       message["build"] = "1.00"
       message["value"] = 1.0

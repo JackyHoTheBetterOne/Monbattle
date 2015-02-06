@@ -37,6 +37,7 @@ class User::RollTreasure
       @summoner.gp -= 100
       @summoner.save
       reward_category_roll = Random.new.rand(1..1000)
+      
       reward_level_roll = Random.new.rand(1..1000)
 
 
