@@ -24,9 +24,9 @@
       =image_tag ability.image.url(:thumb), class: "abil-img"
       =image_tag ability.portrait.url(:thumb), class: "abil-img"
     .col-md-1.col-abils
-      p MP: &nbsp #{f.text_field :mp_cost, class: "cost-input"}
+      p Min: &nbsp #{f.text_field :minimum, class: "cost-input"}
     .col-md-1.col-abils
-      p GP: &nbsp #{f.text_field :gp_cost, class: "cost-input"}
+      p Max: &nbsp #{f.text_field :maximum, class: "cost-input"}
     .col-md-1.col-abils
       p #{f.collection_select :element_id, @elements, :id, :name}
     .col-md-6.col-abils

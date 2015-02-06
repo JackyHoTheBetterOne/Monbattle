@@ -791,6 +791,7 @@ body {
   width: 230px;
   opacity: 0;
   transition: opacity 0.3s;
+  z-index: -1;
   .panel-body {
     font-size: 85%;
     padding-top: 10px;
@@ -824,6 +825,25 @@ body {
   transition: opacity 0.25s;
 };
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////// Oracle skill panel
+.oracle-skill-panel {
+  position: absolute;
+  left: 466px;
+  top: 9px;
+  color: red;
+  z-index: 1000;
+  .oracle-skill-icon {
+    transition: 0.5s;
+    cursor: pointer;
+    z-index: 1000;
+    height: 70px;
+    position: relative;
+    top: -5px;
+    left: 5px;
+    border-radius: 5px;
+  };
+};
 
 
 

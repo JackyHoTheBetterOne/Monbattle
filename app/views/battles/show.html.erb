@@ -65,6 +65,11 @@
 
   <img class="ability-img" src="" type="image" alt="monster abiltiy">
 
+  <div class="oracle-skill-panel">
+    <p>Oracle Skill:</p>
+    <img src="https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg" class="oracle-skill-icon">
+  </div>
+
   <div class="0 user mon-slot" id="control-tip" data-team="0">
     <% @user_party.mons.each do |mon| %>
       <div class="mon mon<%= @user_party.mon_dex(mon) %>" data-index="<%= @user_party.mon_dex(mon) %>">

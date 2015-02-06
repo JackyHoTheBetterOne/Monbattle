@@ -28,6 +28,10 @@ window.fixEvolMon = (monster, player) ->
       monster[monster.passive_ability.stat] += parseInt(monster.passive_ability.change)
     else if monster.passive_ability.rarita is "death-passive"
       monster.abilities.push(monster.passive_ability)
+  if monster.max_hp isnt 0
+    monster.type = "monster"
+  else 
+    monster.type = "summoner"
   monster.isAlive = ->
     if @hp <= 0
       if $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").length isnt 0
@@ -74,6 +78,7 @@ window.fixEvolMon = (monster, player) ->
     @index = monster.index
     @unidex = monster.unidex
     @scaling = 1
+    @type = "ability"
     ability = @
     a = @
     ability.effectImpact = ->
@@ -195,14 +200,21 @@ window.fixEvolMon = (monster, player) ->
                   , "help-curse", "atk-curse"
               effect.activate abilitytargets
             when "timed-atk-buff"
+              teamAttackAbilities = []
               i = 0 
               n = abilitytargets.length
               while i < n 
-                window.teamAttackAbilities = []
                 teamAttackAbilities.push(abilitytargets[i].abilities[0])
                 i++
-              targets = teamAttackAbilities
-              effect.activate targets
+              effect.activate teamAttackAbilities
+            when "timed-spe-buff"
+              teamSpecialAbilities = []
+              i = 0 
+              n = abilitytargets.length
+              while i < n 
+                teamAttackAbilities.push(abilitytargets[i].abilities[1])
+                i++
+              effect.activate teamSpecialAbilities
             when "self", "self-poison-hp", "self-timed-phy-resist-debuff"
                   , "self-timed-spe-resist-debuff"
               effect.activate [monster]
@@ -334,7 +346,12 @@ window.fixEvolMon = (monster, player) ->
         else if e.targeta.indexOf("timed") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
-            findObjectInArray(monTarget.weakened, "targeta", e.targeta)
+            object = undefined
+            if monTarget.type is "ability" 
+              object = battle.players[monTarget.team].mons[monTarget.index]
+              findObjectInArray(object.weakened, "targeta", e.targeta)
+            else
+              findObjectInArray(monTarget.weakened, "targeta", e.targeta)
             if monTarget.isAlive()
               if usefulArray.length is 0
                 monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
@@ -344,7 +361,10 @@ window.fixEvolMon = (monster, player) ->
                 status["restore"] = e.restore
                 status["end"] = battle.round + e.duration
                 status["targeta"] = e.targeta
-                monTarget.weakened.push(status)
+                if object is undefined
+                  monTarget.weakened.push(status)
+                else 
+                  object.weakened.push(status)
                 addEffectIcon(monTarget, e)
               else 
                 old_effect = Object.create(usefulArray[0])
@@ -398,6 +418,7 @@ window.noApLeft = (object, index, array) ->
   $(object).data("apcost") > battle.players[0].ap
 window.nothingToDo = (object, index, array) ->
   $(object).css("opacity") is "0"
+
 
 window.setAll = (array, attr, value) ->
   n = array.length
@@ -484,6 +505,7 @@ window.findAliveEnemies =  ->
       liveFoes.push battle.players[0].enemies[i]
     i++
   shuffle(liveFoes)
+  return liveFoes
 
 window.findAliveFriends = ->
   window.liveFriends = []
@@ -494,6 +516,7 @@ window.findAliveFriends = ->
       liveFriends.push battle.players[0].mons[i]
     i++
   shuffle(liveFriends)
+  return liveFriends
 
 window.findAliveMons = ->
   window.liveMons = liveFriends.concat liveFoes
@@ -602,22 +625,6 @@ window.hpBarChange = (side, index) ->
   "." + side + " " + ".mon" + index + " " + ".hp .bar"
 
 
-window.checkOutcome = ->
-  if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
-    window.clearInterval(battleTimer)
-    $(document).off "mouseover"
-    turnOffCommandA()
-    toggleImg()
-    setTimeout (-> 
-      $(".img, .ability-img, .single-ability-img").promise().done ->
-        $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
-          setTimeout (->
-            $("p.dam").promise().done ->
-              outcome()
-          ), 500
-    ), 800
-
-
 window.hpChangeBattle = ->
   n = playerMonNum
   i = 0
@@ -680,109 +687,6 @@ window.showHealTeam = (index) ->
     if battle.players[index].mons[i].hp > 0
       damageBoxAnime(index, i, ability.modifier + window["change" + i], "rgba(50, 205, 50)")
     i++
-
-window.outcome = ->
-  if battle.players[0].mons.every(isTeamDead) is true
-    $(".skip-button").remove()
-    $.ajax
-      url: "/battles/" + battle.id + "/loss"
-      method: "get"
-      success: (response) ->
-        $(".message").html(response)
-    toggleImg()
-    document.getElementById('battle').style.pointerEvents = 'none'
-    $("#overlay").fadeIn 1000, ->
-      setTimeout (->
-        $(".next-scene").remove()
-        $(".end-battle-box").css("z-index", "1000")
-        $(".end-battle-box").addClass("animated bounceIn")
-      ), 750
-    $.ajax
-      url: "/battles/" + battle.id
-      method: "patch"
-      data: {
-        "victor": battle.players[1].username,
-        "loser": battle.players[0].username,
-        "round_taken": parseInt(battle.round),
-        "time_taken": parseInt(seconds_taken)
-      }
-  else if battle.players[1].mons.every(isTeamDead) is true
-    $(".next-scene").css("top", "10px")
-    $.ajax
-      url: "/battles/" + battle.id + "/win"
-      method: "get"
-      data: {round_taken: parseInt(battle.round)},
-      success: (response) ->
-        $(".message").html(response)
-        if $(".ability-earned").data("type") is "ability"
-          sentence = "You have earned " + $(".ability-earned").text() + 
-                     "! Teach it to your monster through the " + 
-                     "<a href='/learn_ability'>Ability Learning</a>" + " page!" 
-          newAbilities.push(sentence)
-        else if $(".ability-earned").data("type") is "monster"
-          sentence = "You have earned " + $(".ability-earned").text() +
-                     "! Learn more about it at the " +
-                     "<a href='/home'>Monster Equipping</a>" + " page!"
-          newMonsters.push(sentence)
-    toggleImg()
-    document.getElementById('battle').style.pointerEvents = 'none'
-    setTimeout (->
-      $.ajax
-        url: "/battles/" + battle.id
-        method: "patch"
-        data: {
-          "victor": battle.players[0].username,
-          "loser": battle.players[1].username,
-          "round_taken": parseInt(battle.round),
-          "time_taken": parseInt(seconds_taken)
-        }
-      ), 200
-    $(document).on "click.cutscene", "#overlay", ->
-      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
-              battle.end_cut_scenes.length is 0
-        $(".cutscene").hide(500)
-        endCutScene()
-        setTimeout (->
-          $(".next-scene, .cutscene, .skip-button").remove()
-          $(".end-battle-box.winning").css("z-index", "1000")
-          $(".end-battle-box.winning").addClass("bounceIn animated")
-          if $(".level-up-box").length > 0
-            setTimeout (->
-              $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
-            ), 1200
-            setTimeout (->
-              $(".level-up-box").addClass("zoomOutUp")
-            ), 3200
-        ), 750
-      else 
-        new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
-        window.new_scene = battle.end_cut_scenes[new_index]
-        nextScene()
-    if battle.end_cut_scenes.length isnt 0
-      $(".cutscene").attr("src", battle.end_cut_scenes[0])
-      $(".cutscene").css("opacity", "1")
-      setTimeout (->
-        $("#overlay").fadeIn(1000)
-      ), 750
-      nextSceneInitial()
-    else 
-      $(document).off "click.cutscene"
-      $(".cutscene, .next-scene").css("opacity", "0")
-      $("#overlay").fadeIn(1000)
-      setTimeout (->
-        $(".next-scene, .cutscene").remove()
-        $(".end-battle-box.winning").css("z-index", "1000")
-        $(".end-battle-box.winning").addClass("bounceIn animated")
-        if $(".level-up-box").length isnt 0
-          console.log("wtf man")
-          setTimeout (->
-            $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
-          ), 1200
-          setTimeout (->
-            $(".level-up-box").addClass("zoomOutUp")
-          ), 3200
-      ), 1800
-
 
 
 window.checkApAvailbility = ->
@@ -856,6 +760,134 @@ window.battleStartDisplay = (time) ->
   #   $("#battle-tutorial").joyride({})
   #   toggleImg()
   # ), (time + 1500)
+
+
+################################################################################################# Battle outcome helpers
+window.checkOutcome = ->
+  if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
+    window.clearInterval(battleTimer)
+    $(document).off "mouseover"
+    turnOffCommandA()
+    toggleImg()
+    setTimeout (-> 
+      $(".img, .ability-img, .single-ability-img").promise().done ->
+        $(".img, .ability-img, .single-ability-img, p.dam, .effect-box").promise().done ->
+          setTimeout (->
+            $("p.dam").promise().done ->
+              outcome()
+          ), 500
+    ), 800
+
+window.outcome = ->
+  if battle.players[0].mons.every(isTeamDead) is true
+    $(".skip-button").remove()
+    $.ajax
+      url: "/battles/" + battle.id + "/loss"
+      method: "get"
+      success: (response) ->
+        $(".message").html(response)
+    toggleImg()
+    document.getElementById('battle').style.pointerEvents = 'none'
+    $("#overlay").fadeIn 1000, ->
+      setTimeout (->
+        $(".next-scene").remove()
+        $(".end-battle-box").css("z-index", "1000")
+        $(".end-battle-box").addClass("animated bounceIn")
+      ), 750
+    $.ajax
+      url: "/battles/" + battle.id
+      method: "patch"
+      data: {
+        "victor": battle.players[1].username,
+        "loser": battle.players[0].username,
+        "round_taken": parseInt(battle.round),
+        "time_taken": parseInt(seconds_taken)
+      }
+  else if battle.players[1].mons.every(isTeamDead) is true
+    $(".next-scene").css("top", "10px")
+    $.ajax
+      url: "/battles/" + battle.id + "/win"
+      method: "get"
+      data: {round_taken: parseInt(battle.round)},
+      success: (response) ->
+        $(".message").html(response)
+        if $(".ability-earned").data("type") is "ability"
+          sentence = "You have earned " + $(".ability-earned").text() + 
+                     "! Teach it to your monster through the " + 
+                     "<a href='/learn_ability'>Ability Learning</a>" + " page!" 
+          newAbilities.push(sentence)
+        else if $(".ability-earned").data("type") is "monster"
+          sentence = "You have earned " + $(".ability-earned").text() +
+                     "! Learn more about it at the " +
+                     "<a href='/home'>Monster Equipping</a>" + " page!"
+          newMonsters.push(sentence)
+    toggleImg()
+    document.getElementById('battle').style.pointerEvents = 'none'
+    setTimeout (->
+      $.ajax
+        url: "/battles/" + battle.id
+        method: "patch"
+        data: {
+          "victor": battle.players[0].username,
+          "loser": battle.players[1].username,
+          "round_taken": parseInt(battle.round),
+          "time_taken": parseInt(seconds_taken)
+        }
+      ), 200
+    $(document).on "click.cutscene", "#overlay", ->
+      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
+              battle.end_cut_scenes.length is 0
+        $(".cutscene").hide(500)
+        endCutScene()
+        setTimeout (->
+          $(".next-scene, .cutscene, .skip-button").remove()
+          $(".end-battle-box.winning").css("z-index", "1000")
+          $(".end-battle-box.winning").addClass("bounceIn animated")
+          if $(".level-up-box").length > 0
+            document.getElementById('winning').style.pointerEvents = 'none'
+            setTimeout (->
+              $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
+            ), 1200
+            setTimeout (->
+              $(".level-up-box").addClass("zoomOutUp")
+              setTimeout (->
+                document.getElementById('winning').style.pointerEvents = 'auto'
+              ), 1500
+            ), 3200
+        ), 750
+      else 
+        new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
+        window.new_scene = battle.end_cut_scenes[new_index]
+        nextScene()
+    if battle.end_cut_scenes.length isnt 0
+      $(".cutscene").attr("src", battle.end_cut_scenes[0])
+      $(".cutscene").css("opacity", "1")
+      setTimeout (->
+        $("#overlay").fadeIn(1000)
+      ), 750
+      nextSceneInitial()
+    else 
+      $(document).off "click.cutscene"
+      $(".cutscene, .next-scene").css("opacity", "0")
+      $("#overlay").fadeIn(1000)
+      setTimeout (->
+        $(".next-scene, .cutscene").remove()
+        $(".end-battle-box.winning").css("z-index", "1000")
+        $(".end-battle-box.winning").addClass("bounceIn animated")
+        if $(".level-up-box").length isnt 0
+          document.getElementById('winning').style.pointerEvents = 'none'
+          setTimeout (->
+            $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
+          ), 1200
+          setTimeout (->
+            $(".level-up-box").addClass("zoomOutUp")
+            setTimeout (->
+              document.getElementById('winning').style.pointerEvents = 'auto'
+            ), 1500
+          ), 3200
+      ), 1800
+
+
 
 ################################################################################################### Display function-calling helpers
 window.singleTargetAbilityAfterClickDisplay = (ability) ->
@@ -933,7 +965,23 @@ window.multipleTargetAbilityDisplayVariable = ->
 
 
 ################################################################################################### Battle interaction helpers
-window.turnOnApButton = ->
+window.setSummonerAbility = ->
+  index = playerMonNum
+  shuffle(battle.players[0].mons[index-1].abilities)
+  ability = battle.players[0].mons[index-1].abilities[0]
+  $(".oracle-skill-icon").fadeOut 400, ->
+    $(".oracle-skill-icon").data("apcost", ability.ap_cost)
+    $(".oracle-skill-icon").data("target", ability.targeta)
+    $(".oracle-skill-icon").attr("src", ability.port)
+    $(".oracle-skill-icon").fadeIn(400)
+    if battle.summonerCooldown is 0
+      $(".oracle-skill-icon").css({"opacity":"1", "cursor":"pointer"})
+    else
+      $(".oracle-skill-icon").css({"opacity":"0.5", "cursor":"default"})
+    zetBut()
+
+
+window.turnOnSummonerActions = ->
   $(document).on "click.ap-gain", ".gain-ap", ->
     if $(this).data("apcost") <= battle.players[0].ap
       $(".end-turn").css("opacity", "0.5")
@@ -953,6 +1001,24 @@ window.turnOnApButton = ->
       ), 750
     else 
       alert("You don't have enough ap!")
+  $(document).on "click.summoner_skill", ".oracle-skill-icon", ->
+    if $(this).data("apcost") <= battle.players[0].ap and 
+        battle.summonerCooldown is 0
+      toggleImg()
+      turnOffCommandA()
+      $(".end-turn, .oracle-skill-icon").css("opacity", "0.5")
+      $(".end-turn, .oracle-skill-icon").css("cursor","pointer")
+      controlAI(0, 4, "", 0)
+      setTimeout (->
+        turnOnCommandA()
+        toggleImg()
+      ), 2000
+      setTimeout (->
+        apChange()
+        flashEndButton()
+      ), 2750
+    else 
+      alert("You cannot user this summoner ability!")
 
 window.userTargetClick = ->
   $(document).on("mouseover.friendly", ".user.mon-slot .img", ->
@@ -1021,7 +1087,7 @@ window.turnOnCommandA = ->
   $(document).on "mouseleave.command", ".user.mon-slot .mon", mouseLeaveMon
   $(document).on "mouseover.command", ".user.mon-slot .img", mouseOverMon
   $(document).on "mousemove.command", ".user.mon-slot .img", mouseOverMon
-  turnOnApButton()
+  turnOnSummonerActions()
 
 window.turnOffCommandA = ->
   $(document).off "mouseleave.command", ".user.mon-slot .mon"
@@ -1029,6 +1095,7 @@ window.turnOffCommandA = ->
   $(document).off "mousemove.command", ".user.mon-slot .img"
   $(".gain-ap").css("pointer-events", "none")
   $(document).off "click.ap-gain", ".gain-ap"
+  $(document).off "click.summoner_skill", ".oracle"
 
 window.turnOff = (name, team) ->
   $(document).off name, team + ".mon-slot .img"
@@ -1128,7 +1195,12 @@ window.roundEffectHappening = (team) ->
           e = mon.weakened[i3]
           if typeof e isnt "undefined"
             if battle.round is e.end
-              mon[e.stat] = eval(mon[e.stat] + e.restore)
+              if e.targeta is "timed-atk-buff" or e.targeta is "random-timed-atk-buff"
+                mon.abilities[0][e.stat] = eval(mon.abilities[0][e.stat] + e.restore)
+              else if e.targeta is "timed-spe-buff" or e.targeta is "random-timed-spe-buff"
+                mon.abilities[1][e.stat] = eval(mon.abilities[1][e.stat] + e.restore)
+              else
+                mon[e.stat] = eval(mon[e.stat] + e.restore)
               removeEffectIcon(mon, e)
               delete mon.weakened[i3]
           i3++
@@ -1268,8 +1340,8 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
   monster = battle.players[teamIndex].mons[monIndex]
   abilityIndex = undefined
   if typeof monster isnt "undefined" 
-    if monster.hp > 0 or type is "death"
-      if teamIndex is 1 and type isnt "death"
+    if monster.hp > 0 or type is "death" or monster.type is "summoner"
+      if teamIndex is 1 and type isnt "death" and monster.type isnt "summoner"
         $(".battle-message").text(
           monster.name + ":" + " " + getRandom(monster.speech)).
           effect("highlight", 500)
@@ -1282,6 +1354,17 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
       else 
         abilityIndex = abilityDex
       ability = battle.players[teamIndex].mons[monIndex].abilities[abilityIndex]
+      if ability.targeta is "random-foe" or ability.targeta is "random-ally"
+        if teamIndex is 0
+          if ability.targeta is "random-foe"
+            window.targetIndex = findAliveEnemies()[0].index
+          else 
+            window.targetIndex = findAliveFriends()[0].index
+        else 
+          if ability.targeta is "random-foe"
+            window.targetIndex = findAliveFriends()[0].index
+          else 
+            window.targetIndex = findAliveEnemies()[0].index
       switch ability.targeta
         when "attack"
           window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
@@ -1312,11 +1395,16 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
             hpChangeBattle()
             checkMonHealthAfterEffect()
             ), 1100
-        when "targetenemy"
-          window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
+        when "targetenemy", "random-foe"
+          window.targets = [teamIndex].concat [monIndex, abilityIndex, targetIndex]
           currentMon = $(".enemy .mon" + monIndex + " " + ".img")
-          currentMon.effect("bounce", {distance: 50, times: 1}, 800)
-          targetMon = userMon(targetIndex)
+          if teamIndex is 1
+            currentMon.effect("bounce", {distance: 50, times: 1}, 800)
+          targetMon = undefined
+          if teamIndex is 1
+            targetMon = userMon(targetIndex)
+          else
+            targetMon = pcMon(targetIndex)
           targetPosition = targetMon.offset()
           abilityAnime = $(".single-ability-img")
           singleTargetAbilityDisplayVariable()
@@ -1417,12 +1505,19 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
               return
             ), 1200
             return
-        when "targetally"    
+        when "targetally", "random-ally"
           index = minimumHpPC()
-          window.targets = [1].concat [monIndex, abilityIndex, index]
+          if teamIndex is 1
+            window.targets = [teamIndex].concat [monIndex, abilityIndex, index]
+          else 
+            window.targets = [teamIndex].concat [monIndex, abilityIndex, targetIndex]
           currentMon = $(".enemy .mon" + monIndex + " " + ".img")
-          currentMon.effect("bounce", {distance: 50, times: 1}, 800)
-          targetMon = pcMon(index)
+          if teamIndex is 1
+            currentMon.effect("bounce", {distance: 50, times: 1}, 800)
+          if teamIndex is 1
+            targetMon = pcMon(index)
+          else 
+            targetMon = userMon(targetIndex)
           targetPosition = targetMon.offset()
           abilityAnime = $(".single-ability-img")
           singleHealTargetAbilityDisplayVariable()
@@ -1530,7 +1625,8 @@ window.ai = ->
         enable($("button"))
         setTimeout (->
           availableAbilities()
-        ), 500
+          setSummonerAbility()
+        ), 400
       ), timeout
   ), timerRound
 
@@ -1735,10 +1831,9 @@ $ ->
             nextScene()
   ################################################################################################################ Battle logic
         $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
-        window.playerMonNum = battle.players[0].mons.length
-        window.pcMonNum = battle.players[1].mons.length
         battle.round = 1
         battle.maxAP = 20
+        battle.summonerCooldown = 0
         battle.calculateAP = ->
           if battle.round < 5
             battle.maxAP = 30 + 10 * battle.round
@@ -1750,16 +1845,27 @@ $ ->
         battle.checkRound = ->
           if battle.players.every(isTurnOver)
             battle.round += 1
+            battle.summonerCooldown -= 1 if battle.summonerCooldown isnt 0
             setAll(battle.players, "turn", true)
             setAll(battle.players, "ap", battle.maxAP)
+        oracle = {}
+        oracle.hp = 0
+        oracle.max_hp = 0
+        oracle.abilities = battle.summoner_abilities
+        oracle.passive_ability = null
+        battle.players[0].mons.push(oracle)
+        window.playerMonNum = battle.players[0].mons.length
+        window.pcMonNum = battle.players[1].mons.length
         battle.monAbility = (playerIndex, monIndex, abilityIndex, targetIndex) ->
           ability = @players[playerIndex].mons[monIndex].abilities[abilityIndex]
           player = @players[playerIndex]
           monster = @players[playerIndex].mons[monIndex]
+          if monster.type is "summoner"
+            battle.summonerCooldown += 2
           switch ability.targeta
-            when "targetenemy", "attack"
+            when "targetenemy", "attack", "random-foe"
               targets = [ player.enemies[targetIndex] ]
-            when "targetally", "cleanseally"
+            when "targetally", "cleanseally", "random-ally"
               targets = [ player.mons[targetIndex] ]
             when "aoeenemy"
               targets = player.enemies
@@ -1812,6 +1918,7 @@ $ ->
   ################################################################################################################  Player logic
         $(battle.players).each ->
           player = @
+          player.type = "player"
           player.turn = true
           player.ap_overload = 0
           player.gainAp = ->
@@ -1848,15 +1955,17 @@ $ ->
             monster.unidex = monster.team.toString()+monster.index.toString()
             window["change" + monster.unidex] = 0
             fixEvolMon(monster, player)
-  #################################################################################################################  Battle interaction
+  #################################################################################################################  Battle general interaction
         window.documentURLObject = window.battle.monAbility.toString() + window.battle.players[0].commandMon.toString() + 
                                                                         window.battle.players[1].commandMon.toString()
         window.feed = ->
           targets.shift()
         window.currentBut = undefined
+        setSummonerAbility()
         zetBut()
         availableAbilities()
         toggleEnemyClick()
+        setSummonerAbility()
         $(document).on("mouseover", ".battle-round-countdown", ->
           $(".bonus-description").css({"opacity":"1", "z-index":"10000"})
         ).on "mouseleave", ".battle-round-countdown", ->
@@ -1873,9 +1982,12 @@ $ ->
           return
         $(".ap .ap-number").text apInfo(battle.maxAP)
         turnOnCommandA()
-        $(document).on("mouseover", ".user .monBut button", ->
+        $(document).on("mouseover", ".user .monBut button, .oracle-skill-icon", ->
+          element = $(this)
           ability_target = $(this).data("target")
           description = $(this).parent().parent().children(".abilityDesc")
+          if $(this).attr("class") is "oracle-skill-icon"
+            description = $(".user .mon.mon1 .abilityDesc")
           if $(this).css("opacity") isnt "0"
             if $(this).data("target") is "evolve"
               description.children("span.damage-type").text ""
@@ -1891,7 +2003,11 @@ $ ->
               description.children(".panel-footer").children("span").children(".a").text "AP: " + better_mon.ap_cost
               description.css({"z-index": "11000", "opacity": "0.9"})
             else
-              ability = battle.players[0].mons[targets[1]].abilities[$(this).data("index")]
+              ability = undefined
+              if element.attr("class") is "oracle-skill-icon"
+                ability = battle.players[0].mons[playerMonNum-1].abilities[0]
+              else 
+                ability = battle.players[0].mons[targets[1]].abilities[$(this).data("index")]
               description.children(".panel-heading").text ability.name
               if ability_target is "attack"
                 description.children("span.damage-type").text "Physical"
@@ -1902,8 +2018,12 @@ $ ->
               description.children(".panel-footer").children("span").children(".a").text ability.ap_cost
               description.css({"z-index": "6000", "opacity": "0.9"})
           return
-        ).on "mouseleave", ".user .monBut button", ->
-          $(this).parent().parent().children(".abilityDesc").css({"z-index":"-1", "opacity": "0"})
+        ).on "mouseleave", ".user .monBut button, .oracle-skill-icon", ->
+          element = $(this)
+          if $(this).attr("class") is "oracle-skill-icon"
+            $(".user .mon.mon1 .abilityDesc").css({"z-index":"-1", "opacity": "0"})
+          else
+            element.parent().parent().children(".abilityDesc").css({"z-index":"-1", "opacity": "0"})
           return
         $(document).on "click.endTurn", "button.end-turn", ->
           disable($(".end-turn"))
@@ -1923,6 +2043,7 @@ $ ->
         $(document).on("mouseover", ".effect", ->
           index = @id
           e = effectBin[index]
+          $(".effect-info").css("z-index", "2000")
           $(".effect-info").css("opacity", "1")
           if e.targeta is "taunt" 
             $(".effect-info" + " " + ".panel-body").text("This unit wants to kill " + e.target + ".")
@@ -1941,6 +2062,13 @@ $ ->
           index = @id
           e = effectBin[index]
           $(".effect-info").css("opacity", "0")
+          $(".effect-info").css("z-index", "-1")
+        $(document).on("mouseover", ".oracle-skill-icon", ->
+          icon = $(this)
+          if battle.summonerCooldown is 0
+            $(this).css("box-shadow", "0px 0px 20px yellow")
+        ).on "mouseleave", ".oracle-skill-icon", ->
+          $(this).css("box-shadow", "none")
 #############################################################################################################  User move interaction
         $(document).on("mouseover.ap-gain", ".gain-ap", ->
           cost = $(this).data("apcost")

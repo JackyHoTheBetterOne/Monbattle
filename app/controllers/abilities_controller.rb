@@ -2,7 +2,7 @@ class AbilitiesController < ApplicationController
   before_action :find_ability, :name_check, only: [:update]
   before_action :find_abilities, except: [:update]
   before_action :find_targets, :find_stat_targets, :find_abil_sockets, :find_rarities,
-                :find_jobs, :find_effects, :find_elements
+                :find_jobs, :find_effects, :find_elements, :find_effect_targets
 
   def index
     @ability = Ability.new
@@ -40,6 +40,11 @@ class AbilitiesController < ApplicationController
   end
 
   private
+
+  def find_effect_targets
+    @effect_targets = Target.effect.alphabetical
+  end
+
 
   def find_abilities
     if params[:filter]
@@ -92,7 +97,7 @@ class AbilitiesController < ApplicationController
 
   def ability_params
     params.require(:ability).permit(
-                             :name, :ap_cost, :image, :min_level, :mp_cost, :gp_cost, :rarity_id,
+                             :name, :ap_cost, :image, :min_level, :minimum, :maximum, :rarity_id,
                              :description, :job_id, :target_id, :stat_target_id, :element_id,
                              :stat_change, :abil_socket_id, :portrait, :former_name,
                              {effect_ids: []}, {job_ids: []}
