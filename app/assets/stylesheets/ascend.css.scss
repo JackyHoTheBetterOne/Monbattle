@@ -1,0 +1,51 @@
+.ascending {
+  position: relative;
+  height: 500px;
+  width: 960px;
+  background: #4B4B4B;
+  background-size: cover;
+  border-radius: 5px;
+  left: 15px;
+  top: -15px;
+  .monster-list {
+    position: absolute;
+    box-shadow: 7px 4px 10px #000000;
+    top: 50px;
+    width: 470px;
+    left: 4px;
+    height: 435px;
+    background: #757575;
+    margin-top: 5px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+    .ascend-list {
+      position: absolute;
+      height: 80%;
+      width: 98%;
+      border-radius: 5px;
+      left: 5px;
+      top: 68px;
+      overflow: scroll;
+      .mon-avatar {
+        height: 85px;
+        width: 85px;
+        margin: 5px 8.5px 5px;
+        box-shadow: 5px 5px 5px #000000;
+      };
+      .mon-avatar:hover {
+        box-shadow: 1px -1px 11px #FFFF00;
+        cursor: pointer;
+      };
+    };
+  };
+  .ascend-monster {
+    position: absolute;
+    height: 435px;
+    width: 464px;
+    background: #757575;
+    top: 55px;
+    right: 10px;
+    box-shadow: 7px 4px 10px #000000;
+    border-radius: 5px;
+  };
+};

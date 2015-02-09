@@ -1,0 +1,26 @@
+<div class="ascending">
+  <div class="monster-list">
+    <div class="ascend-list">
+      <% @ascension.monsters.each do |s| %>
+        <%= link_to (
+              image_tag("#{s.default_skin_img}", 
+              class: "mon-avatar")
+            ), 
+            ascend_monster_path(ascend_monster: s.name)
+         %>
+      <% end %>
+    </div>
+  </div>
+  <div class="ascend-monster">
+    <% if @ascension.bigger_monster %>
+      <h3>Monster to ascend:</h3>
+      <h3><%= @ascension.baby_monster.name %></h3>
+      <div class="title-box">
+        
+      </div>
+      <div class="material-box">
+      </div>
+      <div class="ascension-box"> 
+    <% end %>
+  </div>
+</div>

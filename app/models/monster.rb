@@ -44,7 +44,6 @@ class Monster < ActiveRecord::Base
   before_destroy :check_for_default
   after_update :unlock_for_admins
 
-
   scope :search, -> (keyword) {
     if keyword.present?
       where("keywords LIKE ?", "%#{keyword.downcase}%")
@@ -93,7 +92,7 @@ class Monster < ActiveRecord::Base
   end
 
   def self.default_monsters
-    ["Red Bubbles", "Green Bubbles", "Yellow Bubbles", "Saphira"]
+    ["Green Bubbles", "Saphira"]
   end
 
   def self.find_default_monster_ids

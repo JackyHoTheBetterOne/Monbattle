@@ -1001,14 +1001,15 @@ window.turnOnSummonerActions = ->
       ), 750
     else 
       alert("You don't have enough ap!")
+  $(document).off "click.summoner_skill"
   $(document).on "click.summoner_skill", ".oracle-skill-icon", ->
-    if $(this).data("apcost") <= battle.players[0].ap and 
-        battle.summonerCooldown is 0
+    if $(this).data("apcost") <= battle.players[0].ap and battle.summonerCooldown is 0
       toggleImg()
       turnOffCommandA()
       $(".end-turn, .oracle-skill-icon").css("opacity", "0.5")
-      $(".end-turn, .oracle-skill-icon").css("cursor","pointer")
-      controlAI(0, 4, "", 0)
+      $(".end-turn, .oracle-skill-icon").css("cursor","default")
+      index = playerMonNum - 1
+      controlAI(0, index, "", 0)
       setTimeout (->
         turnOnCommandA()
         toggleImg()
@@ -1017,8 +1018,6 @@ window.turnOnSummonerActions = ->
         apChange()
         flashEndButton()
       ), 2750
-    else 
-      alert("You cannot user this summoner ability!")
 
 window.userTargetClick = ->
   $(document).on("mouseover.friendly", ".user.mon-slot .img", ->
@@ -1094,8 +1093,9 @@ window.turnOffCommandA = ->
   $(document).off "mouseover.command", ".user.mon-slot .img"
   $(document).off "mousemove.command", ".user.mon-slot .img"
   $(".gain-ap").css("pointer-events", "none")
+  $(".oracle-skill-icon").css("cursor", "default")
   $(document).off "click.ap-gain", ".gain-ap"
-  $(document).off "click.summoner_skill", ".oracle"
+  $(document).off "click.summoner_skill", ".oracle-skill-icon"
 
 window.turnOff = (name, team) ->
   $(document).off name, team + ".mon-slot .img"
@@ -1600,7 +1600,6 @@ window.ai = ->
       updateAbilityScaling(0, "missing-hp")
       updateAbilityScaling(1, "missing-hp")
       hpChangeBattle()
-      checkOutcome() if $("#overlay").css("display") is "none"
       $(".battle-message").fadeOut(100)
       $(".enemy .img").removeAttr("disabled")
       zetBut()
@@ -1615,6 +1614,7 @@ window.ai = ->
       else 
         timeout = 500
       setTimeout (->
+        checkOutcome() if $("#overlay").css("display") is "none"
         battle.players[0].ap -= battle.players[0].ap_overload
         battle.players[0].ap_overload = 0
         apChange()
@@ -1624,9 +1624,10 @@ window.ai = ->
         zetBut()
         enable($("button"))
         setTimeout (->
+          turnOnCommandA()
           availableAbilities()
           setSummonerAbility()
-        ), 400
+        ), 500
       ), timeout
   ), timerRound
 
@@ -1786,12 +1787,16 @@ $ ->
       if text isnt "Forum"
         event.preventDefault()
         $(".confirmation").css({"opacity":"1", "z-index":"10000000"})
+        $(".skip-button").css("opacity", "0")
         $(".leave-battle-but").attr("href", link)
         $("#overlay").fadeIn()
     $(".back-to-battle-but").on "click.back", (event) ->
       event.preventDefault()
       $("#overlay").fadeOut()
       $(".confirmation").css({"opacity":"0", "z-index":"-1"})
+      setTimeout (->
+        $(".skip-button").css("opacity", "1")
+      ), 500
     $.ajax 
       url: "/battles/" + $(".battle").data("index") + ".json"
       dataType: "json"
@@ -1861,7 +1866,7 @@ $ ->
           player = @players[playerIndex]
           monster = @players[playerIndex].mons[monIndex]
           if monster.type is "summoner"
-            battle.summonerCooldown += 2
+            battle.summonerCooldown += 3
           switch ability.targeta
             when "targetenemy", "attack", "random-foe"
               targets = [ player.enemies[targetIndex] ]
@@ -2000,7 +2005,7 @@ $ ->
                 "<br />" + better_mon.abilities[1].name + ": " + better_mon.abilities[1].description
                 )
               description.children(".panel-footer").children("span").children(".d").text "HP: +" + added_hp
-              description.children(".panel-footer").children("span").children(".a").text "AP: " + better_mon.ap_cost
+              description.children(".panel-footer").children("span").children(".a").text better_mon.ap_cost
               description.css({"z-index": "11000", "opacity": "0.9"})
             else
               ability = undefined
@@ -2026,6 +2031,7 @@ $ ->
             element.parent().parent().children(".abilityDesc").css({"z-index":"-1", "opacity": "0"})
           return
         $(document).on "click.endTurn", "button.end-turn", ->
+          turnOffCommandA()
           disable($(".end-turn"))
           toggleImg()
           xadBuk()

@@ -132,6 +132,23 @@ class HomeController < ApplicationController
     end
   end
 
+  def ascend_monster
+    if params[:ascend_monster]
+      ascend = User::Ascend.new(user: current_user, 
+                                selected_ascension: params[:ascend_monster])
+    else 
+      ascend = User::Ascend.new(user: current_user)
+    end
+    ascend.call
+    @ascension = ascend
+
+
+
+
+  end
+
+
+
   private
 
   def find_user

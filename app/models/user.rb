@@ -166,6 +166,9 @@ class User < ActiveRecord::Base
         MonsterUnlock.create(user_id: @user_id, monster_id: id)
       end
     end
+    self.monster_unlocks.each do |m|
+      self.parties[0].monster_unlocks << m
+    end
   end
 
 end
