@@ -538,7 +538,9 @@ body {
       display: inline;
     };
     p.a {
+      @include stroke();
       float: right;
+      color: #557ebd;
     };
     .pan {
       background: #353434;

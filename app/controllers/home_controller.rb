@@ -132,6 +132,30 @@ class HomeController < ApplicationController
     end
   end
 
+  def ascend_monster
+    if params[:ascend_monster]
+      ascend = User::Ascend.new(user: current_user, 
+                                selected_ascension: params[:ascend_monster])
+    else 
+      ascend = User::Ascend.new(user: current_user)
+    end
+    ascend.call
+    @ascension = ascend
+  end
+
+  def unlock_ascension
+    @monster = Monster.find(params[:monster_id])
+    if @monster.asp_cost <= current_user.summoner.asp
+      MonsterUnlock.create!(user_id: current_user.id, monster_id: params[:monster_id])
+      redirect_to :back
+    else  
+      flash[:danger] = "Not enough material to unlock"
+      redirect_to :back
+    end
+  end
+
+
+
   private
 
   def find_user

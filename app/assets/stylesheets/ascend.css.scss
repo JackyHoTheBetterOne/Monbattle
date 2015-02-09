@@ -1,0 +1,158 @@
+.ascending {
+  position: relative;
+  height: 500px;
+  width: 960px;
+  background: #4B4B4B;
+  background-size: cover;
+  border-radius: 5px;
+  left: 15px;
+  top: -15px;
+  .monster-list {
+    position: absolute;
+    box-shadow: 7px 4px 10px #000000;
+    top: 50px;
+    width: 470px;
+    left: 4px;
+    height: 435px;
+    background: #757575;
+    margin-top: 5px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+    .ascend-list {
+      position: absolute;
+      height: 80%;
+      width: 98%;
+      border-radius: 5px;
+      left: 5px;
+      top: 68px;
+      overflow: scroll;
+      .ascend-mon-avatar {
+        height: 85px;
+        width: 85px;
+        margin: 5px 8.5px 5px;
+        box-shadow: 5px 5px 5px #000000;
+      };
+      .mon-avatar:hover {
+        box-shadow: 1px -1px 11px #FFFF00;
+        cursor: pointer;
+      };
+    };
+  };
+  .ascend-monster {
+    position: absolute;
+    height: 435px;
+    width: 464px;
+    background: #757575;
+    top: 55px;
+    right: 10px;
+    box-shadow: 7px 4px 10px #000000;
+    border-radius: 5px;
+    .title-box {
+      .ascension-desc {
+        color: black;
+        position: absolute;
+        top: -5px;
+        left: 10px;
+      };
+      .baby-face {
+        position: absolute;
+        right: 11px;
+        top: 15px;
+      };
+      .baby-name {
+        color: black;
+        position: absolute;
+        left: 12px;
+        top: 30px;
+      };
+    };
+
+    .material-desc {
+      position: absolute;
+      top: 120px;
+      left: 10px;
+      color: black;
+    };
+
+    .material-box {
+      background: #4B4B4B;
+      height: 80px;
+      width: 96%;
+      border-radius: 5px;
+      position: absolute;
+      left: 9px;
+      top: 155px;
+      .material-icon {
+        position: relative;
+        left: 10px;
+        height: 33px;
+        top: 3px;
+      };
+      span {
+        position: relative;
+        left: 13px;
+        font-size: 110%;
+        top: 6px;
+      };
+    };
+
+    .ascension-desc {
+      position: absolute;
+      top: 240px;
+      left: 10px;
+      color: black;
+    };
+
+    .unlock-ascension-but {
+      position: absolute;
+      bottom: 22px;
+      left: 176px;
+    };
+    
+    .ascension-box {
+      background: #4B4B4B;
+      height: 100px;
+      width: 96%;
+      position: absolute;
+      top: 272px;
+      left: 10px;
+      border-radius: 5px;
+      span {
+        position: absolute;
+        color: black;
+        left: 116px;
+        font-size: 120%;
+      };
+      .ascend-name {
+        top: 12px;
+      };
+      .ascend-class {
+        top: 35px;
+      };
+      .ascend-hp {
+        top: 58px;
+      };
+      .ascend-face {
+        height: 90px;
+        position: absolute;
+        left: 8px;
+        top: 4.5px;
+      };
+      .passive-name {
+        position: absolute;
+        top: 74px;
+        left: 351px;
+      };
+      .passive-icon {
+        position: absolute;
+        right: 19px;
+        height: 66px;
+        top: 7px;
+        border-radius: 5px;
+      };
+    };
+  };
+};
+
+
+
