@@ -51,7 +51,8 @@ get "/create_battle" => "battles#create", as: :create_battle
 root 'home#facebook'
 get 'home/roll_trash' => "home#roll_trash", as: :roll_trash
 get 'home/roll_treasure' => "home#roll_treasure", as: :roll_treasure
-
+get 'ascend_monster' => 'home#ascend_monster', as: :ascend_monster
+post 'unlock_ascension' => 'home#unlock_ascension', as: :unlock_ascension
 get 'home/abilities_for_mon' => "home#abilities_for_mon"
 
 resources :home
