@@ -146,6 +146,9 @@ class HomeController < ApplicationController
   def unlock_ascension
     @monster = Monster.find(params[:monster_id])
     if @monster.asp_cost <= current_user.summoner.asp
+      @summoner = current_user.summoner
+      @summoner.asp -= @monster.asp_cost
+      @summoner.save
       MonsterUnlock.create!(user_id: current_user.id, monster_id: params[:monster_id])
     end
     render nothing: true

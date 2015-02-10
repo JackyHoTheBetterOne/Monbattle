@@ -24,10 +24,24 @@
     <%= image_tag(ascension.bigger_monster.default_skin_img, class: "ascend-face") %>
     <% if ascension.bigger_monster.passive %>
       <%= image_tag(ascension.bigger_monster.passive.port, class: "passive-icon") %>
-      <span class= "passive-name"><%= ascension.bigger_monster.passive.name %></span>
+      <span class= "passive-title">Passive</span>
+      <div class="passive-description">
+        <div class="passive-name">
+          <%= ascension.bigger_monster.passive.name %>
+        </div>
+        <div class="passive-details">
+          <%= ascension.bigger_monster.passive.description %>
+        </div>
+      </div>
     <% end %>
   </div>
-  <%= link_to "Unlock Ascension", 
-      unlock_ascension_path(:monster_id => ascension.bigger_monster.id), 
-      :method => :post, class: "unlock-ascension-but", remote: true %>
+  <% if ascension.enough %>
+    <%= link_to "Unlock Ascension", 
+        unlock_ascension_path(:monster_id => ascension.bigger_monster.id), 
+        :method => :post, class: "unlock-ascension-but", remote: true %>
+  <% else %>
+    <div class="red-light-ascension">
+      Not enough material 
+    </div>
+  <% end %>
 <% end %>
