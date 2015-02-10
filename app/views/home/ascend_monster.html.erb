@@ -1,43 +1,21 @@
 <div class="ascending">
+  <h2>Ascend Monsters</h2>
   <div class="monster-list">
+    <h3 class="list-title">Capable of Ascension:</h3>
     <div class="ascend-list">
       <% @ascension.monsters.each do |s| %>
         <%= link_to (
               image_tag("#{s.default_skin_img}", 
               class: "ascend-mon-avatar")
             ), 
-            ascend_monster_path(ascend_monster: s.name)
+            ascend_monster_path(ascend_monster: s.name),
+            id: s.name,
+            remote: true
          %>
       <% end %>
     </div>
   </div>
   <div class="ascend-monster">
-    <% if @ascension.bigger_monster %>
-      <div class="title-box">
-        <h3 class="ascension-desc">Monster to ascend:</h3>
-        <h3 class="baby-name"><%= @ascension.baby_monster.name %></h3>
-        <%= image_tag(@ascension.baby_monster.default_skin_img, class: "baby-face") %>
-      </div>
-      <h4 class="material-desc">Required Material:</h4>
-      <div class="material-box">
-        <%= image_tag("mp.png", class: "material-icon") %>
-        <span>X <%= @ascension.bigger_monster.asp_cost %></span> &nbsp
-        <span>(Have <%= current_summoner.asp %>)</span>
-      </div>
-      <h4 class="ascension-desc">Ascension:</h4>
-      <div class="ascension-box"> 
-        <span class="ascend-name"><%= @ascension.bigger_monster.name  %></span>
-        <span class="ascend-class"><%= @ascension.bigger_monster.job.name %></span>
-        <span class="ascend-hp">HP: <%= @ascension.bigger_monster.max_hp %></span>
-        <%= image_tag(@ascension.bigger_monster.default_skin_img, class: "ascend-face") %>
-        <% if @ascension.bigger_monster.passive %>
-          <%= image_tag(@ascension.bigger_monster.passive.port, class: "passive-icon") %>
-          <span class= "passive-name"><%= @ascension.bigger_monster.passive.name %></span>
-        <% end %>
-      </div>
-      <%= link_to "Unlock Ascension", 
-          unlock_ascension_path(:monster_id => @ascension.bigger_monster.id), 
-          :method => :post, class: "unlock-ascension-but" %>
-    <% end %>
+    <%= render partial: "ascend_monster", locals: {ascension: @ascension} %>
   </div>
 </div>

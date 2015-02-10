@@ -147,11 +147,8 @@ class HomeController < ApplicationController
     @monster = Monster.find(params[:monster_id])
     if @monster.asp_cost <= current_user.summoner.asp
       MonsterUnlock.create!(user_id: current_user.id, monster_id: params[:monster_id])
-      redirect_to :back
-    else  
-      flash[:danger] = "Not enough material to unlock"
-      redirect_to :back
     end
+    render nothing: true
   end
 
 

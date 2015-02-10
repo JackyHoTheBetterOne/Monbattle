@@ -1,0 +1,12 @@
+$(".ascend-monster").fadeOut(200, function(){
+  $(".ascend-monster").html(
+    "<%= j render partial:'ascend_monster', locals: {ascension: @ascension} %>"
+  );
+  setTimeout((function() {
+    $(".ascend-monster").fadeIn();
+  }), 250);
+});
+
+
+
+
