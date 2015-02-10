@@ -1,3 +1,9 @@
+.ascension-unlocked {
+  z-index: 10000;
+  left: 176px !important;
+  top: -125px !important;
+};
+
 .ascending {
   position: relative;
   height: 500px;
@@ -7,6 +13,12 @@
   border-radius: 5px;
   left: 15px;
   top: -15px;
+  h2 {
+    color: white;
+    position: relative;
+    top: 10px;
+    left: 10px;
+  };
   .monster-list {
     position: absolute;
     box-shadow: 7px 4px 10px #000000;
@@ -18,6 +30,11 @@
     margin-top: 5px;
     margin-bottom: 50px;
     border-radius: 5px;
+    .list-title {
+      color: black;
+      position: relative;
+      left: 12px;
+    };
     .ascend-list {
       position: absolute;
       height: 80%;
@@ -31,8 +48,9 @@
         width: 85px;
         margin: 5px 8.5px 5px;
         box-shadow: 5px 5px 5px #000000;
+        transition: 0.3s;
       };
-      .mon-avatar:hover {
+      .ascend-mon-avatar:hover {
         box-shadow: 1px -1px 11px #FFFF00;
         cursor: pointer;
       };
@@ -47,6 +65,25 @@
     right: 10px;
     box-shadow: 7px 4px 10px #000000;
     border-radius: 5px;
+    .ascend-overlay {
+      position: absolute;
+      height: 435px;
+      width: 464px;
+      background: rgba(0,0,0,0.9);
+      top: 0px;
+      right: 0px;
+      border-radius: 5px;
+      opacity: 0;
+      transition: 0.3s;
+      z-index: -1;
+      h3 {
+        position: absolute;
+        top: 54%;
+        left: 10%;
+        opacity: 0;
+        text-align: center;
+      };
+    };
     .title-box {
       .ascension-desc {
         color: black;
@@ -82,6 +119,7 @@
       position: absolute;
       left: 9px;
       top: 155px;
+      color: black;
       .material-icon {
         position: relative;
         left: 10px;
@@ -104,11 +142,25 @@
     };
 
     .unlock-ascension-but {
+      color: black;
       position: absolute;
       bottom: 22px;
-      left: 176px;
+      left: 166px;
+      background: green;
+      height: 30px;
+      width: 144px;
+      padding-left: 10px;
+      padding-top: 3px;
+      border-radius: 5px;
+      text-decoration: none;
+      border: 2px solid black;
+      box-shadow: 4px 4px 6px black;
     };
-    
+
+    .unlock-ascension-but:hover {
+      box-shadow: 1px -1px 11px #FFFF00;
+    };
+
     .ascension-box {
       background: #4B4B4B;
       height: 100px;
@@ -137,6 +189,7 @@
         position: absolute;
         left: 8px;
         top: 4.5px;
+        transition: 1s;
       };
       .passive-name {
         position: absolute;

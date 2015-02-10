@@ -1624,9 +1624,11 @@ window.ai = ->
         zetBut()
         enable($("button"))
         setTimeout (->
-          turnOnCommandA()
-          availableAbilities()
           setSummonerAbility()
+        ), 250
+        setTimeout (->
+          availableAbilities()
+          turnOnCommandA()
         ), 500
       ), timeout
   ), timerRound
