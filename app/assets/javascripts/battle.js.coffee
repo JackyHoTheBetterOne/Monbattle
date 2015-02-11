@@ -63,6 +63,7 @@ window.fixEvolMon = (monster, player) ->
                 attr("src") isnt "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif"
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").css("opacity", "0")  
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").css("opacity", "0")
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".fatigue-level").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
@@ -164,7 +165,7 @@ window.fixEvolMon = (monster, player) ->
               i3++
             if a.modifier isnt ""
               window["change" + index] = a.change*a.scaling*fatigue_effect
-              Math.round(window["change" + index])
+              window["change" + index] = Math.round(window["change" + index])
               monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
               window["change" + index] = a.modifier + window["change" + index]
           else if a.modifier is "-" and a.targeta is "attack"
@@ -178,7 +179,7 @@ window.fixEvolMon = (monster, player) ->
             else
               window["change" + index] = 
                 eval(a.change * a.scaling * fatigue_effect - monTarget["phy_resist"])
-            Math.round(window["change" + index])
+            window["change" + index] = Math.round(window["change" + index])
             window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
             window["change" + index] = a.modifier + window["change" + index]
@@ -191,14 +192,15 @@ window.fixEvolMon = (monster, player) ->
                   window["change" + index] = 
                     eval(a.change * a.scaling * bonus * fatigue_effect - monTarget["spe_resist"])
             else
-              window["change" + index] = eval(a.change * a.scaling - monTarget["spe_resist"])
-            Math.round(window["change" + index])
+              window["change" + index] = 
+                eval(a.change * a.scaling * fatigue_effect - monTarget["spe_resist"])
+            window["change" + index] = Math.round(window["change" + index])
             window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
             window["change" + index] = a.modifier + window["change" + index]
           else
             window["change" + index] = a.change * a.scaling * fatigue_effect
-            Math.round(window["change" + index])
+            window["change" + index] = Math.round(window["change" + index])
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
             window["change" + index] = a.modifier + window["change" + index]
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"

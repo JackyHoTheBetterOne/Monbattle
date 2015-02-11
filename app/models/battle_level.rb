@@ -87,7 +87,7 @@ class BattleLevel < ActiveRecord::Base
     if self.ability_reward.length == 0
       ""
     else
-      self.ability_reward[0]
+      self.ability_reward[1]
     end
   end
 
