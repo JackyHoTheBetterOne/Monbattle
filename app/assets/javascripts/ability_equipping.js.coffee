@@ -13,3 +13,8 @@ $ ->
     setTimeout (->
       $(".mon-thumb img")[0].click() 
       ), 250
+  $(document).on "click", ".equip-link", ->
+    $(".shadowed2").css("border", "none")
+    $(this).parent().css("border", "2px solid yellow")
+  $(document).on "click", ".mon-thumb img", ->
+    $(".mon-equipped1.shadowed2").css("border", "2px solid yellow")
