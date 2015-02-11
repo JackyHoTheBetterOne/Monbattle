@@ -1,7 +1,11 @@
 <div class="ascending">
   <h2>Ascend Monsters</h2>
   <div class="monster-list">
-    <h3 class="list-title">Capable of Ascension:</h3>
+    <% if @ascension.monsters.count != 0 %>
+      <h3 class="list-title">Capable of Ascension:</h3>
+    <% else %>
+      <h3 class="list-title">All ascensions unlocked!</h3>
+    <% end %>
     <div class="ascend-list">
       <% @ascension.monsters.each do |s| %>
         <%= link_to (

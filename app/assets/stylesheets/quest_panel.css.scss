@@ -4,7 +4,7 @@
   position: relative;
   background: transparent;
   top: 35px;
-  left: -255px;
+  left: -239px;
   right: 5px;
   bottom: 5px;
   border: 6px solid black;
@@ -29,10 +29,10 @@
 
 .quest-arrow {
   position: absolute;
-  height: 27px;
+  height: 22px;
   width: 45px;
-  left: -144px;
-  top: 51px;
+  left: -128px;
+  top: 53px;
   opacity: 0;
   transition: 0.2s;
   z-index: -1;
@@ -46,7 +46,7 @@
   transition: 0.2s;
   width: 280px;
   background: black;
-  left: -252px;
+  left: -236px;
   top: 75px;
   border: 3px solid #757575;
   border-radius: 5px;
@@ -96,8 +96,8 @@
 .quest-warning {
   height: 18px;
   position: relative;
-  top: -6px;
-  left: 145px;
+  top: -3px;
+  left: 175px;
   z-index: 5000;
 };
 

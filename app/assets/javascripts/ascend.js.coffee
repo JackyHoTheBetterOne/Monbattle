@@ -1,5 +1,8 @@
-$ ->
-  $(document).on "click", ".unlock-ascension-but", (event) ->
+$ ->  
+  $(document).off "click.ascension"
+  $(document).off "mouseover.ascend-passive"
+  $(document).off "mouseleave.ascend-passive"
+  $(document).on "click.ascension", ".unlock-ascension-but", (event) ->
     cost = parseInt(document.getElementsByClassName("material-box")[0].
                       getAttribute("data-aspcost"))
     existing = parseInt(document.getElementsByClassName("material-box")[0].
@@ -26,4 +29,9 @@ $ ->
     else
       event.preventDefault()
       $(element).effect("highlight", {color: "red"}, 200)
+  $(document).on("mouseover.ascend-passive", ".ascension-box .passive-icon", ->
+    document.getElementsByClassName("passive-description")[0].style["opacity"] = "1"
+  ).on "mouseleave.ascend-passive", ".ascension-box .passive-icon", ->
+    document.getElementsByClassName("passive-description")[0].style["opacity"] = "0"
+
 

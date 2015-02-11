@@ -37,6 +37,16 @@ class MonsterUnlock < ActiveRecord::Base
     end
   }
 
+  scope :collect_monsters, -> (monster_ids) {
+    where("monster_id IN (?)", monster_ids)
+  }
+
+
+
+
+
+
+
   scope :lvl1_evolves, -> {joins(:job).where('job')}
 
   def find_abil_purchases_in_socket(socket_num)
