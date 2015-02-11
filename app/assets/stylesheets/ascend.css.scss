@@ -19,6 +19,25 @@
     top: 10px;
     left: 10px;
   };
+  .level-select-path {
+    position: absolute;
+    z-index: 10;
+    background: #757575;
+    text-decoration: none;
+    transition: background 0.3s;
+    width: 105px;
+    height: 35px;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding-top: 6px;
+    top: 10px;
+    box-shadow: 2px 2px 6px black;
+    right: 18px;
+    padding-left: 7px;
+  };
+  .level-select-path:hover {
+    background: #0d47a1;
+  };
   .monster-list {
     position: absolute;
     box-shadow: 7px 4px 10px #000000;
