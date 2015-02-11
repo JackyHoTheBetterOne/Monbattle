@@ -32,6 +32,8 @@ window.fixEvolMon = (monster, player) ->
     monster.type = "monster"
   else 
     monster.type = "summoner"
+  monster.fatigue = 0
+  monster.used = false
   monster.isAlive = ->
     if @hp <= 0
       if $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").length isnt 0
@@ -93,6 +95,10 @@ window.fixEvolMon = (monster, player) ->
     ability.isAlive = ->
       battle.players[@team].mons[@index].isAlive()
     ability.use = (abilitytargets) ->
+      monster.used = true
+      if monster.fatigue isnt 0 and monster.type isnt "summoner" and 
+          battle.players[ability.team].username isnt "NPC"
+        monster.fatigue += 1 
       if a.targeta.indexOf("aoe") isnt -1 && findObjectInArray(monster.cursed, "targeta", "aoe-curse") > 0
         e = usefulArray[0]
         monster[e.stat] = eval(monster[e.stat] + e.modifier + e.change)
@@ -1446,14 +1452,14 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
               $(".user.mon-slot .img").each ->
                 if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
                   if battle.players[0].mons[$(this).data("index")].isAlive() is false
-                    $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1200).hide()
+                    $(this).effect("explode", {pieces: 30}, 1200).hide()
                   else
                     $(this).effect "shake", {times: 5, distance: 40}, 750
             else 
               $(".enemy.mon-slot .img").each ->
                 if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
                   if battle.players[1].mons[$(this).data("index")].isAlive() is false
-                    $(this).effect("explode", {pieces: 30}, 1200).hide()
+                    $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1200).hide()
                   else
                     $(this).effect "shake", {times: 5, distance: 40}, 750
             setTimeout (->
@@ -1617,19 +1623,22 @@ window.ai = ->
         checkOutcome() if $("#overlay").css("display") is "none"
         battle.players[0].ap -= battle.players[0].ap_overload
         battle.players[0].ap_overload = 0
-        apChange()
-        $(".ap").effect("highlight")
         toggleImg()
         deathAbilitiesToActivate["user"].length = 0
         zetBut()
-        enable($("button"))
         setTimeout (->
           setSummonerAbility()
         ), 250
         setTimeout (->
-          availableAbilities()
           turnOnCommandA()
+          apChange()
+          $(".ap").effect("highlight")
+          enable($("button"))
         ), 500
+        setTimeout (->
+          availableAbilities()
+          availableAbilities()
+        ), 700
       ), timeout
   ), timerRound
 
@@ -1781,12 +1790,12 @@ $ ->
   deathAbilitiesToActivate["user"] = []
   deathAbilitiesToActivate["pc"] = []
   if document.getElementById("battle") isnt null
-    $("a.fb-nav, .logo-link").not(".quest-show").on "click.leave", (event) ->
+    $("a.fb-nav, .logo-link, .top-bar").not(".quest-show, .mon-tab").on "click.leave", (event) ->
       $(document).off "click.cutscene", "#overlay"
       nav = $(this)
       link = $(this).attr("href")
       text = $(this).text()
-      if text isnt "Forum"
+      if text isnt "Forum" 
         event.preventDefault()
         $(".confirmation").css({"opacity":"1", "z-index":"10000000"})
         $(".skip-button").css("opacity", "0")
@@ -1855,6 +1864,22 @@ $ ->
             battle.summonerCooldown -= 1 if battle.summonerCooldown isnt 0
             setAll(battle.players, "turn", true)
             setAll(battle.players, "ap", battle.maxAP)
+            i = 0
+            while i < playerMonNum
+              if battle.players[0].mons[i].used is true
+                battle.players[0].mons[i].fatigue -= 2 
+                if battle.players[0].mons[i].fatigue < 0 
+                  battle.players[0].mons[i].fatigue = 0 
+              i++
+            i = 0
+            while i < playerMonNum
+              if battle.players[1].mons[i].used is true
+                battle.players[1].mons[i].fatigue -= 2 
+                if battle.players[1].mons[i].fatigue < 0 
+                  battle.players[1].mons[i].fatigue = 0 
+              i++
+            setAll(battle.players[0].mons, "used", false)
+            setAll(battle.players[1].mons, "used", false)
         oracle = {}
         oracle.hp = 0
         oracle.max_hp = 0

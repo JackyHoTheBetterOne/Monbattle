@@ -232,7 +232,8 @@ class BattlesController < ApplicationController
   end
 
   def unlock_level_and_ability
-    @battle.battle_level.unlock_for_summoner(@battle.victor, @battle.round_taken, @battle.id) 
+    name = User.find_by_user_name(@battle.victor).summoner.name
+    @battle.battle_level.unlock_for_summoner(name, @battle.round_taken, @battle.id) 
   end
 
   def finish_battle
