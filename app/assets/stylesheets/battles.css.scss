@@ -657,6 +657,15 @@ body {
 
 /////////////////////////////////////////////////////////////////////////////////////////////// User monster info element positions
 .user.mon-slot {
+  .fatigue-level {
+    @include stroke();
+    position: absolute;
+    left: 220px;
+    top: 171px;
+    font-size: 85%;
+    color: #D3D3D3;
+  };
+
   .hp {
     left: 202px;
     top: 141px;
