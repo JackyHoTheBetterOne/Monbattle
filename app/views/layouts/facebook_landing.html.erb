@@ -29,17 +29,16 @@
           <li class="<%= 'active' if current_page?(home_forum_path) %> pull-right fb-nav forum">
             <%= link_to "Forum", "http://monbattle.boards.net/", class: "fb-nav", :target => '_blank' %>
           </li>
+          <li class="<%= 'active' if current_page?(home_sweet_home_path) || current_page?(root_path) %> 
+              pull-right fb-nav">
+            <%= link_to "News", home_sweet_home_path, class: "fb-nav"%>
+          </li>
           <li class="<%= 'active' if current_page?(device_store_path) %> pull-right fb-nav">
             <%= link_to "Shop", device_store_path, class: "fb-nav" %>
           </li>
           <li class="<%= 'active' if current_page?(new_battle_path) || current_page?(home_index_path) ||
-                      request.original_url.include?("battles") || current_page?(learn_ability_path)  %>
-                     pull-right fb-nav" class="party-setup">
+              request.original_url.include?("battles") %> pull-right fb-nav" class="party-setup">
             <%= link_to "Battle", new_battle_path, class: "fb-nav", data: {} %>
-          </li>
-          <li class="<%= 'active' if current_page?(home_sweet_home_path) || current_page?(root_path) %> 
-              pull-right fb-nav">
-            <%= link_to "News", home_sweet_home_path, class: "fb-nav"%>
           </li>
           <li class="pull-right fb-nav quest-related">
             <a href="#" class="fb-nav quest-show">Quest</a>
@@ -53,6 +52,16 @@
               <% if current_user %>
                 <%= render "layouts/quests" %>
               <% end %>
+            </div>
+          </li>
+          <li class="pull-right fb-nav mon-tab-li">
+            <a href="#" class="fb-nav mon-tab">MON</a>
+            <div class="mon-dropdown">
+              <%= link_to 'Edit Team', home_index_path, class: "top-bar edit-team" %>
+              <%= link_to 'Learn Abilities', learn_ability_path, class: "top-bar learn-abilities" %>
+              <a href="#" class="top-bar enhance-mons">Enhance Mons</a>
+              <%= link_to "Ascend Mons", ascend_monster_path, class: "top-bar ascend-mons" %>
+              <img alt="Quest arrow" class="mon-dropdown-arrow" src="/assets/quest-arrow.png">
             </div>
           </li>
           <li class= "summoner-info pull-right">
