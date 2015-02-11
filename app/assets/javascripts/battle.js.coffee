@@ -32,6 +32,8 @@ window.fixEvolMon = (monster, player) ->
     monster.type = "monster"
   else 
     monster.type = "summoner"
+  monster.fatigue = 0
+  monster.used = false
   monster.isAlive = ->
     if @hp <= 0
       if $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").length isnt 0
@@ -72,6 +74,12 @@ window.fixEvolMon = (monster, player) ->
   monster.useAbility = (abilityIndex, abilityTargets) ->
     ability = @abilities[abilityIndex]
     ability.use(abilityTargets)
+    if monster.type isnt "summoner" and battle.players[monster.team].username isnt "NPC"
+      monster.fatigue += 1
+      monster.used = true
+    if monster.type isnt "summoner" and battle.players[monster.team].name is "first-battle-user"
+      monster.fatigue += 1
+      monster.used = true
 ######################################################################################################## Ability logics
   $(monster.abilities).each ->
     @team = monster.team
@@ -93,6 +101,7 @@ window.fixEvolMon = (monster, player) ->
     ability.isAlive = ->
       battle.players[@team].mons[@index].isAlive()
     ability.use = (abilitytargets) ->
+      monster.used = true
       if a.targeta.indexOf("aoe") isnt -1 && findObjectInArray(monster.cursed, "targeta", "aoe-curse") > 0
         e = usefulArray[0]
         monster[e.stat] = eval(monster[e.stat] + e.modifier + e.change)
@@ -117,6 +126,7 @@ window.fixEvolMon = (monster, player) ->
       while i < abilitytargets.length
         monTarget = abilitytargets[i]
         index = monTarget.unidex
+        fatigue_effect = 1 - monster.fatigue*0.1
         monTarget.isAlive()
         if monTarget.isAlive()
           if monTarget.passive_ability isnt null and 
@@ -153,7 +163,7 @@ window.fixEvolMon = (monster, player) ->
                 removeEffectIcon(monTarget, e)
               i3++
             if a.modifier isnt ""
-              window["change" + index] = a.change*a.scaling
+              window["change" + index] = a.change*a.scaling*fatigue_effect
               Math.round(window["change" + index])
               monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
               window["change" + index] = a.modifier + window["change" + index]
@@ -163,9 +173,11 @@ window.fixEvolMon = (monster, player) ->
               if passive.targeta is "resist-penetration" 
                 if passive.stat is "phy_resist" and parseInt(monTarget["phy_resist"]) > 0
                   bonus = 1 + passive.change/100
-                  window["change" + index] = eval(a.change * a.scaling * bonus - monTarget["phy_resist"])
+                  window["change" + index] = 
+                    eval(a.change * a.scaling * bonus * fatigue_effect - monTarget["phy_resist"])
             else
-              window["change" + index] = eval(a.change * a.scaling - monTarget["phy_resist"])
+              window["change" + index] = 
+                eval(a.change * a.scaling * fatigue_effect - monTarget["phy_resist"])
             Math.round(window["change" + index])
             window["change" + index] = 0 if window["change" + index].toString().indexOf("-") isnt -1
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
@@ -176,7 +188,8 @@ window.fixEvolMon = (monster, player) ->
               if passive.targeta is "resist-penetration"
                 if passive.stat is "spe_resist" and parseInt(monTarget["spe_resist"]) > 0
                   bonus = 1 + passive.change/100
-                  window["change" + index] = eval(a.change * a.scaling * bonus - monTarget["spe_resist"])
+                  window["change" + index] = 
+                    eval(a.change * a.scaling * bonus * fatigue_effect - monTarget["spe_resist"])
             else
               window["change" + index] = eval(a.change * a.scaling - monTarget["spe_resist"])
             Math.round(window["change" + index])
@@ -184,7 +197,7 @@ window.fixEvolMon = (monster, player) ->
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
             window["change" + index] = a.modifier + window["change" + index]
           else
-            window["change" + index] = a.change * a.scaling
+            window["change" + index] = a.change * a.scaling * fatigue_effect
             Math.round(window["change" + index])
             monTarget[a.stat] = eval(monTarget[a.stat] + a.modifier + window["change" + index])
             window["change" + index] = a.modifier + window["change" + index]
@@ -262,6 +275,7 @@ window.fixEvolMon = (monster, player) ->
       @teamDex = monster.team
       @name = @name.replace(/\s+/g, '')
       @activate = (effectTargets) ->
+        fatigue_effect = 1 - monster.fatigue*0.1
         e = this
         i = 0
         if e.targeta.indexOf("curse") isnt -1 
@@ -271,10 +285,12 @@ window.fixEvolMon = (monster, player) ->
               findObjectInArray(monTarget.cursed, "targeta", e.targeta)
               if usefulArray.length isnt 0 
                 status = Object.create(e)
+                status.change = eval(status.change * fatigue_effect)
                 monTarget.cursed.push(status)
                 addEffectIcon(monTarget, e)
               else
                 status = Object.create(e)
+                status.change = eval(status.change * fatigue_effect)
                 usefulArray[0] = status
                 removeEffectIcon(monTarget, e)
                 addEffectIcon(monTarget, e)
@@ -290,12 +306,14 @@ window.fixEvolMon = (monster, player) ->
                 monTarget["max_hp"] = eval(monTarget["max_hp"] + e.restore) if monTarget.hp > 0
                 removeEffectIcon(monTarget, e)
                 addEffectIcon(monTarget, e)
-              monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-              monTarget["max_hp"] = eval(monTarget["max_hp"] + e.modifier + e.change) if monTarget.hp > 0
+              monTarget[e.stat] = 
+                eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
+              monTarget["max_hp"] = 
+                eval(monTarget["max_hp"] + e.modifier + e.change * fatigue_effect) if monTarget.hp > 0
               monTarget.shield.name = e.name
               monTarget.shield.restore = e.restore
               monTarget.shield.targeta = e.targeta
-              monTarget.shield.extra_hp = e.change
+              monTarget.shield.extra_hp = e.change * fatigue_effect
               monTarget.shield.description = e.description
               monTarget.shield.end = battle.round + e.duration
               monTarget.shield.old_hp = monTarget.hp
@@ -317,9 +335,12 @@ window.fixEvolMon = (monster, player) ->
         else if e.targeta.indexOf("poison") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
-            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-            window["change" + monTarget.unidex] = eval(window["change" + monTarget.unidex] + e.modifier + e.change)
-            monTarget.shield.true_damage += parseInt(e.change) if monTarget.shield.end isnt "undefined"
+            monTarget[e.stat] = 
+              eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
+            window["change" + monTarget.unidex] = 
+              eval(window["change" + monTarget.unidex] + e.modifier + e.change * fatigue_effect)
+            if monTarget.shield.end isnt "undefined"
+              monTarget.shield.true_damage += parseInt(e.change * fatigue_effect) 
             checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             if monTarget.isAlive()
@@ -328,8 +349,8 @@ window.fixEvolMon = (monster, player) ->
                 status = {}
                 status["name"] = e.name
                 status["stat"] = e.stat
-                status["impact"] = e.modifier + e.change
-                status["change"] = e.change
+                status["impact"] = e.modifier + e.change * fatigue_effect
+                status["change"] = e.change * fatigue_effect
                 status["targeta"] = e.targeta
                 status["end"] = battle.round + e.duration
                 monTarget.poisoned.push(status)
@@ -339,8 +360,8 @@ window.fixEvolMon = (monster, player) ->
                 removeEffectIcon(monTarget, old_effect)
                 addEffectIcon(monTarget, e)
                 old_effect.description = e.description
-                old_effect.impact = e.modifier + e.change
-                old_effect.change = e.change
+                old_effect.impact = e.modifier + e.change * fatigue_effect
+                old_effect.change = e.change * fatigue_effect
                 old_effect.end = battle.round + e.duration
             i++
         else if e.targeta.indexOf("timed") isnt -1
@@ -354,11 +375,12 @@ window.fixEvolMon = (monster, player) ->
               findObjectInArray(monTarget.weakened, "targeta", e.targeta)
             if monTarget.isAlive()
               if usefulArray.length is 0
-                monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+                monTarget[e.stat] = 
+                  eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
                 status = {}
                 status["description"] = e.description
                 status["stat"] = e.stat
-                status["restore"] = e.restore
+                status["restore"] = e.restore * fatigue_effect
                 status["end"] = battle.round + e.duration
                 status["targeta"] = e.targeta
                 if object is undefined
@@ -371,9 +393,9 @@ window.fixEvolMon = (monster, player) ->
                 monTarget[old_effect.stat] = eval(monTarget[old_effect.stat] + old_effect.restore)
                 usefulArray[0]["description"] = e.description
                 usefulArray[0]["stat"] = e.stat
-                usefulArray[0]["restore"] = e.restore
+                usefulArray[0]["restore"] = e.restore * fatigue_effect
                 usefulArray[0]["end"] = battle.round + e.duration
-                monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
+                monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
                 removeEffectIcon(monTarget, e)
                 addEffectIcon(monTarget, e)
             i++
@@ -385,9 +407,10 @@ window.fixEvolMon = (monster, player) ->
               setTimeout (->
                 $(".effect").trigger("mouseleave")
                 massRemoveEffectIcon(e)
-                ), 1500
-            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change)
-            window["change" + monTarget.unidex] = eval(window["change" + monTarget.unidex] + e.modifier + e.change)
+              ), 1500
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
+            window["change" + monTarget.unidex] = 
+              eval(window["change" + monTarget.unidex] + e.modifier + e.change * fatigue_effect)
             if (window["change" + monTarget.unidex].toString().indexOf "-" is -1 or 
                 window["change" + monTarget.unidex].toString().indexOf "+" is -1) and
                 parseInt(window["change" + monTarget.unidex]) > 0 
@@ -569,6 +592,13 @@ window.enemyTimer = ->
 
 
 ######################################################################################################## Battle display helpers
+window.setFatigue = ->
+  i = 0 
+  while i < playerMonNum
+    $(".user .mon"  + i + " " + ".fatigue-current-level").
+      text(battle.players[0].mons[i].fatigue)
+    i++
+
 window.availableAbilities = () ->
   $(".availability-arrow").each ->
     $(this).data("available", "false")
@@ -984,6 +1014,8 @@ window.setSummonerAbility = ->
 window.turnOnSummonerActions = ->
   $(document).on "click.ap-gain", ".gain-ap", ->
     if $(this).data("apcost") <= battle.players[0].ap
+      cost = $(this).data("apcost") 
+      $(this).data("apcost", cost+5)
       $(".end-turn").css("opacity", "0.5")
       $(".end-turn").prop("disabled", "true")
       xadBuk()
@@ -1126,6 +1158,7 @@ window.flashEndButton = ->
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
+  buttonArray.push($(".gain-ap")[0])
   if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
     timer = undefined
     if deathAbilitiesToActivate["pc"].length isnt 0
@@ -1446,14 +1479,14 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
               $(".user.mon-slot .img").each ->
                 if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
                   if battle.players[0].mons[$(this).data("index")].isAlive() is false
-                    $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1200).hide()
+                    $(this).effect("explode", {pieces: 30}, 1200).hide()
                   else
                     $(this).effect "shake", {times: 5, distance: 40}, 750
             else 
               $(".enemy.mon-slot .img").each ->
                 if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
                   if battle.players[1].mons[$(this).data("index")].isAlive() is false
-                    $(this).effect("explode", {pieces: 30}, 1200).hide()
+                    $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1200).hide()
                   else
                     $(this).effect "shake", {times: 5, distance: 40}, 750
             setTimeout (->
@@ -1617,19 +1650,23 @@ window.ai = ->
         checkOutcome() if $("#overlay").css("display") is "none"
         battle.players[0].ap -= battle.players[0].ap_overload
         battle.players[0].ap_overload = 0
-        apChange()
-        $(".ap").effect("highlight")
         toggleImg()
         deathAbilitiesToActivate["user"].length = 0
         zetBut()
-        enable($("button"))
         setTimeout (->
           setSummonerAbility()
         ), 250
         setTimeout (->
-          availableAbilities()
+          setFatigue()
           turnOnCommandA()
+          apChange()
+          $(".ap").effect("highlight")
+          enable($("button"))
         ), 500
+        setTimeout (->
+          availableAbilities()
+          availableAbilities()
+        ), 700
       ), timeout
   ), timerRound
 
@@ -1645,6 +1682,7 @@ window.action = ->
     checkOutcome()
   ), 250
   setTimeout (->
+    setFatigue()
     zetBut() if $("#overlay").css("display") is "none"
   ), 400
 
@@ -1660,6 +1698,7 @@ window.multipleAction = ->
     checkOutcome()
   ), 250
   setTimeout (->
+    setFatigue()
     zetBut() if $("#overlay").css("display") is "none"
   ), 400
 
@@ -1781,12 +1820,12 @@ $ ->
   deathAbilitiesToActivate["user"] = []
   deathAbilitiesToActivate["pc"] = []
   if document.getElementById("battle") isnt null
-    $("a.fb-nav, .logo-link").not(".quest-show").on "click.leave", (event) ->
+    $("a.fb-nav, .logo-link, .top-bar").not(".quest-show, .mon-tab").on "click.leave", (event) ->
       $(document).off "click.cutscene", "#overlay"
       nav = $(this)
       link = $(this).attr("href")
       text = $(this).text()
-      if text isnt "Forum"
+      if text isnt "Forum" 
         event.preventDefault()
         $(".confirmation").css({"opacity":"1", "z-index":"10000000"})
         $(".skip-button").css("opacity", "0")
@@ -1855,6 +1894,22 @@ $ ->
             battle.summonerCooldown -= 1 if battle.summonerCooldown isnt 0
             setAll(battle.players, "turn", true)
             setAll(battle.players, "ap", battle.maxAP)
+            i = 0
+            while i < playerMonNum
+              if battle.players[0].mons[i].used is false
+                battle.players[0].mons[i].fatigue -= 1
+                if battle.players[0].mons[i].fatigue < 0 
+                  battle.players[0].mons[i].fatigue = 0 
+              i++
+            i = 0
+            while i < pcMonNum
+              if battle.players[1].mons[i].used is false
+                battle.players[1].mons[i].fatigue -= 1 
+                if battle.players[1].mons[i].fatigue < 0 
+                  battle.players[1].mons[i].fatigue = 0 
+              i++
+            setAll(battle.players[0].mons, "used", false)
+            setAll(battle.players[1].mons, "used", false)
         oracle = {}
         oracle.hp = 0
         oracle.max_hp = 0
@@ -1921,6 +1976,7 @@ $ ->
             $(monDiv + " " + ".attack").data("apcost", evolved_mon.abilities[0].ap_cost)
             $(monDiv + " " + ".ability").data("target", evolved_mon.abilities[1].targeta)
             $(monDiv + " " + ".ability").data("apcost", evolved_mon.abilities[1].ap_cost)
+            setFatigue()
             hpChangeBattle()
   ################################################################################################################  Player logic
         $(battle.players).each ->
