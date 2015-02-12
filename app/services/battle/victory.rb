@@ -16,10 +16,13 @@ class Battle::Victory
   attribute :stamina_upgrade
   attribute :new_stamina
 
+  attribute :first_time
+
   def call
     self.ability = nil
     self.monster = nil
     self.reward = nil
+    @user = summoner.user
 
     if battle_level.exp_given + summoner.current_exp >= summoner.exp_required
       self.level_up = true
@@ -78,6 +81,18 @@ class Battle::Victory
     else
       self.level_cleared = false
     end
+
+    if self.ability != nil 
+      if @user.ability_purchases.count == 4 
+        self.first_time = true
+      else 
+        self.first_time = false
+      end
+    else
+      self.first_time == false
+    end
+
+
   end
 
 end

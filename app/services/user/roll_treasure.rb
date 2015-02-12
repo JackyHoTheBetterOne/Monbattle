@@ -9,6 +9,8 @@ class User::RollTreasure
   attribute :image
   attribute :rarity_image
   attribute :rarity_color
+  attribute :first_time
+
 
   def call
     self.message = "1"
@@ -18,6 +20,13 @@ class User::RollTreasure
     self.image = "https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg"
     self.rarity_image = "https://s3-us-west-2.amazonaws.com/monbattle/images/legendary-text.png"
     self.rarity_color = "1"
+
+    if user.ability_purchases.count == 4
+      self.first_time = true
+    else
+      self.first_time = false
+    end
+
 
     @summoner = user.summoner
     if @summoner.gp < 100
