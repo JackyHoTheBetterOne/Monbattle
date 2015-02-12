@@ -36,6 +36,11 @@ class Battle < ActiveRecord::Base
     end
   end
 
+  def destroy_impressions
+    self.impressions.destroy_all
+  end
+
+
 
 #################################################################################### End Battle Update
   def to_finish
