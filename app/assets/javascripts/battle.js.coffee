@@ -1265,7 +1265,7 @@ window.findTargetsBelowPct = (pct) ->
   window.aiTargets = []
   while i < n
     aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp/battle.players[0].mons[i].max_hp <= pct &&
-                                                      battle.players[0].mons[i].hp > 0
+                                                      battle.players[0].mons[i].hp > 0 && battle.players[0].mons[i].type isnt "summoner"
     i++
 window.findTargetsAbovePct = (pct) ->
   i = undefined
@@ -1275,7 +1275,7 @@ window.findTargetsAbovePct = (pct) ->
   window.aiTargets = []
   while i < n
     aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp/battle.players[0].mons[i].max_hp >= pct &&
-                                                      battle.players[0].mons[i].hp > 0
+                                                      battle.players[0].mons[i].hp > 0 && battle.players[0].mons[i].type isnt "summoner"
     i++
 window.findTargets = (hp) ->
   i = undefined
@@ -1285,7 +1285,7 @@ window.findTargets = (hp) ->
   window.aiTargets = []
   while i < n
     aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp <= hp &&
-                                                      battle.players[0].mons[i].hp > 0
+                                                      battle.players[0].mons[i].hp > 0 && battle.players[0].mons[i].type isnt "summoner"
     i++
 window.totalUserHp = ->
   i = undefined
@@ -1294,7 +1294,7 @@ window.totalUserHp = ->
   n = playerMonNum
   i = 0
   while i < n
-    totalCurrentHp += battle.players[0].mons[i].hp
+    totalCurrentHp += battle.players[0].mons[i].hp if battle.players[0].mons[i].type isnt "summoner"
     i++
   return totalCurrentHp
 window.teamPct = ->
@@ -1302,7 +1302,7 @@ window.teamPct = ->
   n = playerMonNum
   i = 0
   while i < n
-    totalMaxHp += battle.players[0].mons[i].max_hp
+    totalMaxHp += battle.players[0].mons[i].max_hp if battle.players[0].mons[i].type isnt "summoner"
     i++
   return totalUserHp()/totalMaxHp
 
@@ -2086,7 +2086,7 @@ $ ->
                 description.children("span.damage-type").text "Special"
               description.children(".panel-body").html ability.description
               description.children(".panel-footer").children("span").children(".d")
-                .text ability.change*ability.scaling*(1-0.1*battle.players[ability.team].mons[ability.index].fatigue)
+                .text Math.round(ability.change*ability.scaling*(1-0.1*battle.players[ability.team].mons[ability.index].fatigue))
               description.children(".panel-footer").children("span").children(".a")
                 .text ability.ap_cost
               description.css({"z-index": "6000", "opacity": "0.9"})
