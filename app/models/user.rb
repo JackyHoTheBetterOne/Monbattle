@@ -27,12 +27,12 @@ class User < ActiveRecord::Base
   has_many :abilities, through: :ability_purchases, source: :ability
 
   validates :user_name, presence: {message: 'Must be entered'}, uniqueness: true
-  validates :namey, presence: {message: 'Must be entered'}
   validates :email, presence: {message: 'Must be entered'}, uniqueness: true
 
   after_create :create_summoner
   after_create :create_party
   after_create :unlock_default_monsters
+  before_create :set_namey
 
   scope :rarity_filter, -> (rarity) {
     if rarity == "npc"
@@ -141,12 +141,19 @@ class User < ActiveRecord::Base
 
     end
   end
-  handle_asynchronously :track_rolling
+  handle_asynchronously :track_rolling, :run_at => Proc.new { 2.minutes.from_now }
 
 
 
 
   private
+
+  def set_namey
+    if !self.namey
+      self.namey = self.user_name
+    end
+  end
+
 
   def create_summoner
     Summoner.create(user_id: self.id, name: self.namey, vortex_key: 25, gp: 100, mp: 100,

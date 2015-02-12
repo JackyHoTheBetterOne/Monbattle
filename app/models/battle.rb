@@ -16,6 +16,7 @@ class Battle < ActiveRecord::Base
 
   validates :battle_level_id, presence: {message: 'Must be entered'}
   before_create :generate_code
+  before_destroy :destroy_impressions
 
   scope :find_matching_date, -> (date, party) {
     joins(:fights).where(finished: date, "fights.party_id" => party.id)
@@ -34,6 +35,7 @@ class Battle < ActiveRecord::Base
       transitions :from => :battling, :to => :hacked
     end
   end
+
 
 #################################################################################### End Battle Update
   def to_finish
@@ -182,7 +184,9 @@ class Battle < ActiveRecord::Base
       p "======================================================================="
     end
   end
-  handle_asynchronously :track_outcome
+  handle_asynchronously :track_outcome, :run_at => Proc.new { 2.minutes.from_now }
+
+
 
   def track_progress(user_id)
     if self.admin == false
@@ -213,7 +217,8 @@ class Battle < ActiveRecord::Base
       p "======================================================================="
     end
   end
-  handle_asynchronously :track_progress
+  handle_asynchronously :track_progress, :run_at => Proc.new { 2.minutes.from_now }
+
 
 
   def track_performance(user_id)
@@ -276,7 +281,9 @@ class Battle < ActiveRecord::Base
 
     end
   end
-  handle_asynchronously :track_performance
+  handle_asynchronously :track_performance, :run_at => Proc.new { 2.minutes.from_now }
+
+
 
   def track_ability_frequency(name, user_id)
     if self.admin == false
@@ -307,6 +314,6 @@ class Battle < ActiveRecord::Base
       p "======================================================================="
     end
   end
-  handle_asynchronously :track_ability_frequency
+  handle_asynchronously :track_ability_frequency, :run_at => Proc.new { 2.minutes.from_now }
 end
 

@@ -126,9 +126,6 @@ class BattleLevel < ActiveRecord::Base
           monster = Monster.find_by_name(ability_reward_array[1])
           monster_id = monster.id 
           user_id = @summoner.user.id
-          p "=================================================================================="
-          p monster
-          p "======================================================================================="
           MonsterUnlock.create!(monster_id: monster_id, user_id: user_id)
         elsif ability_reward_array.length == 2
           @summoner[ability_reward_array[0]] += ability_reward_array[1].to_i
