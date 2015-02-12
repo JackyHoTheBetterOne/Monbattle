@@ -604,14 +604,18 @@ window.setFatigue = ->
 window.availableAbilities = () ->
   $(".availability-arrow").each ->
     $(this).data("available", "false")
+  if $(".oracle-skill-icon").data("apcost") > battle.players[0].ap
+    $(".oracle-skill-icon").css("opacity", "0.5")
+    document.getElementsByClassName("oracle-skill-icon")[0].style.pointerEvents = "none"
+  else 
+    $(".oracle-skill-icon").css("opacity", "1")
+    document.getElementsByClassName("oracle-skill-icon")[0].style.pointerEvents = "auto"
   $(".monBut button").each ->
     button = $(this)
     if $(this).css("opacity") isnt "0"
       if $(this).data("apcost") > battle.players[0].ap
-        # $(button).children("img").css("opacity", "0")
         $(button).css("opacity", "0.5")
       else 
-        # $(button).children("img").css("opacity", "1")
         $(button).css("opacity", "1")
         $(button).parent().parent().children(".availability-arrow").data("available", "true")
   $(".availability-arrow").each ->
@@ -1899,14 +1903,14 @@ $ ->
             i = 0
             while i < playerMonNum
               if battle.players[0].mons[i].used is false
-                battle.players[0].mons[i].fatigue -= 1
+                battle.players[0].mons[i].fatigue -= 2
                 if battle.players[0].mons[i].fatigue < 0 
                   battle.players[0].mons[i].fatigue = 0 
               i++
             i = 0
             while i < pcMonNum
               if battle.players[1].mons[i].used is false
-                battle.players[1].mons[i].fatigue -= 1 
+                battle.players[1].mons[i].fatigue -= 2
                 if battle.players[1].mons[i].fatigue < 0 
                   battle.players[1].mons[i].fatigue = 0 
               i++
@@ -2079,8 +2083,10 @@ $ ->
               else
                 description.children("span.damage-type").text "Special"
               description.children(".panel-body").html ability.description
-              description.children(".panel-footer").children("span").children(".d").text ability.change*ability.scaling
-              description.children(".panel-footer").children("span").children(".a").text ability.ap_cost
+              description.children(".panel-footer").children("span").children(".d")
+                .text ability.change*ability.scaling*(1-0.1*battle.players[ability.team].mons[ability.index].fatigue)
+              description.children(".panel-footer").children("span").children(".a")
+                .text ability.ap_cost
               description.css({"z-index": "6000", "opacity": "0.9"})
           return
         ).on "mouseleave", ".user .monBut button, .oracle-skill-icon", ->
@@ -2131,7 +2137,7 @@ $ ->
           $(".effect-info").css("z-index", "-1")
         $(document).on("mouseover", ".oracle-skill-icon", ->
           icon = $(this)
-          if battle.summonerCooldown is 0
+          if battle.summonerCooldown is 0 and $(icon).data("apcost") <= battle.players[0].ap
             $(this).css("box-shadow", "0px 0px 20px yellow")
         ).on "mouseleave", ".oracle-skill-icon", ->
           $(this).css("box-shadow", "none")

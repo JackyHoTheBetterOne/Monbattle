@@ -21,6 +21,13 @@ $ ->
         target: "gain-ap",
         placement: "left"
       },
+      {
+        title: "Fatigue level",
+        content: "Your MonGuards do less damage, the more you attack with them. 
+                  You can rest your MonGuards by not using them for the turn.",
+        target: "fatigue1",
+        placement: "left" 
+      },
     ]
   }
   window.first_effect_tour = {
