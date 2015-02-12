@@ -1827,6 +1827,7 @@ $ ->
   deathAbilitiesToActivate["pc"] = []
   if document.getElementById("battle") isnt null
     $("a.fb-nav, .logo-link, .top-bar").not(".quest-show, .mon-tab").on "click.leave", (event) ->
+      $(".cutscene").css("opacity", "0")
       $(document).off "click.cutscene", "#overlay"
       nav = $(this)
       link = $(this).attr("href")
@@ -1843,6 +1844,7 @@ $ ->
       $(".confirmation").css({"opacity":"0", "z-index":"-1"})
       setTimeout (->
         $(".skip-button").css("opacity", "1")
+        $(".cutscene").css("opacity", "1")
       ), 500
     $.ajax 
       url: "/battles/" + $(".battle").data("index") + ".json"
