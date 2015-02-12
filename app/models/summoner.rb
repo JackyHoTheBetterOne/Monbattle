@@ -178,7 +178,8 @@ class Summoner < ActiveRecord::Base
     count = 0 
     self.daily_battles.each do |b|
       battle = Battle.find(b)
-      if battle.victor == self.name
+      @user = User.find_by_user_name(battle.victor)
+      if @user.namey == self.name
         count += 1
       end
     end
@@ -189,7 +190,8 @@ class Summoner < ActiveRecord::Base
     count = 0
     self.daily_battles.each do |b|
       battle = Battle.find(b)
-      if battle.victor == self.name && battle.round_taken < round 
+      @user = User.find_by_user_name(battle.victor)
+      if @user.namey == self.name && battle.round_taken < round 
         count += 1
       end
     end

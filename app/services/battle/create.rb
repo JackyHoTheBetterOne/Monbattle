@@ -11,17 +11,17 @@ class Battle::Create
       @pc_party = Party.find_by_name("first-battle-pc")
 
       if @pc_party.monster_unlocks.count != 4 
-        @dynamis = MonsterUnlock.find(1361)
-        @ironhyde = MonsterUnlock.find(1356)
-        @kiryia = MonsterUnlock.find(1357)
-        @raizer = MonsterUnlock.find(1345)
+        @dynamis = MonsterUnlock.where("user_id = 2 AND monster_id = 83")[0]
+        @ironhyde = MonsterUnlock.where("user_id = 2 AND monster_id = 81")[0]
+        @kiryia = MonsterUnlock.where("user_id = 2 AND monster_id = 82")[0]
+        @tricera = MonsterUnlock.where("user_id = 2 AND monster_id = 80")[0]
 
         array = @pc_party.monster_unlocks
 
         @pc_party.monster_unlocks << @dynamis if !array.include?(@dynamis)
         @pc_party.monster_unlocks << @ironhyde if !array.include?(@ironhyde)
         @pc_party.monster_unlocks << @kiryia if !array.include?(@kiryia)
-        @pc_party.monster_unlocks << @raizer if !array.include?(@raizer)
+        @pc_party.monster_unlocks << @tricera if !array.include?(@tricera)
 
       end
       self.battle = Battle.new
