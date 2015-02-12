@@ -12,7 +12,8 @@
                            description: "#{a.ability.description}",
                            slot: "#{a.ability.slot}",
                            ap: "#{a.ability.ap_cost}",
-                           id: "#{a.id_code}"}
+                           id: "#{a.id_code}",
+                           classes: "#{a.ability.job_list}"}
                   ), 
         learn_ability_path(learning_filter: a.id_code),
         remote: true

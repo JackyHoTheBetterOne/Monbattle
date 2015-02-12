@@ -37,7 +37,7 @@ $ ->
         title: "Effect Icon",
         content: "The icons show the current effects on the monster. Mouseover to see more info."
         target: "0",
-        placement: "bottom"
+        placement: "left"
       }
     ]
   }
