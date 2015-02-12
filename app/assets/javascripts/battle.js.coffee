@@ -604,10 +604,12 @@ window.setFatigue = ->
 window.availableAbilities = () ->
   $(".availability-arrow").each ->
     $(this).data("available", "false")
-  if $(".oracle-skill-icon").data("apcost") > battle.players[0].ap
+  if $(".oracle-skill-icon").data("apcost") > battle.players[0].ap or battle.summonerCooldown isnt 0
     $(".oracle-skill-icon").css("opacity", "0.5")
+    $(".oracle-skill-icon").css("cursor", "default")
     document.getElementsByClassName("oracle-skill-icon")[0].style.pointerEvents = "none"
   else 
+    $(".oracle-skill-icon").css("cursor", "pointer")
     $(".oracle-skill-icon").css("opacity", "1")
     document.getElementsByClassName("oracle-skill-icon")[0].style.pointerEvents = "auto"
   $(".monBut button").each ->
@@ -1132,6 +1134,7 @@ window.turnOffCommandA = ->
   $(document).off "mousemove.command", ".user.mon-slot .img"
   $(".gain-ap").css("pointer-events", "none")
   $(".oracle-skill-icon").css("cursor", "default")
+  $(".oracle-skill-icon").css("opacity", "0.5")
   $(document).off "click.ap-gain", ".gain-ap"
   $(document).off "click.summoner_skill", ".oracle-skill-icon"
 
@@ -1160,6 +1163,7 @@ window.flashEndButton = ->
   setTimeout (->
     $(".end-turn").prop("disabled", false)
     $(".end-turn").css("opacity", "1")
+    $(".end-turn").css("cursor", "pointer")
   ), 500
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
@@ -1264,8 +1268,9 @@ window.findTargetsBelowPct = (pct) ->
   i = 0
   window.aiTargets = []
   while i < n
-    aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp/battle.players[0].mons[i].max_hp <= pct &&
-                                                      battle.players[0].mons[i].hp > 0 && battle.players[0].mons[i].type isnt "summoner"
+    if battle.players[0].mons[i].hp/battle.players[0].mons[i].max_hp <= pct &&
+        battle.players[0].mons[i].hp > 0 && battle.players[0].mons[i].type isnt "summoner"
+      aiTargets.push battle.players[0].mons[i].index 
     i++
 window.findTargetsAbovePct = (pct) ->
   i = undefined
@@ -1274,8 +1279,9 @@ window.findTargetsAbovePct = (pct) ->
   i = 0
   window.aiTargets = []
   while i < n
-    aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp/battle.players[0].mons[i].max_hp >= pct &&
-                                                      battle.players[0].mons[i].hp > 0 && battle.players[0].mons[i].type isnt "summoner"
+    if battle.players[0].mons[i].hp/battle.players[0].mons[i].max_hp >= pct &&
+        battle.players[0].mons[i].hp > 0 && battle.players[0].mons[i].type isnt "summoner"
+      aiTargets.push battle.players[0].mons[i].index
     i++
 window.findTargets = (hp) ->
   i = undefined
@@ -1284,8 +1290,9 @@ window.findTargets = (hp) ->
   i = 0
   window.aiTargets = []
   while i < n
-    aiTargets.push battle.players[0].mons[i].index if battle.players[0].mons[i].hp <= hp &&
-                                                      battle.players[0].mons[i].hp > 0 && battle.players[0].mons[i].type isnt "summoner"
+    if battle.players[0].mons[i].hp <= hp &&
+        battle.players[0].mons[i].hp > 0 && battle.players[0].mons[i].type isnt "summoner"
+      aiTargets.push battle.players[0].mons[i].index
     i++
 window.totalUserHp = ->
   i = undefined
@@ -1340,37 +1347,49 @@ window.feedAiTargets = ->
     findTargetsBelowPct(1)
   else if battle.round <= 7 && teamPct() <= 0.7
     window.aiAbilities = [0,2]
-    findTargetsBelowPct(0.65)
-    findTargetsBelowPct(0.85) if aiTargets.length is 0
+    findTargetsBelowPct(0.6)
+    findTargetsBelowPct(0.9) if aiTargets.length is 0
+    findTargetsBelowPct(1) if aiTargets.length is 0
   else if battle.round <= 7 && teamPct() > 0.7
     window.aiAbilities = [1,2] 
     findTargetsAbovePct(0.8)
-    findTargetsAbovePct(0.7) if aiTargets.length is 0
+    findTargetsAbovePct(0.6) if aiTargets.length is 0
+    findTargetsBelowPct(1) if aiTargets.length is 0
   else if battle.round <= 10 && teamPct() <= 0.5
     window.aiAbilities = [1,2]
     findTargetsBelowPct(0.5)
-    findTargetsBelowPct(0.7) if aiTargets.length is 0 
+    findTargetsBelowPct(0.75) if aiTargets.length is 0 
+    findTargetsBelowPct(1) if aiTargets.length is 0
   else if battle.round <= 10 && teamPct() > 0.5
     window.aiAbilities = [2,3]
-    findTargetsAbovePct(0.75)
+    findTargetsAbovePct(0.7)
     findTargetsAbovePct(0.5) if aiTargets.length is 0
+    findTargetsBelowPct(1) if aiTargets.length is 0
   else if battle.round <= 13 && teamPct() > 0.5
     window.aiAbilities = [3]
     findTargetsAbovePct(0.5) 
     findTargetsAbovePct(0.2) if aiTargets.length is 0
+    findTargetsBelowPct(1) if aiTargets.length is 0
   else if battle.round <= 13 && teamPct() <= 0.5
     window.aiAbilities = [1,2,3]
     findTargetsBelowPct(0.3)
-    findTargetsBelowPct(0.6) if aiTargets.length is 0
-  else if battle.round > 13 && teamPct() > 0.4
+    findTargetsBelowPct(0.7) if aiTargets.length is 0
+    findTargetsBelowPct(1) if aiTargets.length is 0
+  else if battle.round <= 16 && teamPct() > 0.4
     window.aiAbilities = [3]
     findTargetsAbovePct(0.4)
-    findTargetsAbovePct(0.01) if aiTargets.length is 0
-  else if battle.round > 13 && teamPct() <= 0.4 
+    findTargetsAbovePct(0.1) if aiTargets.length is 0
+    findTargetsBelowPct(1) if aiTargets.length is 0
+  else if battle.round <= 16 && teamPct() <= 0.4 
     window.aiAbilities = [0,2,3]
     findTargetsBelowPct(0.3)
     findTargetsBelowPct(0.7) if aiTargets.length is 0
-
+    findTargetsBelowPct(1) if aiTargets.length is 0
+  else if battle.round > 16
+    window.aiAbilities = [2,3]
+    findTargetsBelowPct(0.3)
+    findTargetsBelowPct(0.6) if aiTargets.length is 0
+    findTargetsBelowPct(1) if aiTargets.length is 0
 
 
 
@@ -1404,6 +1423,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
             window.targetIndex = findAliveFriends()[0].index
           else 
             window.targetIndex = findAliveEnemies()[0].index
+      console.log(window.targetIndex)
       switch ability.targeta
         when "attack"
           window.targets = [1].concat [monIndex, abilityIndex, targetIndex]

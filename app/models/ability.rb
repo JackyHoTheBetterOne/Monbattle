@@ -176,6 +176,19 @@ class Ability < ActiveRecord::Base
     where(id: Monster.mon_abils(monster))
   end
 
+
+
+
+
+  def job_list
+    list = []
+    self.jobs.each do |j|
+      list << j.name
+    end
+    return list.join(", ")
+  end
+
+
   def slot
     self.abil_socket.socket_num
   end

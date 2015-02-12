@@ -9,6 +9,7 @@ $ ->
     ), 250
   $(document).on "mouseover", ".abilities-to-learn .ability-icon", ->
     document.getElementsByClassName("name")[0].innerHTML = $(this).data("name")
+    document.getElementsByClassName("class-list")[0].innerHTML = $(this).data("classes")
     if $(this).data("slot") is 1
       document.getElementsByClassName("slot")[0].innerHTML = "Attack"
     else 

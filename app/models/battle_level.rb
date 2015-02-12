@@ -104,6 +104,7 @@ class BattleLevel < ActiveRecord::Base
 ############################################################################ Unlock level, area or region
   def unlock_for_summoner(summoner, round_taken, battle)
     @summoner = Summoner.find_by_name(summoner)
+    @user = @summoner.user
     @battle = Battle.find(battle)
 
     ability_reward_array = self.ability_reward
@@ -138,7 +139,7 @@ class BattleLevel < ActiveRecord::Base
 
       if !level_array.include?self.name
         level_array.push(self.name) 
-        @battle.track_progress
+        @battle.track_progress(@user.id)
         unlocked_level = BattleLevel.where(unlocked_by_id: self.id)[0]
         if unlocked_level
           @summoner.recently_unlocked_level = unlocked_level.name 

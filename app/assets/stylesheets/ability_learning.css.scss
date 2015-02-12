@@ -121,7 +121,7 @@
         left: 1.5px;
         background: #0D47A1;
         width: 99.5%;
-        height: 30%;
+        height: 52%;
         border: 3px solid black;
         border-radius: 5px;
         span {
@@ -137,13 +137,19 @@
         span.name {
           left: 2%;
         };
+        .class-list {
+          width: 97%;
+          height: 20px;
+          top: 24px;
+          left: 10px;
+        };
       };
     };
     .detail-description {
       position: absolute;
-      height: 65%;
+      height:48%;
       width: 99%;
-      top: 34px;
+      top: 55px;
       left: 3px;
       border-radius: 5px;
       padding: 1px 5px;
@@ -206,7 +212,7 @@
   h3 {
     position: relative;
     top: 5px;
-    padding: 2px;
+    padding: 5px;
   };
   .warning-message {
     position: fixed;
