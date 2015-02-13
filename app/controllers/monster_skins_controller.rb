@@ -4,7 +4,7 @@ class MonsterSkinsController < ApplicationController
 
   def index
     @monster_skin = MonsterSkin.new
-    @monster_skins = policy_scope(MonsterSkin.all)
+    @monster_skins = policy_scope(MonsterSkin.all.order(:name))
     @monster_skin_purchase = MonsterSkinPurchase.new
   end
 

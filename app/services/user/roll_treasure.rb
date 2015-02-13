@@ -1,6 +1,7 @@
 class User::RollTreasure
   include Virtus.model
 
+  attribute :roll_type
   attribute :user, User
   attribute :message
   attribute :reward_name
@@ -45,8 +46,7 @@ class User::RollTreasure
       @latest_chance = (chance*1000).to_i
       @summoner.gp -= 100
       @summoner.save
-      reward_category_roll = Random.new.rand(1..1000)
-      
+
       reward_level_roll = Random.new.rand(1..1000)
 
 
@@ -93,35 +93,108 @@ class User::RollTreasure
       self.rarity = @rarity
       self.rarity_image = @rarity_image
 
-      case
-        when (1..970).include?(reward_category_roll) #97% ability
-          @abil_array = Ability.can_win(@rarity).pluck(:id)
+      if roll_type != "monster"
+        if roll_type == "base"
+          @abil_array = Ability.base.can_win(@rarity).pluck(:id)
+        elsif roll_type == "ascension"
+          @abil_array = Ability.ascension.can_win(@rarity).pluck(:id)
+        end
 
-          if @rarity == "common"
-            @latest_abil_array = Ability.can_win("latest").pluck(:id)
-            chance = @latest_abil_array.count*@latest_chance
-            ability_roll = Random.new.rand(1..1000)
-            if (1..chance).include?(ability_roll)
-              @rarity = "latest"
-              @abil_array = @latest_mon_array
-            end
+        if @rarity == "common"
+          if roll_type == "base"
+            @latest_abil_array = Ability.base.can_win("latest").pluck(:id)
+          elsif roll_type == "ascension"
+            @latest_abil_array = Ability.ascension.can_win("latest").pluck(:id)
           end
-
-          @abil_id_won = @abil_array.sample
-          @abil_won_name = Ability.find_name(@abil_id_won)[0]
-          if @abil_id_won == nil
-            self.message = "The #{@rarity} abilities are currently unavailable!"
-            return self.message
+          chance = @latest_abil_array.count*@latest_chance
+          ability_roll = Random.new.rand(1..1000)
+          if (1..chance).include?(ability_roll)
+            @rarity = "latest"
+            @abil_array = @latest_mon_array
           end
+        end
 
-          AbilityPurchase.create!(user_id: user.id, ability_id: @abil_id_won)
-          self.message = "You unlocked ability #{@abil_won_name}!"
-          self.reward_name = @abil_won_name
-          self.image = Ability.find(@abil_id_won).portrait.url(:thumb)
-          self.type = "ability"
+        @abil_id_won = @abil_array.sample
+        @abil_won_name = Ability.find_name(@abil_id_won)[0]
+        if @abil_id_won == nil
+          self.message = "The #{@rarity} abilities are currently unavailable!"
           return self.message
+        end
 
-        when (970..1000).include?(reward_category_roll) #3% monsters
+        AbilityPurchase.create!(user_id: user.id, ability_id: @abil_id_won)
+        self.message = "You unlocked ability #{@abil_won_name}!"
+        self.reward_name = @abil_won_name
+        self.image = Ability.find(@abil_id_won).portrait.url(:thumb)
+        self.type = "ability"
+        return self.message
+      else 
+        @mon_id_array = Monster.can_win(@rarity).pluck(:id)
+        @id_array = []
+
+        if @rarity == "common"
+          @latest_mon_array = Monster.can_win("latest").pluck(:id)
+          chance = @latest_mon_array.count*@latest_chance
+          monster_roll = Random.new.rand(1..1000)
+          if (1..chance).include?(monster_roll)
+            @rarity = "latest"
+            @mon_id_array = @latest_mon_array
+          end
+        end
+
+        @mon_id_array.each do |d|
+          @id_array << d if !MonsterUnlock.unlock_check(user, d).exists?
+        end
+
+        @mon_id_won = @id_array.sample
+        @mon_won_name = Monster.find(@mon_id_won).name
+        self.reward_name = @mon_won_name
+        self.type = "monster"
+
+        if @mon_id_won == nil
+          self.message = "You have unlocked all the #{@rarity} monsters!"
+          return self.message
+        end
+
+        @monster_unlock = MonsterUnlock.new
+        @monster_unlock.user_id = user.id
+        @monster_unlock.monster_id = @mon_id_won
+        @monster_unlock.save
+
+        self.image = @monster_unlock.mon_portrait(user)
+        self.message = "You unlocked monster #{@mon_won_name}!"
+        return self.message
+      end
+
+
+      # case
+      #   when (1..970).include?(reward_category_roll) #97% ability
+      #     @abil_array = Ability.can_win(@rarity).pluck(:id)
+
+      #     if @rarity == "common"
+      #       @latest_abil_array = Ability.can_win("latest").pluck(:id)
+      #       chance = @latest_abil_array.count*@latest_chance
+      #       ability_roll = Random.new.rand(1..1000)
+      #       if (1..chance).include?(ability_roll)
+      #         @rarity = "latest"
+      #         @abil_array = @latest_mon_array
+      #       end
+      #     end
+
+      #     @abil_id_won = @abil_array.sample
+      #     @abil_won_name = Ability.find_name(@abil_id_won)[0]
+      #     if @abil_id_won == nil
+      #       self.message = "The #{@rarity} abilities are currently unavailable!"
+      #       return self.message
+      #     end
+
+      #     AbilityPurchase.create!(user_id: user.id, ability_id: @abil_id_won)
+      #     self.message = "You unlocked ability #{@abil_won_name}!"
+      #     self.reward_name = @abil_won_name
+      #     self.image = Ability.find(@abil_id_won).portrait.url(:thumb)
+      #     self.type = "ability"
+      #     return self.message
+
+        # when (970..1000).include?(reward_category_roll) #3% monsters
           @mon_id_array = Monster.can_win(@rarity).pluck(:id)
           @id_array = []
 
@@ -157,7 +230,7 @@ class User::RollTreasure
           self.image = @monster_unlock.mon_portrait(user)
           self.message = "You unlocked monster #{@mon_won_name}!"
           return self.message
-      end
+      # end
     end
   end
 end

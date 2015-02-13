@@ -62,24 +62,8 @@ class HomeController < ApplicationController
   def illegal_access
   end
 
-  def roll_trash
-    rolling = User::RollTrash.new(user: current_user)
-    rolling.call
-    @trash = rolling
-    @summoner = current_user.summoner
-    if rolling.message
-      render :json => {
-        message: @trash.message,
-        mp: @summoner.mp
-      }
-    else
-      flash[:alert] = "Something went wrong. It's your fault."
-      redirect_to device_store_path
-    end
-  end
-
   def roll_treasure
-    rolling = User::RollTreasure.new(user: current_user)
+    rolling = User::RollTreasure.new(user: current_user, roll_type: params[:roll_type])
     rolling.call
     @treasure = rolling
     @summoner = current_user.summoner

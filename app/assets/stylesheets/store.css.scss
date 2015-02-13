@@ -1,6 +1,5 @@
 @import "compass";
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////// Classes for animation
 .fadeIn-1s {
   opacity: 1 !important;
@@ -14,31 +13,50 @@
   top: 272px !important;
 };
 
+.current-tab {
+  background: #0D47A1 !important;
+};
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////// Need some organizations here buddy
 div.store-front {
   height: 500px;
   width: 960px;
   background: #4C4C4C;
-  background-image: url("https://s3-us-west-2.amazonaws.com/monbattle/images/monster-content.png");
+  // background-image: url("https://s3-us-west-2.amazonaws.com/monbattle/images/monster-content.png");
   background-repeat: no-repeat;
   background-size: cover;
-  position: relative;
+  position: absolute;
   left: 16px;
-  top: -14px;
+  top: 88px;
   margin-bottom: 20px;
   border-radius: 5px;
+  transition: 0.3s;
   .king-roll {
     position: absolute;
     top: 277px;
-    left: 385px;
+    left: 105px;
+    outline: none;
+  };
+
+  .queen-roll {
+    position: absolute;
+    top: 277px;
+    right: 135px;
+    outline: none;
+  };
+
+  .mon-roll {
+    position: absolute;
+    top: 272px;
+    left: 382px;
     outline: none;
   };
 
   .premium-summon-logo {
     position: absolute;
-    left: 155px;
-    top: 6px;
+    left: 164px;
+    top: 25px;
   };
 
 
@@ -160,11 +178,46 @@ div.store-front {
 };
 
 
+//////////////////////////////////////////////////////////////////////////////////// mon-store modification
+
+div.store-front.mon-store {
+  position: absolute;
+  margin: 88px auto;
+  left: 16px;
+  right: 0px;
+  top: 0px;
+  z-index: -5000;
+  background-image: url("https://s3-us-west-2.amazonaws.com/monbattle/images/monster-content.png");
+};
 
 
 
 
-
+//////////////////////////////////////////////////////////////////////////////////// mon-tabs css
+.store-tabs {
+  z-index: 3000;
+  height: 32px;
+  position: absolute;
+  width: 960px;
+  top: 89px;
+  left: 17px;
+  border-radius: 5px;
+  display: flex;
+  .tab {
+    background: #757575;
+    width: 320px;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-right: 2px;
+    text-align: center;
+    font-size: 140%;
+    transition: 0.3s;
+    cursor: pointer;
+  };
+  .tab:hover {
+    background: #0D47A1;
+  };
+};
 
 
 
