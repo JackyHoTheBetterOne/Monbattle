@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
   skip_before_filter :verify_authenticity_token
-  protect_from_forgery :except => [:create]
+  protect_from_forgery :except => [:facebook, :create]
 
   before_action :configure_permitted_parameteres, if: :devise_controller?
   after_action :set_access_control_headers
