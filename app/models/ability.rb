@@ -183,9 +183,9 @@ class Ability < ActiveRecord::Base
   def job_list
     list = []
     self.jobs.each do |j|
-      list << j.name
+      list << j.name if j.name.index("NPC") == nil
     end
-    return list.join(", ")
+    return "Teach to: " + list.join(", ")
   end
 
 

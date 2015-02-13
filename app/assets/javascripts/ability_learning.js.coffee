@@ -45,7 +45,7 @@ $ ->
       method: "patch"
       data: {"learner_id": purchaseLearning.monster_id}
       success: (response) ->
-        if response is "success"
+        if response.indexOf("success") isnt -1
           slot = undefined
           if purchaseLearning.ability_slot is 1
             slot = "Attack"
@@ -54,7 +54,8 @@ $ ->
           message = "To equip #{purchaseLearning.ability_name}, 
                      go to <a href='/home'>Edit Team</a>, then click on 
                      #{purchaseLearning.monster_name} and find it under the #{slot} slot!"
-          window.newAbilitiesLearned.push(message)
+          if response.indexOf("first") isnt -1
+            window.newAbilitiesLearned.push(message)
           document.getElementsByClassName("success-message")[0].innerHTML = 
             purchaseLearning.monster_name + " has learned " + purchaseLearning.ability_name + "!"
           $(".mon-avatar").remove()

@@ -15,7 +15,7 @@ window.flashMaking = ->
         html += flash_array[i]
         html += " </div>" 
         $(".flash-store").append(html)
-        $(".fade.in.ability").css("opacity", "1").addClass("tada animated")
+        $(".fade.in.ability").addClass("bounceIn animated")
         i++
   ), 250
 

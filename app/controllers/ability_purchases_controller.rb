@@ -14,11 +14,20 @@ class AbilityPurchasesController < ApplicationController
   end
 
   def update
+    user_id = current_user.id
+
+    count = AbilityPurchase.where(user_id: user_id).where("learner_id IS NOT NULL").count
+
     @ability_purchase = AbilityPurchase.friendly.find(params[:id])
     @monster_unlock = MonsterUnlock.find_by_id_code(update_params[:learner_id])
     @ability_purchase.learner_id = @monster_unlock.id
     @ability_purchase.save
-    render text: "success"
+
+    if count == 4
+      render text:"successfirst"
+    else
+      render text: "success"
+    end
   end
 
 
