@@ -139,6 +139,8 @@ class BattlesController < ApplicationController
     @stamina_upgrade = victory.stamina_upgrade
     @new_stamina = victory.new_stamina
 
+    @first = victory.first_time
+    
     render template: "battles/victory", :layout => false
   end
 

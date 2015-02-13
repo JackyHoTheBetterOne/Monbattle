@@ -41,7 +41,7 @@
             <%= link_to "Battle", new_battle_path, class: "fb-nav", data: {} %>
           </li>
           <li class="pull-right fb-nav quest-related">
-            <a href="#" class="fb-nav quest-show">Quest</a>
+            <a href="#" class="fb-nav quest-show">Quest<span class="caret"></span></a>
             <%= image_tag("quest-arrow.png", class: "quest-arrow") %>
             <div class="quests-outline">
               <% if current_user %>
@@ -55,7 +55,7 @@
             </div>
           </li>
           <li class="pull-right fb-nav mon-tab-li">
-            <a href="#" class="fb-nav mon-tab">MON</a>
+            <a href="#" class="fb-nav mon-tab">MON<span class="caret"></span></a>
             <div class="mon-dropdown">
               <%= link_to 'Edit Team', home_index_path, class: "top-bar edit-team" %>
               <%= link_to 'Learn Abilities', learn_ability_path, class: "top-bar learn-abilities" %>

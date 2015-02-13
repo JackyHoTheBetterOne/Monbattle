@@ -11,7 +11,7 @@
   <% if @ability != nil %>
     <p class="extra-reward-title">Ability earned:</p>
     <p class="ability-earned" data-type="ability" data-class="<%= @class_list %>" 
-      data-slot= "<%= @slot %>">
+      data-slot= "<%= @slot %>" data-firsttime = "<%= @first %>">
       <%= @ability.name %>
     </p>
   <% elsif @monster != nil %>

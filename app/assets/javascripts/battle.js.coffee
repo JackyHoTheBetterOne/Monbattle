@@ -273,6 +273,9 @@ window.fixEvolMon = (monster, player) ->
           i++
 ######################################################################################################### Effect logics
     $(ability.effects).each ->
+      effect = @
+      if effect.duration isnt 0 and effect.targeta.indexOf("poison") is -1
+        effect.duration += 1 if monster.team is 1 
       @monDex = monster.index 
       @teamDex = monster.team
       @name = @name.replace(/\s+/g, '')
@@ -853,12 +856,12 @@ window.outcome = ->
           sentence = "You have earned " + $(".ability-earned").text() + 
                      "! Teach it to your monster through the " + 
                      "<a href='/learn_ability'>Ability Learning</a>" + " page!" 
-          newAbilities.push(sentence)
-        else if $(".ability-earned").data("type") is "monster"
-          sentence = "You have earned " + $(".ability-earned").text() +
-                     "! Learn more about it at the " +
-                     "<a href='/home'>Monster Equipping</a>" + " page!"
-          newMonsters.push(sentence)
+          newAbilities.push(sentence) if $(".ability-earned").data("firsttime") is true
+        # else if $(".ability-earned").data("type") is "monster"
+        #   sentence = "You have earned " + $(".ability-earned").text() +
+        #              "! Learn more about it at the " +
+        #              "<a href='/home'>Monster Equipping</a>" + " page!"
+        #   newMonsters.push(sentence)
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     setTimeout (->
@@ -1387,7 +1390,7 @@ window.feedAiTargets = ->
     findTargetsBelowPct(1) if aiTargets.length is 0
   else if battle.round > 16
     window.aiAbilities = [2,3]
-    findTargetsBelowPct(0.3)
+    findTargetsBelowPct(0.25)
     findTargetsBelowPct(0.6) if aiTargets.length is 0
     findTargetsBelowPct(1) if aiTargets.length is 0
 

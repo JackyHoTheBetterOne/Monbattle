@@ -1,14 +1,26 @@
 <% if current_user %>
-  <div class="store-front">
+  <%= render "store_tabs" %>
+  <div class="store-front" id="ability-store">
+    <input type="image" src="https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button.png" 
+          alt="Submit" class="king-roll" data-roll="base">
+    <input type="image" src="https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button.png" 
+          alt="Submit" class="queen-roll" data-roll="ascension">
+  </div>
+
+  <div class="store-front mon-store" id="monster-store">
     <%= image_tag("premium-summon.png", class: "premium-summon-logo") %>
-    <input type="image" src="https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button.png" alt="Submit" class="king-roll">
+    <input type="image" src="https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button.png" 
+          alt="Submit" class="mon-roll" data-roll="monster">
     <div class="store-message">
       <span>Master, I sense new monsters!</span>
       <span>New monsters include: Hotspot, SPook, Grimrock, and Uorabora</span>
       <span>New Abilities include: Reckless Strike and Sword Summit</span>
     </div>
-    <%= image_tag("ai-happy-avatar.png", class: "ai-happy-avatar") %>
+    <%= image_tag("ai-happy-avatar.png", class: "ai-happy-avatar") %> 
   </div>
+
+
+
   <div class="store-overlay">
     <div class="store-overlay-objects">
       <%= image_tag("legendary-text.png", class: "rarity-icon") %>
@@ -20,7 +32,6 @@
 
     <%= image_tag("reveal-button.png", class: "reveal-button")%>
     <button class="back-to-store">Close</button>
-
   </div>
 <% else %>
   <%= render "no_user" %>

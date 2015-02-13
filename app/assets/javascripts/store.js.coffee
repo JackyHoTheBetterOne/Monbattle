@@ -4,15 +4,28 @@
 
 $ ->
   $(document).off "click.roll"
-  $(document).on "mouseover", ".king-roll", ->
+  $(document).on "mouseover", ".king-roll, .queen-roll, .mon-roll", ->
     $(this).attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button-mouseover.png")
-  $(document).on "mouseleave", ".king-roll", ->
+  $(document).on "mouseleave", ".king-roll, .queen-roll, .mon-roll", ->
     $(this).attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button.png")
-  $(document).on "click.roll", ".king-roll", ->
+  $(document).on "click", ".store-tabs .tab", ->
+    document.getElementsByClassName("monster-store-tab")[0].className = "monster-store-tab tab"
+    document.getElementsByClassName("ability-store-tab")[0].className = "ability-store-tab tab"
+    document.getElementsByClassName("gem-store-tab")[0].className = "gem-store-tab tab"
+    tab = $(this).data("tab")
+    $(".store-front").not("#"+tab).css({"opacity":"0", "z-index":"-1000"})
+    $(this).addClass("current-tab")
+    document.getElementById(tab).style["opacity"] = "1"
+    document.getElementById(tab).style["z-index"] = "1000"
+  $(document).on "click.roll", ".king-roll, .queen-roll, .mon-roll", ->
+    roll = $(this)
     $.ajax 
       url: "/home/roll_treasure"
       method: "get"
       dataType: "json"
+      data: {
+        roll_type: $(roll).data("roll"),
+      }
       error: ->
         alert("Can't process the roll")
       success: (response) ->
@@ -32,16 +45,16 @@ $ ->
           setAttribute("src", response.rarity_image)
         overlay.className += " fadeIn-1s"
         gp.innerHTML = response.gp 
-        if response.type == "ability"
+        if response.type == "ability" && response.first_time == true
           sentence = "You have earned " + response.reward + 
                      "! Teach it to your monster through the " + 
                      "<a href='/learn_ability'>Ability Learning</a>" + " page!" 
           newAbilities.push(sentence)
-        else if response.type == 'monster'
-          sentence = "You have earned " + response.reward +
-                     "! Learn more about it at the " +
-                     "<a href='/home'>Monster Equipping</a>" + " page!"
-          newMonsters.push(sentence)
+        # else if response.type == 'monster'
+        #   sentence = "You have earned " + response.reward +
+        #              "! Learn more about it at the " +
+        #              "<a href='/home'>Monster Equipping</a>" + " page!"
+        #   newMonsters.push(sentence)
         setTimeout (->
           message.style["opacity"] = "1"
         ), 1000
@@ -69,8 +82,6 @@ $ ->
               ), 840
           ), 600
         ), 1500
-
-
     $(document).on "click", ".back-to-store", ->
       document.getElementsByClassName("store-overlay")[0].className = "store-overlay"
       document.getElementsByClassName("back-to-store")[0].className = "back-to-store"

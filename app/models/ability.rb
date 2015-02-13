@@ -119,6 +119,15 @@ class Ability < ActiveRecord::Base
     where(abil_socket_id: @socket_ids, rarity_id: @rarity_id)
   }
 
+  scope :ascension, -> () {
+    joins(:jobs).where("jobs.name LIKE ?", "%EX%")
+  }
+
+  scope :base, -> {
+    joins(:jobs).where("jobs.name NOT LIKE ?", "%EX%")
+  }
+
+
   scope :worth, -> (rarity) {
     where(rarity_id: Rarity.worth(rarity))
   }
@@ -183,9 +192,9 @@ class Ability < ActiveRecord::Base
   def job_list
     list = []
     self.jobs.each do |j|
-      list << j.name
+      list << j.name if j.name.index("NPC") == nil && j.name.index("npc") == nil
     end
-    return list.join(", ")
+    return "Teach to: " + list.join(", ")
   end
 
 
