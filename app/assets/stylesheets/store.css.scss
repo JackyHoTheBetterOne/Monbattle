@@ -17,6 +17,13 @@
   background: #0D47A1 !important;
 };
 
+.current-currency-toggle {
+  color: #fff !important;
+  background-color: #3276b1 !important;
+  border-color: #285e8e !important;
+  box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
+};
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////// Need some organizations here buddy
 div.store-front {
@@ -34,15 +41,14 @@ div.store-front {
   transition: 0.3s;
   .king-roll {
     position: absolute;
-    top: 277px;
-    left: 105px;
+    top: 290px;
+    left: 120px;
     outline: none;
   };
-
   .queen-roll {
     position: absolute;
-    top: 277px;
-    right: 135px;
+    top: 290px;
+    right: 140px;
     outline: none;
   };
 
@@ -58,6 +64,19 @@ div.store-front {
     left: 164px;
     top: 25px;
   };
+
+  .premium-summon-logo.base-summon-logo {
+    left: 26px;
+    top: 50px;
+  };
+
+  .premium-summon-logo.ascension-summon-logo {
+    left: 510px;
+    top: 50px;
+  };
+
+
+
 
 
   .ai-happy-avatar {
@@ -188,6 +207,13 @@ div.store-front.mon-store {
   top: 0px;
   z-index: -5000;
   background-image: url("https://s3-us-west-2.amazonaws.com/monbattle/images/monster-content.png");
+  .currency-toggle.monster {
+    left: 413px;
+    top: 248px;
+    button span {
+      font-size: 85%;
+    };
+  };
 };
 
 
@@ -208,20 +234,84 @@ div.store-front.mon-store {
     width: 320px;
     border: 2px solid black;
     border-radius: 10px;
-    margin-right: 2px;
+    margin-right: 8px;
     text-align: center;
     font-size: 140%;
     transition: 0.3s;
     cursor: pointer;
+    color: white;
+    box-shadow: 2px 4px 8px black;
   };
   .tab:hover {
     background: #0D47A1;
   };
 };
 
+///////////////////////////////////////////////////////////////////////////////////////// Currency tab
+.currency-toggle {
+  position: absolute;
+  top: 260px;
+  button {
+    background: white;
+    color: black;
+    outline: none;
+    border: 2px solid #ccc;
+    transition: 0.3s;
+    height: 40px;
+    width: 70px;
+    img {
+      height: 22px;
+    };
+    span {
+      font-size: 90%;
+    };
+  };
+  button:hover {
+    background: #ebebeb;
+  };
+  button.mp-toggle {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    position: relative;
+    left: 5px;
+  };
+  button.gp-toggle {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  };
+};
+
+.currency-toggle.king {
+  left: 150px;
+};
+
+.currency-toggle.queen {
+  right: 180px;
+};
 
 
 
+/////////////////////////////////////////////////////////////////////////////////////////// Store message box
+.store-message-box {
+  position: absolute;
+  top: 398px;
+  width: 460px;
+  height: 90px;
+  background: #757575;
+  box-shadow: inset 0px 1px 12px black;
+  padding: 10px;
+  span {
+    display: block;
+    color: white;
+  };
+};
 
+.store-message-box.base-store-message {
+  left: 8px;
+};
+
+.store-message-box.ascension-store-message {
+  right: 8px;
+};
 
 

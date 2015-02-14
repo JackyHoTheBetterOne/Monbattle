@@ -1,17 +1,54 @@
 <% if current_user %>
   <%= render "store_tabs" %>
   <div class="store-front" id="ability-store">
-    <%= image_tag("premium-summon.png", class: "premium-summon-logo") %>
-    <%= image_tag("premium-summon.png", class: "premium-summon-logo") %>
+    <%= image_tag(
+          "https://s3-us-west-2.amazonaws.com/monbattle/images/Base-Abilities-text.png", 
+            class: "premium-summon-logo base-summon-logo") %>
+    <%= image_tag(
+          "https://s3-us-west-2.amazonaws.com/monbattle/images/Ascension-Ability-Text.png", 
+            class: "premium-summon-logo ascension-summon-logo ") %>
 
 
+    <div class="currency-toggle king">
+      <button class="current-toggle-but mp-toggle current-currency-toggle"
+        data-rolltype="base" data-currencytype="gp">
+        <span>100</span>
+        <img class="mp-icon" src="/assets/gp.png">
+      </button>
+      <button class="current-toggle-but gp-toggle"
+        data-rolltype="base" data-currencytype="mp">
+        <span>5</span>
+        <img class="mp-icon" src="/assets/mp.png">
+      </button> 
+    </div>
 
-
+    <div class="currency-toggle queen">
+      <button class="current-toggle-but mp-toggle current-currency-toggle"
+        data-rolltype="ascension" data-currencytype="gp">
+        <span>200</span>
+        <img class="mp-icon" src="/assets/gp.png">
+      </button>
+      <button class="current-toggle-but gp-toggle" 
+        data-rolltype="ascension" data-currencytype="mp">
+        <span>10</span>
+        <img class="mp-icon" src="/assets/mp.png">
+      </button> 
+    </div>
 
     <input type="image" src="https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button.png" 
-          alt="Submit" class="king-roll" data-roll="base">
+          alt="Submit" class="roll-but king-roll" data-roll="base">
     <input type="image" src="https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button.png" 
-          alt="Submit" class="queen-roll" data-roll="ascension">
+          alt="Submit" class="roll-but queen-roll" data-roll="ascension">
+
+    <div class="store-message-box base-store-message">
+      <span>I banged your mom last night!</span>
+      <span>And your sister too!</span>
+    </div>
+
+    <div class="store-message-box ascension-store-message">
+      <span>U mad?</span>
+      <span> U know u mad</span>
+    </div>
   </div>
 
 
@@ -21,13 +58,25 @@
   <div class="store-front mon-store" id="monster-store">
     <%= image_tag("premium-summon.png", class: "premium-summon-logo") %>
     <input type="image" src="https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button.png" 
-          alt="Submit" class="mon-roll" data-roll="monster">
+          alt="Submit" class="roll-but mon-roll" data-roll="monster">
     <div class="store-message">
       <span>Master, I sense new monsters!</span>
-      <span>New monsters include: Hotspot, SPook, Grimrock, and Uorabora</span>
+      <span>New monsters include: Hotspot, Spook, Grimrock, and Uorabora</span>
       <span>New Abilities include: Reckless Strike and Sword Summit</span>
     </div>
     <%= image_tag("ai-happy-avatar.png", class: "ai-happy-avatar") %> 
+    <div class="currency-toggle monster">
+      <button class="current-toggle-but mp-toggle current-currency-toggle"
+        data-rolltype="monster" data-currencytype="gp">
+        <span>1000</span>
+        <img class="mp-icon" src="/assets/gp.png">
+      </button>
+      <button class="current-toggle-but gp-toggle" 
+        data-rolltype="monster" data-currencytype="mp">
+        <span>50</span>
+        <img class="mp-icon" src="/assets/mp.png">
+      </button> 
+    </div>
   </div>
 
 
@@ -47,3 +96,5 @@
 <% else %>
   <%= render "no_user" %>
 <% end %>
+
+

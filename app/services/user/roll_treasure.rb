@@ -2,7 +2,9 @@ class User::RollTreasure
   include Virtus.model
 
   attribute :roll_type
+  attribute :currency_type
   attribute :user, User
+  attribute :cost
   attribute :message
   attribute :reward_name
   attribute :type
@@ -22,6 +24,28 @@ class User::RollTreasure
     self.rarity_image = "https://s3-us-west-2.amazonaws.com/monbattle/images/legendary-text.png"
     self.rarity_color = "1"
 
+    if roll_type == "base"
+      if currency_type == "gp"
+        self.cost = 100
+      else 
+        self.cost = 5
+      end
+    elsif roll_type == "ascension"
+      if currency_type == "gp"
+        self.cost = 200
+      else
+        self.cost = 10
+      end
+    elsif roll_type == "monster"
+      if currency_type == "gp"
+        self.cost = 1000
+      else
+        self.cost = 50
+      end
+    end
+
+
+
     if user.ability_purchases.count == 4
       self.first_time = true
     else
@@ -30,7 +54,7 @@ class User::RollTreasure
 
 
     @summoner = user.summoner
-    if @summoner.gp < 100
+    if @summoner[currency_type] < cost
       self.message = "You ain't got enough gp. Get more to roll."
       return self.message
     else
@@ -44,7 +68,7 @@ class User::RollTreasure
       @ultra_rare_chance = (chance*1000).to_i
       chance = Rarity.find_by_name("latest").chance
       @latest_chance = (chance*1000).to_i
-      @summoner.gp -= 100
+      @summoner[currency_type] -= cost
       @summoner.save
 
       reward_level_roll = Random.new.rand(1..1000)
