@@ -3,6 +3,9 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
+  window["ascension_roll"] = "gp"
+  window["base_roll"] = "gp"
+  window["monster_roll"] = "gp"
   $(document).off "click.roll"
   $(document).on "mouseover", ".king-roll, .queen-roll, .mon-roll", ->
     $(this).attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button-mouseover.png")
@@ -17,21 +20,29 @@ $ ->
     $(this).addClass("current-tab")
     document.getElementById(tab).style["opacity"] = "1"
     document.getElementById(tab).style["z-index"] = "1000"
+  $(document).on "click", ".current-toggle-but", ->
+    window[$(this).data("rolltype") + "_roll"] = $(this).data("currencytype")
+    $(this).parent().children(".current-toggle-but").removeClass("current-currency-toggle")
+    $(this).addClass("current-currency-toggle")
   $(document).on "click.roll", ".king-roll, .queen-roll, .mon-roll", ->
-    roll = $(this)
+    roll = $(this).data("roll")
     $.ajax 
       url: "/home/roll_treasure"
       method: "get"
       dataType: "json"
       data: {
-        roll_type: $(roll).data("roll"),
+        roll_type: roll,
+        currency_type: window[roll+"_roll"],
       }
       error: ->
         alert("Can't process the roll")
       success: (response) ->
         document.getElementsByClassName("king-roll")[0].style["z-index"] = "-1"
+        document.getElementsByClassName("queen-roll")[0].style["z-index"] = "-1"
+        document.getElementsByClassName("mon-roll")[0].style["z-index"] = "-1"
         overlay = document.getElementsByClassName("store-overlay")[0]
         gp = document.getElementById("summoner-gp")
+        mp = document.getElementById("summoner-mp")
         message = document.getElementsByClassName("roll-message")[0]
         button = document.getElementsByClassName("back-to-store")[0]
         rarity = document.getElementsByClassName("rarity-icon")[0]
@@ -45,6 +56,7 @@ $ ->
           setAttribute("src", response.rarity_image)
         overlay.className += " fadeIn-1s"
         gp.innerHTML = response.gp 
+        mp.innerHTML = response.mp
         if response.type == "ability" && response.first_time == true
           sentence = "You have earned " + response.reward + 
                      "! Teach it to your monster through the " + 
@@ -92,6 +104,8 @@ $ ->
       document.getElementsByClassName("rarity-icon")[0].className = "rarity-icon"
       document.getElementsByClassName("roll-message")[0].innerHTML = ""
       document.getElementsByClassName("king-roll")[0].style["z-index"] = "1000"
+      document.getElementsByClassName("queen-roll")[0].style["z-index"] = "1000"
+      document.getElementsByClassName("mon-roll")[0].style["z-index"] = "1000"
   $(document).on "mouseover", ".showcase", ->
     $(".ability-detail").text latest_abilities[$(this).data("index")].description
 

@@ -1079,16 +1079,16 @@ window.endCutScene = ->
   $(".next-scene").css("opacity", "0")
 
 window.nextSceneInitial = ->
-  document.getElementById('overlay').style.pointerEvents = 'none'
+  document.getElementById('overlay').style.pointerEvents = 'auto'
   document.getElementById('skip-button').style.pointerEvents = 'auto' if $(".skip-button").length isnt 0
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 2000
+  ), 800
 
 window.nextScene = ->
   if document.getElementById('overlay') isnt null
-    document.getElementById('overlay').style.pointerEvents = 'none' 
+    document.getElementById('overlay').style.pointerEvents = 'auto' 
     document.getElementById('skip-button').style.pointerEvents = 'auto' if $(".skip-button").length isnt 0
   $(".cutscene").css("opacity", "0")
   $(".next-scene").css("opacity", "0")
@@ -1102,7 +1102,7 @@ window.nextScene = ->
     $(".next-scene").css("opacity", "0.9")
     if document.getElementById('overlay') isnt null
       document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 2500
+  ), 1600
 
 window.mouseOverMon = ->
   if $(this).css("opacity") isnt "0"

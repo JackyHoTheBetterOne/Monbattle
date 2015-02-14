@@ -171,26 +171,26 @@ a.fb-nav:hover {
     position: relative;
   };
   .mp-icon {
+    height: 24px;
+    position: absolute;
+    left: 129px;
+    top: 44px;
+  };
+  .gp-icon {
     position: absolute;
     left: 126px;
     height: 24px;
     top: 20px;
   };
-  .gp-icon {
-    height: 24px;
-    position: absolute;
-    left: 123px;
-    top: 44px;
-  };
   .summoner-mp {
     position: absolute;
     left: 152px;
-    top: 22px;
+    top: 47px;
   };
   .summoner-gp {
     position: absolute;
     left: 152px;
-    top: 47px;
+    top: 22px;
   };
   .username {
     position: absolute;

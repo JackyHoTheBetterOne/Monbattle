@@ -63,7 +63,9 @@ class HomeController < ApplicationController
   end
 
   def roll_treasure
-    rolling = User::RollTreasure.new(user: current_user, roll_type: params[:roll_type])
+    rolling = User::RollTreasure.new(user: current_user, 
+                                     roll_type: params[:roll_type], 
+                                     currency_type: params[:currency_type])
     rolling.call
     @treasure = rolling
     @summoner = current_user.summoner
@@ -73,6 +75,7 @@ class HomeController < ApplicationController
       render :json => {
         message: @treasure.message,
         gp: @summoner.gp,
+        mp: @summoner.mp,
         type: @treasure.type,
         reward: @treasure.reward_name,
         rarity: @treasure.rarity,
