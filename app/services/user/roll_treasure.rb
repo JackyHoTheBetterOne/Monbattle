@@ -4,6 +4,7 @@ class User::RollTreasure
   attribute :roll_type
   attribute :currency_type
   attribute :user, User
+  attribute :description
   attribute :cost
   attribute :message
   attribute :reward_name
@@ -23,6 +24,7 @@ class User::RollTreasure
     self.image = "https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg"
     self.rarity_image = "https://s3-us-west-2.amazonaws.com/monbattle/images/legendary-text.png"
     self.rarity_color = "1"
+    self.description = ""
 
     if roll_type == "base"
       if currency_type == "gp"
@@ -140,6 +142,7 @@ class User::RollTreasure
 
         @abil_id_won = @abil_array.sample
         @abil_won_name = Ability.find_name(@abil_id_won)[0]
+
         if @abil_id_won == nil
           self.message = "The #{@rarity} abilities are currently unavailable!"
           return self.message
@@ -148,6 +151,7 @@ class User::RollTreasure
         AbilityPurchase.create!(user_id: user.id, ability_id: @abil_id_won)
         self.message = "You unlocked ability #{@abil_won_name}!"
         self.reward_name = @abil_won_name
+        self.description = Ability.find(@abil_id_won).description
         self.image = Ability.find(@abil_id_won).portrait.url(:thumb)
         self.type = "ability"
         return self.message
@@ -173,6 +177,7 @@ class User::RollTreasure
         @mon_won_name = Monster.find(@mon_id_won).name
         self.reward_name = @mon_won_name
         self.type = "monster"
+        self.description = Monster.find(@mon_id_won).description
 
         if @mon_id_won == nil
           self.message = "You have unlocked all the #{@rarity} monsters!"
@@ -186,6 +191,7 @@ class User::RollTreasure
 
         self.image = @monster_unlock.mon_portrait(user)
         self.message = "You unlocked monster #{@mon_won_name}!"
+
         return self.message
       end
 
@@ -219,41 +225,41 @@ class User::RollTreasure
       #     return self.message
 
         # when (970..1000).include?(reward_category_roll) #3% monsters
-          @mon_id_array = Monster.can_win(@rarity).pluck(:id)
-          @id_array = []
+          # @mon_id_array = Monster.can_win(@rarity).pluck(:id)
+          # @id_array = []
 
-          if @rarity == "common"
-            @latest_mon_array = Monster.can_win("latest").pluck(:id)
-            chance = @latest_mon_array.count*@latest_chance
-            monster_roll = Random.new.rand(1..1000)
-            if (1..chance).include?(monster_roll)
-              @rarity = "latest"
-              @mon_id_array = @latest_mon_array
-            end
-          end
+          # if @rarity == "common"
+          #   @latest_mon_array = Monster.can_win("latest").pluck(:id)
+          #   chance = @latest_mon_array.count*@latest_chance
+          #   monster_roll = Random.new.rand(1..1000)
+          #   if (1..chance).include?(monster_roll)
+          #     @rarity = "latest"
+          #     @mon_id_array = @latest_mon_array
+          #   end
+          # end
 
-          @mon_id_array.each do |d|
-            @id_array << d if !MonsterUnlock.unlock_check(user, d).exists?
-          end
+          # @mon_id_array.each do |d|
+          #   @id_array << d if !MonsterUnlock.unlock_check(user, d).exists?
+          # end
 
-          @mon_id_won = @id_array.sample
-          @mon_won_name = Monster.find(@mon_id_won).name
-          self.reward_name = @mon_won_name
-          self.type = "monster"
+          # @mon_id_won = @id_array.sample
+          # @mon_won_name = Monster.find(@mon_id_won).name
+          # self.reward_name = @mon_won_name
+          # self.type = "monster"
 
-          if @mon_id_won == nil
-            self.message = "You have unlocked all the #{@rarity} monsters!"
-            return self.message
-          end
+          # if @mon_id_won == nil
+          #   self.message = "You have unlocked all the #{@rarity} monsters!"
+          #   return self.message
+          # end
 
-          @monster_unlock = MonsterUnlock.new
-          @monster_unlock.user_id = user.id
-          @monster_unlock.monster_id = @mon_id_won
-          @monster_unlock.save
+          # @monster_unlock = MonsterUnlock.new
+          # @monster_unlock.user_id = user.id
+          # @monster_unlock.monster_id = @mon_id_won
+          # @monster_unlock.save
 
-          self.image = @monster_unlock.mon_portrait(user)
-          self.message = "You unlocked monster #{@mon_won_name}!"
-          return self.message
+          # self.image = @monster_unlock.mon_portrait(user)
+          # self.message = "You unlocked monster #{@mon_won_name}!"
+          # return self.message
       # end
     end
   end

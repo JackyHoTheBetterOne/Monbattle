@@ -47,6 +47,7 @@ $ ->
         button = document.getElementsByClassName("back-to-store")[0]
         rarity = document.getElementsByClassName("rarity-icon")[0]
         ability_icon = document.getElementsByClassName("ability-won-icon")[0]
+        description_box = document.getElementsByClassName("ability-won-description")[0]
         reveal_but = document.getElementsByClassName("reveal-button")[0]
         if response.image isnt "1"
           ability_icon.setAttribute("src", response.image)
@@ -57,6 +58,8 @@ $ ->
         overlay.className += " fadeIn-1s"
         gp.innerHTML = response.gp 
         mp.innerHTML = response.mp
+        description_box.innerHTML = response.desc
+        console.log(response.desc)
         if response.type == "ability" && response.first_time == true
           sentence = "You have earned " + response.reward + 
                      "! Teach it to your monster through the " + 
@@ -91,10 +94,13 @@ $ ->
                 button.className += " bounceIn animated"
                 message.innerHTML = response.message
                 ability_icon.className += " bounceIn animated"
+                description_box.className += " bounceIn animated"
               ), 840
           ), 600
         ), 1500
     $(document).on "click", ".back-to-store", ->
+      document.getElementsByClassName("ability-won-description")[0].className = "ability-won-description"
+      document.getElementsByClassName("ability-won-description")[0].style["opacity"] = "0"
       document.getElementsByClassName("store-overlay")[0].className = "store-overlay"
       document.getElementsByClassName("back-to-store")[0].className = "back-to-store"
       document.getElementsByClassName("back-to-store")[0].style["z-index"] = "-1"

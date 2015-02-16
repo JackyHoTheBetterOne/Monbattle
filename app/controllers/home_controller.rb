@@ -82,7 +82,8 @@ class HomeController < ApplicationController
         image: @treasure.image,
         rarity_image: @treasure.rarity_image,
         rarity_color: @treasure.rarity_color,
-        first_time: @treasure.first_time
+        first_time: @treasure.first_time,
+        desc: @treasure.description
       }
     else
       flash[:alert] = "Something went wrong. It's your fault."

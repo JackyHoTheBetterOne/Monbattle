@@ -792,6 +792,8 @@ window.battleStartDisplay = (time) ->
         hopscotch.startTour(first_replay_tour) if $(".battle").data("bonusturtorial") is true
         $(".foe-indication").removeClass("bounceIn animated")
         $(".foe-indication").css("opacity", "0")
+        document.getElementById('gain-ap').style.pointerEvents = 'auto'
+        document.getElementById('end-turn-tip').style.pointerEvents = 'auto'
         $(".enemy .img").each ->
           $(this).css("background", "transparent")
       ), 1000
@@ -1079,16 +1081,16 @@ window.endCutScene = ->
   $(".next-scene").css("opacity", "0")
 
 window.nextSceneInitial = ->
-  document.getElementById('overlay').style.pointerEvents = 'auto'
+  document.getElementById('overlay').style.pointerEvents = 'none'
   document.getElementById('skip-button').style.pointerEvents = 'auto' if $(".skip-button").length isnt 0
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 800
+  ), 1000
 
 window.nextScene = ->
   if document.getElementById('overlay') isnt null
-    document.getElementById('overlay').style.pointerEvents = 'auto' 
+    document.getElementById('overlay').style.pointerEvents = 'none' 
     document.getElementById('skip-button').style.pointerEvents = 'auto' if $(".skip-button").length isnt 0
   $(".cutscene").css("opacity", "0")
   $(".next-scene").css("opacity", "0")
@@ -1102,7 +1104,7 @@ window.nextScene = ->
     $(".next-scene").css("opacity", "0.9")
     if document.getElementById('overlay') isnt null
       document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 1600
+  ), 2000
 
 window.mouseOverMon = ->
   if $(this).css("opacity") isnt "0"
@@ -1878,6 +1880,8 @@ $ ->
       success: (data) ->
         window.battle = data
         window.seconds_taken = 0
+        document.getElementById('gain-ap').style.pointerEvents = 'none'
+        document.getElementById('end-turn-tip').style.pointerEvents = 'none'
         if battle.start_cut_scenes.length isnt 0 
           $(".cutscene").show(500)
           toggleImg()
@@ -2077,6 +2081,7 @@ $ ->
         $(".ap .ap-number").text apInfo(battle.maxAP)
         turnOnCommandA()
         $(document).on("mouseover", ".user .monBut button, .oracle-skill-icon", ->
+          $(".user .mon.mon1 .abilityDesc").removeClass("summoner-ability-description")
           element = $(this)
           ability_target = $(this).data("target")
           description = $(this).parent().parent().children(".abilityDesc")
@@ -2100,6 +2105,7 @@ $ ->
               ability = undefined
               if element.attr("class") is "oracle-skill-icon"
                 ability = battle.players[0].mons[playerMonNum-1].abilities[0]
+                $(description).addClass("summoner-ability-description")
               else 
                 ability = battle.players[0].mons[targets[1]].abilities[$(this).data("index")]
               description.children(".panel-heading").text ability.name

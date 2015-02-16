@@ -38,7 +38,8 @@
 
   <% if @first_cleared %>
     <div class="battle-round-countdown" id="battle-round-countdown">
-      Rush Reward: <span><%= @battle.battle_level.time_requirement %></span>
+      <span><%= @battle.battle_level.time_requirement %></span> turns
+      <p class="rush-reward-title">Rush Reward</p>
     </div>
     <div class="bonus-description">
       Win the battle under <%= @battle.battle_level.time_requirement %> rounds 
@@ -46,7 +47,8 @@
     </div>
   <% elsif @twice_cleared %>
     <div class="battle-round-countdown" id="battle-round-countdown">
-      Rush Reward: <span><%= @battle.battle_level.time_requirement %></span>
+      <span><%= @battle.battle_level.time_requirement %></span> turns
+      <p class="rush-reward-title">Rush Reward</p>
     </div>
     <div class="bonus-description">
       Win the battle under <%= @battle.battle_level.time_requirement %> rounds 
@@ -66,7 +68,7 @@
   <img class="ability-img" src="" type="image" alt="monster abiltiy">
 
   <div class="oracle-skill-panel">
-    <p>Oracle Skill:</p>
+    <p class="oracle-skill-title">Oracle Skill:</p>
     <img src="https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg" class="oracle-skill-icon">
   </div>
 
