@@ -25,6 +25,12 @@ $theme-background-color: rgba(32, 32, 32, 1);
   transform: scaleX(-1);
 };
 
+.summoner-ability-description {
+  top: -84px !important;
+  left: -72px !important;
+  opacity: 1;
+};
+
 .turn-end {
   background: rgba(109,201,106,0.65) !important;
   border-color: rgba(109,201,106,0.65) !important;
@@ -218,6 +224,7 @@ $theme-background-color: rgba(32, 32, 32, 1);
   left: 2%;
   border-radius: 10px;
   display: none;
+  z-index: 1000;
 };
 
 .battle-guide {
@@ -260,8 +267,8 @@ $theme-background-color: rgba(32, 32, 32, 1);
   background: #3D3C3C;
   border: 2px solid black;
   border-radius: 5px;
-  left: 593px;
-  top: 98px;
+  left: 706px;
+  top: 114px;
   color: white;
   opacity: 0;
   transition: opacity 0.3s;
@@ -315,20 +322,21 @@ body {
     width: 230px;
     color: white;
     background: #3D3C3C;
-    height: 50px;
-    padding-top: 4px;
+    height: 55px;
+    padding-top: 6px;
     padding-left: 8px;
     padding-right: 8px;
     border: 2px solid black;
     border-radius: 5px;
     position: absolute;
-    right: 148px;
-    top: 60px;
+    right: 147px;
+    top: 55px;
     transition: 0.3s;
     opacity: 0;
     z-index: -1;
   };
   .battle-timer {
+    color: white;
     position: absolute;
     text-align: center;
     background: #3D3C3C;
@@ -338,17 +346,16 @@ body {
     font-size: 150%;
     border: 2px solid black;
     border-radius: 5px;
-    color: white;
-    top: 60px;
-    right: 20px;
+    top: 5px;
+    left: 8px;
   };
   .battle-round-countdown {
     position: absolute;
-    width: 208px;
-    height: 33px;
+    width: 115px;
+    height: 48px;
     text-align: center;
     padding-top: 2px;
-    right: 148px;
+    right: 19px;
     top: 60px;
     border: 2px solid black;
     color: white;
@@ -357,6 +364,11 @@ body {
     font-weight: bold;
     transition: opacity 0.3s;
     border-radius: 5px;
+    .rush-reward-title {
+      font-size: 80%;
+      position: relative;
+      top: -3px;
+    };
   };
   .end-turn {
     @include stroke();
@@ -380,7 +392,7 @@ body {
     position: absolute;
     color: white;
     background: #3D3C3C;
-    height: 50px;
+    height: 103px;
     width: 230px;
     top: 1%;
     left: 60.7%;
@@ -727,6 +739,8 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
   transition: opacity 0.3s;
+  flex-direction: column-reverse;
+  -webkit-flex-direction: column-reverse;
   .effect {
     z-index: 5000;
     height: 30px;
@@ -739,8 +753,6 @@ body {
 .enemy .effect-box {
   display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
-  flex-direction: column;
   -webkit-align-items: flex-end;
   align-items: flex-end;
   left: -47px;
@@ -840,19 +852,41 @@ body {
 //////////////////////////////////////////////////////////////////////////////////////////////////// Oracle skill panel
 .oracle-skill-panel {
   position: absolute;
-  left: 466px;
-  top: 9px;
+  left: 582px;
+  top: 60px;
   color: red;
   z-index: 1000;
+  height: 48px;
+  width: 230px;
+  background: transparent;
   .oracle-skill-icon {
     transition: 0.5s;
     cursor: pointer;
     z-index: 1000;
-    height: 70px;
+    height: 47px;
     position: relative;
-    top: -5px;
-    left: 5px;
+    top: -35px;
+    left: 104px;
     border-radius: 5px;
+  };
+  p.oracle-skill-title {
+    color: white;
+    position: relative;
+    top: 10px;
+    left: 10px;
+  };
+  img.cooldown-icon {
+    height: 35px;
+    position: absolute;
+    top: 2px;
+    left: 161px;
+  };
+  .cooldown-count {
+    color: white;
+    position: absolute;
+    top: 7px;
+    right: 17px;
+    font-size: 130%;
   };
 };
 

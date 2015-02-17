@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150209184445) do
+ActiveRecord::Schema.define(version: 20150216193416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -386,6 +386,7 @@ ActiveRecord::Schema.define(version: 20150209184445) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "id_code"
+    t.integer  "level",      default: 0
   end
 
   add_index "monster_unlocks", ["monster_id"], name: "index_monster_unlocks_on_monster_id", using: :btree
@@ -418,6 +419,7 @@ ActiveRecord::Schema.define(version: 20150209184445) do
     t.integer  "default_sock4_id"
     t.integer  "passive_id"
     t.integer  "asp_cost",                      default: 10
+    t.integer  "max_level",                     default: 10
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree
@@ -582,6 +584,7 @@ ActiveRecord::Schema.define(version: 20150209184445) do
     t.integer  "summoner_level_id",            default: 1
     t.integer  "exp_to_gain"
     t.integer  "asp",                          default: 0
+    t.integer  "enh",                          default: 0
   end
 
   add_index "summoners", ["user_id"], name: "index_summoners_on_user_id", using: :btree

@@ -164,11 +164,12 @@ class Battle < ActiveRecord::Base
       category = "design"
       message = {}
       if self.victor == "NPC"
-        message["event_id"] = self.battle_level.name.gsub(" ", "_") + ":" + "defeat"
+        message["event_id"] = "defeat"
       else
-        message["event_id"] = self.battle_level.name.gsub(" ", "_") + ":" + "victory"
+        message["event_id"] = "victory"
       end
       message["user_id"] = user_id
+      message["area"] = self.battle_level.name.gsub(" ", "_")
       message["session_id"] = self.session_id
       message["build"] = "1.00"
       message["value"] = 1.0
@@ -233,7 +234,8 @@ class Battle < ActiveRecord::Base
       endpoint_url = "http://api.gameanalytics.com/1"
       category = "design"
       message = {}
-      message["event_id"] = self.battle_level.name.gsub(" ", "_") + ":" + "time_taken"
+      message["area"] = self.battle_level.name.gsub(" ", "_") 
+      message["event_id"] = "time_taken"
       message["user_id"] = user_id
       message["session_id"] = self.session_id
       message["build"] = "1.00"
@@ -254,7 +256,7 @@ class Battle < ActiveRecord::Base
       p "Performance tracking: #{res.body}"
       p "======================================================================="
 
-      message["event_id"] = self.battle_level.name.gsub(" ", "_") + ":" + "round_taken"
+      message["event_id"] = "round_taken"
       message["value"] = self.round_taken
       json_message = message.to_json
       json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
@@ -269,7 +271,7 @@ class Battle < ActiveRecord::Base
       p "Performance tracking: #{res.body}"
       p "======================================================================="
 
-      message["event_id"] =  "battle_finish_count" + ":" + self.battle_level.name.gsub(" ", "_")
+      message["event_id"] =  "battle_finish_count"
       message["value"] = 1
       json_message = message.to_json
       json_authorization = Digest::MD5.hexdigest(json_message+secret_key)

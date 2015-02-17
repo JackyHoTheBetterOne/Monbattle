@@ -63,6 +63,7 @@ class Monster < ActiveRecord::Base
     where(evolved_from_id: 0, rarity_id: @rarity_id)
   }
 
+
   def self.base_mon
     where(evolved_from_id: 0)
   end

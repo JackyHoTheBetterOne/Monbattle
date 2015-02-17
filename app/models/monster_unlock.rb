@@ -125,6 +125,23 @@ class MonsterUnlock < ActiveRecord::Base
     end
   end
 
+  def evol_mon_name
+    if self.monster.evolutions[0]
+      self.monster.evolutions[0].name
+    else
+      nil
+    end
+  end
+
+  def evol_from_mon_name
+    if self.monster.evolved_from
+      self.monster.evolved_from.name
+    else
+      nil
+    end
+  end
+
+
 
 
 

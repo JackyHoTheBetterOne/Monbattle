@@ -1,0 +1,78 @@
+<div class="ascend-monster enhance-monster">
+  <% if monster %>
+    <div class="enh-box mon-enhancing">
+      <span class="title">Enhancing:</span>
+      <%= image_tag(monster.monster.default_skin_img, class: "enhance-port") %>
+      <div class="information-box to-enhance">
+        <span><%= monster.name %></span>
+        <br/>
+        <span>
+          Lv. <%= monster.level %> (MAX: <%= monster.monster.max_level %>)
+        </span>
+        <br />
+        <span>
+          <%= monster.hp %> HP
+        </span>
+      </div>
+    </div>
+    <div class="enh-box enhancers">
+      <span class="title">Required Enhancers:</span>
+      <div class="information-box materials">
+        <%= image_tag("mp.png", class: "enh-icon", height: "30", width: "25") %>
+        <span>X 10</span> &nbsp
+        <span>(Have <%= current_summoner.enh %>)</span>
+        <br />
+        <%= image_tag("gp.png", class: "gp-icon", height: "30", width: "30") %>
+        <span>X 50</span> &nbsp
+        <span>(Have <%= current_summoner.gp %>)</span>
+      </div>
+    </div>
+    <div class="enh-box enhancement-result">
+      <span class="title">Result:</span>
+      <%= image_tag(monster.monster.default_skin_img, class: "enhance-port") %>
+      <div class="information-box result">
+        <span><%= monster.name %></span>
+        <br/>
+        <span>
+          Lv. <span class="enhanced"><%= monster.level + 1 %></span>
+        </span>
+        <br />
+        <span>
+          <%= monster.hp %> <span class="enhanced"> + 5 </span> HP
+        </span>
+      </div>
+    </div>
+    <% if monster.evol_mon_name %>
+      <%= link_to (
+            image_tag("story-arrow.png", 
+            class: "ascend-mon-enhance")
+          ), 
+          enhance_monster_path(enhance_monster: monster.evol_mon_name),
+          remote: true
+        %>
+    <% elsif monster.evol_from_mon_name %>
+      <%= link_to (
+            image_tag("story-arrow.png", 
+            class: "base-mon-enhance")
+          ), 
+          enhance_monster_path(enhance_monster: monster.evol_from_mon_name),
+          remote: true
+        %>
+    <% end %>
+    <% if enough %>
+      <%= link_to "Enhance", 
+          enhance_monster_path(
+            :enhance_monster => monster.name,
+            :enhance_id => monster.name), 
+          class: "enhance-monster-but", remote: true %>
+    <% else %>
+      <div class="red-light-ascension">
+        Not enough material 
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+
+
+

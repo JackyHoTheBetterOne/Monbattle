@@ -1,0 +1,28 @@
+<div class="ascending enhancing">
+  <h2>Enhance Monguards</h2>
+  <%= link_to "Level Select", new_battle_path, class: "level-select-path" %>
+  <div class="monster-list">
+    <h3 class="list-title">Monguards to enhance:</h3>
+    <div class="ascend-list enhance-list">
+      <% @enhancement.monsters.each do |m| %>
+        <%= link_to (
+              image_tag("#{m.monster.default_skin_img}", 
+              class: "ascend-mon-avatar",
+              id: m.name,
+              data: {
+                id: m.name,
+                asc_id: m.evol_mon_name
+              })
+            ), 
+            enhance_monster_path(enhance_monster: m.name),
+            id: m.name,
+            remote: true
+         %>
+      <% end %>
+    </div>
+  </div>
+  <div class="enhancement-to-happen">
+    <%= render partial: "enhance_monster", 
+        locals: {monster: @enhancement.monster, enough: @enhancement.enough}  %>
+  </div>
+</div>

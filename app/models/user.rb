@@ -103,7 +103,7 @@ class User < ActiveRecord::Base
       endpoint_url = "http://api.gameanalytics.com/1"
       category = "design"
       message = {}
-      message["event_id"] = "rolling:" + self.user_name
+      message["event_id"] = "rolling_count_user:" + self.user_name
       message["user_id"] = self.id
       message["session_id"] = session_id
       message["build"] = "1.00"
@@ -124,7 +124,7 @@ class User < ActiveRecord::Base
       p "Rolling tracking: #{res.body}"
       p "======================================================================="
 
-      message["event_id"] =  "rolling:" + rarity
+      message["event_id"] =  "rolling_count_rarity:" + rarity
       message["value"] = 1.0
       json_message = message.to_json
       json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
@@ -144,7 +144,37 @@ class User < ActiveRecord::Base
   handle_asynchronously :track_rolling, :run_at => Proc.new { 2.minutes.from_now }
 
 
+  def track_login(session_id)
+    if self.admin == false
+      game_key = ENV["GAME_KEY"]
+      secret_key = ENV["GAME_SECRET"]
+      endpoint_url = "http://api.gameanalytics.com/1"
+      category = "design"
+      message = {}
+      message["event_id"] = "first_batch:" + self.user_name
+      message["user_id"] = self.id
+      message["session_id"] = session_id
+      message["build"] = "1.00"
+      message["value"] = 1.0
+      json_message = message.to_json
+      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
+      url = "#{endpoint_url}/#{game_key}/#{category}"
+      uri = URI(url)
+      req = Net::HTTP::Post.new(uri.path)
+      req.body = json_message
+      req['Authorization'] = json_authorization
 
+      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+        http.request(req)
+      end
+
+      p "======================================================================="
+      p "Login tracking: #{res.body}"
+      p "======================================================================="
+
+    end
+  end
+  handle_asynchronously :track_login, :run_at => Proc.new { 2.minutes.from_now }
 
   private
 
