@@ -122,7 +122,7 @@ class MonstersController < ApplicationController
                                     :hp_modifier, :dmg_modifier, :summon_cost, :evolve_animation, 
                                     :gp_cost, :mp_cost, :default_skin_id, :default_sock1_id, 
                                     :passive_id, :default_sock2_id, :default_sock3_id, 
-                                    :default_sock4_id, {battle_level_ids: []}
+                                    :default_sock4_id, {battle_level_ids: []}, :max_level
                                     )
   end
 

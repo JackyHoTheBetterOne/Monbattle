@@ -336,6 +336,7 @@ body {
     z-index: -1;
   };
   .battle-timer {
+    color: white;
     position: absolute;
     text-align: center;
     background: #3D3C3C;
@@ -865,7 +866,7 @@ body {
     height: 47px;
     position: relative;
     top: -35px;
-    left: 115px;
+    left: 104px;
     border-radius: 5px;
   };
   p.oracle-skill-title {
@@ -873,6 +874,19 @@ body {
     position: relative;
     top: 10px;
     left: 10px;
+  };
+  img.cooldown-icon {
+    height: 35px;
+    position: absolute;
+    top: 2px;
+    left: 161px;
+  };
+  .cooldown-count {
+    color: white;
+    position: absolute;
+    top: 7px;
+    right: 17px;
+    font-size: 130%;
   };
 };
 

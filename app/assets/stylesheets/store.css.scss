@@ -270,6 +270,7 @@ div.store-front.mon-store {
 .currency-toggle {
   position: absolute;
   top: 260px;
+  z-index: 2000;
   button {
     background: white;
     color: black;
@@ -286,7 +287,7 @@ div.store-front.mon-store {
     };
   };
   button:hover {
-    background: #ebebeb;
+    background: #C0C0C0;
   };
   button.mp-toggle {
     border-top-left-radius: 5px;
@@ -332,5 +333,29 @@ div.store-front.mon-store {
 .store-message-box.ascension-store-message {
   right: 8px;
 };
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////// Temporary 
+.gem-store {
+  opacity: 0;
+  h1 {
+    position: relative;
+    top: 50px;
+    left: 10px;
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+
 
 

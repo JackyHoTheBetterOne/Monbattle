@@ -4,6 +4,9 @@ class HomeController < ApplicationController
   before_action :check_energy
   before_action :quest_start
 
+
+
+#################################################################### Ability equipping
   def index
     @monster_unlocks = @user.monster_unlocks
     @base_mons = @monster_unlocks.base_mons(@user)
@@ -38,29 +41,8 @@ class HomeController < ApplicationController
     render :abilities_for_mon
   end
 
-  def store
-    @abilities = Ability.all.order("created_at DESC").limit(4)
-    respond_to do |format|
-      format.html
-      format.json { render json: @abilities }
-    end
-  end
 
-  def facebook
-    @notices = Notice.order("created_at DESC").where(is_active: true)
-    params[:selected_notice] ||= session[:selected_notice]
-    session[:selected_notice] = params[:selected_notice]
-    if Notice.find_by_title(params[:selected_notice])
-      @notice = Notice.find_by_title(params[:selected_notice])
-    elsif @notices.count == 0
-      @notice = nil
-    else 
-      @notice = @notices.last
-    end
-  end
-
-  def illegal_access
-  end
+############################################################################## Store
 
   def roll_treasure
     rolling = User::RollTreasure.new(user: current_user, 
@@ -83,7 +65,8 @@ class HomeController < ApplicationController
         rarity_image: @treasure.rarity_image,
         rarity_color: @treasure.rarity_color,
         first_time: @treasure.first_time,
-        desc: @treasure.description
+        desc: @treasure.description,
+        job_list: @treasure.job_list
       }
     else
       flash[:alert] = "Something went wrong. It's your fault."
@@ -91,10 +74,16 @@ class HomeController < ApplicationController
     end
   end
 
-  def forum
-    render template: "home/forum"
+  def store
+    @abilities = Ability.all.order("created_at DESC").limit(4)
+    respond_to do |format|
+      format.html
+      format.json { render json: @abilities }
+    end
   end
 
+
+########################################################################## Ability learning
   def learn_ability
     user_id = current_user.id
     @unlearned_abilities = AbilityPurchase.order(:created_at).not_learned(user_id).
@@ -121,6 +110,7 @@ class HomeController < ApplicationController
     end
   end
 
+######################################################################## Monster ascending
   def ascend_monster
     if params[:ascend_monster]
       ascend = User::Ascend.new(user: current_user, 
@@ -131,6 +121,7 @@ class HomeController < ApplicationController
     ascend.call
     @ascension = ascend
   end
+
 
   def unlock_ascension
     @monster = Monster.find(params[:monster_id])
@@ -143,7 +134,62 @@ class HomeController < ApplicationController
     render nothing: true
   end
 
+######################################################################## Monster enhancing
+  def enhance_monster
+    if params[:enhance_id]
+      summoner = current_user.summoner
+      if summoner.enh >= 10 && summoner.gp >= 50
+        summoner.enh -= 10 
+        summoner.gp -= 50
+      end
+      monster_id = Monster.find_by_name(params[:enhance_id]).id
+      monster_unlock = MonsterUnlock.where(user_id: current_user.id, monster_id: monster_id)[0]
+      monster_unlock.level += 1
+      monster_unlock.save
+    end
+    if params[:enhance_monster]
+      enhancement = User::Enhance.new(
+        user: current_user,
+        selected: params[:enhance_monster])
+    else
+      enhancement = User::Enhance.new(user: current_user)
+    end
+    enhancement.call
+    @enhancement = enhancement
+  end
 
+
+
+######################################################################## The rest
+
+  def forum
+    render template: "home/forum"
+  end
+
+  def facebook
+    @notices = Notice.order("created_at DESC").where(is_active: true)
+    params[:selected_notice] ||= session[:selected_notice]
+    session[:selected_notice] = params[:selected_notice]
+    if Notice.find_by_title(params[:selected_notice])
+      @notice = Notice.find_by_title(params[:selected_notice])
+    elsif @notices.count == 0
+      @notice = nil
+    else 
+      @notice = @notices.last
+    end
+  end
+
+  def illegal_access
+  end
+
+
+####################################################################### Tracking
+  def track_store_enter
+  end
+
+
+
+#########################################################################
 
   private
 

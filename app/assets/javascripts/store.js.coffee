@@ -58,7 +58,7 @@ $ ->
         overlay.className += " fadeIn-1s"
         gp.innerHTML = response.gp 
         mp.innerHTML = response.mp
-        description_box.innerHTML = response.desc
+        description_box.innerHTML = response.desc + "<br />" + response.job_list
         console.log(response.desc)
         if response.type == "ability" && response.first_time == true
           sentence = "You have earned " + response.reward + 

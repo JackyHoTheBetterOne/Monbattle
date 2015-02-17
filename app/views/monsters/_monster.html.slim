@@ -17,7 +17,7 @@ tr id=dom_id(monster)
   td=monster.evolved_from_id == 0 ? "Base Monster" : monster.evolved_from.name
   td.description=monster.description
   td.max_hp=monster.max_hp
-  td.summon_cost=monster.summon_cost
+  td.summon_cost=monster.max_level
   td=image_tag monster.evolve_animation.url(:thumb)
   td=monster.personality.try(:name)
   td=monster.rarity.try(:name)

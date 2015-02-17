@@ -5,6 +5,7 @@ class User::RollTreasure
   attribute :currency_type
   attribute :user, User
   attribute :description
+  attribute :job_list
   attribute :cost
   attribute :message
   attribute :reward_name
@@ -25,6 +26,7 @@ class User::RollTreasure
     self.rarity_image = "https://s3-us-west-2.amazonaws.com/monbattle/images/legendary-text.png"
     self.rarity_color = "1"
     self.description = ""
+    self.job_list = ""
 
     if roll_type == "base"
       if currency_type == "gp"
@@ -152,6 +154,7 @@ class User::RollTreasure
         self.message = "You unlocked ability #{@abil_won_name}!"
         self.reward_name = @abil_won_name
         self.description = Ability.find(@abil_id_won).description
+        self.job_list = Ability.find(@abil_id_won).job_list
         self.image = Ability.find(@abil_id_won).portrait.url(:thumb)
         self.type = "ability"
         return self.message

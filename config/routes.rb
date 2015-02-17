@@ -46,6 +46,7 @@ get "/forum" => "home#forum", as: :home_forum
 get "/equip_filter" => "home#equip_filter", as: :equip_filter
 get "/learn_ability" => "home#learn_ability", as: :learn_ability
 get "/create_battle" => "battles#create", as: :create_battle
+get 'home/abilities_for_mon' => "home#abilities_for_mon"
 
 
 root 'home#facebook'
@@ -53,7 +54,8 @@ get 'home/roll_trash' => "home#roll_trash", as: :roll_trash
 get 'home/roll_treasure' => "home#roll_treasure", as: :roll_treasure
 get 'ascend_monster' => 'home#ascend_monster', as: :ascend_monster
 post 'unlock_ascension' => 'home#unlock_ascension', as: :unlock_ascension
-get 'home/abilities_for_mon' => "home#abilities_for_mon"
+get 'enhance_monster' => 'home#enhance_monster', as: :enhance_monster
+
 
 resources :home
 resources :admin
