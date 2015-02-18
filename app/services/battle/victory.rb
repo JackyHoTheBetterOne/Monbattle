@@ -54,7 +54,7 @@ class Battle::Victory
           self.reward = battle_level.ability_reward[0] + ": " + battle_level.ability_reward[1]
         end
       end
-    elsif summoner.cleared_twice_levels.include?(battle_level.name)
+    elsif summoner.beaten_levels.include?(battle_level.name)
       self.reward = battle_level.second_clear_reward
     end
 
