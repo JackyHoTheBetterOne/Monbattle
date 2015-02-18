@@ -2,25 +2,26 @@
   <%= image_tag("gp.png", class: "mp-logo") %>
   <p class="mp-title">earned:</p>
 
-  <% if @level_cleared %>
+  <% if @victory.level_cleared %>
     <p class="gp-earned"><%= @battle.battle_level.gp_reward %></p>
   <% else %>
     <p class="gp-earned"></p>
   <% end %>
 
-  <% if @ability != nil %>
+  <% if @victory.ability != nil %>
     <p class="extra-reward-title">Ability earned:</p>
-    <p class="ability-earned" data-type="ability" data-class="<%= @class_list %>" 
-      data-slot= "<%= @slot %>" data-firsttime = "<%= @first %>">
-      <%= @ability.name %>
+    <p class="ability-earned" data-type="ability" data-class="<%= @victory.class_list %>" 
+      data-slot= "<%= @victory.slot %>" data-firsttime = "<%= @victory.first %>">
+      <%= @victory.ability.name %>
     </p>
-  <% elsif @monster != nil %>
+  <% elsif @victory.monster != nil %>
     <p class="extra-reward-title">Monster earned:</p>
     <p class="ability-earned" data-type="monster">
-      <%= @monster.name %>
+      <%= @victory.monster.name %>
     </p>
-  <% elsif @reward != nil %>
-    <p class="ability-earned" data-type="currency"><%= @reward %></p>
+  <% elsif @victory.reward != nil %>
+    <p class="extra-reward-title">Currency earned:</p>
+    <p class="ability-earned" data-type="currency"><%= @victory.reward %></p>
   <% else %>
     <p class="extra-reward-title">Ascension coins:</p>
     <p class="ability-earned">Coming soon</p>
@@ -33,14 +34,14 @@
       new_battle_path, class: "end-battle-but level-select-but battle-fin" %>
 </div>
 
-<% if @level_up %>
+<% if @victory.level_up %>
   <div class="level-up-box end-battle-box">
     <p class="level-up-message">
-      You have reached Level <span><%= @new_level %></span>! 
+      You have reached Level <span><%= @victory.new_level %></span>! 
     </p>
-    <% if @stamina_upgrade %>
+    <% if @victory.stamina_upgrade %>
       <p class="stamina-increase-message">
-        Max Stamina increased to <span><%= @new_stamina %></span>! 
+        Max Stamina increased to <span><%= @victory.new_stamina %></span>! 
       </p>
     <% end %>
   </div>

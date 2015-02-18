@@ -127,6 +127,10 @@ class BattlesController < ApplicationController
 
     victory.call
 
+    @victory = victory
+
+
+
     @ability = victory.ability
     @monster = victory.monster
     @reward = victory.reward

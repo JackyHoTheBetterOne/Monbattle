@@ -44,18 +44,18 @@ class Battle::Victory
     end
 
 
-    if summoner.beaten_levels.include?(battle_level.name) && 
-        round_taken.to_i < battle_level.time_requirement &&
-        !summoner.cleared_twice_levels.include?(battle_level.name)
+    if !summoner.beaten_levels.include?(battle_level.name) && !summoner.cleared_twice_levels.include?(battle_level.name)
       if battle_level.ability_reward.length != 0
-        if battle_level.ability_reward[0] == "Ability"
+        if battle_level.ability_reward[0] == "ability"
           self.ability = Ability.find_by_name(battle_level.ability_reward[1])
-        elsif battle_level.ability_reward[0] == "Monster"
+        elsif battle_level.ability_reward[0] == "monster"
           self.monster = Monster.find_by_name(battle_level.ability_reward[1])
         else
           self.reward = battle_level.ability_reward[0] + ": " + battle_level.ability_reward[1]
         end
       end
+    elsif summoner.cleared_twice_levels.include?(battle_level.name)
+      self.reward = battle_level.second_clear_reward
     end
 
     self.class_list = ""
