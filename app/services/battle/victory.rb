@@ -6,6 +6,7 @@ class Battle::Victory
   attribute :ability, Ability
   attribute :monster, Monster
   attribute :reward
+  attribute :reward_image
   attribute :round_taken 
   attribute :slot
   attribute :class_list
@@ -46,16 +47,18 @@ class Battle::Victory
 
     if !summoner.beaten_levels.include?(battle_level.name) && !summoner.cleared_twice_levels.include?(battle_level.name)
       if battle_level.ability_reward.length != 0
+        self.reward_image = battle_level.first_clear_reward_image
         if battle_level.ability_reward[0] == "ability"
           self.ability = Ability.find_by_name(battle_level.ability_reward[1])
         elsif battle_level.ability_reward[0] == "monster"
           self.monster = Monster.find_by_name(battle_level.ability_reward[1])
         else
-          self.reward = battle_level.ability_reward[0] + ": " + battle_level.ability_reward[1]
+          self.reward = "x" + " " + battle_level.ability_reward[1].to_s
         end
       end
     elsif summoner.beaten_levels.include?(battle_level.name)
-      self.reward = battle_level.second_clear_reward
+      self.reward = "x" + " " + battle_level.second_clear_reward.to_s
+      self.reward_image = battle_level.second_clear_reward_image
     end
 
     self.class_list = ""

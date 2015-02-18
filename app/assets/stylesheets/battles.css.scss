@@ -56,7 +56,7 @@ $theme-background-color: rgba(32, 32, 32, 1);
 };
 
 .controlling {
-  background: rgba(13, 71, 161, 0.3) !important;
+  background: rgba(13, 71, 161, 0.5) !important;
   border-radius: 5px;
 };
 
@@ -516,12 +516,13 @@ body {
     z-index: -1;
     transition: 0.30s opacity;
     button {
-      width: 50px;
-      height: 50px;
+      width: 55px;
+      height: 55px;
       background: #353434;
       transition: 0.4s;
       border-color: $theme-background-color;
       border-radius: 5px;
+      box-shadow: 5px 5px 5px black;
     };
     button:hover {
       background: rgba(8,136,196,1);
@@ -576,8 +577,8 @@ body {
 .mon {
   .abilityDesc {
     position: absolute;
-    top: 21px;
-    left: -113px;
+    top: 16px;
+    left: -119px;
     span.damage-type {
       float: right;
       position: relative;
@@ -589,20 +590,20 @@ body {
 
   .monBut {
     position: absolute;
-    top: 20px;
-    left: 149px;
+    top: 15px;
+    left: 142px;
     color: white;
     .mon-name {
       @include stroke();
       position: absolute;
-      top: -2px;
-      left: 56px;
+      top: 5px;
+      left: 63px;
       width: 250px;
       background: opacity 0.3;
     };
     .but-image {
       position: relative;
-      left:  -3px;
+      left:  -1px;
     };
   };
 
@@ -769,7 +770,7 @@ body {
 ///////////////////////////////////////////////////////////////////////////////////////////// Individual mon positions
 .user {
   .mon0{
-    top: 103px;
+    top: 110px;
     left: -126px;
   };
   .mon1 {

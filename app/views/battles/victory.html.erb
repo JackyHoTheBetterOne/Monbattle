@@ -1,30 +1,21 @@
 <div class="end-battle-box winning" id="winning">
-  <%= image_tag("gp.png", class: "mp-logo") %>
-  <p class="mp-title">earned:</p>
-
-  <% if @victory.level_cleared %>
-    <p class="gp-earned"><%= @battle.battle_level.gp_reward %></p>
-  <% else %>
-    <p class="gp-earned"></p>
-  <% end %>
-
   <% if @victory.ability != nil %>
     <p class="extra-reward-title">Ability earned:</p>
+    <%= image_tag("#{@victory.reward_image}", class: "reward-image") %>
     <p class="ability-earned" data-type="ability" data-class="<%= @victory.class_list %>" 
       data-slot= "<%= @victory.slot %>" data-firsttime = "<%= @victory.first %>">
       <%= @victory.ability.name %>
     </p>
   <% elsif @victory.monster != nil %>
     <p class="extra-reward-title">Monster earned:</p>
+    <%= image_tag("#{@victory.reward_image}", class: "reward-image") %>
     <p class="ability-earned" data-type="monster">
       <%= @victory.monster.name %>
     </p>
   <% elsif @victory.reward != nil %>
     <p class="extra-reward-title">Currency earned:</p>
+    <%= image_tag("#{@victory.reward_image}", class: "reward-image") %>
     <p class="ability-earned" data-type="currency"><%= @victory.reward %></p>
-  <% else %>
-    <p class="extra-reward-title">Ascension coins:</p>
-    <p class="ability-earned">Coming soon</p>
   <% end %>
   <%= link_to "Equip Ability", home_index_path, 
       class: "end-battle-but ability-equip battle-fin" %>
