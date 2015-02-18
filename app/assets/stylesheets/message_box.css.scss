@@ -59,6 +59,12 @@
     top: 162px;
     left: 110px;
   };
+  .reward-image {
+    position: absolute;
+    height: 80px;
+    top: 144px;
+    right: 130px;
+  };
   p {
     font-size: 150%;
     color: white;
@@ -69,7 +75,7 @@
   p.extra-reward-title {
     float: right;
     position: relative;
-    top: 233px;
+    top: 185px;
     left: -305px;
   };
   p.mp-title {
@@ -83,12 +89,19 @@
     top: 212px;
   };
   p.ability-earned {
-    top: 233px;
+    top: 230px;
+    left: 293px;
+    width: 175px;
+    text-align: center;
   };
 };
 
 .end-battle-box.loser {
   background: url("https://s3-us-west-2.amazonaws.com/monbattle/images/defeat-screen-blank.png");
+  p.ability-earned {
+    text-align: left;
+    left: 308px;
+  };
   .exp-earned {
     top: 190px;
   };
