@@ -41,8 +41,19 @@ $ ->
     $(".stage-challenge-description").css("opacity", "0.95")
     document.getElementsByClassName("stage-name")[0].innerHTML = 
       $(this).children(".stage-stars").data("name")
-    document.getElementsByClassName("reward-desc")[1].innerHTML = 
-      "Currency. Completion bonus: " + $(this).children(".stage-stars").data("reward")
+    document.getElementsByClassName("reward-image")[0].src = 
+      $(this).children(".stage-stars").data("firstclearimage")
+    element = $(this)
+    if $(element).data("currencyreward")
+      document.getElementsByClassName("reward-count")[0].innerHTML = 
+        "x" + " " + $(this).children(".stage-stars").data("firstclearreward")
+    else
+      document.getElementsByClassName("reward-count")[0].innerHTML = 
+        $(this).children(".stage-stars").data("firstclearreward")
+    document.getElementsByClassName("reward-image")[1].src = 
+      $(this).children(".stage-stars").data("secondclearimage")
+    document.getElementsByClassName("reward-count")[1].innerHTML = 
+      "x" + " " + $(this).children(".stage-stars").data("secondclearreward")
     document.getElementsByClassName("objective-desc")[1].innerHTML = 
       "Complete the level under " + $(this).children(".stage-stars").data("requirement") + " rounds"
   ).on "mouseleave.challenge", ".pick-level", ->

@@ -1053,6 +1053,7 @@ window.turnOnSummonerActions = ->
       turnOffCommandA()
       $(".end-turn, .oracle-skill-icon").css("opacity", "0.5")
       $(".end-turn, .oracle-skill-icon").css("cursor","default")
+      $(".cooldown-box").css("opacity","1")
       index = playerMonNum - 1
       controlAI(0, index, "", 0)
       setTimeout (->
@@ -1428,7 +1429,6 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
             window.targetIndex = findAliveFriends()[0].index
           else 
             window.targetIndex = findAliveEnemies()[0].index
-      console.log(window.targetIndex)
       switch ability.targeta
         when "attack"
           window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
@@ -1450,10 +1450,11 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
               if enemyHurt.isAlive() is false
                 targetMon.effect("explode", {pieces: 30}, 1000).hide()
               else
-                targetMon.effect "shake", 800
+                targetMon.finish().animate(left: "+=80px", 250)
             currentMon.finish().animate backPosition, 540
             ), 560
           setTimeout (->
+            targetMon.finish().animate(left: "-=80px", 700)
             showDamageTeam(0)
             showDamageTeam(1)
             hpChangeBattle()
@@ -1641,6 +1642,9 @@ window.ai = ->
       xadBuk()
       battle.players[1].turn = false
       battle.checkRound()
+      $(".cooldown-box .cooldown-count").text(battle.summonerCooldown)
+      if battle.summonerCooldown == 0
+        $(".cooldown-box").css("opacity","0")
       if $(".battle-round-countdown").length isnt 0
         round = parseInt($(".battle-round-countdown span").text())
         round -= 1
@@ -1878,6 +1882,7 @@ $ ->
       error: ->
         alert("This battle cannot be loaded!")
       success: (data) ->
+        $(".navbar.mon-front").hide()
         window.battle = data
         window.seconds_taken = 0
         document.getElementById('gain-ap').style.pointerEvents = 'none'
@@ -2232,12 +2237,13 @@ $ ->
                         if enemyHurt.isAlive() is false
                           targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
                         else
-                          targetMon.effect "shake", 800
+                          targetMon.finish().animate(left: "-=80px", 250)
                       showDamageTeam(0)
                       showDamageTeam(1)
                       currentMon.finish().animate backPosition, 500
                     ), 500
                     setTimeout (->
+                      targetMon.finish().animate(left: "+=80px", 700)
                       singleTargetAbilityAfterActionDisplay()
                       toggleEnemyClick()
                     ), 1100

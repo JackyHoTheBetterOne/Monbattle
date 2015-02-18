@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150216193416) do
+ActiveRecord::Schema.define(version: 20150217192718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -145,6 +145,8 @@ ActiveRecord::Schema.define(version: 20150216193416) do
     t.string   "background"
     t.string   "music"
     t.integer  "time_requirement"
+    t.integer  "asp_reward",       default: 0
+    t.integer  "enh_reward",       default: 0
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree

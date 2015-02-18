@@ -112,6 +112,12 @@
   };
   .stage-panel.third {
     top: 250px;
+    div {
+      font-size: 150%;
+      padding: 20% auto;
+      text-align: center;
+      padding-top: 25px;
+    };
   };
   .stage-panel {
     position: absolute;
@@ -138,6 +144,20 @@
       left: 182px;
       width: 96px;
       height: 85px;
+      .reward-image {
+        position: absolute;
+        height: 55px;
+        border-radius: 5px;
+        top: 2px;
+        left: 0px;
+      };
+      .reward-count {
+        position: absolute;
+        text-align: left;
+        top: 62px;
+        left: 3px;
+        font-size: 120%;
+      };
     };
     .objective-desc {
       left: 75px;

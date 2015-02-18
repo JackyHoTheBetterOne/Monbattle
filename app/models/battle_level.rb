@@ -41,14 +41,6 @@ class BattleLevel < ActiveRecord::Base
     return array
   end
 
-  def has_cut_scene
-    if self.start_cut_scenes.length == 0 && self.end_cut_scenes.length == 0
-      return false
-    else
-      return true
-    end 
-  end
-
   def area_name
     if self.area
       self.area.name
@@ -86,6 +78,8 @@ class BattleLevel < ActiveRecord::Base
   def ability_given
     if self.ability_reward.length == 0
       ""
+    elsif self.ability_reward[0] != "ability" && self.ability_reward[0] != "monster"
+      self.ability_reward[0] + ": " + self.ability_reward[1]
     else
       self.ability_reward[1]
     end
@@ -97,9 +91,53 @@ class BattleLevel < ActiveRecord::Base
     elsif self.ability_reward[0] == "Monster" || self.ability_reward[0] == "Ability"
       self.ability_reward[1] 
     elsif self.ability_reward.length == 2
-      self.ability_reward[1] + " " + self.ability_reward[0]
+      self.ability_reward[1] + ": " + self.ability_reward[0]
     end
   end
+
+  def first_clear_reward_image
+    if self.ability_reward.length != 0
+      case self.ability_reward[0]
+        when "monster"
+          return Monster.find_by_name(self.ability_reward[1]).default_skin_img
+        when "ability"
+          return Ability.find_by_name(self.ability_reward[1]).portrait
+        when "gp"
+          return "https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png"
+        when "mp"
+          return "https://s3-us-west-2.amazonaws.com/monbattle/images/mp.png"
+      end
+    else
+      return ""
+    end
+
+  end
+
+  def second_clear_reward_image
+    if self.gp_reward != 0 
+      return "https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png"
+    elsif self.mp_reward != 0
+      return "https://s3-us-west-2.amazonaws.com/monbattle/images/mp.png"
+    elsif self.asp_reward != 0
+      return ""
+    elsif self.enh_reward != 0 
+      return ""
+    end
+  end
+
+  def second_clear_reward
+    if self.gp_reward != 0 
+      return self.gp_reward
+    elsif self.mp_reward != 0
+      return self.mp_reward
+    elsif self.asp_reward != 0
+      return self.asp_reward
+    elsif self.enh_reward != 0 
+      return self.enh_reward
+    end
+  end
+
+
 
 ############################################################################ Unlock level, area or region
   def unlock_for_summoner(summoner, round_taken, battle)
@@ -108,26 +146,27 @@ class BattleLevel < ActiveRecord::Base
     @battle = Battle.find(battle)
 
     ability_reward_array = self.ability_reward
-    time_requirement = self.time_requirement
     level_name = self.name
     cleared_twice_level_array = @summoner.cleared_twice_levels.dup
 
 
     if @summoner.name != "NPC"
 
-      if @summoner.beaten_levels.include?(level_name) && round_taken < time_requirement &&
-          !cleared_twice_level_array.include?(level_name) && ability_reward_array.length != 0
+      if @summoner.beaten_levels.include?(level_name) && ability_reward_array.length != 0 &&
+          !cleared_twice_level_array.include?(level_name) 
         cleared_twice_level_array.push(level_name)
-        if ability_reward_array[0] == "Ability"
+        if ability_reward_array[0] == "ability"
           ability = Ability.find_by_name(ability_reward_array[1])
           ability_id = ability.id 
           user_id = @summoner.user.id
           AbilityPurchase.create!(ability_id: ability_id, user_id: user_id)
-        elsif ability_reward_array[0] == "Monster"
+        elsif ability_reward_array[0] == "monster"
           monster = Monster.find_by_name(ability_reward_array[1])
           monster_id = monster.id 
           user_id = @summoner.user.id
-          MonsterUnlock.create!(monster_id: monster_id, user_id: user_id)
+          if MonsterUnlock.where(monster_id: monster_id, user_id: user_id).length == 0
+            MonsterUnlock.create!(monster_id: monster_id, user_id: user_id) 
+          end
         elsif ability_reward_array.length == 2
           @summoner[ability_reward_array[0]] += ability_reward_array[1].to_i
         end
@@ -187,7 +226,27 @@ class BattleLevel < ActiveRecord::Base
     end
   end
 
-#############################################################################
+############################################################################# General method
+
+  def has_cut_scene
+    if self.start_cut_scenes.length == 0 && self.end_cut_scenes.length == 0
+      return false
+    else
+      return true
+    end 
+  end
+
+  def is_currency_reward
+    if self.ability_reward.length != 0
+      if self.ability_reward[0] == "monster" || self.ability_reward[0] == "ability"
+        return false
+      else
+        return true
+      end
+    else
+      return false
+    end
+  end
 
   private
   def delete_party

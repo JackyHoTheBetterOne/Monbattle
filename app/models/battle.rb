@@ -36,92 +36,6 @@ class Battle < ActiveRecord::Base
     end
   end
 
-  def destroy_impressions
-    self.impressions.destroy_all
-  end
-
-
-
-#################################################################################### End Battle Update
-  def to_finish
-    if self.aasm_state == "battling" && self.is_hacked == false
-      self.done
-      self.save
-    elsif self.is_hacked == true
-      self.ruined
-      self.save
-    end
-  end
-
-  def victor_check
-    if self.victor == "NPC"
-      @loser = Summoner.find_summoner(self.loser)
-      @loser.check_quest
-    else
-      self.give_reward
-    end
-  end
-
-  def give_reward
-    @battle_level        = self.battle_level
-    @mp_reward           = self.battle_level.mp_reward 
-    @gp_reward           = self.battle_level.gp_reward 
-    @vk_reward           = self.battle_level.vk_reward 
-    @exp_reward          = self.battle_level.exp_given
-    @victorious_summoner = Summoner.find_summoner(self.victor)
-    @victorious_summoner.wins += 1 
-
-    if @victorious_summoner.exp_required <= @exp_reward + @victorious_summoner.current_exp
-      @victorious_summoner.current_exp = @exp_reward + @victorious_summoner.current_exp - 
-        @victorious_summoner.exp_required 
-      @level = SummonerLevel.find_by_level(@victorious_summoner.level+1)
-      @victorious_summoner.summoner_level = @level
-      @victorious_summoner.stamina = @level.stamina
-    else
-      @victorious_summoner.current_exp += @exp_reward
-    end
-
-    if @victorious_summoner.beaten_levels.include?(@battle_level.name)
-      @victorious_summoner.mp += @mp_reward
-      @victorious_summoner.gp += @gp_reward
-    end
-
-    @victorious_summoner.save
-    @victorious_summoner.check_quest
-  end
-
-  def distribute_quest_reward
-    @victor = Summoner.find_summoner(self.victor)
-    @loser = Summoner.find_summoner(self.loser)
-    @victor.get_achievement
-    @victor.get_login_bonus_for_wins
-    @loser.get_achievement
-    @victor.save
-    @loser.save
-  end
-
-
-##############################################################################################################
-
-  def build_json
-    battle_json = {}
-    battle_json[:summoner_abilities] = Ability.joins(:rarity).where("rarities.name = 'oracle'").map(&:as_json)
-    battle_json[:level_name] = self.battle_level.name
-    battle_json[:code] = self.parties[0].user.summoner.code
-    battle_json[:background] = self.background
-    battle_json[:start_cut_scenes] = self.battle_level.start_cut_scenes
-    battle_json[:end_cut_scenes] = self.battle_level.end_cut_scenes
-    battle_json[:id] = self.id_code
-    battle_json[:reward] = self.battle_level.mp_reward
-    battle_json[:players] = []
-
-    self.parties.order(:npc).each do |party|
-      battle_json[:players] << party.as_json
-    end
-
-    return battle_json
-  end
-
   def self.average_round(level_id)
     average(:round_taken).where("battle_level_id = #{level_id}")
   end
@@ -150,8 +64,97 @@ class Battle < ActiveRecord::Base
     end
   end
 
+############################################################################################### End Battle Update
+  def to_finish
+    if self.aasm_state == "battling" && self.is_hacked == false
+      self.done
+      self.save
+    elsif self.is_hacked == true
+      self.ruined
+      self.save
+    end
+  end
+
+  def victor_check
+    if self.victor == "NPC"
+      @loser = Summoner.find_summoner(self.loser)
+      @loser.check_quest
+    else
+      self.give_reward
+    end
+  end
+
+  def give_reward
+    @battle_level        = self.battle_level
+    @mp_reward           = self.battle_level.mp_reward 
+    @gp_reward           = self.battle_level.gp_reward 
+    @vk_reward           = self.battle_level.vk_reward 
+    @asp_reward          = self.battle_level.asp_reward
+    @enh_reward          = self.battle_level.enh_reward
+    @exp_reward          = self.battle_level.exp_given
+    @victorious_summoner = Summoner.find_summoner(self.victor)
+    @victorious_summoner.wins += 1 
+
+    if @victorious_summoner.exp_required <= @exp_reward + @victorious_summoner.current_exp
+      @victorious_summoner.current_exp = @exp_reward + @victorious_summoner.current_exp - 
+        @victorious_summoner.exp_required 
+      @level = SummonerLevel.find_by_level(@victorious_summoner.level+1)
+      @victorious_summoner.summoner_level = @level
+      @victorious_summoner.stamina = @level.stamina
+    else
+      @victorious_summoner.current_exp += @exp_reward
+    end
+
+    if @victorious_summoner.beaten_levels.include?(@battle_level.name)
+      @victorious_summoner.mp += @mp_reward
+      @victorious_summoner.gp += @gp_reward
+      @victorious_summoner.asp += @asp_reward
+      @victorious_summoner.enh += @enh_reward
+    end
+
+    @victorious_summoner.save
+    @victorious_summoner.check_quest
+  end
+
+  def distribute_quest_reward
+    @victor = Summoner.find_summoner(self.victor)
+    @loser = Summoner.find_summoner(self.loser)
+    @victor.get_achievement
+    @victor.get_login_bonus_for_wins
+    @loser.get_achievement
+    @victor.save
+    @loser.save
+  end
+
+
+
+############################################################################################## General methods
+
+  def build_json
+    battle_json = {}
+    battle_json[:summoner_abilities] = Ability.joins(:rarity).where("rarities.name = 'oracle'").map(&:as_json)
+    battle_json[:level_name] = self.battle_level.name
+    battle_json[:code] = self.parties[0].user.summoner.code
+    battle_json[:background] = self.background
+    battle_json[:start_cut_scenes] = self.battle_level.start_cut_scenes
+    battle_json[:end_cut_scenes] = self.battle_level.end_cut_scenes
+    battle_json[:id] = self.id_code
+    battle_json[:reward] = self.battle_level.mp_reward
+    battle_json[:players] = []
+
+    self.parties.order(:npc).each do |party|
+      battle_json[:players] << party.as_json
+    end
+
+    return battle_json
+  end
+
   def generate_code
     self.id_code = SecureRandom.uuid
+  end
+
+  def destroy_impressions
+    self.impressions.destroy_all
   end
 
 ####################################################################################### End battle tracking
