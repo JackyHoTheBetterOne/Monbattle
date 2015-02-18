@@ -91,8 +91,5 @@ class Battle::Victory
     else
       self.first_time == false
     end
-
-
   end
-
 end

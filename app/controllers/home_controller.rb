@@ -141,6 +141,7 @@ class HomeController < ApplicationController
       if summoner.enh >= 10 && summoner.gp >= 50
         summoner.enh -= 10 
         summoner.gp -= 50
+        summoner.save
       end
       monster_id = Monster.find_by_name(params[:enhance_id]).id
       monster_unlock = MonsterUnlock.where(user_id: current_user.id, monster_id: monster_id)[0]

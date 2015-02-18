@@ -22,18 +22,24 @@
   <div class="stage-panel">
     <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "description-star") %>
     <div class="objective-desc">Complete the level</div>
-    <div class="reward-desc">Unlock the next level</div>
+    <div class="reward-desc">
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg", class: "reward-image") %>
+      <p class="reward-count">x 10</p>
+    </div>
   </div>
   <div class="stage-panel second">
     <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "description-star") %>
     <div class="objective-desc">Complete the level under 5 rounds</div>
-    <div class="reward-desc">Unlock the next level</div>
+    <div class="reward-desc">
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg", class: "reward-image") %>
+      <p class="reward-count">x 10</p>
+    </div>
     <div class="repeatable">Repeatable</div>
   </div>
   <div class="stage-panel third">
     <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "description-star") %>
-    <div class="objective-desc">?????????????????????????????????????????????</div>
-    <div class="reward-desc">????????????????????????????????????????????????</div>
+    <div class="objective-desc">?</div>
+    <div class="reward-desc">?</div>
   </div>
 </div>
 
@@ -48,8 +54,13 @@
             <span class="name"><%= level.name %></span>
             <span class="staminacon"><%= image_tag("stamina.png", size: "25x25") %> <%=level.stamina_cost%></span>
           </span>
-          <span class="stage-stars" data-name = "<%= level.name %>" 
-            data-reward = "<%= level.reward %>" data-requirement= "<%= level.time_requirement %>">
+          <span class="stage-stars" data-requirement= "<%= level.time_requirement %>"
+            data-currencyReward = "<%= level.is_currency_reward %>"
+            data-firstClearImage = "<%= level.first_clear_reward_image %>" 
+            data-firstClearReward = "<%= level.ability_reward[1] %>"
+            data-secondClearImage = "<%= level.second_clear_reward_image %>"
+            data-secondClearReward = "<%= level.second_clear_reward %>"
+            >
             <% if current_user.summoner.beaten_levels.include?(level.name)  %>
               <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "star first-star", size: "20x20") %>
             <% else %>

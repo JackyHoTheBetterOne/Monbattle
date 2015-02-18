@@ -192,11 +192,11 @@ class MonsterUnlock < ActiveRecord::Base
   end
 
   def max_hp
-    self.monster.max_hp
+    self.monster.max_hp + self.level * 5
   end
 
   def hp
-    self.monster.max_hp
+    self.monster.max_hp + self.level * 5
   end
 
   def cost(index)
