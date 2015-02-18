@@ -151,10 +151,11 @@ class BattleLevel < ActiveRecord::Base
 
 
     if @summoner.name != "NPC"
-
-      if @summoner.beaten_levels.include?(level_name) && ability_reward_array.length != 0 &&
+      if @summoner.beaten_levels.include?(level_name) && !cleared_twice_level_array.include?(level_name) 
+        cleared_twice_level_array.push(level_name) 
+      end
+      if !@summoner.beaten_levels.include?(level_name) && ability_reward_array.length != 0 &&
           !cleared_twice_level_array.include?(level_name) 
-        cleared_twice_level_array.push(level_name)
         if ability_reward_array[0] == "ability"
           ability = Ability.find_by_name(ability_reward_array[1])
           ability_id = ability.id 
