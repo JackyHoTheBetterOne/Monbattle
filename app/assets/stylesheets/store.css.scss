@@ -44,12 +44,14 @@ div.store-front {
     top: 290px;
     left: 120px;
     outline: none;
+    z-index: 100;
   };
   .queen-roll {
     position: absolute;
     top: 290px;
     right: 140px;
     outline: none;
+    z-index: 100;
   };
 
   .mon-roll {

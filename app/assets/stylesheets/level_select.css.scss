@@ -222,16 +222,20 @@
     font-size: 17px;
     text-shadow: 2px 2px #000000;
   };
-  .party_portraits {
+  .party_portraits, .party_portraits_blank {
     position: absolute;
     top: 57px;
     left: -16px;
-    .user_party_portrait {
+    .user_party_portrait, .blank-party-spot {
       height: 65px;
       width: 65px;
       margin-left: 22px;
-      border: 3px solid black;
+      border: 2px solid black;
       border-radius: 5px;
+      display: inline-block;
+    };
+    .blank-party-spot.blanky {
+      background: #353434;
     };
   };
   .party_edit_button {

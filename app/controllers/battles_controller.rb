@@ -17,7 +17,6 @@ class BattlesController < ApplicationController
   def new
     params[:area_filter] ||= session[:area_filter]
     session[:area_filter] = params[:area_filter]
-
     session[:level_filter] = params[:level_filter]
 
     new_battle = Battle::New.new(user: current_user, 

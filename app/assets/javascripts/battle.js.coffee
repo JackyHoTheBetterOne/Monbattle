@@ -1053,7 +1053,6 @@ window.turnOnSummonerActions = ->
       turnOffCommandA()
       $(".end-turn, .oracle-skill-icon").css("opacity", "0.5")
       $(".end-turn, .oracle-skill-icon").css("cursor","default")
-      $(".cooldown-box").css("opacity","1")
       index = playerMonNum - 1
       controlAI(0, index, "", 0)
       setTimeout (->
@@ -1061,6 +1060,7 @@ window.turnOnSummonerActions = ->
         toggleImg()
       ), 2000
       setTimeout (->
+        $(".cooldown-box").css("opacity","1")
         apChange()
         flashEndButton()
       ), 2750
@@ -1882,6 +1882,7 @@ $ ->
       error: ->
         alert("This battle cannot be loaded!")
       success: (data) ->
+        document.getElementsByClassName("flash-store")[0].innerHTML = ""
         $(".navbar.mon-front").hide()
         window.battle = data
         window.seconds_taken = 0

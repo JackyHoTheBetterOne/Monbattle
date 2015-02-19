@@ -37,6 +37,7 @@ resources :ability_equipping_for_users, only:[:update]
 resources :abilities, except: [:destroy]
 resources :ability_purchases, only: [:create, :update]
 
+root 'home#facebook'
 post "/facebook" => "home#facebook"
 get "/cannot" => "home#illegal_access", as: :illegal
 get "/home" => "home#index", as: :battle_preparation
@@ -47,14 +48,16 @@ get "/equip_filter" => "home#equip_filter", as: :equip_filter
 get "/learn_ability" => "home#learn_ability", as: :learn_ability
 get "/create_battle" => "battles#create", as: :create_battle
 get 'home/abilities_for_mon' => "home#abilities_for_mon"
-
-
-root 'home#facebook'
 get 'home/roll_trash' => "home#roll_trash", as: :roll_trash
 get 'home/roll_treasure' => "home#roll_treasure", as: :roll_treasure
 get 'ascend_monster' => 'home#ascend_monster', as: :ascend_monster
 post 'unlock_ascension' => 'home#unlock_ascension', as: :unlock_ascension
 get 'enhance_monster' => 'home#enhance_monster', as: :enhance_monster
+post 'track_currency_pick' => "home#track_currency_pick"
+post 'track_currency_purchase' => "home#track_currency_purchase"           
+
+
+
 
 
 resources :home

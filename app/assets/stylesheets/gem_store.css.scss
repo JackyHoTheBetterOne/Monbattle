@@ -1,0 +1,160 @@
+.acquire-gem-bar {
+  background: #757575;
+  position: absolute;
+  top: 55px;
+  width: 100%;
+  height: 60px;
+  padding-left: 425px;
+  font-size: 130%;
+  color: black;
+  font-weight: bold;
+  padding-top: 7px;
+};
+
+.gem-listing {
+  position: absolute;
+  top: 140px;
+  width: 67%;
+  left: 158px;
+  height: 70%;
+  .listing:hover {
+    background: #FFEA00;
+  };
+  .listing {
+    position: relative;
+    color: white;
+    background: #0D47A1;
+    width: 290px;
+    height: 90px;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding-left: 6px;
+    padding-top: 18px;
+    display: inline-block;
+    margin-left: 20px;
+    margin-top: 10px;
+    box-shadow: 5px 5px 5px black;
+    cursor: pointer;
+    transition: 0.3s;
+    .pricing {
+      font-size: 160%;
+      position: absolute;
+      top: 10px;
+      left: 200px;
+      color: black;
+    };
+    .quantity {
+      font-size: 150%;
+      position: absolute;
+      top: 28px;
+      left: 55px;
+      color: black;
+    };
+    .gem-icon {
+      position: absolute;
+      left: 10px;
+    };
+  };
+};
+
+.gem-store-overlay-objects {
+  .confirmation, .payment-select, .gem-store-message {
+    position: absolute;
+    margin: 100px auto;
+    left: 0px;
+    right: 0px;
+    width: 400px;
+    height: 250px;
+    background: #353434;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding-top: 30px;
+    font-size: 120%;
+    opacity: 0;
+    transition: opacity 0.3s;
+    .gem-confirmation-message {
+      height: 80px;
+      width: 100%;
+      background: grey;
+      position: relative;
+      left: 0px;
+      padding-left: 35px;
+      padding-right: 35px;
+      padding-top: 5px;
+      top: -5px;
+      color: whitesmoke;
+      box-shadow: inset 0px 1px 12px black;
+    };
+    img.oh {
+      height: 85px;
+      margin-right: 25px;
+      margin-top: 28px;
+      position: relative;
+      left: 10px;
+      cursor: pointer;
+      z-index: 100000;
+    };
+  };
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+.gem-store-overlay-objects {
+  .payment-select {
+    width: 800px;
+    padding-top: 10px;
+    height: 270px;
+    .payment-question {
+      position: relative;
+      top: -12px;
+    };
+    .payment-title-white {
+      width: 100%;
+      height: 55px;
+      background: grey;
+      padding-top: 5;
+      margin-top: 5px;
+      padding-top: 2px;
+      color: white;
+      box-shadow: inset 0px 1px 12px black;
+    };
+    .credit-button, .paypal-button {
+      cursor: pointer;
+      z-index: 1000;
+      background: white;
+      height: 90px;
+      width: 300px;
+      transition: 0.3s;
+      margin-left: 5px;
+    };
+    button.credit-button {
+      position: relative;
+      top: -19px;
+      color: black;
+    };
+    .credit-button:hover, .paypal-button:hover {
+      background: #d3d3d3;
+    };
+  };
+  .gem-store-message {
+    width: 475px;
+    height: 333px;
+    .viola-message {
+      position: relative;
+      top: -6px;
+      width: 100%;
+      background: grey;
+      color: white;
+      height: 60px;
+      padding-top: 6px;
+      box-shadow: inset 0px 1px 12px black;
+    };
+    .viola-concerned-face {
+      position: relative;
+      top: 22px;
+      left: -10px;
+    };
+  };
+};
+
+
