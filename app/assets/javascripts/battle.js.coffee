@@ -1445,23 +1445,27 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           targetPosition = targetMon.offset()
           backPosition = currentMon.position()
           topMove = targetPosition.top - currentPosition.top
-          leftMove = targetPosition.left - currentPosition.left - 60
+          leftMove = targetPosition.left - currentPosition.left - 44
           action()
           singleTargetAbilityDisplayVariable()
+          $(".single-ability-img").finish().css(targetPosition)
           currentMon.finish().animate(
             "left": "+=" + leftMove.toString() + "px"
             "top": "+=" + topMove.toString() + "px"
           , 540)
           setTimeout (->
+            $(".single-ability-img").css({"visibility":"visible","z-index":"1000"})
+            .attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/big-spark.gif")
             if targetMon.css("display") isnt "none"
               if enemyHurt.isAlive() is false
                 targetMon.effect("explode", {pieces: 30}, 1000).hide()
               else
-                targetMon.finish().animate(left: "+=80px", 250)
+                targetMon.finish().animate(left: "+=60px", 200)
             currentMon.finish().animate backPosition, 540
             ), 560
           setTimeout (->
-            targetMon.finish().animate(left: "-=80px", 700)
+            targetMon.finish().animate(left: "-=60px", 700)
+            $(".single-ability-img").css({"visibility":"hidden","z-index":"-1"}).attr("src","")
             showDamageTeam(0)
             showDamageTeam(1)
             hpChangeBattle()
@@ -2241,25 +2245,29 @@ $ ->
                     currentPosition = currentMon.offset()
                     backPosition = currentMon.position()
                     topMove = targetPosition.top - currentPosition.top
-                    leftMove = targetPosition.left - currentPosition.left + 60
+                    leftMove = targetPosition.left - currentPosition.left + 44
                     action()
+                    $(".single-ability-img").finish().css(targetPosition)
                     currentMon.finish().animate(
                       left: "+=" + leftMove.toString() + "px"
                       top: "+=" + topMove.toString() + "px"
                     , 440)
                     setTimeout (->
                       singleTargetAbilityDisplayVariable()
+                      $(".single-ability-img").css({"visibility":"visible","z-index":"1000"}).
+                        attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/big-spark.gif")
                       if targetMon.css("display") isnt "none"
                         if enemyHurt.isAlive() is false
                           targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
                         else
-                          targetMon.finish().animate(left: "-=80px", 250)
+                          targetMon.finish().animate(left: "-=60px", 200)
                       showDamageTeam(0)
                       showDamageTeam(1)
                       currentMon.finish().animate backPosition, 500
                     ), 500
                     setTimeout (->
-                      targetMon.finish().animate(left: "+=80px", 700)
+                      targetMon.finish().animate(left: "+=60px", 700)
+                      $(".single-ability-img").css({"visibility":"hidden","z-index":"-1"}).attr("src","")
                       singleTargetAbilityAfterActionDisplay()
                       toggleEnemyClick()
                     ), 1100
