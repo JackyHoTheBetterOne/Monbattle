@@ -1,4 +1,4 @@
-<div class="battle_level">
+<div class="battle_level" data-newlevel= "<%= @recently_unlocked_level %>" >
   <% @areas.each do |a| %>
     <%= link_to a.name, new_battle_path(level_filter: a.name), remote: true, 
         class: "btn btn-primary map-level #{a.region_name}", id: a.name.delete(" ") %>

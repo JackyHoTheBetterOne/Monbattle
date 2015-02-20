@@ -35,6 +35,7 @@ class BattlesController < ApplicationController
     @monsters = new_battle.monsters
     @summoner = current_user.summoner if current_user
 
+    @recently_unlocked_level = @summoner.recently_unlocked_level
     unlock_message(@summoner)
 
     respond_to do |format|
@@ -85,6 +86,24 @@ class BattlesController < ApplicationController
       @twice_cleared = false
     end
 
+    if @battle.battle_level.name == "First battle" || @battle.battle_level.name == "Area A - Stage 1"
+      @show_ap_button = false
+    else
+      @show_ap_button = true
+    end
+
+    if @battle.battle_level.name == "Area A - Stage 1" || @battle.battle_level.name == "Area A - Stage 2" ||
+      @battle.battle_level.name == "Area A - Stage 3" || @battle.battle_level.name == "First battle"
+      @show_oracle_skill = false
+    else
+      @show_oracle_skill = true
+    end
+
+    if @battle.battle_level.name == "Area A - Stage 4"
+      @oracle_skill_turtorial = true
+    else
+      @oracle_skill_turtorial = false
+    end
 
     if @battle.impressionist_count <= 2 || current_user.admin
       respond_to do |format|

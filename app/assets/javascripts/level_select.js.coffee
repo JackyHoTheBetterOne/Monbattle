@@ -1,4 +1,9 @@
 $ ->
+  if document.getElementsByClassName("battle_level")[0].getAttribute("data-newlevel") isnt ""
+    setTimeout (->
+      document.getElementsByClassName("latest-level")[0].style["z-index"] = "1000"
+      document.getElementsByClassName("latest-level")[0].className += " tada animated"
+    ), 500
   if window.location.href.indexOf("battles/new") isnt -1
     if typeof document.getElementsByClassName("map-image")[0] isnt "undefined"
       region_name = document.getElementsByClassName("map-image")[0].getAttribute("data-region") 

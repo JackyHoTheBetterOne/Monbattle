@@ -41,6 +41,9 @@ class Battle::New
       self.levels = BattleLevel.order(:id).filter(areas.first.name).unlocked_levels(summoner.beaten_levels)
     end
 
+    self.levels.reverse!
+
+
     if user 
       self.monsters = user.parties.first.monster_unlocks
     end
