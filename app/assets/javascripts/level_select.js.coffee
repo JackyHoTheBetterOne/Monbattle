@@ -1,15 +1,19 @@
 $ ->
-  if document.getElementsByClassName("battle_level")[0].getAttribute("data-newlevel") isnt ""
-    setTimeout (->
-      document.getElementsByClassName("latest-level")[0].style["z-index"] = "1000"
-      document.getElementsByClassName("latest-level")[0].className += " tada animated"
-    ), 500
+  if window.location.href.indexOf("/battles/new") isnt -1
+    if document.getElementsByClassName("battle_level")[0].getAttribute("data-newlevel") isnt ""
+      setTimeout (->
+        document.getElementsByClassName("latest-level")[0].style["z-index"] = "1000"
+        document.getElementsByClassName("latest-level")[0].className += " tada animated"
+      ), 500
   if window.location.href.indexOf("battles/new") isnt -1
     if typeof document.getElementsByClassName("map-image")[0] isnt "undefined"
       region_name = document.getElementsByClassName("map-image")[0].getAttribute("data-region") 
       document.getElementById(region_name).className += " current-region"
       id = document.getElementsByClassName("party_edit_button")[0].getAttribute("data-latest-level")
-      document.getElementById(id).className += " latest-level" if document.getElementById(id)
+      if document.getElementById(id)
+        element = document.getElementById(id)
+        element.className += " latest-level" 
+        element.innerHTML += " <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/quest-warning.png' class='latest-level-indication'>"
   $(document).on "click.filter_levels", ".map-level", ->
     area_index = $(".map-level").index($(this))
     area = $(this)

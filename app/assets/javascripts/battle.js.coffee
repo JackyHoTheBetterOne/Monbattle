@@ -866,11 +866,11 @@ window.outcome = ->
                      "! Teach it to your monster through the " + 
                      "<a href='/learn_ability'>Ability Learning</a>" + " page!" 
           newAbilities.push(sentence) if $(".ability-earned").data("firsttime") is true
-        # else if $(".ability-earned").data("type") is "monster"
-        #   sentence = "You have earned " + $(".ability-earned").text() +
-        #              "! Learn more about it at the " +
-        #              "<a href='/home'>Monster Equipping</a>" + " page!"
-        #   newMonsters.push(sentence)
+        else if $(".ability-earned").data("type") is "monster"
+          sentence = "You have earned " + $(".ability-earned").text() +
+                     "! Learn more about it at the " +
+                     "<a href='/home'>Monster Equipping</a>" + " page!"
+          newMonsters.push(sentence)
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     setTimeout (->
