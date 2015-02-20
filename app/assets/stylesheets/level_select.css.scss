@@ -11,7 +11,13 @@
 };
 
 .latest-level {
-  box-shadow: 1px -1px 11px #FFFF00 !important;
+  .latest-level-indication {
+    height: 20px;
+    position: absolute;
+    top: -6px;
+    left: -6px;
+  };
+  // box-shadow: 1px -1px 11px #FFFF00 !important;
 };
 
 

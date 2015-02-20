@@ -54,5 +54,5 @@ $ ->
           setTimeout (->
             store.style["z-index"] = "-1"
           ), 350
-        ), 2000
+        ), 5000
 
