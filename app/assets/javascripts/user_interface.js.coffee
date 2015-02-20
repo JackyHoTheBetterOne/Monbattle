@@ -41,7 +41,7 @@ window.setEnergy = ->
     region_name = document.getElementsByClassName("map-image")[index].getAttribute("data-region")
     document.getElementById(region_name).className += " current-region"
     index = document.getElementsByClassName("map-level").length-1
-    area_name = document.getElementsByClassName("map-level")[index].getAttribute("id")
+    area_name = document.getElementsByClassName("map-level")[0].getAttribute("id")
     document.getElementById(area_name).className += " current-area" 
   if window.location.href.indexOf("landing") isnt -1
     document.getElementsByClassName("news-entry")[0].className += " notice-selected"

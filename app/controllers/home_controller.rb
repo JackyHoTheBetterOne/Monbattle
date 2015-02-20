@@ -185,7 +185,16 @@ class HomeController < ApplicationController
 
 
 ####################################################################### Tracking
-  def track_store_enter
+  def track_currency_pick
+    session_id = request.session_options[:id]
+    current_user.track_currency_pick(session_id, params[:pick])
+    render nothing: true
+  end
+
+  def track_currency_purchase
+    session_id = request.session_options[:id]
+    current_user.track_currency_pick(session_id, params[:pick])
+    render nothing: true
   end
 
 

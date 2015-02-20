@@ -788,8 +788,15 @@ window.battleStartDisplay = (time) ->
         $(this).css("background", "rgba(255, 0, 0,0.5)")
       $(".foe-indication").addClass("bounceIn animated")
       setTimeout (->
-        hopscotch.startTour(first_battle_tour) if $(".battle").data("battlecount") is 0
-        hopscotch.startTour(first_replay_tour) if $(".battle").data("bonusturtorial") is true
+        if $(".battle").data("battlecount") is 0
+          hopscotch.startTour(first_battle_tour) 
+        else if $(".battle").data("showapbutton") is false
+          hopscotch.startTour(fatigue_tour)
+        else if $(".battle").data("showoracleskill") is false
+          hopscotch.startTour(ap_gain_tour)
+        else if $(".battle").data("oracleskillturtorial") is true
+          hopscotch.startTour(oracle_skill_tour)
+        # hopscotch.startTour(first_replay_tour) if $(".battle").data("bonusturtorial") is true
         $(".foe-indication").removeClass("bounceIn animated")
         $(".foe-indication").css("opacity", "0")
         document.getElementById('gain-ap').style.pointerEvents = 'auto'
@@ -1053,7 +1060,6 @@ window.turnOnSummonerActions = ->
       turnOffCommandA()
       $(".end-turn, .oracle-skill-icon").css("opacity", "0.5")
       $(".end-turn, .oracle-skill-icon").css("cursor","default")
-      $(".cooldown-box").css("opacity","1")
       index = playerMonNum - 1
       controlAI(0, index, "", 0)
       setTimeout (->
@@ -1061,6 +1067,7 @@ window.turnOnSummonerActions = ->
         toggleImg()
       ), 2000
       setTimeout (->
+        $(".cooldown-box").css("opacity","1")
         apChange()
         flashEndButton()
       ), 2750
@@ -1854,7 +1861,14 @@ $ ->
   window.deathAbilitiesToActivate = {}
   deathAbilitiesToActivate["user"] = []
   deathAbilitiesToActivate["pc"] = []
+################################################################################################# Surrender actions and Feature hiding
   if document.getElementById("battle") isnt null
+    if $(".battle").data("showapbutton") is false
+      $(".gain-ap").css("visibility", "hidden")
+      $("#ap-tip").css({"width":"200px", "left":"63.7%"})
+    if $(".battle").data("showoracleskill") is false
+      $(".oracle-skill-panel").css("visibility", "hidden")
+      $("#ap-tip").css("height", "50px")
     $("a.fb-nav, .logo-link, .top-bar").not(".quest-show, .mon-tab").on "click.leave", (event) ->
       $(".cutscene").css("opacity", "0")
       $(document).off "click.cutscene", "#overlay"
@@ -1875,6 +1889,7 @@ $ ->
         $(".skip-button").css("opacity", "1")
         $(".cutscene").css("opacity", "1")
       ), 500
+################################################################################################ Ultimate ajax call
     $.ajax 
       url: "/battles/" + $(".battle").data("index") + ".json"
       dataType: "json"
@@ -1882,6 +1897,7 @@ $ ->
       error: ->
         alert("This battle cannot be loaded!")
       success: (data) ->
+        document.getElementsByClassName("flash-store")[0].innerHTML = ""
         $(".navbar.mon-front").hide()
         window.battle = data
         window.seconds_taken = 0

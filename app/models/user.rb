@@ -96,6 +96,72 @@ class User < ActiveRecord::Base
     end
   end
 
+
+  def track_currency_pick(session_id, pick)
+    if self.admin == false
+      game_key = ENV["GAME_KEY"]
+      secret_key = ENV["GAME_SECRET"]
+      endpoint_url = "http://api.gameanalytics.com/1"
+      category = "design"
+      message = {}
+      message["event_id"] = "currency_pick:" + pick
+      message["user_id"] = self.id
+      message["session_id"] = session_id
+      message["build"] = "1.00"
+      message["value"] = 1.0
+      json_message = message.to_json
+      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
+      url = "#{endpoint_url}/#{game_key}/#{category}"
+      uri = URI(url)
+      req = Net::HTTP::Post.new(uri.path)
+      req.body = json_message
+      req['Authorization'] = json_authorization
+
+      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+        http.request(req)
+      end
+
+      p "======================================================================="
+      p "Currency Pick tracking: #{res.body}"
+      p "======================================================================="
+
+    end
+  end
+  handle_asynchronously :track_currency_pick, :run_at => Proc.new { 2.minutes.from_now }
+
+
+  def track_currency_purchase(session_id, pick)
+    if self.admin == false
+      game_key = ENV["GAME_KEY"]
+      secret_key = ENV["GAME_SECRET"]
+      endpoint_url = "http://api.gameanalytics.com/1"
+      category = "design"
+      message = {}
+      message["event_id"] = "currency_purchase:" + pick
+      message["user_id"] = self.id
+      message["session_id"] = session_id
+      message["build"] = "1.00"
+      message["value"] = 1.0
+      json_message = message.to_json
+      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
+      url = "#{endpoint_url}/#{game_key}/#{category}"
+      uri = URI(url)
+      req = Net::HTTP::Post.new(uri.path)
+      req.body = json_message
+      req['Authorization'] = json_authorization
+
+      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+        http.request(req)
+      end
+
+      p "======================================================================="
+      p "Currency Purchase tracking: #{res.body}"
+      p "======================================================================="
+
+    end
+  end
+  handle_asynchronously :track_currency_purchase, :run_at => Proc.new { 2.minutes.from_now }
+
   def track_rolling(rarity, session_id)
     if self.admin == false
       game_key = ENV["GAME_KEY"]

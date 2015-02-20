@@ -24,3 +24,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user.track_login(session_id)
   end
 end
+
+
+# set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?

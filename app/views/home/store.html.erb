@@ -78,17 +78,41 @@
 
   <div class="store-front gem-store" id="gem-store">
     <div class="acquire-gem-bar">
+      Acquiring 
+      <%= image_tag("mp.png", class: "gem-icon") %>
     </div>
-    
-
-
-
-
-
-
-
-
-
+    <div class="gem-listing">
+      <div class="listing" data-quantity="5" data-price="2.49">
+        <%= image_tag("mp.png", class: "gem-icon") %>
+        <span class="quantity">x 5</span>
+        <span class="pricing">USD $2.49</span>
+      </div>
+      <div class="listing" data-quantity="80" data-price="31.99">
+        <%= image_tag("mp.png", class: "gem-icon") %>
+        <span class="quantity">x 80</span>
+        <span class="pricing">USD $31.99</span>
+      </div>
+      <div class="listing" data-quantity="20" data-price="9.40">
+        <%= image_tag("mp.png", class: "gem-icon") %>
+        <span class="quantity">x 20</span>
+        <span class="pricing">USD $9.40</span>
+      </div>
+      <div class="listing" data-quantity="120" data-price="45.59">
+        <%= image_tag("mp.png", class: "gem-icon") %>
+        <span class="quantity">x 120</span>
+        <span class="pricing">USD $45.59</span>
+      </div>
+      <div class="listing" data-quantity="50" data-price="21.49">
+        <%= image_tag("mp.png", class: "gem-icon") %>
+        <span class="quantity">x 50</span>
+        <span class="pricing">USD $21.49</span>
+      </div>
+      <div class="listing" data-quantity="200" data-price="71.99">
+        <%= image_tag("mp.png", class: "gem-icon") %>
+        <span class="quantity">x 200</span>
+        <span class="pricing">USD $71.99</span>
+      </div>
+    </div>
   </div>
 
 
@@ -105,7 +129,45 @@
 
     <%= image_tag("reveal-button.png", class: "reveal-button")%>
     <button class="back-to-store">Close</button>
+    <div class="gem-store-overlay-objects">
+      <div class="confirmation">
+        <div class="gem-confirmation-message">
+          Are you sure you want to purchase
+          <%= image_tag("mp.png", class: "gem-icon") %> x <span class="amount-to-purchase">100</span> ?
+        </div>
+        <%= image_tag("check-mark-100.png", class: "oh yes", data: {quantity: 0}) %>
+        <%= image_tag("cancel.png", class: "oh no") %>
+      </div>
+      <div class="payment-select">
+        <span class="payment-title">Buying</span>
+        <br />
+        <p></p>
+        <div class="payment-title-white">
+          <%= image_tag("mp.png", class: "gem-icon") %> x <span class="payment-amount-to-purchase">100</span> 
+          for USD$ <span class="money-to-buy"></span>
+        </div>
+        <br />
+        <p></p>
+        <span class="payment-question">What would you like to pay with?</span>
+        <br />
+        <button class="credit-button">
+          CREDIT CARD
+          <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/credit-card-icon.png") %>
+        </button>
+        <button class="paypal-button">
+          <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/paypal-icon.png") %>
+        </button>
+      </div>
+      <div class="gem-store-message">
+        <div class="viola-message">
+          Sorry, this feature isn't available right now. Please check back soon.
+        </div>
+        <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/viola-concerned.png", 
+                      class: "viola-concerned-face") %>
+      </div>
+    <div>
   </div>
+
 <% else %>
   <%= render "no_user" %>
 <% end %>
