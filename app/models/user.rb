@@ -84,6 +84,7 @@ class User < ActiveRecord::Base
         return registered_user
       else
         user = User.create!(user_name: auth.extra.raw_info.name + "." + Random.new.rand(0..10000).to_s,
+                            first_name: auth.extra.raw_info.first_name,
                             namey: auth.extra.raw_info.name, 
                             provider: auth.provider,
                             uid: auth.uid,
