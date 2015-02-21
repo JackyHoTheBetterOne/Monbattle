@@ -20,7 +20,7 @@
     Reward
   </div>
   <div class="stage-panel">
-    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "description-star") %>
+    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-open-55px.png", class: "description-star") %>
     <div class="objective-desc">Complete the level</div>
     <div class="reward-desc">
       <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg", class: "reward-image") %>
@@ -28,7 +28,7 @@
     </div>
   </div>
   <div class="stage-panel second">
-    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "description-star") %>
+    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-open-55px.png", class: "description-star") %>
     <div class="objective-desc">Complete the level under 5 rounds</div>
     <div class="reward-desc">
       <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg", class: "reward-image") %>
@@ -37,7 +37,7 @@
     <div class="repeatable">Repeatable</div>
   </div>
   <div class="stage-panel third">
-    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "description-star") %>
+    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-55px.png", class: "description-star") %>
     <div class="objective-desc">?</div>
     <div class="reward-desc">?</div>
   </div>
@@ -62,16 +62,16 @@
             data-secondClearReward = "<%= level.second_clear_reward %>"
             >
             <% if current_user.summoner.beaten_levels.include?(level.name)  %>
-              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "star first-star", size: "20x20") %>
+              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-open.png", class: "star first-star", size: "20x20") %>
             <% else %>
-              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/empty-star.png", class: "star first-star", size: "20x20") %>
+              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-closed.gif", class: "star first-star", size: "20x20") %>
             <% end %>
             <% if current_user.summoner.cleared_twice_levels.include?(level.name)  %>
-              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/filled-star.png", class: "star second-star", size: "20x20") %>
+              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-open.png", class: "star second-star", size: "20x20") %>
             <% else %>
-              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/empty-star.png", class: "star second-star", size: "20x20") %>
+              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-closed.gif", class: "star second-star", size: "20x20") %>
             <% end %>
-            <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/empty-star.png", class: "star third-star", size: "20x20") %>
+            <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-closed.gif", class: "star third-star", size: "20x20") %>
           </span>
           <br/>
           <div class="level-desc">
