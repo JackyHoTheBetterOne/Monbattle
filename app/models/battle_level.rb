@@ -119,7 +119,7 @@ class BattleLevel < ActiveRecord::Base
     elsif self.mp_reward != 0
       return "https://s3-us-west-2.amazonaws.com/monbattle/images/mp.png"
     elsif self.asp_reward != 0
-      return "https://s3-us-west-2.amazonaws.com/monbattle/images/enhance.png"
+      return "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend.png"
     elsif self.enh_reward != 0 
       return "https://s3-us-west-2.amazonaws.com/monbattle/images/enhance.png"
     end
