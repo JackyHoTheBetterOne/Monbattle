@@ -76,10 +76,10 @@ window.fixEvolMon = (monster, player) ->
     ability = @abilities[abilityIndex]
     ability.use(abilityTargets)
     if monster.type isnt "summoner" and battle.players[monster.team].username isnt "NPC"
-      monster.fatigue += 1
+      monster.fatigue += 1 if monster.fatigue != 10 
       monster.used = true
     if monster.type isnt "summoner" and battle.players[monster.team].name is "first-battle-user"
-      monster.fatigue += 1
+      monster.fatigue += 1 if monster.fatigue != 10
       monster.used = true
 ######################################################################################################## Ability logics
   $(monster.abilities).each ->
