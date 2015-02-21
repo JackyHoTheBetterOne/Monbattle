@@ -1181,7 +1181,7 @@ window.flashEndButton = ->
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
-  buttonArray.push($(".gain-ap")[0]) if $(".gain-ap")[0].css("opacity") isnt 0
+  buttonArray.push($(".gain-ap")[0]) if $(".gain-ap").css("opacity") isnt "0"
   if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
     timer = undefined
     if deathAbilitiesToActivate["pc"].length isnt 0

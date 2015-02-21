@@ -23,7 +23,10 @@ $ ->
       document.getElementsByClassName("map-level")[area_index].className += " current-area"
       id = document.getElementsByClassName("party_edit_button")[0].
             getAttribute("data-latest-level")
-      document.getElementById(id).className += " latest-level" if document.getElementById(id)
+      if document.getElementById(id)
+        element = document.getElementById(id)
+        element.className += " latest-level" 
+        element.innerHTML += " <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/quest-warning.png' class='latest-level-indication'>"
     ), 500
   $(document).on "click.filter_areas", ".region-select", ->
     $(".map-image, .map-level").fadeOut(300)
@@ -31,7 +34,10 @@ $ ->
       $(".map-image, .map-level").fadeIn(300)
       id = document.getElementsByClassName("party_edit_button")[0].
             getAttribute("data-latest-level")
-      document.getElementById(id).className += " latest-level" if document.getElementById(id)
+      if document.getElementById(id)
+        element = document.getElementById(id)
+        element.className += " latest-level" 
+        element.innerHTML += " <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/quest-warning.png' class='latest-level-indication'>"
     ), 400
     setTimeout (->
       index = document.getElementsByClassName("map-level").length-1
@@ -46,8 +52,18 @@ $ ->
   $(document).on "click.select_level", ".pick-level", ->
     $(this).click(false)
   $(document).on("mouseover.challenge", ".pick-level", ->
+    open_chest = "https://s3-us-west-2.amazonaws.com/monbattle/images/chest-open-55px.png"
+    closed_chest = "https://s3-us-west-2.amazonaws.com/monbattle/images/chest-55px.png"
     $(".stage-challenge-description").css("z-index", "10000")
     $(".stage-challenge-description").css("opacity", "0.95")
+    if $(this).children(".stage-stars").children(".first-star").attr("alt") is "Chest open"
+      document.getElementsByClassName("description-star")[0].src = open_chest
+    else 
+      document.getElementsByClassName("description-star")[0].src = closed_chest
+    if $(this).children(".stage-stars").children(".second-star").attr("alt") is "Chest open"
+      document.getElementsByClassName("description-star")[1].src = open_chest
+    else
+      document.getElementsByClassName("description-star")[1].src = closed_chest
     document.getElementsByClassName("stage-name")[0].innerHTML = 
       $(this).children(".stage-stars").data("name")
     document.getElementsByClassName("reward-image")[0].src = 
