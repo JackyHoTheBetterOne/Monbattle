@@ -1181,7 +1181,7 @@ window.flashEndButton = ->
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
-  buttonArray.push($(".gain-ap")[0])
+  buttonArray.push($(".gain-ap")[0]) if $(".gain-ap")[0].css("opacity") isnt 0
   if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
     timer = undefined
     if deathAbilitiesToActivate["pc"].length isnt 0
@@ -2434,8 +2434,7 @@ $ ->
                   ), 2000
                   return
           else
-            $(this).add(".ap").effect("highlight", {color: "red"}, 100)
-            alert("You have insufficient ap to use this skill.")
+            $(ability).add(".ap").effect("highlight", {color: "red"}, 100)
             $(".end-turn").prop("disabled", false)
             $(".end-turn").css("opacity", "1")
 

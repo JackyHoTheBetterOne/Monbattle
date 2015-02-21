@@ -2,10 +2,10 @@
   <p class="exp-earned">0.1</p>
   <p class="ability-earned">Nothing</p>
   <% if @first_battle %>
-    <%= link_to "Equip Ability", home_index_path, 
+    <%= link_to "Edit Team", home_index_path, 
         class: "end-battle-but first-battle-equip-but battle-fin" %>
   <% else %>
-    <%= link_to "Equip Ability", home_index_path, 
+    <%= link_to "Edit Team", home_index_path, 
         class: "end-battle-but ability-equip battle-fin" %>
     <%= form_for(Battle.new) do |f|  %>
       <button class="end-battle-but replay" name="battle[battle_level_id]" type="submit" 

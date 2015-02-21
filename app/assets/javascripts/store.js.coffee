@@ -19,7 +19,7 @@ $ ->
     $(".store-front").not("#"+tab).css({"opacity":"0", "z-index":"-1000"})
     $(this).addClass("current-tab")
     document.getElementById(tab).style["opacity"] = "1"
-    document.getElementById(tab).style["z-index"] = "1000000"
+    document.getElementById(tab).style["z-index"] = "1000"
   $(document).on "click", ".current-toggle-but", ->
     window[$(this).data("rolltype") + "_roll"] = $(this).data("currencytype")
     $(this).parent().children(".current-toggle-but").removeClass("current-currency-toggle")
