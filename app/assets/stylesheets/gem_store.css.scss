@@ -1,3 +1,8 @@
+.gem-store {
+  z-index: -100;
+};
+
+
 .acquire-gem-bar {
   background: #757575;
   position: absolute;
@@ -107,6 +112,13 @@
     .payment-question {
       position: relative;
       top: -12px;
+    };
+    .exit-cross {
+      position: absolute;
+      height: 45px;
+      top: -20px;
+      right: -22px;
+      cursor: pointer;
     };
     .payment-title-white {
       width: 100%;

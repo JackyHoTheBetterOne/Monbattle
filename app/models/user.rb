@@ -84,6 +84,7 @@ class User < ActiveRecord::Base
         return registered_user
       else
         user = User.create!(user_name: auth.extra.raw_info.name + "." + Random.new.rand(0..10000).to_s,
+                            first_name: auth.extra.raw_info.first_name,
                             namey: auth.extra.raw_info.name, 
                             provider: auth.provider,
                             uid: auth.uid,
@@ -162,7 +163,7 @@ class User < ActiveRecord::Base
   end
   handle_asynchronously :track_currency_purchase, :run_at => Proc.new { 2.minutes.from_now }
 
-  def track_rolling(rarity, session_id)
+  def track_rolling(rarity, session_id, type)
     if self.admin == false
       game_key = ENV["GAME_KEY"]
       secret_key = ENV["GAME_SECRET"]
@@ -191,6 +192,21 @@ class User < ActiveRecord::Base
       p "======================================================================="
 
       message["event_id"] =  "rolling_count_rarity:" + rarity
+      message["value"] = 1.0
+      json_message = message.to_json
+      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
+      req.body = json_message
+      req['Authorization'] = json_authorization
+
+      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+        http.request(req)
+      end
+
+      p "======================================================================="
+      p "Rolling tracking: #{res.body}"
+      p "======================================================================="
+
+      message["event_id"] =  "rolling_count_type:" + type
       message["value"] = 1.0
       json_message = message.to_json
       json_authorization = Digest::MD5.hexdigest(json_message+secret_key)

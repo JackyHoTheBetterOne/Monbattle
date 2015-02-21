@@ -167,9 +167,9 @@ class Battle < ActiveRecord::Base
       category = "design"
       message = {}
       if self.victor == "NPC"
-        message["event_id"] = "defeat"
+        message["event_id"] = "outcome:defeat"
       else
-        message["event_id"] = "victory"
+        message["event_id"] = "outcome:victory"
       end
       message["user_id"] = user_id
       message["area"] = self.battle_level.name.gsub(" ", "_")
@@ -259,7 +259,7 @@ class Battle < ActiveRecord::Base
       p "Performance tracking: #{res.body}"
       p "======================================================================="
 
-      message["event_id"] = "round_taken"
+      message["event_id"] = "turns_taken"
       message["value"] = self.round_taken
       json_message = message.to_json
       json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
@@ -302,6 +302,7 @@ class Battle < ActiveRecord::Base
       endpoint_url = "http://api.gameanalytics.com/1"
       category = "design"
       message = {}
+      message["area"] = self.battle_level.name.gsub(" ", "_") 
       message["event_id"] = "abilities:" + name.gsub(" ", "_")
       message["user_id"] = user_id
       message["session_id"] = self.session_id

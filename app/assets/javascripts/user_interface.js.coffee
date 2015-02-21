@@ -109,6 +109,10 @@ $ ->
       setTimeout (->
         document.getElementById("turbolinks-overlay").style.opacity = ("0")
         document.getElementById("turbolinks-overlay").style["z-index"] = ("-1")
+        if typeof ga != 'undefined' and ga != null
+          ga 'send',
+            'hitType': 'pageview'
+            'page': window.location.pathname
       ), 100
   window.clearInterval(staminaTimer) if typeof staminaTimer isnt "undefined"
   window.clearInterval(questTimer) if typeof questTimer isnt "undefined"

@@ -32,6 +32,13 @@ $ ->
       ), 350
       document.getElementsByClassName("money-to-buy")[0].innerHTML = price
       document.getElementsByClassName("payment-amount-to-purchase")[0].innerHTML = quantity
+      $(".exit-cross").on "click.cancel", ->
+        payment.style["opacity"] = "0"
+        store.style["opacity"] = "0"
+        setTimeout (->
+          payment.style["z-index"] = "-1"
+          store.style["z-index"] = "-1"
+        ), 350
       $(".credit-button, .paypal-button").on "click.pay", ->
         $.ajax 
           url: "/track_currency_purchase"
