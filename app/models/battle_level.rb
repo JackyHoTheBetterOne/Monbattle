@@ -114,9 +114,9 @@ class BattleLevel < ActiveRecord::Base
   end
 
   def second_clear_reward_image
-    if self.gp_reward != 0 
-      return "https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png"
-    elsif self.mp_reward != 0
+    if self.mp_reward != 0 
+      return "https://s3-us-west-2.amazonaws.com/monbattle/images/mp.png"
+    elsif self.gp_reward != 0
       return "https://s3-us-west-2.amazonaws.com/monbattle/images/mp.png"
     elsif self.asp_reward != 0
       return "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend.png"

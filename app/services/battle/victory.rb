@@ -108,11 +108,12 @@ class Battle::Victory
       self.reward_category = "ability"
     elsif self.monster != nil
       self.reward_category = "monster"
-    elsif self.reward_image = "https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png"
+    elsif self.reward_image == "https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png" ||
+        self.reward_image == "https://s3-us-west-2.amazonaws.com/monbattle/images/mp.png"
       self.reward_category = "store"
-    elsif self.reward_image = "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend.png"
+    elsif self.reward_image == "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend.png"
       self.reward_category = "ascend"
-    elsif self.reward_image = "https://s3-us-west-2.amazonaws.com/monbattle/images/enhance.png"
+    elsif self.reward_image == "https://s3-us-west-2.amazonaws.com/monbattle/images/enhance.png"
       self.reward_category = "enhance"
     end
   end

@@ -10,6 +10,19 @@ window.playIt = ->
     ";
   return true;
 
+######################################################################################################## Tutorial helpers
+window.endBattleTutorial = ->
+  element = ".end-battle-box.winning"
+  if $(element).data("firstcleared") is true
+    if $(element).data("levelname") is "Area A - Stage 1" or $(element).data("levelname") is "Area A - Stage 2"
+      hopscotch.startTour(edit_team_tour)
+    else if $(element).data("levelname") is "Area A - Stage 3"
+      hopscotch.startTour(enhance_mon_tour)
+    else if $(element).data("levelname") is "Area A - Stage 4"
+      hopscotch.startTour(ascend_mon_tour)
+
+
+
 ######################################################################################################## Battle timer 
 window.increaseTime = ->
   window.seconds_taken += 1
@@ -893,6 +906,9 @@ window.outcome = ->
           $(".next-scene, .cutscene, .skip-button").remove()
           $(".end-battle-box.winning").css("z-index", "1000")
           $(".end-battle-box.winning").addClass("bounceIn animated")
+          setTimeout (->
+            endBattleTutorial()
+          ), 1000
           if $(".level-up-box").length > 0
             document.getElementById('winning').style.pointerEvents = 'none'
             setTimeout (->
@@ -924,6 +940,9 @@ window.outcome = ->
         $(".next-scene, .cutscene").remove()
         $(".end-battle-box.winning").css("z-index", "1000")
         $(".end-battle-box.winning").addClass("bounceIn animated")
+        setTimeout (->
+          endBattleTutorial()
+        ), 1000
         if $(".level-up-box").length isnt 0
           document.getElementById('winning').style.pointerEvents = 'none'
           setTimeout (->
