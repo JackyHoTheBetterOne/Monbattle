@@ -1,4 +1,12 @@
 $ ->
+  if document.getElementsByClassName("pick-level").length is 1 && document.
+      getElementsByClassName("pick-level")[0].id is "AreaA-Stage1"
+    document.getElementsByClassName("pick-level")[0].innerHTML += 
+      " <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/quest-warning.png' class='latest-level-indication'>"
+    document.getElementsByClassName("pick-level")[0].className += " latest-level"
+    setTimeout (->
+      document.getElementsByClassName("pick-level")[0].className += " tada animated latest-level"
+    ), 500
   if window.location.href.indexOf("/battles/new") isnt -1
     if document.getElementsByClassName("battle_level")[0].getAttribute("data-newlevel") isnt ""
       setTimeout (->

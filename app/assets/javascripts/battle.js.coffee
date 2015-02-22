@@ -15,6 +15,7 @@ window.endBattleTutorial = ->
   element = ".end-battle-box.winning"
   if $(element).data("firstcleared") is true
     if $(element).data("levelname") is "Area A - Stage 1" or $(element).data("levelname") is "Area A - Stage 2"
+      console.log("wtf man")
       hopscotch.startTour(edit_team_tour)
     else if $(element).data("levelname") is "Area A - Stage 3"
       hopscotch.startTour(enhance_mon_tour)
@@ -881,7 +882,7 @@ window.outcome = ->
           newAbilities.push(sentence) if $(".ability-earned").data("firsttime") is true
         else if $(".ability-earned").data("type") is "monster"
           sentence = "You have earned " + $(".ability-earned").text() +
-                     "! Learn more about it at the " +
+                     "! Add it to your team at the " +
                      "<a href='/home'>Monster Equipping</a>" + " page!"
           newMonsters.push(sentence)
     toggleImg()

@@ -23,7 +23,8 @@
       Edit
     </button>
     <%= render partial: "edit_popup", locals: {battle_level: battle_level} %>
-    <%= link_to "Destroy", battle_level, method: :delete, remote: true, class: "btn btn-danger" %> 
+    <%= link_to "Destroy", battle_level, method: :delete, data: {confirm: "u sure?"}, 
+          remote: true, class: "btn btn-danger" %> 
   </td>
 </tr>
 
