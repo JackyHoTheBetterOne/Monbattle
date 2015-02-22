@@ -25,10 +25,10 @@
     <%= link_to "Equip Ability", home_index_path, 
         class: "end-battle-but ability-equip battle-fin", id: "endgame-link" %>
   <% elsif @victory.reward_category == "enhance" %>
-    <%= link_to "Enhance Mon", enhance_monster_path, 
+    <%= link_to "Enhance Mons", enhance_monster_path, 
         class: "end-battle-but ability-equip battle-fin", id: "endgame-link" %>
   <% elsif @victory.reward_category == "ascend" %>
-    <%= link_to "Ascend Mon", ascend_monster_path, 
+    <%= link_to "Ascend Mons", ascend_monster_path, 
         class: "end-battle-but ability-equip battle-fin", id: "endgame-link" %>
   <% elsif  @victory.reward_category == "store" %>
     <%= link_to "Store", device_store_path, 

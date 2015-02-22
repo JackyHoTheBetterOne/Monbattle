@@ -152,5 +152,7 @@ button.hopscotch-next:hover {
     height: 110px;
 };
 
-
+.hopscotch-bubble {
+  z-index: 5000000000 !important;
+};
 
