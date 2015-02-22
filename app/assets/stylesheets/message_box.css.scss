@@ -2,6 +2,10 @@
   top: 312px !important;
 };
 
+.endgame-store-link {
+  padding-top: 14px !important;
+};
+
 .end-battle-box {
   position: fixed;
   width: 540px;
@@ -28,7 +32,7 @@
     box-shadow: 5px 5px 5px black;
   };
   .end-battle-but.ability-equip {
-    left: 111px;
+    left: 218px;
     padding-left: 3px;
   };
   .end-battle-but.level-select-but {
@@ -90,7 +94,7 @@
   };
   p.ability-earned {
     top: 230px;
-    left: 293px;
+    left: 288px;
     width: 175px;
     text-align: center;
   };

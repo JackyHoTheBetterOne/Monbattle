@@ -184,6 +184,10 @@
       box-shadow: 4px 4px 6px black;
     };
 
+    .enhance-monster-but {
+      padding-left: 40px;
+    };
+
     .red-light-ascension {
       left: 148px;
       background: red;
@@ -292,6 +296,15 @@
     border-radius: 5px;
     position: relative;
     color: white;
+    .level-up-text {
+      z-index: 1000;
+      position: absolute;
+      height: 50px;
+      left: 150px;
+      top: 45px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    };
     .enhance-port {
       height: 80px;
       border: 2px solid black;

@@ -60,7 +60,7 @@
             data-firstClearReward = "<%= level.ability_reward[1] %>"
             data-secondClearImage = "<%= level.second_clear_reward_image %>"
             data-secondClearReward = "<%= level.second_clear_reward %>"
-            >
+            data-name = "<%= level.name %>">
             <% if current_user.summoner.beaten_levels.include?(level.name)  %>
               <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-open.png", class: "star first-star", size: "20x20") %>
             <% else %>
