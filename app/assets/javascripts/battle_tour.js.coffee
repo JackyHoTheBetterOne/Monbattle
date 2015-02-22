@@ -55,7 +55,7 @@ $ ->
     steps: [
       {
         title: "Effect Icon",
-        content: "Mouseover to see the current effect on the monguard."
+        content: "Mouseover to see the current effect on the monguard.",
         target: "1",
         placement: "left"
       }
@@ -67,13 +67,46 @@ $ ->
       {
         title: "Replaying a battle",
         content: "When you replay a battle, there will be extra rewards, 
-                  but you have to complete it under a number of rounds in order to earn them."
+                  but you have to complete it under a number of rounds in order to earn them.",
         target: "battle-round-countdown",
         placement: "left"
       }
     ]
   }
+  window.edit_team_tour = {
+    id: "edit-team",
+    steps: [
+      {
+        title: "Editing your team", 
+        content: "Click here to add new monster or equip new ability to your team!",
+        target: "endgame-link",
+        placement: "top"
 
+      }
+    ]
+  }
+  window.enhance_mon_tour = {
+    id: "enhance-mon",
+    steps: [
+      {
+        title: "Enhance monguards", 
+        content: "You have earned enhance points! Click here to use them to level up your monguards!",
+        target: "endgame-link",
+        placement: "top"
+      }
+    ]
+  }
+  window.ascend_mon_tour = {
+    id: "ascend-mon",
+    steps: [
+      {
+        title: "Ascend monguards", 
+        content: "You have earned ascend gems! Click here to use them to ascend your monguards!",
+        target: "endgame-link",
+        placement: "top"
+      }
+    ]
+  }
 
 
 

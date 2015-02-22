@@ -1,4 +1,6 @@
-<div class="end-battle-box winning" id="winning">
+<div class="end-battle-box winning" id="winning" 
+      data-firstcleared = "<%= @victory.first_cleared %>"
+      data-levelname = "<%= @victory.battle_level.name %>" >
   <% if @victory.ability != nil %>
     <p class="extra-reward-title">Ability earned:</p>
     <%= image_tag("#{@victory.reward_image}", class: "reward-image") %>
@@ -19,6 +21,19 @@
   <% end %>
   <%= link_to image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/next.png", class: "next-but"), 
       new_battle_path, class: "end-battle-but level-select-but battle-fin" %>
+  <% if @victory.reward_category == "ability" || @victory.reward_category == "monster" %>
+    <%= link_to "Equip Ability", home_index_path, 
+        class: "end-battle-but ability-equip battle-fin", id: "endgame-link" %>
+  <% elsif @victory.reward_category == "enhance" %>
+    <%= link_to "Enhance Mon", enhance_monster_path, 
+        class: "end-battle-but ability-equip battle-fin", id: "endgame-link" %>
+  <% elsif @victory.reward_category == "ascend" %>
+    <%= link_to "Ascend Mon", ascend_monster_path, 
+        class: "end-battle-but ability-equip battle-fin", id: "endgame-link" %>
+  <% elsif  @victory.reward_category == "store" %>
+    <%= link_to "Store", device_store_path, 
+        class: "end-battle-but ability-equip battle-fin endgame-store-link", id: "endgame-link" %>
+  <% end %>
 </div>
 
 <% if @victory.level_up %>
@@ -33,6 +48,15 @@
     <% end %>
   </div>
 <% end %>
+
+
+
+
+
+
+
+
+
 
 
 

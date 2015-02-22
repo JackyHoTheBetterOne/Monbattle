@@ -2,6 +2,8 @@
   <% if monster %>
     <div class="enh-box mon-enhancing">
       <span class="title">Enhancing:</span>
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/level-up-text.png", 
+            class: "level-up-text")%>
       <%= image_tag(monster.monster.default_skin_img, class: "enhance-port") %>
       <div class="information-box to-enhance">
         <span><%= monster.name %></span>

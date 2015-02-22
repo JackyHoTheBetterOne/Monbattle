@@ -7,6 +7,8 @@ class Battle::Victory
   attribute :monster, Monster
   attribute :reward
   attribute :reward_image
+  attribute :reward_category
+  attribute :first_cleared
   attribute :round_taken 
   attribute :slot
   attribute :class_list
@@ -24,6 +26,13 @@ class Battle::Victory
     self.monster = nil
     self.reward = nil
     @user = summoner.user
+
+    if summoner.beaten_levels.include? battle_level.name
+      self.first_cleared = false
+    else
+      self.first_cleared = true
+    end
+
 
     if battle_level.exp_given + summoner.current_exp >= summoner.exp_required
       self.level_up = true
@@ -93,6 +102,19 @@ class Battle::Victory
       end
     else
       self.first_time == false
+    end
+
+    if self.ability != nil 
+      self.reward_category = "ability"
+    elsif self.monster != nil
+      self.reward_category = "monster"
+    elsif self.reward_image == "https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png" ||
+        self.reward_image == "https://s3-us-west-2.amazonaws.com/monbattle/images/mp.png"
+      self.reward_category = "store"
+    elsif self.reward_image == "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend.png"
+      self.reward_category = "ascend"
+    elsif self.reward_image == "https://s3-us-west-2.amazonaws.com/monbattle/images/enhance.png"
+      self.reward_category = "enhance"
     end
   end
 end

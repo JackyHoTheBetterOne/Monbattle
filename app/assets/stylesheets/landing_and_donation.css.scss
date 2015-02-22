@@ -158,6 +158,17 @@ a.fb-nav:hover {
   width: 235px;
   border: 2px solid solid;
   border-radius: 5px;
+  .plus-mp-but {
+    background: transparent;
+    border: none;
+    left: 191px;
+    top: 36px;
+    height: 18px;
+    width: 18px;
+    img {
+      height: 18px;
+    };
+  };
   .sign-out {
     background: transparent;
     left: 191px;
@@ -186,11 +197,15 @@ a.fb-nav:hover {
     position: absolute;
     left: 152px;
     top: 47px;
+    text-align: right;
+    width: 48px;
   };
   .summoner-gp {
     position: absolute;
     left: 152px;
     top: 22px;
+    text-align: right;
+    width: 48px;
   };
   .username {
     position: absolute;
