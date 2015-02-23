@@ -254,6 +254,21 @@ class User < ActiveRecord::Base
       p "Login tracking: #{res.body}"
       p "======================================================================="
 
+      message["event_id"] =  "first_batch:" + time
+      message["value"] = 1.0
+      json_message = message.to_json
+      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
+      req.body = json_message
+      req['Authorization'] = json_authorization
+
+      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+        http.request(req)
+      end
+
+      p "======================================================================="
+      p "Login tracking: #{res.body}"
+      p "======================================================================="
+
     end
   end
   handle_asynchronously :track_login, :run_at => Proc.new { 2.minutes.from_now }
