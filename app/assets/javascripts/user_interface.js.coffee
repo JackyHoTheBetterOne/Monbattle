@@ -155,6 +155,8 @@ $ ->
   $(document).on "click.quest-hide", ".for-real, .close-quest, .quest-close-footer, .mon-tab", ->
       $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
       $(".quest-show").parent().removeClass("active")
+  $(".plus-mp-but").on "click", ->
+    window.storeDisplay = true
 
 
 
