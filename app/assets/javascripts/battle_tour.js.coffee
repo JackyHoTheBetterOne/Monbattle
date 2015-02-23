@@ -113,7 +113,7 @@ $ ->
       {
         title: "Insufficient AP", 
         content: "You don't have enough AP to use this ability!",
-        target: "ap-bar-tip",
+        target: "ap-icon",
         placement: "left"
       }
     ]

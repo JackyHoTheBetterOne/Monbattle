@@ -961,7 +961,7 @@ window.outcome = ->
 
 ################################################################################################### Display function-calling helpers
 window.singleTargetAbilityAfterClickDisplay = (ability) ->
-  disable(ability)
+  # disable(ability)
   $(".img").css("background", "transparent")
   $(".enemy .mon-name").css("opacity", "0")
   offUserTargetClick()
@@ -2460,7 +2460,7 @@ $ ->
             hopscotch.startTour(insufficient_ap_tour)
             setTimeout (->
               $(".hopscotch-nav-button.next").click()
-            ), 5000
+            ), 3500
 
 
 

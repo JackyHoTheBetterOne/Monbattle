@@ -226,7 +226,7 @@ class User < ActiveRecord::Base
   handle_asynchronously :track_rolling, :run_at => Proc.new { 2.minutes.from_now }
 
 
-  def track_login(session_id)
+  def track_login(session_id, time)
     if self.admin == false
       game_key = ENV["GAME_KEY"]
       secret_key = ENV["GAME_SECRET"]
