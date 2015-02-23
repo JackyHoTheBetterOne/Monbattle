@@ -247,8 +247,8 @@ $ability-equip-dim: 75px;
             }
             .ap-cost {
               @include abs-div(16%, 100%);
-              top: 0;
-              left: 47%;
+              top: 1px;
+              left: 93%;
             }
             .word-available {
               @include abs-div(20%, 100%);
@@ -562,6 +562,36 @@ p.passive-title {
 .shadowed2 {
   transition: 0.3s;
 };
+
+
+.ap-icon-equip {
+  position: absolute;
+  top: 0px;
+  left: 87%;
+};
+
+.ap_cost_title {
+  position: absolute;
+  top: 1px;
+  left: 76%;
+};
+
+.sword-icon-equip {
+  position: absolute;
+  top: 2px;
+  left: 54%;
+  height: 20px;
+};
+
+.ability_impact_equip {
+  position: absolute;
+  top: 1px;
+  left: 59%;
+};
+
+
+
+
 
 
 

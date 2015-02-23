@@ -920,7 +920,7 @@ window.outcome = ->
               setTimeout (->
                 document.getElementById('winning').style.pointerEvents = 'auto'
               ), 1500
-            ), 3200
+            ), 4500
         ), 750
       else 
         new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
@@ -1088,6 +1088,7 @@ window.turnOnSummonerActions = ->
       ), 2000
       setTimeout (->
         $(".cooldown-box").css("opacity","1")
+        $(".cooldown-count").css()
         apChange()
         flashEndButton()
       ), 2750
@@ -2137,14 +2138,16 @@ $ ->
               description.children("span.damage-type").text ""
               better_mon = battle.players[0].mons[targets[1]].mon_evols[0]
               worse_mon = battle.players[0].mons[targets[1]]
-              added_hp = better_mon.max_hp - worse_mon.max_hp
-              description.children(".panel-heading").text better_mon.name
+              added_hp = better_mon.max_hp - worse_mon.max_hp 
+              description.children(".panel-heading").text "Ascend to " + better_mon.name
               description.children(".panel-body").html(
                 better_mon.abilities[0].name + ": " + better_mon.abilities[0].description + "<br />" +
                 "<br />" + better_mon.abilities[1].name + ": " + better_mon.abilities[1].description
                 )
-              description.children(".panel-footer").children("span").children(".d").text "HP: +" + added_hp
+              description.children(".panel-footer").children("span").children(".d").text added_hp
               description.children(".panel-footer").children("span").children(".a").text better_mon.ap_cost
+              description.children(".panel-footer").children("span").children(".sword-icon").
+                attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/heal-25px.png")
               description.css({"z-index": "11000", "opacity": "0.9"})
             else
               ability = undefined
@@ -2163,6 +2166,12 @@ $ ->
                 .text Math.round(ability.change*ability.scaling*(1-0.1*battle.players[ability.team].mons[ability.index].fatigue))
               description.children(".panel-footer").children("span").children(".a")
                 .text ability.ap_cost
+              if ability.modifier is "-"
+                description.children(".panel-footer").children("span").children(".sword-icon").
+                  attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/attack-25px.png")
+              else 
+                description.children(".panel-footer").children("span").children(".sword-icon").
+                  attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/heal-25px.png")
               description.css({"z-index": "6000", "opacity": "0.9"})
           return
         ).on "mouseleave", ".user .monBut button, .oracle-skill-icon", ->

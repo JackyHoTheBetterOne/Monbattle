@@ -48,14 +48,11 @@ class User::RollTreasure
       end
     end
 
-
-
     if user.ability_purchases.count == 4
       self.first_time = true
     else
       self.first_time = false
     end
-
 
     @summoner = user.summoner
     if @summoner[currency_type] < cost

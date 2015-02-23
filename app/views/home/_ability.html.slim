@@ -7,8 +7,15 @@
     .abil-heading
       .abil-name
         p =ability.name
+      - if ability.modifier == "-"
+        =image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/attack-25px.png", class: "sword-icon-equip")
+      - else
+        =image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/heal-25px.png", class: "sword-icon-equip")
+      p.ability_impact_equip #{ability.change}
+      p.ap_cost_title Cost:
+      =image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/ap-cost-icon-25.png", class: "ap-icon-equip")
       .ap-cost
-        p AP: #{ability.ap_cost}
+        p #{ability.ap_cost}
       .word-available
         p Available:
       .avail id="#{dom_id(ability)}-avail"
