@@ -138,7 +138,7 @@ class User::RollTreasure
           ability_roll = Random.new.rand(1..1000)
           if (1..chance).include?(ability_roll)
             @rarity = "latest"
-            @abil_array = @latest_mon_array
+            @abil_array = @latest_abil_array
           end
         end
 
