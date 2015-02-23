@@ -176,16 +176,17 @@ class User::RollTreasure
           @id_array << d if !MonsterUnlock.unlock_check(user, d).exists?
         end
 
+        if @id_array.length == 0
+          self.message = "You have unlocked all the #{@rarity} monsters!"
+          return self.message
+        end
+
+
         @mon_id_won = @id_array.sample
         @mon_won_name = Monster.find(@mon_id_won).name
         self.reward_name = @mon_won_name
         self.type = "monster"
         self.description = Monster.find(@mon_id_won).description
-
-        if @mon_id_won == nil
-          self.message = "You have unlocked all the #{@rarity} monsters!"
-          return self.message
-        end
 
         @monster_unlock = MonsterUnlock.new
         @monster_unlock.user_id = user.id
