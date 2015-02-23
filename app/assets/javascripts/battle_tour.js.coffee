@@ -107,6 +107,18 @@ $ ->
       }
     ]
   }
+  window.insufficient_ap_tour = {
+    id: "insufficient",
+    steps: [
+      {
+        title: "Insufficient AP", 
+        content: "You don't have enough AP to use this ability!",
+        target: "ap-bar-tip",
+        placement: "left"
+      }
+    ]
+  }
+
 
 
 
