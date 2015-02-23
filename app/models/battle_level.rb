@@ -95,6 +95,17 @@ class BattleLevel < ActiveRecord::Base
     end
   end
 
+  def first_clear_reward
+    if self.ability_reward.length == 2
+      if self.ability_reward[0] == "monster" || self.ability_reward[0] == "ability"
+        return self.ability_reward[1]
+      else
+        return "x " + self.ability_reward[1]
+      end
+    end
+
+  end
+
   def first_clear_reward_image
     if self.ability_reward.length != 0
       case self.ability_reward[0]
@@ -106,6 +117,10 @@ class BattleLevel < ActiveRecord::Base
           return "https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png"
         when "mp"
           return "https://s3-us-west-2.amazonaws.com/monbattle/images/mp.png"
+        when "enh"
+          return "https://s3-us-west-2.amazonaws.com/monbattle/images/enhance.png"
+        when "asp"
+          return "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend.png"
       end
     else
       return ""

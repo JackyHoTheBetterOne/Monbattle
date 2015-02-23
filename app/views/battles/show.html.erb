@@ -16,8 +16,10 @@
       <a href="" class="back-to-battle-but">No</a>
     </div>
   </div>
-  <%= image_tag(@battle.battle_level.start_cut_scenes[0], class: "cutscene") %>
-  <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/next.png", class: "next-scene") %>
+  <%= image_tag(@battle.battle_level.start_cut_scenes[0], 
+    class: "cutscene") %>
+  <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/next.png", 
+    class: "next-scene") %>
   <% if current_user.summoner.played_levels.include?(@battle.battle_level.name) && @battle.
         battle_level.has_cut_scene %>
     <button class="skip-button" id="skip-button">Skip</button>
@@ -92,7 +94,8 @@
 
   <div class="1 enemy mon-slot" id="tutorial-end" data-team="1">
     <% @pc_party.mons.each do |mon| %>
-      <div class="mon mon<%= @pc_party.mon_dex(mon) %>" data-index="<%= @pc_party.mon_dex(mon) %>">
+      <div class="mon mon<%= @pc_party.mon_dex(mon) %>" 
+          data-index="<%= @pc_party.mon_dex(mon) %>">
         <%= render :partial => "team", :locals => { :mon => mon, party: @pc_party } %>
       </div>
     <% end %>
@@ -104,7 +107,7 @@
         class: "ap-icon") %>
     <p class="ap-number">1000 / 1000 </p>
     <div class="ap-meter" id="ap-meter">
-      <%= image_tag("APBar1px.gif", class: "bar") %>
+      <%= image_tag("APBar1px.gif", class: "bar", id: "ap-bar-tip") %>
     </div>
     <%= image_tag("add-member.png", class: "gain-ap", id: "gain-ap", onclick: "playIt()",
         data: {index: "", apcost: 10, target: "action-point"})  %>

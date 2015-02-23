@@ -2457,6 +2457,10 @@ $ ->
             $(ability).add(".ap").effect("highlight", {color: "red"}, 100)
             $(".end-turn").prop("disabled", false)
             $(".end-turn").css("opacity", "1")
+            hopscotch.startTour(insufficient_ap_tour)
+            setTimeout (->
+              $(".hopscotch-nav-button.next").click()
+            ), 5000
 
 
 

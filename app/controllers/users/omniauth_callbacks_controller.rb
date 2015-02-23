@@ -21,7 +21,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def track_login
     session_id = request.session_options[:id]
-    @user.track_login(session_id)
+    time = Time.now.in_time_zone("Pacific Time (US & Canada)").strftime("%W %H")
+    @user.track_login(session_id, time)
   end
 end
 
