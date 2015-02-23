@@ -3,6 +3,10 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
+  if typeof storeDisplay isnt "undefined"
+    if storeDisplay is true
+      $(".gem-store-tab").click()
+      window.storeDisplay = false
   window["ascension_roll"] = "gp"
   window["base_roll"] = "gp"
   window["monster_roll"] = "gp"
