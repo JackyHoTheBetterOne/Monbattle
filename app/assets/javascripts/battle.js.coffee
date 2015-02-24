@@ -15,6 +15,7 @@ window.endBattleTutorial = ->
   element = ".end-battle-box.winning"
   if $(element).data("firstcleared") is true
     if $(element).data("levelname") is "Area A - Stage 1" or $(element).data("levelname") is "Area A - Stage 2"
+      console.log("wtf man")
       hopscotch.startTour(edit_team_tour)
     else if $(element).data("levelname") is "Area A - Stage 3"
       hopscotch.startTour(enhance_mon_tour)
@@ -615,8 +616,8 @@ window.enemyTimer = ->
 window.setFatigue = ->
   i = 0 
   while i < playerMonNum
-    $(".user .mon"  + i + " " + ".fatigue-current-level").
-      text(battle.players[0].mons[i].fatigue)
+    width = battle.players[0].mons[i].fatigue/10*100.toString() + "%"
+    $(".user .mon"  + i + " " + ".faitgue-bar-for-real").css("width", width)
     i++
 
 window.availableAbilities = () ->
@@ -970,7 +971,7 @@ window.singleTargetAbilityAfterClickDisplay = (ability) ->
   turnOff("click.help", ".user")
   $(".availability-arrow").each ->
     $(this).css("opacity", "0")
-  $(document).off "click.cancel"
+  $(document).off "click.cancel", ".cancel"
   $(".user .img").removeClass("controlling")
   $(".battle-guide").hide()
   $(".battle-guide, .battle-guide.cancel").css("z-index", "-1")
@@ -1480,9 +1481,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
             .attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/big-spark.gif")
             if targetMon.css("display") isnt "none"
               if enemyHurt.isAlive() is false
-                setTimeout (->
-                  targetMon.effect("explode", {pieces: 30}, 1000).hide()
-                ), 250
+                targetMon.effect("explode", {pieces: 30}, 1000).hide()
               else
                 targetMon.finish().animate(left: "+=60px", 200)
             currentMon.finish().animate backPosition, 540
@@ -1515,7 +1514,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
               if enemyHurt.isAlive() is false
                 setTimeout (->
                   targetMon.effect("explode", {pieces: 30}, 1000).hide()
-                ), 250
+                ), 300
               else
                 targetMon.effect "shake", times: 10, 750
             element = $(this)
@@ -1550,7 +1549,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
                   if battle.players[0].mons[$(this).data("index")].isAlive() is false
                     setTimeout (->
                       $(this).effect("explode", {pieces: 30}, 1200).hide()
-                    ), 250
+                    ), 300
                   else
                     $(this).effect "shake", {times: 5, distance: 40}, 750
             else 
@@ -1559,7 +1558,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
                   if battle.players[1].mons[$(this).data("index")].isAlive() is false
                     setTimeout (->
                       $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1200).hide()
-                    ), 250
+                    ), 300
                   else
                     $(this).effect "shake", {times: 5, distance: 40}, 750
             setTimeout (->
@@ -2251,6 +2250,7 @@ $ ->
 #############################################################################################################  User move interaction
         $(document).on("mouseover.ap-gain", ".gain-ap", ->
           cost = $(this).data("apcost")
+          console.log($(this).data("apcost"))
           $(".ap-gain-information span").text(cost)
           $(".ap-gain-information").css({"z-index":"1000", "opacity":"1"})
         ).on "mouseleave.ap-gain", ".gain-ap", ->
@@ -2263,7 +2263,7 @@ $ ->
             $(".abilityDesc").css({"opacity":"0", "z-index":"-1"})
             $(".user .monBut").css({"visibility":"hidden", "opacity":"0"})
             toggleImg()
-            $(document).on "click.cancel",".battle", ->
+            $(document).on "click.cancel",".cancel", ->
               offUserTargetClick()
               $(".user .img").removeClass("controlling")
               $(".battle-guide").hide()
@@ -2271,7 +2271,7 @@ $ ->
               $(".end-turn").css("opacity", "1")
               $(document).off "click.boom", ".enemy.mon-slot .img"
               $(document).off "click.help", ".user.mon-slot .img"
-              $(document).off "click.cancel"
+              $(document).off "click.cancel", ".cancel"
               turnOnCommandA()
               $(".enemy .img").each ->
                 $(this).prop("disabled", true)
@@ -2308,9 +2308,7 @@ $ ->
                         attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/big-spark.gif")
                       if targetMon.css("display") isnt "none"
                         if enemyHurt.isAlive() is false
-                          setTimeout (->
-                            targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
-                          ), 250
+                          targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
                         else
                           targetMon.finish().animate(left: "-=60px", 200)
                       showDamageTeam(0)
@@ -2340,7 +2338,7 @@ $ ->
                         if enemyHurt.isAlive() is false
                           setTimeout (->
                             targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
-                          ), 250
+                          ), 300
                         else
                           targetMon.effect "shake", times: 10, 750
                       element = $(this)
@@ -2399,7 +2397,7 @@ $ ->
                             if battle.players[1].mons[$(this).data("index")].isAlive() is false
                               setTimeout (->
                                 $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1500).hide()
-                              ), 250
+                              ), 300
                             else
                               $(this).effect "shake", {times: 5, distance: 40}, 750
                         element.toggleClass "ability-on aoePositionFoe"
@@ -2457,7 +2455,7 @@ $ ->
                     flashEndButton()
                   ), 1000
                 when "evolve"
-                  $(document).off "click.cancel"
+                  $(document).off "click.cancel", ".cancel"
                   $(".user .img").removeClass("controlling")
                   ability.remove()
                   abilityAnime = $(".single-ability-img")

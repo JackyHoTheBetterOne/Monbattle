@@ -34,9 +34,11 @@
 
 <% if party.npc == false %>
   <div class="fatigue-level" id="fatigue<%= party.mon_dex(mon) %>">
-    Fatigue &nbsp
-  </div>
-  <div class="">
+    <p>Fatigue</p> &nbsp
+    <div class="faitgue-bar">
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/Yellow-Ap-1px.gif",
+            class: "faitgue-bar-for-real") %>
+    </div>
   </div>
 
   <div class="abilityDesc panel panel-default">
