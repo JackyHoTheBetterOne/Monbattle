@@ -48,6 +48,7 @@ window.fixEvolMon = (monster, player) ->
     monster.type = "summoner"
   monster.fatigue = 0
   monster.used = false
+  monster.unidex = monster.team.toString() + monster.index.toString()
   monster.isAlive = ->
     if @hp <= 0
       if $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").length isnt 0
@@ -430,6 +431,7 @@ window.fixEvolMon = (monster, player) ->
             monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
             window["change" + monTarget.unidex] = 
               eval(window["change" + monTarget.unidex] + e.modifier + e.change * fatigue_effect)
+            window["change" + monTarget.unidex] = Math.round(window["change" + monTarget.unidex])
             if (window["change" + monTarget.unidex].toString().indexOf "-" is -1 or 
                 window["change" + monTarget.unidex].toString().indexOf "+" is -1) and
                 parseInt(window["change" + monTarget.unidex]) > 0 
@@ -1088,7 +1090,7 @@ window.turnOnSummonerActions = ->
       ), 2000
       setTimeout (->
         $(".cooldown-box").css("opacity","1")
-        $(".cooldown-count").css()
+        $(".cooldown-count").text("2")
         apChange()
         flashEndButton()
       ), 2750
@@ -2110,6 +2112,19 @@ $ ->
         availableAbilities()
         toggleEnemyClick()
         setSummonerAbility()
+        $(".surrender-option-button").on "click", ->
+          if $(".surrender-option-box").css("opacity") is "0"
+            $(".surrender-option-box").css({"opacity":"1", "z-index":"10000"})
+          else  
+            $(".surrender-option-box").css("opacity", "0")
+            setTimeout (->
+              $(".surrender-option-box").css("z-index", "-1")          
+            ), 350
+        $(".battle").not(".surrender-option-box").on "click", ->
+          $(".surrender-option-box").css("opacity", "0")
+          setTimeout (->
+            $(".surrender-option-box").css("z-index", "-1")          
+          ), 350
         $(document).on("mouseover", ".battle-round-countdown", ->
           $(".bonus-description").css({"opacity":"1", "z-index":"10000"})
         ).on "mouseleave", ".battle-round-countdown", ->

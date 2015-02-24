@@ -45,7 +45,7 @@
         </span>
       </div>
     </div>
-    <% if monster.evol_mon_name %>
+    <% if monster.evol_mon_name && monster.evol_unlocked?(current_user) %>
       <%= link_to (
             image_tag("story-arrow.png", 
             class: "ascend-mon-enhance")

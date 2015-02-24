@@ -25,6 +25,9 @@ $ ->
       ), 1600
       setTimeout (->
         $(".ascend-monster").effect("explode", {pieces: 20}, 500)
+        if document.getElementsByClassName("ascend-mon-avatar").length == 0
+          document.getElementsByClassName("ascend-list")[0].innerHTML = ""
+          document.getElementsByClassName("list-title")[0].innerHTML = "You have unlocked all ascensions!"
       ), 3200
     else
       event.preventDefault()
