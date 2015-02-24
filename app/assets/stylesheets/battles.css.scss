@@ -56,7 +56,6 @@ $theme-background-color: rgba(32, 32, 32, 1);
 };
 
 .controlling {
-  background: rgba(13, 71, 161, 0.5) !important;
   border-radius: 5px;
 };
 
@@ -677,8 +676,8 @@ body {
   .fatigue-level {
     @include stroke();
     position: absolute;
-    left: 220px;
-    top: 171px;
+    left: 206px;
+    top: 173px;
     font-size: 85%;
     color: #D3D3D3;
   };
@@ -774,7 +773,7 @@ body {
 ///////////////////////////////////////////////////////////////////////////////////////////// Individual mon positions
 .user {
   .mon0{
-    top: 110px;
+    top: 113px;
     left: -126px;
   };
   .mon1 {
@@ -782,11 +781,11 @@ body {
     top: -255px;
   };
   .mon2 {
-    top: -240px;
+    top: -248px;
     left: 56px;
   };
   .mon3 {
-    top: -604px;
+    top: -612px;
     left: 80px;
   };
 };

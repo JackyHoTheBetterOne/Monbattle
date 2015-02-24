@@ -164,7 +164,7 @@ class User < ActiveRecord::Base
   handle_asynchronously :track_currency_purchase, :run_at => Proc.new { 2.minutes.from_now }
 
   def track_rolling(rarity, session_id, type)
-    if self.admin == false
+    if self.admin == false && rarity != "1" && type != "1"
       game_key = ENV["GAME_KEY"]
       secret_key = ENV["GAME_SECRET"]
       endpoint_url = "http://api.gameanalytics.com/1"

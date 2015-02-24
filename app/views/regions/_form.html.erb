@@ -1,9 +1,11 @@
 <%= f.input :name %>
+<%= f.input :order %>
 <%= f.association :unlocked_by %>
 <br/>
 <h3>Areas</h3>
 <%= f.simple_fields_for :areas do |a| %>
   <%= a.input :name %>
+  <%= a.input :order %>
   <%= a.association :unlocked_by %>
   <%= a.link_to_remove "Remove this area" %>
   <p></p>

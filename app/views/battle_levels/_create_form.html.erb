@@ -1,6 +1,7 @@
 <%= simple_form_for(BattleLevel.new, remote: true, method: :post) do |f| %>
   <%= f.input :name %>
   <%= f.input :description %>
+  <%= f.input :order %>
   <%= f.input :victory_message %>
   <%= f.input :stamina_cost %>
   <%= f.input :ability_reward %>
