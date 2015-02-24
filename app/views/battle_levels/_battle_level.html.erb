@@ -1,6 +1,7 @@
 <tr id="<%= dom_id(battle_level) %>">
   <td><%= battle_level.id %></td>
   <td><%= battle_level.name %></td>
+  <td><%= battle_level.order %></td>
   <td><%= battle_level.stamina_cost %></td>
   <td><%= battle_level.mp_reward %></td>
   <td><%= battle_level.gp_reward %></td>
@@ -16,7 +17,7 @@
       <%= m.name %> <br/>
     <% end %>
   </td>
-  <td><%= image_tag(battle_level.background, size: "100x100") %></td>
+  <td><%= image_tag(battle_level.background, size: "75x75") %></td>
   <td><%= battle_level.unlocked_by.name if battle_level.unlocked_by %></td>
   <td> 
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editting_<%= dom_id(battle_level) %>">

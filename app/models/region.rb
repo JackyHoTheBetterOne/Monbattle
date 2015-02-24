@@ -3,6 +3,7 @@ class Region < ActiveRecord::Base
   belongs_to :unlocked_by, class_name: "Region"
 
   validates :name, presence: true, uniqueness: true
+  validates :order, presence: true
 
   accepts_nested_attributes_for :areas, :allow_destroy => true, :reject_if => lambda { |a| a[:name].blank? }
 

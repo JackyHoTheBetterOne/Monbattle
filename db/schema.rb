@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217192718) do
+ActiveRecord::Schema.define(version: 20150224214036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20150217192718) do
     t.integer  "unlocked_by_id"
     t.integer  "region_id"
     t.text     "keywords"
+    t.integer  "order"
   end
 
   add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
@@ -147,6 +148,7 @@ ActiveRecord::Schema.define(version: 20150217192718) do
     t.integer  "time_requirement"
     t.integer  "asp_reward",       default: 0
     t.integer  "enh_reward",       default: 0
+    t.integer  "order"
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
@@ -520,6 +522,7 @@ ActiveRecord::Schema.define(version: 20150217192718) do
     t.integer  "map_file_size"
     t.datetime "map_updated_at"
     t.text     "keywords"
+    t.integer  "order"
   end
 
   create_table "reward_categories", force: true do |t|
