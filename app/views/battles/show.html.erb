@@ -136,6 +136,22 @@
 </div>
 
 
+
+<button class="surrender-option-button">
+  <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/settings-icon.png")%>
+</button>
+
+<div class="surrender-option-box">
+  <%= link_to "concede", new_battle_path, class: "surrender-button concede" %>
+  <%= form_for(Battle.new) do |f|  %>
+    <button class="surrender-button retry" name="battle[battle_level_id]" type="submit" 
+            value="<%= @battle.battle_level.id %>">
+      retry
+    </button>
+  <% end %>
+</div>
+
+
 <div id="embed"></div>
 
 <%= javascript_include_tag "hopscotch" %>

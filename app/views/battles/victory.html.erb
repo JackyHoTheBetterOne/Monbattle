@@ -5,7 +5,7 @@
     <p class="extra-reward-title">Ability earned:</p>
     <%= image_tag("#{@victory.reward_image}", class: "reward-image") %>
     <p class="ability-earned" data-type="ability" data-class="<%= @victory.class_list %>" 
-      data-slot= "<%= @victory.slot %>" data-firsttime = "<%= @victory.first %>">
+      data-slot= "<%= @victory.slot %>" data-firsttime = "<%= @victory.first_time %>">
       <%= @victory.ability.name %>
     </p>
   <% elsif @victory.monster != nil %>

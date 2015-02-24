@@ -145,7 +145,17 @@ class MonsterUnlock < ActiveRecord::Base
 
 
 
-
+  def evol_unlocked?(summoner)
+    if self.monster.evolutions[0]
+      if MonsterUnlock.where(user_id: user.id, monster_id: self.monster.evolutions[0].id).count != 0
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
 
   def learned_ability_array
     learned_abilities = []
