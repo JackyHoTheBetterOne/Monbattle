@@ -618,6 +618,12 @@ window.setFatigue = ->
   while i < playerMonNum
     width = battle.players[0].mons[i].fatigue/10*100.toString() + "%"
     $(".user .mon"  + i + " " + ".faitgue-bar-for-real").css("width", width)
+    if battle.players[0].mons[i].fatigue > 5
+      $(".user .mon"  + i + " " + ".faitgue-bar-for-real").
+        attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/Red-Ap-1px.gif")
+    else
+      $(".user .mon"  + i + " " + ".faitgue-bar-for-real").
+        attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/Yellow-Ap-1px.gif")
     i++
 
 window.availableAbilities = () ->
@@ -2479,6 +2485,7 @@ $ ->
                     abilityAnime.toggleClass "ability-on"
                     abilityAnime.attr("src", "")
                     apChange()
+                    setFatigue()
                     setTimeout (->
                       toggleImg()
                       availableAbilities()
