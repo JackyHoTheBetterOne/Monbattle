@@ -6,6 +6,7 @@ class MonstersController < ApplicationController
 
   def index
     @monster = Monster.new
+    @base_monsters = Monster.joins(:job).where("jobs.name NOT LIKE ?", "%NPC%").base_mon
     respond_to do |format|
       format.html
       format.js

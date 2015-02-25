@@ -3,7 +3,7 @@
   <ol class="carousel-indicators">
       <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
     <% @notices.each do |n| %>
-      <% if n.banner %>
+      <% if n.banner.url(:cool).index("frank.jpg") == nil %>
         <li data-target="#myCarousel" data-slide-to="<%= @notices.index(n) + 1 %>" class=""></li>
       <% end %>
     <% end %>
@@ -17,7 +17,7 @@
       </div>
     </div>
     <% @notices.each do |n| %> 
-      <% if n.banner %>
+      <% if n.banner.url(:cool).index("frank.jpg") == nil  %>
         <div class="item">
           <img src="<%= n.banner.url(:cool) %>">
           <div class="container">

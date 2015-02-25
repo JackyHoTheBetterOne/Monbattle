@@ -1103,7 +1103,6 @@ window.turnOnSummonerActions = ->
 
 window.userTargetClick = ->
   $(document).on("mouseover.friendly", ".user.mon-slot .img", ->
-    $(this).css("background", "rgba(255, 241, 118, .58)")
   ).on "mouseleave.friendly", ".user.mon-slot .img", ->
     $(this).css("background", "transparent")
 
@@ -2124,6 +2123,17 @@ $ ->
         availableAbilities()
         toggleEnemyClick()
         setSummonerAbility()
+        $(".concede, .retry").on "click", ->
+          $.ajax
+            url: "/battles/" + battle.id
+            method: "patch"
+            data: {
+              "victor": battle.players[1].username,
+              "loser": battle.players[0].username,
+              "round_taken": parseInt(battle.round),
+              "time_taken": parseInt(seconds_taken)
+            }
+          $(".battle").remove()
         $(".surrender-option-button").on "click", ->
           if $(".surrender-option-box").css("opacity") is "0"
             $(".surrender-option-box").css({"opacity":"1", "z-index":"10000"})
@@ -2143,7 +2153,6 @@ $ ->
           $(".bonus-description").css({"opacity":"0", "z-index":"-1"})
         $(document).on("mouseover", ".enemy.mon-slot .img", ->
           if $(this).attr("disabled") isnt "disabled"
-            $(this).css("background", "rgba(255, 241, 118, .58)")
             $(this).parent().children(".num").children(".mon-name").css("opacity", 1)
           ).on "mouseleave", ".enemy.mon-slot .img", ->
             $(this).css("background", "transparent")
