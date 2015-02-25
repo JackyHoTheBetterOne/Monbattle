@@ -31,7 +31,9 @@ $ ->
       ), 3200
       setTimeout (->
         if document.getElementsByClassName("ascending")[0].getAttribute("data-firsttime") is "true"
-          hopscotch.startTour(ascension_tour)
+          setTimeout (->
+            hopscotch.startTour(ascension_tour)
+          ), 500
       ), 4000
     else
       event.preventDefault()

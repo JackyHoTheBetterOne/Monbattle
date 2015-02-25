@@ -5,12 +5,12 @@
   <%= f.input :victory_message %>
   <%= f.input :stamina_cost %>
   <%= f.input :ability_reward %>
-  <%= f.input :time_requirement %>
-  <%= f.input :mp_reward %>
-  <%= f.input :gp_reward %>
-  <%= f.input :asp_reward %>
-  <%= f.input :enh_reward %>
-  <%= f.input :exp_given %>
+  <%= f.input :time_requirement, :input_html => { :value => '5' } %>
+  <%= f.input :mp_reward, :input_html => { :value => '0' } %>
+  <%= f.input :gp_reward, :input_html => { :value => '0' }  %>
+  <%= f.input :asp_reward, :input_html => { :value => '0' }  %>
+  <%= f.input :enh_reward, :input_html => { :value => '0' }  %>
+  <%= f.input :exp_given, :input_html => { :value => '0' }  %>
   <%= f.input :background %>
   <%= f.input :music %>
   <p></p>

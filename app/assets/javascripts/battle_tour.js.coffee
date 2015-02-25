@@ -134,7 +134,7 @@ $ ->
     id: "ascension-explanation",
     steps: [
       {
-        title: "Acension", 
+        title: "Ascension", 
         content: "When the base monster is used in battle, you will have a third option to ascend it!",
         target: "mon-nav-tab",
         placement: "bottom"
