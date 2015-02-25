@@ -28,7 +28,9 @@ $ ->
     $(".level-description").fadeOut(300)
     setTimeout (->
       $(".level-description").fadeIn(300)
-      document.getElementsByClassName("map-level")[area_index].className += " current-area"
+      setTimeout (->
+        document.getElementsByClassName("map-level")[area_index].className += " current-area"
+      ), 300
       id = document.getElementsByClassName("party_edit_button")[0].
             getAttribute("data-latest-level")
       if document.getElementById(id)
@@ -50,7 +52,7 @@ $ ->
     setTimeout (->
       index = document.getElementsByClassName("map-level").length-1
       document.getElementsByClassName("map-level")[index].className += " current-area"
-    ), 800
+    ), 1000
     index = $(".region-select").index($(this))
     i = 0
     while i < document.getElementsByClassName("region-select").length

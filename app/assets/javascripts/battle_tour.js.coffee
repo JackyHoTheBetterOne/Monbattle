@@ -32,7 +32,7 @@ $ ->
     steps: [
       {
         title: "Growing AP",
-        content: "Spend half of your current AP to gain 10 more AP each turn.",
+        content: "Click the plus button to perform more actions.",
         target: "gain-ap",
         placement: "left"
       },

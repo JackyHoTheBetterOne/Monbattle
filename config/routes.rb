@@ -4,7 +4,11 @@ resources :notices
 
 resources :areas
 
-resources :regions
+resources :regions do 
+  resources :areas
+end
+
+
 
 resources :quests
 

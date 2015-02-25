@@ -28,12 +28,14 @@ class Battle::New
     end
 
     if params_area_filter
-      self.areas = Area.filter(params_area_filter).unlocked_areas(summoner.completed_areas)
+      self.areas = Area.order(:order).filter(params_area_filter).unlocked_areas(summoner.completed_areas)
     elsif session_area_filter
-      self.areas = Area.filter(session_area_filter).unlocked_areas(summoner.completed_areas)
+      self.areas = Area.order(:order).filter(session_area_filter).unlocked_areas(summoner.completed_areas)
     else
-      self.areas = Area.filter(regions.last.name).unlocked_areas(summoner.completed_areas)
+      self.areas = Area.order(:order).filter(regions.last.name).unlocked_areas(summoner.completed_areas)
     end
+
+    self.areas.reverse!
 
     if params_level_filter
       self.levels = BattleLevel.order(:order).filter(params_level_filter).unlocked_levels(summoner.beaten_levels)
