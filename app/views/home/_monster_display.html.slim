@@ -2,7 +2,7 @@
   -unless mon.monster.evolved_from.nil?
     =link_to "Base", home_abilities_for_mon_path(mon: mon.unlocked_evolved_from(current_user).first, socket: 1), remote: true, class: "btn shadowed2"
   -unless mon.unlocked_evolves.empty?
-    =link_to "Evolve", home_abilities_for_mon_path(mon: mon.unlocked_evolves.first, socket: 1), remote: true, class: "btn shadowed2"
+    =link_to "Ascend", home_abilities_for_mon_path(mon: mon.unlocked_evolves.first, socket: 1), remote: true, class: "btn shadowed2"
 .info-pane.shadowed2
   .monster-thumb
     .mon-thumb

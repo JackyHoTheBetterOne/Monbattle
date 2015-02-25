@@ -1,4 +1,4 @@
-<div class="ascending">
+<div class="ascending" data-firsttime="<%= @ascension.first_time %>" >
   <h2>Ascend Monsters</h2>
   <%= link_to "Level Select", new_battle_path, class: "level-select-path" %>
   <div class="monster-list">
@@ -24,3 +24,5 @@
     <%= render partial: "ascend_monster", locals: {ascension: @ascension} %>
   </div>
 </div>
+
+<%= javascript_include_tag "hopscotch" %>

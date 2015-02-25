@@ -29,6 +29,10 @@ $ ->
           document.getElementsByClassName("ascend-list")[0].innerHTML = ""
           document.getElementsByClassName("list-title")[0].innerHTML = "You have unlocked all ascensions!"
       ), 3200
+      setTimeout (->
+        if document.getElementsByClassName("ascending").getAttribute("data-firsttime") is true
+          hopscotch.startTour(ascension_tour)
+      ), 3700
     else
       event.preventDefault()
       $(element).effect("highlight", {color: "red"}, 200)
