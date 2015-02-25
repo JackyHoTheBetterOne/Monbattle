@@ -1522,9 +1522,14 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
             action()
             if targetMon.css("display") isnt "none"
               if enemyHurt.isAlive() is false
-                setTimeout (->
-                  targetMon.effect("explode", {pieces: 30}, 1000).hide()
-                ), 300
+                if teamIndex is 1
+                  setTimeout (->
+                    targetMon.effect("explode", {pieces: 30}, 1000).hide()
+                  ), 300
+                else 
+                  setTimeout (->
+                    targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
+                  ), 300
               else
                 targetMon.effect "shake", times: 10, 750
             element = $(this)
@@ -2134,7 +2139,7 @@ $ ->
               "round_taken": parseInt(battle.round),
               "time_taken": parseInt(seconds_taken)
             }
-          $(".battle").remove()
+          $(".battle, .surrender-option-button").remove()
         $(".surrender-option-button").on "click", ->
           if $(".surrender-option-box").css("opacity") is "0"
             $(".surrender-option-box").css({"opacity":"1", "z-index":"10000"})
