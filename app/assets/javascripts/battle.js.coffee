@@ -77,7 +77,6 @@ window.fixEvolMon = (monster, player) ->
               $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
                 css("opacity", "0") if $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
                 attr("src") isnt "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif"
-          $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").css("opacity", "0")  
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".fatigue-level").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
