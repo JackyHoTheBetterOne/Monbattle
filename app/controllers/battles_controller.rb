@@ -73,7 +73,6 @@ class BattlesController < ApplicationController
     @pc_party   = @battle.parties[1]
 
     if current_user.summoner.beaten_levels.include?(@battle.battle_level.name) && 
-        @battle.battle_level.ability_reward.length != 0 && 
         !current_user.summoner.cleared_twice_levels.include?(@battle.battle_level.name)
       @first_cleared = true
     else
