@@ -8,7 +8,7 @@ $ ->
     existing = parseInt(document.getElementsByClassName("material-box")[0].
                         getAttribute("data-asp"))
     name = document.getElementsByClassName("material-box")[0].getAttribute("data-name")
-    baby_name = document.getElementsByClassName("baby-name")[0].innerHTML
+    baby_name = document.getElementsByClassName("baby-name")[0].innerHTML.replace(" ","")
     element = $(this)
     if existing >= cost 
       document.getElementsByClassName("ascend-overlay")[0].style["z-index"] = "10000"
@@ -16,7 +16,10 @@ $ ->
       setTimeout (->
         document.getElementsByClassName("ascend-face")[0].className += " ascension-unlocked"
         document.getElementById("ascension-name").innerHTML = name.toString()
-        $("#" + baby_name).remove()
+        $("#" + baby_name).css("opacity", "0")
+        setTimeout (->
+          $("#" + baby_name).remove()
+        ), 500
       ), 400
       setTimeout (->
         document.getElementsByClassName("unlock-message")[0].style["opacity"] = "1"

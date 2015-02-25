@@ -14,7 +14,7 @@
               class: "ascend-mon-avatar")
             ), 
             ascend_monster_path(ascend_monster: s.name),
-            id: s.name,
+            id: s.name.gsub(" ",""),
             remote: true
          %>
       <% end %>
