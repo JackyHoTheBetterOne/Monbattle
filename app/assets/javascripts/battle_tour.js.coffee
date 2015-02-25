@@ -108,13 +108,26 @@ $ ->
     ]
   }
   window.insufficient_ap_tour = {
-    id: "insufficient",
+    id: "insufficient-ap",
     steps: [
       {
         title: "Insufficient AP", 
         content: "You don't have enough AP to use this ability!",
         target: "ap-icon",
         placement: "left"
+      }
+    ]
+  }
+  window.ascension_tour = {
+    id: "ascension-explanation",
+    steps: [
+      {
+        title: "Acension", 
+        content: "Congratulation on unlocking your first ascension! 
+                    Please find the base monster in the Edit Team page 
+                    and learn about its ascension form by clicking on 'Ascend'!",
+        target: "mon-nav-tab",
+        placement: "bottom"
       }
     ]
   }

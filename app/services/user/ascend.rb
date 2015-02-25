@@ -7,8 +7,17 @@ class User::Ascend
   attribute :baby_monster
   attribute :bigger_monster
   attribute :enough
+  attribute :first_time
 
   def call
+    if MonsterUnlock.joins(:monster).
+        where("user_id = ? AND monsters.evolved_from_id != ?", user.id, "0").length == 0
+      self.first_time = true
+    else
+      self.first_time = false
+    end
+
+
     mons = MonsterUnlock.includes(:monster).where(user_id: user.id)
     self.monsters = []
     owned_monster = []
