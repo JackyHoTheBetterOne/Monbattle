@@ -36,12 +36,10 @@ class Battle::New
     end
 
     if params_level_filter
-      self.levels = BattleLevel.order(:id).filter(params_level_filter).unlocked_levels(summoner.beaten_levels)
+      self.levels = BattleLevel.order("order DESC").filter(params_level_filter).unlocked_levels(summoner.beaten_levels)
     else
-      self.levels = BattleLevel.order(:id).filter(areas.first.name).unlocked_levels(summoner.beaten_levels)
+      self.levels = BattleLevel.order("order DESC").filter(areas.first.name).unlocked_levels(summoner.beaten_levels)
     end
-
-    self.levels.reverse!
 
 
     if user 
