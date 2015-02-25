@@ -14,9 +14,10 @@ window.playIt = ->
 window.endBattleTutorial = ->
   element = ".end-battle-box.winning"
   if $(element).data("firstcleared") is true
-    if $(element).data("levelname") is "Area A - Stage 1" or $(element).data("levelname") is "Area A - Stage 2"
-      console.log("wtf man")
+    if $(element).data("levelname") is "Area A - Stage 1" 
       hopscotch.startTour(edit_team_tour)
+    else if $(element).data("levelname") is "Area A - Stage 2"
+      hopscotch.startTour(learn_ability_tour)
     else if $(element).data("levelname") is "Area A - Stage 3"
       hopscotch.startTour(enhance_mon_tour)
     else if $(element).data("levelname") is "Area A - Stage 4"
