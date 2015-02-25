@@ -13,7 +13,9 @@
                            slot: "#{a.ability.slot}",
                            ap: "#{a.ability.ap_cost}",
                            id: "#{a.id_code}",
-                           classes: "#{a.ability.job_list}"}
+                           classes: "#{a.ability.job_list}",
+                           impact: "#{a.ability.change}",
+                           sign: "#{a.ability.modifier}"}
                   ), 
         learn_ability_path(learning_filter: a.id_code),
         remote: true

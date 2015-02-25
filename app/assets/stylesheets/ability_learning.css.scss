@@ -126,7 +126,7 @@
         border-radius: 5px;
         span {
           position: absolute;
-          top: 2px;
+          top: 3px;
         };
         span.slot {
           left: 48%
@@ -136,6 +136,20 @@
         };
         span.name {
           left: 2%;
+        };
+        span.impact {
+          right: 66px;
+          width: 50px;
+        };
+        .ap-icon-learn {
+          position: absolute;
+          right: 33px;
+        };
+        .attack-icon-learn {
+          position: absolute;
+          right: 120px;
+          height: 22px;
+          top: 1px;
         };
         .class-list {
           width: 97%;

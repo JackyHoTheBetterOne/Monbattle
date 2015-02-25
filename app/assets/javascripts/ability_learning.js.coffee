@@ -14,7 +14,14 @@ $ ->
       document.getElementsByClassName("slot")[0].innerHTML = "Attack"
     else 
       document.getElementsByClassName("slot")[0].innerHTML = "Skill"
-    document.getElementsByClassName("ap-cost")[0].innerHTML = "AP: " + $(this).data("ap")
+    if $(this).data("sign") is "-"
+      document.getElementsByClassName("attack-icon-learn")[0].
+        setAttribute("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/attack-25px.png")
+    else
+      document.getElementsByClassName("attack-icon-learn")[0].
+        setAttribute("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/heal-25px.png")
+    document.getElementsByClassName("ap-cost")[0].innerHTML = $(this).data("ap")
+    document.getElementsByClassName("impact")[0].innerHTML = $(this).data("impact")
     document.getElementsByClassName("detail-description")[0].innerHTML = $(this).data("description")
   $(document).on "click.learning", ".ability-icon", ->
     ability = $(this)
