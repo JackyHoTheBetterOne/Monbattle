@@ -67,7 +67,7 @@ class Battle::Victory
       end
     elsif summoner.beaten_levels.include?(battle_level.name)  
       if battle_level.time_requirement
-        if round_taken < battle_level.time_requirement.to_i
+        if round_taken.to_i < battle_level.time_requirement.to_i
           self.reward = "x" + " " + battle_level.second_clear_reward.to_s
           self.reward_image = battle_level.second_clear_reward_image
         end
