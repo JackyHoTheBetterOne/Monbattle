@@ -85,6 +85,18 @@ $ ->
       }
     ]
   }
+  window.learn_ability_tour = {
+    id: "learn-ability",
+    steps: [
+      {
+        title: "Learn abilities", 
+        content: "To teach this ability, click here!",
+        target: "endgame-link",
+        placement: "top"
+
+      }
+    ]
+  }
   window.enhance_mon_tour = {
     id: "enhance-mon",
     steps: [
@@ -123,9 +135,7 @@ $ ->
     steps: [
       {
         title: "Acension", 
-        content: "Congratulation on unlocking your first ascension! 
-                    Please find the base monster in the Edit Team page 
-                    and learn about its ascension form by clicking on 'Ascend'!",
+        content: "When the base monster is used in battle, you will have a third option to ascend it!",
         target: "mon-nav-tab",
         placement: "bottom"
       }

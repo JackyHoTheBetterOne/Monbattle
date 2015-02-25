@@ -61,7 +61,8 @@
               <%= link_to 'Learn Abilities', learn_ability_path, class: "top-bar learn-abilities" %>
               <%= link_to 'Enhance Mons', enhance_monster_path, class: "top-bar enhance-mons" %>
               <%= link_to "Ascend Mons", ascend_monster_path, class: "top-bar ascend-mons" %>
-              <img alt="Quest arrow" class="mon-dropdown-arrow" src="/assets/quest-arrow.png">
+              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/quest-arrow.png", 
+                class: "mon-dropdown-arrow") %>
             </div>
           </li>
           <li class= "summoner-info pull-right">

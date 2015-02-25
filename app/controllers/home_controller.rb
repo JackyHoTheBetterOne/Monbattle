@@ -176,7 +176,7 @@ class HomeController < ApplicationController
     elsif @notices.count == 0
       @notice = nil
     else 
-      @notice = @notices.last
+      @notice = @notices.first
     end
   end
 
