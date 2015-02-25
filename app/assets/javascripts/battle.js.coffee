@@ -1971,7 +1971,7 @@ $ ->
             nextScene()
   ################################################################################################################ Battle logic
         $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
-        battle.round = 1
+        battle.round = 0
         battle.maxAP = 20
         battle.summonerCooldown = 0
         battle.calculateAP = ->
