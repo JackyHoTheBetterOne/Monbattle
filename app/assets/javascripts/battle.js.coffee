@@ -82,6 +82,11 @@ window.fixEvolMon = (monster, player) ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
+          setTimeout (->
+            if $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").css("display") isnt "none"
+              $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").
+                effect("explode", {pieces: 30}, 1500).hide()
+          ), 400
       ), 1300
       return false
     else
@@ -1552,18 +1557,14 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
               $(".user.mon-slot .img").each ->
                 if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
                   if battle.players[0].mons[$(this).data("index")].isAlive() is false
-                    setTimeout (->
-                      $(this).effect("explode", {pieces: 30}, 1200).hide()
-                    ), 300
+                    $(this).effect("explode", {pieces: 30}, 1200).hide()
                   else
                     $(this).effect "shake", {times: 5, distance: 40}, 750
             else 
               $(".enemy.mon-slot .img").each ->
                 if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
                   if battle.players[1].mons[$(this).data("index")].isAlive() is false
-                    setTimeout (->
-                      $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1200).hide()
-                    ), 300
+                    $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1200).hide()
                   else
                     $(this).effect "shake", {times: 5, distance: 40}, 750
             setTimeout (->
@@ -2410,9 +2411,7 @@ $ ->
                         $(".enemy.mon-slot .img").each ->
                           if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
                             if battle.players[1].mons[$(this).data("index")].isAlive() is false
-                              setTimeout (->
-                                $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1500).hide()
-                              ), 300
+                              $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1500).hide()
                             else
                               $(this).effect "shake", {times: 5, distance: 40}, 750
                         element.toggleClass "ability-on aoePositionFoe"
