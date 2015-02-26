@@ -225,7 +225,7 @@ window.fixEvolMon = (monster, player) ->
             window["change" + index] = a.modifier + window["change" + index]
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
-      if ability.effects.length isnt 0
+      if ability.effects.length isnt 0 ####################################################### Effect activation from ability
         i = 0
         while i < ability.effects.length
           effect = a.effects[i]
@@ -233,7 +233,14 @@ window.fixEvolMon = (monster, player) ->
             when "taunt", "poison-hp", "timed-phy-resist-buff", "timed-phy-resist-debuff"
                   , "timed-spe-resist-buff", "timed-spe-resist-debuff", "shield", "aoe-curse"
                   , "help-curse", "atk-curse"
-              effect.activate abilitytargets
+              real_targets = []
+              i = 0
+              while i < abilitytargets.length
+                if abilitytargets[i].passive
+                  if abilitytargets[i].passive.targeta isnt effect.targeta
+                    real_targets.push(abilitytargets[i])
+                i++
+                effect.activate real_targets
             when "timed-atk-buff"
               teamAttackAbilities = []
               i = 0 

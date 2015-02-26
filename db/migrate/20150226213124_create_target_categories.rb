@@ -1,9 +1,12 @@
 class CreateTargetCategories < ActiveRecord::Migration
   def change
+    drop_table :target_categories
+
     create_table :target_categories do |t|
-      t.string :name
+      t.integer :target_type_id
+      t.integer :target_id
+
       t.timestamps
     end
-    add_column :targets, :target_category_id, :integer
   end
 end
