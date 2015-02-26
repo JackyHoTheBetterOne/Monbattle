@@ -897,7 +897,7 @@ window.outcome = ->
         else if $(".ability-earned").data("type") is "monster"
           sentence = "You have earned " + $(".ability-earned").text() +
                      "! Add it to your team at the " +
-                     "<a href='/home'>Monster Equipping</a>" + " page!"
+                     "<a href='/home'>Edit Team</a>" + " page!"
           newMonsters.push(sentence)
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
