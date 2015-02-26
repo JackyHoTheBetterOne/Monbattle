@@ -1526,11 +1526,11 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
                 if teamIndex is 1
                   setTimeout (->
                     targetMon.effect("explode", {pieces: 30}, 1000).hide()
-                  ), 300
+                  ), 1000
                 else 
                   setTimeout (->
                     targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
-                  ), 300
+                  ), 1000
               else
                 targetMon.effect "shake", times: 10, 750
             element = $(this)
@@ -2130,6 +2130,15 @@ $ ->
         availableAbilities()
         toggleEnemyClick()
         setSummonerAbility()
+        $(".mute-toggle").on "click", ->
+          if $(this).children("img").attr("src") is "https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png"
+            $(".battle-music").prop("muted", false)
+            $(this).children("img").
+              attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/volumn-icon.png")
+          else 
+            $(".battle-music").prop("muted", true)
+            $(this).children("img").
+              attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png")
         $(".concede, .retry").on "click", ->
           $.ajax
             url: "/battles/" + battle.id
@@ -2360,7 +2369,7 @@ $ ->
                         if enemyHurt.isAlive() is false
                           setTimeout (->
                             targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
-                          ), 300
+                          ), 1000
                         else
                           targetMon.effect "shake", times: 10, 750
                       element = $(this)

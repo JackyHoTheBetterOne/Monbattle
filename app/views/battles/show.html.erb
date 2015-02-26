@@ -1,5 +1,5 @@
 <% if @battle.battle_level.music %>
-  <audio controls autoplay loop class="hide">
+  <audio controls autoplay loop class="hide battle-music">
     <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
   </audio>
 <% end %>
@@ -149,6 +149,9 @@
       retry
     </button>
   <% end %>
+  <button class="surrender-button mute-toggle">
+    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/volumn-icon.png") %>
+  </button>
 </div>
 
 
