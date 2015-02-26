@@ -433,7 +433,8 @@ window.fixEvolMon = (monster, player) ->
                 $(".effect").trigger("mouseleave")
                 massRemoveEffectIcon(e)
               ), 1500
-            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
+            impact = Math.round(e.change * fatigue_effect)
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + impact)
             window["change" + monTarget.unidex] = 
               eval(window["change" + monTarget.unidex] + e.modifier + e.change * fatigue_effect)
             window["change" + monTarget.unidex] = Math.round(window["change" + monTarget.unidex])
