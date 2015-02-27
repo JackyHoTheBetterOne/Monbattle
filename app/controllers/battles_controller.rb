@@ -138,6 +138,10 @@ class BattlesController < ApplicationController
   end
 
   def win
+    @summoner = current_user.summoner
+    @summoner.mute = params[:muted]
+    @summoner.save
+
     victory = Battle::Victory.new(summoner: current_user.summoner, 
                                   battle_level: @battle.battle_level,
                                   round_taken: params[:round_taken])
@@ -166,6 +170,10 @@ class BattlesController < ApplicationController
   end
 
   def loss  
+    @summoner = current_user.summoner
+    @summoner.mute = params[:muted]
+    @summoner.save
+    
     if current_user.summoner.played_levels.count == 1
       @first_battle = true
     else
@@ -181,6 +189,8 @@ class BattlesController < ApplicationController
   end
 
   private
+
+
   def generate_enemies
     if current_user.summoner.played_levels.count > 0 
       level = BattleLevel.find(battle_params[:battle_level_id])

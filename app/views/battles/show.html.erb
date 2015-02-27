@@ -1,7 +1,13 @@
 <% if @battle.battle_level.music %>
-  <audio controls autoplay loop class="hide battle-music">
-    <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
-  </audio>
+  <% if current_summoner.mute == false %>
+    <audio controls autoplay loop class="hide battle-music">
+      <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
+    </audio>
+  <% else %>
+    <audio controls autoplay muted loop class="hide battle-music">
+      <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
+    </audio>
+  <% end  %>
 <% end %>
 
 <div id="button-click">
@@ -151,7 +157,11 @@
     </button>
   <% end %>
   <button class="surrender-button mute-toggle">
-    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/volumn-icon.png") %>
+    <% if current_summoner.mute == false %>
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/volumn-icon.png") %>
+    <% else %>
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png") %>
+    <% end %>
   </button>
 </div>
 

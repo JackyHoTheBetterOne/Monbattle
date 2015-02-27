@@ -85,9 +85,13 @@ window.fixEvolMon = (monster, player) ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
           setTimeout (->
             if $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").css("display") isnt "none"
-              $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").
-                effect("explode", {pieces: 30}, 1500).hide()
-          ), 400
+              if monster.team is 0
+                $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").
+                  effect("explode", {pieces: 30}, 1500).hide()
+              else 
+                $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").
+                  css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1500).hide()
+          ), 200
       ), 1300
       return false
     else
@@ -867,11 +871,17 @@ window.checkOutcome = ->
     ), 800
 
 window.outcome = ->
+  muted = undefined
+  if $(".battle-music").prop("muted") is true
+    muted = true
+  else 
+    muted = false
   if battle.players[0].mons.every(isTeamDead) is true
     $(".skip-button").remove()
     $.ajax
       url: "/battles/" + battle.id + "/loss"
       method: "get"
+      data: {"muted": muted}
       success: (response) ->
         $(".message").html(response)
     toggleImg()
@@ -896,7 +906,7 @@ window.outcome = ->
     $.ajax
       url: "/battles/" + battle.id + "/win"
       method: "get"
-      data: {round_taken: parseInt(battle.round)},
+      data: {round_taken: parseInt(battle.round), "muted": muted},
       success: (response) ->
         $(".message").html(response)
         if $(".ability-earned").data("type") is "ability"
@@ -2154,6 +2164,15 @@ $ ->
             $(this).children("img").
               attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png")
         $(".concede, .retry").on "click", ->
+          muted = undefined
+          if $(".battle-music").prop("muted") is true
+            muted = true
+          else 
+            muted = false
+          $.ajax
+            url: "/battles/" + battle.id + "/loss"
+            method: "get"
+            data: {"muted": muted}
           $.ajax
             url: "/battles/" + battle.id
             method: "patch"

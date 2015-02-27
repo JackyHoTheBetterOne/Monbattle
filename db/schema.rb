@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150226235238) do
+ActiveRecord::Schema.define(version: 20150227203015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -370,16 +370,13 @@ ActiveRecord::Schema.define(version: 20150226235238) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
-    t.datetime "avatar_updated_at"
     t.string   "portrait_file_name"
     t.string   "portrait_content_type"
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
     t.integer  "rarity_id"
     t.text     "former_name",           default: ""
+    t.string   "avatar",                default: "https://s3-us-west-2.amazonaws.com/monbattle/mon_skins/Saphira/saphira_idle.svg"
   end
 
   add_index "monster_skins", ["rarity_id"], name: "index_monster_skins_on_rarity_id", using: :btree
@@ -590,6 +587,7 @@ ActiveRecord::Schema.define(version: 20150226235238) do
     t.integer  "exp_to_gain"
     t.integer  "asp",                          default: 0
     t.integer  "enh",                          default: 0
+    t.boolean  "mute",                         default: false
   end
 
   add_index "summoners", ["user_id"], name: "index_summoners_on_user_id", using: :btree
