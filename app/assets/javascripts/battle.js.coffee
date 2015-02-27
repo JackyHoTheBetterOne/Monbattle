@@ -240,8 +240,10 @@ window.fixEvolMon = (monster, player) ->
                 if abilitytargets[i].passive
                   if abilitytargets[i].passive.targeta isnt effect.targeta
                     real_targets.push(abilitytargets[i])
+                else
+                  real_targets.push(abilitytargets[i])
                 i++
-                effect.activate real_targets
+              effect.activate real_targets
             when "timed-atk-buff"
               teamAttackAbilities = []
               i = 0 
