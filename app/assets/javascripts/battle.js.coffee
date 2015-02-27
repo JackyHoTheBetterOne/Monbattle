@@ -3,11 +3,12 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 window.playIt = ->
-  document.getElementById("button-click").innerHTML= "
-      <audio controls autoplay class='hide'>
-        <source src='https://s3-us-west-2.amazonaws.com/monbattle/music/button-press-sound-fx.wav' type='audio/mpeg'>
-      </audio>
-    ";
+  if document.getElementById("button-click")
+    document.getElementById("button-click").innerHTML= "
+        <audio controls autoplay class='hide'>
+          <source src='https://s3-us-west-2.amazonaws.com/monbattle/music/button-press-sound-fx.wav' type='audio/mpeg'>
+        </audio>
+      ";
   return true;
 
 ######################################################################################################## Tutorial helpers
@@ -2139,10 +2140,14 @@ $ ->
         setSummonerAbility()
         $(".mute-toggle").on "click", ->
           if $(this).children("img").attr("src") is "https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png"
+            $(".forest").append("
+              <div id='button-click'></div>
+            ")
             $(".battle-music").prop("muted", false)
             $(this).children("img").
               attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/volumn-icon.png")
           else 
+            $("#button-click").remove()
             $(".battle-music").prop("muted", true)
             $(this).children("img").
               attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png")
