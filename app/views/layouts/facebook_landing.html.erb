@@ -7,7 +7,47 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="forest">
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1514420408809454',
+        xfbml      : true,
+        version    : 'v2.2'
+      });
+      function onLogin(response) {
+        if (response.status == 'connected') {
+          FB.api('/me?fields=first_name', function(data) {
+            var welcomeBlock = document.getElementById('fb-welcome');
+            welcomeBlock.innerHTML = 'Hello, ' + data.first_name + '!';
+          });
+        }
+      }
+
+      FB.getLoginStatus(function(response) {
+        // Check login status on load, and if the user is
+        // already logged in, go directly to the welcome message.
+        if (response.status == 'connected') {
+          onLogin(response);
+        } else {
+          // Otherwise, show Login dialog first.
+          FB.login(function(response) {
+            onLogin(response);
+          }, {scope: 'user_friends, email'});
+        }
+      });
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
+  
   <%= render "battles/single_ability_img" %>
+  <h1 id="fb-welcome" class="hide"></h1>
   <div class="turbolinks-overlay" id="turbolinks-overlay">
     <%= image_tag("loading.gif")%>
   </div>
@@ -29,10 +69,6 @@
           <li class="<%= 'active' if current_page?(home_forum_path) %> pull-right fb-nav forum">
             <%= link_to "Forum", "http://monbattle.boards.net/", class: "fb-nav", :target => '_blank' %>
           </li>
-<!--           <li class="<%= 'active' if current_page?(home_sweet_home_path) || current_page?(root_path) %> 
-              pull-right fb-nav">
-            <%= link_to "News", home_sweet_home_path, class: "fb-nav"%>
-          </li> -->
           <li class="<%= 'active' if current_page?(device_store_path) %> pull-right fb-nav">
             <%= link_to "Shop", device_store_path, class: "fb-nav" %>
           </li>
