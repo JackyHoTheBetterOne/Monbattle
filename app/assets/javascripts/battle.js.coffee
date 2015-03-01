@@ -671,11 +671,13 @@ window.availableAbilities = () ->
     else
       $(this).css("opacity", "0")
   if battle.players[0].ap >= battle.maxAP/2
-    $(".gain-ap").attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/add-member.png")
+    $(".gain-ap").attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/plus-button-v3.svg")
     $(".gain-ap").css("opacity", "1")
     document.getElementById("gain-ap").style.pointerEvents = "auto"
   else 
-    $(".gain-ap").css("opacity", "0.5")
+    setTimeout (->
+      $(".gain-ap").css("opacity", "0")
+    ), 250
     document.getElementById("gain-ap").style.pointerEvents = "none"
 
 window.callAbilityImg = ->

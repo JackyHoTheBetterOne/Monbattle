@@ -89,7 +89,7 @@
   <div class="oracle-skill-panel">
     <p class="oracle-skill-title">Oracle Skill:</p>
     <img src="https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg" 
-          class="oracle-skill-icon" id="oracle-skin-icon">
+      class="oracle-skill-icon" id="oracle-skin-icon" onclick="playIt()">
     <div class="cooldown-box">
       <%= image_tag("clock.png", class: "cooldown-icon") %> 
       <p class="cooldown-count">2</p>
@@ -123,7 +123,7 @@
     <div class="ap-meter" id="ap-meter">
       <%= image_tag("APBar1px.gif", class: "bar", id: "ap-bar-tip") %>
     </div>
-    <%= image_tag("add-member.png", class: "gain-ap", id: "gain-ap", 
+    <%= image_tag("", class: "gain-ap", id: "gain-ap", 
         onclick: "playIt()",
         data: {index: "", apcost: 10, target: "action-point"})  %>
   </div>
