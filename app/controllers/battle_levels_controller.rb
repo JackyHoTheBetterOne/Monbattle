@@ -1,5 +1,6 @@
 class BattleLevelsController < ApplicationController
   before_action :find_battle_level, except: [:index, :create]
+  before_action :set_event_status, only: [:create, :update]
 
   def index
     @battle_levels = policy_scope(BattleLevel.order("name ASC").search(params[:keyword]))
@@ -38,4 +39,16 @@ private
     @battle_level = BattleLevel.find params[:id]
   end
 
+  def set_event_status
+    if @battle_level.area.start_date != nil
+      @battle_level.event = true
+      @battle_level.save
+    end
+  end
 end
+
+
+
+
+
+

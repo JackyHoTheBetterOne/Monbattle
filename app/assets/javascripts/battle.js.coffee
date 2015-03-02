@@ -661,9 +661,15 @@ window.availableAbilities = () ->
     if $(this).css("opacity") isnt "0"
       if $(this).data("apcost") > battle.players[0].ap
         $(button).css("opacity", "0.5")
+        if $(button).data("target") is "evolve"
+          $(button).children(".but-image").
+            attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend_idle.svg")
       else 
         $(button).css("opacity", "1")
         $(button).parent().parent().children(".availability-arrow").data("available", "true")
+        if $(button).data("target") is "evolve"
+          $(button).children(".but-image").
+            attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend_turning.svg")
   $(".availability-arrow").each ->
     if $(this).data("available") is "true"
       $(this).css("opacity", "1")

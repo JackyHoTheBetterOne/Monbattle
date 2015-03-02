@@ -131,7 +131,7 @@ class User::RollTreasure
           elsif roll_type == "ascension"
             @latest_abil_array = Ability.ascension.can_win("latest").pluck(:id)
           end
-          chance = @latest_chance
+          chance = @latest_chance * @latest_abil_array.count
           ability_roll = Random.new.rand(1..1000)
           if (1..chance).include?(ability_roll)
             @rarity = "latest"
@@ -161,7 +161,7 @@ class User::RollTreasure
 
         if @rarity == "common"
           @latest_mon_array = Monster.can_win("latest").pluck(:id)
-          chance = @latest_chance
+          chance = @latest_chance * @latest_mon_array.count
           monster_roll = Random.new.rand(1..1000)
           if (1..chance).include?(monster_roll)
             @rarity = "latest"

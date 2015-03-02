@@ -2,6 +2,13 @@ $ ->
   $(document).off "click.ascension"
   $(document).off "mouseover.ascend-passive"
   $(document).off "mouseleave.ascend-passive"
+  $(".ascend-info-icon").on("mouseover", ->
+    $(".ascend-explanation").css("z-index", "1000").css("opacity", "1")
+  ).on "mouseleave", ->
+    $(".ascend-explanation").css("opacity", "0")
+    setTimeout (->
+      $(".ascend-explanation").css("opacity", "0")
+    ), 350
   $(document).on "click.ascension", ".unlock-ascension-but", (event) ->
     cost = parseInt(document.getElementsByClassName("material-box")[0].
                       getAttribute("data-aspcost"))

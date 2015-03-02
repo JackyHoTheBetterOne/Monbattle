@@ -1,0 +1,17 @@
+<div class="jumbotron">
+  <h1>This is where the events are crafted!</h1>
+  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default cut-scene-form-unfold">
+    Special Area form
+  </a>
+  <p></p>
+  <div id="collapseOne" class="panel-collapse collapse">
+    <%= simple_form_for(Area.new, method: :post) do |f| %>
+      <%= render partial: "form", locals: {f: f} %>
+    <% end %>
+  </div>
+  <p></p>
+</div>
+<p></p>
+<div class="areas">
+  <%= render @areas %>
+</div>

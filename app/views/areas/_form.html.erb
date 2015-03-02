@@ -1,0 +1,10 @@
+<%= f.input :name %>
+<%= f.input :order %>
+<%= f.association :unlocked_by %>
+<%= f.input :banner %>
+<%= f.label :start_date %>
+<%= f.datetime_select :start_date %>
+<%= f.label :end_date %>
+<%= f.datetime_select :end_date %>
+<p></p>
+<%= f.button :submit %>

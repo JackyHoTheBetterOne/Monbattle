@@ -13,7 +13,19 @@ class Area < ActiveRecord::Base
   }
 
   def region_name
-    self.region.name
+    if self.region
+      self.region.name
+    else
+      ""
+    end
+  end
+
+  def unlock
+    if unlocked_by
+      Area.find(self.unlocked_by).name
+    else
+      ""
+    end
   end
 
   def self.unlocked_areas(beaten_areas)

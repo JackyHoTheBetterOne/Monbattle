@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150227203015) do
+ActiveRecord::Schema.define(version: 20150302214144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,6 +117,9 @@ ActiveRecord::Schema.define(version: 20150227203015) do
     t.integer  "region_id"
     t.text     "keywords"
     t.integer  "order"
+    t.string   "banner"
+    t.datetime "start_date"
+    t.datetime "end_date"
   end
 
   add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
@@ -141,7 +144,7 @@ ActiveRecord::Schema.define(version: 20150227203015) do
     t.text     "keywords"
     t.text     "description"
     t.text     "victory_message"
-    t.text     "ability_reward",   default: [], array: true
+    t.text     "ability_reward",   default: [],    array: true
     t.integer  "stamina_cost",     default: 0
     t.string   "background"
     t.string   "music"
@@ -149,6 +152,7 @@ ActiveRecord::Schema.define(version: 20150227203015) do
     t.integer  "asp_reward",       default: 0
     t.integer  "enh_reward",       default: 0
     t.integer  "order"
+    t.boolean  "event",            default: false
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
