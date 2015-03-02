@@ -42,7 +42,7 @@ resources :abilities, except: [:destroy]
 resources :ability_purchases, only: [:create, :update]
 
 root 'home#facebook'
-post "/facebook" => "users/omniauth_callbacks#facebook"
+post "/facebook" => "users/omniauth_callbacks#(?-mix:facebook)"
 get "/cannot" => "home#illegal_access", as: :illegal
 get "/home" => "home#index", as: :battle_preparation
 get "/store" => "home#store", as: :device_store
