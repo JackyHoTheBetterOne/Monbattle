@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 window.playIt = ->
-  if document.getElementById("button-click")
+  if $(".battle-music").prop("muted") is false
     document.getElementById("button-click").innerHTML= "
         <audio controls autoplay class='hide'>
           <source src='https://s3-us-west-2.amazonaws.com/monbattle/music/button-press-sound-fx.wav' type='audio/mpeg'>
@@ -647,8 +647,6 @@ window.setFatigue = ->
     i++
 
 window.availableAbilities = () ->
-  $(".availability-arrow").each ->
-    $(this).data("available", "false")
   if $(".oracle-skill-icon").data("apcost") > battle.players[0].ap or battle.summonerCooldown isnt 0
     $(".oracle-skill-icon").css("opacity", "0.5")
     $(".oracle-skill-icon").css("cursor", "default")
@@ -659,6 +657,7 @@ window.availableAbilities = () ->
     document.getElementsByClassName("oracle-skill-icon")[0].style.pointerEvents = "auto"
   $(".monBut button").each ->
     button = $(this)
+    $(button).parent().parent().children(".availability-arrow").data("available", "true")
     if $(this).css("opacity") isnt "0"
       if $(this).data("apcost") > battle.players[0].ap
         $(button).css("opacity", "0.5")
@@ -1774,8 +1773,10 @@ window.ai = ->
         ), 500
         setTimeout (->
           availableAbilities()
-          availableAbilities()
         ), 700
+        setTimeout (->
+          availableAbilities()
+        ), 1000
       ), timeout
   ), timerRound
 
@@ -2411,9 +2412,9 @@ $ ->
                       setTimeout (->
                         element.toggleClass "ability-on"
                         element.attr("src", "")
-                        singleTargetAbilityAfterActionDisplay()
                         showDamageTeam(0)
                         showDamageTeam(1)
+                        singleTargetAbilityAfterActionDisplay()
                         toggleEnemyClick()
                         return
                       ), 1200

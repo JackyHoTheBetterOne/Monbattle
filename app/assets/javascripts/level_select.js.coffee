@@ -87,8 +87,8 @@ $ ->
         $(this).children(".stage-stars").data("firstclearreward")
     document.getElementsByClassName("reward-image")[1].src = 
       $(this).children(".stage-stars").data("secondclearimage")
-    document.getElementsByClassName("reward-count")[1].innerHTML = 
-      "x" + " " + $(this).children(".stage-stars").data("secondclearreward")
+    document.getElementsByClassName("reward-count")[1].innerHTML = "x ?"
+      # "x" + " " + $(this).children(".stage-stars").data("secondclearreward")
     document.getElementsByClassName("objective-desc")[1].innerHTML = 
       "Complete the level under " + $(this).children(".stage-stars").data("requirement") + " rounds"
   ).on "mouseleave.challenge", ".pick-level", ->
