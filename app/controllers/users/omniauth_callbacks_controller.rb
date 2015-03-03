@@ -13,7 +13,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       end
     else
       session["devise.facebook_data"] = request.env["omniauth.auth"]
-      render nothing: true
+      redirect_to new_user_registration_url
     end
   end
 
