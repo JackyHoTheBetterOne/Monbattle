@@ -49,6 +49,13 @@
   position: relative;
   top: 0px;
   left: 0px;
+  .store-warning {
+    position: absolute;
+    height: 18px;
+    left: 503px;
+    top: 23px;
+    z-index: 100;
+  };
 };
 
 .mon-front {
