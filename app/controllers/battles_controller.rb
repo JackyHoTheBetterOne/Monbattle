@@ -35,6 +35,15 @@ class BattlesController < ApplicationController
     @monsters = new_battle.monsters
     @summoner = current_user.summoner if current_user
 
+    if params[:event]
+      @is_event = true
+    else 
+      @is_event = false
+    end
+
+    @event_areas = Area.where("start_date IS NOT NULL")
+
+
     @recently_unlocked_level = @summoner.recently_unlocked_level
     unlock_message(@summoner)
 

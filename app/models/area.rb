@@ -28,6 +28,29 @@ class Area < ActiveRecord::Base
     end
   end
 
+  def time_left
+    if self.start_date
+      date = {}
+      general_days = (self.end_date - self.start_date)/60/60/24
+      days = general_days.floor
+      hours = ((general_days - days)*24).floor
+
+      date["days"] = days
+      date["hours"] = hours
+
+      return date
+
+    else
+      return ""
+    end
+  end
+
+
+
+
+
+
+
   def self.unlocked_areas(beaten_areas)
     available_areas = []
     if self != []
@@ -41,6 +64,7 @@ class Area < ActiveRecord::Base
     end
     return available_areas
   end
+
 
   private
 

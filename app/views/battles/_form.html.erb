@@ -1,10 +1,28 @@
-<div class="battle_level" data-newlevel= "<%= @recently_unlocked_level %>" >
-  <% @areas.each do |a| %>
-    <%= link_to a.name, new_battle_path(level_filter: a.name), remote: true, 
-        class: "btn btn-primary map-level #{a.region_name}", id: a.name.delete(" ") %>
-  <% end %>
-  <%= image_tag(@map_url, class: "map-image", data: {region: @current_region}) %>
-</div>
+<% if @is_event == false %>
+  <div class="battle_level" data-newlevel= "<%= @recently_unlocked_level %>" >
+    <% @areas.each do |a| %>
+      <%= link_to a.name, new_battle_path(level_filter: a.name), remote: true, 
+          class: "btn btn-primary map-level #{a.region_name}", id: a.name.delete(" ") %>
+    <% end %>
+    <%= image_tag(@map_url, class: "map-image", data: {region: @current_region}) %>
+  </div>
+<% else %>
+  <div class="battle_level" data-newlevel= "<%= @recently_unlocked_level %>" >
+    <% @event_areas.each do |a| %>
+      <% html = "
+            <img src='#{a.banner}' class='event-banner'>
+            <p class='time-left'> #{a.time_left['days']} days #{a.time_left['hours']} hours left</p>
+            <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/clock.png' class='time-icon'>
+          " %>
+      <%=
+        link_to html.html_safe,
+
+        new_battle_path(level_filter: a.name, event: true), remote: true, 
+        class: 'event-panel', id: a.name.delete(" ")
+      %>
+    <% end %>
+  </div>
+<% end %>
 
 <div class="stage-challenge-description">
   <div class="title">

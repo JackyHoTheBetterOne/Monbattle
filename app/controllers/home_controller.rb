@@ -184,6 +184,21 @@ class HomeController < ApplicationController
   end
 
 
+  def event_levels
+    @areas = Area.where("start_date IS NOT NULL")
+    @events = []
+
+    @areas.each do |a|
+      @events << a if a.end_date >= Time.now && a.start_date <= Time.now
+    end
+
+    respond_to do |format|
+      format.json {render json: @events}
+    end
+  end
+
+
+
 ####################################################################### Tracking
   def track_currency_pick
     session_id = request.session_options[:id]
