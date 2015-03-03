@@ -28,7 +28,7 @@ $ ->
                id='#{normal_name}'>
 
                 <img src='#{banner}' class='event-banner'>
-                <p class='time-left'>#{days} days #{hours} hours left</p>
+                <p class='time-left'>#{days} d #{hours} h left</p>
 
                 <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/clock.png' class='time-icon'>
 

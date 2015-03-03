@@ -11,7 +11,7 @@
     <% @event_areas.each do |a| %>
       <% html = "
             <img src='#{a.banner}' class='event-banner'>
-            <p class='time-left'> #{a.time_left['days']} days #{a.time_left['hours']} hours left</p>
+            <p class='time-left'> #{a.time_left['days']} d #{a.time_left['hours']} h left</p>
             <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/clock.png' class='time-icon'>
           " %>
       <%=
