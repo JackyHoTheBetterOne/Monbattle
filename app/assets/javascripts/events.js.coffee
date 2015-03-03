@@ -37,7 +37,16 @@ $ ->
             i++
           map.style["opacity"] = 1
         ), 400
+        setTimeout (->
+          $(".event-panel")[0].click()
+        ), 800
 
 
 # <a class="btn btn-primary map-level Forest of Solitude" data-remote="true" 
 #   href="/battles/new?level_filter=Area+B" id="AreaB">Area B</a>
+
+
+
+
+
+

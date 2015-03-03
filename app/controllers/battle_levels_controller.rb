@@ -40,7 +40,7 @@ private
   end
 
   def set_event_status
-    if @battle_level.area.start_date != nil
+    if @battle_level.area.start_date != nil && @battle_level.event == false
       @battle_level.event = true
       @battle_level.save
     end

@@ -146,21 +146,34 @@
     };
 
     .material-desc {
+      @include stroke();
       position: absolute;
-      top: 120px;
+      top: -3px;
       left: 10px;
-      color: black;
+      color: white;
     };
 
+    .material-outer-box {
+      position: absolute;
+      height: 115px;
+      width: 450px;
+      background: #4a148c;
+      top: 125px;
+      left: 7px;
+      border-radius: 5px;
+      border: 2px solid black;
+    };
+
+
     .material-box {
-      background: #4B4B4B;
-      height: 80px;
-      width: 96%;
+      background: black;
+      height: 75px;
+      width: 440px;
       border-radius: 5px;
       position: absolute;
-      left: 9px;
-      top: 155px;
-      color: black;
+      left: 3px;
+      top: 33px;
+      color: white !important;
       .material-icon {
         position: relative;
         left: 10px;
@@ -175,11 +188,12 @@
       };
     };
 
-    .ascension-desc {
+    .ascension-outer-box .ascension-desc {
       position: absolute;
-      top: 240px;
+      top: -6px;
       left: 10px;
-      color: black;
+      color: white;
+      @include stroke();
     };
 
     .unlock-ascension-but, .red-light-ascension, .enhance-monster-but {
@@ -215,17 +229,29 @@
       box-shadow: 1px -1px 11px #FFFF00;
     };
 
-    .ascension-box {
-      background: #4B4B4B;
-      height: 100px;
-      width: 96%;
+    .ascension-outer-box {
       position: absolute;
-      top: 272px;
-      left: 10px;
+      height: 135px;
+      width: 450px;
+      background: #1565C0;
+      bottom: 54px;
+      left: 8px;
+      border: 2px solid black;
+      border-radius: 5px;
+    };
+
+
+    .ascension-box {
+      background: black;
+      height: 100px;
+      width: 98%;
+      position: absolute;
+      top: 26px;
+      left: 4px;
       border-radius: 5px;
       span {
         position: absolute;
-        color: black;
+        color: white;
         left: 116px;
         font-size: 120%;
       };

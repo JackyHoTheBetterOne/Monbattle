@@ -185,7 +185,7 @@ class HomeController < ApplicationController
 
 
   def event_levels
-    @areas = Area.where("start_date IS NOT NULL")
+    @areas = Area.where("start_date IS NOT NULL").order(:end_date)
     @events = []
 
     @areas.each do |a|

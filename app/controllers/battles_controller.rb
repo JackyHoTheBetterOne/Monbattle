@@ -41,7 +41,7 @@ class BattlesController < ApplicationController
       @is_event = false
     end
 
-    @event_areas = Area.where("start_date IS NOT NULL")
+    @event_areas = Area.where("start_date IS NOT NULL").order(:end_date)
 
 
     @recently_unlocked_level = @summoner.recently_unlocked_level
