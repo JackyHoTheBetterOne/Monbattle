@@ -35,9 +35,9 @@
 <p class="dam"><p>
 
 <% if party.npc == false %>
-  <div class="fatigue-level" id="fatigue<%= party.mon_dex(mon) %>">
+  <div class="fatigue-level">
     <p>Fatigue</p> &nbsp
-    <div class="faitgue-bar">
+    <div class="faitgue-bar" id="fatigue<%= party.mon_dex(mon) %>">
       <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/Yellow-Ap-1px.gif",
             class: "faitgue-bar-for-real") %>
     </div>
