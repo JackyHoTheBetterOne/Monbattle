@@ -22,6 +22,8 @@ $ ->
       store.style["opacity"] = "0"
       setTimeout (->
         store.style["z-index"] = "-1"
+        confirmation.style["z-index"] = "-1"
+        confirmation.style["opacity"] = "0"
       ), 350
     $(".oh.yes").on "click.proceed", ->
       confirmation.style["opacity"] = "0"
