@@ -2,13 +2,20 @@ $ ->
   $(document).off "click.ascension"
   $(document).off "mouseover.ascend-passive"
   $(document).off "mouseleave.ascend-passive"
+  $(".ascend-info-icon").on("mouseover", ->
+    $(".ascend-explanation").css("z-index", "1000").css("opacity", "1")
+  ).on "mouseleave", ->
+    $(".ascend-explanation").css("opacity", "0")
+    setTimeout (->
+      $(".ascend-explanation").css("opacity", "0")
+    ), 350
   $(document).on "click.ascension", ".unlock-ascension-but", (event) ->
     cost = parseInt(document.getElementsByClassName("material-box")[0].
                       getAttribute("data-aspcost"))
     existing = parseInt(document.getElementsByClassName("material-box")[0].
                         getAttribute("data-asp"))
     name = document.getElementsByClassName("material-box")[0].getAttribute("data-name")
-    baby_name = document.getElementsByClassName("baby-name")[0].innerHTML
+    baby_name = document.getElementsByClassName("baby-name")[0].innerHTML.replace(" ","")
     element = $(this)
     if existing >= cost 
       document.getElementsByClassName("ascend-overlay")[0].style["z-index"] = "10000"
@@ -16,7 +23,10 @@ $ ->
       setTimeout (->
         document.getElementsByClassName("ascend-face")[0].className += " ascension-unlocked"
         document.getElementById("ascension-name").innerHTML = name.toString()
-        $("#" + baby_name).remove()
+        $("#" + baby_name).css("opacity", "0")
+        setTimeout (->
+          $("#" + baby_name).remove()
+        ), 500
       ), 400
       setTimeout (->
         document.getElementsByClassName("unlock-message")[0].style["opacity"] = "1"
@@ -31,7 +41,9 @@ $ ->
       ), 3200
       setTimeout (->
         if document.getElementsByClassName("ascending")[0].getAttribute("data-firsttime") is "true"
-          hopscotch.startTour(ascension_tour)
+          setTimeout (->
+            hopscotch.startTour(ascension_tour)
+          ), 500
       ), 4000
     else
       event.preventDefault()

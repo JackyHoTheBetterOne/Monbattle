@@ -176,12 +176,27 @@ class HomeController < ApplicationController
     elsif @notices.count == 0
       @notice = nil
     else 
-      @notice = @notices.last
+      @notice = @notices.first
     end
   end
 
   def illegal_access
   end
+
+
+  def event_levels
+    @areas = Area.where("start_date IS NOT NULL").order(:end_date)
+    @events = []
+
+    @areas.each do |a|
+      @events << a if a.end_date >= Time.now && a.start_date <= Time.now
+    end
+
+    respond_to do |format|
+      format.json {render json: @events}
+    end
+  end
+
 
 
 ####################################################################### Tracking

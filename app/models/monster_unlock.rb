@@ -276,7 +276,8 @@ class MonsterUnlock < ActiveRecord::Base
                          modifier:    ability.modifier,
                          img:         ability.img,
                          slot:        ability.slot,
-                         effects:     effect_array
+                         effects:     effect_array,
+                         rarita:      ability.rarita
                         }
 
         ability.effects.each do |effect|
@@ -286,7 +287,10 @@ class MonsterUnlock < ActiveRecord::Base
                           targeta:     effect.targeta,
                           change:      effect.change,
                           modifier:    effect.modifier,
-                          duration:    effect.duration
+                          duration:    effect.duration,
+                          img:         effect.img,
+                          restore:     effect.restore,
+                          description: effect.description
                         }
           effect_array.push(effect_hash)
         end

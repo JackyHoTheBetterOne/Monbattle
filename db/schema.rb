@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224214036) do
+ActiveRecord::Schema.define(version: 20150303224212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,6 +117,9 @@ ActiveRecord::Schema.define(version: 20150224214036) do
     t.integer  "region_id"
     t.text     "keywords"
     t.integer  "order"
+    t.string   "banner"
+    t.datetime "start_date"
+    t.datetime "end_date"
   end
 
   add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
@@ -133,22 +136,20 @@ ActiveRecord::Schema.define(version: 20150224214036) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.integer  "mp_reward",        default: 0
-    t.integer  "gp_reward",        default: 0
-    t.integer  "vk_reward",        default: 0
     t.integer  "unlocked_by_id"
     t.integer  "area_id"
     t.text     "keywords"
     t.text     "description"
     t.text     "victory_message"
-    t.text     "ability_reward",   default: [], array: true
+    t.text     "ability_reward",   default: [],    array: true
     t.integer  "stamina_cost",     default: 0
     t.string   "background"
     t.string   "music"
     t.integer  "time_requirement"
-    t.integer  "asp_reward",       default: 0
-    t.integer  "enh_reward",       default: 0
     t.integer  "order"
+    t.boolean  "event",            default: false
+    t.text     "time_reward",      default: [],    array: true
+    t.text     "pity_reward",      default: [],    array: true
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
@@ -171,6 +172,7 @@ ActiveRecord::Schema.define(version: 20150224214036) do
     t.integer  "time_taken"
     t.boolean  "admin",               default: false
     t.string   "session_id"
+    t.integer  "reward_num",          default: 0
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree
@@ -370,16 +372,13 @@ ActiveRecord::Schema.define(version: 20150224214036) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
-    t.datetime "avatar_updated_at"
     t.string   "portrait_file_name"
     t.string   "portrait_content_type"
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
     t.integer  "rarity_id"
     t.text     "former_name",           default: ""
+    t.string   "avatar",                default: "https://s3-us-west-2.amazonaws.com/monbattle/mon_skins/Saphira/saphira_idle.svg"
   end
 
   add_index "monster_skins", ["rarity_id"], name: "index_monster_skins_on_rarity_id", using: :btree
@@ -590,11 +589,19 @@ ActiveRecord::Schema.define(version: 20150224214036) do
     t.integer  "exp_to_gain"
     t.integer  "asp",                          default: 0
     t.integer  "enh",                          default: 0
+    t.boolean  "mute",                         default: false
   end
 
   add_index "summoners", ["user_id"], name: "index_summoners_on_user_id", using: :btree
 
   create_table "target_categories", force: true do |t|
+    t.integer  "target_type_id"
+    t.integer  "target_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "target_types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -604,7 +611,6 @@ ActiveRecord::Schema.define(version: 20150224214036) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.integer  "target_category_id"
   end
 
   create_table "thoughts", force: true do |t|

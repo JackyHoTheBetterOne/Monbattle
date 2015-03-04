@@ -1,0 +1,29 @@
+<div class="panel panel-primary" id="<%= dom_id(area)%>">
+  <div class="panel-heading">
+    <%= area.name %>
+    <br />
+    Unlocked by: <%= area.unlock %>
+    <br />
+    Start Date: <%= area.start_date.in_time_zone('Pacific Time (US & Canada)') %>
+    <br />
+    End Date: <%= area.end_date.in_time_zone('Pacific Time (US & Canada)') %>
+  </div>
+  <div class="panel-body">
+    <%= image_tag(area.banner, size: "300x150") %>
+  </div>
+  <div class="panel-footer">
+    <a data-toggle="collapse" data-parent="#accordion" 
+      href="#<%= dom_id(area) %>-edit" 
+      class="btn btn-default <%= dom_id(area) %>-edit">
+      Edit
+    </a>
+    <%= link_to "Destroy", area, method: :delete, class: "btn btn-danger" %>
+  </div>
+  <div class="panel-footer">
+    <div id="<%= dom_id(area) %>-edit" class="panel-collapse collapse">
+      <%= simple_form_for(area, method: :patch) do |f| %>
+        <%= render partial: "form", locals: {f: f} %>
+      <% end %>
+    </div>
+  </div>
+</div>

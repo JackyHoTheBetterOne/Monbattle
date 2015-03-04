@@ -1,3 +1,10 @@
 class TargetCategory < ActiveRecord::Base
-  has_many :targets
+  belongs_to :target
+  belongs_to :target_type
+
+
+
+
+
+
 end

@@ -4,7 +4,11 @@ resources :notices
 
 resources :areas
 
-resources :regions
+resources :regions do 
+  resources :areas
+end
+
+
 
 resources :quests
 
@@ -38,9 +42,9 @@ resources :abilities, except: [:destroy]
 resources :ability_purchases, only: [:create, :update]
 
 root 'home#facebook'
-post "/facebook" => "home#facebook"
 get "/cannot" => "home#illegal_access", as: :illegal
 get "/home" => "home#index", as: :battle_preparation
+post "/facebook" => "home#facebook"
 get "/store" => "home#store", as: :device_store
 get "/landing" => "home#facebook", as: :home_sweet_home
 get "/forum" => "home#forum", as: :home_forum
@@ -54,7 +58,8 @@ get 'ascend_monster' => 'home#ascend_monster', as: :ascend_monster
 post 'unlock_ascension' => 'home#unlock_ascension', as: :unlock_ascension
 get 'enhance_monster' => 'home#enhance_monster', as: :enhance_monster
 post 'track_currency_pick' => "home#track_currency_pick"
-post 'track_currency_purchase' => "home#track_currency_purchase"           
+post 'track_currency_purchase' => "home#track_currency_purchase"      
+get 'event_areas' => 'home#event_levels'
 
 
 

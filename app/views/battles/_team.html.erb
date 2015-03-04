@@ -13,8 +13,10 @@
       <%= image_tag("ability_but.png", size: "40x40", class: "but-image") %>
     </button>
     <% if mon.unlocked_evolves.exists? %>
-      <button class="action evolve" data-apcost = "<%= mon.unlocked_evolves[0].ap_cost %>" data-target = "evolve" onclick="playIt()" >
-        <%= image_tag("change_but.png", size: "40x40", class: "but-image") %>
+      <button class="action evolve" data-apcost = "<%= mon.unlocked_evolves[0].ap_cost %>" 
+        data-target = "evolve" onclick="playIt()" >
+        <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/ascend_idle.svg", 
+                        size: "40x40", class: "but-image") %>
       </button>
     <% end %>
   </div>

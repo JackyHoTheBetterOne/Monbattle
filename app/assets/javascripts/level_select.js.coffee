@@ -28,7 +28,9 @@ $ ->
     $(".level-description").fadeOut(300)
     setTimeout (->
       $(".level-description").fadeIn(300)
-      document.getElementsByClassName("map-level")[area_index].className += " current-area"
+      setTimeout (->
+        document.getElementsByClassName("map-level")[area_index].className += " current-area"
+      ), 300
       id = document.getElementsByClassName("party_edit_button")[0].
             getAttribute("data-latest-level")
       if document.getElementById(id)
@@ -49,8 +51,8 @@ $ ->
     ), 400
     setTimeout (->
       index = document.getElementsByClassName("map-level").length-1
-      document.getElementsByClassName("map-level")[index].className += " current-area"
-    ), 800
+      document.getElementsByClassName("map-level")[0].className += " current-area"
+    ), 1000
     index = $(".region-select").index($(this))
     i = 0
     while i < document.getElementsByClassName("region-select").length
@@ -85,8 +87,8 @@ $ ->
         $(this).children(".stage-stars").data("firstclearreward")
     document.getElementsByClassName("reward-image")[1].src = 
       $(this).children(".stage-stars").data("secondclearimage")
-    document.getElementsByClassName("reward-count")[1].innerHTML = 
-      "x" + " " + $(this).children(".stage-stars").data("secondclearreward")
+    document.getElementsByClassName("reward-count")[1].innerHTML = "x ?"
+      # "x" + " " + $(this).children(".stage-stars").data("secondclearreward")
     document.getElementsByClassName("objective-desc")[1].innerHTML = 
       "Complete the level under " + $(this).children(".stage-stars").data("requirement") + " rounds"
   ).on "mouseleave.challenge", ".pick-level", ->

@@ -2,6 +2,7 @@ class Battle::Victory
   include Virtus.model
 
   attribute :battle_level, BattleLevel
+  attribute :battle, Battle
   attribute :summoner, Summoner
   attribute :ability, Ability
   attribute :monster, Monster
@@ -13,6 +14,7 @@ class Battle::Victory
   attribute :slot
   attribute :class_list
   attribute :level_cleared
+  attribute :reward_num
 
   attribute :level_up
   attribute :new_level
@@ -26,6 +28,21 @@ class Battle::Victory
     self.monster = nil
     self.reward = nil
     @user = summoner.user
+
+    self.reward_num = 0
+
+    if round_taken.to_i >= battle_level.time_requirement.to_i
+      self.reward_num = rand(battle_level.pity_reward[1].to_i..battle_level.pity_reward[2].to_i) if battle_level.
+        pity_reward.length > 0 
+    else
+      self.reward_num = rand(battle_level.time_reward[1].to_i..battle_level.time_reward[2].to_i) if battle_level.
+        time_reward.length > 0
+    end
+
+    @battle = self.battle
+    @battle.reward_num = self.reward_num
+    @battle.save
+
 
     if summoner.beaten_levels.include? battle_level.name
       self.first_cleared = false
@@ -67,10 +84,12 @@ class Battle::Victory
       end
     elsif summoner.beaten_levels.include?(battle_level.name)  
       if battle_level.time_requirement
+        self.reward = "x" + " " + self.reward_num.to_s
         if round_taken.to_i < battle_level.time_requirement.to_i
-          self.reward = "x" + " " + battle_level.second_clear_reward.to_s
           self.reward_image = battle_level.second_clear_reward_image
-        end
+        else
+          self.reward_image = battle_level.pity_reward_image
+        end 
       end
     end
 

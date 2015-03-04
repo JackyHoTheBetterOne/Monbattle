@@ -1,11 +1,18 @@
 <% if @battle.battle_level.music %>
-  <audio controls autoplay loop class="hide">
-    <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
-  </audio>
+  <% if current_summoner.mute == false %>
+    <audio controls autoplay loop class="hide battle-music">
+      <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
+    </audio>
+  <% else %>
+    <audio controls autoplay muted loop class="hide battle-music">
+      <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
+    </audio>
+  <% end  %>
 <% end %>
 
 <div id="button-click">
 </div>
+
 
 <div id="overlay">
   <div class="message">
@@ -56,7 +63,7 @@
     </div>
     <div class="bonus-description">
       Win the battle under <%= @battle.battle_level.time_requirement %> rounds 
-          and get the currency reward
+          and get the big reward
     </div>
   <% elsif @twice_cleared %>
     <div class="battle-round-countdown" id="battle-round-countdown">
@@ -83,7 +90,7 @@
   <div class="oracle-skill-panel">
     <p class="oracle-skill-title">Oracle Skill:</p>
     <img src="https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg" 
-          class="oracle-skill-icon" id="oracle-skin-icon">
+      class="oracle-skill-icon" id="oracle-skin-icon" onclick="playIt()">
     <div class="cooldown-box">
       <%= image_tag("clock.png", class: "cooldown-icon") %> 
       <p class="cooldown-count">2</p>
@@ -117,7 +124,8 @@
     <div class="ap-meter" id="ap-meter">
       <%= image_tag("APBar1px.gif", class: "bar", id: "ap-bar-tip") %>
     </div>
-    <%= image_tag("add-member.png", class: "gain-ap", id: "gain-ap", onclick: "playIt()",
+    <%= image_tag("", class: "gain-ap", id: "gain-ap", 
+        onclick: "playIt()",
         data: {index: "", apcost: 10, target: "action-point"})  %>
   </div>
 
@@ -126,13 +134,13 @@
   </div>
 
   <button class="end-turn" id="end-turn-tip" onclick="playIt()">End Turn</button>
-</div>
-
-<div class="effect-info panel panel-default">
-  <div class="panel-body">
-    <p>Effect description</p>
+  
+  <div class="effect-info panel panel-default">
+    <div class="panel-body">
+      <p>Effect description</p>
+    </div>
+    <div class="panel-heading">Effect name</div>
   </div>
-  <div class="panel-heading">Effect name</div>
 </div>
 
 
@@ -149,12 +157,17 @@
       retry
     </button>
   <% end %>
+  <button class="surrender-button mute-toggle">
+    <% if current_summoner.mute == false %>
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/volumn-icon.png") %>
+    <% else %>
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png") %>
+    <% end %>
+  </button>
 </div>
 
 
 <div id="embed"></div>
-
-<%= javascript_include_tag "hopscotch" %>
 
 
 

@@ -3,6 +3,9 @@ body.forest {
   -moz-user-select: -moz-none;
   -ms-user-select: none;
   user-select: none;
+  height: 700px !important;
+  position:fixed;
+  overflow:hidden;
 };
 
 
@@ -85,19 +88,21 @@ h1, h3, h2, h4 {
 
 .turbolinks-overlay {
   position: absolute;
-  height: 700px;
-  width: 1100px;
+  height: 100%;
+  width: 1000px;
   background: #000000;
   border-radius: 5px;
   transition: opacity 0.05;
   right: 0px;
   left: 0px;
   margin: 93px auto;
+  margin-bottom: 0px;
   img {
     position: fixed;
     left: 0px;
     right: 0px;
     margin: 12.5% auto;
+    margin-bottom: 0px;
     height: 200px;
     width: 200px;
   };

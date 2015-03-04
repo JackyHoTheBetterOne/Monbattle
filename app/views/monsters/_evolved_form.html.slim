@@ -12,7 +12,7 @@
             h3 ="*** Cannot change what monster, this monster is evolved from. Further Evolutions are using this monster! ***"
             =f.hidden_field :evolved_from_id, value: @monster.evolved_from_id
           -else
-            .form-control =f.collection_select :evolved_from_id, @base_monsters, :id, :name
+            .form-control =f.collection_select :evolved_from_id, Monster.joins(:job).where("jobs.name NOT LIKE ?", "%NPC%").base_mon, :id, :name
           h4=f.label "The job of this evolved state"
           .form-control =f.collection_select :job_id, @jobs.where(evolve_lvl: "1"), :id, :name
 

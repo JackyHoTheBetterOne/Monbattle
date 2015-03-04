@@ -21,8 +21,11 @@
   <% end %>
   <%= link_to image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/next.png", class: "next-but"), 
       new_battle_path, class: "end-battle-but level-select-but battle-fin" %>
-  <% if @victory.reward_category == "ability" || @victory.reward_category == "monster" %>
-    <%= link_to "Equip Ability", home_index_path, 
+  <% if  @victory.reward_category == "monster" %>
+    <%= link_to "Edit team", home_index_path, 
+        class: "end-battle-but ability-equip battle-fin", id: "endgame-link" %>
+  <% elsif @victory.reward_category == "ability" %>
+    <%= link_to "Learn Ability", learn_ability_path, 
         class: "end-battle-but ability-equip battle-fin", id: "endgame-link" %>
   <% elsif @victory.reward_category == "enhance" %>
     <%= link_to "Enhance Mons", enhance_monster_path, 
@@ -39,7 +42,7 @@
 <% if @victory.level_up %>
   <div class="level-up-box end-battle-box">
     <p class="level-up-message">
-      You have reached Level <span><%= @victory.new_level %></span>! 
+      Stamina refilled! You have reached Level <span><%= @victory.new_level %></span>! 
     </p>
     <% if @victory.stamina_upgrade %>
       <p class="stamina-increase-message">

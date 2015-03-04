@@ -13,8 +13,43 @@ class Area < ActiveRecord::Base
   }
 
   def region_name
-    self.region.name
+    if self.region
+      self.region.name
+    else
+      ""
+    end
   end
+
+  def unlock
+    if unlocked_by
+      Area.find(self.unlocked_by).name
+    else
+      ""
+    end
+  end
+
+  def time_left
+    if self.start_date
+      date = {}
+      general_days = (self.end_date - self.start_date)/60/60/24
+      days = general_days.floor
+      hours = ((general_days - days)*24).floor
+
+      date["days"] = days
+      date["hours"] = hours
+
+      return date
+
+    else
+      return ""
+    end
+  end
+
+
+
+
+
+
 
   def self.unlocked_areas(beaten_areas)
     available_areas = []
@@ -29,6 +64,7 @@ class Area < ActiveRecord::Base
     end
     return available_areas
   end
+
 
   private
 

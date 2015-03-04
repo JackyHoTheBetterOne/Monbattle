@@ -49,6 +49,13 @@
   position: relative;
   top: 0px;
   left: 0px;
+  .store-warning {
+    position: absolute;
+    height: 18px;
+    left: 503px;
+    top: 23px;
+    z-index: 100;
+  };
 };
 
 .mon-front {
@@ -291,6 +298,7 @@ a.fb-nav:hover {
   box-shadow: 5px 5px 10px black;
   padding-left: 5px;
   padding-right: 5px;
+  transition: opacity 0.3s;
   .mon-dropdown-arrow {
     position: absolute;
     height: 22px;

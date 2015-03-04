@@ -408,6 +408,7 @@ body {
       border-radius: 5px;
       transition: background 0.3s;
       z-index: 1000;
+      transition: opacity 0.3s;
     };
     .gain-ap:hover {
       background: #0D47A1;
@@ -831,7 +832,7 @@ body {
 ////////////////////////////////////////////////////////////////////////////////////////// Retarded effect description
 .effect-info {
   position: absolute;
-  top: 36px;
+  top: 1%;
   left: 334px;
   width: 230px;
   opacity: 0;
@@ -940,7 +941,7 @@ body {
 .surrender-option-box {
   position: absolute;
   background: #4B4B4B;
-  height: 82px;
+  height: 118px;
   width: 100px;
   right: 26px;
   bottom: -6px;
@@ -961,6 +962,21 @@ body {
     box-shadow: 3px 2px 6px black;
     text-decoration: none;
     transition: background 0.3s;
+    outline: none;
+  };
+  .mute-toggle {
+    background: green;
+    bottom: 6px;
+    left: 5px;
+    img {
+      height: 25px;
+      background: transparent;
+      position: relative;
+      top: -2px;
+    };
+  };
+  .mute-toggle:hover {
+    background: #006400;
   };
   .concede {
     background: #C62828;

@@ -3,20 +3,22 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 window.playIt = ->
-  document.getElementById("button-click").innerHTML= "
-      <audio controls autoplay class='hide'>
-        <source src='https://s3-us-west-2.amazonaws.com/monbattle/music/button-press-sound-fx.wav' type='audio/mpeg'>
-      </audio>
-    ";
+  if $(".battle-music").prop("muted") is false
+    document.getElementById("button-click").innerHTML= "
+        <audio controls autoplay class='hide'>
+          <source src='https://s3-us-west-2.amazonaws.com/monbattle/music/button-press-sound-fx.wav' type='audio/mpeg'>
+        </audio>
+      ";
   return true;
 
 ######################################################################################################## Tutorial helpers
 window.endBattleTutorial = ->
   element = ".end-battle-box.winning"
   if $(element).data("firstcleared") is true
-    if $(element).data("levelname") is "Area A - Stage 1" or $(element).data("levelname") is "Area A - Stage 2"
-      console.log("wtf man")
+    if $(element).data("levelname") is "Area A - Stage 1" 
       hopscotch.startTour(edit_team_tour)
+    else if $(element).data("levelname") is "Area A - Stage 2"
+      hopscotch.startTour(learn_ability_tour)
     else if $(element).data("levelname") is "Area A - Stage 3"
       hopscotch.startTour(enhance_mon_tour)
     else if $(element).data("levelname") is "Area A - Stage 4"
@@ -76,12 +78,20 @@ window.fixEvolMon = (monster, player) ->
               $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
                 css("opacity", "0") if $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
                 attr("src") isnt "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif"
-          $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").css("opacity", "0")  
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".hp").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".fatigue-level").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".num").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-name").css("opacity", "0")
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".effect-box").fadeOut(300)
+          setTimeout (->
+            if $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").css("display") isnt "none"
+              if monster.team is 0
+                $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").
+                  effect("explode", {pieces: 30}, 1500).hide()
+              else 
+                $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.mon-battle-image").
+                  css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1500).hide()
+          ), 200
       ), 1300
       return false
     else
@@ -220,7 +230,7 @@ window.fixEvolMon = (monster, player) ->
             window["change" + index] = a.modifier + window["change" + index]
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
         i++
-      if ability.effects.length isnt 0
+      if ability.effects.length isnt 0 ####################################################### Effect activation from ability
         i = 0
         while i < ability.effects.length
           effect = a.effects[i]
@@ -228,7 +238,16 @@ window.fixEvolMon = (monster, player) ->
             when "taunt", "poison-hp", "timed-phy-resist-buff", "timed-phy-resist-debuff"
                   , "timed-spe-resist-buff", "timed-spe-resist-debuff", "shield", "aoe-curse"
                   , "help-curse", "atk-curse"
-              effect.activate abilitytargets
+              real_targets = []
+              i = 0
+              while i < abilitytargets.length
+                if abilitytargets[i].passive
+                  if abilitytargets[i].passive.targeta isnt effect.targeta
+                    real_targets.push(abilitytargets[i])
+                else
+                  real_targets.push(abilitytargets[i])
+                i++
+              effect.activate real_targets
             when "timed-atk-buff"
               teamAttackAbilities = []
               i = 0 
@@ -428,7 +447,8 @@ window.fixEvolMon = (monster, player) ->
                 $(".effect").trigger("mouseleave")
                 massRemoveEffectIcon(e)
               ), 1500
-            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
+            impact = Math.round(e.change * fatigue_effect)
+            monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + impact)
             window["change" + monTarget.unidex] = 
               eval(window["change" + monTarget.unidex] + e.modifier + e.change * fatigue_effect)
             window["change" + monTarget.unidex] = Math.round(window["change" + monTarget.unidex])
@@ -627,8 +647,6 @@ window.setFatigue = ->
     i++
 
 window.availableAbilities = () ->
-  $(".availability-arrow").each ->
-    $(this).data("available", "false")
   if $(".oracle-skill-icon").data("apcost") > battle.players[0].ap or battle.summonerCooldown isnt 0
     $(".oracle-skill-icon").css("opacity", "0.5")
     $(".oracle-skill-icon").css("cursor", "default")
@@ -639,23 +657,32 @@ window.availableAbilities = () ->
     document.getElementsByClassName("oracle-skill-icon")[0].style.pointerEvents = "auto"
   $(".monBut button").each ->
     button = $(this)
+    $(button).parent().parent().children(".availability-arrow").data("available", "true")
     if $(this).css("opacity") isnt "0"
       if $(this).data("apcost") > battle.players[0].ap
         $(button).css("opacity", "0.5")
+        if $(button).data("target") is "evolve"
+          $(button).children(".but-image").
+            attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend_idle.svg")
       else 
         $(button).css("opacity", "1")
         $(button).parent().parent().children(".availability-arrow").data("available", "true")
+        if $(button).data("target") is "evolve"
+          $(button).children(".but-image").
+            attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend_turning.svg")
   $(".availability-arrow").each ->
     if $(this).data("available") is "true"
       $(this).css("opacity", "1")
     else
       $(this).css("opacity", "0")
   if battle.players[0].ap >= battle.maxAP/2
-    $(".gain-ap").attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/add-member.png")
+    $(".gain-ap").attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/plus-button-v3.svg")
     $(".gain-ap").css("opacity", "1")
     document.getElementById("gain-ap").style.pointerEvents = "auto"
   else 
-    $(".gain-ap").css("opacity", "0.5")
+    setTimeout (->
+      $(".gain-ap").css("opacity", "0")
+    ), 250
     document.getElementById("gain-ap").style.pointerEvents = "none"
 
 window.callAbilityImg = ->
@@ -851,11 +878,17 @@ window.checkOutcome = ->
     ), 800
 
 window.outcome = ->
+  muted = undefined
+  if $(".battle-music").prop("muted") is true
+    muted = true
+  else 
+    muted = false
   if battle.players[0].mons.every(isTeamDead) is true
     $(".skip-button").remove()
     $.ajax
       url: "/battles/" + battle.id + "/loss"
       method: "get"
+      data: {"muted": muted}
       success: (response) ->
         $(".message").html(response)
     toggleImg()
@@ -880,7 +913,7 @@ window.outcome = ->
     $.ajax
       url: "/battles/" + battle.id + "/win"
       method: "get"
-      data: {round_taken: parseInt(battle.round)},
+      data: {round_taken: parseInt(battle.round), "muted": muted},
       success: (response) ->
         $(".message").html(response)
         if $(".ability-earned").data("type") is "ability"
@@ -891,7 +924,7 @@ window.outcome = ->
         else if $(".ability-earned").data("type") is "monster"
           sentence = "You have earned " + $(".ability-earned").text() +
                      "! Add it to your team at the " +
-                     "<a href='/home'>Monster Equipping</a>" + " page!"
+                     "<a href='/home'>Edit Team</a>" + " page!"
           newMonsters.push(sentence)
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
@@ -1517,9 +1550,14 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
             action()
             if targetMon.css("display") isnt "none"
               if enemyHurt.isAlive() is false
-                setTimeout (->
-                  targetMon.effect("explode", {pieces: 30}, 1000).hide()
-                ), 300
+                if teamIndex is 1
+                  setTimeout (->
+                    targetMon.effect("explode", {pieces: 30}, 1000).hide()
+                  ), 1000
+                else 
+                  setTimeout (->
+                    targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
+                  ), 1000
               else
                 targetMon.effect "shake", times: 10, 750
             element = $(this)
@@ -1552,18 +1590,14 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
               $(".user.mon-slot .img").each ->
                 if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
                   if battle.players[0].mons[$(this).data("index")].isAlive() is false
-                    setTimeout (->
-                      $(this).effect("explode", {pieces: 30}, 1200).hide()
-                    ), 300
+                    $(this).effect("explode", {pieces: 30}, 1200).hide()
                   else
                     $(this).effect "shake", {times: 5, distance: 40}, 750
             else 
               $(".enemy.mon-slot .img").each ->
                 if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
                   if battle.players[1].mons[$(this).data("index")].isAlive() is false
-                    setTimeout (->
-                      $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1200).hide()
-                    ), 300
+                    $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1200).hide()
                   else
                     $(this).effect "shake", {times: 5, distance: 40}, 750
             setTimeout (->
@@ -1745,8 +1779,10 @@ window.ai = ->
         ), 500
         setTimeout (->
           availableAbilities()
-          availableAbilities()
         ), 700
+        setTimeout (->
+          availableAbilities()
+        ), 1000
       ), timeout
   ), timerRound
 
@@ -2123,7 +2159,29 @@ $ ->
         availableAbilities()
         toggleEnemyClick()
         setSummonerAbility()
+        $(".mute-toggle").on "click", ->
+          if $(this).children("img").attr("src") is "https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png"
+            $(".forest").append("
+              <div id='button-click'></div>
+            ")
+            $(".battle-music").prop("muted", false)
+            $(this).children("img").
+              attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/volumn-icon.png")
+          else 
+            $("#button-click").remove()
+            $(".battle-music").prop("muted", true)
+            $(this).children("img").
+              attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png")
         $(".concede, .retry").on "click", ->
+          muted = undefined
+          if $(".battle-music").prop("muted") is true
+            muted = true
+          else 
+            muted = false
+          $.ajax
+            url: "/battles/" + battle.id + "/loss"
+            method: "get"
+            data: {"muted": muted}
           $.ajax
             url: "/battles/" + battle.id
             method: "patch"
@@ -2133,7 +2191,7 @@ $ ->
               "round_taken": parseInt(battle.round),
               "time_taken": parseInt(seconds_taken)
             }
-          $(".battle").remove()
+          $(".battle, .surrender-option-button").remove()
         $(".surrender-option-button").on "click", ->
           if $(".surrender-option-box").css("opacity") is "0"
             $(".surrender-option-box").css({"opacity":"1", "z-index":"10000"})
@@ -2353,16 +2411,16 @@ $ ->
                         if enemyHurt.isAlive() is false
                           setTimeout (->
                             targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
-                          ), 300
+                          ), 1000
                         else
                           targetMon.effect "shake", times: 10, 750
                       element = $(this)
                       setTimeout (->
                         element.toggleClass "ability-on"
                         element.attr("src", "")
-                        singleTargetAbilityAfterActionDisplay()
                         showDamageTeam(0)
                         showDamageTeam(1)
+                        singleTargetAbilityAfterActionDisplay()
                         toggleEnemyClick()
                         return
                       ), 1200
@@ -2410,9 +2468,7 @@ $ ->
                         $(".enemy.mon-slot .img").each ->
                           if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
                             if battle.players[1].mons[$(this).data("index")].isAlive() is false
-                              setTimeout (->
-                                $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1500).hide()
-                              ), 300
+                              $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1500).hide()
                             else
                               $(this).effect "shake", {times: 5, distance: 40}, 750
                         element.toggleClass "ability-on aoePositionFoe"
