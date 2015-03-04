@@ -145,7 +145,7 @@ class HomeController < ApplicationController
       end
       monster_id = Monster.find_by_name(params[:enhance_id]).id
       monster_unlock = MonsterUnlock.where(user_id: current_user.id, monster_id: monster_id)[0]
-      monster_unlock.level += 1
+      monster_unlock.level += 1 if monster_unlock.level != monster_unlock.monster.max_level
       monster_unlock.save
     end
     if params[:enhance_monster]

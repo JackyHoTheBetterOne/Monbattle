@@ -2,6 +2,16 @@ $ ->
   $(document).off("click.learn", ".go-ahead-learn")
   $(document).off("click.learning-search", ".learning-search-cross")
   window.purchaseLearning = {}
+  $(".teaching-info-icon").on("mouseover", ->
+    teaching = document.getElementsByClassName("teaching-explanation")[0]
+    teaching.style["z-index"] = "100"
+    teaching.style["opacity"] = "1"
+  ).on "mouseleave", ->
+    teaching = document.getElementsByClassName("teaching-explanation")[0]
+    teaching.style["opacity"] = "0"
+    setTimeout (->
+      teaching.style["z-index"] = "-1"
+    ), 350
   $(document).on "click.learning-search", ".learning-search-cross", ->
     document.getElementsByClassName("ability-learning-search-words")[0].value = ""
     setTimeout (->

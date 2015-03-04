@@ -839,10 +839,10 @@ window.battleStartDisplay = (time) ->
       setTimeout (->
         if $(".battle").data("battlecount") is 0
           hopscotch.startTour(first_battle_tour) 
-        else if $(".battle").data("showapbutton") is false
-          hopscotch.startTour(fatigue_tour)
-        else if $(".battle").data("showoracleskill") is false
+        else if $(".battle").data("levelname") is "Area A - Stage 1"
           hopscotch.startTour(ap_gain_tour)
+        else if $(".battle").data("showoracleskill") is false
+          hopscotch.startTour(fatigue_tour)
         else if $(".battle").data("oracleskillturtorial") is true
           hopscotch.startTour(oracle_skill_tour)
         # hopscotch.startTour(first_replay_tour) if $(".battle").data("bonusturtorial") is true
@@ -2242,7 +2242,7 @@ $ ->
               description.children(".panel-footer").children("span").children(".a").text better_mon.ap_cost
               description.children(".panel-footer").children("span").children(".sword-icon").
                 attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/heal-25px.png")
-              description.css({"z-index": "11000", "opacity": "0.9"})
+              description.css({"z-index": "11000", "opacity": "1"})
             else
               ability = undefined
               if element.attr("class") is "oracle-skill-icon"
@@ -2266,7 +2266,7 @@ $ ->
               else 
                 description.children(".panel-footer").children("span").children(".sword-icon").
                   attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/heal-25px.png")
-              description.css({"z-index": "6000", "opacity": "0.9"})
+              description.css({"z-index": "6000", "opacity": "1"})
           return
         ).on "mouseleave", ".user .monBut button, .oracle-skill-icon", ->
           element = $(this)

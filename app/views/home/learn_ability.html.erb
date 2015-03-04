@@ -1,5 +1,9 @@
 <div class="ability-learning">
-  <h3 class="page-heading">Learn Abilities</h3>
+  <h3 class="page-heading">Teach Abilities</h3>
+  <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/info-icon.png", 
+    class: "teaching-info-icon") %>
+  <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/Ability-learning-tut.png",
+    class: "teaching-explanation")%>
   <%= image_tag("remove-member.png", size: "22x22", 
       class: "learning-search-cross") %>
   <%= link_to "Level Select", new_battle_path, 
@@ -22,8 +26,8 @@
           class: "attack-icon-learn") %>
         <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/ap-cost-icon-25.png", 
           class: "ap-icon-learn") %>
-        <span class="ap-cost">cost</span>
-        <span class="impact">impact</span>
+        <span class="ap-cost"></span>
+        <span class="impact"></span>
         <br />
         <span class="class-list">Class List</span>
       </div> 

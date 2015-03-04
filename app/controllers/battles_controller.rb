@@ -12,7 +12,7 @@ class BattlesController < ApplicationController
   after_action :finish_battle, only: :update
   after_action :tracking, only: :update
   before_action :update_general_summoner_fields, only: [:win, :loss]
-
+  before_action :set_reward_amount, only: [:win]
 
   def new
     params[:area_filter] ||= session[:area_filter]
@@ -94,7 +94,7 @@ class BattlesController < ApplicationController
       @twice_cleared = false
     end
 
-    if @battle.battle_level.name == "First battle" || @battle.battle_level.name == "Area A - Stage 1"
+    if @battle.battle_level.name == "First battle" 
       @show_ap_button = false
     else
       @show_ap_button = true
@@ -127,7 +127,7 @@ class BattlesController < ApplicationController
     @battle.finished = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
     @battle.is_hacked = false
     @battle.outcome = "complete"
-    @battle.finished = Time.now.to_date
+    @battle.reward_num = $reward_num
     @battle.update_attributes(update_params)
     @battle.save
     render nothing: true
@@ -154,7 +154,7 @@ class BattlesController < ApplicationController
     victory = Battle::Victory.new(summoner: current_user.summoner, 
                                   battle_level: @battle.battle_level,
                                   round_taken: params[:round_taken],
-                                  battle: @battle)
+                                  reward_num: $reward_num)
 
     victory.call
 
@@ -198,6 +198,17 @@ class BattlesController < ApplicationController
 
   private
 
+  def set_reward_amount
+    @battle_level = @battle.battle_level
+
+    if params[:round_taken].to_i >= @battle_level.time_requirement.to_i
+      $reward_num = rand(@battle_level.pity_reward[1].to_i..@battle_level.pity_reward[2].to_i) if @battle_level.
+        pity_reward.length > 0 
+    else
+      $reward_num = rand(@battle_level.time_reward[1].to_i..@battle_level.time_reward[2].to_i) if @battle_level.
+        time_reward.length > 0
+    end
+  end
 
   def generate_enemies
     if current_user.summoner.played_levels.count > 0 

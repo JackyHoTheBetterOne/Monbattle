@@ -6,6 +6,7 @@ class Battle::Victory
   attribute :summoner, Summoner
   attribute :ability, Ability
   attribute :monster, Monster
+  attribute :reward_num
   attribute :reward
   attribute :reward_image
   attribute :reward_category
@@ -14,12 +15,12 @@ class Battle::Victory
   attribute :slot
   attribute :class_list
   attribute :level_cleared
-  attribute :reward_num
 
   attribute :level_up
   attribute :new_level
   attribute :stamina_upgrade
   attribute :new_stamina
+
 
   attribute :first_time
 
@@ -28,21 +29,6 @@ class Battle::Victory
     self.monster = nil
     self.reward = nil
     @user = summoner.user
-
-    self.reward_num = 0
-
-    if round_taken.to_i >= battle_level.time_requirement.to_i
-      self.reward_num = rand(battle_level.pity_reward[1].to_i..battle_level.pity_reward[2].to_i) if battle_level.
-        pity_reward.length > 0 
-    else
-      self.reward_num = rand(battle_level.time_reward[1].to_i..battle_level.time_reward[2].to_i) if battle_level.
-        time_reward.length > 0
-    end
-
-    @battle = self.battle
-    @battle.reward_num = self.reward_num
-    @battle.save
-
 
     if summoner.beaten_levels.include? battle_level.name
       self.first_cleared = false
