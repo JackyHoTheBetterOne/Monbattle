@@ -11,6 +11,20 @@
   border-radius: 5px;
   left: 15px;
   top: -15px;
+  .teaching-info-icon {
+    position: absolute;
+    height: 33px;
+    top: 11px;
+    left: 175px;
+  };
+  .teaching-explanation {
+    position: absolute;
+    z-index: -1;
+    top: 39px;
+    left: 179px;
+    transition: 0.3s;
+    opacity: 0;
+  };
   .learning-search-cross {
     position: absolute;
     top: 15.5px;

@@ -1,7 +1,8 @@
 $(".enhancement-to-happen").fadeOut(200, function(){
   $(".enhancement-to-happen").html(
     "<%= j render partial:'enhance_monster', 
-        locals: {monster: @enhancement.monster, enough: @enhancement.enough} %>"
+        locals: {monster: @enhancement.monster, enough: @enhancement.enough, 
+                  max_level: @enhancement.max_level} %>"
   );
   setTimeout((function() {
     $(".enhancement-to-happen").fadeIn();

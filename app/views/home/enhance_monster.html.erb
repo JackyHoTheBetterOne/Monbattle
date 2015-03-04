@@ -23,6 +23,7 @@
   </div>
   <div class="enhancement-to-happen">
     <%= render partial: "enhance_monster", 
-        locals: {monster: @enhancement.monster, enough: @enhancement.enough}  %>
+        locals: {monster: @enhancement.monster, enough: @enhancement.enough, 
+          max_level: @enhancement.max_level}  %>
   </div>
 </div>

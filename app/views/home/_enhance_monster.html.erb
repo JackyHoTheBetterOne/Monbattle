@@ -62,7 +62,11 @@
           remote: true
         %>
     <% end %>
-    <% if enough %>
+    <% if max_level %>
+      <div class="red-light-ascension">
+        Max level reached
+      </div>
+    <% elsif enough %>
       <%= link_to "Enhance", 
           enhance_monster_path(
             :enhance_monster => monster.name,

@@ -6,6 +6,7 @@ class User::Enhance
   attribute :selected
   attribute :monster
   attribute :enough
+  attribute :max_level
   attribute :owned_evo
   attribute :evo_name
 
@@ -27,6 +28,14 @@ class User::Enhance
       else
         self.enough = false
       end
+
+      if monster.level == monster.monster.max_level
+        self.max_level = true
+      else
+        self.max_level = false
+      end
+
+
 
       if self.monster.monster.evolutions[0]
         monster_id = self.monster.monster.evolutions[0].id

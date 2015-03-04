@@ -94,7 +94,7 @@ class BattlesController < ApplicationController
       @twice_cleared = false
     end
 
-    if @battle.battle_level.name == "First battle" || @battle.battle_level.name == "Area A - Stage 1"
+    if @battle.battle_level.name == "First battle" 
       @show_ap_button = false
     else
       @show_ap_button = true

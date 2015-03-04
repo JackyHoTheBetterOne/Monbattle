@@ -16,7 +16,7 @@
           -@regions.each do |r|
             =link_to r.name, new_battle_path(area_filter: r.name), remote: true, class: "btn btn-primary region-select", id: r.name
         .event-box
-          button.event_click Event
+          button.event_click.hide Event
       .user_team
         h2.the_obvious Your Team
         .party_portraits_blank
