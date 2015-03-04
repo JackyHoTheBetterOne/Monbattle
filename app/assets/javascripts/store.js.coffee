@@ -48,6 +48,10 @@ $ ->
         gp = document.getElementById("summoner-gp")
         mp = document.getElementById("summoner-mp")
         message = document.getElementsByClassName("roll-message")[0]
+        stats = document.getElementsByClassName("ability-won-stats")[0]
+        impact = document.getElementsByClassName("impact")[0]
+        apcost = document.getElementsByClassName("ap-cost")[0]
+        sword = document.getElementsByClassName("sword-icon")[0]
         button = document.getElementsByClassName("back-to-store")[0]
         rarity = document.getElementsByClassName("rarity-icon")[0]
         ability_icon = document.getElementsByClassName("ability-won-icon")[0]
@@ -96,6 +100,16 @@ $ ->
                 reveal_but.style["opacity"] = "0"
                 button.style["z-index"] = "1000"
                 button.className += " bounceIn animated"
+                if response.type is "ability"
+                  impact.innerHTML = response.impact
+                  apcost.innerHTML = response.ap_cost
+                  if response.modifier is "-"
+                    sword.setAttribute("src","https://s3-us-west-2.amazonaws.com/monbattle/images/attack-25px.png")
+                  else
+                    sword.setAttribute("src","https://s3-us-west-2.amazonaws.com/monbattle/images/heal-25px.png")
+                  stats.style["z-index"] = "100"
+                  stats.style["opacity"] = "1"
+                  stats.className += " bounceIn animated"
                 message.innerHTML = response.message
                 ability_icon.className += " bounceIn animated"
                 description_box.className += " bounceIn animated"
@@ -116,6 +130,9 @@ $ ->
       document.getElementsByClassName("king-roll")[0].style["z-index"] = "1000"
       document.getElementsByClassName("queen-roll")[0].style["z-index"] = "1000"
       document.getElementsByClassName("mon-roll")[0].style["z-index"] = "1000"
+      document.getElementsByClassName("ability-won-stats")[0].style["opacity"] = "0"
+      document.getElementsByClassName("ability-won-stats")[0].style["z-index"] = "-1"
+      document.getElementsByClassName("ability-won-stats")[0].className = "ability-won-stats"
   $(document).on "mouseover", ".showcase", ->
     $(".ability-detail").text latest_abilities[$(this).data("index")].description
 

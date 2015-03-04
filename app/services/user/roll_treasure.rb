@@ -16,6 +16,10 @@ class User::RollTreasure
   attribute :rarity_color
   attribute :first_time
 
+  attribute :modifier
+  attribute :impact
+  attribute :ap_cost
+
 
   def call
     self.message = "1"
@@ -27,6 +31,9 @@ class User::RollTreasure
     self.rarity_color = "1"
     self.description = ""
     self.job_list = ""
+    self.impact = ""
+    self.modifier = ""
+    self.ap_cost = ""
 
     if roll_type == "base"
       if currency_type == "gp"
@@ -140,7 +147,11 @@ class User::RollTreasure
         end
 
         @abil_id_won = @abil_array.sample
-        @abil_won_name = Ability.find_name(@abil_id_won)[0]
+        @ability_won = Ability.find(@abil_id_won)
+        @abil_won_name = @ability_won.name
+        self.impact = @ability_won.change
+        self.modifier = @ability_won.modifier
+        self.ap_cost = @ability_won.ap_cost
 
         if @abil_id_won == nil
           self.message = "The #{@rarity} abilities are currently unavailable!"
