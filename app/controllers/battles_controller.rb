@@ -153,13 +153,12 @@ class BattlesController < ApplicationController
 
     victory = Battle::Victory.new(summoner: current_user.summoner, 
                                   battle_level: @battle.battle_level,
-                                  round_taken: params[:round_taken])
+                                  round_taken: params[:round_taken],
+                                  battle: @battle)
 
     victory.call
 
     @victory = victory
-
-
 
     @ability = victory.ability
     @monster = victory.monster

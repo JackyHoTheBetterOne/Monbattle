@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150302214144) do
+ActiveRecord::Schema.define(version: 20150303224212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,9 +136,6 @@ ActiveRecord::Schema.define(version: 20150302214144) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.integer  "mp_reward",        default: 0
-    t.integer  "gp_reward",        default: 0
-    t.integer  "vk_reward",        default: 0
     t.integer  "unlocked_by_id"
     t.integer  "area_id"
     t.text     "keywords"
@@ -149,10 +146,10 @@ ActiveRecord::Schema.define(version: 20150302214144) do
     t.string   "background"
     t.string   "music"
     t.integer  "time_requirement"
-    t.integer  "asp_reward",       default: 0
-    t.integer  "enh_reward",       default: 0
     t.integer  "order"
     t.boolean  "event",            default: false
+    t.text     "time_reward",      default: [],    array: true
+    t.text     "pity_reward",      default: [],    array: true
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
@@ -175,6 +172,7 @@ ActiveRecord::Schema.define(version: 20150302214144) do
     t.integer  "time_taken"
     t.boolean  "admin",               default: false
     t.string   "session_id"
+    t.integer  "reward_num",          default: 0
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree

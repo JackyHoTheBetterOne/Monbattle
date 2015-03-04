@@ -65,6 +65,7 @@ window.replenishStamina = ->
     if number isnt max_num 
       number += 1 
       $(".summoner-stamina-bar .bar").css("width", (100*number/max_num).toString() + "%")
+      $("#current-stamina").text(number)
 
 setDonationAmount = ->
   window.money = $(".donation").val().replace(/,/g,'')*100

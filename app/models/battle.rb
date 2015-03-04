@@ -86,11 +86,6 @@ class Battle < ActiveRecord::Base
 
   def give_reward
     @battle_level        = self.battle_level
-    @mp_reward           = self.battle_level.mp_reward 
-    @gp_reward           = self.battle_level.gp_reward 
-    @vk_reward           = self.battle_level.vk_reward 
-    @asp_reward          = self.battle_level.asp_reward
-    @enh_reward          = self.battle_level.enh_reward
     @exp_reward          = self.battle_level.exp_given
     @victorious_summoner = Summoner.find_summoner(self.victor)
     @victorious_summoner.wins += 1 
@@ -105,11 +100,12 @@ class Battle < ActiveRecord::Base
       @victorious_summoner.current_exp += @exp_reward
     end
 
-    if @victorious_summoner.beaten_levels.include?(@battle_level.name)
-      @victorious_summoner.mp += @mp_reward
-      @victorious_summoner.gp += @gp_reward
-      @victorious_summoner.asp += @asp_reward
-      @victorious_summoner.enh += @enh_reward
+    if @victorious_summoner.beaten_levels.include?(@battle_level.name) 
+      if self.time_taken < @battle_level.time_requirement && @battle_level.time_reward.length != 0
+        @victorious_summoner[@battle_level.time_reward[0]] += self.reward_num
+      elsif self.time_taken >= @battle_level.time_requirement && @battle_level.pity_reward.length != 0
+        @victorious_summoner[@battle_level.pity_reward[0]] += self.reward_num
+      end
     end
 
     @victorious_summoner.save
@@ -139,7 +135,6 @@ class Battle < ActiveRecord::Base
     battle_json[:start_cut_scenes] = self.battle_level.start_cut_scenes
     battle_json[:end_cut_scenes] = self.battle_level.end_cut_scenes
     battle_json[:id] = self.id_code
-    battle_json[:reward] = self.battle_level.mp_reward
     battle_json[:players] = []
 
     self.parties.order(:npc).each do |party|

@@ -129,26 +129,27 @@ class BattleLevel < ActiveRecord::Base
   end
 
   def second_clear_reward_image
-    if self.mp_reward != 0 
+    if self.time_reward[0] == "mp" 
       return "https://s3-us-west-2.amazonaws.com/monbattle/images/mp.png"
-    elsif self.gp_reward != 0
+    elsif self.time_reward[0] == "gp" 
       return "https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png"
-    elsif self.asp_reward != 0
+    elsif self.time_reward[0] == "asp" 
       return "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend.png"
-    elsif self.enh_reward != 0 
+    elsif self.time_reward[0] == "enh" 
       return "https://s3-us-west-2.amazonaws.com/monbattle/images/enhance.png"
     end
   end
 
-  def second_clear_reward
-    if self.gp_reward != 0 
-      return self.gp_reward
-    elsif self.mp_reward != 0
-      return self.mp_reward
-    elsif self.asp_reward != 0
-      return self.asp_reward
-    elsif self.enh_reward != 0 
-      return self.enh_reward
+
+  def pity_reward_image
+    if self.pity_reward[0] == "mp" 
+      return "https://s3-us-west-2.amazonaws.com/monbattle/images/mp.png"
+    elsif self.pity_reward[0] == "gp" 
+      return "https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png"
+    elsif self.pity_reward[0] == "asp" 
+      return "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend.png"
+    elsif self.pity_reward[0] == "enh" 
+      return "https://s3-us-west-2.amazonaws.com/monbattle/images/enhance.png"
     end
   end
 
