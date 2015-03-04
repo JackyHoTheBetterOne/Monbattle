@@ -128,7 +128,6 @@ class BattlesController < ApplicationController
     @battle.is_hacked = false
     @battle.outcome = "complete"
     @battle.reward_num = $reward_num
-    @battle.finished = Time.now.to_date
     @battle.update_attributes(update_params)
     @battle.save
     render nothing: true
