@@ -27,19 +27,32 @@ class BattleLevel < ActiveRecord::Base
 
   def start_cut_scenes
     array = []
-    self.cut_scenes.where("cut_scenes.to_start is true").order("cut_scenes.order ASC").each do |c|
-      array << c.image.url(:cool)
+    self.cut_scenes.where("cut_scenes.to_start is true AND cut_scenes.defeat is false").
+      order("cut_scenes.order ASC").each do |c|
+        array << c.image.url(:cool)
     end
     return array
   end
 
   def end_cut_scenes
     array = []
-    self.cut_scenes.where("cut_scenes.to_start is false").order("cut_scenes.order ASC").each do |c|
-      array << c.image.url(:cool)
+    self.cut_scenes.where("cut_scenes.to_start is false AND cut_scenes.defeat is false").
+      order("cut_scenes.order ASC").each do |c|
+        array << c.image.url(:cool)
     end
     return array
   end
+
+
+  def defeat_cut_scenes
+    array = []
+    self.cut_scenes.where("cut_scenes.defeat is true").
+      order("cut_scenes.order ASC").each do |c|
+        array << c.image.url(:cool)
+    end
+    return array
+  end
+
 
   def area_name
     if self.area

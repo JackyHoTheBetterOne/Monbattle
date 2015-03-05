@@ -134,6 +134,7 @@ class Battle < ActiveRecord::Base
     battle_json[:background] = self.background
     battle_json[:start_cut_scenes] = self.battle_level.start_cut_scenes
     battle_json[:end_cut_scenes] = self.battle_level.end_cut_scenes
+    battle_json[:defeat_cut_scenes] = self.battle_level.defeat_cut_scenes
     battle_json[:id] = self.id_code
     battle_json[:players] = []
 

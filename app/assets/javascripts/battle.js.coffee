@@ -882,52 +882,45 @@ window.checkOutcome = ->
 
 window.outcome = ->
   muted = undefined
+  outcome_url = undefined
+  cutscene_field = undefined
+  cutscene_length = undefined
+  victor = undefined
+  loser = undefined
   if $(".battle-music").prop("muted") is true
     muted = true
   else 
     muted = false
-  if battle.players[0].mons.every(isTeamDead) is true
-    $(".skip-button").remove()
-    $.ajax
-      url: "/battles/" + battle.id + "/loss"
-      method: "get"
-      data: {"muted": muted}
-      success: (response) ->
-        $(".message").html(response)
-        $.ajax
-          url: "/battles/" + battle.id
-          method: "patch"
-          data: {
-            "victor": battle.players[1].username,
-            "loser": battle.players[0].username,
-            "round_taken": parseInt(battle.round),
-            "time_taken": parseInt(seconds_taken)
-          }
-    toggleImg()
-    document.getElementById('battle').style.pointerEvents = 'none'
-    $("#overlay").fadeIn 1000, ->
-      setTimeout (->
-        $(".next-scene").remove()
-        $(".end-battle-box").css("z-index", "1000")
-        $(".end-battle-box").addClass("animated bounceIn")
-      ), 750
-  else if battle.players[1].mons.every(isTeamDead) is true
-    $(".next-scene").css("top", "10px")
-    $.ajax
-      url: "/battles/" + battle.id + "/win"
-      method: "get"
-      data: {round_taken: parseInt(battle.round), "muted": muted},
-      success: (response) ->
-        $.ajax
-          url: "/battles/" + battle.id
-          method: "patch"
-          data: {
-            "victor": battle.players[0].username,
-            "loser": battle.players[1].username,
-            "round_taken": parseInt(battle.round),
-            "time_taken": parseInt(seconds_taken)
-          }
-        $(".message").html(response)
+  if battle.players[0].mons.every(isTeamDead) or battle.players[1].mons.every(isTeamDead)
+    if battle.players[0].mons.every(isTeamDead)
+      cutscene_field = "defeat_cut_scenes"
+      cutscene_length = battle[cutscene_field].length
+      outcome_url = "/loss"
+      victor = battle.players[1].username
+      loser = battle.players[0].username
+    else
+      cutscene_field = "end_cut_scenes"
+      cutscene_length = battle[cutscene_field].length
+      outcome_url = "/win"
+      victor = battle.players[0].username
+      loser = battle.players[1].username
+  $(".next-scene").css("top", "10px")
+  $.ajax
+    url: "/battles/" + battle.id + outcome_url
+    method: "get"
+    data: {round_taken: parseInt(battle.round), "muted": muted},
+    success: (response) ->
+      $.ajax
+        url: "/battles/" + battle.id
+        method: "patch"
+        data: {
+          "victor": victor,
+          "loser": loser,
+          "round_taken": parseInt(battle.round),
+          "time_taken": parseInt(seconds_taken)
+        }
+      $(".message").html(response)
+      if battle.players[1].mons.every(isTeamDead)
         if $(".ability-earned").data("type") is "ability"
           sentence = "You have earned " + $(".ability-earned").text() + 
                      "! Teach it to your monster through the " + 
@@ -938,56 +931,21 @@ window.outcome = ->
                      "! Add it to your team at the " +
                      "<a href='/home'>Edit Team</a>" + " page!"
           newMonsters.push(sentence)
-    toggleImg()
-    document.getElementById('battle').style.pointerEvents = 'none'
-    $(document).on "click.cutscene", "#overlay", ->
-      if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
-              battle.end_cut_scenes.length is 0
-        $(".cutscene").hide(500)
-        endCutScene()
-        setTimeout (->
-          $(".next-scene, .cutscene, .skip-button").remove()
-          $(".end-battle-box.winning").css("z-index", "1000")
-          $(".end-battle-box.winning").addClass("bounceIn animated")
-          setTimeout (->
-            endBattleTutorial()
-          ), 1000
-          if $(".level-up-box").length > 0
-            document.getElementById('winning').style.pointerEvents = 'none'
-            setTimeout (->
-              $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
-            ), 1200
-            setTimeout (->
-              $(".level-up-box").addClass("zoomOutUp")
-              setTimeout (->
-                document.getElementById('winning').style.pointerEvents = 'auto'
-              ), 1500
-            ), 4500
-        ), 750
-      else 
-        new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
-        window.new_scene = battle.end_cut_scenes[new_index]
-        nextScene()
-    if battle.end_cut_scenes.length isnt 0
-      $(".next-scene").css("opacity", "0")
-      $(".cutscene").attr("src", battle.end_cut_scenes[0])
-      $(".cutscene").css("opacity", "1")
+  toggleImg()
+  document.getElementById('battle').style.pointerEvents = 'none'
+  $(document).on "click.cutscene", "#overlay", ->
+    if $(".cutscene").attr("src") is battle[cutscene_field][cutscene_length-1] or 
+        battle[cutscene_field].length is 0
+      $(".cutscene").hide(500)
+      endCutScene()
       setTimeout (->
-        $("#overlay").fadeIn(500)
-      ), 750
-      nextSceneInitial()
-    else 
-      $(document).off "click.cutscene"
-      $(".cutscene, .next-scene").css("opacity", "0")
-      $("#overlay").fadeIn(1000)
-      setTimeout (->
-        $(".next-scene, .cutscene").remove()
-        $(".end-battle-box.winning").css("z-index", "1000")
-        $(".end-battle-box.winning").addClass("bounceIn animated")
+        $(".next-scene, .cutscene, .skip-button").remove()
+        $(".end-battle-box").css("z-index", "1000")
+        $(".end-battle-box").addClass("bounceIn animated")
         setTimeout (->
           endBattleTutorial()
         ), 1000
-        if $(".level-up-box").length isnt 0
+        if $(".level-up-box").length > 0
           document.getElementById('winning').style.pointerEvents = 'none'
           setTimeout (->
             $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
@@ -997,8 +955,158 @@ window.outcome = ->
             setTimeout (->
               document.getElementById('winning').style.pointerEvents = 'auto'
             ), 1500
-          ), 3200
-      ), 1800
+          ), 4500
+      ), 750
+    else 
+      new_index = battle[cutscene_field].indexOf($(".cutscene").attr("src")) + 1
+      window.new_scene = battle[cutscene_field][new_index]
+      nextScene()
+  if battle[cutscene_field].length isnt 0
+    $(".next-scene").css("opacity", "0")
+    $(".cutscene").attr("src", battle[cutscene_field][0])
+    $(".cutscene").show()
+    $(".cutscene").css("opacity", "1")
+    setTimeout (->
+      $("#overlay").fadeIn(500)
+    ), 750
+    nextSceneInitial()
+  else 
+    $(document).off "click.cutscene"
+    $(".cutscene, .next-scene").css("opacity", "0")
+    $("#overlay").fadeIn(1000)
+    setTimeout (->
+      $(".next-scene, .cutscene").remove()
+      $(".end-battle-box").css("z-index", "1000")
+      $(".end-battle-box").addClass("bounceIn animated")
+      setTimeout (->
+        endBattleTutorial()
+      ), 1000
+      if $(".level-up-box").length isnt 0
+        document.getElementById('winning').style.pointerEvents = 'none'
+        setTimeout (->
+          $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
+        ), 1200
+        setTimeout (->
+          $(".level-up-box").addClass("zoomOutUp")
+          setTimeout (->
+            document.getElementById('winning').style.pointerEvents = 'auto'
+          ), 1500
+        ), 3200
+    ), 1800
+
+  # if battle.players[0].mons.every(isTeamDead) is true
+  #   $(".skip-button").remove()
+  #   $.ajax
+  #     url: "/battles/" + battle.id + "/loss"
+  #     method: "get"
+  #     data: {"muted": muted}
+  #     success: (response) ->
+  #       $(".message").html(response)
+  #       $.ajax
+  #         url: "/battles/" + battle.id
+  #         method: "patch"
+  #         data: {
+  #           "victor": battle.players[1].username,
+  #           "loser": battle.players[0].username,
+  #           "round_taken": parseInt(battle.round),
+  #           "time_taken": parseInt(seconds_taken)
+  #         }
+  #   toggleImg()
+  #   document.getElementById('battle').style.pointerEvents = 'none'
+  #   $("#overlay").fadeIn 1000, ->
+  #     setTimeout (->
+  #       $(".next-scene").remove()
+  #       $(".end-battle-box").css("z-index", "1000")
+  #       $(".end-battle-box").addClass("animated bounceIn")
+  #     ), 750
+  # else if battle.players[1].mons.every(isTeamDead) is true
+  #   $(".next-scene").css("top", "10px")
+  #   $.ajax
+  #     url: "/battles/" + battle.id + "/win"
+  #     method: "get"
+  #     data: {round_taken: parseInt(battle.round), "muted": muted},
+  #     success: (response) ->
+  #       $.ajax
+  #         url: "/battles/" + battle.id
+  #         method: "patch"
+  #         data: {
+  #           "victor": battle.players[0].username,
+  #           "loser": battle.players[1].username,
+  #           "round_taken": parseInt(battle.round),
+  #           "time_taken": parseInt(seconds_taken)
+  #         }
+  #       $(".message").html(response)
+  #       if $(".ability-earned").data("type") is "ability"
+  #         sentence = "You have earned " + $(".ability-earned").text() + 
+  #                    "! Teach it to your monster through the " + 
+  #                    "<a href='/learn_ability'>Ability Learning</a>" + " page!" 
+  #         newAbilities.push(sentence) if $(".ability-earned").data("firsttime") is true
+  #       else if $(".ability-earned").data("type") is "monster"
+  #         sentence = "You have earned " + $(".ability-earned").text() +
+  #                    "! Add it to your team at the " +
+  #                    "<a href='/home'>Edit Team</a>" + " page!"
+  #         newMonsters.push(sentence)
+  #   toggleImg()
+  #   document.getElementById('battle').style.pointerEvents = 'none'
+  #   $(document).on "click.cutscene", "#overlay", ->
+  #     if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
+  #             battle.end_cut_scenes.length is 0
+  #       $(".cutscene").hide(500)
+  #       endCutScene()
+  #       setTimeout (->
+  #         $(".next-scene, .cutscene, .skip-button").remove()
+  #         $(".end-battle-box").css("z-index", "1000")
+  #         $(".end-battle-box").addClass("bounceIn animated")
+  #         setTimeout (->
+  #           endBattleTutorial()
+  #         ), 1000
+  #         if $(".level-up-box").length > 0
+  #           document.getElementById('winning').style.pointerEvents = 'none'
+  #           setTimeout (->
+  #             $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
+  #           ), 1200
+  #           setTimeout (->
+  #             $(".level-up-box").addClass("zoomOutUp")
+  #             setTimeout (->
+  #               document.getElementById('winning').style.pointerEvents = 'auto'
+  #             ), 1500
+  #           ), 4500
+  #       ), 750
+  #     else 
+  #       new_index = battle.end_cut_scenes.indexOf($(".cutscene").attr("src")) + 1
+  #       window.new_scene = battle.end_cut_scenes[new_index]
+  #       nextScene()
+  #   if battle.end_cut_scenes.length isnt 0
+  #     $(".next-scene").css("opacity", "0")
+  #     $(".cutscene").attr("src", battle.end_cut_scenes[0])
+  #     $(".cutscene").css("opacity", "1")
+  #     setTimeout (->
+  #       $("#overlay").fadeIn(500)
+  #     ), 750
+  #     nextSceneInitial()
+  #   else 
+  #     $(document).off "click.cutscene"
+  #     $(".cutscene, .next-scene").css("opacity", "0")
+  #     $("#overlay").fadeIn(1000)
+  #     setTimeout (->
+  #       $(".next-scene, .cutscene").remove()
+  #       $(".end-battle-box.winning").css("z-index", "1000")
+  #       $(".end-battle-box.winning").addClass("bounceIn animated")
+  #       setTimeout (->
+  #         endBattleTutorial()
+  #       ), 1000
+  #       if $(".level-up-box").length isnt 0
+  #         document.getElementById('winning').style.pointerEvents = 'none'
+  #         setTimeout (->
+  #           $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
+  #         ), 1200
+  #         setTimeout (->
+  #           $(".level-up-box").addClass("zoomOutUp")
+  #           setTimeout (->
+  #             document.getElementById('winning').style.pointerEvents = 'auto'
+  #           ), 1500
+  #         ), 3200
+  #     ), 1800
 
 
 
@@ -1157,7 +1265,7 @@ window.nextSceneInitial = ->
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 1200
+  ), 1500
 
 window.nextScene = ->
   if document.getElementById('overlay') isnt null
