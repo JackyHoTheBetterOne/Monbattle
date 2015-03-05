@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 window.playIt = ->
-  if $(".battle-music").prop("muted") is false
+  if $(".battle-music").prop("muted") is false and $(".mute-toggle img").attr("src") isnt "https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png"
     document.getElementById("button-click").innerHTML= "
         <audio controls autoplay class='hide'>
           <source src='https://s3-us-west-2.amazonaws.com/monbattle/music/button-press-sound-fx.wav' type='audio/mpeg'>
@@ -826,7 +826,9 @@ window.massRemoveEffectIcon = (effect) ->
 
 
 window.battleStartDisplay = (time) ->
-  $(document).off "click.cutscene", "#overlay"
+  setTimeout (->
+    $(document).off "click.cutscene", "#overlay"
+  ), 2000
   setTimeout (->
     $("#overlay").fadeOut 500, ->
       window.battleTimer = setInterval(increaseTime, 1000)
@@ -969,10 +971,11 @@ window.outcome = ->
         window.new_scene = battle.end_cut_scenes[new_index]
         nextScene()
     if battle.end_cut_scenes.length isnt 0
+      $(".next-scene").css("opacity", "0")
       $(".cutscene").attr("src", battle.end_cut_scenes[0])
       $(".cutscene").css("opacity", "1")
       setTimeout (->
-        $("#overlay").fadeIn(1000)
+        $("#overlay").fadeIn(500)
       ), 750
       nextSceneInitial()
     else 
@@ -1156,7 +1159,7 @@ window.nextSceneInitial = ->
   setTimeout (->
     $(".next-scene").css("opacity", "0.9")
     document.getElementById('overlay').style.pointerEvents = 'auto'
-  ), 1000
+  ), 1200
 
 window.nextScene = ->
   if document.getElementById('overlay') isnt null
