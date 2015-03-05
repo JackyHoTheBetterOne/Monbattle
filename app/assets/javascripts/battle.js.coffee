@@ -826,6 +826,7 @@ window.massRemoveEffectIcon = (effect) ->
 
 
 window.battleStartDisplay = (time) ->
+  $(document).off "click.cutscene", "#overlay"
   setTimeout (->
     $("#overlay").fadeOut 500, ->
       window.battleTimer = setInterval(increaseTime, 1000)
