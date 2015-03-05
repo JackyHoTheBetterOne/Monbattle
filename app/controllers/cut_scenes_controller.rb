@@ -40,7 +40,8 @@ class CutScenesController < ApplicationController
 
   private
   def cut_scene_params
-    params.require(:cut_scene).permit(:name, :description, :to_start, :image, :chapter_id, :battle_level_id, :order)
+    params.require(:cut_scene).permit(:name, :description, :to_start, :image, 
+                                      :chapter_id, :battle_level_id, :order, :defeat)
   end
 
   def find_cut_scene

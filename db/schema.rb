@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150305023533) do
+ActiveRecord::Schema.define(version: 20150305030910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -202,6 +202,7 @@ ActiveRecord::Schema.define(version: 20150305023533) do
     t.integer  "battle_level_id"
     t.integer  "order"
     t.text     "keywords"
+    t.boolean  "defeat",             default: false
   end
 
   add_index "cut_scenes", ["battle_level_id"], name: "index_cut_scenes_on_battle_level_id", using: :btree
