@@ -66,7 +66,10 @@ class HomeController < ApplicationController
         rarity_color: @treasure.rarity_color,
         first_time: @treasure.first_time,
         desc: @treasure.description,
-        job_list: @treasure.job_list
+        job_list: @treasure.job_list,
+        modifier: @treasure.modifier,
+        impact: @treasure.impact,
+        ap_cost: @treasure.ap_cost
       }
     else
       flash[:alert] = "Something went wrong. It's your fault."
