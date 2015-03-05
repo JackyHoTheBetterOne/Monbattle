@@ -127,7 +127,16 @@ class BattlesController < ApplicationController
     @battle.finished = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
     @battle.is_hacked = false
     @battle.outcome = "complete"
-    @battle.reward_num = $reward_num
+    if session[:reward_num]
+      @battle.reward_num = session[:reward_num]
+    else 
+      @battle.reward_num = 0
+    end
+
+    if session[:event_reward_tier]
+      @battle.event_reward_tier = session[:event_reward_tier]
+    end
+
     @battle.update_attributes(update_params)
     @battle.save
     render nothing: true
@@ -154,11 +163,15 @@ class BattlesController < ApplicationController
     victory = Battle::Victory.new(summoner: current_user.summoner, 
                                   battle_level: @battle.battle_level,
                                   round_taken: params[:round_taken],
-                                  reward_num: $reward_num)
+                                  reward_num: session[:reward_num])
 
     victory.call
 
     @victory = victory
+
+
+    session["event_reward_tier"] = @victory.reward_tier
+
 
     @ability = victory.ability
     @monster = victory.monster
@@ -200,13 +213,17 @@ class BattlesController < ApplicationController
 
   def set_reward_amount
     @battle_level = @battle.battle_level
-
-    if params[:round_taken].to_i >= @battle_level.time_requirement.to_i
-      $reward_num = rand(@battle_level.pity_reward[1].to_i..@battle_level.pity_reward[2].to_i) if @battle_level.
-        pity_reward.length > 0 
+    if !@battle_level.event
+      if params[:round_taken].to_i >= @battle_level.time_requirement.to_i
+        session[:reward_num] = rand(@battle_level.pity_reward[1].to_i..@battle_level.pity_reward[2].to_i) if @battle_level.
+          pity_reward.length > 0 
+      else
+        session[:reward_num] = rand(@battle_level.time_reward[1].to_i..@battle_level.time_reward[2].to_i) if @battle_level.
+          time_reward.length > 0
+      end
     else
-      $reward_num = rand(@battle_level.time_reward[1].to_i..@battle_level.time_reward[2].to_i) if @battle_level.
-        time_reward.length > 0
+      session[:reward_num] = rand(@battle_level.pity_reward[1].to_i..@battle_level.pity_reward[2].to_i) if @battle_level.
+          pity_reward.length > 0 
     end
   end
 

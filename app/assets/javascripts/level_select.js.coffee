@@ -26,16 +26,14 @@ $ ->
     area_index = $(".map-level").index($(this))
     area = $(this)
     setTimeout (->
-      setTimeout (->
-        document.getElementsByClassName("map-level")[area_index].className += " current-area"
-      ), 500
+      document.getElementsByClassName("map-level")[area_index].className += " current-area"
       id = document.getElementsByClassName("party_edit_button")[0].
             getAttribute("data-latest-level")
       if document.getElementById(id)
         element = document.getElementById(id)
         element.className += " latest-level" 
         element.innerHTML += " <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/quest-warning.png' class='latest-level-indication'>"
-    ), 750
+    ), 700
   $(document).on "click.filter_areas", ".region-select", ->
     $(".map-image, .map-level").fadeOut(300)
     setTimeout (->
@@ -50,7 +48,7 @@ $ ->
     setTimeout (->
       index = document.getElementsByClassName("map-level").length-1
       document.getElementsByClassName("map-level")[0].className += " current-area"
-    ), 1000
+    ), 700
     index = $(".region-select").index($(this))
     i = 0
     while i < document.getElementsByClassName("region-select").length

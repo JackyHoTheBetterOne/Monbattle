@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150303224212) do
+ActiveRecord::Schema.define(version: 20150305023533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,6 +173,7 @@ ActiveRecord::Schema.define(version: 20150303224212) do
     t.boolean  "admin",               default: false
     t.string   "session_id"
     t.integer  "reward_num",          default: 0
+    t.string   "event_reward_tier",   default: ""
   end
 
   add_index "battles", ["battle_level_id"], name: "index_battles_on_battle_level_id", using: :btree

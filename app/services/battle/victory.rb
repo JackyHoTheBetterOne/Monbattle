@@ -20,6 +20,7 @@ class Battle::Victory
   attribute :new_level
   attribute :stamina_upgrade
   attribute :new_stamina
+  attribute :reward_tier
 
 
   attribute :first_time
@@ -28,6 +29,7 @@ class Battle::Victory
     self.ability = nil
     self.monster = nil
     self.reward = nil
+    self.reward_tier = nil
     @user = summoner.user
 
     if summoner.beaten_levels.include? battle_level.name
@@ -56,26 +58,52 @@ class Battle::Victory
       self.new_stamina = nil
     end
 
-
-    if !summoner.beaten_levels.include?(battle_level.name) && !summoner.cleared_twice_levels.include?(battle_level.name)
+    if battle_level.event
+      number = rand(1..100)
       if battle_level.ability_reward.length != 0
-        self.reward_image = battle_level.first_clear_reward_image
-        if battle_level.ability_reward[0] == "ability"
-          self.ability = Ability.find_by_name(battle_level.ability_reward[1])
-        elsif battle_level.ability_reward[0] == "monster"
-          self.monster = Monster.find_by_name(battle_level.ability_reward[1])
+        monster = Monster.find_by_name(battle_level.ability_reward[1])
+        monster_id = monster.id
+        array = MonsterUnlock.where("user_id = #{summoner.user.id} AND monster_id = #{monster_id}")
+        if array.length == 0 && (1..battle_level.ability_reward[2].to_i).include?(number)
+          self.monster = monster
+          self.reward_tier = "first"
+        elsif (1..battle_level.time_reward[2].to_i).include?(number)
+          self.ability = Ability.find_by_name(battle_level.time_reward[1])
+          self.reward_tier = "second"
         else
-          self.reward = "x" + " " + battle_level.ability_reward[1].to_s
-        end
-      end
-    elsif summoner.beaten_levels.include?(battle_level.name)  
-      if battle_level.time_requirement
-        self.reward = "x" + " " + self.reward_num.to_s
-        if round_taken.to_i < battle_level.time_requirement.to_i
-          self.reward_image = battle_level.second_clear_reward_image
-        else
+          self.reward = "x" + " " + self.reward_num.to_s
           self.reward_image = battle_level.pity_reward_image
-        end 
+          self.reward_tier = "third"
+        end
+      elsif (1..battle_level.time_reward[2].to_i).include?(number)
+        self.ability = Ability.find_by_name(battle_level.time_reward[1])
+        self.reward_tier = "second"
+      else
+        self.reward = "x" + " " + self.reward_num.to_s
+        self.reward_image = battle_level.pity_reward_image
+        self.reward_tier = "third"
+      end
+    else
+      if !summoner.beaten_levels.include?(battle_level.name) && !summoner.cleared_twice_levels.include?(battle_level.name)
+        if battle_level.ability_reward.length != 0
+          self.reward_image = battle_level.first_clear_reward_image
+          if battle_level.ability_reward[0] == "ability"
+            self.ability = Ability.find_by_name(battle_level.ability_reward[1])
+          elsif battle_level.ability_reward[0] == "monster"
+            self.monster = Monster.find_by_name(battle_level.ability_reward[1])
+          else
+            self.reward = "x" + " " + battle_level.ability_reward[1].to_s
+          end
+        end
+      elsif summoner.beaten_levels.include?(battle_level.name)  
+        if battle_level.time_requirement
+          self.reward = "x" + " " + self.reward_num.to_s
+          if round_taken.to_i < battle_level.time_requirement.to_i
+            self.reward_image = battle_level.second_clear_reward_image
+          else
+            self.reward_image = battle_level.pity_reward_image
+          end 
+        end
       end
     end
 

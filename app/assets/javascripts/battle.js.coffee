@@ -20,9 +20,9 @@ window.endBattleTutorial = ->
     else if $(element).data("levelname") is "Area A - Stage 2"
       hopscotch.startTour(learn_ability_tour)
     else if $(element).data("levelname") is "Area A - Stage 3"
-      hopscotch.startTour(enhance_mon_tour)
-    else if $(element).data("levelname") is "Area A - Stage 4"
       hopscotch.startTour(ascend_mon_tour)
+    else if $(element).data("levelname") is "Area A - Stage 4"
+      hopscotch.startTour(enhance_mon_tour)
 
 
 
@@ -894,6 +894,15 @@ window.outcome = ->
       data: {"muted": muted}
       success: (response) ->
         $(".message").html(response)
+        $.ajax
+          url: "/battles/" + battle.id
+          method: "patch"
+          data: {
+            "victor": battle.players[1].username,
+            "loser": battle.players[0].username,
+            "round_taken": parseInt(battle.round),
+            "time_taken": parseInt(seconds_taken)
+          }
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
     $("#overlay").fadeIn 1000, ->
@@ -902,15 +911,6 @@ window.outcome = ->
         $(".end-battle-box").css("z-index", "1000")
         $(".end-battle-box").addClass("animated bounceIn")
       ), 750
-    $.ajax
-      url: "/battles/" + battle.id
-      method: "patch"
-      data: {
-        "victor": battle.players[1].username,
-        "loser": battle.players[0].username,
-        "round_taken": parseInt(battle.round),
-        "time_taken": parseInt(seconds_taken)
-      }
   else if battle.players[1].mons.every(isTeamDead) is true
     $(".next-scene").css("top", "10px")
     $.ajax
@@ -918,6 +918,15 @@ window.outcome = ->
       method: "get"
       data: {round_taken: parseInt(battle.round), "muted": muted},
       success: (response) ->
+        $.ajax
+          url: "/battles/" + battle.id
+          method: "patch"
+          data: {
+            "victor": battle.players[0].username,
+            "loser": battle.players[1].username,
+            "round_taken": parseInt(battle.round),
+            "time_taken": parseInt(seconds_taken)
+          }
         $(".message").html(response)
         if $(".ability-earned").data("type") is "ability"
           sentence = "You have earned " + $(".ability-earned").text() + 
@@ -931,17 +940,6 @@ window.outcome = ->
           newMonsters.push(sentence)
     toggleImg()
     document.getElementById('battle').style.pointerEvents = 'none'
-    setTimeout (->
-      $.ajax
-        url: "/battles/" + battle.id
-        method: "patch"
-        data: {
-          "victor": battle.players[0].username,
-          "loser": battle.players[1].username,
-          "round_taken": parseInt(battle.round),
-          "time_taken": parseInt(seconds_taken)
-        }
-      ), 200
     $(document).on "click.cutscene", "#overlay", ->
       if $(".cutscene").attr("src") is battle.end_cut_scenes[battle.end_cut_scenes.length-1] or 
               battle.end_cut_scenes.length is 0

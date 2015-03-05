@@ -167,25 +167,37 @@ class BattleLevel < ActiveRecord::Base
 
 
     if @summoner.name != "NPC"
-      if @summoner.beaten_levels.include?(level_name) && !cleared_twice_level_array.include?(level_name) 
-        cleared_twice_level_array.push(level_name) 
-      end
-      if !@summoner.beaten_levels.include?(level_name) && ability_reward_array.length != 0 &&
-          !cleared_twice_level_array.include?(level_name) 
-        if ability_reward_array[0] == "ability"
-          ability = Ability.find_by_name(ability_reward_array[1])
-          ability_id = ability.id 
-          user_id = @summoner.user.id
-          AbilityPurchase.create!(ability_id: ability_id, user_id: user_id)
-        elsif ability_reward_array[0] == "monster"
-          monster = Monster.find_by_name(ability_reward_array[1])
-          monster_id = monster.id 
-          user_id = @summoner.user.id
-          if MonsterUnlock.where(monster_id: monster_id, user_id: user_id).length == 0
-            MonsterUnlock.create!(monster_id: monster_id, user_id: user_id) 
+      if !self.event
+        if @summoner.beaten_levels.include?(level_name) && !cleared_twice_level_array.include?(level_name) 
+          cleared_twice_level_array.push(level_name) 
+        end
+        if !@summoner.beaten_levels.include?(level_name) && ability_reward_array.length != 0 &&
+            !cleared_twice_level_array.include?(level_name) 
+          if ability_reward_array[0] == "ability"
+            ability = Ability.find_by_name(ability_reward_array[1])
+            ability_id = ability.id 
+            user_id = @summoner.user.id
+            AbilityPurchase.create!(ability_id: ability_id, user_id: user_id)
+          elsif ability_reward_array[0] == "monster"
+            monster = Monster.find_by_name(ability_reward_array[1])
+            monster_id = monster.id 
+            user_id = @summoner.user.id
+            if MonsterUnlock.where(monster_id: monster_id, user_id: user_id).length == 0
+              MonsterUnlock.create!(monster_id: monster_id, user_id: user_id) 
+            end
+          elsif ability_reward_array.length == 2
+            @summoner[ability_reward_array[0]] += ability_reward_array[1].to_i
           end
-        elsif ability_reward_array.length == 2
-          @summoner[ability_reward_array[0]] += ability_reward_array[1].to_i
+        end
+      else 
+        if @battle.event_reward_tier == "first"
+          monster_id = Monster.find_by_name(self.ability_reward[1]).id
+          MonsterUnlock.create!(monster_id: monster_id, user_id: user_id) 
+        elsif @battle.event_reward_tier == "second"
+          ability_id = Ability.find_by_name(self.ability_reward[1]).id
+          AbilityPurchase.create!(ability_id: ability_id, user_id: user_id)
+        else
+          @summoner[self.pity_reward[0]] += @battle.reward_num
         end
       end
 

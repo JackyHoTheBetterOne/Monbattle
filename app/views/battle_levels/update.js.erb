@@ -9,7 +9,7 @@
   setTimeout((function() {
     $("#<%= dom_id(@battle_level) %>").effect("highlight");
     $('body').scrollTo('#<%= dom_id(@battle_level) %>');
-  }), 500);
+  }), 750);
 <% else %>
   $("#edit_battle_level").effect("highlight", {color: "red"});
 <% end %>
