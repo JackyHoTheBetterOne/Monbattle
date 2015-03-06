@@ -30,6 +30,12 @@
           onLogin(response);
         } else {
           // Otherwise, show Login dialog first.
+          openWin = window.open('http://www.google.com', 'directories=no,height=100,width=100,menubar=no,resizable=no,scrollbars=no,status=no,titlebar=no,top=0,location=no');
+          if (!openWin) {
+            alert('A popup blocker was detected. Please Remove popupblocker for this site');
+          } else {
+            openWin.close();
+          }
           FB.login(function(response) {
             onLogin(response);
           }, {scope: 'user_friends, email', display: 'popup'});
