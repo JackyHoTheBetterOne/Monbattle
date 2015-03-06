@@ -899,7 +899,7 @@ window.outcome = ->
       outcome_url = "/loss"
       victor = battle.players[1].username
       loser = battle.players[0].username
-      endgame_box = ".end-battle-box.losing"
+      endgame_box = ".end-battle-box.loser"
     else
       cutscene_field = "end_cut_scenes"
       cutscene_length = battle[cutscene_field].length
