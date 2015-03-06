@@ -233,7 +233,7 @@ class User < ActiveRecord::Base
       endpoint_url = "http://api.gameanalytics.com/1"
       category = "design"
       message = {}
-      message["event_id"] = "first_batch_user:" + self.user_name
+      message["event_id"] = "second_batch_user:" + self.user_name
       message["user_id"] = self.id
       message["session_id"] = session_id
       message["build"] = "1.00"
@@ -254,7 +254,7 @@ class User < ActiveRecord::Base
       p "Login tracking: #{res.body}"
       p "======================================================================="
 
-      message["event_id"] =  "first_batch_time:" + time
+      message["event_id"] =  "second_batch_time:" + time
       message["value"] = 1.0
       json_message = message.to_json
       json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
