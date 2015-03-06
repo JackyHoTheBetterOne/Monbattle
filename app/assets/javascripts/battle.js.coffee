@@ -55,7 +55,7 @@ window.fixEvolMon = (monster, player) ->
     if @hp <= 0
       if $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").length isnt 0
         passiveScalingTeam(monster.team, "dead-friends")
-      $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").remove()
+      $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").css("visibility", "hidden !important")
       setTimeout (->
         $("p.dam").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".bar").css("width", "0%")
@@ -71,8 +71,9 @@ window.fixEvolMon = (monster, player) ->
                 deathAbilitiesToActivate["pc"].push(monster.abilities[4]) if deathAbilitiesToActivate["pc"].indexOf(monster.abilities[4]) is -1 
               setTimeout (->
                 $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
+                  attr("style", "").
                   attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif").
-                  css("display", "initial").css("opacity", "1").attr("disabled", "true")
+                  css("display", "initial").css({"opacity": "1"}).attr("disabled", "true")
               ), 500
             else
               $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
