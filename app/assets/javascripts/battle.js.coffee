@@ -945,6 +945,7 @@ window.outcome = ->
         setTimeout (->
           $(".next-scene, .cutscene, .skip-button").remove()
           $(endgame_box).css("z-index", "1000")
+          $(endgame_box).removeClass("bounceIn animated")
           $(endgame_box).addClass("bounceIn animated")
           setTimeout (->
             endBattleTutorial()
@@ -981,6 +982,7 @@ window.outcome = ->
       setTimeout (->
         $(".next-scene, .cutscene").remove()
         $(endgame_box).css("z-index", "1000")
+        $(endgame_box).removeClass("bounceIn animated")
         $(endgame_box).addClass("bounceIn animated")
         setTimeout (->
           endBattleTutorial()
@@ -1356,7 +1358,7 @@ window.flashEndButton = ->
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
-  buttonArray.push($(".gain-ap")[0]) if $(".gain-ap").css("opacity") isnt "0"
+  buttonArray.push($(".gain-ap")[0]) if $(".battle").data("levelname") isnt "First battle"
   if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
     timer = undefined
     if deathAbilitiesToActivate["pc"].length isnt 0

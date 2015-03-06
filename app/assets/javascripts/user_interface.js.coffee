@@ -95,12 +95,13 @@ window.setQuestTimer = ->
     $(this).text(time)
 
 $ ->
-  $(".popup-remove").on "click", ->
+  $(".popup-remove, .forest").on "click", ->
     box = document.getElementsByClassName("popup-guidance-box")[0]
     box.className = "popup-guidance-box magictime puffOut"
-    setTimeout (->
-      box.style["z-index"] = "-1"
-    ), 1000
+    if box.style["z-index"] isnt "-1"
+      setTimeout (->
+        box.style["z-index"] = "-1"
+      ), 1000
   $(document).off "click.mon-tab-show"
   if $(".quest").length is 0 and document.getElementsByClassName("quests-outline").length isnt 0
     document.getElementsByClassName("quests-outline")[0].innerHTML =
