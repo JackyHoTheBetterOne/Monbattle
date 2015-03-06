@@ -1587,6 +1587,11 @@ window.feedAiTargets = ->
 window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
   monster = battle.players[teamIndex].mons[monIndex]
   abilityIndex = undefined
+  enemyTeamIndex = undefined
+  if teamIndex is 0
+    enemyTeamIndex = 1
+  else
+    enemyTeamIndex = 0
   if typeof monster isnt "undefined" 
     if monster.hp > 0 or type is "death" or monster.type is "summoner"
       if teamIndex is 1 and type isnt "death" and monster.type isnt "summoner"
@@ -1595,10 +1600,11 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           effect("highlight", 500)
       if teamIndex is 1 and type isnt "death"
         abilityIndex = getRandom(aiAbilities)
-        if monster.taunted.target is undefined || parseInt(battle.players[teamIndex].mons[monster.taunted.target].hp) <= 0 
+        if monster.taunted.target is undefined 
           window.targetIndex = getRandom(aiTargets)
         else 
-          window.targetIndex = monster.taunted.target
+          if parseInt(battle.players[enemyTeamIndex].mons[monster.taunted.target].hp) > 0 
+            window.targetIndex = monster.taunted.target 
       else 
         abilityIndex = abilityDex
       ability = battle.players[teamIndex].mons[monIndex].abilities[abilityIndex]
