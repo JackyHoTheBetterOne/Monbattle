@@ -64,6 +64,10 @@ class Battle < ActiveRecord::Base
     end
   end
 
+  def level_name
+    self.battle_level.name
+  end
+
 ############################################################################################### End Battle Update
   def to_finish
     if self.aasm_state == "battling" && self.is_hacked == false

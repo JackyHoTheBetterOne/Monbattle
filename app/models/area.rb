@@ -31,7 +31,7 @@ class Area < ActiveRecord::Base
   def time_left
     if self.start_date
       date = {}
-      general_days = (self.end_date - self.start_date)/60/60/24
+      general_days = (self.end_date - Time.now)/60/60/24
       days = general_days.floor
       hours = ((general_days - days)*24).floor
 

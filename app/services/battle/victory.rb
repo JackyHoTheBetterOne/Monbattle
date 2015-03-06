@@ -66,9 +66,11 @@ class Battle::Victory
         array = MonsterUnlock.where("user_id = #{summoner.user.id} AND monster_id = #{monster_id}")
         if array.length == 0 && (1..battle_level.ability_reward[2].to_i).include?(number)
           self.monster = monster
+          self.reward_image = battle_level.first_clear_reward_image
           self.reward_tier = "first"
         elsif (1..battle_level.time_reward[2].to_i).include?(number)
           self.ability = Ability.find_by_name(battle_level.time_reward[1])
+          self.reward_image = battle_level.second_clear_reward_image
           self.reward_tier = "second"
         else
           self.reward = "x" + " " + self.reward_num.to_s

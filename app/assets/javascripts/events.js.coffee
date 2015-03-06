@@ -19,7 +19,7 @@ $ ->
             filter_name = response[i].name.replace(" ", "+")
             normal_name = response[i].name
             banner = response[i].banner
-            days_general = (new Date(response[i].end_date) - new Date(response[i].start_date))/(1000*60*60*24)
+            days_general = (new Date(response[i].end_date) - new Date().getTime())/(1000*60*60*24)
             hours = Math.floor((days_general - Math.floor(days_general))*24)
             days = Math.floor(days_general)
 

@@ -150,6 +150,8 @@ class BattleLevel < ActiveRecord::Base
       return "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend.png"
     elsif self.time_reward[0] == "enh" 
       return "https://s3-us-west-2.amazonaws.com/monbattle/images/enhance.png"
+    elsif self.time_reward[0] == "ability"
+      return Ability.find_by_name(self.time_reward[1]).portrait
     end
   end
 
@@ -205,10 +207,10 @@ class BattleLevel < ActiveRecord::Base
       else 
         if @battle.event_reward_tier == "first"
           monster_id = Monster.find_by_name(self.ability_reward[1]).id
-          MonsterUnlock.create!(monster_id: monster_id, user_id: user_id) 
+          MonsterUnlock.create!(monster_id: monster_id, user_id: @user.id) 
         elsif @battle.event_reward_tier == "second"
-          ability_id = Ability.find_by_name(self.ability_reward[1]).id
-          AbilityPurchase.create!(ability_id: ability_id, user_id: user_id)
+          ability_id = Ability.find_by_name(self.time_reward[1]).id
+          AbilityPurchase.create!(ability_id: ability_id, user_id: @user.id)
         else
           @summoner[self.pity_reward[0]] += @battle.reward_num
         end
@@ -244,19 +246,21 @@ class BattleLevel < ActiveRecord::Base
         end
       end
 
-      if !region_array.include?self.area.region.name
-        region_cleared = 0
-        self.area.region.areas.each do |a|
-          if !area_array.include?a.name
-            region_cleared = false
+      if !self.event
+        if !region_array.include?self.area.region.name
+          region_cleared = 0
+          self.area.region.areas.each do |a|
+            if !area_array.include?a.name
+              region_cleared = false
+            end
           end
-        end
 
-        if region_cleared != false
-          region_array.push(self.area.region.name)
-          latest_level_name = Region.find_by_unlocked_by_id(1).areas.first.battle_levels.
-            first.name.gsub(" ", "") if Region.find_by_unlocked_by_id(self.area.region.id)
-          @summoner.latest_level = latest_level_name
+          if region_cleared != false
+            region_array.push(self.area.region.name)
+            latest_level_name = Region.find_by_unlocked_by_id(1).areas.first.battle_levels.
+              first.name.gsub(" ", "") if Region.find_by_unlocked_by_id(self.area.region.id)
+            @summoner.latest_level = latest_level_name
+          end
         end
       end
 

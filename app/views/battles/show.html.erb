@@ -118,7 +118,13 @@
   </div>
 
   <div class="ap" id="ap-tip">
-    <%= image_tag("hero-icon.png", size: "42x42", class: "baby")%>
+    <% if @battle.level_name == "First battle" %>
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/main+chars/korona-avi.png", 
+            size: "42x42", class: "baby") %>
+    <% else %>
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/main+chars/faye-avi.png", 
+            size: "42x42", class: "baby") %>
+    <% end %>
     <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/ap-cost-icon-25.png", 
         class: "ap-icon", id: "ap-icon") %>
     <p class="ap-number">1000 / 1000 </p>
