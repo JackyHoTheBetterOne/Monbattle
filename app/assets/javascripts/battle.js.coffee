@@ -327,25 +327,25 @@ window.fixEvolMon = (monster, player) ->
                 status = Object.create(e)
                 status.change = eval(status.change * fatigue_effect)
                 monTarget.cursed.push(status)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               else
                 status = Object.create(e)
                 status.change = eval(status.change * fatigue_effect)
                 usefulArray[0] = status
                 removeEffectIcon(monTarget, e)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
             i++
         else if e.targeta.indexOf("shield") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
             if monTarget.isAlive()
               if monTarget.shield.end is undefined
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               else 
                 monTarget[e.stat] = eval(monTarget[e.stat] + e.restore)
                 monTarget["max_hp"] = eval(monTarget["max_hp"] + e.restore) if monTarget.hp > 0
                 removeEffectIcon(monTarget, e)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               monTarget[e.stat] = 
                 eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
               monTarget["max_hp"] = 
@@ -363,10 +363,10 @@ window.fixEvolMon = (monster, player) ->
             monTarget = effectTargets[i]
             if monTarget.isAlive()
               if monTarget.taunted.end is undefined
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               else 
                 removeEffectIcon(monTarget, e)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               monTarget.taunted.description = e.description
               monTarget.taunted.targeta = e.targeta
               monTarget.taunted.target = monster.index
@@ -394,11 +394,11 @@ window.fixEvolMon = (monster, player) ->
                 status["targeta"] = e.targeta
                 status["end"] = battle.round + e.duration
                 monTarget.poisoned.push(status)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               else
                 old_effect = usefulArray[0]
                 removeEffectIcon(monTarget, old_effect)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
                 old_effect.description = e.description
                 old_effect.impact = e.modifier + e.change * fatigue_effect
                 old_effect.change = e.change * fatigue_effect
@@ -423,11 +423,12 @@ window.fixEvolMon = (monster, player) ->
                 status["restore"] = e.restore * fatigue_effect
                 status["end"] = battle.round + e.duration
                 status["targeta"] = e.targeta
+                status["change"] = e.modifier 
                 if object is undefined
                   monTarget.weakened.push(status)
                 else 
                   object.weakened.push(status)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               else 
                 old_effect = Object.create(usefulArray[0])
                 monTarget[old_effect.stat] = eval(monTarget[old_effect.stat] + old_effect.restore)
@@ -437,13 +438,13 @@ window.fixEvolMon = (monster, player) ->
                 usefulArray[0]["end"] = battle.round + e.duration
                 monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
                 removeEffectIcon(monTarget, e)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
             i++
         else
           while i < effectTargets.length
             monTarget = effectTargets[i]
             if e.targeta isnt "ap-overload"
-              addEffectIcon(monTarget, e)
+              addEffectIcon(monTarget, e, fatigue_effect)
               setTimeout (->
                 $(".effect").trigger("mouseleave")
                 massRemoveEffectIcon(e)
@@ -797,11 +798,12 @@ window.checkMonHealthAfterEffect = ->
     battle.players[1].mons[i].isAlive()
     i++
 
-window.addEffectIcon = (monster, effect) -> 
+window.addEffectIcon = (monster, effect, fatigue_effect) -> 
   e = Object.create(effect)
   e.target = battle.players[effect.teamDex].mons[effect.monDex].name if effect.targeta is "taunt"
   e.enemyDex = monster.team
   e.enemyMonDex = monster.index
+  e.change = eval(e.change * fatigue_effect)
   e.end = effect.duration + battle.round
   effectBin.push(e)
   index = effectBin.indexOf(e)
@@ -2430,7 +2432,9 @@ $ ->
             else
               $(".effect-info" + " " + ".panel-body").text("This unit has a shield of " + shield + "HP.")
           else
-            $(".effect-info" + " " + ".panel-body").text(e.description)
+            description = e.description.replace(/(\d+)/g, e.change)
+            console.log(e.change)
+            $(".effect-info" + " " + ".panel-body").text(description)
           $(".effect-info" + " " + ".panel-heading").text(
             "Expires in" + " " + (e.end - battle.round) + " " + "turn(s)")
         ).on "mouseleave", ".effect", -> 

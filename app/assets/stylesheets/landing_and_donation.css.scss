@@ -348,6 +348,7 @@ a.fb-nav:hover {
   width: 100px;
   margin: -60px auto;
   opacity: 0;
+  z-index: -1;
   .popup-guidance {
     position: absolute;
   };
