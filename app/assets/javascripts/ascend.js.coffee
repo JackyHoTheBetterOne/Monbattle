@@ -40,6 +40,7 @@ $ ->
           document.getElementsByClassName("list-title")[0].innerHTML = "You have unlocked all ascensions!"
       ), 3200
       setTimeout (->
+        $(".ascend-info-icon").effect("shake")
         if document.getElementsByClassName("ascending")[0].getAttribute("data-firsttime") is "true"
           setTimeout (->
             hopscotch.startTour(ascension_tour)

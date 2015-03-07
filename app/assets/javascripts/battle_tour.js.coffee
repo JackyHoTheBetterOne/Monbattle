@@ -141,6 +141,17 @@ $ ->
       }
     ]
   }
+  window.equip_ability_tour = {
+    id: "equipment-explanation",
+    steps: [
+      {
+        title: "ability equipping", 
+        content: "Your monguard has learned a new ability! Go to the Edit Team page to equip it!",
+        target: "mon-nav-tab",
+        placement: "bottom"
+      }
+    ]
+  }
 
 
 

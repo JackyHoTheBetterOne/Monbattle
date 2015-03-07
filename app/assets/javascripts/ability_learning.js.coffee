@@ -73,6 +73,7 @@ $ ->
                      #{purchaseLearning.monster_name} and find it under the #{slot} slot!"
           if response.indexOf("first") isnt -1
             window.newAbilitiesLearned.push(message)
+            hopscotch.startTour(ascension_tour)
           document.getElementsByClassName("success-message")[0].innerHTML = 
             purchaseLearning.monster_name + " has learned " + purchaseLearning.ability_name + "!"
           $(".mon-avatar").remove()
@@ -89,6 +90,9 @@ $ ->
               flashMaking()
               document.getElementsByClassName("path-but ability-learning-search")[0].
                 click() if document.getElementsByClassName("ability-icon").length is 0
+              setTimeout (->
+                $(".teaching-info-icon").effect("shake")
+              ), 300
             ), 400
           ), 800
 
