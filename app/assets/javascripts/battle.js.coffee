@@ -1285,7 +1285,7 @@ window.nextScene = ->
     $(".cutscene").css("opacity", "1")
   ), 1300
   setTimeout (->
-    $(".next-scene").css("opacity", "0.9")
+    $(".next-scene").css("opacity", "0.8")
     if document.getElementById('overlay') isnt null
       document.getElementById('overlay').style.pointerEvents = 'auto'
   ), 2000
