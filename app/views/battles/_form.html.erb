@@ -77,18 +77,26 @@
             data-firstClearImage = "<%= level.first_clear_reward_image %>" 
             data-firstClearReward = "<%= level.first_clear_reward %>"
             data-secondClearImage = "<%= level.second_clear_reward_image %>"
-            data-name = "<%= level.name %>">
-            <% if current_user.summoner.beaten_levels.include?(level.name)  %>
-              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-open.png", class: "star first-star", size: "20x20") %>
-            <% else %>
-              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-closed.gif", class: "star first-star", size: "20x20") %>
+            data-name = "<%= level.name %>"
+            data-event = "<%= level.event %>">
+            <% if !level.event %>
+              <% if current_user.summoner.beaten_levels.include?(level.name)  %>
+                <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-open.png", 
+                      class: "star first-star", size: "20x20") %>
+              <% else %>
+                <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-closed.gif", 
+                      class: "star first-star", size: "20x20") %>
+              <% end %>
+              <% if current_user.summoner.cleared_twice_levels.include?(level.name)  %>
+                <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-open.png", 
+                      class: "star second-star", size: "20x20") %>
+              <% else %>
+                <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-closed.gif", 
+                      class: "star second-star", size: "20x20") %>
+              <% end %>
+              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-closed.gif", 
+                    class: "star third-star", size: "20x20") %>
             <% end %>
-            <% if current_user.summoner.cleared_twice_levels.include?(level.name)  %>
-              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-open.png", class: "star second-star", size: "20x20") %>
-            <% else %>
-              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-closed.gif", class: "star second-star", size: "20x20") %>
-            <% end %>
-            <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/chest-closed.gif", class: "star third-star", size: "20x20") %>
           </span>
           <br/>
           <div class="level-desc">

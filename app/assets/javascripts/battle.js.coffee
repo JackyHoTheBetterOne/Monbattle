@@ -677,7 +677,7 @@ window.availableAbilities = () ->
       $(this).css("opacity", "1")
     else
       $(this).css("opacity", "0")
-  if battle.players[0].ap >= battle.maxAP/2
+  if battle.players[0].ap >= battle.apGainCost
     $(".gain-ap").attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/plus-button-v3.svg")
     $(".gain-ap").css("opacity", "1")
     document.getElementById("gain-ap").style.pointerEvents = "auto"
@@ -1213,8 +1213,6 @@ window.setSummonerAbility = ->
 window.turnOnSummonerActions = ->
   $(document).on "click.ap-gain", ".gain-ap", ->
     if $(this).data("apcost") <= battle.players[0].ap
-      cost = $(this).data("apcost") 
-      $(this).data("apcost", cost+5)
       $(".end-turn").css("opacity", "0.5")
       $(".end-turn").prop("disabled", "true")
       xadBuk()
@@ -1224,7 +1222,6 @@ window.turnOnSummonerActions = ->
       setTimeout (->
         $(".end-turn").css("opacity", "1")
         $(".end-turn").prop("disabled", "false")
-        updateApAbilityCost(parseInt(battle.maxAP))
         $("#ap-tip").toggleClass("flip animated")
         availableAbilities()
         zetBut()
@@ -1520,15 +1517,16 @@ window.minimumHpPC = ->
     i++
   return healPC.index
 
-window.updateApAbilityCost = (ap) ->
-  cost = parseInt(ap)
+window.updateApAbilityCost = () ->
+  battle.apGainCost = eval(battle.maxAP/2)
+  cost = parseInt(battle.apGainCost)
   i = 0 
   while i < battle.players[0].mons.length
     if battle.players[0].mons[i].abilities[1].targeta is "action-point"
       battle.players[0].mons[i].abilities[1].ap_cost = cost/2
       $(".user " + ".mon" + i + " " + ".action.ability").data("apcost", cost/2) 
     i++
-  $(".gain-ap").data("apcost", cost/2) 
+  $(".gain-ap").data("apcost", cost) 
 
 
 
@@ -1895,6 +1893,7 @@ window.ai = ->
           setSummonerAbility()
         ), 250
         setTimeout (->
+          updateApAbilityCost()
           setFatigue()
           turnOnCommandA()
           apChange()
@@ -2131,6 +2130,7 @@ $ ->
             nextScene()
   ################################################################################################################ Battle logic
         $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
+        battle.apGainCost = 10
         battle.round = 0
         battle.maxAP = 20
         battle.summonerCooldown = 0
@@ -2239,8 +2239,8 @@ $ ->
           player.turn = true
           player.ap_overload = 0
           player.gainAp = ->
-            if player.ap >= battle.maxAP/2
-              player.ap -= battle.maxAP/2
+            if player.ap >= battle.apGainCost
+              player.ap -= battle.apGainCost
               battle.maxAP += 10
             else
               alert("You don't have enough AP!")
@@ -2641,7 +2641,6 @@ $ ->
                   battle.players[0].ap -= 
                     parseInt(battle.players[0].mons[targets[1]].abilities[targets[2]].ap_cost)
                   battle.maxAP += parseInt(battle.players[0].mons[targets[1]].abilities[targets[2]].change)
-                  updateApAbilityCost(parseInt(battle.maxAP))
                   $("#ap-tip").toggleClass("flip animated")
                   zetBut()
                   apChange()
