@@ -916,15 +916,17 @@ window.outcome = ->
       method: "get"
       data: {round_taken: parseInt(battle.round), "muted": muted},
       success: (response) ->
-        $.ajax
-          url: "/battles/" + battle.id
-          method: "patch"
-          data: {
-            "victor": victor,
-            "loser": loser,
-            "round_taken": parseInt(battle.round),
-            "time_taken": parseInt(seconds_taken)
-          }
+        setTimeout (->
+          $.ajax
+            url: "/battles/" + battle.id
+            method: "patch"
+            data: {
+              "victor": victor,
+              "loser": loser,
+              "round_taken": parseInt(battle.round),
+              "time_taken": parseInt(seconds_taken)
+            }
+        ), 750
         $(".message").html(response)
         if battle.players[1].mons.every(isTeamDead)
           if $(".ability-earned").data("type") is "ability"
@@ -1214,14 +1216,14 @@ window.turnOnSummonerActions = ->
   $(document).on "click.ap-gain", ".gain-ap", ->
     if $(this).data("apcost") <= battle.players[0].ap
       $(".end-turn").css("opacity", "0.5")
-      $(".end-turn").prop("disabled", "true")
+      $(".end-turn, .ap-gain").prop("disabled", "true")
       xadBuk()
       battle.players[0].gainAp()
       $("#ap-tip").toggleClass("flip animated")
       apChange()
       setTimeout (->
         $(".end-turn").css("opacity", "1")
-        $(".end-turn").prop("disabled", "false")
+        $(".end-turn, .ap-gain").prop("disabled", "false")
         $("#ap-tip").toggleClass("flip animated")
         availableAbilities()
         zetBut()
@@ -2432,8 +2434,7 @@ $ ->
             else
               $(".effect-info" + " " + ".panel-body").text("This unit has a shield of " + shield + "HP.")
           else
-            description = e.description.replace(/(\d+)/g, e.change)
-            console.log(e.change)
+            description = e.description.replace(/(\d+)/g, Math.round(e.change))
             $(".effect-info" + " " + ".panel-body").text(description)
           $(".effect-info" + " " + ".panel-heading").text(
             "Expires in" + " " + (e.end - battle.round) + " " + "turn(s)")

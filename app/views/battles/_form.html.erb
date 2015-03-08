@@ -67,7 +67,8 @@
   <%= form_for(Battle.new) do |f| %>
     <% @levels.each do |level| %> 
       <button class="pick-level" id= "<%= level.name.delete(' ') %>" 
-        name="battle[battle_level_id]" type="submit" value="<%= level.id %>">
+        name="battle[battle_level_id]" data-event="<%= level.event %>" 
+        type="submit" value="<%= level.id %>">
           <span class="level-name">
             <span class="name"><%= level.name %></span>
             <span class="staminacon"><%= image_tag("stamina.png", size: "25x25") %> <%=level.stamina_cost%></span>

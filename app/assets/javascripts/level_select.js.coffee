@@ -58,7 +58,7 @@ $ ->
   $(document).on "click.select_level", ".pick-level", ->
     $(this).click(false)
   $(document).on("mouseover.challenge", ".pick-level", ->
-    if $(this).data("event") is "false"
+    if $(this).data("event") is false
       open_chest = "https://s3-us-west-2.amazonaws.com/monbattle/images/chest-open-55px.png"
       closed_chest = "https://s3-us-west-2.amazonaws.com/monbattle/images/chest-55px.png"
       $(".stage-challenge-description").css("z-index", "10000")

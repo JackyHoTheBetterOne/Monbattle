@@ -136,7 +136,7 @@ $ ->
       {
         title: "Ascension", 
         content: "When the base monster is used in battle, you will have a third option to ascend it!",
-        target: "mon-nav-tab",
+        target: "info-icon",
         placement: "bottom"
       }
     ]
@@ -147,7 +147,7 @@ $ ->
       {
         title: "ability equipping", 
         content: "Your monguard has learned a new ability! Go to the Edit Team page to equip it!",
-        target: "mon-nav-tab",
+        target: "info-icon",
         placement: "bottom"
       }
     ]
