@@ -15,6 +15,10 @@ class BattlesController < ApplicationController
   before_action :set_reward_amount, only: [:win]
 
   def new
+    @area_filter = params[:area_filter] || nil
+    @level_filter = params[:level_filter] || "dick"
+
+
     params[:area_filter] ||= session[:area_filter]
     session[:area_filter] = params[:area_filter]
     session[:level_filter] = params[:level_filter]
@@ -33,6 +37,9 @@ class BattlesController < ApplicationController
     @levels = new_battle.levels
     @battle = new_battle.battle
     @monsters = new_battle.monsters
+
+
+
     @summoner = current_user.summoner if current_user
 
     if params[:event]
@@ -41,8 +48,16 @@ class BattlesController < ApplicationController
       @is_event = false
     end
 
-    @event_areas = Area.where("start_date IS NOT NULL").order(:end_date)
+    @events = Area.where("start_date IS NOT NULL").order(:end_date)
+    @event_areas = []
 
+    @events.each do |e|
+      if e.end_date > Time.now
+        @event_areas << e
+      end
+    end
+
+    @event_count = @event_areas.count
 
     @recently_unlocked_level = @summoner.recently_unlocked_level
     unlock_message(@summoner)

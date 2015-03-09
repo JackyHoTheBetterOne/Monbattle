@@ -194,7 +194,7 @@
   .map-level {
     position: absolute;
     background: #4B4B4B;
-    transition: background 0.5s;
+    transition: background 0.5s, opacity 0.2s;
     z-index: 100;
     height: 26px;
     width: 64px;

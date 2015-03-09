@@ -1,2 +1,10 @@
 $(".battle_map").html("<%= j render 'form' %>");
 $(".level-description").hide().show("slide", { direction: "left" }, 200);
+$("#<%= @level_filter.gsub(" ","") %>").addClass("current-area");
+<% if @area_filter %>
+  $(".map-level").css("opacity", "0");
+  $(".map-level").first().addClass("current-area");
+  $(".map-image").hide().slideDown(300, function(){
+    $(".map-level").css("opacity", "1");
+  });
+<% end %>

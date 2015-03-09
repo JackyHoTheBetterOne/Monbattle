@@ -20,7 +20,7 @@
             = image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/story.png")
             p Story
           button.event_click.mode_select#event
-            = image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/event.png")
+            = image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/event.png", data: {count: @event_count}, class: "event-click-image")
             p Event
           button.raid_click.mode_select#raid
             = image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/swords.png")

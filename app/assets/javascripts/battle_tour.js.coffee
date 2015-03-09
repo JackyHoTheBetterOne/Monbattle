@@ -11,7 +11,7 @@ $ ->
       {
         title: "Using AP",
         content: "Your monguards share the same pool of action points.",
-        target: "ap-meter",
+        target: "ap-icon",
         placement: "left"
       },
     ]

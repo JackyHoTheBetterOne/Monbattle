@@ -8,6 +8,14 @@ $ ->
       document.getElementsByClassName("pick-level")[0].className += " tada animated latest-level"
     ), 500
   if window.location.href.indexOf("/battles/new") isnt -1
+    raid = document.getElementById("raid")
+    raid.setAttribute("disabled", "true")
+    event_count = parseInt(document.getElementsByClassName("event-click-image")[0].getAttribute("data-count"))
+    if event_count is 0
+      event = document.getElementById("event")
+      event.style["opacity"] = "0.5"
+      event.style["box-shadow"] = "none"
+      event.setAttribute("disabled", "true")
     if document.getElementsByClassName("battle_level")[0].getAttribute("data-newlevel") isnt ""
       setTimeout (->
         document.getElementsByClassName("latest-level")[0].style["z-index"] = "1000"
@@ -26,29 +34,22 @@ $ ->
     area_index = $(".map-level").index($(this))
     area = $(this)
     setTimeout (->
-      document.getElementsByClassName("map-level")[area_index].className += " current-area"
       id = document.getElementsByClassName("party_edit_button")[0].
             getAttribute("data-latest-level")
       if document.getElementById(id)
         element = document.getElementById(id)
         element.className += " latest-level" 
         element.innerHTML += " <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/quest-warning.png' class='latest-level-indication'>"
-    ), 700
+    ), 750
   $(document).on "click.filter_areas", ".region-select", ->
-    $(".map-image, .map-level").fadeOut(300)
     setTimeout (->
-      $(".map-image, .map-level").fadeIn(300)
       id = document.getElementsByClassName("party_edit_button")[0].
             getAttribute("data-latest-level")
       if document.getElementById(id)
         element = document.getElementById(id)
         element.className += " latest-level" 
         element.innerHTML += " <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/quest-warning.png' class='latest-level-indication'>"
-    ), 400
-    setTimeout (->
-      index = document.getElementsByClassName("map-level").length-1
-      document.getElementsByClassName("map-level")[0].className += " current-area"
-    ), 700
+    ), 500
     index = $(".region-select").index($(this))
     i = 0
     while i < document.getElementsByClassName("region-select").length
@@ -62,7 +63,7 @@ $ ->
       $(".region-select").removeClass("magictime spaceOutUp").
         addClass("magictime spaceInUp")
       setTimeout (->
-       $(".region-select").last().trigger("click")
+        $(".region-select").last().trigger("click")
       ), 1000
   $(document).on "click.select_level", ".pick-level", ->
     $(this).click(false)

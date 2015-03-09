@@ -1734,7 +1734,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
               hpChangeBattle()
               checkMonHealthAfterEffect()            
               return
-            ), 1200
+            ), 1300
             return
         when "aoeally", "aoecleanse"
           window.targets = [teamIndex].concat [monIndex, abilityIndex]
@@ -2607,7 +2607,7 @@ $ ->
                         showDamageTeam(1)
                         singleTargetAbilityAfterActionDisplay()
                         return
-                      ), 1200
+                      ), 1300
                       return
                 when "aoeally", "aoebuffattack", "aoecleanse"
                   allyAbilityBeforeClickDisplay()

@@ -151,10 +151,11 @@
 </div>
 
 
-
-<button class="surrender-option-button">
-  <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/settings-icon.png")%>
-</button>
+<% if @battle.battle_level.name != "First battle" %>
+  <button class="surrender-option-button">
+    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/settings-icon.png")%>
+  </button>
+<% end %>
 
 <div class="surrender-option-box">
   <%= link_to "concede", new_battle_path, class: "surrender-button concede" %>
