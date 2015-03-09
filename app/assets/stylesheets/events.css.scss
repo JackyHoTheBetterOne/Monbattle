@@ -1,10 +1,35 @@
 .level-select {
   .region-panel .event-box {
-    .event_click {
+    .event_click, .story_click, .raid_click {
       position: absolute;
-      background: aqua;
+      background: #eab931;
       color: black;
       border-radius: 5px;
+      border: 2px solid black;
+      top: 3px;
+      left: 273px;
+      height: 66px;
+      width: 70px;
+      color: white;
+      text-align: center;
+      outline: none;
+      transition: 0.3s;
+      img {
+        height: 40px;
+      }
+    }
+    .story_click {
+      background: #43a047;
+      left: 195px;
+    }
+    .raid_click {
+      background: #c62828;
+      left: 352px;
+      opacity: 0.5;
+      box-shadow: none !important;
+    }
+    .mode_select:hover {
+      box-shadow: 0px 0px 10px yellow;
     }
   }
   .battle_map .battle_level {

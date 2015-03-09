@@ -16,7 +16,15 @@
           -@regions.each do |r|
             =link_to r.name, new_battle_path(area_filter: r.name), remote: true, class: "btn btn-primary region-select", id: r.name
         .event-box
-          button.event_click Event
+          button.story_click.mode_select#story
+            = image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/story.png")
+            p Story
+          button.event_click.mode_select#event
+            = image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/event.png")
+            p Event
+          button.raid_click.mode_select#raid
+            = image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/swords.png")
+            p Raid
       .user_team
         h2.the_obvious Your Team
         .party_portraits_blank

@@ -224,6 +224,22 @@ class Battle < ActiveRecord::Base
       p "======================================================================="
       p "Outcome tracking: #{res.body}"
       p "======================================================================="
+
+      user_name = User.find(user_id).name
+      message["event_id"] =  "level_unlock" + ":" + user_name
+      message["value"] = 1
+      json_message = message.to_json
+      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
+      req.body = json_message
+      req['Authorization'] = json_authorization
+
+      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+        http.request(req)
+      end
+
+      p "======================================================================="
+      p "Outcome tracking: #{res.body}"
+      p "======================================================================="
     end
   end
   handle_asynchronously :track_progress, :run_at => Proc.new { 2.minutes.from_now }

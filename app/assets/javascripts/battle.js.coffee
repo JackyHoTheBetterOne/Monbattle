@@ -649,6 +649,8 @@ window.setFatigue = ->
     i++
 
 window.availableAbilities = () ->
+  $(".availability-arrow").each ->
+    $(this).data("available", "false") 
   if $(".oracle-skill-icon").data("apcost") > battle.players[0].ap or battle.summonerCooldown isnt 0
     $(".oracle-skill-icon").css("opacity", "0.5")
     $(".oracle-skill-icon").css("cursor", "default")
@@ -659,7 +661,6 @@ window.availableAbilities = () ->
     document.getElementsByClassName("oracle-skill-icon")[0].style.pointerEvents = "auto"
   $(".monBut button").each ->
     button = $(this)
-    $(button).parent().parent().children(".availability-arrow").data("available", "true")
     if $(this).css("opacity") isnt "0"
       if $(this).data("apcost") > battle.players[0].ap
         $(button).css("opacity", "0.5")

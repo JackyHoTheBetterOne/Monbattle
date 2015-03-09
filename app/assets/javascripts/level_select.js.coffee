@@ -55,6 +55,15 @@ $ ->
       document.getElementsByClassName("region-select")[i].className = "btn btn-primary region-select"
       i++
     document.getElementsByClassName("region-select")[index].className += " current-region"
+  $(document).on "click.mode_select", ".mode_select:not(.raid)", ->
+    if $(this).attr("id") is "event"
+      $(".region-select").addClass("magictime spaceOutUp")
+    else 
+      $(".region-select").removeClass("magictime spaceOutUp").
+        addClass("magictime spaceInUp")
+      setTimeout (->
+       $(".region-select").last().trigger("click")
+      ), 1000
   $(document).on "click.select_level", ".pick-level", ->
     $(this).click(false)
   $(document).on("mouseover.challenge", ".pick-level", ->
