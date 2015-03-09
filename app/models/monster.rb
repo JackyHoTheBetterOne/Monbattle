@@ -134,7 +134,7 @@ class Monster < ActiveRecord::Base
   end
 
   def image(user)
-    self.monster_skin_equippings.where(user_id: user).first.monster_skin.avatar
+    MonsterSkin.find(self.default_skin_id).avatar
   end
 
   def set_defaults
