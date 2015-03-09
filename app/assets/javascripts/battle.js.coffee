@@ -55,7 +55,7 @@ window.fixEvolMon = (monster, player) ->
     if @hp <= 0
       if $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").length isnt 0
         passiveScalingTeam(monster.team, "dead-friends")
-      $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").remove()
+      $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").css("visibility", "hidden !important")
       setTimeout (->
         $("p.dam").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".bar").css("width", "0%")
@@ -71,8 +71,9 @@ window.fixEvolMon = (monster, player) ->
                 deathAbilitiesToActivate["pc"].push(monster.abilities[4]) if deathAbilitiesToActivate["pc"].indexOf(monster.abilities[4]) is -1 
               setTimeout (->
                 $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
+                  attr("style", "").
                   attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif").
-                  css("display", "initial").css("opacity", "1").attr("disabled", "true")
+                  css("display", "initial").css({"opacity": "1"}).attr("disabled", "true")
               ), 500
             else
               $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
@@ -326,25 +327,25 @@ window.fixEvolMon = (monster, player) ->
                 status = Object.create(e)
                 status.change = eval(status.change * fatigue_effect)
                 monTarget.cursed.push(status)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               else
                 status = Object.create(e)
                 status.change = eval(status.change * fatigue_effect)
                 usefulArray[0] = status
                 removeEffectIcon(monTarget, e)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
             i++
         else if e.targeta.indexOf("shield") isnt -1
           while i < effectTargets.length
             monTarget = effectTargets[i]
             if monTarget.isAlive()
               if monTarget.shield.end is undefined
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               else 
                 monTarget[e.stat] = eval(monTarget[e.stat] + e.restore)
                 monTarget["max_hp"] = eval(monTarget["max_hp"] + e.restore) if monTarget.hp > 0
                 removeEffectIcon(monTarget, e)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               monTarget[e.stat] = 
                 eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
               monTarget["max_hp"] = 
@@ -362,10 +363,10 @@ window.fixEvolMon = (monster, player) ->
             monTarget = effectTargets[i]
             if monTarget.isAlive()
               if monTarget.taunted.end is undefined
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               else 
                 removeEffectIcon(monTarget, e)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               monTarget.taunted.description = e.description
               monTarget.taunted.targeta = e.targeta
               monTarget.taunted.target = monster.index
@@ -393,11 +394,11 @@ window.fixEvolMon = (monster, player) ->
                 status["targeta"] = e.targeta
                 status["end"] = battle.round + e.duration
                 monTarget.poisoned.push(status)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               else
                 old_effect = usefulArray[0]
                 removeEffectIcon(monTarget, old_effect)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
                 old_effect.description = e.description
                 old_effect.impact = e.modifier + e.change * fatigue_effect
                 old_effect.change = e.change * fatigue_effect
@@ -422,11 +423,12 @@ window.fixEvolMon = (monster, player) ->
                 status["restore"] = e.restore * fatigue_effect
                 status["end"] = battle.round + e.duration
                 status["targeta"] = e.targeta
+                status["change"] = e.modifier 
                 if object is undefined
                   monTarget.weakened.push(status)
                 else 
                   object.weakened.push(status)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
               else 
                 old_effect = Object.create(usefulArray[0])
                 monTarget[old_effect.stat] = eval(monTarget[old_effect.stat] + old_effect.restore)
@@ -436,13 +438,13 @@ window.fixEvolMon = (monster, player) ->
                 usefulArray[0]["end"] = battle.round + e.duration
                 monTarget[e.stat] = eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
                 removeEffectIcon(monTarget, e)
-                addEffectIcon(monTarget, e)
+                addEffectIcon(monTarget, e, fatigue_effect)
             i++
         else
           while i < effectTargets.length
             monTarget = effectTargets[i]
             if e.targeta isnt "ap-overload"
-              addEffectIcon(monTarget, e)
+              addEffectIcon(monTarget, e, fatigue_effect)
               setTimeout (->
                 $(".effect").trigger("mouseleave")
                 massRemoveEffectIcon(e)
@@ -675,7 +677,7 @@ window.availableAbilities = () ->
       $(this).css("opacity", "1")
     else
       $(this).css("opacity", "0")
-  if battle.players[0].ap >= battle.maxAP/2
+  if battle.players[0].ap >= battle.apGainCost
     $(".gain-ap").attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/plus-button-v3.svg")
     $(".gain-ap").css("opacity", "1")
     document.getElementById("gain-ap").style.pointerEvents = "auto"
@@ -796,11 +798,12 @@ window.checkMonHealthAfterEffect = ->
     battle.players[1].mons[i].isAlive()
     i++
 
-window.addEffectIcon = (monster, effect) -> 
+window.addEffectIcon = (monster, effect, fatigue_effect) -> 
   e = Object.create(effect)
   e.target = battle.players[effect.teamDex].mons[effect.monDex].name if effect.targeta is "taunt"
   e.enemyDex = monster.team
   e.enemyMonDex = monster.index
+  e.change = eval(e.change * fatigue_effect)
   e.end = effect.duration + battle.round
   effectBin.push(e)
   index = effectBin.indexOf(e)
@@ -913,15 +916,17 @@ window.outcome = ->
       method: "get"
       data: {round_taken: parseInt(battle.round), "muted": muted},
       success: (response) ->
-        $.ajax
-          url: "/battles/" + battle.id
-          method: "patch"
-          data: {
-            "victor": victor,
-            "loser": loser,
-            "round_taken": parseInt(battle.round),
-            "time_taken": parseInt(seconds_taken)
-          }
+        setTimeout (->
+          $.ajax
+            url: "/battles/" + battle.id
+            method: "patch"
+            data: {
+              "victor": victor,
+              "loser": loser,
+              "round_taken": parseInt(battle.round),
+              "time_taken": parseInt(seconds_taken)
+            }
+        ), 750
         $(".message").html(response)
         if battle.players[1].mons.every(isTeamDead)
           if $(".ability-earned").data("type") is "ability"
@@ -944,6 +949,7 @@ window.outcome = ->
         setTimeout (->
           $(".next-scene, .cutscene, .skip-button").remove()
           $(endgame_box).css("z-index", "1000")
+          $(endgame_box).removeClass("bounceIn animated")
           $(endgame_box).addClass("bounceIn animated")
           setTimeout (->
             endBattleTutorial()
@@ -980,6 +986,7 @@ window.outcome = ->
       setTimeout (->
         $(".next-scene, .cutscene").remove()
         $(endgame_box).css("z-index", "1000")
+        $(endgame_box).removeClass("bounceIn animated")
         $(endgame_box).addClass("bounceIn animated")
         setTimeout (->
           endBattleTutorial()
@@ -1208,18 +1215,15 @@ window.setSummonerAbility = ->
 window.turnOnSummonerActions = ->
   $(document).on "click.ap-gain", ".gain-ap", ->
     if $(this).data("apcost") <= battle.players[0].ap
-      cost = $(this).data("apcost") 
-      $(this).data("apcost", cost+5)
       $(".end-turn").css("opacity", "0.5")
-      $(".end-turn").prop("disabled", "true")
+      $(".end-turn, .ap-gain").prop("disabled", "true")
       xadBuk()
       battle.players[0].gainAp()
       $("#ap-tip").toggleClass("flip animated")
       apChange()
       setTimeout (->
         $(".end-turn").css("opacity", "1")
-        $(".end-turn").prop("disabled", "false")
-        updateApAbilityCost(parseInt(battle.maxAP))
+        $(".end-turn, .ap-gain").prop("disabled", "false")
         $("#ap-tip").toggleClass("flip animated")
         availableAbilities()
         zetBut()
@@ -1283,7 +1287,7 @@ window.nextScene = ->
     $(".cutscene").css("opacity", "1")
   ), 1300
   setTimeout (->
-    $(".next-scene").css("opacity", "0.9")
+    $(".next-scene").css("opacity", "0.8")
     if document.getElementById('overlay') isnt null
       document.getElementById('overlay').style.pointerEvents = 'auto'
   ), 2000
@@ -1355,7 +1359,7 @@ window.flashEndButton = ->
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)
-  buttonArray.push($(".gain-ap")[0]) if $(".gain-ap").css("opacity") isnt "0"
+  buttonArray.push($(".gain-ap")[0]) if $(".battle").data("levelname") isnt "First battle"
   if buttonArray.every(noApLeft) || buttonArray.every(nothingToDo)
     timer = undefined
     if deathAbilitiesToActivate["pc"].length isnt 0
@@ -1515,15 +1519,16 @@ window.minimumHpPC = ->
     i++
   return healPC.index
 
-window.updateApAbilityCost = (ap) ->
-  cost = parseInt(ap)
+window.updateApAbilityCost = () ->
+  battle.apGainCost = eval(battle.maxAP/2)
+  cost = parseInt(battle.apGainCost)
   i = 0 
   while i < battle.players[0].mons.length
     if battle.players[0].mons[i].abilities[1].targeta is "action-point"
       battle.players[0].mons[i].abilities[1].ap_cost = cost/2
       $(".user " + ".mon" + i + " " + ".action.ability").data("apcost", cost/2) 
     i++
-  $(".gain-ap").data("apcost", cost/2) 
+  $(".gain-ap").data("apcost", cost) 
 
 
 
@@ -1584,6 +1589,11 @@ window.feedAiTargets = ->
 window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
   monster = battle.players[teamIndex].mons[monIndex]
   abilityIndex = undefined
+  enemyTeamIndex = undefined
+  if teamIndex is 0
+    enemyTeamIndex = 1
+  else
+    enemyTeamIndex = 0
   if typeof monster isnt "undefined" 
     if monster.hp > 0 or type is "death" or monster.type is "summoner"
       if teamIndex is 1 and type isnt "death" and monster.type isnt "summoner"
@@ -1592,10 +1602,11 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           effect("highlight", 500)
       if teamIndex is 1 and type isnt "death"
         abilityIndex = getRandom(aiAbilities)
-        if monster.taunted.target is undefined || parseInt(battle.players[teamIndex].mons[monster.taunted.target].hp) <= 0 
+        if monster.taunted.target is undefined 
           window.targetIndex = getRandom(aiTargets)
         else 
-          window.targetIndex = monster.taunted.target
+          if parseInt(battle.players[enemyTeamIndex].mons[monster.taunted.target].hp) > 0 
+            window.targetIndex = monster.taunted.target 
       else 
         abilityIndex = abilityDex
       ability = battle.players[teamIndex].mons[monIndex].abilities[abilityIndex]
@@ -1884,6 +1895,7 @@ window.ai = ->
           setSummonerAbility()
         ), 250
         setTimeout (->
+          updateApAbilityCost()
           setFatigue()
           turnOnCommandA()
           apChange()
@@ -2120,6 +2132,7 @@ $ ->
             nextScene()
   ################################################################################################################ Battle logic
         $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
+        battle.apGainCost = 10
         battle.round = 0
         battle.maxAP = 20
         battle.summonerCooldown = 0
@@ -2228,8 +2241,8 @@ $ ->
           player.turn = true
           player.ap_overload = 0
           player.gainAp = ->
-            if player.ap >= battle.maxAP/2
-              player.ap -= battle.maxAP/2
+            if player.ap >= battle.apGainCost
+              player.ap -= battle.apGainCost
               battle.maxAP += 10
             else
               alert("You don't have enough AP!")
@@ -2421,7 +2434,8 @@ $ ->
             else
               $(".effect-info" + " " + ".panel-body").text("This unit has a shield of " + shield + "HP.")
           else
-            $(".effect-info" + " " + ".panel-body").text(e.description)
+            description = e.description.replace(/(\d+)/g, Math.round(e.change))
+            $(".effect-info" + " " + ".panel-body").text(description)
           $(".effect-info" + " " + ".panel-heading").text(
             "Expires in" + " " + (e.end - battle.round) + " " + "turn(s)")
         ).on "mouseleave", ".effect", -> 
@@ -2628,7 +2642,6 @@ $ ->
                   battle.players[0].ap -= 
                     parseInt(battle.players[0].mons[targets[1]].abilities[targets[2]].ap_cost)
                   battle.maxAP += parseInt(battle.players[0].mons[targets[1]].abilities[targets[2]].change)
-                  updateApAbilityCost(parseInt(battle.maxAP))
                   $("#ap-tip").toggleClass("flip animated")
                   zetBut()
                   apChange()
