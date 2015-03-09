@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'websocket-rails'
 gem 'delayed_job_active_record'
 gem 'jquery-turbolinks'
 gem "nested_form"

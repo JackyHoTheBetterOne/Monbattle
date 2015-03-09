@@ -74,7 +74,7 @@ window.fixEvolMon = (monster, player) ->
                   attr("style", "").
                   attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/orb.gif").
                   css("display", "initial").css({"opacity": "1"}).attr("disabled", "true")
-              ), 500
+              ), 350
             else
               $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
                 css("opacity", "0") if $("." + monster.team + " " + ".mon" + monster.index + " " + ".img.passive").
@@ -882,7 +882,7 @@ window.checkOutcome = ->
             $("p.dam").promise().done ->
               outcome()
           ), 500
-    ), 800
+    ), 1000
 
 window.outcome = ->
   muted = undefined
@@ -927,7 +927,7 @@ window.outcome = ->
               "round_taken": parseInt(battle.round),
               "time_taken": parseInt(seconds_taken)
             }
-        ), 750
+        ), 400
         $(".message").html(response)
         if battle.players[1].mons.every(isTeamDead)
           if $(".ability-earned").data("type") is "ability"
@@ -1734,7 +1734,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
               hpChangeBattle()
               checkMonHealthAfterEffect()            
               return
-            ), 1300
+            ), 1500
             return
         when "aoeally", "aoecleanse"
           window.targets = [teamIndex].concat [monIndex, abilityIndex]
@@ -2607,7 +2607,7 @@ $ ->
                         showDamageTeam(1)
                         singleTargetAbilityAfterActionDisplay()
                         return
-                      ), 1300
+                      ), 1500
                       return
                 when "aoeally", "aoebuffattack", "aoecleanse"
                   allyAbilityBeforeClickDisplay()
