@@ -19,14 +19,5 @@
 //= require jquery-ui
 //= require_tree .
 //= require turbolinks
-
-
-
-
-
-
-
-
-
 //= require websocket_rails/main
 

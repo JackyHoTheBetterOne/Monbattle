@@ -927,7 +927,7 @@ window.outcome = ->
               "round_taken": parseInt(battle.round),
               "time_taken": parseInt(seconds_taken)
             }
-        ), 750
+        ), 500
         $(".message").html(response)
         if battle.players[1].mons.every(isTeamDead)
           if $(".ability-earned").data("type") is "ability"

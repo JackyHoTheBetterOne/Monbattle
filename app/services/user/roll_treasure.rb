@@ -76,8 +76,6 @@ class User::RollTreasure
       @ultra_rare_chance = (chance*1000).to_i
       chance = Rarity.find_by_name("latest").chance
       @latest_chance = (chance*1000).to_i
-      @summoner[currency_type] -= cost
-      @summoner.save
 
       reward_level_roll = Random.new.rand(1..1000)
 
@@ -126,6 +124,8 @@ class User::RollTreasure
       self.rarity_image = @rarity_image
 
       if roll_type != "monster"
+        @summoner[currency_type] -= cost
+        @summoner.save
         if roll_type == "base"
           @abil_array = Ability.base.can_win(@rarity).pluck(:id)
         elsif roll_type == "ascension"
@@ -187,6 +187,9 @@ class User::RollTreasure
         if @id_array.length == 0
           self.message = "You have unlocked all the #{@rarity} monsters!"
           return self.message
+        else 
+          @summoner[currency_type] -= cost
+          @summoner.save
         end
 
 
