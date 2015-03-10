@@ -649,8 +649,6 @@ window.setFatigue = ->
     i++
 
 window.availableAbilities = () ->
-  $(".availability-arrow").each ->
-    $(this).data("available", "false") 
   if $(".oracle-skill-icon").data("apcost") > battle.players[0].ap or battle.summonerCooldown isnt 0
     $(".oracle-skill-icon").css("opacity", "0.5")
     $(".oracle-skill-icon").css("cursor", "default")
@@ -659,25 +657,27 @@ window.availableAbilities = () ->
     $(".oracle-skill-icon").css("cursor", "pointer")
     $(".oracle-skill-icon").css("opacity", "1")
     document.getElementsByClassName("oracle-skill-icon")[0].style.pointerEvents = "auto"
-  $(".monBut button").each ->
-    button = $(this)
-    if $(this).css("opacity") isnt "0"
-      if $(this).data("apcost") > battle.players[0].ap
-        $(button).css("opacity", "0.5")
-        if $(button).data("target") is "evolve"
-          $(button).children(".but-image").
-            attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend_idle.svg")
-      else 
-        $(button).css("opacity", "1")
-        $(button).parent().parent().children(".availability-arrow").data("available", "true")
-        if $(button).data("target") is "evolve"
-          $(button).children(".but-image").
-            attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend_turning.svg")
   $(".availability-arrow").each ->
-    if $(this).data("available") is "true"
-      $(this).css("opacity", "1")
+    arrow = $(this)
+    $(this).data("available", "false") 
+    $(this).last().parent().children(".monBut").children("button").each ->
+      button = $(this)
+      if $(this).css("opacity") isnt "0"
+        if $(this).data("apcost") > battle.players[0].ap
+          $(button).css("opacity", "0.5")
+          if $(button).data("target") is "evolve"
+            $(button).children(".but-image").
+              attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend_idle.svg")
+        else 
+          $(button).css("opacity", "1")
+          $(button).parent().parent().children(".availability-arrow").data("available", "true")
+          if $(button).data("target") is "evolve"
+            $(button).children(".but-image").
+              attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend_turning.svg")
+    if $(arrow).data("available") is "true"
+      $(arrow).css({"opacity":"1", "visibility":"visible"})
     else
-      $(this).css("opacity", "0")
+      $(arrow).css({"opacity":"0", "visibility":"hidden"})
   if battle.players[0].ap >= battle.apGainCost
     $(".gain-ap").attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/plus-button-v3.svg")
     $(".gain-ap").css("opacity", "1")

@@ -1,11 +1,9 @@
 window.zetBut = ->
   window.gigSet = JSON.parse(JSON.stringify(battle))
-  console.log("shooting")
 
 
 window.xadBuk = ->
   window.pafCheck = JSON.parse(JSON.stringify(battle))
-  console.log("catching")
   if JSON.stringify(window.gigSet) != JSON.stringify(window.pafCheck)
     console.log(JSON.stringify(window.gigSet))
     console.log(JSON.stringify(window.pafCheck))
