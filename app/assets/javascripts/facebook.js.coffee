@@ -17,7 +17,7 @@ window.onStatusChange = (response) ->
         if hasPermission('user_friends')
           getFriends ->
             renderWelcome()
-            onLeaderboard()
+            # onLeaderboard()
             showHome()
             return
         else
