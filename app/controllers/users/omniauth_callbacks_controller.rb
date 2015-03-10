@@ -1,5 +1,6 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   after_action :track_login, only: [:facebook]
+  after_action :quest_start, only: [:facebook]
 
   def facebook     
     @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)      
@@ -22,6 +23,18 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     session_id = request.session_options[:id]
     time = Time.now.in_time_zone("Pacific Time (US & Canada)").strftime("%A %H")
     @user.track_login(session_id, time)
+  end
+
+  def quest_start
+    if current_user
+      @date = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
+      @party = current_user.parties[0]
+      if Battle.find_matching_date(@date, @party).count == 0
+        @party.user.summoner.quest_begin 
+        @party.user.summoner.clear_daily_achievement
+        @party.user.summoner.clear_daily_battles
+      end
+    end
   end
 end
 
