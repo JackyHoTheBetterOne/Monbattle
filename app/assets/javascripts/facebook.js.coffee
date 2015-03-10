@@ -18,11 +18,11 @@ window.onStatusChange = (response) ->
           getFriends ->
             renderWelcome()
             # onLeaderboard()
-            showHome()
+            # showHome()
             return
         else
           renderWelcome()
-          showHome()
+          # showHome()
         return
       return
   return
