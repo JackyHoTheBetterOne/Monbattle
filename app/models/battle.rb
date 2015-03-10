@@ -105,9 +105,9 @@ class Battle < ActiveRecord::Base
     end
 
     if @victorious_summoner.beaten_levels.include?(@battle_level.name) 
-      if self.time_taken < @battle_level.time_requirement && @battle_level.time_reward.length != 0
+      if self.round_taken < @battle_level.time_requirement && @battle_level.time_reward.length != 0
         @victorious_summoner[@battle_level.time_reward[0]] += self.reward_num
-      elsif self.time_taken >= @battle_level.time_requirement && @battle_level.pity_reward.length != 0
+      elsif self.round_taken >= @battle_level.time_requirement && @battle_level.pity_reward.length != 0
         @victorious_summoner[@battle_level.pity_reward[0]] += self.reward_num
       end
     end
