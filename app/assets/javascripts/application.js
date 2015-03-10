@@ -17,7 +17,7 @@
 //= require jquery.remotipart
 //= require bootstrap-sprockets
 //= require jquery-ui
+//= require websocket_rails/main
 //= require_tree .
 //= require turbolinks
-//= require websocket_rails/main
 

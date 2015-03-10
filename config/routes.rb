@@ -62,7 +62,7 @@ post 'track_currency_purchase' => "home#track_currency_purchase"
 get 'event_areas' => 'home#event_levels'
 
 
-
+get 'dick_fly' => 'home#dick_fly'
 
 
 resources :home

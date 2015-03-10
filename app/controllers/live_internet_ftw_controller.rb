@@ -4,7 +4,13 @@ class LiveInternetFtwController < WebsocketRails::BaseController
     controller_store[:dick_count] = 0
   end
 
-  
-
-
+  def dick_love
+    if message[:dick_count] > 0
+      new_message = {
+        :message => 'Counting dicks',
+        :count => message[:dick_count]
+      }
+      broadcast_message(:dick_love, new_message)
+    end
+  end
 end
