@@ -4,7 +4,7 @@
 
 $ ->
   window.dickCount = 0
-  window.dispatcher = new WebSocketRails('localhost:3000/websocket')
+  window.dispatcher = new WebSocketRails(window.location.host + '/websocket')
   dispatcher.bind 'dick_love', (data) ->
     number = parseInt(document.getElementsByClassName("dick_count")[0].innerHTML)
     number += parseInt(data.count)
