@@ -1,5 +1,5 @@
 window.login = (callback) ->
-  FB.login callback
+  FB.login(callback, {scope: 'user_friends, email'})
   return
 
 window.loginCallback = (response) ->
@@ -25,6 +25,5 @@ $ ->
   frictionlessRequests: true
   status: true
   version: 'v2.2'
-
   FB.Event.subscribe 'auth.authResponseChange', onAuthResponseChange
   FB.Event.subscribe 'auth.statusChange', onStatusChange
