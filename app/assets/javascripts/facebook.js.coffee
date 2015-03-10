@@ -75,9 +75,33 @@ window.hasPermission = (permission) ->
       return true
   false
 
+window.reRequest = (scope, callback) ->
+  FB.login callback,
+    scope: scope
+    auth_type: 'rerequest'
+  return
+
+window.sendChallenge = (to, message, callback) ->
+  options = {method: 'apprequests'}
+  if to
+    options.to = to
+  if message
+    options.message = message
+  FB.ui options, (response) ->
+    if callback
+      callback response
+    return
+  return
+
+window.onChallenge = ->
+  sendChallenge null, 'My dick is dry! Come and suck it wet!', (response) ->
+    console.log 'sendChallenge', response
+    return
+  return
+
 
 $ ->
-  window.friendCache = {}
+  window.friendCache = {me: {}, reRequests: {}}
   FB.init
   appId: '1514420408809454'
   frictionlessRequests: true

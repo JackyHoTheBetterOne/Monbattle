@@ -18,9 +18,9 @@ window.endBattleTutorial = ->
     if $(element).data("levelname") is "Area A - Stage 1" 
       hopscotch.startTour(edit_team_tour)
     else if $(element).data("levelname") is "Area A - Stage 2"
-      hopscotch.startTour(learn_ability_tour)
+      hopscotch.startTour(ascend_mon_tour) 
     else if $(element).data("levelname") is "Area A - Stage 3"
-      hopscotch.startTour(ascend_mon_tour)
+      hopscotch.startTour(learn_ability_tour) 
     else if $(element).data("levelname") is "Area A - Stage 4"
       hopscotch.startTour(enhance_mon_tour)
 
