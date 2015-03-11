@@ -13,7 +13,9 @@
       FB.init({
         appId      : '1514420408809454',
         xfbml      : true,
-        version    : 'v2.2'
+        version    : 'v2.2',
+        frictionlessRequests: true,
+        status: true
       });
       function onLogin(response) {
         if (response.status == 'connected') {

@@ -99,14 +99,20 @@ window.onChallenge = ->
     return
   return
 
+window.sendBrag = (caption, callback) ->
+  FB.ui {
+    method: 'feed'
+    caption: caption
+    picture: 'http://www.freakypic.in/wp-content/uploads/2014/08/funny-images-4.jpg'
+    name: 'Checkout my dick!'
+  }, callback
+  return
+
+window.showHome = () ->
+  console.log("Dick Fight!")
 
 $ ->
   window.friendCache = {me: {}, reRequests: {}}
-  FB.init
-  appId: '1514420408809454'
-  frictionlessRequests: true
-  status: true
-  version: 'v2.2'
   FB.Event.subscribe 'auth.authResponseChange', onAuthResponseChange
   FB.Event.subscribe 'auth.statusChange', onStatusChange
 
