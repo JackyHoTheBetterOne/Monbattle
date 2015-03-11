@@ -1,5 +1,5 @@
 window.login = (callback) ->
-  FB.login(callback, {scope: 'user_friends, email, publish_actions'})
+  FB.login(callback, {scope: 'user_friends, email, publish_actions', return_scopes: true})
   return
 
 window.loginCallback = (response) ->

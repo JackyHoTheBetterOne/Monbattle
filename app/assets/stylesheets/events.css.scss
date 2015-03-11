@@ -1,3 +1,8 @@
+@mixin stroke() {
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 
+               1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
+};
+
 .level-select {
   .region-panel .event-box {
     .event_click, .story_click, .raid_click {
@@ -53,6 +58,7 @@
         border-radius: 5px;
       }
       .time-left {
+        @include stroke();
         position: absolute;
         font-size: 140%;
         top: 65px;

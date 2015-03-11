@@ -225,7 +225,7 @@ class Battle < ActiveRecord::Base
       p "Outcome tracking: #{res.body}"
       p "======================================================================="
 
-      user_name = User.find(user_id).name
+      user_name = User.find(user_id).user_name
       message["event_id"] =  "level_unlock" + ":" + user_name
       message["value"] = 1
       json_message = message.to_json
