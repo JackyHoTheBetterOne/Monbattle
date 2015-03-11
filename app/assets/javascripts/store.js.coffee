@@ -41,6 +41,13 @@ $ ->
       error: ->
         alert("Can't process the roll")
       success: (response) ->
+        caption = document.getElementsByClassName("username")[0].innerHTML + " is playing monbattle!"
+        name = document.getElementsByClassName("username")[0].innerHTML + " has unlocked a " + response.rarity + " " + response.type + ", " + response.reward + ", " + " in Monbattle!"
+        picture_url = response.image
+        $(".share-roll-but").on "click", ->
+          sendBrag caption, picture_url, name, ->
+            showHome()
+            return
         document.getElementsByClassName("king-roll")[0].style["z-index"] = "-1"
         document.getElementsByClassName("queen-roll")[0].style["z-index"] = "-1"
         document.getElementsByClassName("mon-roll")[0].style["z-index"] = "-1"
@@ -53,6 +60,7 @@ $ ->
         apcost = document.getElementsByClassName("ap-cost")[0]
         sword = document.getElementsByClassName("sword-icon")[0]
         button = document.getElementsByClassName("back-to-store")[0]
+        share = document.getElementsByClassName("share-roll-but")[0]
         rarity = document.getElementsByClassName("rarity-icon")[0]
         ability_icon = document.getElementsByClassName("ability-won-icon")[0]
         description_box = document.getElementsByClassName("ability-won-description")[0]
@@ -67,7 +75,6 @@ $ ->
         gp.innerHTML = response.gp 
         mp.innerHTML = response.mp
         description_box.innerHTML = response.desc + "<br />" + response.job_list
-        console.log(response.desc)
         if response.type == "ability" && response.first_time == true
           sentence = "You have earned " + response.reward + 
                      "! Teach it to your monster through the " + 
@@ -100,6 +107,8 @@ $ ->
                 reveal_but.style["opacity"] = "0"
                 button.style["z-index"] = "1000"
                 button.className += " bounceIn animated"
+                share.style["z-index"] = "1000"
+                share.className += " bounceIn animated"
                 if response.type is "ability"
                   impact.innerHTML = response.impact
                   apcost.innerHTML = response.ap_cost
@@ -122,6 +131,8 @@ $ ->
       document.getElementsByClassName("store-overlay")[0].className = "store-overlay"
       document.getElementsByClassName("back-to-store")[0].className = "back-to-store"
       document.getElementsByClassName("back-to-store")[0].style["z-index"] = "-1"
+      document.getElementsByClassName("share-roll-but")[0].className = "share-roll-but"
+      document.getElementsByClassName("share-roll-but")[0].style["z-index"] = "-1"
       document.getElementsByClassName("roll-message")[0].style["opacity"] = "0"
       document.getElementsByClassName("ability-won-icon")[0].className = "ability-won-icon"
       document.getElementsByClassName("rarity-icon")[0].style["opacity"] = "0"

@@ -24,6 +24,9 @@ class Battle::Victory
 
 
   attribute :first_time
+  attribute :share_message
+
+
 
   def call
     self.ability = nil
@@ -155,5 +158,16 @@ class Battle::Victory
     elsif self.reward_image == "https://s3-us-west-2.amazonaws.com/monbattle/images/enhance.png"
       self.reward_category = "enhance"
     end
+
+    if self.reward_category == "monster" or self.reward_category == "ability"
+      self.share_message = summoner.user.first_name + " has beaten " + battle_level.name + " in " + 
+                            battle_level.area.region.name + " and has unlocked a new " + self.reward_category + ", " +
+                            self[self.reward_category].name + "!"
+    else
+      self.share_message = summoner.user.first_name + " has beaten " + battle_level.name + " in " + 
+                            battle_level.area.region.name + " !"
+    end
+
+
   end
 end

@@ -94,21 +94,20 @@ window.sendChallenge = (to, message, callback) ->
   return
 
 window.onChallenge = ->
-  sendChallenge null, 'My dick is dry! Come and suck it wet!', (response) ->
+  sendChallenge null, 'I am the king of the world!', (response) ->
     console.log 'sendChallenge', response
     return
   return
 
-window.sendBrag = (caption, callback) ->
+window.sendBrag = (caption, picture_url, name, callback) ->
   FB.ui {
     method: 'feed'
     caption: caption
-    picture: 'http://www.freakypic.in/wp-content/uploads/2014/08/funny-images-4.jpg'
-    name: 'Checkout my dick!'
+    picture: picture_url
+    name: name
   }, callback
-  return
 
-window.showHome = () ->
+window.showHome = ->
   console.log("Dick Fight!")
 
 window.sendScore = (score, callback) ->
@@ -120,6 +119,7 @@ window.sendScore = (score, callback) ->
     callback()
     return
   return
+
 
 $ ->
   window.friendCache = {me: {}, reRequests: {}}

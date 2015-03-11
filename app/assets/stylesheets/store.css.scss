@@ -142,13 +142,13 @@ div.store-front {
   transition: 0.3s;
 };
 
-.back-to-store {
+.back-to-store, .share-roll-but {
   z-index: -1;
   position: fixed;
   margin: 480px auto;
   right: auto;
   left: auto;
-  margin-left: -32px;
+  margin-left: 6px;
   padding-right: 7px;
   opacity: 0;
   background: #353434;
@@ -158,10 +158,21 @@ div.store-front {
   border-radius: 5px;
   box-shadow: 3px 3px 5px #000000;
   font-size: 120%;
+  outline: none;
+  width: 90px;
 };
+
+.share-roll-but {
+  margin-left: -87px;
+};
+
 
 .back-to-store:hover {
   background: #0D47A1;
+};
+
+.share-roll-but:hover {
+  box-shadow: 0px 0px 10px yellow;
 };
 
 .rarity-icon {

@@ -929,6 +929,13 @@ window.outcome = ->
             }
         ), 750
         $(".message").html(response)
+        $(".share-but").on "click", ->
+          caption = document.getElementsByClassName("username")[0].innerHTML + " is playing monbattle!"
+          name = $(".end-battle-box.winning").data("share")
+          picture_url = "https://s3-us-west-2.amazonaws.com/monbattle/notices/banners/000/000/010/cool/monbattle-site-banner-175.png?1424723470"
+          sendBrag caption, picture_url, name, ->
+            showHome()
+            return
         if battle.players[1].mons.every(isTeamDead)
           if $(".ability-earned").data("type") is "ability"
             sentence = "You have earned " + $(".ability-earned").text() + 

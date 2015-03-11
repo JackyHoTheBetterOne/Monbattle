@@ -1,6 +1,7 @@
 <div class="end-battle-box winning" id="winning" 
       data-firstcleared = "<%= @victory.first_cleared %>"
-      data-levelname = "<%= @victory.battle_level.name %>" >
+      data-levelname = "<%= @victory.battle_level.name %>"
+      data-share = "<%= @victory.share_message %>">
   <% if @victory.ability != nil %>
     <p class="extra-reward-title">Ability earned:</p>
     <%= image_tag("#{@victory.reward_image}", class: "reward-image") %>
@@ -37,6 +38,11 @@
     <%= link_to "Shop", device_store_path, 
         class: "end-battle-but ability-equip battle-fin endgame-store-link", id: "endgame-link" %>
   <% end %>
+  <button class="end-battle-but battle-fin ability-equip share-but">
+    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/facebook-share.png", 
+      class: "facebook-share-logo", size: "20")%>
+    Share
+  </button>
 </div>
 
 <% if @victory.level_up %>
