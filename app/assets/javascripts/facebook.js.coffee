@@ -1,5 +1,5 @@
 window.login = (callback) ->
-  FB.login(callback, {scope: 'user_friends, email'})
+  FB.login(callback, {scope: 'user_friends, email, publish_actions'})
   return
 
 window.loginCallback = (response) ->
@@ -110,6 +110,16 @@ window.sendBrag = (caption, callback) ->
 
 window.showHome = () ->
   console.log("Dick Fight!")
+
+window.sendScore = (score, callback) ->
+  FB.api '/me/scores/', 'post', { score: score }, (response) ->
+    if response.error
+      console.error 'sendScore failed', response
+    else
+      console.log 'Score posted to Facebook', response
+    callback()
+    return
+  return
 
 $ ->
   window.friendCache = {me: {}, reRequests: {}}
