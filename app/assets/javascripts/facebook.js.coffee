@@ -94,7 +94,7 @@ window.sendChallenge = (to, message, callback) ->
   return
 
 window.onChallenge = ->
-  sendChallenge null, 'I am the king of the world!', (response) ->
+  sendChallenge null, "Check out Monbattle! It's so fun that it will blow your brain off!", (response) ->
     console.log 'sendChallenge', response
     return
   return

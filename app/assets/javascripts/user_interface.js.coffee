@@ -106,7 +106,7 @@ $ ->
     document.getElementsByClassName("quests-outline")[0].innerHTML =
       "<div class='quest'></div>" 
     document.getElementsByClassName("quests-info")[0].innerHTML = 
-      "<div class='quest none'>Come back tomorrow for more daily quests!</div>"
+      "<div class='quest none'>Come back tomorrow for more daily tasks!</div>"
     document.getElementsByClassName("none")[0].style["padding-top"] = "12px"
   if document.getElementById("turbolinks-overlay") isnt null
     $(document).on "page:before-change", ->
@@ -138,17 +138,18 @@ $ ->
   $(document).on "click.donate", ".donation-click", (event) ->
     event.preventDefault()
     $(".stripe-button-el").trigger("click")
-  $(document).on "click.mon-tab-show", ".mon-tab", (event) ->
+  $(document).on "click.mon-tab-show", ".mon-tab, .social-tab", (event) ->
     event.preventDefault()
-    if $(".mon-dropdown").css("opacity") isnt "1"
+    element = "." + $(this).data("toggle")
+    if $(element).css("opacity") isnt "1"
       $(this).addClass("active-bar")
-      $(".mon-dropdown").css({"z-index":"10000","opacity":"1"})
+      $(element).css({"z-index":"10000","opacity":"1"})
     else 
       $(this).removeClass("active-bar")
-      $(".mon-dropdown").css({"z-index":"-10000000000","opacity":"0"})
+      $(element).css({"z-index":"-10000000000","opacity":"0"})
   $(document).on "click.mon-tab-hide", ".for-real, .close-quest, .quest-close-footer, .quest-show", ->
       $(".mon-dropdown").css("opacity", "0").css("z-index", "-100")
-      $(".mon-tab").removeClass("active-bar")
+      $(".mon-tab, .social-tab").removeClass("active-bar")
   $(document).on "click.quest-show", ".quest-show", (event) ->
     event.preventDefault()
     if $(".quest").length isnt 0
@@ -164,6 +165,9 @@ $ ->
       $(".quest-show").parent().removeClass("active")
   $(".plus-mp-but").on "click", ->
     window.storeDisplay = true
+  $(".invite-but").on "click", (event) ->
+    event.preventDefault()
+    onChallenge()
 
 
 

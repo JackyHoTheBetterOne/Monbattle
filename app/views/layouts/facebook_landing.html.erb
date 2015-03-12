@@ -78,7 +78,21 @@
 <!--             image_tag("quest-warning.png", class: "quest-warning") %> -->
           <% end %>
           <li class="<%= 'active' if current_page?(home_forum_path) %> pull-right fb-nav forum">
-            <%= link_to "Forum", "http://monbattle.boards.net/", class: "fb-nav", :target => '_blank' %>
+            <a href="#" class="fb-nav social-tab" id="mon-nav-tab" data-toggle="social-dropdown">
+              Social<span class="caret"></span>
+            </a>
+            <div class="mon-dropdown social-dropdown">
+              <a href="#" class="top-bar invite-but">
+                <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/facebook-share.png", 
+                      class: "facebook-share-logo", size: "20") %>
+                Invite
+              </a>
+              <%= link_to 'Gifting', "#", class: "top-bar gift-but" %>
+              <%= link_to "Forum", "http://monbattle.boards.net/", class: "top-bar forum-but", 
+                    :target => '_blank' %>
+              <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/quest-arrow.png", 
+                class: "mon-dropdown-arrow") %>
+            </div>
           </li>
           <li class="<%= 'active' if current_page?(device_store_path) %> pull-right fb-nav">
             <%= link_to "Shop", device_store_path, class: "fb-nav" %>
@@ -103,8 +117,10 @@
           </li>
           <%= image_tag("quest-warning.png", class: "store-warning") %>
           <li class="pull-right fb-nav mon-tab-li">
-            <a href="#" class="fb-nav mon-tab" id="mon-nav-tab">MON<span class="caret"></span></a>
-            <div class="mon-dropdown">
+            <a href="#" class="fb-nav mon-tab" id="mon-nav-tab" data-toggle="mon-dropdown-for-real">
+              MON<span class="caret"></span>
+            </a>
+            <div class="mon-dropdown mon-dropdown-for-real">
               <%= link_to 'Edit Team', home_index_path, class: "top-bar edit-team" %>
               <%= link_to 'Teach Abilities', learn_ability_path, class: "top-bar learn-abilities" %>
               <%= link_to 'Enhance Mons', enhance_monster_path, class: "top-bar enhance-mons" %>
