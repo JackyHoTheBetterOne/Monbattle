@@ -167,7 +167,7 @@ $ ->
     window.storeDisplay = true
   $(".invite-but").on "click", (event) ->
     event.preventDefault()
-    onChallenge()
+    onInvite()
 
 
 

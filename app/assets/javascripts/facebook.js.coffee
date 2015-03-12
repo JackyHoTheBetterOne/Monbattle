@@ -58,6 +58,16 @@ window.getFriends = (callback) ->
     return
   return
 
+window.getNonPlayers = (callback) ->
+  FB.api '/me/invitable_friends', { fields: 'id,name,first_name,picture.width(120).height(120), games_activity' }, (response) ->
+    if !response.error
+      friendCache.invitable_friends = response.data
+      callback()
+    else
+      console.error '/me/friends', response
+    return
+  return
+
 window.getPermissions = (callback) ->
   FB.api '/me/permissions', (response) ->
     if !response.error
@@ -81,8 +91,13 @@ window.reRequest = (scope, callback) ->
     auth_type: 'rerequest'
   return
 
-window.sendChallenge = (to, message, callback) ->
-  options = {method: 'apprequests'}
+window.sendInvite = (to, message, callback) ->
+  players = []
+  i = 0 
+  while i < friendCache.invitable_friends.length
+    players.push(friendCache.invitable_friends[i].id)
+    i++
+  options = { method: 'apprequests', filters: [ {name:'Suggested Users', user_ids:players} ] }
   if to
     options.to = to
   if message
@@ -93,11 +108,26 @@ window.sendChallenge = (to, message, callback) ->
     return
   return
 
-window.onChallenge = ->
-  sendChallenge null, "Check out Monbattle! It's so fun that it will blow your brain off!", (response) ->
+window.onInvite = ->
+  sendInvite null, "Check out Monbattle! It's so fun that it will blow your brain off!", (response) ->
     console.log 'sendChallenge', response
     return
   return
+
+# window.onInvite = ->
+#   to = ""
+#   i = 0
+#   while i < friendCache.invitable_friends.length
+#     if i <= 20
+#       to += ',' if to != ""
+#       to += friendCache.invitable_friends[i]["id"] 
+#     i++
+#   console.log(to)
+#   sendChallenge to, "Check out Monbattle! It's so fun that it will blow your brain off!", (response) ->
+#     console.log 'sendChallenge', response
+#     return
+#   return
+
 
 window.sendBrag = (caption, picture_url, name, callback) ->
   FB.ui {
@@ -125,6 +155,10 @@ $ ->
   window.friendCache = {me: {}, reRequests: {}}
   FB.Event.subscribe 'auth.authResponseChange', onAuthResponseChange
   FB.Event.subscribe 'auth.statusChange', onStatusChange
+  setTimeout (->
+    getNonPlayers(showHome)
+  ), 2000
+
 
 
 
