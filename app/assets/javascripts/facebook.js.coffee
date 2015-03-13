@@ -167,6 +167,12 @@ window.readRequest = (accessToken) ->
 #     window.apprequests = response
 #   else
 #   return
+window.getRequest = ->
+  FB.api '/me/apprequests', (response) ->
+    if response and !response.error
+      console.log(response)
+    else
+    return
 
 
 $ ->
