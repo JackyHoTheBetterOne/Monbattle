@@ -128,7 +128,7 @@ class User < ActiveRecord::Base
 
     end
   end
-  handle_asynchronously :track_currency_pick, :run_at => Proc.new { 2.minutes.from_now }
+  handle_asynchronously :track_currency_pick
 
 
   def track_currency_purchase(session_id, pick)
@@ -161,7 +161,7 @@ class User < ActiveRecord::Base
 
     end
   end
-  handle_asynchronously :track_currency_purchase, :run_at => Proc.new { 2.minutes.from_now }
+  handle_asynchronously :track_currency_purchase
 
   def track_rolling(rarity, session_id, type)
     if self.admin == false && rarity != "1" && type != "1"
@@ -223,7 +223,7 @@ class User < ActiveRecord::Base
 
     end
   end
-  handle_asynchronously :track_rolling, :run_at => Proc.new { 2.minutes.from_now }
+  handle_asynchronously :track_rolling
 
 
   def track_login(session_id, time)
@@ -271,7 +271,7 @@ class User < ActiveRecord::Base
 
     end
   end
-  handle_asynchronously :track_login, :run_at => Proc.new { 2.minutes.from_now }
+  handle_asynchronously :track_login
 
   private
 

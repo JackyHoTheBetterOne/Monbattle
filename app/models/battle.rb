@@ -193,7 +193,7 @@ class Battle < ActiveRecord::Base
       p "======================================================================="
     end
   end
-  handle_asynchronously :track_outcome, :run_at => Proc.new { 2.minutes.from_now }
+  handle_asynchronously :track_outcome
 
 
 
@@ -242,7 +242,7 @@ class Battle < ActiveRecord::Base
       p "======================================================================="
     end
   end
-  handle_asynchronously :track_progress, :run_at => Proc.new { 2.minutes.from_now }
+  handle_asynchronously :track_progress
 
 
 
@@ -307,7 +307,7 @@ class Battle < ActiveRecord::Base
 
     end
   end
-  handle_asynchronously :track_performance, :run_at => Proc.new { 2.minutes.from_now }
+  handle_asynchronously :track_performance
 
 
 
@@ -341,6 +341,6 @@ class Battle < ActiveRecord::Base
       p "======================================================================="
     end
   end
-  handle_asynchronously :track_ability_frequency, :run_at => Proc.new { 2.minutes.from_now }
+  handle_asynchronously :track_ability_frequency
 end
 
