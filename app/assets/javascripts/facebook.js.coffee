@@ -29,7 +29,6 @@ window.onStatusChange = (response) ->
 
 window.onAuthResponseChange = (response) ->
   console.log 'onAuthResponseChange', response
-  window.accessToken = response.authResponse.accessToken
   return
 
 window.getMe = (callback) ->
@@ -151,10 +150,12 @@ window.sendScore = (score, callback) ->
     return
   return
 
-window.readRequest = ->
+window.readRequest = (accessToken) ->
   $.ajax
-    url: "https://graph.facebook.com/me/apprequests?access_token?access_token=" + accessToken 
+    url: "https://graph.facebook.com/me/apprequests?access_token?access_token=[#{accessToken}]"
     method: "GET"
+    error: (response) ->
+      console.log(response)
     success: (response) ->
       console.log(response)
 
@@ -174,6 +175,7 @@ $ ->
   FB.Event.subscribe 'auth.statusChange', onStatusChange
   setTimeout (->
     getNonPlayers(showHome)
+    readRequest(FB.getAuthResponse().accessToken)
   ), 2000
 
 

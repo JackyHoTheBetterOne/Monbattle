@@ -226,7 +226,7 @@ class Battle < ActiveRecord::Base
       p "======================================================================="
 
       user_name = User.find(user_id).user_name
-      message["event_id"] =  "level_unlock" + ":" + user_name
+      message["event_id"] =  "level_unlock_user" + ":" + user_name
       message["value"] = 1
       json_message = message.to_json
       json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
