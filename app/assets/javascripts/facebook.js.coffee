@@ -154,21 +154,28 @@ window.sendScore = (score, callback) ->
 window.getRequest = ->
   FB.api '/me/apprequests', (response) ->
     if response and !response.error
-      array = []
-      i = 0
-      while i < response.data.length
-        num = response.data[i].indexOf("_")
-        key = response.data[i].slice(0,num)
-        array.push(key)
-        i++
-      $.ajax
-        url: "/add_accepted_invites"
-        method: "POST"
-        data: {accepted_invites: array}
-        success: () ->
-          console.log("success")
+      addAcceptedInvites(response)
     else
     return
+
+window.addAcceptedInvites = (stuff) ->
+  array = []
+  i = 0
+  window.dick = stuff.data
+  while i < stuff.data.length
+    num = stuff.data[i].id.indexOf("_")
+    key = stuff.data[i].id.slice(0,num)
+    array.push(key)
+    i++
+  $.ajax
+    url: "/add_accepted_request"
+    method: "POST"
+    data: {accepted_invites: array}
+    success: () ->
+      console.log("success")
+
+
+
 
 window.addRequestToken = (token) ->
   $.ajax
@@ -184,7 +191,6 @@ $ ->
   FB.Event.subscribe 'auth.statusChange', onStatusChange
   setTimeout (->
     getNonPlayers(showHome)
-    getRequest()
   ), 2000
 
 
