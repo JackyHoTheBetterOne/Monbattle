@@ -5,9 +5,12 @@ require 'net/http'
 
 
 class User < ActiveRecord::Base
+  # User.select{|u| u.invite_ids.include?("111")}
+  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   # validates :password, presence: {message: 'Must be entered'}
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
 
