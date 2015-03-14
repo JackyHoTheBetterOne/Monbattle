@@ -240,30 +240,30 @@ window.fixEvolMon = (monster, player) ->
                   , "timed-spe-resist-buff", "timed-spe-resist-debuff", "shield", "aoe-curse"
                   , "help-curse", "atk-curse"
               real_targets = []
-              i = 0
-              while i < abilitytargets.length
-                if abilitytargets[i].passive
-                  if abilitytargets[i].passive.targeta isnt effect.targeta
-                    real_targets.push(abilitytargets[i])
+              index = 0
+              while index < abilitytargets.length
+                if abilitytargets[index].passive
+                  if abilitytargets[index].passive.targeta isnt effect.targeta
+                    real_targets.push(abilitytargets[index])
                 else
-                  real_targets.push(abilitytargets[i])
-                i++
+                  real_targets.push(abilitytargets[index])
+                index++
               effect.activate real_targets
             when "timed-atk-buff"
               teamAttackAbilities = []
-              i = 0 
+              index1 = 0 
               n = abilitytargets.length
-              while i < n 
-                teamAttackAbilities.push(abilitytargets[i].abilities[0])
-                i++
+              while index1 < n 
+                teamAttackAbilities.push(abilitytargets[index1].abilities[0])
+                index1++
               effect.activate teamAttackAbilities
             when "timed-spe-buff"
               teamSpecialAbilities = []
-              i = 0 
+              index2 = 0 
               n = abilitytargets.length
-              while i < n 
-                teamAttackAbilities.push(abilitytargets[i].abilities[1])
-                i++
+              while index2 < n 
+                teamAttackAbilities.push(abilitytargets[index2].abilities[1])
+                index2++
               effect.activate teamSpecialAbilities
             when "self", "self-poison-hp", "self-timed-phy-resist-debuff"
                   , "self-timed-spe-resist-debuff"
@@ -291,11 +291,11 @@ window.fixEvolMon = (monster, player) ->
               effect.activate effectTargets
             when "foebuffattack"
               effectTargets = []
-              i = 0
-              while i < abilitytargets.length
+              index3 = 0
+              while index3 < abilitytargets.length
                 index = getRandom([0,1,2,3])
-                effectTargets.push abilitytargets[i].abilities[index]
-                i++
+                effectTargets.push abilitytargets[index3].abilities[index]
+                index3++
               effect.activate effectTargets
             when "ap-overload"
               effect.activate [battle.players[0]]
