@@ -647,7 +647,7 @@ ActiveRecord::Schema.define(version: 20150313192015) do
     t.text     "image"
     t.string   "namey"
     t.text     "invite_ids",             default: [],                 array: true
-    t.string   "request_id"
+    t.text     "request_ids",            default: [],                 array: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

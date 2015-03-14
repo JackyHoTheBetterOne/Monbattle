@@ -215,13 +215,38 @@ class HomeController < ApplicationController
     render nothing: true
   end
 
+####################################################################### User update request fields
+  def add_request_token
+    @user = User.find(current_user.id)
+    new_token = params[:request_token]
+    old_array = @user.invite_ids.dup
+    new_array = old_array.push(new_token)
+
+    @user.invite_ids = new_array
+    @user.save
+    render nothing: true
+  end
+
+  def add_accepted_request
+    @user = User.find(current_user.id)
+    if @user.request_ids == []
+      accepted_request_array = params[:accepted_invites]
+      old_array = @user.request_ids.dup
+      new_array = old_array.concat(accepted_request_array)
+
+      @user.request_ids = new_array
+      @user.save
+    end
+    render nothing: true
+  end
+
+
+
 
 
 #########################################################################
 
   def dick_fly
-
-
   end
 
   private

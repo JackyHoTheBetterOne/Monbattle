@@ -110,7 +110,8 @@ window.sendInvite = (to, message, callback) ->
 
 window.onInvite = ->
   sendInvite null, "Check out Monbattle! It's so fun that it will blow your brain off!", (response) ->
-    console.log 'sendChallenge', response
+    console.log(response)
+    addRequestToken(response.request) 
     return
   return
 
@@ -150,30 +151,32 @@ window.sendScore = (score, callback) ->
     return
   return
 
-window.readRequest = (accessToken) ->
-  $.ajax
-    url: "https://graph.facebook.com/me/apprequests?access_token?access_token=[#{accessToken}]"
-    method: "GET"
-    error: (response) ->
-      console.log(response)
-    success: (response) ->
-      console.log(response)
-
-# https://graph.facebook.com/me/apprequests?access_token=[USER ACCESS TOKEN]
-
-
-#   FB.api '/me/apprequests?access_token=' + accessToken, (response) ->
-#   if response and !response.error
-#     window.apprequests = response
-#   else
-#   return
 window.getRequest = ->
   FB.api '/me/apprequests', (response) ->
     if response and !response.error
-      console.log(response)
+      array = []
+      i = 0
+      while i < response.data.length
+        num = response.data[i].indexOf("_")
+        key = response.data[i].slice(0,num)
+        array.push(key)
+        i++
+      $.ajax
+        url: "/add_accepted_invites"
+        method: "POST"
+        data: {accepted_invites: array}
+        success: () ->
+          console.log("success")
     else
     return
 
+window.addRequestToken = (token) ->
+  $.ajax
+    url: "/add_request_token"
+    method: "POST"
+    data: {request_token: token}
+    success: () ->
+      console.log("success")
 
 $ ->
   window.friendCache = {me: {}, reRequests: {}}
@@ -181,7 +184,7 @@ $ ->
   FB.Event.subscribe 'auth.statusChange', onStatusChange
   setTimeout (->
     getNonPlayers(showHome)
-    readRequest(FB.getAuthResponse().accessToken)
+    getRequest()
   ), 2000
 
 
