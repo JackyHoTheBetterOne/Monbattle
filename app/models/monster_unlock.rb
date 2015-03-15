@@ -300,8 +300,8 @@ class MonsterUnlock < ActiveRecord::Base
       end
 
       evolve_hash = { name:      unlocked_evo.name,
-                      max_hp:    unlocked_evo.max_hp,
-                      hp:        unlocked_evo.max_hp,
+                      max_hp:    unlocked_evo.max_hp - unlocked_evo.monster.evolved_from.max_hp,
+                      hp:        unlocked_evo.max_hp - unlocked_evo.monster.evolved_from.max_hp,
                       ap_cost:   unlocked_evo.ap_cost,
                       image:     unlocked_evo.image(self.user),
                       animation: unlocked_evo.evolve_animation,

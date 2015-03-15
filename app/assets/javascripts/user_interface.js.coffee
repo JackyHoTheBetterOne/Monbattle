@@ -108,7 +108,7 @@ $ ->
     document.getElementsByClassName("quests-info")[0].innerHTML = 
       "<div class='quest none'>Come back tomorrow for more daily tasks!</div>"
     document.getElementsByClassName("none")[0].style["padding-top"] = "12px"
-  if document.getElementById("turbolinks-overlay") isnt null
+  if document.getElementById("turbolinks-overlay")
     $(document).on "page:before-change", ->
       document.getElementById("turbolinks-overlay").style["z-index"] = ("1000000000000")
       document.getElementById("turbolinks-overlay").style.opacity = ("0.95")

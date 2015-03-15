@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1514420408809454',
+        xfbml      : true,
+        version    : 'v2.2',
+        frictionlessRequests: true,
+        status: true
+      });
+
+      function onLogin(response) {
+        if (response.status == 'connected') {
+          FB.api('/me?fields=first_name', function(data) {
+            var welcomeBlock = document.getElementById('fb-welcome');
+            welcomeBlock.innerHTML = 'Hello, ' + data.first_name + '!';
+          });
+        }
+      };
+
+      FB.getLoginStatus(function(response) {
+        if (response.status == 'connected') {
+          onLogin(response);
+        } else {
+        }
+      });
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
+  
+  <%= render "battles/single_ability_img"  %>
+  <div class="main-content">
+    <%= render partial: "layouts/admin" %>
+    <% if flash[:notice] %>
+      <div class="alert alert-success">
+        <%= flash[:notice] %>
+      </div>
+    <% elsif flash[:alert] %>
+      <div class="alert alert-danger">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+
+    <div class="container-fluid">
+      <%= yield %>
+    </div>
+  </div>
+</body>
+</html>

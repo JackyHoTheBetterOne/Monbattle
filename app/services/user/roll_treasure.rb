@@ -39,19 +39,19 @@ class User::RollTreasure
       if currency_type == "gp"
         self.cost = 100
       else 
-        self.cost = 5
+        self.cost = 1
       end
     elsif roll_type == "ascension"
       if currency_type == "gp"
         self.cost = 200
       else
-        self.cost = 10
+        self.cost = 2
       end
     elsif roll_type == "monster"
       if currency_type == "gp"
         self.cost = 1000
       else
-        self.cost = 50
+        self.cost = 10
       end
     end
 

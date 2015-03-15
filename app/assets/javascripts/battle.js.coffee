@@ -2140,9 +2140,9 @@ $ ->
             nextScene()
   ################################################################################################################ Battle logic
         $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
-        battle.apGainCost = 10
+        battle.apGainCost = 20
         battle.round = 0
-        battle.maxAP = 20
+        battle.maxAP = 40
         battle.summonerCooldown = 0
         battle.calculateAP = ->
           if battle.round < 5
@@ -2212,7 +2212,7 @@ $ ->
         battle.evolve = (playerIndex, monIndex, evolveIndex) ->
           current_mon = @players[playerIndex].mons[monIndex]
           better_mon = @players[playerIndex].mons[monIndex].mon_evols[evolveIndex]
-          added_hp = better_mon.max_hp - current_mon.max_hp
+          added_hp = better_mon.max_hp
           evolved_hp = current_mon.hp + added_hp
           evolved_max_hp = current_mon.max_hp + added_hp
           if battle.players[playerIndex].ap >= better_mon.ap_cost

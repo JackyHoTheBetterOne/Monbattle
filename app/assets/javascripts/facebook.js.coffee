@@ -139,7 +139,7 @@ window.sendBrag = (caption, picture_url, name, callback) ->
   }, callback
 
 window.showHome = ->
-  console.log("Dick Fight!")
+  console.log("Fight!")
 
 window.sendScore = (score, callback) ->
   FB.api '/me/scores/', 'post', { score: score }, (response) ->
@@ -186,12 +186,14 @@ window.addRequestToken = (token) ->
       console.log("success")
 
 $ ->
-  window.friendCache = {me: {}, reRequests: {}}
-  FB.Event.subscribe 'auth.authResponseChange', onAuthResponseChange
-  FB.Event.subscribe 'auth.statusChange', onStatusChange
   setTimeout (->
-    getNonPlayers(showHome)
-  ), 2000
+    window.friendCache = {me: {}, reRequests: {}}
+    FB.Event.subscribe 'auth.authResponseChange', onAuthResponseChange
+    FB.Event.subscribe 'auth.statusChange', onStatusChange
+    setTimeout (->
+      getNonPlayers(showHome)
+    ), 2000
+  ), 1000
 
 
 
