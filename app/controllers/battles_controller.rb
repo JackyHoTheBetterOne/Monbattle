@@ -11,6 +11,7 @@ class BattlesController < ApplicationController
   after_action :unlock_level_and_ability, only: :update
   after_action :finish_battle, only: :update
   after_action :tracking, only: :update
+
   before_action :update_general_summoner_fields, only: [:win, :loss]
   before_action :set_reward_amount, only: [:win]
 
@@ -163,22 +164,6 @@ class BattlesController < ApplicationController
 
   private
 
-  def set_reward_amount
-    @battle_level = @battle.battle_level
-    if !@battle_level.event
-      if params[:round_taken].to_i >= @battle_level.time_requirement.to_i
-        session[:reward_num] = rand(@battle_level.pity_reward[1].to_i..@battle_level.pity_reward[2].to_i) if @battle_level.
-          pity_reward.length > 0 
-      else
-        session[:reward_num] = rand(@battle_level.time_reward[1].to_i..@battle_level.time_reward[2].to_i) if @battle_level.
-          time_reward.length > 0
-      end
-    else
-      session[:reward_num] = rand(@battle_level.pity_reward[1].to_i..@battle_level.pity_reward[2].to_i) if @battle_level.
-          pity_reward.length > 0 
-    end
-  end
-
   def generate_enemies
     if current_user.summoner.played_levels.count > 0 
       level = BattleLevel.find(battle_params[:battle_level_id])
@@ -252,20 +237,23 @@ class BattlesController < ApplicationController
     end
   end
 
-  def unlock_level_and_ability
-    name = User.find_by_user_name(@battle.victor).summoner.name
-    if name != "NPC"
-      @battle.battle_level.unlock_for_summoner(name, @battle.round_taken, @battle.id) 
+
+########################################################################## After battle update
+
+  def set_reward_amount
+    @battle_level = @battle.battle_level
+    if !@battle_level.event
+      if params[:round_taken].to_i >= @battle_level.time_requirement.to_i
+        session[:reward_num] = rand(@battle_level.pity_reward[1].to_i..@battle_level.pity_reward[2].to_i) if @battle_level.
+          pity_reward.length > 0 
+      else
+        session[:reward_num] = rand(@battle_level.time_reward[1].to_i..@battle_level.time_reward[2].to_i) if @battle_level.
+          time_reward.length > 0
+      end
+    else
+      session[:reward_num] = rand(@battle_level.pity_reward[1].to_i..@battle_level.pity_reward[2].to_i) if @battle_level.
+          pity_reward.length > 0 
     end
-  end
-
-  def finish_battle
-    @battle.to_finish
-  end
-
-  def tracking
-    @battle.track_outcome(current_user.id)
-    @battle.track_performance(current_user.id)
   end
 
   def update_general_summoner_fields
@@ -282,6 +270,25 @@ class BattlesController < ApplicationController
     @summoner.daily_battles = array 
 
     @summoner.save
+  end
+
+  def unlock_level_and_ability
+    summoner = User.find_by_user_name(@battle.victor).summoner
+    if summoner.name != "NPC"
+      @unlock = Battle::Unlock.new(summoner: summoner, round_taken: @battle.round_taken,
+                                    battle: @battle)
+      @unlock.call
+      # @battle.battle_level.unlock_for_summoner(name, @battle.round_taken, @battle.id) 
+    end
+  end
+
+  def finish_battle
+    @battle.to_finish
+  end
+
+  def tracking
+    @battle.track_outcome(current_user.id)
+    @battle.track_performance(current_user.id)
   end
 end
 

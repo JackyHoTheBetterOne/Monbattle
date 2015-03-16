@@ -1,34 +1,35 @@
--own = @ability_purchases.owned(ability).count
--available_count = 10000
-.ability-pane id=dom_id(ability)
-  .ability-icon.shadowed2
-    =image_tag ability.portrait.url(:small)
-  .ability-info.shadowed2
-    .abil-heading
-      .abil-name
-        p =ability.name
-      - if ability.modifier == "-"
-        =image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/attack-25px.png", class: "sword-icon-equip")
-      - else
-        =image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/heal-25px.png", class: "sword-icon-equip")
-      p.ability_impact_equip #{ability.change}
-      p.ap_cost_title Cost:
-      =image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/ap-cost-icon-25.png", class: "ap-icon-equip")
-      .ap-cost
-        p #{ability.ap_cost}
-      .word-available
-        p Available:
-      .avail id="#{dom_id(ability)}-avail"
-        =render partial: "/home/avail", locals: {available_count: available_count}
-      .word-of
-        p of
-      .own id="#{dom_id(ability)}-own"
-        p #{own}
-    p=ability.description
-  .ability-equip.shadowed2 id="#{dom_id(ability)}-none"
-    .none None Available
-  .ability-equip.shadowed2 id="#{dom_id(ability)}-equip"
-    .equip Equip
-  .ability-equip.shadowed2 id="#{dom_id(ability)}-equipped"
-    .equipped Equipped
-  .ability-equip-link
+- if !ability.rarity.name.include?("passive")
+  -own = @ability_purchases.owned(ability).count
+  -available_count = 10000
+  .ability-pane id=dom_id(ability)
+    .ability-icon.shadowed2
+      =image_tag ability.portrait.url(:small)
+    .ability-info.shadowed2
+      .abil-heading
+        .abil-name
+          p =ability.name
+        - if ability.modifier == "-"
+          =image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/attack-25px.png", class: "sword-icon-equip")
+        - else
+          =image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/heal-25px.png", class: "sword-icon-equip")
+        p.ability_impact_equip #{ability.change}
+        p.ap_cost_title Cost:
+        =image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/ap-cost-icon-25.png", class: "ap-icon-equip")
+        .ap-cost
+          p #{ability.ap_cost}
+        .word-available
+          p Available:
+        .avail id="#{dom_id(ability)}-avail"
+          =render partial: "/home/avail", locals: {available_count: available_count}
+        .word-of
+          p of
+        .own id="#{dom_id(ability)}-own"
+          p #{own}
+      p=ability.description
+    .ability-equip.shadowed2 id="#{dom_id(ability)}-none"
+      .none None Available
+    .ability-equip.shadowed2 id="#{dom_id(ability)}-equip"
+      .equip Equip
+    .ability-equip.shadowed2 id="#{dom_id(ability)}-equipped"
+      .equipped Equipped
+    .ability-equip-link

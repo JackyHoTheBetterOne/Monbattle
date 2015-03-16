@@ -13,7 +13,7 @@ class HomeController < ApplicationController
     @monster_list = @base_mons
     @members = @user.parties.first.members
     @abilities = Ability.includes(:ability_purchases).includes(:abil_socket).
-                 includes(:jobs).abilities_purchased(@user).alphabetical
+                  includes(:jobs).abilities_purchased(@user).alphabetical
     unless @user
       render layout: "facebook_landing"
     end

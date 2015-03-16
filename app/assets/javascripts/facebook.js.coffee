@@ -189,8 +189,9 @@ $ ->
     FB.Event.subscribe 'auth.authResponseChange', onAuthResponseChange
     FB.Event.subscribe 'auth.statusChange', onStatusChange
     setTimeout (->
-      getNonPlayers(showHome)
-      getRequest()
+      if document.getElementsByClassName("sign-in").length is 0
+        getNonPlayers(showHome)
+        getRequest()
     ), 2000
   ), 1000
 
