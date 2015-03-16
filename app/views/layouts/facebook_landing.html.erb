@@ -8,55 +8,6 @@
   <script src="//connect.facebook.net/en_US/sdk.js"></script>
 </head>
 <body class="forest">
-  <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '1514420408809454',
-        xfbml      : true,
-        version    : 'v2.2',
-        frictionlessRequests: true,
-        status: true
-      });
-      function onLogin(response) {
-        if (response.status == 'connected') {
-          FB.api('/me?fields=first_name', function(data) {
-            var welcomeBlock = document.getElementById('fb-welcome');
-            welcomeBlock.innerHTML = 'Hello, ' + data.first_name + '!';
-          });
-        }
-      };
-
-      FB.getLoginStatus(function(response) {
-        // Check login status on load, and if the user is
-        // already logged in, go directly to the welcome message.
-        if (response.status == 'connected') {
-          onLogin(response);
-        } else {
-          // Otherwise, show Login dialog first.
-          // openWin = window.open('http://www.google.com', 'directories=no,height=100,width=100,menubar=no,resizable=no,scrollbars=no,status=no,titlebar=no,top=0,location=no');
-          // if (!openWin) {
-          //   box = document.getElementsByClassName("popup-guidance-box")[0]
-          //   box.style["z-index"] = "1000"
-          //   box.className = "popup-guidance-box magictime puffIn"
-          // } else {
-          //   openWin.close();
-          // };
-          // FB.login(function(response) {
-          //   onLogin(response);
-          // }, {scope: 'user_friends, email', display: 'popup'});
-        }
-      });
-    };
-
-    (function(d, s, id){
-       var js, fjs = d.getElementsByTagName(s)[0];
-       if (d.getElementById(id)) {return;}
-       js = d.createElement(s); js.id = id;
-       js.src = "//connect.facebook.net/en_US/sdk.js";
-       fjs.parentNode.insertBefore(js, fjs);
-     }(document, 'script', 'facebook-jssdk'));
-  </script>
-  
   <%= render "battles/single_ability_img" %>
   <h1 id="fb-welcome" class="hide"></h1>
   <div class="turbolinks-overlay" id="turbolinks-overlay">
