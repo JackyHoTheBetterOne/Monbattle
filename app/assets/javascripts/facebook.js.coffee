@@ -184,19 +184,16 @@ window.addRequestToken = (token) ->
       console.log("success")
 
 $ ->
-  FB.init
-    appId: '1514420408809454'
-    frictionlessRequests: true
-    status: true
-    version: 'v2.2'
-    window.friendCache = {me: {}, reRequests: {}}
-  FB.Event.subscribe 'auth.authResponseChange', onAuthResponseChange
-  FB.Event.subscribe 'auth.statusChange', onStatusChange
   setTimeout (->
-    if document.getElementsByClassName("sign-in").length is 0
-      getNonPlayers(showHome)
-      getRequest()
-  ), 2000
+    window.friendCache = {me: {}, reRequests: {}}
+    FB.Event.subscribe 'auth.authResponseChange', onAuthResponseChange
+    FB.Event.subscribe 'auth.statusChange', onStatusChange
+    setTimeout (->
+      if document.getElementsByClassName("sign-in").length is 0
+        getNonPlayers(showHome)
+        getRequest()
+    ), 2000
+  ), 1000
 
 
 
