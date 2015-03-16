@@ -37,10 +37,11 @@ class BattlesController < ApplicationController
     @levels = new_battle.levels
     @battle = new_battle.battle
     @monsters = new_battle.monsters
-
-
+    @messages = @summoner.general_messages
 
     @summoner = current_user.summoner if current_user
+    @summoner.general_messages = []
+    @summoner.save
 
     if params[:event]
       @is_event = true

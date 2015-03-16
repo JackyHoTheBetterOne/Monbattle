@@ -229,7 +229,7 @@ class HomeController < ApplicationController
 
   def add_accepted_request
     @user = User.find(current_user.id)
-    if @user.request_ids.length == 0
+    if @user.request_ids.length == 0 && params[:accepted_invites]
       accepted_request_array = params[:accepted_invites]
       old_array = @user.request_ids.dup
       new_array = old_array.concat(accepted_request_array)

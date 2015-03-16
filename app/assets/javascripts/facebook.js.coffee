@@ -175,8 +175,6 @@ window.addAcceptedInvites = (stuff) ->
       console.log("success")
 
 
-
-
 window.addRequestToken = (token) ->
   $.ajax
     url: "/add_request_token"
@@ -192,6 +190,7 @@ $ ->
     FB.Event.subscribe 'auth.statusChange', onStatusChange
     setTimeout (->
       getNonPlayers(showHome)
+      getRequest()
     ), 2000
   ), 1000
 

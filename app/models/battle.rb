@@ -100,6 +100,18 @@ class Battle < ActiveRecord::Base
       @level = SummonerLevel.find_by_level(@victorious_summoner.level+1)
       @victorious_summoner.summoner_level = @level
       @victorious_summoner.stamina = @level.stamina
+      if @level.level == 7
+        @user = @victorious_summoner.user
+        @user.request_ids.each do |r|
+          @user = User.select{|u| u.invite_ids.include?(r)}
+          @summoner = @user.summoner
+          array = @summoner.general_messages.dup
+          @summoner.mp += 10
+          array.push("#{@user.namey} has reached Level 7! You have gained 10 rubies!")
+          @summoner.general_messages = array
+          @summoner.save
+        end
+      end
     else
       @victorious_summoner.current_exp += @exp_reward
     end
