@@ -13,10 +13,35 @@ class Battle::New
   attribute :monsters, Monster
   attribute :map_url
   attribute :current_region
+  attribute :event_toggle
+  attribute :is_event
+  attribute :messages
+  attribute :event_areas
 
   def call
-    self.battle = Battle.new
+    @events = Area.where("start_date IS NOT NULL").order(:end_date)
+    self.event_areas = []
+
+    @events.each do |e|
+      if e.end_date > Time.now
+        self.event_areas << e
+      end
+    end
+
+    if event_toggle
+      self.is_event = true
+    else 
+      self.is_event = false
+    end
+    
     self.summoner = user.summoner
+    @summoner = summoner
+    self.messages = @summoner.general_messages
+    @summoner.general_messages = []
+    @summoner.save
+
+    self.battle = Battle.new
+
     self.regions = Region.order(:id).all.unlocked_regions(summoner.completed_regions)
 
     if Region.find_by_name(session_area_filter)

@@ -22,11 +22,13 @@ class BattlesController < ApplicationController
     params[:area_filter] ||= session[:area_filter]
     session[:area_filter] = params[:area_filter]
     session[:level_filter] = params[:level_filter]
+    event = params[:event] || false
 
     new_battle = Battle::New.new(user: current_user, 
                                  params_area_filter: params[:area_filter],
                                  params_level_filter: params[:level_filter],
-                                 session_area_filter: session[:area_filter])
+                                 session_area_filter: session[:area_filter],
+                                 event_toggle: event)
     new_battle.call
 
     @map_url = new_battle.map_url
@@ -37,29 +39,11 @@ class BattlesController < ApplicationController
     @levels = new_battle.levels
     @battle = new_battle.battle
     @monsters = new_battle.monsters
-    @messages = @summoner.general_messages
-
+    @is_event = new_battle.is_event
+    @messages = new_battle.messages
     @summoner = current_user.summoner if current_user
-    @summoner.general_messages = []
-    @summoner.save
-
-    if params[:event]
-      @is_event = true
-    else 
-      @is_event = false
-    end
-
-    @events = Area.where("start_date IS NOT NULL").order(:end_date)
-    @event_areas = []
-
-    @events.each do |e|
-      if e.end_date > Time.now
-        @event_areas << e
-      end
-    end
-
-    @event_count = @event_areas.count
-
+    @event_areas = new_battle.event_areas
+    @event_count = new_battle.event_areas.count
     @recently_unlocked_level = @summoner.recently_unlocked_level
     unlock_message(@summoner)
 
@@ -82,7 +66,6 @@ class BattlesController < ApplicationController
     @battle = create_battle.battle
 
     if current_user.summoner.stamina >= @battle.battle_level.stamina_cost
-      @battle.admin = true if current_user.email == "muffintopper420@mombattle.com"
       @battle.session_id = request.session_options[:id]
       @battle.save
       redirect_to @battle 
@@ -94,40 +77,10 @@ class BattlesController < ApplicationController
 
   def show
     impressionist(@battle)
-    @user_party = @battle.parties[0]
-    @pc_party   = @battle.parties[1]
 
-    if current_user.summoner.beaten_levels.include?(@battle.battle_level.name) && 
-        !current_user.summoner.cleared_twice_levels.include?(@battle.battle_level.name)
-      @first_cleared = true
-    else
-      @first_cleared = false
-    end
-
-    if current_user.summoner.cleared_twice_levels.include?(@battle.battle_level.name)
-      @twice_cleared = true
-    else
-      @twice_cleared = false
-    end
-
-    if @battle.battle_level.name == "First battle" 
-      @show_ap_button = false
-    else
-      @show_ap_button = true
-    end
-
-    if @battle.battle_level.name == "Area A - Stage 1" || @battle.battle_level.name == "Area A - Stage 2" ||
-      @battle.battle_level.name == "Area A - Stage 3" || @battle.battle_level.name == "First battle"
-      @show_oracle_skill = false
-    else
-      @show_oracle_skill = true
-    end
-
-    if @battle.battle_level.name == "Area A - Stage 4"
-      @oracle_skill_turtorial = true
-    else
-      @oracle_skill_turtorial = false
-    end
+    @show = Battle::Show.new(summoner: current_user.summoner,
+                                battle: @battle)
+    @show.call
 
     if @battle.impressionist_count <= 2 || current_user.admin
       respond_to do |format|
@@ -184,24 +137,7 @@ class BattlesController < ApplicationController
     victory.call
 
     @victory = victory
-
-
     session["event_reward_tier"] = @victory.reward_tier
-
-
-    @ability = victory.ability
-    @monster = victory.monster
-    @reward = victory.reward
-    @slot = victory.slot
-    @class_list = victory.class_list
-    @level_cleared = victory.level_cleared
-
-    @level_up = victory.level_up
-    @new_level = victory.new_level
-    @stamina_upgrade = victory.stamina_upgrade
-    @new_stamina = victory.new_stamina
-
-    @first = victory.first_time
     
     render template: "battles/victory", :layout => false
   end

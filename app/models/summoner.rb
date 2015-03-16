@@ -9,6 +9,11 @@ class Summoner < ActiveRecord::Base
   after_create :change_name
 
 
+  def true_name
+    self.user.namey
+  end
+
+
   def level
     self.summoner_level.level
   end

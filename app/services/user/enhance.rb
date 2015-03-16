@@ -4,6 +4,7 @@ class User::Enhance
   attribute :user, User
   attribute :monsters
   attribute :selected
+  attribute :enhance_id
   attribute :monster
   attribute :enough
   attribute :max_level
@@ -18,6 +19,20 @@ class User::Enhance
     mons.each do |m|
       self.monsters << m if m.level <= m.monster.max_level && m.monster.evolved_from_id == 0
     end
+
+    if enhance_id
+      @summoner = user.summoner
+      if @summoner.enh >= 10 && @summoner.gp >= 50
+        @summoner.enh -= 10 
+        @summoner.gp -= 50
+        @summoner.save
+      end
+      monster_id = Monster.find_by_name(enhance_id).id
+      @monster_unlock = MonsterUnlock.where(user_id: user.id, monster_id: monster_id)[0]
+      @monster_unlock.level += 1 if @monster_unlock.level != @monster_unlock.monster.max_level
+      @monster_unlock.save
+    end
+
 
     if selected
       monster_id = Monster.find_by_name(selected)

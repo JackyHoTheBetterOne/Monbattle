@@ -2366,7 +2366,7 @@ $ ->
               description.children("span.damage-type").text ""
               better_mon = battle.players[0].mons[targets[1]].mon_evols[0]
               worse_mon = battle.players[0].mons[targets[1]]
-              added_hp = better_mon.max_hp - worse_mon.max_hp 
+              added_hp = better_mon.max_hp
               description.children(".panel-heading").text "Ascend to " + better_mon.name
               description.children(".panel-body").html(
                 better_mon.abilities[0].name + ": " + better_mon.abilities[0].description + "<br />" +

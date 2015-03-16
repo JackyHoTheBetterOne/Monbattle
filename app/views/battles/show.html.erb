@@ -1,11 +1,11 @@
-<% if @battle.battle_level.music %>
-  <% if current_summoner.mute == false %>
+<% if @show.battle_level.music %>
+  <% if !current_summoner.mute %>
     <audio controls autoplay loop class="hide battle-music">
-      <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
+      <source src="<%= @show.battle_level.music %>" type="audio/mpeg">
     </audio>
   <% else %>
     <audio controls autoplay muted loop class="hide battle-music">
-      <source src="<%= @battle.battle_level.music %>" type="audio/mpeg">
+      <source src="<%= @show.battle_level.music %>" type="audio/mpeg">
     </audio>
   <% end  %>
 <% end %>
@@ -23,12 +23,11 @@
       <a href="" class="back-to-battle-but">No</a>
     </div>
   </div>
-  <%= image_tag(@battle.battle_level.start_cut_scenes[0], 
+  <%= image_tag(@show.battle_level.start_cut_scenes[0], 
     class: "cutscene") %>
   <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/next.png", 
     class: "next-scene") %>
-  <% if current_user.summoner.played_levels.include?(@battle.battle_level.name) && @battle.
-        battle_level.has_cut_scene %>
+  <% if @show.has_cut_scene %>
     <button class="skip-button" id="skip-button">Skip</button>
   <% end %>
 </div>
@@ -37,10 +36,10 @@
 <div class="battle" data-index="<%= @battle.id_code %>" 
   data-battlecount="<%= current_user.battle_count %>" id="battle"
   data-bonusTurtorial="<%= current_user.first_time_replay(@battle.battle_level.name) %>"
-  data-showapbutton = "<%= @show_ap_button %>"
-  data-showoracleskill= "<%= @show_oracle_skill%>"
-  data-oracleskillturtorial = "<%= @oracle_skill_turtorial %>"
-  data-levelname = "<%= @battle.battle_level.name %>">
+  data-showapbutton = "<%= @show.show_ap_button %>"
+  data-showoracleskill= "<%= @show.show_oracle_skill%>"
+  data-oracleskillturtorial = "<%= @show.oracle_skill_turtorial %>"
+  data-levelname = "<%= @show.battle_level.name %>">
 
   <div class="panel-body battle-message">
     Time to Die!!!
@@ -49,7 +48,7 @@
   <div class="battle-timer">
   </div>
 
-  <% if @first_cleared %>
+  <% if @show.first_cleared %>
 <!--     <div class="battle-round-countdown" id="battle-round-countdown">
       <span><%= @battle.battle_level.time_requirement %></span> turns
       <p class="rush-reward-title">Rush Reward</p>
@@ -59,20 +58,20 @@
           and get <%= @battle.battle_level.reward %>
     </div> -->
     <div class="battle-round-countdown" id="battle-round-countdown">
-      <span><%= @battle.battle_level.time_requirement %></span> turns
+      <span><%= @show.battle_level.time_requirement %></span> turns
       <p class="rush-reward-title">Rush Reward</p>
     </div>
     <div class="bonus-description">
-      Win the battle under <%= @battle.battle_level.time_requirement %> rounds 
+      Win the battle under <%= @show.battle_level.time_requirement %> rounds 
           and get the big reward
     </div>
-  <% elsif @twice_cleared %>
+  <% elsif @show.twice_cleared %>
     <div class="battle-round-countdown" id="battle-round-countdown">
-      <span><%= @battle.battle_level.time_requirement %></span> turns
+      <span><%= @show.battle_level.time_requirement %></span> turns
       <p class="rush-reward-title">Rush Reward</p>
     </div>
     <div class="bonus-description">
-      Win the battle under <%= @battle.battle_level.time_requirement %> rounds 
+      Win the battle under <%= @show.battle_level.time_requirement %> rounds 
           and get the currency reward
     </div>
   <% end %>
@@ -99,9 +98,10 @@
   </div>
 
   <div class="0 user mon-slot" id="control-tip" data-team="0">
-    <% @user_party.mons.each do |mon| %>
-      <div class="mon mon<%= @user_party.mon_dex(mon) %>" data-index="<%= @user_party.mon_dex(mon) %>">
-        <%= render :partial => "team", :locals => { :mon => mon, party: @user_party  } %>
+    <% @show.user_party.mons.each do |mon| %>
+      <div class="mon mon<%= @show.user_party.mon_dex(mon) %>" 
+            data-index="<%= @show.user_party.mon_dex(mon) %>">
+        <%= render :partial => "team", :locals => { :mon => mon, party: @show.user_party  } %>
       </div>
     <% end %>
   </div>
@@ -109,16 +109,16 @@
   <h2 class="foe-indication" id="foe-indication">Enemy</h3>
 
   <div class="1 enemy mon-slot" id="tutorial-end" data-team="1">
-    <% @pc_party.mons.each do |mon| %>
-      <div class="mon mon<%= @pc_party.mon_dex(mon) %>" 
-          data-index="<%= @pc_party.mon_dex(mon) %>">
-        <%= render :partial => "team", :locals => { :mon => mon, party: @pc_party } %>
+    <% @show.pc_party.mons.each do |mon| %>
+      <div class="mon mon<%= @show.pc_party.mon_dex(mon) %>" 
+          data-index="<%= @show.pc_party.mon_dex(mon) %>">
+        <%= render :partial => "team", :locals => { :mon => mon, party: @show.pc_party } %>
       </div>
     <% end %>
   </div>
 
   <div class="ap" id="ap-tip">
-    <% if @battle.level_name == "First battle" %>
+    <% if @show.is_first_battle %>
       <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/main+chars/korona-avi.png", 
             size: "42x42", class: "baby") %>
     <% else %>
@@ -151,7 +151,7 @@
 </div>
 
 
-<% if @battle.battle_level.name != "First battle" %>
+<% if !@show.is_first_battle %>
   <button class="surrender-option-button">
     <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/settings-icon.png")%>
   </button>
@@ -161,12 +161,12 @@
   <%= link_to "concede", new_battle_path, class: "surrender-button concede" %>
   <%= form_for(Battle.new) do |f|  %>
     <button class="surrender-button retry" name="battle[battle_level_id]" type="submit" 
-            value="<%= @battle.battle_level.id %>">
+            value="<%= @show.battle_level.id %>">
       retry
     </button>
   <% end %>
   <button class="surrender-button mute-toggle">
-    <% if current_summoner.mute == false %>
+    <% if !current_summoner.mute %>
       <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/volumn-icon.png") %>
     <% else %>
       <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png") %>

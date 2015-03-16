@@ -139,25 +139,14 @@ class HomeController < ApplicationController
 
 ######################################################################## Monster enhancing
   def enhance_monster
-    if params[:enhance_id]
-      summoner = current_user.summoner
-      if summoner.enh >= 10 && summoner.gp >= 50
-        summoner.enh -= 10 
-        summoner.gp -= 50
-        summoner.save
-      end
-      monster_id = Monster.find_by_name(params[:enhance_id]).id
-      monster_unlock = MonsterUnlock.where(user_id: current_user.id, monster_id: monster_id)[0]
-      monster_unlock.level += 1 if monster_unlock.level != monster_unlock.monster.max_level
-      monster_unlock.save
-    end
-    if params[:enhance_monster]
-      enhancement = User::Enhance.new(
-        user: current_user,
-        selected: params[:enhance_monster])
-    else
-      enhancement = User::Enhance.new(user: current_user)
-    end
+    enhance_monster = params[:enhance_monster] || false
+    enhance_id = params[:enhance_id] || false
+
+    enhancement = User::Enhance.new(
+      user: current_user,
+      selected: enhance_monster,
+      enhance_id: enhance_id)
+
     enhancement.call
     @enhancement = enhancement
   end

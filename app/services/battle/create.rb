@@ -7,7 +7,8 @@ class Battle::Create
   attribute :battle, Battle
 
   def call
-    if user.summoner.played_levels.length == 0
+    self.user = summoner.user
+    if summoner.played_levels.length == 0
       @pc_party = Party.find_by_name("first-battle-pc")
 
       if @pc_party.monster_unlocks.count != 4 
@@ -25,11 +26,13 @@ class Battle::Create
 
       end
       self.battle = Battle.new
+      self.battle.admin = true if user.email == "muffintopper420@mombattle.com"
       battle.battle_level_id = 30
       battle.parties.push(Party.find_by_name("first-battle-user"))
       battle.parties.push(Party.find_by_name("first-battle-pc"))
     else
       self.battle = Battle.new battle_params
+      self.battle.admin = true if self.user.email == "muffintopper420@mombattle.com"
       battle.parties.push(Party.find_by_user_id(user.id))
       battle.parties.push(
         Party.where(user: User.find_by_user_name("NPC")).
