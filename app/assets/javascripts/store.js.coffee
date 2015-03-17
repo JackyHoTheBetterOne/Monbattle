@@ -41,13 +41,11 @@ $ ->
       error: ->
         alert("Can't process the roll")
       success: (response) ->
-        caption = document.getElementsByClassName("username")[0].innerHTML + " is playing monbattle!"
-        name = document.getElementsByClassName("username")[0].innerHTML + " has unlocked a " + response.rarity + " " + response.type + ", " + response.reward + ", " + " in Monbattle!"
-        picture_url = response.image
         $(".share-roll-but").on "click", ->
-          sendBrag caption, picture_url, name, ->
-            showHome()
-            return
+          caption = document.getElementsByClassName("username")[0].innerHTML + " is playing monbattle!"
+          name = document.getElementsByClassName("username")[0].innerHTML + " has unlocked a " + response.rarity + " " + response.type + ", " + response.reward + ", " + " in Monbattle!"
+          picture_url = response.image
+          monbattleShare(caption, picture_url, name, showHome)
         document.getElementsByClassName("king-roll")[0].style["z-index"] = "-1"
         document.getElementsByClassName("queen-roll")[0].style["z-index"] = "-1"
         document.getElementsByClassName("mon-roll")[0].style["z-index"] = "-1"

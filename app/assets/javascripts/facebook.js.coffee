@@ -137,6 +137,31 @@ window.sendBrag = (caption, picture_url, name, callback) ->
     picture: picture_url
     name: name
   }, callback
+  return
+
+window.monbattleShare = (caption, picture_url, name, callback) ->
+  sendBrag caption, picture_url, name, ->
+    callback()
+    return
+  return
+
+
+# sendBrag = (caption, callback) ->
+#   FB.ui {
+#     method: 'feed'
+#     caption: caption
+#     picture: 'http://www.friendsmash.com/images/logo_large.jpg'
+#     name: 'Checkout my Friend Smash greatness!'
+#   }, callback
+#   return
+
+
+# window.onGameOverBrag = ->
+#   sendBrag 'I just scored 100' + '! Think you can beat me?', ->
+#     showHome()
+#     return
+#   return
+
 
 window.showHome = ->
   console.log("Fight!")
