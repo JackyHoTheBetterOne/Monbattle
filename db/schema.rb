@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150316085018) do
+ActiveRecord::Schema.define(version: 20150317182350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -625,6 +625,15 @@ ActiveRecord::Schema.define(version: 20150316085018) do
 
   add_index "thoughts", ["personality_id"], name: "index_thoughts_on_personality_id", using: :btree
 
+  create_table "unlock_codes", force: true do |t|
+    t.text     "code"
+    t.string   "category"
+    t.integer  "item_id"
+    t.datetime "expiry_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -649,6 +658,7 @@ ActiveRecord::Schema.define(version: 20150316085018) do
     t.string   "namey"
     t.text     "invite_ids",             default: [],                 array: true
     t.text     "request_ids",            default: [],                 array: true
+    t.text     "game_unlock",            default: ""
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

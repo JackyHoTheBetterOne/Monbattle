@@ -6,7 +6,6 @@ require 'net/http'
 
 class User < ActiveRecord::Base
   # User.select{|u| u.invite_ids.include?("111")}
-  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   # validates :password, presence: {message: 'Must be entered'}
@@ -101,34 +100,15 @@ class User < ActiveRecord::Base
   end
 
 
+################################################################################################# User tracking
+
   def track_currency_pick(session_id, pick)
     if self.admin == false
-      game_key = ENV["GAME_KEY"]
-      secret_key = ENV["GAME_SECRET"]
-      endpoint_url = "http://api.gameanalytics.com/1"
-      category = "design"
-      message = {}
-      message["event_id"] = "currency_pick:" + pick
-      message["user_id"] = self.id
-      message["session_id"] = session_id
-      message["build"] = "1.00"
-      message["value"] = 1.0
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      url = "#{endpoint_url}/#{game_key}/#{category}"
-      uri = URI(url)
-      req = Net::HTTP::Post.new(uri.path)
-      req.body = json_message
-      req['Authorization'] = json_authorization
-
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
-
-      p "======================================================================="
-      p "Currency Pick tracking: #{res.body}"
-      p "======================================================================="
-
+      event_id = "currency_pick:" + pick
+      tracking = User::Tracking.new(user: self, session_id: session_id, 
+                                      event_id: event_id, value: 1)
+      tracking.user_side_tracking
+      tracking.call
     end
   end
   handle_asynchronously :track_currency_pick
@@ -136,94 +116,34 @@ class User < ActiveRecord::Base
 
   def track_currency_purchase(session_id, pick)
     if self.admin == false
-      game_key = ENV["GAME_KEY"]
-      secret_key = ENV["GAME_SECRET"]
-      endpoint_url = "http://api.gameanalytics.com/1"
-      category = "design"
-      message = {}
-      message["event_id"] = "currency_purchase:" + pick
-      message["user_id"] = self.id
-      message["session_id"] = session_id
-      message["build"] = "1.00"
-      message["value"] = 1.0
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      url = "#{endpoint_url}/#{game_key}/#{category}"
-      uri = URI(url)
-      req = Net::HTTP::Post.new(uri.path)
-      req.body = json_message
-      req['Authorization'] = json_authorization
-
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
-
-      p "======================================================================="
-      p "Currency Purchase tracking: #{res.body}"
-      p "======================================================================="
-
+      event_id = "currency_purchase:" + pick
+      tracking = User::Tracking.new(user: self, session_id: session_id, 
+                                      event_id: event_id, value: 1)
+      tracking.user_side_tracking
+      tracking.call
     end
   end
   handle_asynchronously :track_currency_purchase
 
   def track_rolling(rarity, session_id, type)
     if self.admin == false && rarity != "1" && type != "1"
-      game_key = ENV["GAME_KEY"]
-      secret_key = ENV["GAME_SECRET"]
-      endpoint_url = "http://api.gameanalytics.com/1"
-      category = "design"
-      message = {}
-      message["event_id"] = "rolling_count_user:" + self.user_name
-      message["user_id"] = self.id
-      message["session_id"] = session_id
-      message["build"] = "1.00"
-      message["value"] = 1.0
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      url = "#{endpoint_url}/#{game_key}/#{category}"
-      uri = URI(url)
-      req = Net::HTTP::Post.new(uri.path)
-      req.body = json_message
-      req['Authorization'] = json_authorization
+      event_id_1 = "rolling_count_user:" + self.user_name
+      roll_tracking = User::Tracking.new(user: self, session_id: session_id, 
+                                      event_id: event_id_1, value: 1)
+      roll_tracking.user_side_tracking
+      roll_tracking.call
 
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
+      event_id_2 = "rolling_count_rarity:" + rarity
+      rarity_tracking = User::Tracking.new(user: self, session_id: session_id, 
+                                      event_id: event_id_2, value: 1)
+      rarity_tracking.user_side_tracking
+      rarity_tracking.call
 
-      p "======================================================================="
-      p "Rolling tracking: #{res.body}"
-      p "======================================================================="
-
-      message["event_id"] =  "rolling_count_rarity:" + rarity
-      message["value"] = 1.0
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      req.body = json_message
-      req['Authorization'] = json_authorization
-
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
-
-      p "======================================================================="
-      p "Rolling tracking: #{res.body}"
-      p "======================================================================="
-
-      message["event_id"] =  "rolling_count_type:" + type
-      message["value"] = 1.0
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      req.body = json_message
-      req['Authorization'] = json_authorization
-
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
-
-      p "======================================================================="
-      p "Rolling tracking: #{res.body}"
-      p "======================================================================="
-
+      event_id_3 = "rolling_count_type:" + type
+      rolling_type_tracking = User::Tracking.new(user: self, session_id: session_id, 
+                                      event_id: event_id_3, value: 1)
+      rolling_type_tracking.user_side_tracking
+      rolling_type_tracking.call
     end
   end
   handle_asynchronously :track_rolling
@@ -231,50 +151,22 @@ class User < ActiveRecord::Base
 
   def track_login(session_id, time)
     if self.admin == false
-      game_key = ENV["GAME_KEY"]
-      secret_key = ENV["GAME_SECRET"]
-      endpoint_url = "http://api.gameanalytics.com/1"
-      category = "design"
-      message = {}
-      message["event_id"] = "second_batch_user:" + self.user_name
-      message["user_id"] = self.id
-      message["session_id"] = session_id
-      message["build"] = "1.00"
-      message["value"] = 1.0
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      url = "#{endpoint_url}/#{game_key}/#{category}"
-      uri = URI(url)
-      req = Net::HTTP::Post.new(uri.path)
-      req.body = json_message
-      req['Authorization'] = json_authorization
+      event_id_1 = "second_batch_user:" + self.user_name
+      login_tracking = User::Tracking.new(user: self, session_id: session_id, 
+                                      event_id: event_id_1, value: 1)
+      login_tracking.user_side_tracking
+      login_time_tracking.call
 
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
-
-      p "======================================================================="
-      p "Login tracking: #{res.body}"
-      p "======================================================================="
-
-      message["event_id"] =  "second_batch_time:" + time
-      message["value"] = 1.0
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      req.body = json_message
-      req['Authorization'] = json_authorization
-
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
-
-      p "======================================================================="
-      p "Login tracking: #{res.body}"
-      p "======================================================================="
-
+      event_id_2 = "second_batch_time:" + time
+      login_time_tracking = User::Tracking.new(user: self, session_id: session_id, 
+                                      event_id: event_id_2, value: 1)
+      login_time_tracking.user_side_tracking
+      login_time_tracking.call
     end
   end
   handle_asynchronously :track_login
+
+###############################################################################################################
 
   private
 

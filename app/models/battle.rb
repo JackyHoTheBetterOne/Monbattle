@@ -134,40 +134,23 @@ class Battle < ActiveRecord::Base
     self.impressions.destroy_all
   end
 
+
+  
+
 ####################################################################################### End battle tracking
 
   def track_outcome(user_id)
     if self.admin == false
-      game_key = ENV["GAME_KEY"]
-      secret_key = ENV["GAME_SECRET"]
-      endpoint_url = "http://api.gameanalytics.com/1"
-      category = "design"
-      message = {}
       if self.victor == "NPC"
-        message["event_id"] = "outcome:defeat"
+        event_id = "outcome:defeat"
       else
-        message["event_id"] = "outcome:victory"
-      end
-      message["user_id"] = user_id
-      message["area"] = self.battle_level.name.gsub(" ", "_")
-      message["session_id"] = self.session_id
-      message["build"] = "1.00"
-      message["value"] = 1.0
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      url = "#{endpoint_url}/#{game_key}/#{category}"
-      uri = URI(url)
-      req = Net::HTTP::Post.new(uri.path)
-      req.body = json_message
-      req['Authorization'] = json_authorization
-
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
+        event_id = "outcome:victory"
       end
 
-      p "======================================================================="
-      p "Outcome tracking: #{res.body}"
-      p "======================================================================="
+      tracking = User::Tracking.new(battle: self, session_id: self.session_id, 
+                                      event_id: event_id, value: 1, user_id: user_id)
+      tracking.battle_side_tracking
+      tracking.call
     end
   end
   handle_asynchronously :track_outcome
@@ -176,47 +159,17 @@ class Battle < ActiveRecord::Base
 
   def track_progress(user_id)
     if self.admin == false
-      game_key = ENV["GAME_KEY"]
-      secret_key = ENV["GAME_SECRET"]
-      endpoint_url = "http://api.gameanalytics.com/1"
-      category = "design"
-      message = {}
-      message["event_id"] = "level_unlock" + ":" + self.battle_level.name.gsub(" ", "_")
-      message["user_id"] = user_id
-      message["session_id"] = self.session_id
-      message["build"] = "1.00"
-      message["value"] = 1.0
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      url = "#{endpoint_url}/#{game_key}/#{category}"
-      uri = URI(url)
-      req = Net::HTTP::Post.new(uri.path)
-      req.body = json_message
-      req['Authorization'] = json_authorization
+      event_id = "level_unlock" + ":" + self.battle_level.name.gsub(" ", "_")
+      unlock_tracking = User::Tracking.new(battle: self, session_id: self.session_id, 
+                                            event_id: event_id, value: 1, user_id: user_id)
+      unlock_tracking.battle_side_tracking
+      unlock_tracking.call
 
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
-
-      p "======================================================================="
-      p "Outcome tracking: #{res.body}"
-      p "======================================================================="
-
-      user_name = User.find(user_id).user_name
-      message["event_id"] =  "level_unlock_user" + ":" + user_name
-      message["value"] = 1
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      req.body = json_message
-      req['Authorization'] = json_authorization
-
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
-
-      p "======================================================================="
-      p "Outcome tracking: #{res.body}"
-      p "======================================================================="
+      event_id = "level_unlock_user" + ":" + user_id
+      user_unlock_tracking = User::Tracking.new(battle: self, session_id: self.session_id,
+                                                  event_id: event_id, value: 1, user_id: user_id)
+      user_unlock_tracking.battle_side_tracking
+      user_unlock_tracking.call
     end
   end
   handle_asynchronously :track_progress
@@ -225,63 +178,26 @@ class Battle < ActiveRecord::Base
 
   def track_performance(user_id)
     if self.admin == false
-      game_key = ENV["GAME_KEY"]
-      secret_key = ENV["GAME_SECRET"]
-      endpoint_url = "http://api.gameanalytics.com/1"
-      category = "design"
-      message = {}
-      message["area"] = self.battle_level.name.gsub(" ", "_") 
-      message["event_id"] = "time_taken"
-      message["user_id"] = user_id
-      message["session_id"] = self.session_id
-      message["build"] = "1.00"
-      message["value"] = self.time_taken
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      url = "#{endpoint_url}/#{game_key}/#{category}"
-      uri = URI(url)
-      req = Net::HTTP::Post.new(uri.path)
-      req.body = json_message
-      req['Authorization'] = json_authorization
+      event_id_1 = "time_taken"
+      value = self.time_taken
+      time_tracking = User::Tracking.new(battle: self, session_id: self.session_id, 
+                                          event_id: event_id_1, value: value, user_id: user_id)
+      time_tracking.battle_side_tracking
+      time_tracking.call
 
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
+      event_id_2 = "turns_taken"
+      value = self.round_taken
+      turn_tracking = User::Tracking.new(battle: self, session_id: self.session_id, 
+                                          event_id: event_id_2, value: value, user_id: user_id)
+      turn_tracking.battle_side_tracking
+      turn_tracking.call
 
-      p "======================================================================="
-      p "Performance tracking: #{res.body}"
-      p "======================================================================="
 
-      message["event_id"] = "turns_taken"
-      message["value"] = self.round_taken
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      req.body = json_message
-      req['Authorization'] = json_authorization
-
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
-
-      p "======================================================================="
-      p "Performance tracking: #{res.body}"
-      p "======================================================================="
-
-      message["event_id"] =  "battle_finish_count"
-      message["value"] = 1
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      req.body = json_message
-      req['Authorization'] = json_authorization
-
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
-
-      p "======================================================================="
-      p "Battle count tracking: #{res.body}"
-      p "======================================================================="
-
+      event_id_3 = "battle_finish_count"
+      count_tracking = User::Tracking.new(battle: self, session_id: self.session_id, 
+                                          event_id: event_id_3, value: 1, user_id: user_id)
+      count_tracking.battle_side_tracking
+      count_tracking.call
     end
   end
   handle_asynchronously :track_performance
@@ -290,32 +206,11 @@ class Battle < ActiveRecord::Base
 
   def track_ability_frequency(name, user_id)
     if self.admin == false
-      game_key = ENV["GAME_KEY"]
-      secret_key = ENV["GAME_SECRET"]
-      endpoint_url = "http://api.gameanalytics.com/1"
-      category = "design"
-      message = {}
-      message["area"] = self.battle_level.name.gsub(" ", "_") 
-      message["event_id"] = "abilities:" + name.gsub(" ", "_")
-      message["user_id"] = user_id
-      message["session_id"] = self.session_id
-      message["build"] = "1.00"
-      message["value"] = 1.0
-      json_message = message.to_json
-      json_authorization = Digest::MD5.hexdigest(json_message+secret_key)
-      url = "#{endpoint_url}/#{game_key}/#{category}"
-      uri = URI(url)
-      req = Net::HTTP::Post.new(uri.path)
-      req.body = json_message
-      req['Authorization'] = json_authorization
-
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-              http.request(req)
-            end
-
-      p "======================================================================="
-      p "Ability tracking: #{res.body}"
-      p "======================================================================="
+      event_id = "abilities:" + name.gsub(" ", "_")
+      tracking = User::Tracking.new(battle: self, session_id: self.session_id, 
+                                          event_id: event_id, value: 1, user_id: user_id)
+      tracking.battle_side_tracking
+      tracking.call
     end
   end
   handle_asynchronously :track_ability_frequency

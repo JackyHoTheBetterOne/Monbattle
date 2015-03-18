@@ -8,8 +8,6 @@ resources :regions do
   resources :areas
 end
 
-
-
 resources :quests
 
 resources :cut_scenes
@@ -63,7 +61,6 @@ get 'event_areas' => 'home#event_levels'
 post 'add_request_token' => 'home#add_request_token'
 post 'add_accepted_request' => 'home#add_accepted_request'
 
-
 get 'dick_fly' => 'home#dick_fly'
 
 
@@ -80,6 +77,12 @@ resources :battles do
   get :loss, on: :member
   get :tracking_abilities, on: :member
 end
+
+resources :unlock_codes do 
+  post :unlock, on: :collection
+end
+
+
 
 resources :ability_equippings, only: [:create, :update]
 resources :rarities, only: [:create, :destroy]

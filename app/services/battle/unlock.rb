@@ -56,7 +56,7 @@ class Battle::Unlock
 
       if !level_array.include?level.name
         level_array.push(level.name) 
-        @battle.track_progress(@user.id)
+        @battle.track_progress(@user.user_name)
         unlocked_level = BattleLevel.where(unlocked_by_id: level.id)[0]
         if unlocked_level
           @summoner.recently_unlocked_level = unlocked_level.name 

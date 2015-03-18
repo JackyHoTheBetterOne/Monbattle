@@ -158,7 +158,7 @@ class BattlesController < ApplicationController
   end
 
   def tracking_abilities
-    @battle.track_ability_frequency(params[:ability_name], current_user.id)
+    @battle.track_ability_frequency(params[:ability_name], current_user.user_name)
     render nothing: true
   end
 
@@ -278,7 +278,6 @@ class BattlesController < ApplicationController
       @unlock = Battle::Unlock.new(summoner: summoner, round_taken: @battle.round_taken,
                                     battle: @battle)
       @unlock.call
-      # @battle.battle_level.unlock_for_summoner(name, @battle.round_taken, @battle.id) 
     end
   end
 
@@ -287,8 +286,8 @@ class BattlesController < ApplicationController
   end
 
   def tracking
-    @battle.track_outcome(current_user.id)
-    @battle.track_performance(current_user.id)
+    @battle.track_outcome(current_user.user_name)
+    @battle.track_performance(current_user.user_name)
   end
 end
 

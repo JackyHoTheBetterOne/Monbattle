@@ -27,6 +27,12 @@
      }(document, 'script', 'facebook-jssdk'));
   </script> -->
   
+  <div class="code-enter-box">
+    <%= text_field_tag :code, params[:code_entered], 
+          class: "unlock-code-entered" %>
+    <button class="submit-unlock-code">Submit</button>
+  </div>
+
   <%= render "battles/single_ability_img" %>
   <h1 id="fb-welcome" class="hide"></h1>
   <div class="turbolinks-overlay" id="turbolinks-overlay">
@@ -57,9 +63,9 @@
                       class: "facebook-share-logo", size: "20") %>
                 Invite
               </a>
-<!--               <a href="#" class="top-bar gift-but">
+              <a href="#" class="top-bar gift-but">
                 Gifting
-              </a> -->
+              </a>
               <%= link_to "Forum", "http://monbattle.boards.net/", class: "top-bar forum-but", 
                     :target => '_blank' %>
               <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/quest-arrow.png", 

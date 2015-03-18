@@ -81,63 +81,13 @@ class Summoner < ActiveRecord::Base
   end
 
   def get_achievement
-    @questing_summoner = self
-    array = @questing_summoner.completed_daily_quests.dup
-    completion_array = @questing_summoner.just_achieved_quests.dup
-    Quest.all.each do |q|
-      if q.type == "Daily-Achievement" && (!@questing_summoner.completed_daily_quests.include?q.name) && 
-          @questing_summoner.name != "NPC" && q.is_active
-        if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) >= 
-            q.stat_requirement
-          @questing_summoner[q.reward] += q.reward_amount
-          array.push(q.name)
-          completion_array.push(q.message)
-        end
-      elsif q.type == "Daily-Turn-Based-Achievement" && (!@questing_summoner.completed_daily_quests.include?(q.name)) &&
-        @questing_summoner.name != "NPC" && q.is_active
-        successful_entries = []
-        self.daily_battles.each do |b|
-          battle = Battle.find(b)
-          successful_entries.push(battle.id) if battle[q.stat].to_i < q.stat_requirement && battle.victor != "NPC"
-        end
-        if successful_entries.count >= q.requirement.to_i
-          @questing_summoner[q.reward] += q.reward_amount
-          array.push(q.name)
-          completion_array.push(q.message)
-        end
-      end
-    end
-    @questing_summoner.completed_daily_quests = array
-    @questing_summoner.just_achieved_quests = completion_array
-    @questing_summoner.save
+    @questing = User::QuestReward.new(summoner: self)
+    @questing.call
   end
 
   def get_login_bonus_for_wins
-    @questing_summoner = self
-    array = @questing_summoner.completed_daily_quests.dup
-    completion_array = @questing_summoner.just_achieved_quests.dup
-    Quest.all.each do |q|
-      if q.type == "Daily-Login-Bonus" && (!@questing_summoner.completed_daily_quests.include?q.name) &&
-        @questing_summoner.name != "NPC" && q.is_active
-        if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) <= 
-            q.stat_requirement
-          p "================================================================================================"
-          p @questing_summoner.ending_status[q.stat]
-          p @questing_summoner.starting_status[q.stat]
-          p q.stat_requirement
-          p "================================================================================================="
-          @questing_summoner[q.reward] += q.reward_amount
-        end
-        if (@questing_summoner.ending_status[q.stat].to_i - @questing_summoner.starting_status[q.stat].to_i) >= 
-            q.stat_requirement
-          array.push(q.name)
-          completion_array.push(q.message)
-          @questing_summoner.completed_daily_quests = array
-          @questing_summoner.just_achieved_quests = completion_array
-        end
-      end
-    end
-    @questing_summoner.save
+    @questing = User::LoginBonus.new(summoner: self)
+    @questing.call
   end
 
 ##################################################################################### Clearing entries
