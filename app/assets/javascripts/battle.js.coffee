@@ -1185,14 +1185,15 @@ window.nextScene = ->
   ), 2000
 
 window.mouseOverMon = ->
-  if $(this).css("opacity") isnt "0"
+  mon = $(this).closest(".mon").data("index")
+  team = $(this).closest(".mon-slot").data("team")
+  monster = battle.players[team].mons[mon]
+  if $(this).css("opacity") isnt "0" and parseInt(monster.fatigue) isnt 10
     $(this).parent().children(".availability-arrow").css("visibility", "hidden")
     $(this).parent().children(".availability-arrow")
     $(this).parent().children(".img").addClass("controlling") 
     $(this).parent().children(".monBut").css("visibility", "visible")
     $(this).parent().children(".monBut").css({"opacity":"1", "z-index":"20000"})
-    mon = $(this).closest(".mon").data("index")
-    team = $(this).closest(".mon-slot").data("team")
     window.currentMon = $(this).parent().children(".img")
     window.targets = [
       team
@@ -2263,12 +2264,14 @@ $ ->
               description.css({"z-index": "11000", "opacity": "1"})
             else
               ability = undefined
+              fatigue = undefined
               if element.attr("class") is "oracle-skill-icon"
                 ability = battle.players[0].mons[playerMonNum-1].abilities[0]
                 $(description).addClass("summoner-ability-description")
               else 
                 ability = battle.players[0].mons[targets[1]].abilities[$(this).data("index")]
               description.children(".panel-heading").text ability.name
+              fatigue = battle.players[ability.team].mons[ability.index].fatigue
               if ability_target is "attack"
                 description.children("span.damage-type").css("color", "#0888C4")
                 description.children("span.damage-type").text "Physical"
