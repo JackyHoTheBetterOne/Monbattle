@@ -219,6 +219,9 @@ $ ->
       frictionlessRequests: true
       status: true
       window.friendCache = {me: {}, reRequests: {}}
+  FB.Event.subscribe 'edge.create', (response) ->
+    window.top.location.href = 'url'
+    return
   FB.Event.subscribe 'auth.authResponseChange', onAuthResponseChange
   FB.Event.subscribe 'auth.statusChange', onStatusChange
   setTimeout (->

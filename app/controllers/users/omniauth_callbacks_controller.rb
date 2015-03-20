@@ -13,8 +13,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         redirect_to new_battle_path 
       end
     else
-      redirect_to home_sweet_home_path
-      # session["devise.facebook_data"] = request.env["omniauth.auth"]
+      # redirect_to home_sweet_home_path
+      session["devise.facebook_data"] = request.env["omniauth.auth"]
     end
   end
 
