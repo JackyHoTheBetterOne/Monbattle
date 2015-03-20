@@ -29,7 +29,6 @@ class User < ActiveRecord::Base
   has_many :abilities, through: :ability_purchases, source: :ability
 
   validates :user_name, presence: {message: 'Must be entered'}, uniqueness: true
-  validates :email, presence: {message: 'Must be entered'}, uniqueness: true
 
   after_create :create_summoner
   after_create :create_party
