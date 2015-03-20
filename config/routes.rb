@@ -82,7 +82,7 @@ resources :unlock_codes do
   post :unlock, on: :collection
 end
 
-
+match '/auth/facebook/setup', :to => 'home#ask_permission'
 
 resources :ability_equippings, only: [:create, :update]
 resources :rarities, only: [:create, :destroy]

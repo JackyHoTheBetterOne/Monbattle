@@ -236,6 +236,11 @@ class HomeController < ApplicationController
   def dick_fly
   end
 
+  def ask_permission
+    request.env['omniauth.strategy'].options[:scope] = session[:fb_permissions]
+    render "home#facebook"
+  end
+
   def send_code_email
     man = Mandrill::API.new
     message = { 
