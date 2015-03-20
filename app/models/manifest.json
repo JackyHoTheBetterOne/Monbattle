@@ -1,0 +1,17 @@
+{
+  "name": "Monbattle",
+  "description": "Play this game and you will get laid!",
+  "version": "0.0.0.1",
+  "manifest_version": 2,
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "app": {
+    "urls": [
+      "https://arcane-depths-3003.herokuapp.com/"
+    ],
+    "launch": {
+      "web_url": "https://arcane-depths-3003.herokuapp.com/"
+    }
+  }
+}

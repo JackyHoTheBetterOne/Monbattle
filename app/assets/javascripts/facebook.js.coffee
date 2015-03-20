@@ -1,5 +1,5 @@
 window.login = (callback) ->
-  FB.login(callback, {scope: 'user_friends, email, publish_actions', return_scopes: true})
+  FB.login(callback, {scope: 'user_friends, email, publish_actions', return_scopes: true, display: "iframe"})
   return
 
 window.loginCallback = (response) ->
@@ -97,7 +97,7 @@ window.sendInvite = (to, message, callback) ->
   while i < friendCache.invitable_friends.length
     players.push(friendCache.invitable_friends[i].id)
     i++
-  options = { method: 'apprequests', filters: [ {name:'Suggested Users', user_ids:players} ] }
+  options = { display: "popup", method: 'apprequests', filters: [ {name:'Suggested Users', user_ids:players} ] }
   if to
     options.to = to
   if message
@@ -136,6 +136,7 @@ window.sendBrag = (caption, picture_url, name, callback) ->
     caption: caption
     picture: picture_url
     name: name
+    display: "popup"
   }, callback
   return
 
@@ -209,12 +210,14 @@ window.addRequestToken = (token) ->
       console.log("success")
 
 $ ->
-  FB.init
-    appId: '1514420408809454'
-    frictionlessRequests: true
-    status: true
-    version: 'v2.2'
-    window.friendCache = {me: {}, reRequests: {}}
+  if typeof friendCache is "undefined"
+    FB.init
+      appId: '1514420408809454'
+      xfbml: true
+      version: 'v2.2'
+      frictionlessRequests: true
+      status: true
+      window.friendCache = {me: {}, reRequests: {}}
   FB.Event.subscribe 'auth.authResponseChange', onAuthResponseChange
   FB.Event.subscribe 'auth.statusChange', onStatusChange
   setTimeout (->

@@ -19,6 +19,22 @@
   };
 };
 
+.redeem-button {
+  position: absolute;
+  height: 25px;
+  width: 87px;
+  top: 4px;
+  left: 208px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+};
+
+.redeem-button:hover {
+  box-shadow: 0px 0px 10px yellow;
+};
+
+
 .sweet-home {
   position: relative;
   border-radius: 5px;
