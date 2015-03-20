@@ -1,5 +1,6 @@
 window.login = (callback) ->
-  FB.login(callback, {scope: 'user_friends, email, publish_actions', return_scopes: true, display: "iframe"})
+  console.log("wtf")
+  FB.login(callback, {scope: 'user_friends, email, publish_actions', return_scopes: true})
   return
 
 window.loginCallback = (response) ->
