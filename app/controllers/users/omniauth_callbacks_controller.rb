@@ -17,20 +17,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
-  def check_permissions
-    @object = User.koala(request)
-  end
-
-
 
   private
-
-  def check_permissions
-    @object = User.koala(request)
-  end
-
-
-
   def track_login
     session_id = request.session_options[:id]
     time = Time.now.in_time_zone("Pacific Time (US & Canada)").strftime("%A %H")

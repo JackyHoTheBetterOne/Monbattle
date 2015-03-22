@@ -55,7 +55,6 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
-    addressable (2.3.6)
     animate-rails (1.0.7)
       rails
     arel (5.0.1.20140414130214)
@@ -156,10 +155,6 @@ GEM
       railties (>= 3.2.16)
     json (1.8.1)
     jwt (1.0.0)
-    koala (1.11.1)
-      addressable
-      faraday
-      multi_json
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -325,7 +320,6 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   jquery-ui-rails
-  koala
   mandrill-api
   nested_form
   omniauth
