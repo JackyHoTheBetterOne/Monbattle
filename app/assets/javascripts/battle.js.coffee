@@ -736,12 +736,22 @@ window.hpChangeBattle = ->
 
 
 window.damageBoxAnime= (team, target, damage, color) ->
-  $("." + team + " " + ".mon" + target + " " + "p.dam").text(damage).animate({"color":color, "font-weight":"bold"}, 1).
-  fadeIn(1).animate({"top":"-=50px", "z-index":"+=10000"}, 200).effect("bounce", {times: 10}).fadeOut().
-  animate
-    "top":"+=50px"
-    "z-index":"-=10000"
-    , 5
+  damage_num = parseInt(damage)
+  damage_num = damage_num * -1 if damage_num < 0 
+  font_size = undefined
+  if damage_num <= 200
+    font_size = "130%"
+  else if damage_num <= 500
+    font_size = "150%"
+  else if damage_num > 500
+    font_size = "175%"
+  $("." + team + " " + ".mon" + target + " " + "p.dam").text(damage).
+    css({"color":color, "font-weight":"bold", "font-size":font_size}, 1).
+    fadeIn(1).animate({"top":"-=50px", "z-index":"+=10000"}, 200).effect("bounce", {times: 10}).fadeOut().
+    animate
+      "top":"+=50px"
+      "z-index":"-=10000"
+      , 5
 
 window.showDamageSingle = ->
   damageBoxAnime(enemyHurt.team, enemyHurt.index, window["change" + enemyHurt.unidex], "rgba(255, 0, 0)")
@@ -1489,10 +1499,10 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
     enemyTeamIndex = 0
   if typeof monster isnt "undefined" 
     if monster.hp > 0 or type is "death" or monster.type is "summoner"
-      if teamIndex is 1 and type isnt "death" and monster.type isnt "summoner"
-        $(".battle-message").text(
-          monster.name + ":" + " " + getRandom(monster.speech)).
-          effect("highlight", 500)
+      # if teamIndex is 1 and type isnt "death" and monster.type isnt "summoner"
+      #   $(".battle-message").text(
+      #     monster.name + ":" + " " + getRandom(monster.speech)).
+      #     effect("highlight", 500)
       if teamIndex is 1 and type isnt "death"
         abilityIndex = getRandom(aiAbilities)
         if monster.taunted.target is undefined 
