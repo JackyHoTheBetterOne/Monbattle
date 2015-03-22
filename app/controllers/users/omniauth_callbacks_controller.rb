@@ -2,8 +2,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   after_action :track_login, only: [:facebook]
   after_action :quest_start, only: [:facebook]
 
-  def facebook     
-    @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)      
+  def facebook
+    @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)  
     if @user.persisted?       
       sign_in @user, :event => :authentication #this will throw if @user is not activated
       set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
@@ -17,7 +17,19 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+  def check_permissions
+    @object = User.koala(request)
+  end
+
+
+
   private
+
+  def check_permissions
+    @object = User.koala(request)
+  end
+
+
 
   def track_login
     session_id = request.session_options[:id]

@@ -60,6 +60,7 @@ post 'track_currency_purchase' => "home#track_currency_purchase"
 get 'event_areas' => 'home#event_levels'
 post 'add_request_token' => 'home#add_request_token'
 post 'add_accepted_request' => 'home#add_accepted_request'
+get 'check_permission' => 'home#check_permission'
 
 get 'dick_fly' => 'home#dick_fly'
 

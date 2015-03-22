@@ -1,4 +1,9 @@
 require 'mandrill'
+require 'json'
+require 'digest'
+require 'uri'
+require 'net/http'
+
 
 class HomeController < ApplicationController
   layout "facebook_landing"
@@ -236,10 +241,10 @@ class HomeController < ApplicationController
   def dick_fly
   end
 
-  def ask_permission
-    request.env['omniauth.strategy'].options[:scope] = session[:fb_permissions]
-    render "home#facebook"
-  end
+  # def check_permission
+  #   byebug
+  #   @user = Koala::Facebook::OAuth.new(ENV["FACEBOOK_ID"], ENV["FACEBOOK_SECRET"]).get_user_info_from_cookie(cookies)
+  # end
 
   def send_code_email
     man = Mandrill::API.new

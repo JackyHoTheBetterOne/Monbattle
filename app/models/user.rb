@@ -43,6 +43,13 @@ class User < ActiveRecord::Base
     end
   }
 
+  def self.koala(object)
+    access_token = auth['token']
+    facebook = Koala::Facebook::API.new(access_token)
+    facebook.get_object("me?fields=name,picture")
+  end
+
+
   def battle_count
     self.summoner.played_levels.count + self.summoner.cleared_twice_levels.count
   end

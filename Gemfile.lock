@@ -55,6 +55,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    addressable (2.3.6)
     animate-rails (1.0.7)
       rails
     arel (5.0.1.20140414130214)
@@ -73,6 +74,8 @@ GEM
     bootstrap-sass (3.2.0.1)
       sass (~> 3.2)
     builder (3.2.2)
+    byebug (4.0.3)
+      columnize (= 0.9.0)
     choice (0.1.6)
     chunky_png (1.3.2)
     climate_control (0.0.3)
@@ -89,6 +92,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
+    columnize (0.9.0)
     compass (0.12.7)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
@@ -152,6 +156,10 @@ GEM
       railties (>= 3.2.16)
     json (1.8.1)
     jwt (1.0.0)
+    koala (1.11.1)
+      addressable
+      faraday
+      multi_json
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -302,6 +310,7 @@ DEPENDENCIES
   aws-sdk
   binding_of_caller
   bootstrap-sass
+  byebug
   cocoon
   coffee-rails (~> 4.0.0)
   compass-rails
@@ -316,6 +325,7 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   jquery-ui-rails
+  koala
   mandrill-api
   nested_form
   omniauth
