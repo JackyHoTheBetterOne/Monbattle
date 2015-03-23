@@ -20,6 +20,8 @@ class Party < ActiveRecord::Base
     find_by_user_id(user).members.count
   end
 
+################################################################################################ Decorating
+
   def username
     self.user.user_name
   end
@@ -31,6 +33,8 @@ class Party < ActiveRecord::Base
   def mon_dex(mon)
     self.mons.index(mon)
   end
+
+#############################################################################################################
 
   def as_json(options={})
     super(

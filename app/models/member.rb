@@ -6,7 +6,13 @@ class Member < ActiveRecord::Base
   validates :monster_unlock, uniqueness: {scope: :party_id}
   validates :party_id, presence: {message: 'Must be entered'}
 
+
+
+############################################################################### Decorating
   def mon_portrait(user)
     self.monster_unlock.mon_portrait(user)
   end
+################################################################################
+
+
 end

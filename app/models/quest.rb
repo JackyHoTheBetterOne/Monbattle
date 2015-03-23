@@ -31,6 +31,9 @@ class Quest < ActiveRecord::Base
   end
 
 
+########################################################################################################### Decorating
+
+
   def type
     self.quest_type.name
   end
@@ -38,6 +41,9 @@ class Quest < ActiveRecord::Base
   def reward
     self.reward_category.name
   end
+
+
+##########################################################################################################
 
   private
 

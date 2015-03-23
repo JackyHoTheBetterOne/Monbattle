@@ -9,6 +9,8 @@ class Summoner < ActiveRecord::Base
   after_create :change_name
 
 
+################################################################################################ Decoration
+
   def true_name
     self.user.namey
   end

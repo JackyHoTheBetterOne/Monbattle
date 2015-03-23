@@ -1,5 +1,6 @@
 <% if party.npc == false %>
-  <%= image_tag("story-arrow.gif", class: "availability-arrow") %>
+  <%= image_tag("story-arrow.gif", class: "availability-arrow", 
+    data: {index: "#{party.mon_dex(mon)}"}) %>
   <div class="monBut">
     <p class="mon-name"><%= mon.name %></p>
     <button class="action attack" data-index= "0" data-apcost = "<%= mon.cost(0) %>"  

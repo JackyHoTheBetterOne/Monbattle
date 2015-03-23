@@ -15,6 +15,8 @@ class CutScene < ActiveRecord::Base
 
   before_save :set_keywords
 
+###################################################################################### Decorating
+
   def chapter_name
     if self.chapter
       self.chapter.name 
@@ -38,6 +40,7 @@ class CutScene < ActiveRecord::Base
       ""
     end
   end
+########################################################################################
 
   private
 

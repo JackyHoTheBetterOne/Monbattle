@@ -674,7 +674,8 @@ window.availableAbilities = () ->
           if $(button).data("target") is "evolve"
             $(button).children(".but-image").
               attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/ascend_turning.svg")
-    if $(arrow).data("available") is "true"
+    if $(arrow).data("available") is "true" && 
+        battle.players[0].mons[$(arrow).data("index")].fatigue isnt 10
       $(arrow).css({"opacity":"1", "visibility":"visible"})
     else
       $(arrow).css({"opacity":"0", "visibility":"hidden"})
@@ -736,6 +737,9 @@ window.hpChangeBattle = ->
 
 
 window.damageBoxAnime= (team, target, damage, color) ->
+  damage = Math.round(damage)
+  if damage.toString().indexOf("-") is -1 and damage.toString().indexOf("+") is -1
+    damage = "+" + damage.toString()
   damage_num = parseInt(damage)
   damage_num = damage_num * -1 if damage_num < 0 
   font_size = undefined
@@ -777,23 +781,40 @@ window.showDamageTeam = (index) ->
         parseInt(window["change" + unidex]) isnt 0 and parseInt(window["change" + unidex]) isnt -0
       if window["change"+unidex].toString().indexOf("-") isnt -1 
         if index is 1
-          number = parseInt($(".total-damage-per-turn .number").text())
+          $(".total-damage-per-turn, .hits-per-turn").removeClass("magictime vanishOut")
+          $(".total-damage-per-turn, .hits-per-turn").css({"opacity":"1", "z-index":"10000"})
+          hits = parseInt($(".hits-per-turn .stupid-number").text())
+          number = parseInt($(".total-damage-per-turn .stupid-number").text())
           number += (window["change" + unidex]*-1)
-          $(".total-damage-per-turn .number").text(number)
-          $(".total-damage-per-turn .number").addClass("bigger") 
-          if number > 1000 and $(".total-damage-per-turn .number").attr("class").indexOf("bigged") is -1
-            $(".total-damage-per-turn .number").css("font-size","175%").toggleClass("tada animated bigged")
-          else if number > 2000 and $(".total-damage-per-turn .number").attr("class").indexOf("bigged") is -1
-            $(".total-damage-per-turn .number").css("font-size","200%").toggleClass("tada animated bigged")
+          hits += 1
+          $(".hits-per-turn .stupid-number").text(hits)
+          $(".total-damage-per-turn .stupid-number").text(number)
+          $(".stupid-number").addClass("bigger") 
+          if hits > 16 and $(".hits-per-turn .stupid-number").attr("class").indexOf("bigged") is -1
+            $(".hits-per-turn").addClass("highHits")
+            $(".hits-per-turn .stupid-number").css("font-size","400%").toggleClass("bigged")
+          else if hits > 8 and $(".hits-per-turn .stupid-number").attr("class").indexOf("bigged") is -1
+            $(".hits-per-turn").addClass("highHits")
+            $(".hits-per-turn .stupid-number").css("font-size","300%").toggleClass("bigged")   
+          if number > 2000 and $(".total-damage-per-turn .stupid-number").attr("class").indexOf("bigged") is -1
+            $(".total-damage-per-turn").addClass("highDam")
+            $(".total-damage-per-turn .stupid-number").css("font-size","400%").toggleClass("bigged")
+          else if number > 1000 and $(".total-damage-per-turn .stupid-number").attr("class").indexOf("bigged") is -1
+            $(".total-damage-per-turn").addClass("highDam")
+            $(".total-damage-per-turn .stupid-number").css("font-size","300%").toggleClass("bigged")
+          setTimeout (->
+            $(".stupid-number").removeClass("bigger")
+            $(".total-damage-per-turn, .hits-per-turn").addClass("magictime vanishOut")
+          ), 1000
+          setTimeout (->
+            $(".total-damage-per-turn, .hits-per-turn").css({"z-index":"-1000", "opacity":"0"})
+            $(".total-damage-per-turn, .hits-per-turn").removeClass("magictime vanishOut")
+          ), 1750
         damageBoxAnime(index, i, window["change" + unidex], "rgba(255, 0, 0)")
       else 
         damageBoxAnime(index, i, window["change" + unidex], "rgba(50, 205, 50)")
       window["change"+unidex] = 0
     i++
-  setTimeout (->
-    $(".total-damage-per-turn .number").removeClass("tada animated")
-    $(".total-damage-per-turn .number").removeClass("bigger")
-  ), 1000
 
 window.showHealTeam = (index) ->
   i = undefined
@@ -1727,7 +1748,10 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
 window.ai = ->
   xadBuk()
   $(".total-damage-per-turn").css("opacity", "0")
-  $(".total-damage-per-turn .number").removeClass(".tada .animated bigged")
+  setTimeout (->
+    $(".total-damage-per-turn").removeClass("highDam")
+    $(".total-damage-per-turn .number").removeClass(".tada .animated bigged").text(0)
+  ), 400
   $(".availability-arrow").each ->
     $(this).css("opacity", "0")
   $(".img").removeClass("controlling")

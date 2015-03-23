@@ -41,12 +41,6 @@ class MonsterUnlock < ActiveRecord::Base
     where("monster_id IN (?)", monster_ids)
   }
 
-
-
-
-
-
-
   scope :lvl1_evolves, -> {joins(:job).where('job')}
 
   def find_abil_purchases_in_socket(socket_num)
@@ -57,16 +51,38 @@ class MonsterUnlock < ActiveRecord::Base
     self.where(user_id: user).where(monster_id: Monster.base_mon.pluck(:id))
   end
 
+  def abil_purch_in_sock(socket_num)
+    ability_purchases.find_by_socket_num(socket_num)
+  end
+
+  def unlocked_evolves
+    def unlocked_monsters_ids
+      MonsterUnlock.where(user_id: self.user_id).pluck(:monster_id)
+    end
+
+    def linked_evolution_ids
+      self.monster.evolutions.where(id: unlocked_monsters_ids).pluck(:id)
+    end
+
+    return MonsterUnlock.where(user_id: self.user_id, monster_id: linked_evolution_ids)
+  end
+
+  def unlocked_evolved_from(user)
+    def evolved_from_id
+      self.monster.evolved_from.id
+    end
+
+    return MonsterUnlock.where(user_id: user, monster_id: evolved_from_id)
+  end
+
+################################################################################################ Decorating
+
   def abil_in_sock(socket_num, ability)
     if ability_purchases.find_by_socket_num(socket_num).ability == ability
       true
     else
       false
     end
-  end
-
-  def abil_purch_in_sock(socket_num)
-    ability_purchases.find_by_socket_num(socket_num)
   end
 
   def abil_portrait(sock_num)
@@ -140,9 +156,6 @@ class MonsterUnlock < ActiveRecord::Base
       nil
     end
   end
-
-
-
 
 
   def evol_unlocked?(summoner)
@@ -233,25 +246,9 @@ class MonsterUnlock < ActiveRecord::Base
     self.monster.evolve_animation.url(:medium)
   end
 
-  def unlocked_evolves
-    def unlocked_monsters_ids
-      MonsterUnlock.where(user_id: self.user_id).pluck(:monster_id)
-    end
 
-    def linked_evolution_ids
-      self.monster.evolutions.where(id: unlocked_monsters_ids).pluck(:id)
-    end
+###################################################################################################################
 
-    return MonsterUnlock.where(user_id: self.user_id, monster_id: linked_evolution_ids)
-  end
-
-  def unlocked_evolved_from(user)
-    def evolved_from_id
-      self.monster.evolved_from.id
-    end
-
-    return MonsterUnlock.where(user_id: user, monster_id: evolved_from_id)
-  end
 
   def passive_ability
     self.monster.passive.as_json

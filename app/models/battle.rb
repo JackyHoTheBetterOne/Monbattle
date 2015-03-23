@@ -36,6 +36,8 @@ class Battle < ActiveRecord::Base
     end
   end
 
+########################################################################################################### Decorating
+
   def self.average_round(level_id)
     average(:round_taken).where("battle_level_id = #{level_id}")
   end
@@ -134,8 +136,6 @@ class Battle < ActiveRecord::Base
     self.impressions.destroy_all
   end
 
-
-  
 
 ####################################################################################### End battle tracking
 

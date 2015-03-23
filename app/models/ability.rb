@@ -48,6 +48,7 @@ class Ability < ActiveRecord::Base
   scope :filter_it, -> (filter = {}) {
     query = self
     query = query.where("keywords LIKE ?", "%#{filter["name"].downcase}%")
+    query = query.where(ap_cost: filter["cost"]) if filter["cost"].present?
     query = query.where(rarity_id: filter["rarity_id"]) if filter["rarity_id"].present?
     query = query.where(target_id: filter["target_id"]) if filter["target_id"].present?
     query = query.where(abil_socket_id: filter["abil_socket_id"]) if filter["abil_socket_id"].present?
@@ -185,8 +186,12 @@ class Ability < ActiveRecord::Base
     where(id: Monster.mon_abils(monster))
   end
 
+  def find_user(user_name)
+    User.find_by(user_name: user_name)
+  end
 
-########################################################################################################
+
+########################################################################################### Decorating
 
   def job_list
     list = []
@@ -235,6 +240,10 @@ class Ability < ActiveRecord::Base
     self.portrait.url(:thumb)
   end
 
+
+######################################################################################## 
+
+
   def as_json(options={})
     super(
       :only => [:name, :ap_cost, :stat_change, :description],
@@ -247,10 +256,6 @@ class Ability < ActiveRecord::Base
         }
       }
     )
-  end
-
-  def find_user(user_name)
-    User.find_by(user_name: user_name)
   end
 
   protected

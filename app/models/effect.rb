@@ -24,6 +24,8 @@ class Effect < ActiveRecord::Base
     end
   }
 
+######################################################################################### Decorating
+
   def stat
     self.stat_target.name.downcase
   end
@@ -47,6 +49,8 @@ class Effect < ActiveRecord::Base
   def img
     self.icon
   end
+
+#############################################################################################
 
   private
   def set_keywords

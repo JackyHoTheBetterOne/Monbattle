@@ -43,12 +43,7 @@ class User < ActiveRecord::Base
     end
   }
 
-  def self.koala(object)
-    access_token = auth['token']
-    facebook = Koala::Facebook::API.new(access_token)
-    facebook.get_object("me?fields=name,picture")
-  end
-
+############################################################################################################# Decoration
 
   def battle_count
     self.summoner.played_levels.count + self.summoner.cleared_twice_levels.count
@@ -63,7 +58,6 @@ class User < ActiveRecord::Base
       return false
     end
   end
-
 
 
   def can_add_to_party?(mon_unlock)
@@ -81,6 +75,9 @@ class User < ActiveRecord::Base
       return false
     end
   end
+
+
+################################################################################################################
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first

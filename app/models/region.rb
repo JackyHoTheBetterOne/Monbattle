@@ -24,10 +24,14 @@ class Region < ActiveRecord::Base
       )
   end
 
+################################################################################################# Decorating
+
   def icon
     self.map.url(:thumb)
   end
 
+
+#############################################################################################################
 
   def self.unlocked_regions(beaten_regions)
     available_regions = []

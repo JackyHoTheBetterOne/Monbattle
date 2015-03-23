@@ -25,6 +25,8 @@ class BattleLevel < ActiveRecord::Base
     end
   }
 
+###################################################################################################### Decorating
+
   def start_cut_scenes
     array = []
     self.cut_scenes.where("cut_scenes.to_start is true AND cut_scenes.defeat is false").
@@ -168,7 +170,7 @@ class BattleLevel < ActiveRecord::Base
     end
   end
 
-############################################################################# General method
+#################################################################################################### General method
 
   def has_cut_scene
     if self.start_cut_scenes.length == 0 && self.end_cut_scenes.length == 0

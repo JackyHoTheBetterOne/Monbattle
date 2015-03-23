@@ -12,6 +12,8 @@ class Area < ActiveRecord::Base
     end
   }
 
+############################################################################################### Decorating
+
   def region_name
     if self.region
       self.region.name
@@ -45,12 +47,6 @@ class Area < ActiveRecord::Base
     end
   end
 
-
-
-
-
-
-
   def self.unlocked_areas(beaten_areas)
     available_areas = []
     if self != []
@@ -64,6 +60,8 @@ class Area < ActiveRecord::Base
     end
     return available_areas
   end
+
+###########################################################################################################
 
 
   private

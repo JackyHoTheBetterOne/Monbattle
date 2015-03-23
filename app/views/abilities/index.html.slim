@@ -2,7 +2,11 @@
   .row.search-row
     =form_tag( abilities_path, method: :get, remote: true)
       .col-md-2
+        =label_tag "General"
         =search_field_tag "filter[name]", value = nil
+      .col-md-2
+        =label_tag "Cost"
+        =search_field_tag "filter[cost]"
       .col-md-1
         =link_to "Reset", abilities_path, class: "btn btn-reset"
       .col-md-2
