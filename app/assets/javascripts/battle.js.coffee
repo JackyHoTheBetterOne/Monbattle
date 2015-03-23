@@ -745,6 +745,7 @@ window.damageBoxAnime= (team, target, damage, color) ->
     font_size = "150%"
   else if damage_num > 500
     font_size = "175%"
+    $("#battle").effect("shake")
   $("." + team + " " + ".mon" + target + " " + "p.dam").text(damage).
     css({"color":color, "font-weight":"bold", "font-size":font_size}, 1).
     fadeIn(1).animate({"top":"-=50px", "z-index":"+=10000"}, 200).effect("bounce", {times: 10}).fadeOut().
@@ -775,11 +776,24 @@ window.showDamageTeam = (index) ->
     if parseInt($("." + index + " " + ".mon" + i + " " + ".current-hp").text()) > 0 and 
         parseInt(window["change" + unidex]) isnt 0 and parseInt(window["change" + unidex]) isnt -0
       if window["change"+unidex].toString().indexOf("-") isnt -1 
+        if index is 1
+          number = parseInt($(".total-damage-per-turn .number").text())
+          number += (window["change" + unidex]*-1)
+          $(".total-damage-per-turn .number").text(number)
+          $(".total-damage-per-turn .number").addClass("bigger") 
+          if number > 1000 and $(".total-damage-per-turn .number").attr("class").indexOf("bigged") is -1
+            $(".total-damage-per-turn .number").css("font-size","175%").toggleClass("tada animated bigged")
+          else if number > 2000 and $(".total-damage-per-turn .number").attr("class").indexOf("bigged") is -1
+            $(".total-damage-per-turn .number").css("font-size","200%").toggleClass("tada animated bigged")
         damageBoxAnime(index, i, window["change" + unidex], "rgba(255, 0, 0)")
       else 
         damageBoxAnime(index, i, window["change" + unidex], "rgba(50, 205, 50)")
       window["change"+unidex] = 0
     i++
+  setTimeout (->
+    $(".total-damage-per-turn .number").removeClass("tada animated")
+    $(".total-damage-per-turn .number").removeClass("bigger")
+  ), 1000
 
 window.showHealTeam = (index) ->
   i = undefined
@@ -1712,12 +1726,14 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
 ############################################################################################################### AI action happening
 window.ai = ->
   xadBuk()
+  $(".total-damage-per-turn").css("opacity", "0")
+  $(".total-damage-per-turn .number").removeClass(".tada .animated bigged")
   $(".availability-arrow").each ->
     $(this).css("opacity", "0")
   $(".img").removeClass("controlling")
   $(".monBut").css("visibility", "hidden")
   $(".enemy .img").attr("disabled", "true")
-  $(".battle-message").fadeIn(1)
+  # $(".battle-message").fadeIn(1)
   battle.players[0].ap = 0
   battle.players[0].turn = false
   battle.players[1].ap = 1000000000
@@ -1804,6 +1820,7 @@ window.ai = ->
           apChange()
           $(".ap").effect("highlight")
           enable($("button"))
+          $(".total-damage-per-turn").css("opacity", "1")
         ), 500
         setTimeout (->
           availableAbilities()
@@ -2035,6 +2052,7 @@ $ ->
             nextScene()
   ################################################################################################################ Battle logic
         $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
+        battle.totalTurnDamage = 0
         battle.apGainCost = 20
         battle.round = 0
         battle.maxAP = 40

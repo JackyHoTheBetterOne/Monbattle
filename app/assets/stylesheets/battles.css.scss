@@ -18,6 +18,11 @@ $theme-background-color: rgba(32, 32, 32, 1);
                1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
 };
 
+@mixin stroky() {
+  text-shadow: 1px 1px 0 #FFFFFF, -1px -1px 0 #FFFFFF, 
+               1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF, 1px 1px 0 #FFFFFF; 
+};
+
 .animate-flipper {
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
@@ -996,4 +1001,33 @@ body {
     background: #B4A500;
   };
 };
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////// Damage excitement
+.total-damage-per-turn {
+  @include stroky();
+  position: absolute;
+  top: 54px;
+  left: 5px;
+  font-family: "Mario";
+  color: black;
+  font-size: 120%;
+  transition: 0.3s;
+};
+
+.bigger {
+  -webkit-transition: all .4s ease-in-out;
+  -moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -ms-transition: all .4s ease-in-out;
+  -webkit-transform: scale(3); 
+  -moz-transform: scale(3);
+  -o-transform: scale(3);
+  transform: scale(3);
+};
+
+
+
+
 
