@@ -160,14 +160,23 @@ class Battle::Victory
     end
 
     if self.reward_category == "monster" or self.reward_category == "ability"
-      self.share_message = summoner.user.first_name + " has beaten " + battle_level.name + " in " + 
-                            battle_level.area.region.name + " and has unlocked a new " + self.reward_category + ", " +
-                            self[self.reward_category].name + "!"
+      if self.battle_level.event == false
+        self.share_message = summoner.user.first_name + " has beaten " + battle_level.name + " in " + 
+                              battle_level.area.region.name + " and has unlocked a new " + self.reward_category + ", " +
+                              self[self.reward_category].name + "!"
+      else
+        self.share_message = summoner.user.first_name + " has beaten " + battle_level.name + " in " + 
+                              battle_level.area.name + " and has unlocked a new " + self.reward_category + ", " +
+                              self[self.reward_category].name + "!"
+      end
     else
-      self.share_message = summoner.user.first_name + " has beaten " + battle_level.name + " in " + 
-                            battle_level.area.region.name + " !"
+      if self.battle_level.event == false
+        self.share_message = summoner.user.first_name + " has beaten " + battle_level.name + " in " + 
+                              battle_level.area.region.name + " !"
+      else
+        self.share_message = summoner.user.first_name + " has beaten " + battle_level.name + " in " + 
+                              battle_level.area.name + " !"
+      end
     end
-
-
   end
 end

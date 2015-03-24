@@ -43,8 +43,10 @@
       <ul class="nav nav-pills main-nav" class="navigation">
         <%= link_to image_tag("monbattle-logo.png", class: "navbar-logo"), home_sweet_home_path, 
             class: "logo-link" %>
-<!--         <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/redeem.png", 
-              class: "redeem-button")%> -->
+        <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/redeem.png", 
+              class: "redeem-button")%>
+<!--         <div class="redeen-overlay" id="redeem-overlay">
+        </div> -->
         <% if !user_signed_in? %>
           <li class="pull-right fb-nav sign-in">
             <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), 
@@ -65,9 +67,9 @@
                       class: "facebook-share-logo", size: "20") %>
                 Invite
               </a>
-              <a href="#" class="top-bar gift-but">
+<!--               <a href="#" class="top-bar gift-but">
                 Gifting
-              </a>
+              </a> -->
               <%= link_to "Forum", "http://monbattle.boards.net/", class: "top-bar forum-but", 
                     :target => '_blank' %>
               <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/quest-arrow.png", 

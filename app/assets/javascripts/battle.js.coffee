@@ -744,12 +744,11 @@ window.damageBoxAnime= (team, target, damage, color) ->
   damage_num = damage_num * -1 if damage_num < 0 
   font_size = undefined
   if damage_num <= 200
-    font_size = "130%"
+    font_size = "135%"
   else if damage_num <= 500
-    font_size = "150%"
+    font_size = "170%"
   else if damage_num > 500
-    font_size = "175%"
-    $("#battle").effect("shake")
+    font_size = "200%"
   $("." + team + " " + ".mon" + target + " " + "p.dam").text(damage).
     css({"color":color, "font-weight":"bold", "font-size":font_size}, 1).
     fadeIn(1).animate({"top":"-=50px", "z-index":"+=10000"}, 200).effect("bounce", {times: 10}).fadeOut().
