@@ -883,8 +883,15 @@ window.battleStartDisplay = (time) ->
       window.battleTimer = setInterval(increaseTime, 1000)
       toggleImg()
       # $(".battle-message").show(500).effect("highlight", 500).fadeOut(300)
-      $(".user .img").each ->
-        $(this).effect("bounce", {distance: 80, times: 5}, 1500)
+      # $(".enemy .img.mon-battle-image").each ->
+      #   $(this).addClass("magictime tinLeftIn")
+      setTimeout (->
+        $(".0.user.mon-slot").addClass("magictime vanishIn")
+      ), 750
+      setTimeout (->
+        $(".0.user.mon-slot").css("opacity", "1")
+        $(".0.user.mon-slot").removeClass("magictime vanishIn")
+      ), 1750
       $(".enemy .img").each ->
         $(this).css("background", "rgba(255, 0, 0,0.5)")
       $(".foe-indication").addClass("bounceIn animated")
@@ -904,7 +911,7 @@ window.battleStartDisplay = (time) ->
         document.getElementById('end-turn-tip').style.pointerEvents = 'auto'
         $(".enemy .img").each ->
           $(this).css("background", "transparent")
-      ), 1000
+      ), 1750
     ), time
   # setTimeout (->
   #   $("#battle-tutorial").joyride({'tipLocation': 'top'})
@@ -1760,7 +1767,7 @@ window.ai = ->
   # $(".battle-message").fadeIn(1)
   battle.players[0].ap = 0
   battle.players[0].turn = false
-  battle.players[1].ap = 1000000000
+  battle.players[1].ap = 1000000000000000
   enemyTimer()
   zetBut()
   setTimeout (->
@@ -1844,7 +1851,6 @@ window.ai = ->
           apChange()
           $(".ap").effect("highlight")
           enable($("button"))
-          $(".total-damage-per-turn").css("opacity", "1")
         ), 500
         setTimeout (->
           availableAbilities()
@@ -1992,6 +1998,7 @@ window.updateAbilityScaling = (team_num, type) ->
 
 ####################################################################################################### Start of Ajax
 $ ->
+  $(".0.user.mon-slot").css("opacity","0")
   $(".img.mon-battle-image").each ->
     mon_image = $(this)
     href = mon_image.data("passive")
@@ -2313,7 +2320,7 @@ $ ->
               description.children(".panel-footer").children("span").children(".a").text better_mon.ap_cost
               description.children(".panel-footer").children("span").children(".sword-icon").
                 attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/heal-25px.png")
-              description.css({"z-index": "11000", "opacity": "1"})
+              description.css({"z-index": "1100000", "opacity": "1"})
             else
               ability = undefined
               fatigue = undefined
@@ -2341,7 +2348,7 @@ $ ->
               else 
                 description.children(".panel-footer").children("span").children(".sword-icon").
                   attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/heal-25px.png")
-              description.css({"z-index": "6000", "opacity": "1"})
+              description.css({"z-index": "1100000", "opacity": "1"})
           return
         ).on "mouseleave", ".user .monBut button, .oracle-skill-icon", ->
           element = $(this)
@@ -2601,47 +2608,64 @@ $ ->
                     flashEndButton()
                   ), 1000
                 when "evolve"
-                  $(document).off "click.cancel", ".cancel"
-                  $(".user .img").removeClass("controlling")
-                  ability.remove()
-                  abilityAnime = $(".single-ability-img")
-                  targetMon = $(".0 .mon" + targets[1] + " " + ".img")
-                  betterMon = battle.players[0].mons[targets[1]].mon_evols[0]
-                  oldMon = battle.players[0].mons[targets[1]]
-                  findObjectInArray(effectBin, "target", oldMon.name)
-                  i = 0
-                  while i < usefulArray.length
-                    usefulArray[i].target = betterMon.name
-                    i++
-                  abilityAnime.css(targetMon.offset())
-                  abilityAnime.finish().attr("src", betterMon.animation).toggleClass "ability-on", ->
-                    $(".battle").effect("shake")
-                    targetMon.fadeOut 500, ->
-                      $(this).finish().attr("src", betterMon.image).fadeIn(1000)
+                  monster_image = $(".user .mon" + targets[1] + " .img.mon-battle-image").attr("src")
+                  $(".big-ass-monster").attr("src",monster_image)
                   setTimeout (->
-                    xadBuk()
-                    battle.evolve(0, targets[1], 0)
-                    zetBut()
-                    abilityAnime.toggleClass "ability-on"
-                    abilityAnime.attr("src", "")
-                    apChange()
-                    setFatigue()
+                    $("#animation-overlay").css({"opacity":"1", "z-index":"100000000000"})
+                    $(".big-ass-monster").addClass("tinDownIn magictime")
+                  ), 250
+                  setTimeout (->
+                    $(".big-ass-monster").removeClass("tinDownIn magictime").addClass("tinUpOut magictime")
+                  ), 1250
+                  setTimeout (->
+                    $("#animation-overlay").css({"opacity":"0", "z-index":"-10"})
+                    $(".big-ass-monster").removeClass("tinUpOut tinDownIn magictime")
+                  ), 2250
+                  setTimeout (->
+                    $(".availability-arrow").each ->
+                      $(this).css("opacity","0")
+                    $(document).off "click.cancel", ".cancel"
+                    $(".user .img").removeClass("controlling")
+                    ability.remove()
+                    abilityAnime = $(".single-ability-img")
+                    targetMon = $(".0 .mon" + targets[1] + " " + ".img")
+                    betterMon = battle.players[0].mons[targets[1]].mon_evols[0]
+                    oldMon = battle.players[0].mons[targets[1]]
+                    findObjectInArray(effectBin, "target", oldMon.name)
+                    i = 0
+                    while i < usefulArray.length
+                      usefulArray[i].target = betterMon.name
+                      i++
+                    abilityAnime.css(targetMon.offset())
+                    abilityAnime.finish().attr("src", betterMon.animation).toggleClass "ability-on", ->
+                      $(".battle").effect("shake")
+                      targetMon.fadeOut 500, ->
+                        $(this).finish().attr("src", betterMon.image).fadeIn(1000)
                     setTimeout (->
-                      toggleImg()
-                      availableAbilities()
-                    ), 200
-                    flashEndButton()
+                      xadBuk()
+                      battle.evolve(0, targets[1], 0)
+                      zetBut()
+                      abilityAnime.toggleClass "ability-on"
+                      abilityAnime.attr("src", "")
+                      apChange()
+                      setFatigue()
+                      setTimeout (->
+                        toggleImg()
+                        availableAbilities()
+                      ), 400
+                      flashEndButton()
+                      return
+                    ), 2000
                     return
-                  ), 2000
-                  return
-          else
-            $(ability).add(".ap").effect("highlight", {color: "red"}, 100)
-            $(".end-turn").prop("disabled", false)
-            $(".end-turn").css("opacity", "1")
-            hopscotch.startTour(insufficient_ap_tour)
-            setTimeout (->
-              $(".hopscotch-nav-button.next").click()
-            ), 3500
+                  ), 2500
+            else
+              $(ability).add(".ap").effect("highlight", {color: "red"}, 100)
+              $(".end-turn").prop("disabled", false)
+              $(".end-turn").css("opacity", "1")
+              hopscotch.startTour(insufficient_ap_tour)
+              setTimeout (->
+                $(".hopscotch-nav-button.next").click()
+              ), 3500
 
 
 

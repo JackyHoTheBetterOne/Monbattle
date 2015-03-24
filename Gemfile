@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'websocket-rails'
+gem 'draper'
 gem 'byebug'
 gem 'mandrill-api'
 gem 'delayed_job_active_record'

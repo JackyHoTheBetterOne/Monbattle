@@ -16,17 +16,10 @@ class Ability < ActiveRecord::Base
 
   has_many :monster_unlocks, through: :ability_purchases
 
-  has_attached_file :image,
-                    styles: { large: "300 x 375>",
-                              medium: "300 x 300>",
-                              small: "150x150>",
-                              thumb: "100 x 100>",
-                              tiny: "50 x 50>" }
   has_attached_file :portrait,
                     styles: { small: "150x150>",
                               thumb: "100 x 100>" }
 
-  validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
   validates_attachment_content_type :portrait, :content_type => /\Aimage\/.*\Z/
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :ap_cost, presence: {message: 'Must be entered'}, numericality: {greater_than_or_equal_to: 0}
@@ -233,7 +226,7 @@ class Ability < ActiveRecord::Base
   end
 
   def img
-    self.image.url(:medium)
+    self.image
   end
 
   def port

@@ -21,7 +21,7 @@
 
   .row.costs-row
     .col-md-1.abil-imgs.col-abils
-      =image_tag ability.image.url(:thumb), class: "abil-img"
+      =image_tag ability.image, class: "abil-img"
       =image_tag ability.portrait.url(:thumb), class: "abil-img"
     .col-md-1.col-abils
       p Min: &nbsp #{f.text_field :minimum, class: "cost-input"}
@@ -55,9 +55,9 @@
   .row.images-row
     .col-md-1
       p.abil-heading Animation
-      =f.file_field :image
+      =f.text_field :image
     .col-md-5
-      =image_tag ability.image.url(:small)
+      =image_tag ability.image
     .col-md-1
       p.abil-heading Thumb
       =f.file_field :portrait
