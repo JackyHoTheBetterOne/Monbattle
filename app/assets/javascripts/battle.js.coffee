@@ -1176,23 +1176,39 @@ window.turnOnSummonerActions = ->
       alert("You don't have enough ap!")
   $(document).off "click.summoner_skill"
   $(document).on "click.summoner_skill", ".oracle-skill-icon", ->
+    $(".big-ass-monster").attr("src","https://s3-us-west-2.amazonaws.com/monbattle/images/main+chars/oracle-cutscene.svg").
+      addClass("oracle-skill-cutscene")
     if $(this).data("apcost") <= battle.players[0].ap and battle.summonerCooldown is 0
-      toggleImg()
-      turnOffCommandA()
-      $(".end-turn, .oracle-skill-icon").css("opacity", "0.5")
-      $(".end-turn, .oracle-skill-icon").css("cursor","default")
-      index = playerMonNum - 1
-      controlAI(0, index, "", 0)
       setTimeout (->
-        turnOnCommandA()
+        $("#animation-overlay").css({"opacity":"1", "z-index":"100000000000"})
+        $(".big-ass-monster").addClass("fadeInRight animated")
+      ), 400
+      setTimeout (->
+        $(".big-ass-monster").removeClass("fadeInRight animated").addClass("fadeOutLeft animated")
+      ), 1400
+      setTimeout (->
+        $("#animation-overlay").css({"opacity":"0", "z-index":"-10"})
+        $(".big-ass-monster").removeClass("fadeInRight fadeOutLeft animated")
+      ), 2400
+      setTimeout (->
+        $(".big-ass-monster").removeClass("oracle-skill-cutscene")
         toggleImg()
-      ), 2000
-      setTimeout (->
-        $(".cooldown-box").css("opacity","1")
-        $(".cooldown-count").text("2")
-        apChange()
-        flashEndButton()
-      ), 2750
+        turnOffCommandA()
+        $(".end-turn, .oracle-skill-icon").css("opacity", "0.5")
+        $(".end-turn, .oracle-skill-icon").css("cursor","default")
+        index = playerMonNum - 1
+        controlAI(0, index, "", 0)
+        setTimeout (->
+          turnOnCommandA()
+          toggleImg()
+        ), 2000
+        setTimeout (->
+          $(".cooldown-box").css("opacity","1")
+          $(".cooldown-count").text("2")
+          apChange()
+          flashEndButton()
+        ), 2500
+      ), 2500
 
 window.userTargetClick = ->
   $(document).on("mouseover.friendly", ".user.mon-slot .img", ->
