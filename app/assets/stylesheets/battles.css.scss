@@ -19,8 +19,8 @@ $theme-background-color: rgba(32, 32, 32, 1);
 };
 
 @mixin stroky() {
-  text-shadow: 1px 1px 0 #FFFFFF, -1px -1px 0 #FFFFFF, 
-               1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF, 1px 1px 0 #FFFFFF; 
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 
+               2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000; 
 };
 
 .animate-flipper {
@@ -1012,8 +1012,8 @@ body {
 
 
 /////////////////////////////////////////////////////////////////////////////////// Damage excitement
-.total-damage-per-turn, .hits-per-turn  {
-  @include stroky();
+.total-damage-per-turn, .hits-per-turn {
+  @include stroke();
   position: absolute;
   top: 145px;
   left: 0px;
@@ -1031,6 +1031,21 @@ body {
   .stupid-number {
     font-size: 200%;
   }
+};
+
+.stupid-text {
+  @include stroky();
+  position: absolute;
+  top: 90px;
+  left: 0px;
+  right: 0px;
+  font-family: "Mario";
+  transition: 0.3s;
+  text-align: center;
+  color: #EAB931;
+  font-size: 300%;
+  opacity: 0;
+  z-index: -1;
 };
 
 .hits-per-turn {
@@ -1083,6 +1098,10 @@ body {
 };
 
 
+/////////////////////////////////////////////////////////////////////////////////////////// Congratz text 
+.congratz-text {
+  position: absolute;
+};
 
 
 

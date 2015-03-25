@@ -57,6 +57,20 @@ window.fixEvolMon = (monster, player) ->
         passiveScalingTeam(monster.team, "dead-friends")
       $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").css("visibility", "hidden !important")
       setTimeout (->
+        if monster.team is 1 && $(".stupid-text").css("opacity") is "0" && 
+            $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-battle-image").css("display") isnt "none"
+          retard = ["Fantastic", "Good", "Excellent", "Nice"]
+          $(".stupid-text").text(shuffle(retard)[0])
+          $(".stupid-text").css("z-index","10000000000")
+          $(".stupid-text").addClass("tada animated").css("opacity", "1")
+          setTimeout (->
+            $(".stupid-text").removeClass("tada animated").addClass("animated fadeOutUp")
+          ), 750
+          setTimeout (->
+            $(".stupid-text").removeClass("animated fadeOutUp").css({"z-index":"-10", "opacity":"0"})
+          ), 1200
+      ), 250
+      setTimeout (->
         $("p.dam").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".bar").css("width", "0%")
       ), 600
@@ -744,11 +758,11 @@ window.damageBoxAnime= (team, target, damage, color) ->
   damage_num = damage_num * -1 if damage_num < 0 
   font_size = undefined
   if damage_num <= 200
-    font_size = "135%"
+    font_size = "150%"
   else if damage_num <= 500
-    font_size = "170%"
-  else if damage_num > 500
     font_size = "200%"
+  else if damage_num > 500
+    font_size = "250%"
   $("." + team + " " + ".mon" + target + " " + "p.dam").text(damage).
     css({"color":color, "font-weight":"bold", "font-size":font_size}, 1).
     fadeIn(1).animate({"top":"-=50px", "z-index":"+=10000"}, 200).effect("bounce", {times: 10}).fadeOut().
