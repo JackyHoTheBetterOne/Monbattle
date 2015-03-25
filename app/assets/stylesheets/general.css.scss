@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Mario';
+  src: font-url("SuperMario256.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+};
+
+
 body.forest {
   -webkit-user-select: none;
   -moz-user-select: -moz-none;
