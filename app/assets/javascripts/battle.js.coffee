@@ -56,20 +56,20 @@ window.fixEvolMon = (monster, player) ->
       if $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").length isnt 0
         passiveScalingTeam(monster.team, "dead-friends")
       $("." + monster.team + " " + ".mon" + monster.index + " " + ".monBut").css("visibility", "hidden !important")
-      setTimeout (->
-        if monster.team is 1 && $(".stupid-text").css("opacity") is "0" && 
-            $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-battle-image").css("display") isnt "none"
-          retard = ["Fantastic", "Good", "Excellent", "Nice"]
-          $(".stupid-text").text(shuffle(retard)[0])
-          $(".stupid-text").css("z-index","10000000000")
-          $(".stupid-text").addClass("tada animated").css("opacity", "1")
-          setTimeout (->
-            $(".stupid-text").removeClass("tada animated").addClass("animated fadeOutUp")
-          ), 750
-          setTimeout (->
-            $(".stupid-text").removeClass("animated fadeOutUp").css({"z-index":"-10", "opacity":"0"})
-          ), 1200
-      ), 250
+      if monster.team is 1 && $(".stupid-text").css("opacity") is "0" && 
+          $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-battle-image").css("display") isnt "none"
+            setTimeout (->
+              retard = ["Fantastic", "Good", "Excellent", "Nice"]
+              $(".stupid-text").text(shuffle(retard)[0])
+              $(".stupid-text").css("z-index","10000000000")
+              $(".stupid-text").addClass("tada animated").css("opacity", "1")
+              setTimeout (->
+                $(".stupid-text").removeClass("tada animated").addClass("animated fadeOutUp")
+              ), 1000
+              setTimeout (->
+                $(".stupid-text").removeClass("animated fadeOutUp").css({"z-index":"-10", "opacity":"0"})
+              ), 1500
+            ), 500
       setTimeout (->
         $("p.dam").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".bar").css("width", "0%")
@@ -1785,8 +1785,10 @@ window.ai = ->
   xadBuk()
   $(".total-damage-per-turn").css("opacity", "0")
   setTimeout (->
-    $(".total-damage-per-turn").removeClass("highDam")
-    $(".total-damage-per-turn .number").removeClass(".tada .animated bigged").text(0)
+    $(".total-damage-per-turn").removeClass("highDam bigged").css("font-size","100%")
+    $(".total-damage-per-turn .stupid-number").removeClass(".tada .animated bigged").text("0")
+    $(".hits-per-turn").removeClass("highHits bigged").css("font-size","100%")
+    $(".hits-per-turn .stupid-number").text("0").removeClass("bigged")
   ), 400
   $(".availability-arrow").each ->
     $(this).css("opacity", "0")
