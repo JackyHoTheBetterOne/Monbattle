@@ -243,7 +243,7 @@ class MonsterUnlock < ActiveRecord::Base
   end
 
   def evolve_animation
-    self.monster.evolve_animation.url(:medium)
+    self.monster.evolve_animation
   end
 
 

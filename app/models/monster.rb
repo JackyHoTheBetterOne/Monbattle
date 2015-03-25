@@ -24,13 +24,6 @@ class Monster < ActiveRecord::Base
   has_many :members, through: :monster_unlocks, dependent: :destroy
   has_many :thoughts, through: :personality
 
-  has_attached_file :evolve_animation,
-                    styles: { medium: "300 x 300>",
-                              small: "150x150>",
-                              thumb: "100 x 100>",
-                              tiny: "50 x 50>"}
-
-  validates_attachment_content_type :evolve_animation, :content_type => /\Aimage\/.*\Z/
   validates :name, presence: {message: 'Must be entered'}, uniqueness: true
   validates :max_hp, numericality: {greater_than_or_equal_to: 0}
   validates :element_id, presence: {message: 'Must be entered'}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150324002247) do
+ActiveRecord::Schema.define(version: 20150325174505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -406,10 +406,6 @@ ActiveRecord::Schema.define(version: 20150324002247) do
     t.integer  "evolved_from_id"
     t.text     "description"
     t.integer  "summon_cost"
-    t.string   "evolve_animation_file_name"
-    t.string   "evolve_animation_content_type"
-    t.integer  "evolve_animation_file_size"
-    t.datetime "evolve_animation_updated_at"
     t.integer  "personality_id"
     t.text     "keywords"
     t.integer  "rarity_id"
@@ -420,8 +416,9 @@ ActiveRecord::Schema.define(version: 20150324002247) do
     t.integer  "default_sock3_id"
     t.integer  "default_sock4_id"
     t.integer  "passive_id"
-    t.integer  "asp_cost",                      default: 10
-    t.integer  "max_level",                     default: 10
+    t.integer  "asp_cost",         default: 10
+    t.integer  "max_level",        default: 10
+    t.string   "evolve_animation", default: "https://s3-us-west-2.amazonaws.com/monbattle/images/ability_animation/evolution.svg"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree

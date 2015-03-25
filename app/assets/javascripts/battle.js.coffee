@@ -759,10 +759,10 @@ window.damageBoxAnime= (team, target, damage, color) ->
   font_size = undefined
   if damage_num <= 200
     font_size = "150%"
-  else if damage_num <= 500
+  else if damage_num <= 750
+    font_size = "175%"
+  else if damage_num > 750
     font_size = "200%"
-  else if damage_num > 500
-    font_size = "250%"
   $("." + team + " " + ".mon" + target + " " + "p.dam").text(damage).
     css({"color":color, "font-weight":"bold", "font-size":font_size}, 1).
     fadeIn(1).animate({"top":"-=50px", "z-index":"+=10000"}, 200).effect("bounce", {times: 10}).fadeOut().
@@ -2667,26 +2667,35 @@ $ ->
                     while i < usefulArray.length
                       usefulArray[i].target = betterMon.name
                       i++
-                    abilityAnime.css(targetMon.offset())
+                    classio = "mon" + targets[1].toString() + "-evolve"
+                    console.log(classio)
+                    abilityAnime.addClass("evolve-size")
+                    abilityAnime.addClass(classio)
                     abilityAnime.finish().attr("src", betterMon.animation).toggleClass "ability-on", ->
                       $(".battle").effect("shake")
-                      targetMon.fadeOut 500, ->
-                        $(this).finish().attr("src", betterMon.image).fadeIn(1000)
+                      targetMon.fadeOut 600, ->
+                        $(targetMon).finish().attr("src", betterMon.image).css({"display":"inline", "opacity":"0"})
+                        setTimeout (->
+                          $(targetMon).addClass("puffIn magictime")
+                        ), 1400
                     setTimeout (->
                       xadBuk()
                       battle.evolve(0, targets[1], 0)
                       zetBut()
                       abilityAnime.toggleClass "ability-on"
+                      abilityAnime.removeClass("evolve-size")
+                      abilityAnime.removeClass(classio)
                       abilityAnime.attr("src", "")
                       apChange()
                       setFatigue()
                       setTimeout (->
                         toggleImg()
+                        $(targetMon).removeClass("puffIn magictime").css("opacity","1")
                         availableAbilities()
                       ), 400
                       flashEndButton()
                       return
-                    ), 2000
+                    ), 2400
                     return
                   ), 2500
             else
