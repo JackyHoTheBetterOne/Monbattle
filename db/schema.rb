@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150325174505) do
+ActiveRecord::Schema.define(version: 20150325235704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -288,6 +288,29 @@ ActiveRecord::Schema.define(version: 20150325174505) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "guild_messages", force: true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "guild_id"
+    t.integer  "summoner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "guild_messages", ["guild_id"], name: "index_guild_messages_on_guild_id", using: :btree
+  add_index "guild_messages", ["summoner_id"], name: "index_guild_messages_on_summoner_id", using: :btree
+
+  create_table "guilds", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "leader_id"
+    t.integer  "capacity",    default: 10
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "guilds", ["leader_id"], name: "index_guilds_on_leader_id", using: :btree
 
   create_table "impressions", force: true do |t|
     t.string   "impressionable_type"
@@ -587,8 +610,14 @@ ActiveRecord::Schema.define(version: 20150325174505) do
     t.integer  "enh",                          default: 0
     t.boolean  "mute",                         default: false
     t.text     "general_messages",             default: [],                    array: true
+    t.integer  "led_guild_id"
+    t.integer  "guild_id"
+    t.integer  "sub_led_guild_id"
   end
 
+  add_index "summoners", ["guild_id"], name: "index_summoners_on_guild_id", using: :btree
+  add_index "summoners", ["led_guild_id"], name: "index_summoners_on_led_guild_id", using: :btree
+  add_index "summoners", ["sub_led_guild_id"], name: "index_summoners_on_sub_led_guild_id", using: :btree
   add_index "summoners", ["user_id"], name: "index_summoners_on_user_id", using: :btree
 
   create_table "target_categories", force: true do |t|
@@ -626,6 +655,7 @@ ActiveRecord::Schema.define(version: 20150325174505) do
     t.datetime "expiry_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "user_name"
   end
 
   create_table "users", force: true do |t|

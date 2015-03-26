@@ -8,6 +8,13 @@ class Summoner < ActiveRecord::Base
   before_save :generate_code
   after_create :change_name
 
+  belongs_to :led_guild, class_name: "Guild", foreign_key: "leader_id"
+  belongs_to :sub_led_guild, class_name: "Guild"
+  belongs_to :guild, class_name: "Guild"
+  has_many :guild_messeages
+
+
+
 
 ################################################################################################ Decoration
 

@@ -81,6 +81,8 @@ end
 
 resources :unlock_codes do 
   post :unlock, on: :collection
+  post :unlock_by_username, on: :collection
+  post :unlock_all_by_username, on: :collection
 end
 
 # match '/auth/facebook/setup', :to => 'home#ask_permission'

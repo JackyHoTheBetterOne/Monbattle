@@ -2695,7 +2695,7 @@ $ ->
                       ), 400
                       flashEndButton()
                       return
-                    ), 2400
+                    ), 2000
                     return
                   ), 2500
             else

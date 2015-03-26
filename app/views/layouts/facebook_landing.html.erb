@@ -39,17 +39,21 @@
     <%= image_tag("loading.gif")%>
   </div>
   <div class="container-yes">
+    <div class="redeem-overlay" id="redeem-overlay">
+      <div class="redeem-form">
+        <input class="redeem-form-text-field" name="keyword" type="text">
+        <%= submit_tag "Submit Code", class: "submit-code-button" %>
+      </div>
+      <div class="unlock-code-reward-screen">
+        
+      </div>
+    </div>
     <nav class="navbar mon-front" role="navigation">
       <ul class="nav nav-pills main-nav" class="navigation">
         <%= link_to image_tag("monbattle-logo.png", class: "navbar-logo"), home_sweet_home_path, 
             class: "logo-link" %>
-        <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/redeem.png", 
-              class: "redeem-button")%>
-        <div class="redeem-overlay" id="redeem-overlay">
-          <div class="redeem-form">
-            <input class="redeem-form-text-field" name="keyword" type="text">
-          </div>
-        </div>
+<!--         <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/redeem.png", 
+              class: "redeem-button")%> -->
         <% if !user_signed_in? %>
           <li class="pull-right fb-nav sign-in">
             <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), 

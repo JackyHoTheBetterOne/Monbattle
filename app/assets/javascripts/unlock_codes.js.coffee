@@ -3,9 +3,8 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $(".submit-unlock-code").on "click", ->
-    code = $(".unlock-code-entered").val()
-    console.log(code)
+  $(".submit-code-button").on "click", ->
+    code = $(".redeem-form-text-field").val()
     $.ajax 
       url: "/unlock_codes/unlock"
       method: "POST"
@@ -13,4 +12,4 @@ $ ->
       error: ->
         alert("Wrong code, buddy.")
       success: (response) ->
-        console.log(response)
+        document.getElementsByClassName("redeem-overlay")[0].innerHTML += response

@@ -241,11 +241,6 @@ class HomeController < ApplicationController
   def dick_fly
   end
 
-  # def check_permission
-  #   byebug
-  #   @user = Koala::Facebook::OAuth.new(ENV["FACEBOOK_ID"], ENV["FACEBOOK_SECRET"]).get_user_info_from_cookie(cookies)
-  # end
-
   def send_code_email
     man = Mandrill::API.new
     message = { 
