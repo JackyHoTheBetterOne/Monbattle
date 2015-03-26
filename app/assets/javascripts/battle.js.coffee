@@ -331,7 +331,7 @@ window.fixEvolMon = (monster, player) ->
     $(ability.effects).each ->
       effect = @
       if effect.duration isnt 0 and effect.targeta.indexOf("poison") is -1
-        effect.duration += 1 if monster.team is 1 && ability.rarity.indexOf("passive") is -1
+        effect.duration += 1 if monster.team is 1 && ability.rarita.indexOf("passive") is -1
       @monDex = monster.index 
       @teamDex = monster.team
       @name = @name.replace(/\s+/g, '')
@@ -2381,7 +2381,6 @@ $ ->
                 $(description).addClass("summoner-ability-description")
               else 
                 ability = battle.players[0].mons[targets[1]].abilities[$(this).data("index")]
-              console.log(ability)
               description.children(".panel-heading").text ability.name
               fatigue = battle.players[ability.team].mons[ability.index].fatigue
               if ability_target is "attack"
@@ -2459,7 +2458,6 @@ $ ->
 #############################################################################################################  User move interaction
         $(document).on("mouseover.ap-gain", ".gain-ap", ->
           cost = $(this).data("apcost")
-          console.log($(this).data("apcost"))
           $(".ap-gain-information span").text(cost)
           $(".ap-gain-information").css({"z-index":"1000", "opacity":"1"})
         ).on "mouseleave.ap-gain", ".gain-ap", ->
@@ -2690,7 +2688,6 @@ $ ->
                       usefulArray[i].target = betterMon.name
                       i++
                     classio = "mon" + targets[1].toString() + "-evolve"
-                    console.log(classio)
                     abilityAnime.addClass("evolve-size")
                     abilityAnime.addClass(classio)
                     abilityAnime.finish().attr("src", betterMon.animation).toggleClass "ability-on", ->
