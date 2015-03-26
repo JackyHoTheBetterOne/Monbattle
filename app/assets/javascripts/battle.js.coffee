@@ -122,6 +122,7 @@ window.fixEvolMon = (monster, player) ->
       monster.fatigue += 1 if monster.fatigue != 10
       monster.used = true
 ######################################################################################################## Ability logics
+  monster.abilities.push(monster.passive_ability) if typeof monster.passive_ability isnt "undefined"
   $(monster.abilities).each ->
     @team = monster.team
     @index = monster.index
@@ -167,6 +168,12 @@ window.fixEvolMon = (monster, player) ->
       while i < abilitytargets.length
         monTarget = abilitytargets[i]
         index = monTarget.unidex
+        if monTarget.passive_ability
+          if monTarget.passive_ability.rarita is "effect-passive"
+            i = 0
+            while i < monTarget.passive_ability.effects.length
+              monTarget.passive_ability.effects[i].activate [monster]
+              i++
         fatigue_effect = 1 - monster.fatigue*0.1
         monTarget.isAlive()
         if monTarget.isAlive()
@@ -324,7 +331,7 @@ window.fixEvolMon = (monster, player) ->
     $(ability.effects).each ->
       effect = @
       if effect.duration isnt 0 and effect.targeta.indexOf("poison") is -1
-        effect.duration += 1 if monster.team is 1 
+        effect.duration += 1 if monster.team is 1 && ability.rarity.indexOf("passive") is -1
       @monDex = monster.index 
       @teamDex = monster.team
       @name = @name.replace(/\s+/g, '')
@@ -475,6 +482,9 @@ window.fixEvolMon = (monster, player) ->
             checkMax()
             monTarget.isAlive() if typeof monTarget.isAlive isnt "undefined"
             i++
+  monster.passive_ability = monster.abilities[monster.abilities.length-1]
+  monster.abilities.pop()
+      
 
 
 
@@ -2371,6 +2381,7 @@ $ ->
                 $(description).addClass("summoner-ability-description")
               else 
                 ability = battle.players[0].mons[targets[1]].abilities[$(this).data("index")]
+              console.log(ability)
               description.children(".panel-heading").text ability.name
               fatigue = battle.players[ability.team].mons[ability.index].fatigue
               if ability_target is "attack"
