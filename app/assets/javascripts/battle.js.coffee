@@ -263,7 +263,7 @@ window.fixEvolMon = (monster, player) ->
                   real_targets.push(abilitytargets[index])
                 index++
               effect.activate real_targets
-            when "timed-atk-buff"
+            when "timed-atk-buff", "timed-atk-debuff"
               teamAttackAbilities = []
               index1 = 0 
               n = abilitytargets.length
@@ -271,12 +271,12 @@ window.fixEvolMon = (monster, player) ->
                 teamAttackAbilities.push(abilitytargets[index1].abilities[0])
                 index1++
               effect.activate teamAttackAbilities
-            when "timed-spe-buff"
+            when "timed-spe-buff", "timed-spe-debuff"
               teamSpecialAbilities = []
               index2 = 0 
               n = abilitytargets.length
               while index2 < n 
-                teamAttackAbilities.push(abilitytargets[index2].abilities[1])
+                teamSpecialAbilities.push(abilitytargets[index2].abilities[1])
                 index2++
               effect.activate teamSpecialAbilities
             when "self", "self-poison-hp", "self-timed-phy-resist-debuff"
@@ -1504,6 +1504,16 @@ window.updateApAbilityCost = () ->
     i++
   $(".gain-ap").data("apcost", cost) 
 
+window.updateAbilityCost = ->
+  i = 0
+  while i < battle.players[0].mons.length
+    monster = battle.players[0].mons[i]
+    index = monster.index
+    $(".user .mon" + index + " " + ".attack").data("apcost", monster.abilities[0].ap_cost)
+    $(".user .mon" + index + " " + ".ability").data("apcost", monster.abilities[1].ap_cost)
+    i++
+
+
 
 
 ############################################################################################################ AI logics
@@ -1872,6 +1882,7 @@ window.ai = ->
         toggleImg()
         deathAbilitiesToActivate["user"].length = 0
         zetBut()
+        updateAbilityCost()
         setTimeout (->
           setSummonerAbility()
         ), 250
@@ -2677,6 +2688,7 @@ $ ->
                         $(targetMon).finish().attr("src", betterMon.image).css({"display":"inline", "opacity":"0"})
                         setTimeout (->
                           $(targetMon).addClass("puffIn magictime")
+                          abilityAnime.css({"visibility":"hidden", "z-index":"-10"})
                         ), 1400
                     setTimeout (->
                       xadBuk()
@@ -2695,7 +2707,7 @@ $ ->
                       ), 400
                       flashEndButton()
                       return
-                    ), 2000
+                    ), 2400
                     return
                   ), 2500
             else
