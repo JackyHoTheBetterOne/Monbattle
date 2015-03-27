@@ -134,11 +134,13 @@ window.fixEvolMon = (monster, player) ->
     ability.effectImpact = ->
       impact = 0 
       i = 0
-      while i < a.effects.length
-        if a.effects[i].targeta is "poison"
-          impact += parseInt(a.effects[i].change)
+      length = a.effects.length
+      array = a.effects
+      while i < length
+        if array[i].targeta is "poison"
+          impact += parseInt(array[i].change)
         else if a.effects[i].targeta is "shield"
-          impact += parseInt(a.effects[i].change)
+          impact += parseInt(array[i].change)
         i++
     ability.isAlive = ->
       battle.players[@team].mons[@index].isAlive()
@@ -165,13 +167,15 @@ window.fixEvolMon = (monster, player) ->
         ), 150
       a = this
       i = 0
-      while i < abilitytargets.length
+      length = abilitytargets.length
+      while i < length
         monTarget = abilitytargets[i]
         index = monTarget.unidex
         if monTarget.passive_ability
           if monTarget.passive_ability.rarita is "effect-passive"
             i = 0
-            while i < monTarget.passive_ability.effects.length
+            effect_count = monTarget.passive_ability.effects.length
+            while i < effect_count
               monTarget.passive_ability.effects[i].activate [monster]
               i++
         fatigue_effect = 1 - monster.fatigue*0.1
@@ -197,14 +201,16 @@ window.fixEvolMon = (monster, player) ->
               ), 100
           if a.targeta is "cleanseally" or a.targeta is "aoecleanse"
             ii = 0 
-            while ii < monTarget.poisoned.length
+            count = monTarget.poisoned.length
+            while ii < count
               e = monTarget.poisoned[ii]
               if typeof monTarget.poisoned[ii] isnt "undefined"
                 delete monTarget.poisoned[ii] if e.impact.indexOf("-") isnt -1
                 removeEffectIcon(monTarget, e) 
               ii++
             i3 = 0
-            while i3 < monTarget.weakened.length
+            weaken_count = monTarget.weakened.length
+            while i3 < weaken_count
               e = monTarget.weakened[i3]
               if typeof monTarget.weakened[i3] isnt "undefined"
                 delete monTarget.weakened[i3] if e.restore.indexOf("+") isnt -1
@@ -254,7 +260,8 @@ window.fixEvolMon = (monster, player) ->
         i++
       if ability.effects.length isnt 0 ####################################################### Effect activation from ability
         i = 0
-        while i < ability.effects.length
+        length = ability.effects.length
+        while i < length
           effect = a.effects[i]
           switch effect.targeta
             when "taunt", "poison-hp", "timed-phy-resist-buff", "timed-phy-resist-debuff"
@@ -262,7 +269,8 @@ window.fixEvolMon = (monster, player) ->
                   , "help-curse", "atk-curse"
               real_targets = []
               index = 0
-              while index < abilitytargets.length
+              target_count = abilitytargets.length
+              while index < target_count
                 if abilitytargets[index].passive
                   if abilitytargets[index].passive.targeta isnt effect.targeta
                     real_targets.push(abilitytargets[index])
@@ -313,7 +321,8 @@ window.fixEvolMon = (monster, player) ->
             when "foebuffattack"
               effectTargets = []
               index3 = 0
-              while index3 < abilitytargets.length
+              count = abilitytargets.length
+              while index3 < count
                 index = getRandom([0,1,2,3])
                 effectTargets.push abilitytargets[index3].abilities[index]
                 index3++
@@ -339,8 +348,9 @@ window.fixEvolMon = (monster, player) ->
         fatigue_effect = 1 - monster.fatigue*0.1
         e = this
         i = 0
+        count = effectTargets.length
         if e.targeta.indexOf("curse") isnt -1 
-          while i < effectTargets.length
+          while i < count
             monTarget = effectTargets[i]
             if monTarget.isAlive()
               findObjectInArray(monTarget.cursed, "targeta", e.targeta)
@@ -357,7 +367,7 @@ window.fixEvolMon = (monster, player) ->
                 addEffectIcon(monTarget, e, fatigue_effect)
             i++
         else if e.targeta.indexOf("shield") isnt -1
-          while i < effectTargets.length
+          while i < count
             monTarget = effectTargets[i]
             if monTarget.isAlive()
               if monTarget.shield.end is undefined
@@ -380,7 +390,7 @@ window.fixEvolMon = (monster, player) ->
               monTarget.shield.old_hp = monTarget.hp
             i++
         else if e.targeta.indexOf("taunt") isnt -1
-          while i < effectTargets.length
+          while i < count
             monTarget = effectTargets[i]
             if monTarget.isAlive()
               if monTarget.taunted.end is undefined
@@ -394,7 +404,7 @@ window.fixEvolMon = (monster, player) ->
               monTarget.taunted.end = battle.round + e.duration
             i++
         else if e.targeta.indexOf("poison") isnt -1
-          while i < effectTargets.length
+          while i < count
             monTarget = effectTargets[i]
             monTarget[e.stat] = 
               eval(monTarget[e.stat] + e.modifier + e.change * fatigue_effect)
@@ -426,7 +436,7 @@ window.fixEvolMon = (monster, player) ->
                 old_effect.end = battle.round + e.duration
             i++
         else if e.targeta.indexOf("timed") isnt -1
-          while i < effectTargets.length
+          while i < count
             monTarget = effectTargets[i]
             object = undefined
             if monTarget.type is "ability" 
@@ -462,7 +472,7 @@ window.fixEvolMon = (monster, player) ->
                 addEffectIcon(monTarget, e, fatigue_effect)
             i++
         else
-          while i < effectTargets.length
+          while i < count
             monTarget = effectTargets[i]
             if e.targeta isnt "ap-overload"
               addEffectIcon(monTarget, e, fatigue_effect)
@@ -492,7 +502,8 @@ window.fixEvolMon = (monster, player) ->
 window.findObjectInArray = (array, field, value) ->
   window.usefulArray = []
   i = 0 
-  while i < array.length 
+  count = array.length
+  while i < count
     if typeof array[i] isnt "undefined"
       if typeof array[i][field] isnt "undefined"         
         if array[i][field].indexOf(value) isnt -1
@@ -1497,7 +1508,8 @@ window.minimumHpPC = ->
   findAliveEnemies()
   window.healPC = liveFoes[0]
   i = 0
-  while i < liveFoes.length
+  count = liveFoes.length
+  while i < count
     if healPC.hp > liveFoes[i].hp + randomNumRange(400, 0)
       window.healPC = liveFoes[i]
     i++
@@ -1507,7 +1519,8 @@ window.updateApAbilityCost = () ->
   battle.apGainCost = eval(battle.maxAP/2)
   cost = parseInt(battle.apGainCost)
   i = 0 
-  while i < battle.players[0].mons.length
+  count = battle.players[0].mons.length
+  while i < count
     if battle.players[0].mons[i].abilities[1].targeta is "action-point"
       battle.players[0].mons[i].abilities[1].ap_cost = cost/2
       $(".user " + ".mon" + i + " " + ".action.ability").data("apcost", cost/2) 
@@ -1516,6 +1529,7 @@ window.updateApAbilityCost = () ->
 
 window.updateAbilityCost = ->
   i = 0
+  count = battle.players[0].mons.length
   while i < battle.players[0].mons.length
     monster = battle.players[0].mons[i]
     index = monster.index
@@ -1664,7 +1678,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           abilityAnime = $(".single-ability-img")
           singleTargetAbilityDisplayVariable()
           abilityAnime.css(targetPosition)
-          abilityAnime.finish().attr("src", callAbilityImg).toggleClass "flipped ability-on", ->
+          abilityAnime.attr("src", callAbilityImg).finish().toggleClass "flipped ability-on", ->
             action()
             if targetMon.css("display") isnt "none"
               if enemyHurt.isAlive() is false
@@ -1703,7 +1717,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           multipleTargetAbilityDisplayVariable()
           $(".ability-img").toggleClass aoePosition, ->
             element = $(this)
-            element.finish().attr("src", callAbilityImg).toggleClass("flipped ability-on")
+            element.attr("src", callAbilityImg).finish().toggleClass("flipped ability-on")
             if teamIndex is 1
               $(".user.mon-slot .img").each ->
                 if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
@@ -1744,7 +1758,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           multipleTargetAbilityDisplayVariable()
           $(".ability-img").toggleClass aoePosition, ->
             element = $(this)
-            element.finish().attr("src", callAbilityImg).toggleClass("ability-on")
+            element.attr("src", callAbilityImg).finish().toggleClass("ability-on")
             images = undefined
             if teamIndex is 1
               images = ".enemy.mon-slot .img.mon-battle-image"
@@ -1785,7 +1799,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           singleHealTargetAbilityDisplayVariable()
           abilityAnime.css(targetPosition)
           action()
-          abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
+          abilityAnime.attr("src", callAbilityImg).finish().toggleClass "ability-on", ->
             targetMon.effect "bounce",
               distance: 100
               times: 1
@@ -1965,7 +1979,8 @@ window.activateDeathAbility = (team, index) ->
 window.deathAbilitiesActivation = (team) ->
   if deathAbilitiesToActivate[team].length isnt 0
     i = 0
-    while i < deathAbilitiesToActivate[team].length
+    count = deathAbilitiesToActivate[team].length
+    while i < count
       ability = deathAbilitiesToActivate[team][i]
       delete battle.players[ability.team].mons[ability.index].passive_ability
       i++
@@ -2001,7 +2016,8 @@ window.scaling = (passive, monster) ->
 window.healthRegen = (teamIndex) ->
   mons = battle.players[teamIndex].mons
   i = 0
-  while i < mons.length
+  count = mons.length
+  while i < count
     passive = mons[i].passive_ability
     if mons[i].passive_ability
       if passive.targeta is "health-regen"
@@ -2017,7 +2033,8 @@ window.healthRegen = (teamIndex) ->
 window.passiveScalingTeam = (team_num, type) ->
   mons = battle.players[team_num].mons
   i = 0
-  while i < mons.length
+  count = mons.length
+  while i < count
     passive = mons[i].passive_ability
     if mons[i].passive_ability
       if passive.stat is type
@@ -2033,7 +2050,8 @@ window.passiveScalingMon = (monster, type) ->
 window.updateAbilityScaling = (team_num, type) ->
   mons = battle.players[team_num].mons
   i = 0
-  while i < mons.length
+  count = mons.length
+  while i < count
     passive = mons[i].passive_ability
     if mons[i].passive_ability
       if passive.stat is type
@@ -2540,7 +2558,7 @@ $ ->
                     singleTargetAbilityDisplayVariable()
                     abilityAnime.css(targetPosition)
                     action()
-                    abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
+                    abilityAnime.attr("src", callAbilityImg).finish().toggleClass "ability-on", ->
                       if targetMon.css("display") isnt "none"
                         if enemyHurt.isAlive() is false
                           setTimeout (->
@@ -2572,7 +2590,7 @@ $ ->
                     singleHealTargetAbilityDisplayVariable()
                     abilityAnime.css(targetPosition)
                     action()
-                    abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
+                    abilityAnime.attr("src", callAbilityImg).finish().toggleClass "ability-on", ->
                       targetMon.effect "bounce",
                           distance: 100
                           times: 1
@@ -2596,7 +2614,7 @@ $ ->
                     multipleTargetAbilityDisplayVariable()
                     $(".ability-img").toggleClass "aoePositionFoe", ->
                       element = $(this)
-                      element.finish().attr("src", callAbilityImg).toggleClass("ability-on")
+                      element.attr("src", callAbilityImg).finish().toggleClass("ability-on")
                       setTimeout (->
                         multipleAction()
                         $(".enemy.mon-slot .img").each ->
@@ -2623,7 +2641,7 @@ $ ->
                     multipleTargetAbilityDisplayVariable()
                     $(".ability-img").toggleClass "aoePositionUser", ->
                       element = $(this)
-                      element.finish().attr("src", callAbilityImg).toggleClass("ability-on")
+                      element.attr("src", callAbilityImg).finish().toggleClass("ability-on")
                       $(".user.mon-slot .img").each ->
                         if battle.players[0].mons[$(this).data("index")].hp > 0
                           $(this).effect "bounce",
@@ -2679,33 +2697,35 @@ $ ->
                     $(".user .img").removeClass("controlling")
                     ability.remove()
                     abilityAnime = $(".single-ability-img")
-                    targetMon = $(".0 .mon" + targets[1] + " " + ".img")
+                    targetMon = $(".0 .mon" + targets[1] + " " + ".img.mon-battle-image")
                     betterMon = battle.players[0].mons[targets[1]].mon_evols[0]
                     oldMon = battle.players[0].mons[targets[1]]
                     findObjectInArray(effectBin, "target", oldMon.name)
                     i = 0
-                    while i < usefulArray.length
+                    n = usefulArray.length
+                    while i < n
                       usefulArray[i].target = betterMon.name
                       i++
                     classio = "mon" + targets[1].toString() + "-evolve"
                     abilityAnime.addClass("evolve-size")
                     abilityAnime.addClass(classio)
-                    abilityAnime.finish().attr("src", betterMon.animation).toggleClass "ability-on", ->
+                    abilityAnime.attr("src", betterMon.animation).finish().addClass "ability-on", ->
                       $(".battle").effect("shake")
                       targetMon.fadeOut 600, ->
                         $(targetMon).finish().attr("src", betterMon.image).css({"display":"inline", "opacity":"0"})
                         setTimeout (->
+                          abilityAnime.removeClass "ability-on"
+                        ), 1000
+                        setTimeout (->
                           $(targetMon).addClass("puffIn magictime")
-                          abilityAnime.css({"visibility":"hidden", "z-index":"-10"})
                         ), 1400
                     setTimeout (->
                       xadBuk()
                       battle.evolve(0, targets[1], 0)
                       zetBut()
-                      abilityAnime.toggleClass "ability-on"
                       abilityAnime.removeClass("evolve-size")
                       abilityAnime.removeClass(classio)
-                      abilityAnime.attr("src", "")
+                      abilityAnime.attr("src","")
                       apChange()
                       setFatigue()
                       setTimeout (->
