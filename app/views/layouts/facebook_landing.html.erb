@@ -36,24 +36,39 @@
   <%= render "battles/single_ability_img" %>
   <h1 id="fb-welcome" class="hide"></h1>
   <div class="turbolinks-overlay" id="turbolinks-overlay">
-    <%= image_tag("loading.gif")%>
+    <%= image_tag("loading.gif", class: "loading-circle")%>
   </div>
   <div class="container-yes">
     <div class="redeem-overlay" id="redeem-overlay">
       <div class="redeem-form">
-        <input class="redeem-form-text-field" name="keyword" type="text">
+        <%= image_tag("cancel.png", class: "redeem-form-close") %>
+        <h3>Enter Code</h3>
+        <p class="instruction"></p>
+        <br/>
+        <input class="redeem-form-text-field" name="keyword" type="text" placeholder="Enter code here">
+        <br/>
         <%= submit_tag "Submit Code", class: "submit-code-button" %>
       </div>
       <div class="unlock-code-reward-screen">
-        
+        <%= image_tag("cancel.png", class: "unlock-screen-close") %>
+        <h4>
+          Welcome 
+          <img src="https://s3-us-west-2.amazonaws.com/monbattle/images/kickstarter-logo-k-color.png" 
+            class="kickstarter-logo">
+          <span class="backer-name">Junky Ho!</span>
+        </h4>
+        <h4>
+          Here is your reward! Good luck in life!
+        </h4>
+        <img src="https://s3-us-west-2.amazonaws.com/monbattle/images/kickstarter-logo-k-color.png"
+          class="reward-icon">
+        <h3 class="unlock-reward-name">Dick Mon</h3>
       </div>
     </div>
     <nav class="navbar mon-front" role="navigation">
       <ul class="nav nav-pills main-nav" class="navigation">
-        <%= link_to image_tag("monbattle-logo.png", class: "navbar-logo"), home_sweet_home_path, 
-            class: "logo-link" %>
-<!--         <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/redeem.png", 
-              class: "redeem-button")%> -->
+        <%= link_to image_tag("monbattle-logo.png", class: "navbar-logo"), home_sweet_home_path, class: "logo-link" %>
+        <button class="redeem-button">Redeem</button>
         <% if !user_signed_in? %>
           <li class="pull-right fb-nav sign-in">
             <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), 

@@ -161,13 +161,25 @@ $ ->
         $(this).parent().removeClass("active")
         $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
   $(document).on "click.quest-hide", ".for-real, .close-quest, .quest-close-footer, .mon-tab", ->
-      $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
-      $(".quest-show").parent().removeClass("active")
+    $(".quests-info, .quest-arrow, .quests-outline").css("opacity", "0").css("z-index", "-100")
+    $(".quest-show").parent().removeClass("active")
   $(".plus-mp-but").on "click", ->
     window.storeDisplay = true
   $(".invite-but").on "click", (event) ->
     event.preventDefault()
     onInvite()
+  $(".redeem-button").on "click", ->
+    $(".redeem-overlay").css("opacity", "1")
+    $(".redeem-overlay").addClass("reveal")
+    $(".redeem-overlay").css("z-index", "1000000000")
+  $(".redeem-form-close, .unlock-screen-close").on "click", ->
+    $(".redeem-overlay").removeClass("reveal")
+    $(".redeem-overlay").css("opacity", "0")
+    setTimeout (->
+      $(".redeem-form").css("opacity", "1")
+      $(".unlock-code-reward-screen").css("opacity", "0")
+      $(".redeem-overlay").css("z-index", "-100")
+    ), 400
 
 
 

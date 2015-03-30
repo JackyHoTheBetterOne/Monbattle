@@ -241,33 +241,33 @@ class HomeController < ApplicationController
   def dick_fly
   end
 
-  def send_code_email
-    man = Mandrill::API.new
-    message = { 
-      :subject=> "Suck a dick", 
-      :from_name=> "Cock Sucker",
-      :from_email=>"penis@cocksuck.com",
-      :to=> [  
-        {  
-         :email=> "fornetflix112@gmail.com",  
-         :name=> "Jack"  
-        } 
-      ], 
-      :html=> render_to_string('user_mailer/mandrill', :layout => false), 
-      :merge_vars => [
-        {
-          rcpt: "fornetflix112@gmail.com",
-          vars: [
-            {name: "first_name", content: "John"},
-            {name: "last_name", content: "Dicky"}
-          ]
-        }
-      ],
-      :preserve_recipients => false
-    }
-    sending = man.messages.send message 
-    p sending
-  end
+  # def send_code_email
+  #   man = Mandrill::API.new
+  #   message = { 
+  #     :subject=> "Suck this code", 
+  #     :from_name=> "Cock Sucker",
+  #     :from_email=>"code_send@cocksuck.com",
+  #     :to=> [  
+  #       {  
+  #        :email=> "fornetflix112@gmail.com",  
+  #        :name=> "Jack"  
+  #       } 
+  #     ], 
+  #     :html=> render_to_string('user_mailer/mandrill', :layout => false), 
+  #     :merge_vars => [
+  #       {
+  #         rcpt: "fornetflix112@gmail.com",
+  #         vars: [
+  #           {name: "first_name", content: "John"},
+  #           {name: "last_name", content: "Dicky"}
+  #         ]
+  #       }
+  #     ],
+  #     :preserve_recipients => false
+  #   }
+  #   sending = man.messages.send message 
+  #   p sending
+  # end
 
   private
 

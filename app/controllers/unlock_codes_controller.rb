@@ -2,9 +2,11 @@ class UnlockCodesController < ApplicationController
   def unlock
     @user = current_user
     @unlock = UnlockCode.find_by_code(params[:code_entered])
-    @object = @unlock.unlock(@user)
+    unlocky = User::CodyUnlocky.new(user: @user, code: @unlock)
+    unlocky.call
 
-    render template: "unlock_code_reward", :layout => false
+    @result = unlocky.result
+    render json: @result
   end
 
   def unlock_by_username
@@ -12,7 +14,8 @@ class UnlockCodesController < ApplicationController
       @user = current_user
       @unlock = UnlockCode.find(params[:code_id])
       if current_user.user_name == @unlock.user_name
-        @object = @unlock.unlock(@user)
+        @object = User::CodyUnlocky.new(user: @user, code: @unlock)
+        @object.call
       end
     end
 

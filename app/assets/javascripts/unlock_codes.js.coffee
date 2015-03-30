@@ -10,6 +10,19 @@ $ ->
       method: "POST"
       data: { code_entered: code }
       error: ->
-        alert("Wrong code, buddy.")
+        $(".redeem-form-text-field").effect("highlight", {color: "red"})
+        $(".redeem-form .instruction").text("Wrong code or used code, Buddy!")
       success: (response) ->
-        document.getElementsByClassName("redeem-overlay")[0].innerHTML += response
+        object = response
+        console.log(response)
+        image = undefined
+        $(".backer-name").text(object.namey)
+        $(".reward-icon").attr("src",object.image)
+        $(".unlock-reward-name").text(object.item_name)
+        $(".redeem-form").css("opacity", "0")
+        setTimeout (->
+          $(".unlock-code-reward-screen").css("opacity", "1")
+          $(".redeem-form .instruction").text("")
+          $(".redeem-form-text-field").val("")
+        ), 500
+

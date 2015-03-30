@@ -5,6 +5,10 @@
   font-style: normal;
 };
 
+.reveal {
+  background: rgba(0,0,0,0.9) !important;
+};
+
 
 body.forest {
   -webkit-user-select: none;
@@ -100,12 +104,12 @@ h1, h3, h2, h4 {
   width: 1000px;
   background: #000000;
   border-radius: 5px;
-  transition: opacity 0.05;
+  transition: opacity 0.05s;
   right: 0px;
   left: 0px;
   margin: 93px auto;
   margin-bottom: 0px;
-  img {
+  img.loading-circle {
     position: fixed;
     left: 0px;
     right: 0px;
@@ -117,18 +121,86 @@ h1, h3, h2, h4 {
 };
 
 .redeem-overlay {
-  background: rgba(0,0,0,0.9);
+  background: rgba(0,0,0,0);
+  height: 650px;
   opacity: 0;
   margin: -5px auto;
   text-align: center;
-  .redeem-form-text-field {
-    margin: 130px auto;
-  };
+  transition: background 0.3s, opacity 0.3s;
   .unlock-code-reward-screen {
-    background: white;
+    position: relative;
+    background: #757575;
     height: 350px;
-    width: 630px;
-    margin: 60px auto;
+    width: 440px;
+    margin: 85px auto;
+    color: white;
+    border-radius: 5px;
+    padding-top: 20px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    .kickstarter-logo {
+      height: 30px;
+      width: 30px;
+    };
+    .reward-icon {
+      height: 120px;
+      width: 100px;
+      margin-top: 48px;
+    };
+    .unlock-screen-close {
+      position: absolute;
+      height: 50px;
+      right: -24px;
+      cursor: pointer;
+      top: -16px;
+    };
+  };
+  .redeem-form {
+    background: #757575;
+    border-radius: 5px;
+    height: 230px;
+    width: 500px;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    margin: 100px auto;
+    z-index: 100;
+    transition: opacity 0.3s;
+    .redeem-form-close {
+      position: absolute;
+      right: -25px;
+      height: 50px;
+      top: -16px;
+      cursor: pointer;
+    };
+    h3 {
+      color: white;
+    };
+    .instruction {
+      position: absolute;
+      left: 0px;
+      right: 0px;
+      color: white;
+      top: 151px;
+    };
+    .redeem-form-text-field {
+      border-radius: 5px;
+      border: 2px solid black;
+      background: #4B4B4B;
+      color: white;
+      width: 270px;
+      height: 70px;
+      margin-top: -2px;
+      font-size: 200%;
+    };
+    .submit-code-button {
+      margin-top: 34px;
+      background: #43A047;
+      box-shadow: 4px 4px 8px black;
+      border-radius: 5px;
+      border: 2px solid black;
+      color: white;
+    };
   };
 };
 
