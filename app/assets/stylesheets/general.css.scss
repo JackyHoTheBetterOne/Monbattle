@@ -98,7 +98,7 @@ h1, h3, h2, h4 {
   margin: 0% auto;
 };
 
-.turbolinks-overlay, .redeem-overlay {
+.turbolinks-overlay, .redeem-overlay, .daily-reward-overlay {
   position: absolute;
   height: 100%;
   width: 1000px;
@@ -120,7 +120,7 @@ h1, h3, h2, h4 {
   };
 };
 
-.redeem-overlay {
+.redeem-overlay, .daily-reward-overlay {
   background: rgba(0,0,0,0);
   height: 650px;
   opacity: 0;
@@ -204,6 +204,43 @@ h1, h3, h2, h4 {
   };
 };
 
+.daily-reward-overlay {
+  .daily-reward-screen {
+    background: #4B4B4B;
+    border-radius: 5px;
+    width: 274px;
+    height: 275px;
+    color: white;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    margin: 90px auto;
+    text-align: center;
+    .daily-reward-screen-close {
+      position: absolute;
+      height: 40px;
+      top: -13px;
+      right: -20px;
+      cursor: pointer;
+    };
+    .daily-reward-logo {
+      height: 75px;
+      position: relative;
+      top: 14px;
+    };
+    .daily-reward-number {
+      position: relative;
+      top: 12px;
+    };
+    .daily-reward-message {
+      margin-top: 35px;
+      padding-left: 5px;
+      padding-right: 5px;
+    };
+  };
+};
+
+
 ///////////////////////////////////////////////////////////////// hopscotch customization
 
 .hopscotch-next {
@@ -256,3 +293,27 @@ button.hopscotch-next:hover {
   z-index: 5000000000 !important;
 };
 
+//////////////////////////////////////////////////////////////////////////////////
+.daily-reward-timer-box {
+  position: absolute;
+  right: 242px;
+  width: 70px;
+  text-align: center;
+  top: 3px;
+  color: white;
+  background: #353434;
+  border-radius: 5px;
+  border: 1px solid black;
+  font-size: 80%;
+  height: 72px;
+  padding-top: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+  .gift-icon {
+    height: 35px;
+    display: block;
+    position: relative;
+    left: 12px;
+    top: -2px;
+  };
+};

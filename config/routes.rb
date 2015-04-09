@@ -61,6 +61,7 @@ get 'event_areas' => 'home#event_levels'
 post 'add_request_token' => 'home#add_request_token'
 post 'add_accepted_request' => 'home#add_accepted_request'
 get 'check_permission' => 'home#check_permission'
+get 'giving_daily_reward' => 'home#give_daily_reward'
 
 get 'dick_fly' => 'home#dick_fly'
 
@@ -71,6 +72,13 @@ resources :effects
 resources :parties
 resources :battle_levels
 resources :users
+
+resources :guilds do 
+  get :gate, on: :collection
+  post :check_name_uniqueness, on: :collection
+end
+
+
 
 resources :battles do
   patch :showing, on: :member

@@ -59,17 +59,18 @@ window.fixEvolMon = (monster, player) ->
       if monster.team is 1 && $(".stupid-text").css("opacity") is "0" && 
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".mon-battle-image").css("display") isnt "none"
             setTimeout (->
-              retard = ["Fantastic", "Good", "Excellent", "Nice"]
-              $(".stupid-text").text(shuffle(retard)[0])
-              $(".stupid-text").css("z-index","10000000000")
-              $(".stupid-text").addClass("tada animated").css("opacity", "1")
-              setTimeout (->
-                $(".stupid-text").removeClass("tada animated").addClass("animated fadeOutUp")
-              ), 1000
-              setTimeout (->
-                $(".stupid-text").removeClass("animated fadeOutUp").css({"z-index":"-10", "opacity":"0"})
-              ), 1500
-            ), 500
+              if $(".stupid-text").css("opacity") is "0"
+                retard = ["Fantastic", "Good", "Excellent", "Nice"]
+                $(".stupid-text").text(shuffle(retard)[0])
+                $(".stupid-text").css("z-index","10000000000")
+                $(".stupid-text").addClass("tada animated").css("opacity", "1")
+                setTimeout (->
+                  $(".stupid-text").removeClass("tada animated").addClass("animated fadeOutUp")
+                ), 1000
+                setTimeout (->
+                  $(".stupid-text").removeClass("animated fadeOutUp").css({"z-index":"-10", "opacity":"0"})
+                ), 1500
+            ), 700
       setTimeout (->
         $("p.dam").promise().done ->
           $("." + monster.team + " " + ".mon" + monster.index + " " + ".bar").css("width", "0%")

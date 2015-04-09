@@ -1,0 +1,49 @@
+<div class="guild-panel individual-guild">
+  <h3 class="guild-single-p-title">Your Guild</h3>
+  <% if current_summoner.is_leader(@guild) %>
+    <%= link_to "Disband", @guild, method: :delete, 
+      data: {confirm: "Are you sure? People are gonna be sad!"}, class: "main-guild-action-button" %>
+  <% end %>
+  <div class="single-guild-panel">
+    <div class="guild-main-detail">
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg", 
+        class: "guild-avatar")%>
+      <h3><strong><%= @guild.name %></strong></h3>
+      <p><%= @guild.description %></p>
+    </div>
+    <div class="guild-further-detail">
+      <h4>
+        <span class="title">Members:</span>
+        <span class="information">
+          <%= @guild.current_member_count %>/<%= @guild.maximum_member_count %>
+        </span>
+      </h4>
+      <h4>
+        <span class="title">Entry Requirement:</span>
+        <span class="information"><%= @guild.minimum_level%></span>
+      </h4>
+      <h4>
+        <span class="title">Guild Points:</span>
+        <span class="information">0</span>
+      </h4>
+    </div>
+    <div class="guild-member-list">
+      <% @guild.members.each do |m| %>
+        <% 10.times do %>
+          <div class="member-box">
+            <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/guild-filler-logo.png", 
+              class: "guild-member-avatar")%>
+            <div class="member-detail-box">
+              <span class="guild-member-name"><%= m.name %></span>
+              <br />
+              <span class="guild-member-level">LV. <%= m.level %></span>
+            </div>
+            <div class="member-title-box">
+              <span class="guild-member-title"><%= m.guild_title(@guild) %></span>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

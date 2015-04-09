@@ -1,0 +1,13 @@
+<div class="guild-panel">
+  <h1 class="guild-slide-title">Find a Guild</h1>
+  <div>
+    <%= form_tag guilds_path, :method => "get" %>
+    <%= text_field_tag :guild_search, params[:guild_search], 
+      class: "guild-search-field" %>
+    <%= image_submit_tag 'magnifying47.png', 
+      class: "guild-search-send" %>
+  </div>
+  <div class="guild-list">
+    <%= render @guilds %>
+  </div>
+</div>

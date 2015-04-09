@@ -1,0 +1,31 @@
+<div class="guild-panel">
+  <h1 class="guild-slide-title">Create a Guild</h1>
+  <div class="guild_form">
+    <%= form_for(@guild, method: "POST") do |f| %>
+      <%= label_tag "Guild Name", nil, class: "guild_form_label"%>
+      <%= f.text_field :name, 
+        class: "guild_form_field guild_name_enter"%>
+      <br/>
+      <p class="guild-creation-instruction guild-name">*Required field</p>
+      <%= label_tag "Guild Description", nil, class: "guild_form_label"%>
+      <%= f.text_area :description, 
+        class: "guild_form_field guild_description_enter" %>
+      <br />
+      <p class="guild-creation-instruction guild-description">*Required field</p>
+      <br />
+      <%= label_tag "Minimum level for entry", nil, class: "guild_form_label minimum-level"%>
+      <select name="guild[minimum_level]" class="guild_form_field">
+        <option value=0>Anyone can join</option>
+        <option value=10>Level 10 Oracle</option>
+        <option value=20>Level 20 Oracle</option>
+        <option value=30>Level 30 Oracle</option>
+        <option value=40>Level 40 Oracle</option>
+        <option value=50>Level 50 Oracle</option>
+      </select>
+      <br />
+      <span class="submit-bar">
+        <%= f.submit "Create this Guild", class: "guild-submit-button" %>
+      </span>
+    <% end %>
+  </div>
+</div>

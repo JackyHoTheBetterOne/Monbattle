@@ -4,6 +4,7 @@ class BattlesController < ApplicationController
   before_action :find_battle, except: [:create, :index, :new]
   before_action :check_energy
   after_action :quest_start, only: [:new]
+  before_action :daily_reward_reboot, only: [:new]
 
   before_action :generate_enemies, only: :create
   after_action :deduct_energy, only: :create
@@ -162,7 +163,32 @@ class BattlesController < ApplicationController
     render nothing: true
   end
 
+
+
+
+
   private
+
+  def daily_reward_reboot
+    if current_user
+      @summoner = current_user.summoner
+      @date = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
+      @party = current_user.parties[0]
+      if Battle.find_matching_date(@date, @party).count == 0
+        if !@summoner.daily_reward_giving_time
+          @summoner.daily_reward_given_first = false
+          @summoner.daily_reward_given_second = false
+          @summoner.daily_reward_giving_time = Time.now + 1.minutes
+          @summoner.save
+        elsif Time.now.to_date != @summoner.daily_reward_giving_time.to_date
+          @summoner.daily_reward_given_first = false
+          @summoner.daily_reward_given_second = false
+          @summoner.daily_reward_giving_time = Time.now + 1.minutes
+          @summoner.save
+        end
+      end
+    end
+  end
 
   def generate_enemies
     if current_user.summoner.played_levels.count > 0 
@@ -212,9 +238,21 @@ class BattlesController < ApplicationController
 
   def quest_start
     if current_user
+      @summoner = current_user.summoner
       @date = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
       @party = current_user.parties[0]
       if Battle.find_matching_date(@date, @party).count == 0
+        if !@summoner.daily_reward_giving_time
+          @summoner.daily_reward_given_first = false
+          @summoner.daily_reward_given_second = false
+          @summoner.daily_reward_giving_time = Time.now + 1.minutes
+          @summoner.save
+        elsif Time.now.to_date != @summoner.daily_reward_giving_time.to_date
+          @summoner.daily_reward_given_first = false
+          @summoner.daily_reward_given_second = false
+          @summoner.daily_reward_giving_time = Time.now + 1.minutes
+          @summoner.save
+        end
         @party.user.summoner.quest_begin 
         @party.user.summoner.clear_daily_achievement
         @party.user.summoner.clear_daily_battles

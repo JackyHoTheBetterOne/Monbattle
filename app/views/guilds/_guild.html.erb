@@ -1,0 +1,13 @@
+<div class="single-guild-listing">
+  <h4 class="guild-name"><%= guild.name %>  LV.0</h4>
+  <h4 class="guild-level-requirement">
+    Oracle Lvl Req: <%= guild.minimum_level %>
+  </h4>
+  <div class="member-count">
+    Members
+    <br>
+    <%= guild.current_member_count %>/<%= guild.maximum_member_count %>
+  </div>
+  <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/story-arrow+copy.png", 
+        class: "further-guild-information", data: {name: "#{guild}.name"}) %>
+</div

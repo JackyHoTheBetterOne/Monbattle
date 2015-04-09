@@ -197,6 +197,15 @@ class HomeController < ApplicationController
   end
 
 
+  def give_daily_reward
+    daily = User::DailyReward.new(summoner: current_user.summoner)
+    daily.call
+    render :json => {
+      type: daily.type,
+      amount: daily.reward_amount,
+      icon: daily.reward_logo
+    }
+  end
 
 ####################################################################### Tracking
   def track_currency_pick
@@ -283,7 +292,19 @@ class HomeController < ApplicationController
     if current_user
       @date = Time.now.in_time_zone("Pacific Time (US & Canada)").to_date
       @party = current_user.parties[0]
+      @summoner = current_user.summoner
       if Battle.find_matching_date(@date, @party).count == 0
+        if !@summoner.daily_reward_giving_time
+          @summoner.daily_reward_given_first = false
+          @summoner.daily_reward_given_second = false
+          @summoner.daily_reward_giving_time = Time.now + 1.minutes
+          @summoner.save
+        elsif Time.now.to_date != @summoner.daily_reward_giving_time.to_date
+          @summoner.daily_reward_given_first = false
+          @summoner.daily_reward_given_second = false
+          @summoner.daily_reward_giving_time = Time.now + 1.minutes
+          @summoner.save
+        end
         @party.user.summoner.quest_begin 
         @party.user.summoner.clear_daily_achievement
         @party.user.summoner.clear_daily_battles

@@ -1,0 +1,76 @@
+@mixin stroke() {
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 
+               1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
+};
+
+
+.guild_form {
+  position: absolute;
+  width: 650px;
+  text-align: left;
+  left: 0px;
+  right: 0px;
+  margin: 85px auto;
+  .guild-creation-instruction {
+    position: relative;
+    left: 402px;
+    width: 38%;
+    top: -4px;
+  };
+  .guild-creation-instruction.guild-description {
+    position: relative;
+    top: 50px;
+    left: 402px;
+    width: 38%;
+  };
+  .guild_form_label {
+    font-size: 150%;
+  };
+  .guild_form_field {
+    float: right;
+    width: 250px;
+    border-radius: 5px;
+  };
+  select.guild_form_field {
+    margin-top: 45px;
+  };
+  textarea.guild_description_enter {
+    resize: none;
+  };
+  .guild_form_field:not(select) {
+    box-shadow: inset 0 5px 5px -4px black;
+  };
+  .guild_form_field.guild_description_enter {
+    height: 82px;
+  };
+  .guild_form_label.minimum-level {
+    position: relative;
+    top: 40px;
+  };
+  .submit-bar {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    .guild-submit-button {
+      @include stroke();
+      color: white;
+      border: 2px solid black;
+      border-radius: 5px;
+      transition: 0.3s;
+      outline: none;
+      background: #FFEA00;
+      margin: 34px;
+      width: 219px;
+      height: 50px;
+      font-size: 150%;
+      opacity: 0.5;
+    };
+    .guild-submit-button:hover {
+      box-shadow: 0px 0px 15px yellow;
+    };
+  };
+};
+
+
+
+

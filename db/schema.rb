@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150325235704) do
+ActiveRecord::Schema.define(version: 20150407221750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -305,9 +305,11 @@ ActiveRecord::Schema.define(version: 20150325235704) do
     t.string   "name"
     t.text     "description"
     t.integer  "leader_id"
-    t.integer  "capacity",    default: 10
+    t.integer  "capacity",      default: 10
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "minimum_level", default: 0
+    t.text     "keywords"
   end
 
   add_index "guilds", ["leader_id"], name: "index_guilds_on_leader_id", using: :btree
@@ -449,6 +451,16 @@ ActiveRecord::Schema.define(version: 20150325235704) do
   add_index "monsters", ["job_id"], name: "index_monsters_on_job_id", using: :btree
   add_index "monsters", ["personality_id"], name: "index_monsters_on_personality_id", using: :btree
   add_index "monsters", ["rarity_id"], name: "index_monsters_on_rarity_id", using: :btree
+
+  create_table "notications", force: true do |t|
+    t.string   "title"
+    t.text     "message"
+    t.text     "type"
+    t.text     "present_array", default: [], array: true
+    t.datetime "expiry_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "notice_types", force: true do |t|
     t.string   "name"
@@ -613,6 +625,9 @@ ActiveRecord::Schema.define(version: 20150325235704) do
     t.integer  "led_guild_id"
     t.integer  "guild_id"
     t.integer  "sub_led_guild_id"
+    t.boolean  "daily_reward_given_first",     default: false
+    t.boolean  "daily_reward_given_second",    default: false
+    t.datetime "daily_reward_giving_time"
   end
 
   add_index "summoners", ["guild_id"], name: "index_summoners_on_guild_id", using: :btree
@@ -655,7 +670,6 @@ ActiveRecord::Schema.define(version: 20150325235704) do
     t.datetime "expiry_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "user_name"
   end
 
   create_table "users", force: true do |t|

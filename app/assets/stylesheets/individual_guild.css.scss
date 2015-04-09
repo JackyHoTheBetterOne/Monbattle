@@ -1,0 +1,128 @@
+@mixin stroke() {
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 
+               1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
+};
+
+
+.individual-guild {
+  text-align: initial;
+  .guild-single-p-title {
+    position: absolute;
+    left: 10px;
+    top: -2px;
+  };
+  .main-guild-action-button {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    background: #C62828;
+    height: 40px;
+    width: 100px;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 8px;
+    border: 2px solid black;
+    box-shadow: 4px 4px 5px black; 
+    text-decoration: none;
+  };
+  .main-guild-action-button:hover {
+    box-shadow: 0px 0px 10px 2px yellow;
+    transition: box-shadow 0.3s;
+  };
+  .single-guild-panel {
+    position: relative;
+    height: 87%;
+    width: 99%;
+    background: #757575;
+    border-radius: 5px;
+    top: 60px;
+    left: 5px;
+  };   
+  .guild-main-detail {
+    background: #4B4B4B;
+    width: 48.5%;
+    height: 120px;
+    border-radius: 5px;
+    position: absolute;
+    left: 6px;
+    top: 5px;
+    box-shadow: inset 0px 1px 12px black;
+    .guild-avatar {
+      height: 100px;
+      border-radius: 5px;
+      position: absolute;
+      left: 7px;
+      top: 10px;
+    };
+    h3 {
+      position: absolute;
+      left: 150px;
+      top: -8px;
+    };
+    p {
+      position: absolute;
+      top: 43px;
+      left: 150px;
+      width: 300px;
+      height: 65px;
+    };
+  };
+  .guild-further-detail {
+    background: #4B4B4B;
+    width: 48.5%;
+    height: 120px;
+    right: 8px;
+    position: absolute;
+    top: 5px;
+    border-radius: 5px;
+    box-shadow: inset 0px 1px 12px black;
+    h4 {
+      width: 92%;
+      position: relative;
+      left: 10px;
+      top: 8px;
+      .information {
+        float: right;
+      };
+    };
+  };
+  .guild-member-list {
+    position: absolute;
+    left: 2px;
+    width: 936px;
+    top: 133px;
+    height: 295px;
+    border-radius: 5px;
+    display: inline-block;
+    overflow: scroll;
+    .member-box {
+      font-size: 120%;
+      @include stroke();
+      width: 456px;
+      height: 70px;
+      border: 2px solid black;
+      border-radius: 5px;
+      background: #1565C0;
+      margin-left: 10px;
+      margin-top: 10px;
+      display: inline-block;
+      position: relative;
+      .guild-member-avatar {
+        margin-left: 3px;
+        margin-top: 3px;
+      };
+      .member-detail-box {
+        position: absolute;
+        top: 8px;
+        left: 77px;
+      };
+      .member-title-box {
+        position: absolute;
+        right: 10px;
+        top: 15px;
+        color: #FFEA00;
+        font-size: 130%;
+      };
+    };
+  };                                     
+};

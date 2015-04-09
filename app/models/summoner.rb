@@ -8,8 +8,8 @@ class Summoner < ActiveRecord::Base
   before_save :generate_code
   after_create :change_name
 
-  belongs_to :led_guild, class_name: "Guild", foreign_key: "leader_id"
-  belongs_to :sub_led_guild, class_name: "Guild"
+  belongs_to :led_guild, class_name: "Guild", foreign_key: "led_guild_id"
+  belongs_to :sub_led_guild, class_name: "Guild", foreign_key: "sub_led_guild_id"
   belongs_to :guild, class_name: "Guild"
   has_many :guild_messeages
 
@@ -17,6 +17,28 @@ class Summoner < ActiveRecord::Base
 
 
 ################################################################################################ Decoration
+
+  def daily_bonus_time_left
+    self.daily_reward_giving_time - Time.now
+  end
+
+
+  def guild_title(guild)
+    if guild.leader == self
+      return "Leader"
+    else
+      ""
+    end
+  end
+
+  def is_leader(guild) 
+    if guild.leader == self
+      return true
+    else
+      return false
+    end
+  end
+
 
   def true_name
     self.user.namey

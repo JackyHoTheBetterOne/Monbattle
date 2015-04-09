@@ -39,13 +39,24 @@
     <%= image_tag("loading.gif", class: "loading-circle")%>
   </div>
   <div class="container-yes">
+    <div class="daily-reward-overlay">
+      <div class="daily-reward-screen">
+        <h3>You've received</h3>
+        <%= image_tag("cancel.png", class: "daily-reward-screen-close") %>
+        <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png", 
+              class: "daily-reward-logo") %>
+        <h3 class="daily-reward-number">100</h3>
+        <h3 class="daily-reward-message">Second gift incoming!</h3>
+      </div>
+    </div>
     <div class="redeem-overlay" id="redeem-overlay">
       <div class="redeem-form">
         <%= image_tag("cancel.png", class: "redeem-form-close") %>
         <h3>Enter Code</h3>
         <p class="instruction"></p>
         <br/>
-        <input class="redeem-form-text-field" name="keyword" type="text" placeholder="Enter code here">
+        <input class="redeem-form-text-field" name="keyword" 
+          type="text" placeholder="Enter code here">
         <br/>
         <%= submit_tag "Submit Code", class: "submit-code-button" %>
       </div>
@@ -66,8 +77,20 @@
       </div>
     </div>
     <nav class="navbar mon-front" role="navigation">
+      <% if current_summoner.daily_bonus_time_left.floor > 0 %>
+        <div class="daily-reward-timer-box">
+          <%= image_tag("present-icon.png", 
+            class: "gift-icon") %>
+          <span>Gift in </span>
+          <br/>
+          <span class="daily-reward-timer">
+            <%= current_summoner.daily_bonus_time_left.floor %>
+          </span>
+        </div>
+      <% end %>
       <ul class="nav nav-pills main-nav" class="navigation">
-        <%= link_to image_tag("monbattle-logo.png", class: "navbar-logo"), home_sweet_home_path, class: "logo-link" %>
+        <%= link_to image_tag("monbattle-logo.png", class: "navbar-logo"), home_sweet_home_path, 
+          class: "logo-link" %>
         <button class="redeem-button">Redeem</button>
         <% if !user_signed_in? %>
           <li class="pull-right fb-nav sign-in">
@@ -92,6 +115,7 @@
 <!--               <a href="#" class="top-bar gift-but">
                 Gifting
               </a> -->
+              <%= link_to "Guild", gate_guilds_path, class: "top-bar gift-but"%>         
               <%= link_to "Forum", "http://monbattle.boards.net/", class: "top-bar forum-but", 
                     :target => '_blank' %>
               <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/quest-arrow.png", 

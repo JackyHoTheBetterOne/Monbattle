@@ -1,0 +1,70 @@
+@mixin stroke() {
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 
+               1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
+};
+
+@mixin stroky() {
+   text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 
+                2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000; 
+};
+
+.guild-panel {
+  position: relative;
+  height: 500px;
+  width: 960px;
+  background: #4B4B4B;
+  background-size: cover;
+  border-radius: 5px;
+  left: 15px;
+  top: -15px;
+  color: white;
+  text-align: center;
+  .guild-slide-title {
+    @include stroke();
+    text-align: left;
+    margin-left: 10px;
+    position: relative;
+    top: 10px;
+  };
+  .guild-slide-description {
+    @include stroke();
+    width: 650px;
+    text-align: center;
+    position: absolute;
+    right: 0px;
+    left: 0px;
+    margin: 20px auto;
+  };
+  .guild-button {
+    @include stroke();
+    height: 80px;
+    font-size: 180%;
+    width: 300px;
+    border: 2px solid black;
+    border-radius: 5px;
+    transition: 0.3s;
+    outline: none;
+    display: inline-block;
+    padding-top: 20px;
+    text-decoration: none;
+  };
+  .find-guild-link {
+    margin-top: 145px;
+    background: #43A047;
+  };
+  .create-guild-link {
+    margin-top: 35px;
+    background: #FFEA00;
+  };
+  .find-guild-link:hover, .create-guild-link:hover {
+    box-shadow: 0px 0px 15px yellow;
+  };
+};
+
+
+
+
+
+
+
+
