@@ -8,6 +8,10 @@ $ ->
     GUILD_LIST = {
       list: document.getElementsByClassName("guild-list")[0],
       search_field: document.getElementsByClassName("guild-search-field")[0],
+      overlay: document.getElementsByClassName("single-guild-overlay")[0],
+      overlay_box: document.getElementsByClassName("single-guild-for-view")[0],
+      close_button: " <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/cancel.png' 
+                      class='single-guild-close-but'>"
       getListings: ->
         return document.getElementsByClassName("single-guild-listing")
       search_ajax: ->
@@ -36,3 +40,27 @@ $ ->
     $(".guild-search-send").on "click", (event) ->
       event.preventDefault()
       GUILD_LIST.search_ajax()
+    $(document).on "click", ".further-guild-information", ->
+      $.ajax
+        url: "/guilds/" + $(this).data("name")
+        error: ->
+          alert("Can't get the guild's information")
+        success: (response) ->
+          page = document.createElement('div')
+          page.innerHTML = response
+          component = page.getElementsByClassName("individual-guild")[0]
+          GUILD_LIST.overlay_box.innerHTML = component.innerHTML
+          GUILD_LIST.overlay_box.innerHTML += GUILD_LIST.close_button
+          overlay = GUILD_LIST.overlay
+          overlay.style["z-index"] = "100000"
+          overlay.style["opacity"] = "1"
+          GUILD_LIST.overlay_box.className += " spaceInUp magictime"
+          $(".single-guild-close-but").on "click", ->
+            overlay.style["opacity"] = "0"
+            setTimeout (->
+              overlay.style["z-index"] = "-10"
+              GUILD_LIST.overlay_box.className = "single-guild-for-view individual-guild"
+            ), 500
+
+
+

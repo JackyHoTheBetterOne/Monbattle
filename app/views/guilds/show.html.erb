@@ -1,8 +1,12 @@
 <div class="guild-panel individual-guild">
-  <h3 class="guild-single-p-title">Your Guild</h3>
+  <h3 class="guild-single-p-title">Guild</h3>
   <% if current_summoner.is_leader(@guild) %>
     <%= link_to "Disband", @guild, method: :delete, 
       data: {confirm: "Are you sure? People are gonna be sad!"}, class: "main-guild-action-button" %>
+  <% elsif current_summoner.is_member(@guild) %>
+    <a href="#" class="leave-guild-but main-guild-action-button">Leave</a>
+  <% else %>
+    <a href="#" class="join-guild main-guild-action-button">Join</a>
   <% end %>
   <div class="single-guild-panel">
     <div class="guild-main-detail">

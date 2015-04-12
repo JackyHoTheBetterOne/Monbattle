@@ -4,7 +4,6 @@ class User::CodyUnlocky
   attribute :code, UnlockCode
   attribute :result, Hash
 
-# SecureRandom.urlsafe_base64(n)[0..n-1]
   def call
     case self.code.category
       when "monster"

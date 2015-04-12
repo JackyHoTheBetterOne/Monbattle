@@ -12,6 +12,7 @@ class Summoner < ActiveRecord::Base
   belongs_to :sub_led_guild, class_name: "Guild", foreign_key: "sub_led_guild_id"
   belongs_to :guild, class_name: "Guild"
   has_many :guild_messeages
+  has_many :notifications, as: :notificapable, dependent: :destroy
 
 
 
@@ -33,6 +34,14 @@ class Summoner < ActiveRecord::Base
 
   def is_leader(guild) 
     if guild.leader == self
+      return true
+    else
+      return false
+    end
+  end
+
+  def is_member(guild)
+    if guild.members.include?self
       return true
     else
       return false

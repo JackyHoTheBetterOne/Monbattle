@@ -1132,8 +1132,9 @@ window.singleTargetAbilityAfterActionDisplay = ->
   setTimeout (->
     toggleImg()
     availableAbilities()
-  ), 250
-  flashEndButton()
+    flashEndButton()
+  ), 300
+
 
 window.allyAbilityBeforeClickDisplay = ->
   $(".availability-arrow").each ->
@@ -1351,7 +1352,7 @@ window.flashEndButton = ->
     $(".end-turn").prop("disabled", false)
     $(".end-turn").css("opacity", "1")
     $(".end-turn").css("cursor", "pointer")
-  ), 500
+  ), 250
   $(".monBut button").each ->
     if $(this).parent().parent().children(".img").css("opacity") isnt "0" && $(this).attr("disabled") isnt "disabled"
       buttonArray.push $(this)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407221750) do
+ActiveRecord::Schema.define(version: 20150410215407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -452,16 +452,6 @@ ActiveRecord::Schema.define(version: 20150407221750) do
   add_index "monsters", ["personality_id"], name: "index_monsters_on_personality_id", using: :btree
   add_index "monsters", ["rarity_id"], name: "index_monsters_on_rarity_id", using: :btree
 
-  create_table "notications", force: true do |t|
-    t.string   "title"
-    t.text     "message"
-    t.text     "type"
-    t.text     "present_array", default: [], array: true
-    t.datetime "expiry_time"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "notice_types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -485,6 +475,22 @@ ActiveRecord::Schema.define(version: 20150407221750) do
     t.datetime "description_image_updated_at"
     t.boolean  "is_active",                      default: true
   end
+
+  create_table "notifications", force: true do |t|
+    t.string   "title"
+    t.text     "content"
+    t.string   "sent_by"
+    t.hstore   "information_object"
+    t.integer  "notificapable_id"
+    t.string   "notificapable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "category"
+    t.text     "code"
+  end
+
+  add_index "notifications", ["code"], name: "index_notifications_on_code", using: :btree
+  add_index "notifications", ["notificapable_id"], name: "index_notifications_on_notificapable_id", using: :btree
 
   create_table "parties", force: true do |t|
     t.integer  "user_id"

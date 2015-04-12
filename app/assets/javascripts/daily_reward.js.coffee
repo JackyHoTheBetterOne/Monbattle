@@ -29,8 +29,11 @@ $ ->
                 timer.innerHTML = 100
               else 
                 reward_message.innerHTML = "Come back tomorrow bitch"
-                window.clearInterval(dailyRewardGivingTimer)
-                $(".daily-reward-timer-box").remove()
+                timer.innerHTML = -10 
+                setTimeout (->
+                  window.clearInterval(dailyRewardGivingTimer)
+                  $(".daily-reward-timer-box").remove()
+                ), 500
         else 
           timer.innerHTML = seconds
   }
@@ -44,6 +47,7 @@ $ ->
     setTimeout (->
       overlay.style["z-index"] = "-1"
     ), 500
+
 
 
 

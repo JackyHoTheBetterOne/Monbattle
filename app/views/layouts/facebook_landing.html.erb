@@ -44,7 +44,7 @@
         <h3>You've received</h3>
         <%= image_tag("cancel.png", class: "daily-reward-screen-close") %>
         <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png", 
-              class: "daily-reward-logo") %>
+          class: "daily-reward-logo") %>
         <h3 class="daily-reward-number">100</h3>
         <h3 class="daily-reward-message">Second gift incoming!</h3>
       </div>
@@ -77,21 +77,33 @@
       </div>
     </div>
     <nav class="navbar mon-front" role="navigation">
-      <% if current_summoner.daily_bonus_time_left.floor > 0 %>
-        <div class="daily-reward-timer-box">
-          <%= image_tag("present-icon.png", 
-            class: "gift-icon") %>
-          <span>Gift in </span>
-          <br/>
-          <span class="daily-reward-timer">
-            <%= current_summoner.daily_bonus_time_left.floor %>
-          </span>
-        </div>
+      <% if current_user %>
+        <% if current_summoner.daily_bonus_time_left.floor > 0 %>
+          <div class="daily-reward-timer-box">
+            <%= image_tag("present-icon.png", 
+              class: "gift-icon") %>
+            <span>Gift in </span>
+            <br/>
+            <span class="daily-reward-timer">
+              <%= current_summoner.daily_bonus_time_left.floor %>
+            </span>
+          </div>
+        <% end %>
       <% end %>
       <ul class="nav nav-pills main-nav" class="navigation">
         <%= link_to image_tag("monbattle-logo.png", class: "navbar-logo"), home_sweet_home_path, 
           class: "logo-link" %>
-        <button class="redeem-button">Redeem</button>
+        <% if current_user %>
+          <button class="redeem-button">Redeem</button>
+          <button class="notification-toggle">N</button>
+          <div class="notification-dropdown">
+            <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/quest-arrow.png", 
+              class: "notification-dropdown-arrow") %>
+            <% current_summoner.notifications.each do |n| %>
+              <%= render partial: "layouts/notification", locals: {notification: n} %>
+            <% end %>
+          </div>
+        <% end %>
         <% if !user_signed_in? %>
           <li class="pull-right fb-nav sign-in">
             <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), 
