@@ -18,16 +18,16 @@ class User::NotificationResponse
       if decision == "yay"
         @guild.members << @summoner
         @guild.save
-        @notification = Notification.create!(title: "You have been accepted into " + @guild.name, 
-                          content: "Congratz! Now you can post in the guild's wall and join its battles",
-                          sent_by: "Monbattle", category: "message")
+        @noti = Notification.create!(title: "You have been accepted into " + @guild.name, 
+                  content: "Congratz! Now you can post in the guild's wall and join its battles",
+                  sent_by: "Monbattle", category: "message")
         @summoner.notifications << @notification
         @summoner.save
         self.message = "Congratz! You've gained a new member!"
       elsif decision == "nay"
-        @notification = Notification.create!(title: "You have been rejected by " + @guild.name, 
-                          content: "Don't despair! Go find yourself another guild to join!",
-                          sent_by: "Monbattle", category: "message")
+        @noti = Notification.create!(title: "You have been rejected by " + @guild.name, 
+                  content: "Don't despair! Go find yourself another guild to join!",
+                  sent_by: "Monbattle", category: "message")
         @summoner.notifications << @notification
         @summoner.save
         self.message = "Why? What's wrong with him/her?"
@@ -47,17 +47,7 @@ class User::NotificationResponse
         self.message = "You have gained a new monster, " + item.name +
                         "! Go to the team edit page to equip it!"
       end
-    when "guild_disband_message"
-      guild.members.each do |m|
-        notification = Notification.create!(title: "Your guild has been disbanded", 
-                                            content: "Everything is ok though. Go find yourself another guild!",
-                                            sent_by: "Monbattle", category: "message")
-        m.notifications << notification
-        m.save
-      end
-    when "guild_kick_message"
     end
+    self.notification.destroy
   end
-
-
 end

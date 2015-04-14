@@ -1,7 +1,14 @@
 class GuildsController < ApplicationController
   layout "facebook_landing"
+  before_action :find_guild, only: [:show]
+  before_action :find_guild_and_notify_members, only: [:destroy]
 
   def gate
+    if current_user.summoner.guild
+      redirect_to guild_path(current_user.summoner.guild)
+    else
+      render "gate"
+    end
   end
 
   def index
@@ -27,8 +34,8 @@ class GuildsController < ApplicationController
   end
 
   def show
-    @guild = GuildDecorator.new(Guild.friendly.find(params[:id]))
     @summoner = current_user.summoner
+    # !@summoner.guild &&
     if @guild.notifications.search_summoner_notification_request(@summoner.name).empty?
       @can_join = true
     else
@@ -36,8 +43,6 @@ class GuildsController < ApplicationController
     end
   end
 
-
-# !@summoner.guild &&
 
   def check_name_uniqueness
     name = params[:guild_name]
@@ -49,17 +54,48 @@ class GuildsController < ApplicationController
   end
 
   def destroy
-    @guild = Guild.friendly.find(params[:id])
     @guild.destroy
     redirect_to gate_guilds_path
   end
 
 
+  def kick_member
+    @guild = current_user.summoner.guild
+    p "////////////////////////////////////////////////////////////////////////"
+    p @guild
+    p "/////////////////////////////////////////////////////////////////////////"
+    @summoner = Summoner.find_by_name(params[:summoner_name])
+
+    notification = User::NotificationSending.new(type: "guild_kick_message", 
+                                                  guildy: @guild,
+                                                  summoner: @summoner)
+    notification.call
+
+    @summoner.led_guild = nil
+    @summoner.sub_led_guild = nil
+    @summoner.guild = nil
+    @summoner.save
+
+    render nothing: true
+  end
+
+
+
 
   private
+  def find_guild
+    @guild = GuildDecorator.new(Guild.friendly.find(params[:id]))
+  end
+
+
   def guild_params
     params.require(:guild).permit(:name, :description, :minimum_level)
   end
 
-
+  def find_guild_and_notify_members
+    @guild = Guild.friendly.find(params[:id])
+    notification = User::NotificationSending.new(type: "guild_disband_message", 
+                                                 summoner_array: @guild.members)
+    notification.call
+  end
 end

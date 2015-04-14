@@ -67,7 +67,6 @@ post 'notification_sending' => 'home#notification_sending'
 
 get 'guild_gate' => 'guilds#gate', as: :guild_gate
 
-
 get 'dick_fly' => 'home#dick_fly'
 
 
@@ -80,6 +79,7 @@ resources :users
 
 resources :guilds do 
   post :check_name_uniqueness, on: :collection
+  post :kick_member, on: :collection
 end
 
 

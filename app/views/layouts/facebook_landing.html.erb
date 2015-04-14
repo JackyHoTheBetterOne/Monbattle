@@ -134,7 +134,11 @@
 <!--               <a href="#" class="top-bar gift-but">
                 Gifting
               </a> -->
-              <%= link_to "Guild", guild_gate_path, class: "top-bar gift-but"%>         
+              <% if current_guild %>
+                <%= link_to "My Guild", guild_path(current_guild), class: "top-bar gift-but"%>    
+              <% else %>
+                <%= link_to "Join Guild", guild_gate_path, class: "top-bar gift-but" %>
+              <% end %>     
               <%= link_to "Forum", "http://monbattle.boards.net/", class: "top-bar forum-but", 
                     :target => '_blank' %>
               <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/quest-arrow.png", 

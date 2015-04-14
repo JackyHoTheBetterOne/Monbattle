@@ -27,8 +27,10 @@ class Summoner < ActiveRecord::Base
   def guild_title(guild)
     if guild.leader == self
       return "Leader"
-    else
-      ""
+    elsif guild.sub_leaders.include?self
+      "Sub-leader"
+    else 
+      return false
     end
   end
 

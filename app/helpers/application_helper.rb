@@ -31,5 +31,7 @@ module ApplicationHelper
     end
   end
 
-
+  def current_guild
+    current_user.summoner.guild
+  end
 end

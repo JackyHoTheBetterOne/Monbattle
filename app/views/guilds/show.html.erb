@@ -49,20 +49,24 @@
     </div>
     <div class="guild-member-list">
       <% @guild.members.each do |m| %>
-        <% 10.times do %>
-          <div class="member-box">
-            <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/guild-filler-logo.png", 
-              class: "guild-member-avatar")%>
-            <div class="member-detail-box">
-              <span class="guild-member-name"><%= m.name %></span>
-              <br />
-              <span class="guild-member-level">LV. <%= m.level %></span>
-            </div>
+        <div class="member-box">
+          <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/guild-filler-logo.png", 
+            class: "guild-member-avatar")%>
+          <div class="member-detail-box">
+            <span class="guild-member-name"><%= m.name %></span>
+            <br />
+            <span class="guild-member-level">LV. <%= m.level %></span>
+          </div>
+          <% if m.guild_title(@guild) %>
             <div class="member-title-box">
               <span class="guild-member-title"><%= m.guild_title(@guild) %></span>
             </div>
-          </div>
-        <% end %>
+          <% elsif current_led_guild %>
+            <button class="member-title-box member-kick-button" data-name="<%= m.name %>">
+              KICK
+            </button>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>

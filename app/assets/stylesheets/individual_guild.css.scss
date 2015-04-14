@@ -131,6 +131,22 @@
         color: #FFEA00;
         font-size: 130%;
       };
+      .member-kick-button {
+        background: #C62828;
+        width: 70px;
+        height: 36px;
+        padding-top: 1px;
+        padding-left: 6px;
+        color: white;
+        border-radius: 5px;
+        border: 2px solid black;
+        cursor: pointer;
+        outline: none;
+        transition: 0.3s;
+      };
+      .member-kick-button:hover {
+        box-shadow: 0px 0px 10px yellow;
+      };
     };
   };                                     
 };
