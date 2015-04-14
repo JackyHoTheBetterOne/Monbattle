@@ -77,6 +77,7 @@ $ ->
           alert("Can't send the guild request!")
         success: (response) ->
           $(button).fadeOut(500)
+          $(".guild-message-attached").text("Request sent").addClass("magictime boingInUp")
           
 
 
