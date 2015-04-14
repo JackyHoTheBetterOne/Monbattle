@@ -56,7 +56,7 @@ class GuildsController < ApplicationController
 
   def destroy
     @guild.destroy
-    redirect_to gate_guilds_path
+    render "gate"
   end
 
 
