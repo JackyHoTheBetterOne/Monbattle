@@ -28,7 +28,7 @@ $ ->
                 reward_message.innerHTML = "Second reward incoming"
                 timer.innerHTML = 100
               else 
-                reward_message.innerHTML = "Come back tomorrow bitch"
+                reward_message.innerHTML = "Come back tomorrow for more"
                 timer.innerHTML = -10 
                 setTimeout (->
                   window.clearInterval(dailyRewardGivingTimer)
