@@ -16,7 +16,7 @@
       data: {confirm: "Are you sure? People are gonna be sad!"}, 
       class: "main-guild-action-button" %>
   <% elsif current_summoner.is_member(@guild) %>
-    <a href="#" class="leave-guild-but main-guild-action-button">Leave</a>
+    <%= link_to "Leave", leave_guild_path,class: "leave-guild-but main-guild-action-button"%>
   <% elsif @can_join %>
     <a href="#" class="join-guild main-guild-action-button" 
       data-type="guild_join_request"

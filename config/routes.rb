@@ -66,6 +66,7 @@ post 'notification_action' => 'home#notification_action'
 post 'notification_sending' => 'home#notification_sending'
 
 get 'guild_gate' => 'guilds#gate', as: :guild_gate
+get 'guild_leave' => 'guilds#guild_leave', as: :leave_guild
 
 get 'dick_fly' => 'home#dick_fly'
 

@@ -34,6 +34,12 @@ class User::NotificationSending
                       category: "message", sent_by: "Monbattle")
       summoner.notifications << notification
       summoner.save
+    when "guild_leave_message"
+      notification = Notification.create!(title: summoner.name + " has left your guild!",
+                                          content: "Time to find a replacement!",
+                                          category: "message", sent_by: "Monbattle")
+      guildy.notifications << notification
+      guildy.save
     end
   end
 end
