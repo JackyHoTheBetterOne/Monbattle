@@ -2685,14 +2685,14 @@ $ ->
                   setTimeout (->
                     $("#animation-overlay").css({"opacity":"1", "z-index":"100000000000"})
                     $(".big-ass-monster").addClass("tinDownIn magictime")
-                  ), 250
+                  ), 400
                   setTimeout (->
                     $(".big-ass-monster").removeClass("tinDownIn magictime").addClass("tinUpOut magictime")
-                  ), 1250
+                  ), 1400
                   setTimeout (->
                     $("#animation-overlay").css({"opacity":"0", "z-index":"-10"})
                     $(".big-ass-monster").removeClass("tinUpOut tinDownIn magictime")
-                  ), 2250
+                  ), 2400
                   setTimeout (->
                     $(".availability-arrow").each ->
                       $(this).css("opacity","0")

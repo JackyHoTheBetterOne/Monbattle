@@ -266,11 +266,6 @@ class HomeController < ApplicationController
 
 
 
-
-
-
-
-
 #########################################################################
 
   def dick_fly
