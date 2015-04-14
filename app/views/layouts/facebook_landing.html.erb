@@ -43,7 +43,7 @@
       <div class="daily-reward-screen">
         <h3>You've received</h3>
         <%= image_tag("cancel.png", class: "daily-reward-screen-close") %>
-        <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png", 
+        <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/gp.png",
           class: "daily-reward-logo") %>
         <h3 class="daily-reward-number">100</h3>
         <h3 class="daily-reward-message">Second gift incoming!</h3>
@@ -99,8 +99,15 @@
           <div class="notification-dropdown">
             <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/quest-arrow.png", 
               class: "notification-dropdown-arrow") %>
+            <% if current_led_guild %>
+              <% current_led_guild.notifications.each do |n| %>
+                <%= render partial: "layouts/notification", 
+                  locals: {notification: n} %>    
+              <% end %>
+            <% end %>
             <% current_summoner.notifications.each do |n| %>
-              <%= render partial: "layouts/notification", locals: {notification: n} %>
+              <%= render partial: "layouts/notification", 
+                locals: {notification: n} %>
             <% end %>
           </div>
         <% end %>
@@ -127,7 +134,7 @@
 <!--               <a href="#" class="top-bar gift-but">
                 Gifting
               </a> -->
-              <%= link_to "Guild", gate_guilds_path, class: "top-bar gift-but"%>         
+              <%= link_to "Guild", guild_gate_path, class: "top-bar gift-but"%>         
               <%= link_to "Forum", "http://monbattle.boards.net/", class: "top-bar forum-but", 
                     :target => '_blank' %>
               <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/quest-arrow.png", 
@@ -139,7 +146,7 @@
           </li>
           <li class="<%= 'active' if current_page?(new_battle_path) ||
               request.original_url.include?("battles") %> pull-right fb-nav" class="party-setup">
-            <%= link_to "Quest", new_battle_path, class: "fb-nav", data: {} %>
+            <%= link_to "Battle", new_battle_path, class: "fb-nav nav-battle-button", data: {} %>
           </li>
           <li class="pull-right fb-nav quest-related">
             <a href="#" class="fb-nav quest-show">Tasks<span class="caret"></span></a>

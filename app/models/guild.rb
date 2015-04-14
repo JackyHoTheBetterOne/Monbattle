@@ -22,6 +22,7 @@ class Guild < ActiveRecord::Base
     end
   }
 
+
   def self.check_name_uniqueness(name)
     where(name: name).present?
   end

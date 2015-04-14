@@ -40,7 +40,8 @@ $ ->
     $(".guild-search-send").on "click", (event) ->
       event.preventDefault()
       GUILD_LIST.search_ajax()
-    $(document).on "click", ".further-guild-information", ->
+    $(document).off "click.further-guild-information"
+    $(document).on "click.further-guild-information", ".further-guild-information", ->
       $.ajax
         url: "/guilds/" + $(this).data("name")
         error: ->
@@ -61,6 +62,32 @@ $ ->
               overlay.style["z-index"] = "-10"
               GUILD_LIST.overlay_box.className = "single-guild-for-view individual-guild"
             ), 500
+    $(document).off "click.join-guild"
+    $(document).on "click.join-guild", ".join-guild", ->
+      button = $(this)
+      object = {}
+      object["type"] = $(this).data("type")
+      object["information_object"] = {}
+      object["information_object"]["guild_name"] = $(this).data("code")
+      $.ajax
+        url: "/notification_sending"
+        method: 'POST'
+        data: object
+        error: ->
+          alert("Can't send the guild request!")
+        success: (response) ->
+          $(button).fadeOut(500)
+          
+
+
+
+
+
+
+
+
+
+
 
 
 

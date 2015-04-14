@@ -1,0 +1,8 @@
+<div class="individual-notification-inside-panel" data-code="<%= notification.code %>">
+  <p class="notification-title"><%= notification.title %></p>
+  <p class="notification-content"><%= notification.content %></p>
+  <%= image_tag("cancel.png", class: "notification-decision notification-cross-mark", 
+    size: "30", data: {judgement: "nay"}) %>
+  <%= image_tag("check-mark-100.png", class: "notification-decision notification-check-mark", 
+    size: "30", data: {judgement: "yay"}) %>
+</div>

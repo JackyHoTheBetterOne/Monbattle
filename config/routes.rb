@@ -62,6 +62,11 @@ post 'add_request_token' => 'home#add_request_token'
 post 'add_accepted_request' => 'home#add_accepted_request'
 get 'check_permission' => 'home#check_permission'
 get 'giving_daily_reward' => 'home#give_daily_reward'
+post 'notification_action' => 'home#notification_action'
+post 'notification_sending' => 'home#notification_sending'
+
+get 'guild_gate' => 'guilds#gate', as: :guild_gate
+
 
 get 'dick_fly' => 'home#dick_fly'
 
@@ -74,7 +79,6 @@ resources :battle_levels
 resources :users
 
 resources :guilds do 
-  get :gate, on: :collection
   post :check_name_uniqueness, on: :collection
 end
 

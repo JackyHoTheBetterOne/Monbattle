@@ -28,7 +28,16 @@ class GuildsController < ApplicationController
 
   def show
     @guild = GuildDecorator.new(Guild.friendly.find(params[:id]))
+    @summoner = current_user.summoner
+    if @guild.notifications.search_summoner_notification_request(@summoner.name).empty?
+      @can_join = true
+    else
+      @can_join = false
+    end
   end
+
+
+# !@summoner.guild &&
 
   def check_name_uniqueness
     name = params[:guild_name]

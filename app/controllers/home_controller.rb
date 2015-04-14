@@ -182,15 +182,6 @@ class HomeController < ApplicationController
   def illegal_access
   end
 
-  def notification_action
-    notification = Notification.find_by_code(params[:code])
-    action = User::NotificationResponse.new(notification: notification, 
-                                            decision: params[:decision], 
-                                            summoner: current_user.summoner)
-    action.call
-    render text: action.message
-  end
-
 
   def event_levels
     @areas = Area.where("start_date IS NOT NULL").order(:end_date)
@@ -253,6 +244,32 @@ class HomeController < ApplicationController
     end
     render nothing: true
   end
+
+######################################################################### Notification actions
+  def notification_action
+    notification = Notification.find_by_code(params[:code])
+    action = User::NotificationResponse.new(notification: notification, 
+                                            decision: params[:decision], 
+                                            summoner: current_user.summoner)
+    action.call
+    render text: action.message
+  end
+
+
+  def notification_sending
+    sending = User::NotificationSending.new(type: params[:type],
+                                            information_object: params[:information_object],
+                                            summoner: current_user.summoner)
+    sending.call
+    render nothing: true
+  end
+
+
+
+
+
+
+
 
 #########################################################################
 

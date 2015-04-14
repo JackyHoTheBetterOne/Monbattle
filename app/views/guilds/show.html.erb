@@ -1,12 +1,28 @@
 <div class="guild-panel individual-guild">
+<!--   <button class="notification-toggle guilds-page">N</button>
+  <div class="notification-dropdown guild-dropdown">
+    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/quest-arrow.png", 
+      class: "notification-dropdown-arrow") %>
+    <% current_summoner.notifications.each do |n| %>
+      <%= render partial: "layouts/notification", 
+        locals: {notification: n} %>
+    <% end %>
+  </div> -->
+
+<!--   <h3 clas="guild-message-attached">Request sent</h3> -->
   <h3 class="guild-single-p-title">Guild</h3>
   <% if current_summoner.is_leader(@guild) %>
     <%= link_to "Disband", @guild, method: :delete, 
-      data: {confirm: "Are you sure? People are gonna be sad!"}, class: "main-guild-action-button" %>
+      data: {confirm: "Are you sure? People are gonna be sad!"}, 
+      class: "main-guild-action-button" %>
   <% elsif current_summoner.is_member(@guild) %>
     <a href="#" class="leave-guild-but main-guild-action-button">Leave</a>
-  <% else %>
-    <a href="#" class="join-guild main-guild-action-button">Join</a>
+  <% elsif @can_join %>
+    <a href="#" class="join-guild main-guild-action-button" 
+      data-type="guild_join_request"
+      data-code="<%= @guild.name %>">
+      Join
+    </a>
   <% end %>
   <div class="single-guild-panel">
     <div class="guild-main-detail">

@@ -19,4 +19,17 @@ module ApplicationHelper
   def current_summoner
     return current_user.summoner
   end
+
+  def current_led_guild
+    summoner = current_user.summoner
+    if summoner.led_guild
+      return summoner.led_guild
+    elsif summoner.sub_led_guild
+      return summoner.sub_led_guild
+    else 
+      return false
+    end
+  end
+
+
 end

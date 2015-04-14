@@ -2679,8 +2679,9 @@ $ ->
                     flashEndButton()
                   ), 1000
                 when "evolve"
+                  betterMon = battle.players[0].mons[targets[1]].mon_evols[0]
                   monster_image = $(".user .mon" + targets[1] + " .img.mon-battle-image").attr("src")
-                  $(".big-ass-monster").attr("src",monster_image)
+                  $(".big-ass-monster").attr("src", betterMon.image)
                   setTimeout (->
                     $("#animation-overlay").css({"opacity":"1", "z-index":"100000000000"})
                     $(".big-ass-monster").addClass("tinDownIn magictime")
@@ -2700,7 +2701,6 @@ $ ->
                     ability.remove()
                     abilityAnime = $(".single-ability-img")
                     targetMon = $(".0 .mon" + targets[1] + " " + ".img.mon-battle-image")
-                    betterMon = battle.players[0].mons[targets[1]].mon_evols[0]
                     oldMon = battle.players[0].mons[targets[1]]
                     findObjectInArray(effectBin, "target", oldMon.name)
                     i = 0
@@ -2714,7 +2714,8 @@ $ ->
                     abilityAnime.attr("src", betterMon.animation).finish().addClass "ability-on", ->
                       $(".battle").effect("shake")
                       targetMon.fadeOut 600, ->
-                        $(targetMon).finish().attr("src", betterMon.image).css({"display":"inline", "opacity":"0"})
+                        $(targetMon).finish().attr("src", betterMon.image).
+                          css({"display":"inline", "opacity":"0"})
                         setTimeout (->
                           abilityAnime.removeClass "ability-on"
                         ), 1000
