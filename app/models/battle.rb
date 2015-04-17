@@ -82,18 +82,19 @@ class Battle < ActiveRecord::Base
   end
 
   def victor_check
+    if self.battle_level.is_guild_level
+      guild_battle = Battle::GuildBattle.new(battle: self)
+      guild_battle.call
+    end
     if self.victor == "NPC"
       @loser = Summoner.find_summoner(self.loser)
       @loser.check_quest
     else
-      self.give_reward
+     end_battle = Battle::End.new(battle: self)
+     end_battle.call
     end
   end
 
-  def give_reward
-   end_battle = Battle::End.new(battle: self)
-   end_battle.call
-  end
 
   def distribute_quest_reward
     @victor = Summoner.find_summoner(self.victor)

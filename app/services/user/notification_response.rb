@@ -15,6 +15,9 @@ class User::NotificationResponse
     when "guild_request"
       @summoner = Summoner.find(notification.information_object["summoner_id"])
       @guild = Guild.find(notification.information_object["guild_id"])
+      if @summoner.guild
+        return self.message = "Sorry, this summoner has already joined a guild!"
+      end
       if decision == "yay"
         @guild.members << @summoner
         @guild.save
@@ -43,9 +46,13 @@ class User::NotificationResponse
                         "! Go to the ability teaching page to teach it!"
       else
         item = Monster.find(notification.information_object["monster_id"])
-        MonsterUnlock.create!(monster_id: item.id, user_id: id)
-        self.message = "You have gained a new monster, " + item.name +
-                        "! Go to the team edit page to equip it!"
+        if MonsterUnlock.where("monster_id = #{item.id} AND user_id = #{id}").empty?
+          MonsterUnlock.create!(monster_id: item.id, user_id: id)
+          self.message = "You have gained a new monster, " + item.name +
+                          "! Go to the team edit page to equip it!"
+        else 
+          self.message = "Sorry, it seems that you already own this monster!"
+        end
       end
     end
     self.notification.destroy

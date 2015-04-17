@@ -172,6 +172,18 @@ class BattleLevel < ActiveRecord::Base
 
 #################################################################################################### General method
 
+  def is_guild_level
+    area = self.area
+    if area
+      if area.is_guild
+        return area.is_guild
+      end
+    else
+      return false
+    end
+  end
+
+
   def has_cut_scene
     if self.start_cut_scenes.length == 0 && self.end_cut_scenes.length == 0
       return false

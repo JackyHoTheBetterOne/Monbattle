@@ -29,7 +29,7 @@ private
 
   def area_params
     params.require(:area).permit(:name, :unlocked_by_id, :order, 
-                                 :banner, :start_date, :end_date)
+                                 :banner, :start_date, :end_date, :is_guild)
   end
 
   def find_area

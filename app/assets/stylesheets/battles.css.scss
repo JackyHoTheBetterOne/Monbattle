@@ -46,8 +46,7 @@ $theme-background-color: rgba(32, 32, 32, 1);
 };
 
 .ability-on {
-  z-index: 100000000000000 !important;
-  visibility: visible !important;
+  z-index: 10000000 !important;
 };
 
 .aoePositionUser {
@@ -322,9 +321,8 @@ body {
   width: 135px;
   top: 200px;
   left: 80px;
-  z-index: -100000;
+  z-index: -10;
   outline: none;
-  visibility: hidden;
 };
 
 
@@ -332,9 +330,8 @@ body {
   position: absolute;
   height: 400px;
   width: 480px;
-  z-index: -100000;
+  z-index: -10;
   outline: none;
-  visibility: hidden;
 };
 
 .battle {

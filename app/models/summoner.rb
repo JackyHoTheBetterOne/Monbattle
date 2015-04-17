@@ -12,7 +12,9 @@ class Summoner < ActiveRecord::Base
   belongs_to :sub_led_guild, class_name: "Guild", foreign_key: "sub_led_guild_id"
   belongs_to :guild, class_name: "Guild"
   has_many :guild_messeages
+
   has_many :notifications, as: :notificapable, dependent: :destroy
+  has_many :scores, as: :scorapable, dependent: :destroy
 
 
 

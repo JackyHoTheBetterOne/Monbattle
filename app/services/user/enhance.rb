@@ -22,9 +22,8 @@ class User::Enhance
 
     if enhance_id
       @summoner = user.summoner
-      if @summoner.enh >= 10 && @summoner.gp >= 50
+      if @summoner.enh >= 10 
         @summoner.enh -= 10 
-        @summoner.gp -= 50
         @summoner.save
       end
       monster_id = Monster.find_by_name(enhance_id).id
