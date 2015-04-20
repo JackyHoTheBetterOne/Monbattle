@@ -1,6 +1,9 @@
 <tr id="<%= dom_id(battle_level) %>">
   <td><%= battle_level.id %></td>
-  <td><%= battle_level.name %></td>
+  <td>
+    <%= battle_level.name + " - " + battle_level.gbattle_weight_base.to_s + " - " + 
+      battle_level.gbattle_weight_turn.to_s %>
+  </td>
   <td><%= battle_level.order %></td>
   <td><%= battle_level.stamina_cost %></td>
   <td><%= battle_level.exp_given %></td>

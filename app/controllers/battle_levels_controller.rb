@@ -32,7 +32,7 @@ private
     params.require(:battle_level).permit(:id, :name, :background, :exp_given, :pity_reward, 
                                           :stamina_cost, :music,  :unlocked_by_id, :area_id, 
                                           :description, :victory_message, :ability_reward, 
-                                          :time_requirement, :order, :time_reward, :guild)
+                                          :time_requirement, :order, :time_reward, :gbattle_weight)
   end
 
   def find_battle_level

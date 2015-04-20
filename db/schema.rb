@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416190935) do
+ActiveRecord::Schema.define(version: 20150418005816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,15 +139,17 @@ ActiveRecord::Schema.define(version: 20150416190935) do
     t.text     "keywords"
     t.text     "description"
     t.text     "victory_message"
-    t.text     "ability_reward",   default: [],    array: true
-    t.integer  "stamina_cost",     default: 0
+    t.text     "ability_reward",      default: [],    array: true
+    t.integer  "stamina_cost",        default: 0
     t.string   "background"
     t.string   "music"
     t.integer  "time_requirement"
     t.integer  "order"
-    t.boolean  "event",            default: false
-    t.text     "time_reward",      default: [],    array: true
-    t.text     "pity_reward",      default: [],    array: true
+    t.boolean  "event",               default: false
+    t.text     "time_reward",         default: [],    array: true
+    t.text     "pity_reward",         default: [],    array: true
+    t.integer  "gbattle_weight_base", default: 0
+    t.integer  "gbattle_weight_turn", default: 0
   end
 
   add_index "battle_levels", ["area_id"], name: "index_battle_levels_on_area_id", using: :btree
@@ -323,6 +325,7 @@ ActiveRecord::Schema.define(version: 20150416190935) do
     t.datetime "updated_at"
     t.integer  "minimum_level", default: 0
     t.text     "keywords"
+    t.integer  "level",         default: 0
   end
 
   add_index "guilds", ["leader_id"], name: "index_guilds_on_leader_id", using: :btree
@@ -585,9 +588,9 @@ ActiveRecord::Schema.define(version: 20150416190935) do
     t.text     "code"
     t.integer  "battle_level_id"
     t.integer  "scorapable_id"
-    t.integer  "scorapable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "scorapable_type"
   end
 
   add_index "scores", ["code"], name: "index_scores_on_code", using: :btree

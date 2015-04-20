@@ -9,6 +9,7 @@ class BattleLevel < ActiveRecord::Base
   has_many :cut_scenes, dependent: :destroy
   has_many :monster_assignments
   has_many :monsters, through: :monster_assignments
+  has_many :scores, dependent: :destroy
 
   after_destroy :delete_party
   before_save :set_keywords

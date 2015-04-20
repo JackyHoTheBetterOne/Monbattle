@@ -434,7 +434,6 @@ a.fb-nav:hover {
   .individual-notification-inside-panel {
     @include stroke();
     position: relative;
-    height: 85px;
     width: 220px;
     padding-left: 3px;
     padding-right: 3px;
@@ -450,20 +449,18 @@ a.fb-nav:hover {
     };
     .notification-content {
       font-size: 75%;
-      margin-top: -10px;
+      margin-top: -6px;
       line-height: 14px;
+      margin-bottom: 18px;
+    };
+    .notification-decision {
+      cursor: pointer;
+      float: right;
+      margin-top: -18px;
     };
     .notification-check-mark {
-      position: absolute;
-      top: 50px;
-      right: 31px;
-      cursor: pointer;
     };
     .notification-cross-mark {
-      position: absolute;
-      top: 50px;
-      right: 1px;
-      cursor: pointer;
     };
   };
 };
