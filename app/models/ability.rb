@@ -239,7 +239,7 @@ class Ability < ActiveRecord::Base
 
   def as_json(options={})
     super(
-      :only => [:name, :ap_cost, :stat_change, :description],
+      :only => [:name, :ap_cost, :stat_change, :description, :sound],
       :methods => [:stat, :targeta, :rarita, :elementa, :change, 
                     :modifier, :img, :slot, :port],
       :include => {

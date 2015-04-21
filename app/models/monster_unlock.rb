@@ -214,6 +214,10 @@ class MonsterUnlock < ActiveRecord::Base
     self.monster.name
   end
 
+  def evolve_sound
+    self.monster.evolve_sound
+  end
+
   def max_hp
     self.monster.max_hp + self.level * 10
   end
@@ -274,7 +278,8 @@ class MonsterUnlock < ActiveRecord::Base
                          img:         ability.img,
                          slot:        ability.slot,
                          effects:     effect_array,
-                         rarita:      ability.rarita
+                         rarita:      ability.rarita,
+                         sound:       ability.sound
                         }
 
         ability.effects.each do |effect|
@@ -304,7 +309,8 @@ class MonsterUnlock < ActiveRecord::Base
                       animation: unlocked_evo.evolve_animation,
                       abilities: abil_array,
                       portrait:  unlocked_evo.mon_portrait(self.user),
-                      passive_ability: unlocked_evo.passive_ability
+                      passive_ability: unlocked_evo.passive_ability,
+                      evolve_sound: unlocked_evo.evolve_sound
                     }
 
       json_array.push(evolve_hash)

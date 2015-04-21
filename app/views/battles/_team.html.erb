@@ -5,17 +5,17 @@
     <p class="mon-name"><%= mon.name %></p>
     <button class="action attack" data-index= "0" data-apcost = "<%= mon.cost(0) %>"  
       data-target="attack" data-name="<%= mon.abilities[0].name %>"
-      onclick="playIt()" >
+      onclick="playIt()" data-sound = "<%= mon.abilities[0].sound %>" >
       <%= image_tag("attack_but.png", size: "40x40", class: "but-image") %>
     </button>
     <button class="action ability" data-index="1" data-apcost = "<%= mon.cost(1) %>"  
       data-target= "<%= mon.target(1) %>" data-name="<%= mon.abilities[1].name %>" 
-      onclick="playIt()" >
+      onclick="playIt()" data-sound = "<%= mon.abilities[1].sound %>" >
       <%= image_tag("ability_but.png", size: "40x40", class: "but-image") %>
     </button>
     <% if mon.unlocked_evolves.exists? %>
       <button class="action evolve" data-apcost = "<%= mon.unlocked_evolves[0].ap_cost %>" 
-        data-target = "evolve" onclick="playIt()" >
+        data-target = "evolve" onclick="playIt()" data-sound = "<%= mon.unlocked_evolves[0].evolve_sound %>" >
         <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/ascend_idle.svg", 
                         size: "40x40", class: "but-image") %>
       </button>

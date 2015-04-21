@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150418005816) do
+ActiveRecord::Schema.define(version: 20150421174629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20150418005816) do
     t.integer  "minimum"
     t.integer  "maximum"
     t.string   "image",                 default: "https://s3-us-west-2.amazonaws.com/monbattle/images/ability_animation/dark-bomb.svg"
+    t.text     "sound",                 default: "https://s3-us-west-2.amazonaws.com/monbattle/music/button-press-sound-fx.wav"
   end
 
   add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree
@@ -460,6 +461,7 @@ ActiveRecord::Schema.define(version: 20150418005816) do
     t.integer  "asp_cost",         default: 10
     t.integer  "max_level",        default: 10
     t.string   "evolve_animation", default: "https://s3-us-west-2.amazonaws.com/monbattle/images/ability_animation/evolution.svg"
+    t.text     "evolve_sound",     default: "https://s3-us-west-2.amazonaws.com/monbattle/music/button-press-sound-fx.wav"
   end
 
   add_index "monsters", ["element_id"], name: "index_monsters_on_element_id", using: :btree

@@ -33,6 +33,12 @@
         border-radius: 5px;
         box-shadow: 5px 5px 10px black;
         margin-bottom: 12px;
+        .guild-battle-clock {
+          position: absolute;
+          height: 35px;
+          top: 5px;
+          left: 5px;
+        };
         .event-name {
           @include stroky();
           position: absolute;
@@ -41,6 +47,13 @@
           text-align: center;
           bottom: 2px;
           color: blue;
+        };
+        .gbattle-time-left {
+          font-weight: bold;
+          position: absolute;
+          left: 45px;
+          top: -10px;
+          color: black;
         };
       };
     };

@@ -11,6 +11,17 @@ window.playIt = ->
       ";
   return true;
 
+window.hitIt = (url) ->
+  if $(".battle-music").prop("muted") is false and $(".mute-toggle img").attr("src") isnt "https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png"
+    document.getElementById("button-click").innerHTML= "
+        <audio controls autoplay class='hide'>
+          <source src='#{url}' type='audio/mpeg'>
+        </audio>
+      ";
+  return true;
+
+
+
 ######################################################################################################## Tutorial helpers
 window.endBattleTutorial = ->
   element = ".end-battle-box.winning"
@@ -1642,6 +1653,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
             window.targetIndex = findAliveFriends()[0].index
           else 
             window.targetIndex = findAliveEnemies()[0].index
+      sound = ability.sound
       switch ability.targeta
         when "attack"
           window.targets = [1].concat [monIndex, abilityIndex, targetIndex]
@@ -1662,6 +1674,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           setTimeout (->
             $(".single-ability-img").css({"z-index":"1000"})
               .attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/big-spark.gif").finish()
+            hitIt(sound)
             if targetMon.css("display") isnt "none"
               if enemyHurt.isAlive() is false
                 targetMon.effect("explode", {pieces: 30}, 1000).hide()
@@ -1692,6 +1705,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           singleTargetAbilityDisplayVariable()
           abilityAnime.css(targetPosition)
           abilityAnime.finish().attr("src", callAbilityImg).toggleClass "flipped ability-on", ->
+            hitIt(sound)
             action()
             if targetMon.css("display") isnt "none"
               if enemyHurt.isAlive() is false
@@ -1731,6 +1745,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           $(".ability-img").toggleClass aoePosition, ->
             element = $(this)
             element.finish().attr("src", callAbilityImg).toggleClass("flipped ability-on")
+            hitIt(sound)
             if teamIndex is 1
               $(".user.mon-slot .img").each ->
                 if $(this).parent().children(".img.mon-battle-image").css("display") isnt "none"
@@ -1772,6 +1787,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           $(".ability-img").toggleClass aoePosition, ->
             element = $(this)
             element.finish().attr("src", callAbilityImg).toggleClass("ability-on")
+            hitIt(sound)
             images = undefined
             if teamIndex is 1
               images = ".enemy.mon-slot .img.mon-battle-image"
@@ -1813,6 +1829,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           abilityAnime.css(targetPosition)
           action()
           abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
+            hitIt(sound)
             targetMon.effect "bounce",
               distance: 100
               times: 1
@@ -2522,6 +2539,7 @@ $ ->
               return
             window.targets = targets.concat(ability.data("index"))  if targets.length isnt 3
             if targets.length isnt 0
+              sound = $(ability).data("sound")
               switch ability.data("target")
   ########################################################################################################  Player ability interaction
                 when "attack"
@@ -2546,6 +2564,7 @@ $ ->
                       singleTargetAbilityDisplayVariable()
                       $(".single-ability-img").addClass("ability-on").
                         attr("src", "https://s3-us-west-2.amazonaws.com/monbattle/images/big-spark.gif").finish()
+                      hitIt(sound)
                       if targetMon.css("display") isnt "none"
                         if enemyHurt.isAlive() is false
                           targetMon.css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1000).hide()
@@ -2574,6 +2593,7 @@ $ ->
                     abilityAnime.css(targetPosition).finish()
                     action()
                     abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", -> 
+                      hitIt(sound)
                       if targetMon.css("display") isnt "none"
                         if enemyHurt.isAlive() is false
                           setTimeout (->
@@ -2606,6 +2626,7 @@ $ ->
                     abilityAnime.css(targetPosition)
                     action()
                     abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
+                      hitIt(sound)
                       targetMon.effect "bounce",
                           distance: 100
                           times: 1
@@ -2630,6 +2651,7 @@ $ ->
                     $(".ability-img").toggleClass "aoePositionFoe", ->
                       element = $(this)
                       element.attr("src", callAbilityImg).toggleClass "ability-on", ->
+                        hitIt(sound)
                         setTimeout (->
                           multipleAction()
                           $(".enemy.mon-slot .img").each ->
@@ -2657,6 +2679,7 @@ $ ->
                     $(".ability-img").toggleClass "aoePositionUser", ->
                       element = $(this)
                       element.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
+                        hitIt(sound)
                         $(".user.mon-slot .img").each ->
                           if battle.players[0].mons[$(this).data("index")].hp > 0
                             $(this).effect "bounce",
@@ -2725,6 +2748,7 @@ $ ->
                     abilityAnime.addClass("evolve-size")
                     abilityAnime.addClass(classio)
                     abilityAnime.finish().attr("src", betterMon.animation).addClass "ability-on",  ->
+                      hitIt(sound)
                       $(".battle").effect("shake")
                       targetMon.fadeOut 600, ->
                         $(targetMon).finish().attr("src", betterMon.image).
