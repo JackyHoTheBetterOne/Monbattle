@@ -13,10 +13,10 @@ $ ->
       document.getElementsByClassName("level-up-text")[0].style["opacity"] = "1"
       if document.getElementsByClassName("enhance-monster-but")
         document.getElementsByClassName("enhance-monster-but")[0].style.pointerEvents = "none"
-    ), 800
+    ), 1500
     setTimeout (->
       document.getElementsByClassName("level-up-text")[0].className = "level-up-text"
       document.getElementsByClassName("level-up-text")[0].className += " bounceOut animated"
       if document.getElementsByClassName("enhance-monster-but")
         document.getElementsByClassName("enhance-monster-but")[0].style.pointerEvents = "auto"
-    ), 2000
+    ), 3000

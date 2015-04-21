@@ -19,11 +19,11 @@ class Battle::New
   attribute :event_areas
 
   def call
-    @events = Area.where("start_date IS NOT NULL").order(:end_date)
+    @events = Area.where("start_date IS NOT NULL AND is_guild IS FALSE").order(:end_date)
     self.event_areas = []
 
     @events.each do |e|
-      if e.end_date > Time.now
+      if e.end_date > Time.now 
         self.event_areas << e
       end
     end
@@ -60,6 +60,7 @@ class Battle::New
       self.areas = Area.order(:order).filter(regions.last.name).unlocked_areas(summoner.completed_areas)
     end
 
+    self.areas = self.areas
     self.areas.reverse!
 
     if params_level_filter

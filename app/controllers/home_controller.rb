@@ -184,15 +184,10 @@ class HomeController < ApplicationController
 
 
   def event_levels
-    @areas = Area.where("start_date IS NOT NULL").order(:end_date)
-    @events = []
-
-    @areas.each do |a|
-      @events << a if a.end_date >= Time.now && a.start_date <= Time.now
-    end
+    @areas = Area.event_areas
 
     respond_to do |format|
-      format.json {render json: @events}
+      format.json {render json: @areas}
     end
   end
 

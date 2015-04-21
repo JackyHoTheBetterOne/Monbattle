@@ -30,6 +30,28 @@ $ ->
     $(this).addClass("current-currency-toggle")
   $(document).on "click.roll", ".king-roll, .queen-roll, .mon-roll", ->
     roll = $(this).data("roll")
+    object = {}
+    object["eventName"] = "SPENT_CREDITS"
+    object["value"] = undefined
+    if roll is "base" 
+      if window[roll + "_roll"] is "gp"
+        object["value"] = 100
+      else
+        object["value"] = 1
+    else if roll is "ascension"
+      if window[roll + "_roll"] is "gp"
+        object["value"] = 200
+      else
+        object["value"] = 2
+    else if roll is "monster"
+      if window[roll + "_roll"] is "gp"
+        object["value"] = 1000
+      else
+        object["value"] = 10
+    object["params"] = {}
+    object["params"][FB.AppEvents.ParameterNames.CONTENT_TYPE] = window[roll+"_roll"]
+    object["params"][FB.AppEvents.ParameterNames.CONTENT_ID] = window[roll+"_roll"]
+    facebookAnalytics(object)
     $.ajax 
       url: "/home/roll_treasure"
       method: "get"

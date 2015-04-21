@@ -1,0 +1,48 @@
+@mixin stroky() {
+  text-shadow: 1px 1px 0 #FFF, -1px -1px 0 #FFF, 
+               1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF; 
+};
+
+
+
+.guild-battle-listing {
+  .listing-panel {
+    top: 70px !important;
+    height: 85% !important;
+    .selection-title {
+      text-align: center;
+      margin: 22px auto;
+      position: absolute;
+      left: 0px;
+      right: 0px;
+    };
+    .listing-box {
+      position: absolute;
+      width: 570px;
+      left: 0px;
+      right: 0px;
+      margin: 0px auto;
+      top: 70px;
+      height: 350px;
+      overflow: scroll;
+      padding-right: 15px;
+      padding-left: 15px;
+      .individual-gbattle-listing {
+        position: relative;
+        height: 150px;
+        border-radius: 5px;
+        box-shadow: 5px 5px 10px black;
+        margin-bottom: 12px;
+        .event-name {
+          @include stroky();
+          position: absolute;
+          right: 0px;
+          left: 0px;
+          text-align: center;
+          bottom: 2px;
+          color: blue;
+        };
+      };
+    };
+  };
+};

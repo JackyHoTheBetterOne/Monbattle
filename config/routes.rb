@@ -70,6 +70,8 @@ get 'guild_leave' => 'guilds#guild_leave', as: :leave_guild
 
 get 'dick_fly' => 'home#dick_fly'
 
+get 'guild_battle_selection' => 'gbattle#selection', as: :gbattle_listing
+
 
 resources :home
 resources :admin

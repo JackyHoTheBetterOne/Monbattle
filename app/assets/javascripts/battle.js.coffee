@@ -1087,6 +1087,12 @@ window.outcome = ->
           endBattleTutorial()
         ), 1000
         if $(".level-up-box").length isnt 0
+          object = {}
+          object["eventName"] = "ACHIEVED_LEVEL"
+          object["value"] = null
+          object["params"] = {}
+          object["params"][FB.AppEvents.ParameterNames.LEVEL] = document.getElementById("summoner-new-level").innerHTML
+          facebookAnalytics(object)
           document.getElementById('winning').style.pointerEvents = 'none'
           setTimeout (->
             $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")
@@ -1213,7 +1219,7 @@ window.turnOnSummonerActions = ->
       alert("You don't have enough ap!")
   $(document).off "click.summoner_skill"
   $(document).on "click.summoner_skill", ".oracle-skill-icon", ->
-    $(".big-ass-monster").attr("src","https://s3-us-west-2.amazonaws.com/monbattle/images/main+chars/oracle-cutscene.svg").
+    $(".big-ass-monster").attr("src","https://s3-us-west-2.amazonaws.com/monbattle/images/Oracle-cutscene.svg").
       addClass("oracle-skill-cutscene")
     if $(this).data("apcost") <= battle.players[0].ap and battle.summonerCooldown is 0
       setTimeout (->

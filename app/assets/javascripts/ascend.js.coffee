@@ -10,6 +10,13 @@ $ ->
       $(".ascend-explanation").css("opacity", "0")
     ), 350
   $(document).on "click.ascension", ".unlock-ascension-but", (event) ->
+    object = {}
+    object["eventName"] = "SPENT_CREDITS"
+    object["value"] = document.getElementsByClassName("material-box")[0].getAttribute("data-aspcost")
+    object["params"] = {}
+    object["params"][FB.AppEvents.ParameterNames.CONTENT_TYPE] = "Ascension"
+    object["params"][FB.AppEvents.ParameterNames.CONTENT_ID] = "asp"
+    facebookAnalytics(object)
     cost = parseInt(document.getElementsByClassName("material-box")[0].
                       getAttribute("data-aspcost"))
     existing = parseInt(document.getElementsByClassName("material-box")[0].

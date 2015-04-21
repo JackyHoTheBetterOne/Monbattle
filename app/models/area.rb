@@ -12,6 +12,32 @@ class Area < ActiveRecord::Base
     end
   }
 
+
+  def self.event_areas
+    @areas = Area.where("start_date IS NOT NULL AND is_guild IS FALSE").order(:end_date)
+    @events = []
+
+    @areas.each do |a|
+      @events << a if a.end_date >= Time.now && a.start_date <= Time.now
+    end
+
+    return @events
+  end
+
+  def self.gbattle_areas
+    @areas = Area.where("start_date IS NOT NULL AND is_guild IS TRUE").order(:end_date)
+    @events = []
+
+    @areas.each do |a|
+      @events << a if a.end_date >= Time.now && a.start_date <= Time.now
+    end
+
+    return @events
+  end
+
+
+
+
 ############################################################################################### Decorating
 
   def region_name
