@@ -1,0 +1,81 @@
+.guild-battle-listing {
+  .single-guild-panel {
+    .gbattle-level-timer {
+      width: 475px;
+      text-align: center;
+    };
+    .guild-event-banner {
+      width: 465px;
+      height: 220px;
+      margin-left: 5px;
+      border-radius: 5px;
+      border: 2px solid black;
+    };
+    .battle-rank-information {
+      width: 430px;
+      height: 85px;
+      background: #1565C0;
+      border-radius: 5px;
+      margin-left: 20px;
+      margin-top: 10px;
+      box-shadow: inset 0px 1px 12px black;
+      text-align: center;
+      padding-top: 5px;
+      .rank-desc {
+        font-size: 150%;
+        width: 360px;
+        margin: 8px auto;
+        .rank-title {
+          float: left;
+        };
+        .rank-number {
+          float: right;
+        };
+      };
+    };
+    .guild-level-list {
+      width: 465px;
+      position: absolute;
+      height: 90%;
+      left: 476px;
+      top: 35px;
+      .staminacon {
+        left: 114px !important;
+        top: 0px !important;
+      };
+      .level-name .name {
+        top: 0px !important; 
+      };
+      .level-desc {
+        width: 424px !important;
+        top: 35px !important;
+      };
+    };
+    .gbattle-level-but {
+      height: 56px;
+      width: 170px;
+      background: #43A047;
+      margin-top: 8px;
+      display: inline-block;
+      border-radius: 5px;
+      border: 2px solid black;
+      box-shadow: 5px 5px 10px black;
+      text-align: center;
+      font-size: 120%;
+      padding-top: 2px;
+    };
+    .individual-reward-but {
+      margin-left: 20px;
+    };
+    .guild-reward-but {
+      margin-left: 86px;
+    };
+    .gbatlte-level-list-title {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      width: 475px;
+      text-align: center;
+    };
+  };
+};

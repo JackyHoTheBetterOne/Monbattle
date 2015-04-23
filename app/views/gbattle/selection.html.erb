@@ -1,23 +1,17 @@
 <div class="guild-panel individual-guild guild-battle-listing">
+  <a href="#" class="guild-selection-but raid-explanation">
+    What's Raid
+  </a>
+  <a href="#" class="guild-selection-but raid-battle-link">
+    Guild Battle
+  </a>
+  <a href="#" class="guild-selection-but raid-individual-rank-link">
+    Individual Rank
+  </a>
+  <a href="#" class="guild-selection-but raid-guild-rank-link">
+    Guild Rank
+  </a>
   <div class="single-guild-panel listing-panel">
-    <h2 class="selection-title">
-      Guild Event Selection
-    </h2>
-    <div class="listing-box">
-      <% @areas.each do |a| %>
-        <% 5.times do %>
-          <div class="individual-gbattle-listing" 
-            style="background: url('<%= a.banner %>'); background-size: cover;">
-            <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/clock.png", 
-              class: "guild-battle-clock") %>
-            <% html = "
-                  <h3 class='gbattle-time-left'> #{a.time_left['days']} d #{a.time_left['hours']} h left</h3>
-            " %>
-            <%= html.html_safe %>
-            <h2 class="event-name"><%= a.name %></h2>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
+    <%= render "#{@partial}" %>
   </div>
 </div>

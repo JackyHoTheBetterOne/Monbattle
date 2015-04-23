@@ -3,12 +3,46 @@
                1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF; 
 };
 
+@mixin stroke() {
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 
+               1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
+};
 
 
 .guild-battle-listing {
+  .guild-selection-but {
+    @include stroke();
+    height: 55px;
+    width: 150px;
+    position: absolute;
+    font-size: 120%;
+    padding-top: 25px;
+    border-radius: 5px;
+    top: 4px;
+    right: 0px;
+    text-align: center;
+    text-decoration: none;
+  };
+  .raid-explanation {
+    background: #ffea00;
+    left: 6px;
+  };
+  .raid-battle-link {
+    background: #EF6C00;
+    left: 165px;
+  };
+  .raid-guild-rank-link {
+    background: #1565C0;
+    right: 7px;
+  };
+  .raid-individual-rank-link {
+    background: #43A047;
+    right: 166px;
+  };
   .listing-panel {
-    top: 70px !important;
-    height: 85% !important;
+    border: 2px solid black;
+    top: 65px !important;
+    height: 86.5% !important;
     .selection-title {
       text-align: center;
       margin: 22px auto;
@@ -23,7 +57,7 @@
       right: 0px;
       margin: 0px auto;
       top: 70px;
-      height: 350px;
+      height: 355px;
       overflow: scroll;
       padding-right: 15px;
       padding-left: 15px;

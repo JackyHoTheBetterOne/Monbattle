@@ -71,6 +71,8 @@ get 'guild_leave' => 'guilds#guild_leave', as: :leave_guild
 get 'dick_fly' => 'home#dick_fly'
 
 get 'guild_battle_selection' => 'gbattle#selection', as: :gbattle_listing
+get 'guild_leadership_board' => 'gbattle#guild_leadership_board', as: :guild_leadership
+get 'guild_battle_area_levels' => 'gbattle#guild_battle_area_levels', as: :guild_levels
 
 
 resources :home

@@ -14,7 +14,7 @@ class Battle::End
       @level = SummonerLevel.find_by_level(@victorious_summoner.level+1)
       @victorious_summoner.summoner_level = @level
       @victorious_summoner.stamina = @level.stamina
-      if @level.level == 2
+      if @level.level == 7
         @user = @victorious_summoner.user
         @user.request_ids.each do |r|
           @user = User.select{|u| u.invite_ids.include?(r)}

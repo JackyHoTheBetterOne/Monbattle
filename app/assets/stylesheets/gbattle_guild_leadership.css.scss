@@ -1,0 +1,71 @@
+@mixin stroke() {
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 
+               1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
+};
+
+.single-guild-panel.listing-panel {
+  .leadership-heading {
+    @include stroke();
+    text-align: center;
+    width: 100px;
+    position: absolute;
+  };
+  .title-points {
+    left: 412px;
+  };
+  .title-battles {
+    left: 285px;
+  };
+  .title-guild {
+    left: 64px;
+  };
+  .title-rank {
+    left: -10px;
+  };
+  .guild-ranking-listing {
+    position: absolute;
+    width: 490px;
+    height: 385px;
+    top: 40px;
+    left: 5px;
+    padding-left: 3px;
+    border-radius: 5px;
+    .single-guild-leadership-listing {
+      display: inline-block;
+      height: 58px;
+      width: 495px;
+      background: #4B4B4B;
+      margin-bottom: 4px;
+      font-size: 140%;
+      box-shadow: inset 0px 1px 12px black;
+      border-radius: 5px;
+      position: relative;
+      .single-guild-stats {
+        position: absolute;
+        top: 15px;
+      };
+      .guild-battle-points {
+        right: 10px;
+      };
+      .guild-battle-count {
+        left: 300px;
+      };
+      .guild-avatar {
+        height: 46px;
+        border-radius: 5px;
+        left: 88px;
+        position: absolute;
+        top: 6px;
+      };
+      .rank {
+        left: 30px;
+      };
+      .guild-name {
+        left: 148px;
+        width: 136px;
+        top: 8px;
+        line-height: 22px;
+      };
+    };
+  };
+};
