@@ -7,6 +7,8 @@ class GbattleController < ApplicationController
   end
 
   def guild_leadership_board
+    @area = Area.find_by_name(params[:area_name])
+    @scores = ScoreDecorator.collection(Score.guild_scores(params[:area_name]))
     @partial = "guild_leadership"
     render "selection"
   end
@@ -14,11 +16,8 @@ class GbattleController < ApplicationController
   def guild_battle_area_levels
     @partial = "guild_battle_levels"
     @area = Area.find_by_name(params[:area_name])
-    @levels = @area.battle_levels
+    @levels = @area.battle_levels.order(:order)
 
     render "selection"
   end
-
-
-
 end

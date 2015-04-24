@@ -1,5 +1,5 @@
 <h4 class="gbattle-level-timer">
-  You wanna do me in the butt? In the butt? Ok.
+  This event ends in <%= @area.time_left %>
 </h4>
 <%= image_tag(@area.banner, class: "guild-event-banner") %>
 <div class="battle-rank-information">
@@ -23,24 +23,19 @@
 </h4>
 <div class="level-description guild-level-list">
   <%= form_for(Battle.new) do |f| %>
-    <button class="pick-level">
-      <span class="level-name">
-        <span class="name">Dragon's asshole</span>
-        <span class="staminacon">
-          <%= image_tag("stamina.png", size: "25x25") %> 5
+    <% @levels.each do |b| %>
+      <button class="pick-level" name="battle[battle_level_id]"
+          type="submit" value="<%= b.id %>">
+        <span class="level-name">
+          <span class="name"><%= b.name %></span>
+          <span class="staminacon">
+            <%= image_tag("stamina.png", size: "25x25") %> <%= b.stamina_cost %>
+          </span>
         </span>
-      </span>
-      <div class="level-desc">
-        When I was young, I'd listen to the radio. Listen to my favorite song. When they play, I'll sing along. It makes me smile.
-      </div>
-    </button>
-    <button class="pick-level">
-      <span class="level-name">
-        <span class="name">Dragon's asshole</span>
-        <span class="staminacon">
-          <%= image_tag("stamina.png", size: "25x25") %> 5
-        </span>
-      </span>
-    </button>
+        <div class="level-desc">
+          <%= b.description %>
+        </div>
+      </button>
+    <% end %>
   <% end %>
 </div>

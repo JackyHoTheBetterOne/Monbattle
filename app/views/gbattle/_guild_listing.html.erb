@@ -4,17 +4,21 @@
 <div class="listing-box">
   <% @areas.each do |a| %>
     <% 5.times do %>
-      <div class="individual-gbattle-listing" 
+<!--       <a class="individual-gbattle-listing" 
         style="background: url('<%= a.banner %>'); background-size: cover;">
-        <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/clock.png", 
-          class: "guild-battle-clock") %>
-        <% html = "
-              <h3 class='gbattle-time-left'> #{a.time_left['days']} 
-              d #{a.time_left['hours']} h left</h3>
-        " %>
-        <%= html.html_safe %>
-        <h2 class="event-name"><%= a.name %></h2>
-      </div>
+            </a> -->
+
+      <% html = "
+        <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/clock.png'
+          class= 'guild-battle-clock'>
+        <h3 class='gbattle-time-left'> #{a.time_left}</h3>
+        <h2 class='event-name'>#{a.name}</h2>
+      " %>
+
+      <%= link_to html.html_safe, guild_levels_path(area_name: a.name), 
+        class: "individual-gbattle-listing",
+        style: "background: url('#{a.banner}'); background-size: cover;" %>
+        
     <% end %>
   <% end %>
 </div>

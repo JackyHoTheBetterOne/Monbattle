@@ -185,11 +185,11 @@ window.fixEvolMon = (monster, player) ->
         index = monTarget.unidex
         if monTarget.passive_ability
           if monTarget.passive_ability.rarita is "effect-passive"
-            i = 0
+            index2 = 0
             effect_count = monTarget.passive_ability.effects.length
-            while i < effect_count
-              monTarget.passive_ability.effects[i].activate [monster]
-              i++
+            while index2 < effect_count
+              monTarget.passive_ability.effects[index2].activate [monster]
+              index2++
         fatigue_effect = 1 - monster.fatigue*0.1
         monTarget.isAlive()
         if monTarget.isAlive()
@@ -2185,7 +2185,7 @@ $ ->
         $(".battle").css({"background": "url(#{battle.background})", "background-repeat":"none", "background-size":"cover"})
         battle.totalTurnDamage = 0
         battle.apGainCost = 20
-        battle.round = 0
+        battle.round = 1
         battle.maxAP = 40
         battle.summonerCooldown = 0
         battle.calculateAP = ->

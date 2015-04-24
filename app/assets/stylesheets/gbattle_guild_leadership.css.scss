@@ -11,10 +11,10 @@
     position: absolute;
   };
   .title-points {
-    left: 412px;
+    left: 845px;
   };
   .title-battles {
-    left: 285px;
+    left: 376px;
   };
   .title-guild {
     left: 64px;
@@ -32,8 +32,8 @@
     border-radius: 5px;
     .single-guild-leadership-listing {
       display: inline-block;
-      height: 58px;
-      width: 495px;
+      height: 55px;
+      width: 930px;
       background: #4B4B4B;
       margin-bottom: 4px;
       font-size: 140%;
@@ -45,26 +45,26 @@
         top: 15px;
       };
       .guild-battle-points {
-        right: 10px;
+        right: 15px;
       };
       .guild-battle-count {
-        left: 300px;
+        left: 390px;
       };
       .guild-avatar {
-        height: 46px;
+        height: 40px;
         border-radius: 5px;
         left: 88px;
         position: absolute;
-        top: 6px;
+        top: 8px;
       };
       .rank {
         left: 30px;
       };
       .guild-name {
         left: 148px;
-        width: 136px;
-        top: 8px;
+        width: 222px;
         line-height: 22px;
+        top: 17px;
       };
     };
   };

@@ -80,7 +80,7 @@ class Battle::Unlock
         end
       end
 
-      if !level.event
+      if !level.event && !level.is_guild_level
         if !region_array.include?level.area.region.name
           region_cleared = 0
           level.area.region.areas.each do |a|

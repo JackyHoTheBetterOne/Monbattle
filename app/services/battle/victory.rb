@@ -160,7 +160,7 @@ class Battle::Victory
     end
 
     if self.reward_category == "monster" or self.reward_category == "ability"
-      if self.battle_level.event == false
+      if self.battle_level.event == false && !self.battle_level.is_guild_level
         self.share_message = summoner.user.first_name + " has beaten " + battle_level.name + " in " + 
                               battle_level.area.region.name + " and has unlocked a new " + self.reward_category + ", " +
                               self[self.reward_category].name + "!"
@@ -170,7 +170,7 @@ class Battle::Victory
                               self[self.reward_category].name + "!"
       end
     else
-      if self.battle_level.event == false
+      if self.battle_level.event == false && !self.battle_level.is_guild_level
         self.share_message = summoner.user.first_name + " has beaten " + battle_level.name + " in " + 
                               battle_level.area.region.name + " !"
       else

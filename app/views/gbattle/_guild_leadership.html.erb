@@ -5,25 +5,24 @@
   <h4 class="leadership-heading title-points">Points</h4>
 </div>
 <div class="guild-ranking-listing">
-  <div class="single-guild-leadership-listing">
-    <span class="single-guild-stats rank">1</span>
-    <span class="single-guild-stats guild-name">Dick Fight Club</span>
-    <%= 
-      image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg", 
-        class: "guild-avatar")
-    %>
-    <span class="single-guild-stats guild-battle-count">10000</span>
-    <span class="single-guild-stats guild-battle-points">10000</span>
-  </div>
-
-  <div class="single-guild-leadership-listing">
-    <span class="single-guild-stats rank">1</span>
-    <span class="single-guild-stats guild-name">Dick Fight Club</span>
-    <%= 
-      image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg", 
-        class: "guild-avatar")
-    %>
-    <span class="single-guild-stats guild-battle-count">10000</span>
-    <span class="single-guild-stats guild-battle-points">10000</span>
-  </div>
+  <% @scores.each do |s| %>
+    <div class="single-guild-leadership-listing">
+      <span class="single-guild-stats rank">
+        <%= @scores.index(s) + 1 %>
+      </span>
+      <span class="single-guild-stats guild-name">
+        <%= s.parent_name %>
+      </span>
+      <%= 
+        image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg", 
+          class: "guild-avatar")
+      %>
+      <span class="single-guild-stats guild-battle-count">
+        <%= s.num_of_battles %>
+      </span>
+      <span class="single-guild-stats guild-battle-points">
+        <%= s.points  %>
+      </span>
+    </div>
+  <% end %>
 </div>

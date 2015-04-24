@@ -6,6 +6,8 @@ class Area < ActiveRecord::Base
   before_save :set_keywords
   validates :name, presence: true, uniqueness: true
 
+  has_many :scores
+
   scope :filter, -> (filter) {
     if filter.present?
       joins(:region).where("regions.name = ?", "#{filter}")
@@ -61,13 +63,21 @@ class Area < ActiveRecord::Base
       date = {}
       general_days = (self.end_date - Time.now)/60/60/24
       days = general_days.floor
-      hours = ((general_days - days)*24).floor
+      true_hours = ((general_days - days)*24)
+      hours = true_hours.floor
+      minutes = ((true_hours - hours)*60).floor
 
       date["days"] = days
       date["hours"] = hours
+      date["minutes"] = minutes
 
-      return date
+      sentence = ""
 
+      sentence += (date["days"].to_s + " d") if date["days"] != 0
+      sentence += (" " + date["hours"].to_s + " h")
+      sentence += (" " + date["minutes"].to_s + " m left")
+
+      return sentence
     else
       return ""
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421174629) do
+ActiveRecord::Schema.define(version: 20150424181358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -588,13 +588,15 @@ ActiveRecord::Schema.define(version: 20150421174629) do
   create_table "scores", force: true do |t|
     t.integer  "points"
     t.text     "code"
-    t.integer  "battle_level_id"
     t.integer  "scorapable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "scorapable_type"
+    t.integer  "num_of_battles",  default: 1
+    t.integer  "area_id"
   end
 
+  add_index "scores", ["area_id"], name: "index_scores_on_area_id", using: :btree
   add_index "scores", ["code"], name: "index_scores_on_code", using: :btree
   add_index "scores", ["scorapable_id"], name: "index_scores_on_scorapable_id", using: :btree
 

@@ -23,6 +23,10 @@
     text-align: center;
     text-decoration: none;
   };
+  .area-name {
+    position: absolute;
+    left: 500px;
+  };
   .raid-explanation {
     background: #ffea00;
     left: 6px;
@@ -67,6 +71,7 @@
         border-radius: 5px;
         box-shadow: 5px 5px 10px black;
         margin-bottom: 12px;
+        display: block;
         .guild-battle-clock {
           position: absolute;
           height: 35px;

@@ -13,6 +13,7 @@ class BattleLevel < ActiveRecord::Base
 
   after_destroy :delete_party
   before_save :set_keywords
+  before_save :set_event_status
 
   scope :search, -> (keyword) {
     if keyword.present?
@@ -215,4 +216,13 @@ class BattleLevel < ActiveRecord::Base
                      self.ability_given].map(&:downcase).
                      concat([time_requirement]).join(" ")
   end
+
+  def set_event_status
+    if self.area
+      if self.area.start_date != nil && !self.event && !self.area.is_guild
+        self.event = true
+      end
+    end
+  end
+
 end

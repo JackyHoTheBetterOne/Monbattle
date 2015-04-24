@@ -2,15 +2,18 @@
   <a href="#" class="guild-selection-but raid-explanation">
     What's Raid
   </a>
-  <a href="#" class="guild-selection-but raid-battle-link">
-    Guild Battle
-  </a>
-  <a href="#" class="guild-selection-but raid-individual-rank-link">
-    Individual Rank
-  </a>
-  <a href="#" class="guild-selection-but raid-guild-rank-link">
-    Guild Rank
-  </a>
+  <%= link_to "Guild Battle", gbattle_listing_path, 
+    class: "guild-selection-but raid-battle-link" %>
+  <% if @area %>
+    <h3 class="area-name"><%= @area.name %> - </h3>
+    <%= link_to "Individual Rank", guild_leadership_path(area_name: @area.name), 
+      class: "guild-selection-but raid-individual-rank-link" %>
+    <%= link_to "Guild Rank", guild_leadership_path(area_name: @area.name), 
+      class: "guild-selection-but raid-guild-rank-link" %>
+  <% end %>
+
+
+
   <div class="single-guild-panel listing-panel">
     <%= render "#{@partial}" %>
   </div>
