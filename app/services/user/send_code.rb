@@ -4,6 +4,7 @@ class User::SendCode
   include Virtus.model
   attribute :users, Array
   attribute :codes, Array
+
   attribute :to, Array
   attribute :merge_vars, Array
 
