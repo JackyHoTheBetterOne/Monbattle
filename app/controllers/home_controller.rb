@@ -6,6 +6,7 @@ require 'net/http'
 
 
 class HomeController < ApplicationController
+  include Checky
   layout "facebook_landing"
   before_action :find_user, :find_ability_purchases, only: [:index, :abilities_for_mon]
   before_action :check_energy

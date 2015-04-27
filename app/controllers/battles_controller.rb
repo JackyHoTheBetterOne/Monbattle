@@ -1,4 +1,5 @@
 class BattlesController < ApplicationController
+  include Checky
   impressionist :unique => [:controller_name, :action_name, :session_hash]
 
   before_action :find_battle, except: [:create, :index, :new]

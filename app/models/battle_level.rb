@@ -177,9 +177,7 @@ class BattleLevel < ActiveRecord::Base
   def is_guild_level
     area = self.area
     if area
-      if area.is_guild
-        return area.is_guild
-      end
+      return area.is_guild
     else
       return false
     end

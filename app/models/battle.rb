@@ -118,7 +118,7 @@ class Battle < ActiveRecord::Base
     level = self.battle_level
     level_id = level.id
     scaling = level.gbattle_weight_scaling
-    count = Battle.find_out_how_many_wins(level_id, party_id)
+    count = Battle.find_out_how_many_wins(level_id, party_id).count
     battle_json = {}
     battle_json[:summoner_abilities] = Ability.joins(:rarity).where("rarities.name = 'oracle'").map(&:as_json)
     battle_json[:level_name] = self.battle_level.name
