@@ -137,6 +137,8 @@ class Battle < ActiveRecord::Base
     if self.battle_level.is_guild_level && count > 0
       difficulty_multiplier = scaling**count
       battle_json[:players][1]["mons"].each do |m|
+        m["hp"] = m["hp"]*difficulty_multiplier
+        m["max_hp"] = m["max_hp"] * difficulty_multiplier
         m["abilities"].each do |a|
           number = a["change"].to_i
           a["change"] = (number*difficulty_multiplier).to_s
