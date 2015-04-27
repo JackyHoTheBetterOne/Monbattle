@@ -6,21 +6,21 @@
 .single-guild-panel.listing-panel {
   .leadership-heading {
     @include stroke();
-    text-align: center;
+    text-align: left;
     width: 100px;
     position: absolute;
   };
   .title-points {
-    left: 845px;
+    left: 868px;
   };
   .title-battles {
     left: 376px;
   };
   .title-guild {
-    left: 64px;
+    left: 86px;
   };
   .title-rank {
-    left: -10px;
+    left: 17px;
   };
   .guild-ranking-listing {
     position: absolute;
@@ -48,7 +48,7 @@
         right: 15px;
       };
       .guild-battle-count {
-        left: 390px;
+        right: 499px;
       };
       .guild-avatar {
         height: 40px;
@@ -58,7 +58,7 @@
         top: 8px;
       };
       .rank {
-        left: 30px;
+        right: 878px;
       };
       .guild-name {
         left: 148px;

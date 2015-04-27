@@ -87,7 +87,7 @@ class BattlesController < ApplicationController
     if @battle.impressionist_count <= 2 || current_user.admin
       respond_to do |format|
         format.html { render layout: "facebook_landing" }
-        format.json { render json: @battle.build_json  }
+        format.json { render json: @battle.build_json(current_user.parties[0].id) }
       end
     else
       redirect_to new_battle_path

@@ -1,0 +1,20 @@
+.for-real {
+  .guild-panel.individual-guild.guild-battle-listing {
+    .single-guild-panel.listing-panel {
+      .title-individual-battles-count {
+        left: 655px;
+      };
+      .guild-ranking-listing.individual-listing {
+        .single-guild-stats.guild-name {
+          width: 200px;
+        };
+        .individual-rank-guild-name {
+          left: 370px;
+        };
+        .individual-rank-battle-count {
+          right: 220px;
+        };
+      };
+    };
+  };
+};

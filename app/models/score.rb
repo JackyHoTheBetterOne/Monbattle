@@ -9,6 +9,11 @@ class Score < ActiveRecord::Base
   }
 
 
+  scope :individual_scores, -> (area_name) {
+    joins(:area).where("scorapable_type LIKE 'Summoner' AND areas.name LIKE '#{area_name}'").
+      order(:points)
+  }
+
   scope :search_summoner_level_score, -> (id_object) {
     area_id = id_object[:area_id]
     summoner_id = id_object[:summoner_id]

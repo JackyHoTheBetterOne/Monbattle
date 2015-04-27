@@ -22,6 +22,10 @@ class Battle < ActiveRecord::Base
     joins(:fights).where(finished: date, "fights.party_id" => party.id)
   }
 
+  scope :find_out_how_many_wins, -> (level_id, party_id) {
+    joins(:parties).where("victor != 'NPC' AND battle_level_id = #{level_id} AND parties.id = #{party_id}")
+  }
+
   aasm do
     state :battling, :initial => true
     state :hacked
@@ -110,7 +114,11 @@ class Battle < ActiveRecord::Base
 
 ############################################################################################## General methods
 
-  def build_json
+  def build_json(party_id)
+    level = self.battle_level
+    level_id = level.id
+    scaling = level.gbattle_weight_scaling
+    count = Battle.find_out_how_many_wins(level_id, party_id)
     battle_json = {}
     battle_json[:summoner_abilities] = Ability.joins(:rarity).where("rarities.name = 'oracle'").map(&:as_json)
     battle_json[:level_name] = self.battle_level.name
@@ -125,6 +133,21 @@ class Battle < ActiveRecord::Base
     self.parties.order(:npc).each do |party|
       battle_json[:players] << party.as_json
     end
+
+    if self.battle_level.is_guild_level && count > 0
+      difficulty_multiplier = scaling**count
+      battle_json[:players][1]["mons"].each do |m|
+        m["abilities"].each do |a|
+          number = a["change"].to_i
+          a["change"] = (number*difficulty_multiplier).to_s
+          a["effects"].each do |e|
+            number = e["change"].to_i
+            e["change"] = (number*difficulty_multiplier).to_s      
+          end
+        end
+      end
+    end
+
 
     return battle_json
   end

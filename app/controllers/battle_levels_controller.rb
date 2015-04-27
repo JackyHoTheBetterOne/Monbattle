@@ -32,7 +32,8 @@ private
                                           :stamina_cost, :music,  :unlocked_by_id, :area_id, 
                                           :description, :victory_message, :ability_reward, 
                                           :time_requirement, :order, :time_reward, 
-                                          :gbattle_weight_base, :gbattle_weight_turn)
+                                          :gbattle_weight_base, :gbattle_weight_turn,
+                                          :gbattle_weight_time, :gbattle_weight_scaling)
   end
 
   def find_battle_level

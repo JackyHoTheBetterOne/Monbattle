@@ -1,0 +1,32 @@
+<div>
+  <h4 class="leadership-heading title-rank">Rank</h4>
+  <h4 class="leadership-heading title-guild">Avatar</h4>
+  <h4 class="leadership-heading title-battles">Guild</h4>
+  <h4 class="leadership-heading title-points">Points</h4>
+  <h4 class="leadership-heading title-individual-battles-count">Battles</h4>
+</div>
+<div class="guild-ranking-listing individual-listing">
+  <% @scores.each do |s| %>
+    <div class="single-guild-leadership-listing">
+      <span class="single-guild-stats rank">
+        <%= @scores.index(s) + 1 %>
+      </span>
+      <span class="single-guild-stats guild-name">
+        <%= s.parent_name %>
+      </span>
+      <%= 
+        image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg", 
+          class: "guild-avatar")
+      %>
+      <span class="single-guild-stats individual-rank-guild-name">
+        <%= s.guild_name %>
+      </span>
+      <span class="single-guild-stats individual-rank-battle-count">
+        <%= s.num_of_battles %>
+      </span>
+      <span class="single-guild-stats guild-battle-points">
+        <%= s.points  %>
+      </span>
+    </div>
+  <% end %>
+</div>

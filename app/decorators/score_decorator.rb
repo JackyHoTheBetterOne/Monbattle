@@ -21,6 +21,18 @@ class ScoreDecorator
     @score.scorapable.level
   end
 
+  def guild_name
+    if @score.scorapable_type == "Summoner"
+      return @score.scorapable.guild.name
+    else
+      return ""
+    end
+  end
+
+
+
+
+
   def method_missing(method_name, *args, &block)
     score.send(method_name, *args, &block)
   end

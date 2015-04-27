@@ -73,6 +73,7 @@ get 'dick_fly' => 'home#dick_fly'
 get 'guild_battle_selection' => 'gbattle#selection', as: :gbattle_listing
 get 'guild_leadership_board' => 'gbattle#guild_leadership_board', as: :guild_leadership
 get 'guild_battle_area_levels' => 'gbattle#guild_battle_area_levels', as: :guild_levels
+get 'guild_individual_leadership_board' => 'gbattle#individual_leadership_board', as: :guild_individual_leadership
 
 
 resources :home

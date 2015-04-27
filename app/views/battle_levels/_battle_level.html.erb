@@ -3,8 +3,13 @@
   <td>
     <%= battle_level.name %>
     <br />
-    <%= "base: " + battle_level.gbattle_weight_base.to_s + ", turn: " + 
-      battle_level.gbattle_weight_turn.to_s %>
+    <%= "base: " + battle_level.gbattle_weight_base.to_s %>
+    <br />
+    <%= "turn: " + battle_level.gbattle_weight_turn.to_s %>
+    <br />
+    <%= "time: " + battle_level.gbattle_weight_time.to_s %>
+    <br />
+    <%= "scaling: " + battle_level.gbattle_weight_scaling.to_s %>
   </td>
   <td><%= battle_level.order %></td>
   <td><%= battle_level.stamina_cost %></td>
