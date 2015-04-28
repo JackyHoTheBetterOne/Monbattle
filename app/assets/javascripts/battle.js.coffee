@@ -2326,6 +2326,7 @@ $ ->
             monster.unidex = monster.team.toString()+monster.index.toString()
             window["change" + monster.unidex] = 0
             fixEvolMon(monster, player)
+            hpChangeBattle()
   #################################################################################################################  Battle general interaction
         window.documentURLObject = window.battle.monAbility.toString() + window.battle.players[0].commandMon.toString() + 
                                                                         window.battle.players[1].commandMon.toString()

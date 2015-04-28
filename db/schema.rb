@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150425004116) do
+ActiveRecord::Schema.define(version: 20150427232947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(version: 20150425004116) do
     t.text     "pity_reward",            default: [],    array: true
     t.integer  "gbattle_weight_base",    default: 0
     t.integer  "gbattle_weight_turn",    default: 0
-    t.integer  "gbattle_weight_scaling", default: 0
+    t.float    "gbattle_weight_scaling", default: 0.0
     t.integer  "gbattle_weight_time",    default: 0
   end
 
