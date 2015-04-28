@@ -6,9 +6,10 @@ class User::DailyReward
   attribute :type
 
   def call
+    @summoner = Summoner.find(summoner.id)
     self.reward_amount = ""
     if summoner.daily_reward_given_first == false || summoner.daily_reward_given_second == false
-      if summoner.daily_reward_giving_time + 20.seconds >= Time.now
+      if summoner.daily_reward_giving_time + 30.seconds >= Time.now
         type_array = ["enh", "asp", "gp"]
         reward_type = type_array.sample
         if !summoner.daily_reward_given_first
@@ -29,12 +30,12 @@ class User::DailyReward
     end
     if summoner.daily_reward_given_first == false && summoner.daily_reward_given_second == false
       self.type = "first"
-      summoner.daily_reward_given_first = true
-      summoner.daily_reward_giving_time = Time.now + 2.minutes
+      @summoner.daily_reward_given_first = true
+      @summoner.daily_reward_giving_time = Time.now + 2.minutes
     elsif summoner.daily_reward_given_first
       self.type = "second"
-      summoner.daily_reward_given_second = true
+      @summoner.daily_reward_given_second = true
     end
-    summoner.save
+    @summoner.save
   end
 end

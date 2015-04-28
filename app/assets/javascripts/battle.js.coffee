@@ -1103,7 +1103,7 @@ window.outcome = ->
           object["value"] = null
           object["params"] = {}
           object["params"][FB.AppEvents.ParameterNames.LEVEL] = document.getElementById("summoner-new-level").innerHTML
-          facebookAnalytics(object)
+          facebookAnalytics(object) if window.name != ""
           document.getElementById('winning').style.pointerEvents = 'none'
           setTimeout (->
             $(".level-up-box").addClass("zoomInUp animated").css("opacity", "1")

@@ -5,7 +5,7 @@ class Battle::GuildBattle
   def call
     @battle_level = battle.battle_level
     @area = @battle_level.area
-    @summoner = Summoner.find_by_name(battle.victor)
+    @summoner = User.find_by_user_name(battle.victor).summoner
     @guild = @summoner.guild
     id_object = {area_id: @area.id, summoner_id: @summoner.id}
     @summoner_score = Score.search_summoner_level_score(id_object)[0]
@@ -34,7 +34,6 @@ class Battle::GuildBattle
         @guild_score.num_of_battles += 1
         @guild_score.save
       end
-    else
     end
   end
 end

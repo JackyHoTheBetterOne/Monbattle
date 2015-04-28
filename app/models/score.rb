@@ -5,13 +5,13 @@ class Score < ActiveRecord::Base
 
   scope :guild_scores, -> (area_name) {
     joins(:area).where("scorapable_type LIKE 'Guild' AND areas.name LIKE '#{area_name}'").
-      order(:points)
+      order("points DESC")
   }
 
 
   scope :individual_scores, -> (area_name) {
     joins(:area).where("scorapable_type LIKE 'Summoner' AND areas.name LIKE '#{area_name}'").
-      order(:points)
+      order("points DESC")
   }
 
   scope :search_summoner_level_score, -> (id_object) {

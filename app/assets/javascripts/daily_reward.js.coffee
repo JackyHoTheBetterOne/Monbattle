@@ -13,11 +13,15 @@ $ ->
       if seconds >= 0
         seconds -= 1 if seconds isnt 0 
         if seconds == 0
+          console.log("wtf is going on")
           $.ajax
-            url: "/giving_daily_reward"
+            url: "/giving_daily_reward.json"
+            dataType: "json"
+            method: "get"
             error: ->
               alert("Daily reward giving failure")
             success: (response) ->
+              console.log(response)
               reward_amount.innerHTML = response.amount
               reward_icon.setAttribute("src", response.icon)
               reward_overlay.style["background"] = "rgba(0,0,0,0.9)"
