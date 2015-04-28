@@ -217,8 +217,12 @@ class BattleLevel < ActiveRecord::Base
 
   def set_event_status
     if self.area
-      if self.area.start_date != nil && !self.event && !self.area.is_guild
+      if self.area.start_date != nil && !self.area.is_guild
         self.event = true
+        return true
+      else 
+        self.event = false
+        return true
       end
     end
   end

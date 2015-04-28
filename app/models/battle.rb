@@ -136,9 +136,6 @@ class Battle < ActiveRecord::Base
 
     if self.battle_level.is_guild_level && count > 0
       difficulty_multiplier = scaling**count
-      p "////////////////////////////////////////////////////////"
-      p difficulty_multiplier
-      p "///////////////////////////////////////////////////////"
       battle_json[:players][1]["mons"].each do |m|
         health = m["hp"] * difficulty_multiplier
         m[:hp] = health.to_i

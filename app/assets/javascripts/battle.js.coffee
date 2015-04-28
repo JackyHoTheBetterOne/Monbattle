@@ -1150,7 +1150,7 @@ window.singleTargetAbilityAfterActionDisplay = ->
     toggleImg()
     availableAbilities()
     flashEndButton()
-  ), 300
+  ), 750
 
 
 window.allyAbilityBeforeClickDisplay = ->
@@ -1225,6 +1225,9 @@ window.turnOnSummonerActions = ->
         availableAbilities()
         zetBut()
         flashEndButton()
+        setTimeout (->
+          availableAbilities()
+        ), 500
       ), 750
     else 
       alert("You don't have enough ap!")
@@ -1261,6 +1264,7 @@ window.turnOnSummonerActions = ->
           $(".cooldown-count").text("2")
           apChange()
           flashEndButton()
+          availableAbilities()
         ), 2500
       ), 2500
 
@@ -2779,6 +2783,9 @@ $ ->
                     ), 2400
                     return
                   ), 2500
+              setTimeout (->
+                availableAbilities()
+              ), 3000
             else
               $(ability).add(".ap").effect("highlight", {color: "red"}, 100)
               $(".end-turn").prop("disabled", false)

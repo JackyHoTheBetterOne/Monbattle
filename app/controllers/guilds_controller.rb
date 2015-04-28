@@ -1,4 +1,5 @@
 class GuildsController < ApplicationController
+  include Checky
   layout "facebook_landing"
   before_action :find_guild, only: [:show]
   before_action :find_guild_and_notify_members, only: [:destroy]

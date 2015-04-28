@@ -1,7 +1,7 @@
 -@monster = monster
 tr id=dom_id(monster)
   td
-    h3.name =monster.name
+    h3.name =monster.id.to_s + ": " + monster.name
     hr
     -if monster.evolved_from.blank?
       =render partial: "admin/modal_button", locals: {monster: monster, modal_label: "monsterTemplateLabel_#{dom_id(monster)}", modal_id: "monsterTemplateModal_#{dom_id(monster)}", form_is_for: "monsters/form", button_name: "Edit Monster", form_title: "Edit Monster"}

@@ -15,6 +15,7 @@
     .col-md-1.col-abils
       .pull-right
         p S# #{ability.abil_socket.socket_num}
+        p id: #{ability.id}
         =f.hidden_field :abil_socket_id, value: ability.abil_socket_id
       .pull-left
         p AP:#{f.text_field :ap_cost, class: "cost-input"}
