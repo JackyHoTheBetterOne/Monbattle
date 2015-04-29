@@ -8,7 +8,6 @@ class Score < ActiveRecord::Base
       order("points DESC")
   }
 
-
   scope :individual_scores, -> (area_name) {
     joins(:area).where("scorapable_type LIKE 'Summoner' AND areas.name LIKE '#{area_name}'").
       order("points DESC")
@@ -25,6 +24,17 @@ class Score < ActiveRecord::Base
     guild_id = id_object[:guild_id]
     where("scorapable_type = 'Guild' AND area_id = #{area_id} AND scorapable_id = #{guild_id}")
   }
+
+
+  def summoner_rank(summoner_id)
+    
+    
+  end
+
+  def guild_rank(guild_id)
+
+  end
+
 
 
 end

@@ -22,7 +22,8 @@
   <% end %>
   <% if @victory.is_guild %>
     <%= link_to image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/next.png", class: "next-but"), 
-        gbattle_listing_path, class: "end-battle-but level-select-but battle-fin" %>
+        guild_levels_path(area_name: @victory.battle_level.area.name), 
+        class: "end-battle-but level-select-but battle-fin" %>
     <p class="extra-reward-title guild-reward">Guild points earned: </p>
     <p class="guild-reward-points-earned"><%= @victory.points_given %></p> 
   <% else %>

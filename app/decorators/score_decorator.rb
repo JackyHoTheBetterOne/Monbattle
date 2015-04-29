@@ -1,8 +1,10 @@
 class ScoreDecorator 
   attr_reader :score
+  attr_reader :area
 
   def initialize(score)
     @score = score
+    @area = score.area
   end
 
   def self.collection(scores)
@@ -30,6 +32,13 @@ class ScoreDecorator
   end
 
 
+  def rank(summoner_id)
+    if @score.scorapable_type == "Guild"
+      Score.guild_scores(@area.name).pluck(:id).index(@score.id) + 1
+    else
+      Score.individual_scores(@area.name).pluck(:id).index(@score.id) + 1
+    end
+  end
 
 
 

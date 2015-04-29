@@ -24,6 +24,11 @@ class Guild < ActiveRecord::Base
     end
   }
 
+  scope :score_search, -> (area_id, guild_id) {
+    joins(:scores).where("scores.area_id = #{area_id} AND scores.scorapable_type = 'Guild' AND scores.scorapable_id = #{guild_id}").
+      order("scores.points DESC").pluck(:id)
+  }
+
 
   def self.check_name_uniqueness(name)
     where(name: name).present?

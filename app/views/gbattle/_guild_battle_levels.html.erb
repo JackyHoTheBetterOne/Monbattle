@@ -3,13 +3,25 @@
 </h4>
 <%= image_tag(@area.banner, class: "guild-event-banner") %>
 <div class="battle-rank-information">
-  <div class="rank-desc individual-rank">
-    <span class="rank-title">Your Individual Rank:</span> 
-    <span class="rank-number">20</span>
-  </div>
   <div class="rank-desc guild-rank">
     <span class="rank-title">Your Guild Rank:</span> 
-    <span class="rank-number">2</span>
+    <span class="rank-number">
+      <%= @guild_score.rank(current_summoner.id) %>
+    </span>
+  </div>
+  <br />
+  <div class="rank-desc individual-rank">
+    <span class="rank-title">Your Individual Rank:</span> 
+    <span class="rank-number">
+      <%= @summoner_score.rank(current_summoner.id) %>
+    </span>
+  </div>
+  <br />
+  <div class="rank-desc">
+    <span class="rank-title">Your Points:</span> 
+    <span class="rank-number">
+      <%= @summoner_score.points %>
+    </span>
   </div>
 </div>
 <div class="individual-reward-but gbattle-level-but">
