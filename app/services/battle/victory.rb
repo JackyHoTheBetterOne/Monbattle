@@ -12,6 +12,7 @@ class Battle::Victory
   attribute :reward_category
   attribute :first_cleared
   attribute :round_taken 
+  attribute :time_taken
   attribute :slot
   attribute :class_list
   attribute :level_cleared
@@ -22,9 +23,11 @@ class Battle::Victory
   attribute :new_stamina
   attribute :reward_tier
 
-
   attribute :first_time
   attribute :share_message
+
+  attribute :is_guild
+  attribute :points_given
 
 
 
@@ -34,6 +37,17 @@ class Battle::Victory
     self.reward = nil
     self.reward_tier = nil
     @user = summoner.user
+
+    self.is_guild = battle_level.is_guild_level
+
+    if is_guild
+      base_index = battle_level.gbattle_weight_base
+      turn_index = battle_level.gbattle_weight_turn
+      time_index = battle_level.gbattle_weight_time
+      score = base_index + base_index * (turn_index/self.round_taken.to_i) + base_index * (time_index/self.time_taken.to_i*60)
+      score = score.round
+      self.points_given = score
+    end
 
     if summoner.beaten_levels.include? battle_level.name
       self.first_cleared = false

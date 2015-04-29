@@ -22,8 +22,8 @@
           button.event_click.mode_select#event
             = image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/event.png", data: {count: @event_count}, class: "event-click-image")
             p Event
-          button.raid_click.mode_select#raid
-            = image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/swords.png")
+          a.raid_click.mode_select#raid href="/guild_battle_selection"
+            = image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/swords.png", data: {count: @raid_count}, class: "raid-click-image")
             p Raid
       .user_team
         h2.the_obvious Your Team

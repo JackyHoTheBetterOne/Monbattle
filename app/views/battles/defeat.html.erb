@@ -17,7 +17,12 @@
         <%= image_tag("restart-icon-new.png", class: "restart-icon battle-fin", size: "50x50") %>
       </button>
     <% end %>
-    <%= link_to image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/next.png", class: "next-but"), 
+    <% if @battle.battle_level.is_guild_level %>
+      <%= link_to image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/next.png", class: "next-but"), 
+        gbattle_listing_path, class: "end-battle-but level-select-but battle-fin" %>   
+    <% else %>
+      <%= link_to image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/next.png", class: "next-but"), 
         new_battle_path, class: "end-battle-but level-select-but battle-fin" %>
+    <% end %>
   <% end %>
 </div>

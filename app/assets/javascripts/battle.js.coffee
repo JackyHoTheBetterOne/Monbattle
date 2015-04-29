@@ -979,7 +979,7 @@ window.checkOutcome = ->
           setTimeout (->
             $("p.dam").promise().done ->
               outcome()
-          ), 500
+          ), 1000
     ), 1000
 
 window.outcome = ->
@@ -1013,7 +1013,7 @@ window.outcome = ->
     $.ajax
       url: "/battles/" + battle.id + outcome_url
       method: "get"
-      data: {round_taken: parseInt(battle.round), "muted": muted},
+      data: {round_taken: parseInt(battle.round), "muted": muted, time_taken: parseInt(seconds_taken)},
       success: (response) ->
         setTimeout (->
           $.ajax
@@ -1150,7 +1150,10 @@ window.singleTargetAbilityAfterActionDisplay = ->
     toggleImg()
     availableAbilities()
     flashEndButton()
-  ), 750
+  ), 1000
+  setTimeout (->
+    availableAbilities()
+  ), 1500
 
 
 window.allyAbilityBeforeClickDisplay = ->

@@ -17,6 +17,7 @@ class Battle::New
   attribute :is_event
   attribute :messages
   attribute :event_areas
+  attribute :raid_count
 
   def call
     @events = Area.where("start_date IS NOT NULL AND is_guild IS FALSE").order(:end_date)
@@ -70,7 +71,7 @@ class Battle::New
     end
 
     self.levels.reverse!
-
+    self.raid_count = Area.gbattle_areas.count
     if user 
       self.monsters = user.parties.first.monster_unlocks
     end

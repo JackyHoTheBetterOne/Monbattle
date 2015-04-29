@@ -47,6 +47,7 @@ class BattlesController < ApplicationController
     @summoner = current_user.summoner if current_user
     @event_areas = new_battle.event_areas
     @event_count = new_battle.event_areas.count
+    @raid_count = new_battle.raid_count
     @recently_unlocked_level = @summoner.recently_unlocked_level
     unlock_message(@summoner)
 
@@ -135,6 +136,7 @@ class BattlesController < ApplicationController
     victory = Battle::Victory.new(summoner: current_user.summoner, 
                                   battle_level: @battle.battle_level,
                                   round_taken: params[:round_taken],
+                                  time_taken: params[:time_taken],
                                   reward_num: session[:reward_num])
 
     victory.call
