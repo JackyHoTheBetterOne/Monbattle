@@ -2783,7 +2783,7 @@ $ ->
                       ), 400
                       flashEndButton()
                       return
-                    ), 2400
+                    ), 2200
                     return
                   ), 2500
               setTimeout (->

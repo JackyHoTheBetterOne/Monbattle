@@ -51,7 +51,7 @@ $ ->
     object["params"] = {}
     object["params"][FB.AppEvents.ParameterNames.CONTENT_TYPE] = window[roll+"_roll"]
     object["params"][FB.AppEvents.ParameterNames.CONTENT_ID] = window[roll+"_roll"]
-    facebookAnalytics(object)
+    facebookAnalytics(object) if window.name != ""
     $.ajax 
       url: "/home/roll_treasure"
       method: "get"
