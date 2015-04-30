@@ -6,7 +6,8 @@
 </div>
 <div class="guild-ranking-listing">
   <% @scores.each do |s| %>
-    <div class="single-guild-leadership-listing">
+    <div class="single-guild-leadership-listing" 
+      style="<%= s.leadership_border(current_guild) %>">
       <span class="single-guild-stats rank">
         <%= @scores.index(s) + 1 %>
       </span>

@@ -41,6 +41,15 @@ class ScoreDecorator
   end
 
 
+  def leadership_border(current_object)
+    if current_object.name == @score.scorapable.name
+      return 'border: 1px solid yellow'
+    else  
+      return ''
+    end
+  end
+
+
 
   def method_missing(method_name, *args, &block)
     score.send(method_name, *args, &block)
