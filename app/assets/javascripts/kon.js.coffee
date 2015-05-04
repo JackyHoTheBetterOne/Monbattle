@@ -2,8 +2,9 @@ $ ->
   # function onComplete () {
   #   window.kongregate = kongregateAPI.getAPI();
   # }
-  kongregateAPI.loadAPI(onComplete)
-  $("body").prepend('<p>' + JSON.stringify(kongregateAPI) + '</p>')
-  $("body").prepend('<h3>' + JSON.stringify(kongregate) + ' testing</h3>')
+  # kongregateAPI.loadAPI(onComplete)
+  console.log(window.kongregate = kongregateAPI.getAPI())
+  $(".forest").prepend('<div>' + JSON.stringify(kongregateAPI) + '</div> <br />')
+  $(".forest").prepend('<div>' + JSON.stringify(kongregate) + ' testing</div>')
   kongregate.services.showRegistrationBox()
   kongregateAPI.loadAPI()
