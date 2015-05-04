@@ -43,6 +43,28 @@ class User < ActiveRecord::Base
     end
   }
 
+  def self.method_missing(method_name, *args)
+    methods_allowed = [:responsible_find_by_kon_id, :responsible_find_by_user_name]
+    if methods_allowed.include?(method_name)
+      self.class.class_eval do 
+        define_method(method_name) do |a|
+          name_string = method_name.to_s
+          method = "find_by_" + name_string.gsub("responsible_find_by_", "")
+          begin
+            self.send(method.to_sym, a)
+          rescue
+            nil
+          end
+        end
+      end
+      self.send(method_name, *args)
+    else
+      super
+    end
+  end
+
+
+
 ############################################################################################################# Decoration
 
   def battle_count

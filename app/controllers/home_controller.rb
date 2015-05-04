@@ -241,6 +241,7 @@ class HomeController < ApplicationController
     render nothing: true
   end
 
+
 ######################################################################### Notification actions
   def notification_action
     notification = Notification.find_by_code(params[:code])
@@ -259,6 +260,17 @@ class HomeController < ApplicationController
     sending.call
     render nothing: true
   end
+
+
+######################################################################### User account check and create
+  def kon_user_account_checking
+    user_array = User.kon_search(params[:name])
+    if user_array.length 
+    end
+
+  end
+
+
 
 
 
