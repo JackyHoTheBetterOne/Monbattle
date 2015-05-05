@@ -274,10 +274,10 @@ window.fixEvolMon = (monster, player) ->
             monTarget.isAlive()
         i++
       if ability.effects.length isnt 0 ####################################################### Effect activation from ability
-        index = 0
+        i = 0
         length = ability.effects.length
         while i < length
-          effect = a.effects[i]
+          effect = ability.effects[i]
           switch effect.targeta
             when "taunt", "poison-hp", "timed-phy-resist-buff", "timed-phy-resist-debuff"
                   , "timed-spe-resist-buff", "timed-spe-resist-debuff", "shield", "aoe-curse"
@@ -892,7 +892,7 @@ window.checkMonHealthAfterEffect = ->
     battle.players[1].mons[i].isAlive()
     i++
 
-window.addEffectIcon = (monster, effect, fatigue_effect) -> 
+window.addEffectIcon = (monster, effect, fatigue_effect) ->
   e = Object.create(effect)
   e.target = battle.players[effect.teamDex].mons[effect.monDex].name if effect.targeta is "taunt"
   e.enemyDex = monster.team
@@ -1859,6 +1859,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
 ############################################################################################################### AI action happening
 window.ai = ->
   xadBuk()
+  $(".mon-battle-image").addClass("borderless-box")
   $(".total-damage-per-turn").css("opacity", "0")
   setTimeout (->
     $(".total-damage-per-turn").removeClass("highDam bigged").css("font-size","100%")
@@ -1952,6 +1953,7 @@ window.ai = ->
           setSummonerAbility()
         ), 250
         setTimeout (->
+          $(".mon-battle-image").removeClass("borderless-box")
           updateApAbilityCost()
           setFatigue()
           turnOnCommandA()

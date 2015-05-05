@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150504212435) do
+ActiveRecord::Schema.define(version: 20150505214953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 20150504212435) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.boolean  "is_guild",       default: false
+    t.hstore   "reward_object",  default: {"tiers"=>"[]"}
   end
 
   add_index "areas", ["name"], name: "index_areas_on_name", using: :btree
