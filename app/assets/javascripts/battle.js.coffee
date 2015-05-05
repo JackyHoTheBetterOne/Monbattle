@@ -2076,7 +2076,8 @@ window.healthRegen = (teamIndex) ->
 
 window.passiveScalingTeam = (team_num, type) ->
   i = 0
-  count = battle.players[team_num].mons.length
+  mons = battle.players[team_num].mons
+  count = mons.length
   while i < count
     passive = mons[i].passive_ability
     if mons[i].passive_ability
