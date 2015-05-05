@@ -267,7 +267,6 @@ class HomeController < ApplicationController
     user_array = User.kon_search(params[:name])
     if user_array.length 
     end
-
   end
 
 

@@ -25,7 +25,7 @@
   position: relative;
   height: 500px;
   width: 960px;
-  background: #4C4C4C;
+  // background: url('https://s3-us-west-2.amazonaws.com/monbattle/images/Body-background.png');
   background-size: cover;
   border-radius: 5px;
   left: 15px;
@@ -37,11 +37,9 @@
   position: absolute;
   height: 27%;
   width: 64%;
-  border: 2px solid black;
   border-radius: 5px;
   top: 4px;
   left: 2px;
-  background: #757575;
   .region-box {
     position: absolute;
     top: 82px;
@@ -214,7 +212,6 @@
 
 .user_team {
   position: absolute;
-  background: #757575;
   height: 134px;
   width: 338px;
   left: 619px;
@@ -278,7 +275,6 @@
 };
 
 .level-description {
-  background: #757575;
   position: absolute;
   top: 141px;
   left: 619px;

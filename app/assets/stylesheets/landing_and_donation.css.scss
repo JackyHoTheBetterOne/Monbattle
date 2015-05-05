@@ -93,6 +93,7 @@
   position: relative;
   top: 0px;
   left: 0px;
+  background: url('https://s3-us-west-2.amazonaws.com/monbattle/images/Navbar-background.png');
   .store-warning {
     position: absolute;
     height: 18px;
@@ -197,6 +198,10 @@ a.fb-nav:hover {
 
 .for-real {
   z-index: 100;
+};
+
+.for-real>div:first-of-type {
+  background: url('https://s3-us-west-2.amazonaws.com/monbattle/images/Body-background.png');
 };
 
 .nav .summoner-info {

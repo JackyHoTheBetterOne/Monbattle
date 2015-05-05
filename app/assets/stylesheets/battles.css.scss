@@ -64,6 +64,11 @@ $theme-background-color: rgba(32, 32, 32, 1);
   border-radius: 5px;
 };
 
+.targeted {
+  border: 1px solid yellow;
+};
+
+
 #first-stop {
   position: absolute;
   z-index: -2000;
@@ -510,6 +515,7 @@ body {
     };
     .img.mon-battle-image {
       z-index: 10000;
+      transition: border 0.3s;
     };
   };
 };

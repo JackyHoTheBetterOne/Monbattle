@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150501235338) do
+ActiveRecord::Schema.define(version: 20150504212435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20150501235338) do
     t.boolean  "is_featured"
     t.integer  "minimum"
     t.integer  "maximum"
-    t.string   "image",                 default: "https://s3-us-west-2.amazonaws.com/monbattle/images/ability_animation/dark-bomb.svg"
     t.text     "sound",                 default: "https://s3-us-west-2.amazonaws.com/monbattle/music/button-press-sound-fx.wav"
+    t.string   "image",                 default: "https://arcane-depths-3003.herokuapp.com/images/dark-bomb.svg"
   end
 
   add_index "abilities", ["abil_socket_id"], name: "index_abilities_on_abil_socket_id", using: :btree
