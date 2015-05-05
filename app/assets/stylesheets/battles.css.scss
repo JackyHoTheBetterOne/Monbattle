@@ -89,23 +89,23 @@ $theme-background-color: rgba(32, 32, 32, 1);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////// Evolve classes
 .mon0-evolve {
-  top: 217px !important; 
-  left: 630px !important;
+  top: 166px !important;
+  left: 450px !important;
 };
 
 .mon1-evolve {
-  top: 50px !important;
-  left: 650px !important;
+  top: 0px !important;
+  left: 476px !important;
 };
 
 .mon2-evolve {
-  top: 256px !important;
-  left: 808px !important;
+  top: 206px !important;
+  left: 638px !important;
 };
 
 .mon3-evolve {
-  top: 92px !important;
-  left: 836px !important;
+  top: 42px !important;
+  left: 660px !important;
 };
 
 .evolve-size {
@@ -321,7 +321,7 @@ body {
   width: 100%;
 };
 
-.single-ability-img {
+.single-ability-img, .evolution-ability-img {
   position: absolute;
   height: 135px;
   width: 135px;

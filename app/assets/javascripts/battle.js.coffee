@@ -2750,8 +2750,9 @@ $ ->
                     $(document).off "click.cancel", ".cancel"
                     $(".user .img").removeClass("controlling")
                     ability.remove()
-                    abilityAnime = $(".single-ability-img")
+                    abilityAnime = $(".evolution-ability-img")
                     targetMon = $(".0 .mon" + targets[1] + " " + ".img.mon-battle-image")
+                    position = targetMon.offset()
                     oldMon = battle.players[0].mons[targets[1]]
                     findObjectInArray(effectBin, "target", oldMon.name)
                     i = 0
@@ -2762,6 +2763,7 @@ $ ->
                     classio = "mon" + targets[1].toString() + "-evolve"
                     abilityAnime.addClass("evolve-size")
                     abilityAnime.addClass(classio)
+                    abilityAnime.css(position)
                     abilityAnime.finish().attr("src", betterMon.animation).addClass "ability-on",  ->
                       hitIt(sound)
                       $(".battle").effect("shake")
@@ -2775,12 +2777,14 @@ $ ->
                           $(targetMon).addClass("puffIn magictime")
                         ), 1400
                     setTimeout (->
+                      abilityAnime.removeClass("evolve-size")
+                      abilityAnime.removeClass(classio)
+                      abilityAnime.attr("src","https://s3-us-west-2.amazonaws.com/monbattle/images/blank_space.png")
+                    ), 1900
+                    setTimeout (->
                       xadBuk()
                       battle.evolve(0, targets[1], 0)
                       zetBut()
-                      abilityAnime.removeClass("evolve-size")
-                      abilityAnime.removeClass(classio)
-                      abilityAnime.attr("src","")
                       apChange()
                       setFatigue()
                       setTimeout (->
