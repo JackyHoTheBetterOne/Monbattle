@@ -126,6 +126,8 @@ window.fixEvolMon = (monster, player) ->
           ), 200
       ), 2000
       return false
+    else if monster.type is "summoner"
+      return false
     else
       return true
   monster.useAbility = (abilityIndex, abilityTargets) ->
@@ -526,7 +528,7 @@ window.findObjectInArray = (array, field, value) ->
   return usefulArray.length
 
 window.isTeamDead = (monster, index, array) ->
-  monster.isAlive() is false
+  monster.hp <= 0 
 window.isTurnOver = (object, index, array) ->
   object.turn is false
 window.noApLeft = (object, index, array) ->
@@ -973,6 +975,9 @@ window.battleStartDisplay = (time) ->
 
 ################################################################################################# Battle outcome helpers
 window.checkOutcome = ->
+  console.log("WTF")
+  console.log(battle.players[0].mons.every(isTeamDead))
+  console.log(battle.players[1].mons.every(isTeamDead))
   if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
     window.clearInterval(battleTimer)
     $(document).off "mouseover"

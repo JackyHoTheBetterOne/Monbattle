@@ -13,7 +13,6 @@ $ ->
       if seconds >= 0
         seconds -= 1 if seconds isnt 0 
         if seconds == 0
-          console.log("wtf is going on")
           $.ajax
             url: "/giving_daily_reward.json"
             dataType: "json"
