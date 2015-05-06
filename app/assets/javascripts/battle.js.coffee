@@ -2687,31 +2687,30 @@ $ ->
                       return
                 when "aoeally", "aoebuffattack", "aoecleanse"
                   allyAbilityBeforeClickDisplay()
-                  $(document).on "click.help", ".user.mon-slot .img", ->
-                    singleTargetAbilityAfterClickDisplay(ability)
-                    toggleImg()
-                    abilityAnime = $(".ability-img")
-                    action("multiple")
-                    multipleTargetAbilityDisplayVariable()
-                    $(".ability-img").toggleClass "aoePositionUser", ->
-                      element = $(this)
-                      element.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
-                        hitIt(sound)
-                        $(".user.mon-slot .img").each ->
-                          if battle.players[0].mons[$(this).data("index")].hp > 0
-                            $(this).effect "bounce",
-                              distance: 100
-                              times: 1
-                            , 800
-                        setTimeout (->
-                          element.removeClass "ability-on aoePositionUser"
-                          element.attr("src", "")
-                          showDamageTeam(0)
-                          showDamageTeam(1)
-                          singleTargetAbilityAfterActionDisplay()
-                          return
-                        ), 1300
+                  singleTargetAbilityAfterClickDisplay(ability)
+                  toggleImg()
+                  abilityAnime = $(".ability-img")
+                  action("multiple")
+                  multipleTargetAbilityDisplayVariable()
+                  $(".ability-img").toggleClass "aoePositionUser", ->
+                    element = $(this)
+                    element.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
+                      hitIt(sound)
+                      $(".user.mon-slot .img").each ->
+                        if battle.players[0].mons[$(this).data("index")].hp > 0
+                          $(this).effect "bounce",
+                            distance: 100
+                            times: 1
+                          , 800
+                      setTimeout (->
+                        element.removeClass "ability-on aoePositionUser"
+                        element.attr("src", "")
+                        showDamageTeam(0)
+                        showDamageTeam(1)
+                        singleTargetAbilityAfterActionDisplay()
                         return
+                      ), 1300
+                      return
                 when "action-point"
                   xadBuk()
                   $(".end-turn").prop("disabled", true)

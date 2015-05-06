@@ -11,7 +11,7 @@ $ ->
     raid = document.getElementById("raid")
     raid_count = parseInt(document.getElementsByClassName("raid-click-image")[0].getAttribute("data-count"))
     if raid_count == 0
-      raid.setAttribute("disabled", "true")
+      raid.style["pointer-events"] = "none"
       raid.style["opacity"] = "0.5"
       raid.style["box-shadow"] = "none" 
     event_count = parseInt(document.getElementsByClassName("event-click-image")[0].getAttribute("data-count"))

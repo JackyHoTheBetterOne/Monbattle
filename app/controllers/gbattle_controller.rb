@@ -32,9 +32,15 @@ class GbattleController < ApplicationController
     object[:guild_id] = @guild.id
     object[:summoner_id] = current_user.summoner.id
 
-    @summoner_score = ScoreDecorator.new(Score.search_summoner_level_score(object)[0])
-    @guild_score = ScoreDecorator.new(Score.search_guild_level_score(object)[0])
+    summoner_score_array = Score.search_summoner_level_score(object)
+    guild_score_array = Score.search_guild_level_score(object)
+
+    @summoner_score = ScoreDecorator.new(summoner_score_array[0]) unless summoner_score_array.empty?
+    @guild_score = ScoreDecorator.new(guild_score_array[0]) unless guild_score_array.empty?
 
     render "selection"
   end
 end
+
+
+

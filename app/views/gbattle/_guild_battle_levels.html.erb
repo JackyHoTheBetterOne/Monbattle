@@ -3,26 +3,34 @@
 </h4>
 <%= image_tag(@area.banner, class: "guild-event-banner") %>
 <div class="battle-rank-information">
-  <div class="rank-desc guild-rank">
-    <span class="rank-title">Your Guild Rank:</span> 
-    <span class="rank-number">
-      <%= @guild_score.rank(current_summoner.id) %>
-    </span>
-  </div>
-  <br />
-  <div class="rank-desc individual-rank">
-    <span class="rank-title">Your Individual Rank:</span> 
-    <span class="rank-number">
-      <%= @summoner_score.rank(current_summoner.id) %>
-    </span>
-  </div>
-  <br />
-  <div class="rank-desc">
-    <span class="rank-title">Your Points:</span> 
-    <span class="rank-number">
-      <%= @summoner_score.points %>
-    </span>
-  </div>
+  <% if @guild_score %>
+    <div class="rank-desc guild-rank">
+      <span class="rank-title">Your Guild Rank:</span> 
+      <span class="rank-number">
+        <%= @guild_score.rank(current_summoner.id) %>
+      </span>
+    </div>
+    <br />
+    <% if @summoner_score %>
+      <div class="rank-desc individual-rank">
+        <span class="rank-title">Your Individual Rank:</span> 
+        <span class="rank-number">
+          <%= @summoner_score.rank(current_summoner.id) %>
+        </span>
+      </div>
+      <br />
+      <div class="rank-desc">
+        <span class="rank-title">Your Points:</span> 
+        <span class="rank-number">
+          <%= @summoner_score.points %>
+        </span>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="rank-desc guild-rank no-rank-box">
+      Be the first one to fight a battle for your guild!
+    </div>
+  <% end %>
 </div>
 <div class="individual-reward-but gbattle-level-but">
   Individual <br/> Rewards
