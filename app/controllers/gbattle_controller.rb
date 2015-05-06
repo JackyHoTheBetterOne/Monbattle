@@ -5,6 +5,12 @@ class GbattleController < ApplicationController
   def selection
     @areas = Area.gbattle_areas
     @partial = "guild_listing"
+    if current_user.summoner.guild
+      render "selection"
+    else
+      flash[:warning] = "You gotta join a guild before you can access the raid battle!"
+      redirect_to guild_gate_path
+    end
   end
 
   def guild_leadership_board
