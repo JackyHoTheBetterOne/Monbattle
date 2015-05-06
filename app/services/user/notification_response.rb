@@ -40,12 +40,12 @@ class User::NotificationResponse
       summoner = Summoner.find(notification.information_object["summoner_id"])
       id = summoner.user.id
       if category == "ability_present"
-        item = Ability.find(notification.information_object["ability_id"])
+        item = Ability.find(notification.information_object["present_id"])
         AbilityPurchase.create!(ability_id: item.id, user_id: id)
         self.message = "You have earned a new ability, " + item.name +
                         "! Go to the ability teaching page to teach it!"
       else
-        item = Monster.find(notification.information_object["monster_id"])
+        item = Monster.find(notification.information_object["present_id"])
         if MonsterUnlock.where("monster_id = #{item.id} AND user_id = #{id}").empty?
           MonsterUnlock.create!(monster_id: item.id, user_id: id)
           self.message = "You have gained a new monster, " + item.name +

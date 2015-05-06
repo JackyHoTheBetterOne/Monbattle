@@ -2686,7 +2686,10 @@ $ ->
                       ), 1300
                       return
                 when "aoeally", "aoebuffattack", "aoecleanse"
-                  allyAbilityBeforeClickDisplay()
+                  $(".availability-arrow").each ->
+                    $(this).css("opacity", "0")
+                  turnOffCommandA()
+                  toggleImg()
                   singleTargetAbilityAfterClickDisplay(ability)
                   toggleImg()
                   abilityAnime = $(".ability-img")
@@ -2694,6 +2697,7 @@ $ ->
                   multipleTargetAbilityDisplayVariable()
                   $(".ability-img").toggleClass "aoePositionUser", ->
                     element = $(this)
+                    console.log(callAbilityImg())
                     element.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
                       hitIt(sound)
                       $(".user.mon-slot .img").each ->

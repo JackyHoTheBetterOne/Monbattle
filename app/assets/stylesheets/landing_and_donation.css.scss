@@ -194,6 +194,15 @@ a.fb-nav:hover {
   position: relative;
   left: -7px;
   top: 11px;
+  a.sign-in {
+    background: green;
+    height: 72px;
+    top: -6px;
+    width: 300px;
+    left: -120px;
+    font-size: 330%;
+    padding-top: 3px !important;
+  };
 };
 
 .for-real {

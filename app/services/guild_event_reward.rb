@@ -1,11 +1,11 @@
 class GuildEventReward
   attr_accessor :starting
   attr_accessor :ending
-  attr_accessor :array
+  attr_accessor :rewards
 
   def initialize(options = {})
-    @starting = options[:starting]
-    @ending = options[:ending]
+    @starting = options[:starting] - 1
+    @ending = options[:ending] - 1
     @rewards = []
   end
 
