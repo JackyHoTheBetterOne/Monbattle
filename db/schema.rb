@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506173813) do
+ActiveRecord::Schema.define(version: 20150507024325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -331,6 +331,7 @@ ActiveRecord::Schema.define(version: 20150506173813) do
     t.integer  "minimum_level", default: 0
     t.text     "keywords"
     t.integer  "level",         default: 0
+    t.text     "aavatar",       default: "https://s3-us-west-2.amazonaws.com/monbattle/images/guild-avatar/guild-emblem.png"
   end
 
   add_index "guilds", ["leader_id"], name: "index_guilds_on_leader_id", using: :btree
@@ -717,12 +718,12 @@ ActiveRecord::Schema.define(version: 20150506173813) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "email",                  default: "",                                                                          null: false
+    t.string   "encrypted_password",     default: "",                                                                          null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",          default: 0,                                                                           null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -738,10 +739,11 @@ ActiveRecord::Schema.define(version: 20150506173813) do
     t.text     "raw_oauth_info"
     t.text     "image"
     t.string   "namey"
-    t.text     "invite_ids",             default: [],                 array: true
-    t.text     "request_ids",            default: [],                 array: true
+    t.text     "invite_ids",             default: [],                                                                                       array: true
+    t.text     "request_ids",            default: [],                                                                                       array: true
     t.text     "game_unlock",            default: ""
     t.text     "kon_id",                 default: ""
+    t.text     "avatar",                 default: "https://s3-us-west-2.amazonaws.com/monbattle/images/guild-filler-logo.png"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

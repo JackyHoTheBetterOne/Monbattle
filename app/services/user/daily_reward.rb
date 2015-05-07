@@ -31,7 +31,7 @@ class User::DailyReward
     if summoner.daily_reward_given_first == false && summoner.daily_reward_given_second == false
       self.type = "first"
       @summoner.daily_reward_given_first = true
-      @summoner.daily_reward_giving_time = Time.now + 2.minutes
+      @summoner.daily_reward_giving_time = Time.now + 5.minutes + 30.seconds
     elsif summoner.daily_reward_given_first
       self.type = "second"
       @summoner.daily_reward_given_second = true

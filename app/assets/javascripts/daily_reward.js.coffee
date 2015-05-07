@@ -29,7 +29,7 @@ $ ->
               reward_box.className += " magictime boingInUp"
               if response.type is "first"
                 reward_message.innerHTML = "Second reward incoming"
-                timer.innerHTML = 100
+                timer.innerHTML = 330
               else 
                 reward_message.innerHTML = "Come back tomorrow for more"
                 timer.innerHTML = -10 
@@ -42,7 +42,7 @@ $ ->
   }
   window.clearInterval(dailyRewardGivingTimer) if typeof window.dailyRewardGivingTimer isnt "undefined"
   if daily_reward_timer.timer
-    window.dailyRewardGivingTimer = setInterval(daily_reward_timer.count_down, 1000)
+    window.dailyRewardGivingTimer = setInterval(daily_reward_timer.count_down, 950)
   $(".daily-reward-screen-close").on "click", ->
     document.getElementsByClassName("daily-reward-screen")[0].className = "daily-reward-screen"
     overlay = daily_reward_timer.reward_overlay

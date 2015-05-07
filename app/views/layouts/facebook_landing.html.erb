@@ -86,7 +86,7 @@
             <span>Gift in </span>
             <br/>
             <span class="daily-reward-timer">
-              <%= current_summoner.daily_bonus_time_left.floor %>
+              <%= current_summoner.daily_bonus_time_left %>
             </span>
           </div>
         <% end %>
@@ -106,9 +106,13 @@
                   locals: {notification: n} %>    
               <% end %>
             <% end %>
-            <% current_summoner.notifications.each do |n| %>
-              <%= render partial: "layouts/notification", 
-                locals: {notification: n} %>
+            <% if current_summoner.notifications.empty? %>
+              <p id="zero-notification-message">You ain't got no notification for now!</p>
+            <% else %>
+              <% current_summoner.notifications.each do |n| %>
+                <%= render partial: "layouts/notification", 
+                  locals: {notification: n} %>
+              <% end %>
             <% end %>
           </div>
         <% end %>

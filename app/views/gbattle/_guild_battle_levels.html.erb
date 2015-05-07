@@ -47,7 +47,7 @@
       <button class="pick-level" name="battle[battle_level_id]"
           type="submit" value="<%= b.id %>">
         <span class="level-name">
-          <span class="name"><%= b.name %></span>
+          <span class="name"><%= b.name +  " - Difficulty x " + b.win_count(current_user).to_s %></span>
           <span class="staminacon">
             <%= image_tag("stamina.png", size: "25x25") %> <%= b.stamina_cost %>
           </span>

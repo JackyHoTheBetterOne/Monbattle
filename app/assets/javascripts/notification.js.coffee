@@ -6,6 +6,9 @@ $ ->
   }
   if NOTIFICATION_PACKAGE.notifications.length > 0 
     NOTIFICATION_PACKAGE.toggle.style["box-shadow"] = "0px 0px 15px yellow"
+  else
+    message = document.getElementById("zero-notification-message")
+    message.className += " no-notification-text"
   $(".notification-decision").on "click", ->
     div = $(this).parent()
     object = {}

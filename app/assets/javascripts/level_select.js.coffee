@@ -3,9 +3,10 @@ $ ->
       getElementsByClassName("pick-level")[0].id is "AreaA-Stage1"
     document.getElementsByClassName("pick-level")[0].innerHTML += 
       " <img src='https://s3-us-west-2.amazonaws.com/monbattle/images/quest-warning.png' class='latest-level-indication'>"
-    document.getElementsByClassName("pick-level")[0].className += " latest-level"
+    document.getElementsByClassName("pick-level")[0].className += " latest-level"    
     setTimeout (->
       document.getElementsByClassName("pick-level")[0].className += " tada animated latest-level"
+      hopscotch.startTour(level_select_tour)
     ), 500
   if window.location.href.indexOf("/battles/new") isnt -1
     raid = document.getElementById("raid")

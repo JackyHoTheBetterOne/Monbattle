@@ -17,6 +17,16 @@
   background: #43A047 !important;
 };
 
+.current-store {
+  opacity: 1 !important;
+  z-index: 1000 !important;
+};
+
+.non-current-store {
+  opacity: 0 !important;
+  z-index: -1000 !important;
+};
+
 .current-currency-toggle {
   color: #fff !important;
   background-color: #3276b1 !important;
@@ -335,10 +345,12 @@ div.store-front.mon-store {
 
 .currency-toggle.king {
   left: 150px;
+  visibility: hidden;
 };
 
 .currency-toggle.queen {
   right: 180px;
+  visibility: hidden;
 };
 
 

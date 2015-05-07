@@ -172,6 +172,12 @@ class BattleLevel < ActiveRecord::Base
     end
   end
 
+
+  def win_count(user)
+    party_id = user.parties[0].id
+    Battle.find_out_how_many_wins(self.id, party_id).count
+  end
+
 #################################################################################################### General method
 
   def is_guild_level

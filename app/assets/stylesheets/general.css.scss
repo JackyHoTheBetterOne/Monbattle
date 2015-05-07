@@ -9,6 +9,12 @@
   background: rgba(0,0,0,0.9) !important;
 };
 
+.no-notification-text {
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+};
 
 body.forest {
   -webkit-user-select: none;
@@ -309,6 +315,7 @@ button.hopscotch-next:hover {
   padding-top: 3px;
   padding-left: 3px;
   padding-right: 3px;
+  z-index: 1;
   .gift-icon {
     height: 35px;
     display: block;

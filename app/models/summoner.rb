@@ -22,7 +22,7 @@ class Summoner < ActiveRecord::Base
 ################################################################################################ Decoration
 
   def daily_bonus_time_left
-    self.daily_reward_giving_time - Time.now
+    (self.daily_reward_giving_time - Time.now).to_i
   end
 
 

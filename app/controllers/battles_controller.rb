@@ -248,12 +248,12 @@ class BattlesController < ApplicationController
         if !@summoner.daily_reward_giving_time
           @summoner.daily_reward_given_first = false
           @summoner.daily_reward_given_second = false
-          @summoner.daily_reward_giving_time = Time.now + 1.minutes
+          @summoner.daily_reward_giving_time = Time.now + 3.minutes + 30.seconds
           @summoner.save
         elsif Time.now.to_date != @summoner.daily_reward_giving_time.to_date
           @summoner.daily_reward_given_first = false
           @summoner.daily_reward_given_second = false
-          @summoner.daily_reward_giving_time = Time.now + 1.minutes
+          @summoner.daily_reward_giving_time = Time.now + 3.minutes + 30.seconds
           @summoner.save
         end
         @party.user.summoner.quest_begin 

@@ -975,9 +975,6 @@ window.battleStartDisplay = (time) ->
 
 ################################################################################################# Battle outcome helpers
 window.checkOutcome = ->
-  console.log("WTF")
-  console.log(battle.players[0].mons.every(isTeamDead))
-  console.log(battle.players[1].mons.every(isTeamDead))
   if battle.players[0].mons.every(isTeamDead) is true or battle.players[1].mons.every(isTeamDead) is true
     window.clearInterval(battleTimer)
     $(document).off "mouseover"
@@ -2705,7 +2702,6 @@ $ ->
                   multipleTargetAbilityDisplayVariable()
                   $(".ability-img").toggleClass "aoePositionUser", ->
                     element = $(this)
-                    console.log(callAbilityImg())
                     element.finish().attr("src", callAbilityImg).toggleClass "ability-on", ->
                       hitIt(sound)
                       $(".user.mon-slot .img").each ->

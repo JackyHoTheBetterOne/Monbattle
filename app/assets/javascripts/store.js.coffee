@@ -20,10 +20,9 @@ $ ->
     document.getElementsByClassName("ability-store-tab")[0].className = "ability-store-tab tab"
     document.getElementsByClassName("gem-store-tab")[0].className = "gem-store-tab tab"
     tab = $(this).data("tab")
-    $(".store-front").not("#"+tab).css({"opacity":"0", "z-index":"-1000"})
+    $(".store-front").removeClass("current-store non-current-store").not("#"+tab).addClass("non-current-store")
     $(this).addClass("current-tab")
-    document.getElementById(tab).style["opacity"] = "1"
-    document.getElementById(tab).style["z-index"] = "1000"
+    document.getElementById(tab).className += " current-store"
   $(document).on "click", ".current-toggle-but", ->
     window[$(this).data("rolltype") + "_roll"] = $(this).data("currencytype")
     $(this).parent().children(".current-toggle-but").removeClass("current-currency-toggle")

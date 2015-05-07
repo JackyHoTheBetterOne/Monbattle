@@ -11,6 +11,9 @@
 
   <h3 class="guild-message-attached"></h3>
   <h3 class="guild-single-p-title">Guild</h3>
+  <% if @show_raid %>
+    <%= link_to "Raid Now", gbattle_listing_path, class: "raid-button"%>
+  <% end %>
   <% if current_summoner.is_leader(@guild) %>
     <%= link_to "Disband", @guild, method: :delete, 
       data: {confirm: "Are you sure? People are gonna be sad!"}, 
@@ -26,7 +29,7 @@
   <% end %>
   <div class="single-guild-panel">
     <div class="guild-main-detail">
-      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/frank.jpg", 
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/guild-avatar/guild-emblem.png", 
         class: "guild-avatar")%>
       <h3><strong><%= @guild.name %></strong></h3>
       <p><%= @guild.description %></p>

@@ -43,6 +43,8 @@ class GuildsController < ApplicationController
     else
       @can_join = false
     end
+
+    @show_raid = Area.gbattle_areas.count > 0 && current_user.summoner.guild ? true : false
   end
 
 

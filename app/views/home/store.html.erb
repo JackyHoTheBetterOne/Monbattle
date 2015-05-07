@@ -1,6 +1,6 @@
 <% if current_user %>
   <%= render "store_tabs" %>
-  <div class="store-front" id="ability-store">
+  <div class="store-front non-current-store" id="ability-store">
     <%= image_tag(
           "https://s3-us-west-2.amazonaws.com/monbattle/images/Base-Abilities-text.png", 
             class: "premium-summon-logo base-summon-logo") %>
@@ -52,7 +52,7 @@
   </div>
 
 
-  <div class="store-front mon-store" id="monster-store">
+  <div class="store-front mon-store current-store" id="monster-store">
     <%= image_tag("premium-summon.png", class: "premium-summon-logo") %>
     <input type="image" src="https://s3-us-west-2.amazonaws.com/monbattle/images/summon-button.png" 
           alt="Submit" class="roll-but mon-roll" data-roll="monster">
@@ -76,7 +76,7 @@
     </div>
   </div>
 
-  <div class="store-front gem-store" id="gem-store">
+  <div class="store-front gem-store non-current-store" id="gem-store">
     <div class="acquire-gem-bar">
       Acquiring 
       <%= image_tag("mp.png", class: "gem-icon") %>
