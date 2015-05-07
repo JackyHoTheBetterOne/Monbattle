@@ -8,7 +8,7 @@ class GbattleController < ApplicationController
     if current_user.summoner.guild
       render "selection"
     else
-      flash[:warning] = "You gotta join a guild before you can access the raid battle!"
+      flash[:danger] = "You gotta join a guild or create one before you can access the raid battle!"
       redirect_to guild_gate_path
     end
   end

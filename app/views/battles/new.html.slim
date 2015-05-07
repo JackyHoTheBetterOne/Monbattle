@@ -12,7 +12,7 @@
   -else
     div class="level-select" 
       .region-panel
-        .region-box
+        .region-box#region-box
           -@regions.each do |r|
             =link_to r.name, new_battle_path(area_filter: r.name), remote: true, class: "btn btn-primary region-select", id: r.name
         .event-box
@@ -21,7 +21,7 @@
             p Story
           button.event_click.mode_select#event
             = image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/event.png", data: {count: @event_count}, class: "event-click-image")
-            p Event
+            p Special
           a.raid_click.mode_select#raid href="/guild_battle_selection"
             = image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/swords.png", data: {count: @raid_count}, class: "raid-click-image")
             p Raid

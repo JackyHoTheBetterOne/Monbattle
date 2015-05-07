@@ -45,6 +45,7 @@ div.store-front {
     left: 120px;
     outline: none;
     z-index: 100;
+    visibility: hidden;
   };
   .queen-roll {
     position: absolute;
@@ -52,6 +53,7 @@ div.store-front {
     right: 140px;
     outline: none;
     z-index: 100;
+    visibility: hidden;
   };
 
   .mon-roll {

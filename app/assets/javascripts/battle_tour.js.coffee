@@ -152,6 +152,29 @@ $ ->
       }
     ]
   }
+  window.level_select_tour = {
+    id: "level-select-guide",
+    steps: [
+      {
+        title: "Region select",
+        content: "Select a region here!",
+        target: "region-box",
+        placement: "bottom"
+      },
+      {
+        title: "Area select",
+        content: "Select an area here!",
+        target: "map-image",
+        placement: "top"
+      },
+      {
+        title: "Level select",
+        content: "Select a level here and to battle you go!",
+        target: "new_battle",
+        placement: "left"
+      }
+    ]
+  }
 
 
 

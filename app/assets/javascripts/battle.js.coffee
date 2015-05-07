@@ -1278,6 +1278,9 @@ window.turnOnSummonerActions = ->
           apChange()
           flashEndButton()
           availableAbilities()
+          setTimeout (->
+            availableAbilities()
+          ), 500
         ), 2500
       ), 2500
 
