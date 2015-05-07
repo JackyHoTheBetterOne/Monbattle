@@ -106,13 +106,12 @@
                   locals: {notification: n} %>    
               <% end %>
             <% end %>
-            <% if current_summoner.notifications.empty? %>
+            <% current_summoner.notifications.each do |n| %>
+              <%= render partial: "layouts/notification", 
+                locals: {notification: n} %>
+            <% end %>
+            <% if notification_check %>
               <p id="zero-notification-message">You ain't got no notification for now!</p>
-            <% else %>
-              <% current_summoner.notifications.each do |n| %>
-                <%= render partial: "layouts/notification", 
-                  locals: {notification: n} %>
-              <% end %>
             <% end %>
           </div>
         <% end %>

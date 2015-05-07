@@ -159,13 +159,13 @@ $ ->
         title: "Region select",
         content: "Select a region here!",
         target: "region-box",
-        placement: "bottom"
+        placement: "right"
       },
       {
         title: "Area select",
         content: "Select an area here!",
         target: "map-image",
-        placement: "top"
+        placement: "right"
       },
       {
         title: "Level select",

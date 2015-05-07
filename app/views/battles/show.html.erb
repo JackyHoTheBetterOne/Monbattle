@@ -192,24 +192,31 @@
   <button class="surrender-option-button">
     <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/settings-icon.png")%>
   </button>
+
+  <div class="surrender-option-box">
+    <% if @battle.battle_level.is_guild_level %>
+      <%= link_to "concede", guild_levels_path(area_name: @battle.battle_level.area.name), 
+        class: "surrender-button concede"%>
+    <% else %>
+      <%= link_to "concede", new_battle_path, class: "surrender-button concede" %>
+    <% end %>
+
+    <%= form_for(Battle.new) do |f|  %>
+      <button class="surrender-button retry" name="battle[battle_level_id]" type="submit" 
+              value="<%= @show.battle_level.id %>">
+        retry
+      </button>
+    <% end %>
+    <button class="surrender-button mute-toggle">
+      <% if !current_summoner.mute %>
+        <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/volumn-icon.png") %>
+      <% else %>
+        <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png") %>
+      <% end %>
+    </button>
+  </div>
 <% end %>
 
-<div class="surrender-option-box">
-  <%= link_to "concede", new_battle_path, class: "surrender-button concede" %>
-  <%= form_for(Battle.new) do |f|  %>
-    <button class="surrender-button retry" name="battle[battle_level_id]" type="submit" 
-            value="<%= @show.battle_level.id %>">
-      retry
-    </button>
-  <% end %>
-  <button class="surrender-button mute-toggle">
-    <% if !current_summoner.mute %>
-      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/volumn-icon.png") %>
-    <% else %>
-      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/mute-icon.png") %>
-    <% end %>
-  </button>
-</div>
 
 
 <div id="embed"></div>

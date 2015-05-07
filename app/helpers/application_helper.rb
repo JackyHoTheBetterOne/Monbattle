@@ -34,4 +34,12 @@ module ApplicationHelper
   def current_guild
     current_user.summoner.guild
   end
+
+  def notification_check
+    if current_led_guild
+      current_led_guild.notifications.empty? && current_summoner.notifications.empty?
+    else
+      current_summoner.notifications.empty?
+    end
+  end
 end
