@@ -15,7 +15,7 @@ class Battle::GuildBattle
       base_index = @battle_level.gbattle_weight_base
       turn_index = @battle_level.gbattle_weight_turn
       time_index = @battle_level.gbattle_weight_time
-      score = base_index + base_index * (turn_index/battle.round_taken) + base_index * (time_index/battle.time_taken*60)
+      score = base_index + base_index * (turn_index/battle.round_taken) + base_index * (time_index/battle.time_taken)
       score = score.round
       if @summoner_score == nil
         Score.create!(points: score, area_id: @area.id,
