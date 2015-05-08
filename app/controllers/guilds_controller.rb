@@ -85,6 +85,7 @@ class GuildsController < ApplicationController
     @summoner.led_guild = nil
     @summoner.sub_led_guild = nil
     @summoner.guild = nil
+    @summoner.scores.destroy
     @summoner.save
     flash.now["success"] = "You are now a guild-free oracle! Go wild!"
     render "gate"
