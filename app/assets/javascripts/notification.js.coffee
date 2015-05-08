@@ -6,7 +6,7 @@ $ ->
   }
   if NOTIFICATION_PACKAGE.notifications.length > 0 
     NOTIFICATION_PACKAGE.toggle.style["box-shadow"] = "0px 0px 15px yellow"
-  else
+  else if NOTIFICATION_PACKAGE.dropdown
     message = document.getElementById("zero-notification-message")
     message.className += " no-notification-text"
   $(".notification-decision").on "click", ->
