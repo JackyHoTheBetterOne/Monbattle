@@ -506,7 +506,7 @@ window.fixEvolMon = (monster, player) ->
                 parseInt(window["change" + monTarget.unidex]) > 0 
               window["change" + monTarget.unidex] = "+" + window["change" + monTarget.unidex].toString()
             checkMax()
-            monTarget.isAlive()
+            monTarget.isAlive() if e.targeta isnt "ap-overload"
             i++
   monster.passive_ability = monster.abilities[monster.abilities.length-1]
   monster.abilities.pop()
