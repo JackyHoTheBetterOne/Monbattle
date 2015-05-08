@@ -652,14 +652,14 @@ window.enemyTimer = ->
   if checkEnemyDeath(1) is true
     window.timer3 = 250
   else
-    window.timer3 = 3000
+    window.timer3 = 3250
 ######################################################################
   if checkEnemyDeath(1) is true && checkEnemyDeath(3) is true
     window.timer2 = 250
   else if checkEnemyDeath(1) is true || checkEnemyDeath(3) is true
-    window.timer2 = 3000
+    window.timer2 = 3250
   else
-    window.timer2 = 5750
+    window.timer2 = 6250
 ######################################################################
   if checkEnemyDeath(1) && checkEnemyDeath(3) && checkEnemyDeath(2)
     window.timer0 = 250
@@ -667,19 +667,19 @@ window.enemyTimer = ->
           ( checkEnemyDeath(2) && checkEnemyDeath(3) )
     window.timer0 = 3000
   else if ( checkEnemyDeath(1) || checkEnemyDeath(2) ) || checkEnemyDeath(3)
-    window.timer0 = 5750
+    window.timer0 = 6250
   else
-    window.timer0 = 8500
+    window.timer0 = 9250
 ######################################################################
   switch numOfDeadFoe()
     when 0
-      window.timerRound = 11250
+      window.timerRound = 12250
     when 1
-      window.timerRound = 8500
+      window.timerRound = 9250
     when 2
-      window.timerRound = 5750
+      window.timerRound = 6250
     when 3
-      window.timerRound = 3000
+      window.timerRound = 3250
     when 4
       window.timerRound = 250
 
@@ -1698,7 +1698,7 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
               else
                 targetMon.finish().animate(left: "+=60px", 200)
             currentMon.finish().animate backPosition, 540
-            ), 560
+          ), 560
           setTimeout (->
             targetMon.finish().animate(left: "-=60px", 700)
             $(".single-ability-img").css({"z-index":"-1"}).attr("src","")
@@ -1738,16 +1738,16 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
                   ), 1000
               else
                 targetMon.effect "shake", times: 10, 750
-          setTimeout (->
-            showDamageTeam(0)
-            showDamageTeam(1)
-            hpChangeBattle()
-            checkMonHealthAfterEffect()
-            abilityAnime.removeClass "flipped ability-on"
-            abilityAnime.attr("src", "")
+            setTimeout (->
+              showDamageTeam(0)
+              showDamageTeam(1)
+              hpChangeBattle()
+              checkMonHealthAfterEffect()
+              abilityAnime.removeClass "flipped ability-on"
+              abilityAnime.attr("src", "")
+              return
+            ), 1200
             return
-          ), 1200
-          return
         when "aoeenemy"
           window.targets = [teamIndex].concat [monIndex, abilityIndex]
           aoePosition = undefined
@@ -1780,17 +1780,17 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
                       $(this).css("transform":"scaleX(-1)").effect("explode", {pieces: 30}, 1200).hide()
                     else
                       $(this).effect "shake", {times: 5, distance: 40}, 750
-            setTimeout (->
-              element.removeClass "flipped ability-on"
-              element.removeClass aoePosition
-              element.attr("src", "")
-              showDamageTeam(0)
-              showDamageTeam(1)
-              hpChangeBattle()
-              checkMonHealthAfterEffect()            
+              setTimeout (->
+                abilityAnime.removeClass "flipped ability-on"
+                abilityAnime.removeClass aoePosition
+                abilityAnime.attr("src", "")
+                showDamageTeam(0)
+                showDamageTeam(1)
+                hpChangeBattle()
+                checkMonHealthAfterEffect()            
+                return
+              ), 1400
               return
-            ), 1500
-            return
         when "aoeally", "aoecleanse"
           window.targets = [teamIndex].concat [monIndex, abilityIndex]
           if teamIndex is 1
@@ -1821,17 +1821,17 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
                     distance: 100
                     times: 1
                   , 800
-            setTimeout (->
-              element.removeClass "ability-on"
-              element.removeClass aoePosition
-              element.attr("src", "")
-              showDamageTeam(0)
-              showDamageTeam(1)
-              hpChangeBattle()
-              checkMonHealthAfterEffect()
+              setTimeout (->
+                abilityAnime.removeClass "ability-on"
+                abilityAnime.removeClass aoePosition
+                abilityAnime.attr("src", "")
+                showDamageTeam(0)
+                showDamageTeam(1)
+                hpChangeBattle()
+                checkMonHealthAfterEffect()
+                return
+              ), 1200
               return
-            ), 1200
-            return
         when "targetally", "random-ally"
           index = minimumHpPC()
           if teamIndex is 1
@@ -1858,14 +1858,14 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
               distance: 100
               times: 1
               , 800
-          setTimeout (->
-            showDamageTeam(0)
-            showDamageTeam(1)
-            abilityAnime.removeClass "ability-on"
-            abilityAnime.attr("src", "")
-            hpChangeBattle()
-            checkMonHealthAfterEffect()            
-          ), 1200
+            setTimeout (->
+              showDamageTeam(0)
+              showDamageTeam(1)
+              abilityAnime.removeClass "ability-on"
+              abilityAnime.attr("src", "")
+              hpChangeBattle()
+              checkMonHealthAfterEffect()            
+            ), 1200
 
 ############################################################################################################### AI action happening
 window.ai = ->
@@ -2643,9 +2643,8 @@ $ ->
                       singleTargetAbilityAfterActionDisplay()
                       toggleEnemyClick()
                       return
-                    ), 1300
+                    ), 1200
                     return
-
                   # abilityAnime.finish().attr("src", callAbilityImg).toggleClass "ability-on", -> 
                   #   hitIt(sound)
                   #   if targetMon.css("display") isnt "none"
@@ -2681,21 +2680,22 @@ $ ->
                     action("single")
                     abilityAnime.finish().attr("src", callAbilityImg)
                     imagesLoaded abilityAnime, (instance) ->
+                      abilityAnime.addClass "ability-on"
                       hitIt(sound)
                       targetMon.effect "bounce",
                           distance: 100
                           times: 1
                         , 800
                       element = $(this)
-                    setTimeout (->
-                      showDamageTeam(0)
-                      showDamageTeam(1)
-                      element.removeClass "ability-on"
-                      element.attr("src", "")
-                      singleTargetAbilityAfterActionDisplay()
+                      setTimeout (->
+                        showDamageTeam(0)
+                        showDamageTeam(1)
+                        abilityAnime.removeClass "ability-on"
+                        abilityAnime.attr("src", "")
+                        singleTargetAbilityAfterActionDisplay()
+                        return
+                      ), 1200
                       return
-                    ), 1300
-                    return
                 when "aoeenemy"
                   enemyAbilityBeforeClickDisplay()
                   toggleEnemyClick()
@@ -2722,7 +2722,7 @@ $ ->
                         showDamageTeam(1)
                         singleTargetAbilityAfterActionDisplay()
                         return
-                      ), 1300
+                      ), 1200
                       return
                 when "aoeally", "aoebuffattack", "aoecleanse"
                   $(".availability-arrow").each ->
@@ -2746,15 +2746,15 @@ $ ->
                             distance: 100
                             times: 1
                           , 800
-                    setTimeout (->
-                      element.removeClass "ability-on aoePositionUser"
-                      element.attr("src", "")
-                      showDamageTeam(0)
-                      showDamageTeam(1)
-                      singleTargetAbilityAfterActionDisplay()
+                      setTimeout (->
+                        abilityAnime.removeClass "ability-on aoePositionUser"
+                        abilityAnime.attr("src", "")
+                        showDamageTeam(0)
+                        showDamageTeam(1)
+                        singleTargetAbilityAfterActionDisplay()
+                        return
+                      ), 1200
                       return
-                    ), 1300
-                    return
                 when "action-point"
                   xadBuk()
                   $(".end-turn").prop("disabled", true)
@@ -2823,26 +2823,26 @@ $ ->
                         setTimeout (->
                           $(targetMon).addClass("puffIn magictime")
                         ), 1400
-                    setTimeout (->
-                      abilityAnime.removeClass("evolve-size")
-                      abilityAnime.removeClass(classio)
-                      abilityAnime.attr("src","https://s3-us-west-2.amazonaws.com/monbattle/images/blank_space.png")
-                    ), 1900
-                    setTimeout (->
-                      xadBuk()
-                      battle.evolve(0, targets[1], 0)
-                      zetBut()
-                      apChange()
-                      setFatigue()
                       setTimeout (->
-                        toggleImg()
-                        $(targetMon).removeClass("puffIn magictime").css("opacity","1")
-                        availableAbilities()
-                      ), 400
-                      flashEndButton()
+                        abilityAnime.removeClass("evolve-size")
+                        abilityAnime.removeClass(classio)
+                        abilityAnime.attr("src","https://s3-us-west-2.amazonaws.com/monbattle/images/blank_space.png")
+                      ), 1900
+                      setTimeout (->
+                        xadBuk()
+                        battle.evolve(0, targets[1], 0)
+                        zetBut()
+                        apChange()
+                        setFatigue()
+                        setTimeout (->
+                          toggleImg()
+                          $(targetMon).removeClass("puffIn magictime").css("opacity","1")
+                          availableAbilities()
+                        ), 400
+                        flashEndButton()
+                        return
+                      ), 2200
                       return
-                    ), 2200
-                    return
                   ), 2500
               setTimeout (->
                 availableAbilities()

@@ -16,7 +16,7 @@ $ ->
     object["params"] = {}
     object["params"][FB.AppEvents.ParameterNames.CONTENT_TYPE] = "Ascension"
     object["params"][FB.AppEvents.ParameterNames.CONTENT_ID] = "asp"
-    facebookAnalytics(object)
+    facebookAnalytics(object) if window.name != ""
     cost = parseInt(document.getElementsByClassName("material-box")[0].
                       getAttribute("data-aspcost"))
     existing = parseInt(document.getElementsByClassName("material-box")[0].

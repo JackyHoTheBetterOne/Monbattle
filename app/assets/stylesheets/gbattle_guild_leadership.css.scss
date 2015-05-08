@@ -24,12 +24,13 @@
   };
   .guild-ranking-listing {
     position: absolute;
-    width: 490px;
+    width: 936px;
     height: 385px;
     top: 40px;
     left: 5px;
     padding-left: 3px;
     border-radius: 5px;
+    overflow: scroll;
     .single-guild-leadership-listing {
       display: inline-block;
       height: 55px;

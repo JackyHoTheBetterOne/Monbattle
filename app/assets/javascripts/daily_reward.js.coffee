@@ -42,7 +42,7 @@ $ ->
   }
   window.clearInterval(dailyRewardGivingTimer) if typeof window.dailyRewardGivingTimer isnt "undefined"
   if daily_reward_timer.timer
-    window.dailyRewardGivingTimer = setInterval(daily_reward_timer.count_down, 950)
+    window.dailyRewardGivingTimer = setInterval(daily_reward_timer.count_down, 930)
   $(".daily-reward-screen-close").on "click", ->
     document.getElementsByClassName("daily-reward-screen")[0].className = "daily-reward-screen"
     overlay = daily_reward_timer.reward_overlay
