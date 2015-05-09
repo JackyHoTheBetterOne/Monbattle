@@ -139,7 +139,7 @@
                 Gifting
               </a> -->
               <% if current_guild %>
-                <%= link_to "My Guild", guild_path(current_guild), class: "top-bar gift-but"%>    
+                <%= link_to "Guild", guild_path(current_guild), class: "top-bar gift-but"%>    
               <% else %>
                 <%= link_to "Join Guild", guild_gate_path, class: "top-bar gift-but" %>
               <% end %>     

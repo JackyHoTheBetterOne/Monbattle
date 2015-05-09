@@ -45,6 +45,13 @@ class Battle::Victory
       turn_index = battle_level.gbattle_weight_turn
       time_index = battle_level.gbattle_weight_time
       score = base_index + base_index * (turn_index/self.round_taken.to_i) + base_index * (time_index/self.time_taken.to_i)
+      p "//////////////////////////////////////////////////////////////////////"
+      p base_index 
+      p turn_index
+      p time_index
+      p self.round_taken
+      p self.time_taken
+      p "//////////////////////////////////////////////////////////////////////"
       score = score.round
       self.points_given = score
     end

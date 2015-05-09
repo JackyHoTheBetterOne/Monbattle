@@ -1,7 +1,8 @@
 <div>
   <h4 class="leadership-heading title-rank">Rank</h4>
   <h4 class="leadership-heading title-guild">Guild</h4>
-  <h4 class="leadership-heading title-battles">Battles</h4>
+  <h4 class="leadership-heading title-battles">Battles won</h4>
+  <h4 class="leadership-heading title-ratio">P/B ratio</h4>
   <h4 class="leadership-heading title-points">Points</h4>
 </div>
 <div class="guild-ranking-listing">
@@ -13,6 +14,9 @@
       </span>
       <span class="single-guild-stats guild-name">
         <%= s.parent_name %>
+      </span>
+      <span class="single-guild-stats guild-ratio">
+        <%= (s.points/s.num_of_battles).round(2) %>
       </span>
       <%= 
         image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/guild-avatar/guild-emblem.png", 

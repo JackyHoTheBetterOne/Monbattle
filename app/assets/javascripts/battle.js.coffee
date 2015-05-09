@@ -1002,6 +1002,7 @@ window.outcome = ->
   else 
     muted = false
   if battle.players[0].mons.every(isTeamDead) or battle.players[1].mons.every(isTeamDead)
+    window.clearInterval(battleTimer) if typeof battleTimer isnt "undefined"
     if battle.players[0].mons.every(isTeamDead)
       cutscene_field = "defeat_cut_scenes"
       cutscene_length = battle[cutscene_field].length
@@ -2778,72 +2779,74 @@ $ ->
                   betterMon = battle.players[0].mons[targets[1]].mon_evols[0]
                   monster_image = $(".user .mon" + targets[1] + " .img.mon-battle-image").attr("src")
                   $(".big-ass-monster").attr("src", betterMon.image)
-                  setTimeout (->
-                    $("#animation-overlay").css({"opacity":"1", "z-index":"100000000000"})
-                    $(".big-ass-monster").addClass("tinDownIn magictime")
-                  ), 400
-                  setTimeout (->
-                    $(".big-ass-monster").removeClass("tinDownIn magictime").addClass("tinUpOut magictime")
-                  ), 1400
-                  setTimeout (->
-                    $("#animation-overlay").css({"opacity":"0", "z-index":"-10"})
-                    $(".big-ass-monster").removeClass("tinUpOut tinDownIn magictime")
-                  ), 2400
-                  setTimeout (->
-                    $(".availability-arrow").each ->
-                      $(this).css("opacity","0")
-                    $(document).off "click.cancel", ".cancel"
-                    $(".user .img").removeClass("controlling")
-                    ability.remove()
-                    abilityAnime = $(".evolution-ability-img")
-                    targetMon = $(".0 .mon" + targets[1] + " " + ".img.mon-battle-image")
-                    position = targetMon.offset()
-                    oldMon = battle.players[0].mons[targets[1]]
-                    findObjectInArray(effectBin, "target", oldMon.name)
-                    i = 0
-                    n = usefulArray.length
-                    while i < n
-                      usefulArray[i].target = betterMon.name
-                      i++
-                    classio = "mon" + targets[1].toString() + "-evolve"
-                    abilityAnime.addClass("evolve-size")
-                    abilityAnime.addClass(classio)
-                    abilityAnime.css(position)
-                    abilityAnime.finish().attr("src", betterMon.animation)
-                    imagesLoaded abilityAnime, (instance) ->
-                      abilityAnime.toggleClass "ability-on"
-                      hitIt(sound)
-                      $(".battle").effect("shake")
-                      targetMon.fadeOut 600, ->
-                        $(targetMon).finish().attr("src", betterMon.image).
-                          css({"display":"inline", "opacity":"0"})
+                  imagy = $(".big-ass-monster")
+                  imagesLoaded imagy, (instance) ->
+                    setTimeout (->
+                      $("#animation-overlay").css({"opacity":"1", "z-index":"100000000000"})
+                      $(".big-ass-monster").addClass("tinDownIn magictime")
+                    ), 400
+                    setTimeout (->
+                      $(".big-ass-monster").removeClass("tinDownIn magictime").addClass("tinUpOut magictime")
+                    ), 1400
+                    setTimeout (->
+                      $("#animation-overlay").css({"opacity":"0", "z-index":"-10"})
+                      $(".big-ass-monster").removeClass("tinUpOut tinDownIn magictime")
+                    ), 2400
+                    setTimeout (->
+                      $(".availability-arrow").each ->
+                        $(this).css("opacity","0")
+                      $(document).off "click.cancel", ".cancel"
+                      $(".user .img").removeClass("controlling")
+                      ability.remove()
+                      abilityAnime = $(".evolution-ability-img")
+                      targetMon = $(".0 .mon" + targets[1] + " " + ".img.mon-battle-image")
+                      position = targetMon.offset()
+                      oldMon = battle.players[0].mons[targets[1]]
+                      findObjectInArray(effectBin, "target", oldMon.name)
+                      i = 0
+                      n = usefulArray.length
+                      while i < n
+                        usefulArray[i].target = betterMon.name
+                        i++
+                      classio = "mon" + targets[1].toString() + "-evolve"
+                      abilityAnime.addClass("evolve-size")
+                      abilityAnime.addClass(classio)
+                      abilityAnime.css(position)
+                      abilityAnime.finish().attr("src", betterMon.animation)
+                      imagesLoaded abilityAnime, (instance) ->
+                        abilityAnime.toggleClass "ability-on"
+                        hitIt(sound)
+                        $(".battle").effect("shake")
+                        targetMon.fadeOut 600, ->
+                          $(targetMon).finish().attr("src", betterMon.image).
+                            css({"display":"inline", "opacity":"0"})
+                          setTimeout (->
+                            abilityAnime.removeClass "ability-on"
+                          ), 1000
+                          setTimeout (->
+                            $(targetMon).addClass("puffIn magictime")
+                          ), 1400
                         setTimeout (->
-                          abilityAnime.removeClass "ability-on"
-                        ), 1000
+                          abilityAnime.removeClass("evolve-size")
+                          abilityAnime.removeClass(classio)
+                          abilityAnime.attr("src","https://s3-us-west-2.amazonaws.com/monbattle/images/blank_space.png")
+                        ), 1900
                         setTimeout (->
-                          $(targetMon).addClass("puffIn magictime")
-                        ), 1400
-                      setTimeout (->
-                        abilityAnime.removeClass("evolve-size")
-                        abilityAnime.removeClass(classio)
-                        abilityAnime.attr("src","https://s3-us-west-2.amazonaws.com/monbattle/images/blank_space.png")
-                      ), 1900
-                      setTimeout (->
-                        xadBuk()
-                        battle.evolve(0, targets[1], 0)
-                        zetBut()
-                        apChange()
-                        setFatigue()
-                        setTimeout (->
-                          toggleImg()
-                          $(targetMon).removeClass("puffIn magictime").css("opacity","1")
-                          availableAbilities()
-                        ), 400
-                        flashEndButton()
+                          xadBuk()
+                          battle.evolve(0, targets[1], 0)
+                          zetBut()
+                          apChange()
+                          setFatigue()
+                          setTimeout (->
+                            toggleImg()
+                            $(targetMon).removeClass("puffIn magictime").css("opacity","1")
+                            availableAbilities()
+                          ), 400
+                          flashEndButton()
+                          return
+                        ), 2200
                         return
-                      ), 2200
-                      return
-                  ), 2500
+                    ), 2500
               setTimeout (->
                 availableAbilities()
               ), 3000
