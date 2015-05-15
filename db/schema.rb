@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150512002140) do
+ActiveRecord::Schema.define(version: 20150514215906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -433,6 +433,7 @@ ActiveRecord::Schema.define(version: 20150512002140) do
     t.integer  "rarity_id"
     t.text     "former_name",           default: ""
     t.string   "avatar",                default: "https://s3-us-west-2.amazonaws.com/monbattle/mon_skins/Saphira/saphira_idle.svg"
+    t.string   "painter"
   end
 
   add_index "monster_skins", ["rarity_id"], name: "index_monster_skins_on_rarity_id", using: :btree

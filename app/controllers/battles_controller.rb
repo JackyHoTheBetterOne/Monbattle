@@ -80,6 +80,7 @@ class BattlesController < ApplicationController
   end
 
   def show
+    
     impressionist(@battle)
 
     @show = Battle::Show.new(summoner: current_user.summoner,

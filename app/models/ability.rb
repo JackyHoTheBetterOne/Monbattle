@@ -34,6 +34,8 @@ class Ability < ActiveRecord::Base
   delegate :name, to: :ability_equipping, prefix: true
 
   default_scope { order('abil_socket_id') }
+
+  # avoid using callbacks if you can. Think about using a service object instead
   before_save   :set_keywords
   after_create  :unlock_for_admins
   after_save :unlock_for_npc
@@ -265,6 +267,19 @@ class Ability < ActiveRecord::Base
     if self.rarity.name == "npc" && AbilityPurchase.where(user_id: 2, ability_id: self.id).count < 20
       20.times{AbilityPurchase.create(user_id: 2, ability_id: self.id)} 
     end
+
+    # purchase_count = ability_puchases.where(user_id: NPC_ID).count
+    # if npc? && purchase_count < MAX_NPC ITEMS
+    #   AbilityPurchase.generate(count: MAX_NPC_ITEMS-purchase_count, ablility: self)
+    # end
+
+    # meaningful names
+    # name values eg. what does 20 mean ?
+    # minimize coupling
+
+    # if npc?
+    #   AbilityPurchase.generate(ability: self)
+    # end
   end
 
   private

@@ -1871,7 +1871,6 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
 
 ############################################################################################################### AI action happening
 window.ai = ->
-  xadBuk()
   $(".mon-battle-image").addClass("borderless-box")
   $(".total-damage-per-turn").css("opacity", "0")
   setTimeout (->
