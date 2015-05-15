@@ -5,7 +5,9 @@
   <%= link_to "Raid Battle", gbattle_listing_path, 
     class: "guild-selection-but raid-battle-link" %>
   <% if @area %>
-    <h3 class="area-name"><%= @area.name %> - </h3>
+    <h3 class="area-name" id="guild-area-name" data-areaname="<%= @area.name %>">
+      <%= @area.name %> - 
+    </h3>
     <%= link_to "Individual Rank", guild_individual_leadership_path(area_name: @area.name), 
       class: "guild-selection-but raid-individual-rank-link" %>
     <%= link_to "Guild Rank", guild_leadership_path(area_name: @area.name), 

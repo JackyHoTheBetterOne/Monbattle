@@ -16,7 +16,8 @@ class User::NotificationResponse
       @summoner = Summoner.find(notification.information_object["summoner_id"])
       @guild = Guild.find(notification.information_object["guild_id"])
       if @summoner.guild
-        return self.message = "Sorry, this summoner has already joined a guild!"
+        self.notification.destroy
+        self.message = "Sorry, this summoner has already joined a guild!"
       end
       if decision == "yay"
         @guild.members << @summoner
@@ -35,7 +36,7 @@ class User::NotificationResponse
         @summoner.save
         self.message = "Why? What's wrong with him/her?"
       end
-    when "ability_present", "monster_present"
+    when "ability_present", "monster_present", "avatar_present"
       item = nil
       summoner = Summoner.find(notification.information_object["summoner_id"])
       id = summoner.user.id
@@ -44,7 +45,7 @@ class User::NotificationResponse
         AbilityPurchase.create!(ability_id: item.id, user_id: id)
         self.message = "You have earned a new ability, " + item.name +
                         "! Go to the ability teaching page to teach it!"
-      else
+      elsif category == "monster_present"
         item = Monster.find(notification.information_object["present_id"])
         if MonsterUnlock.where("monster_id = #{item.id} AND user_id = #{id}").empty?
           MonsterUnlock.create!(monster_id: item.id, user_id: id)
@@ -53,6 +54,10 @@ class User::NotificationResponse
         else 
           self.message = "Sorry, it seems that you already own this monster!"
         end
+      elsif category == "avatar_present"
+        item = Avatar.find(notification_information_object["present_id"])
+        UserAvatar.create!(summoner_id: summoner.id, avatar_id: item.id)
+        self.message = "You have earned a new avatar!"
       end
     end
     self.notification.destroy

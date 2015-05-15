@@ -10,13 +10,13 @@ $ ->
       reward_box = document.getElementsByClassName("daily-reward-screen")[0]
       reward_message = document.getElementsByClassName("daily-reward-message")[0]
       seconds = parseInt(timer.innerHTML)
-      if seconds >= 0
-        seconds -= 1 if seconds isnt 0 
+      if seconds > 0
+        seconds -= 1 
         if seconds == 0
           $.ajax
-            url: "/giving_daily_reward.json"
-            dataType: "json"
-            method: "get"
+            url: "/giving_daily_reward"
+            dataType: "JSON"
+            method: "GET"
             error: ->
               alert("Daily reward giving failure")
             success: (response) ->
@@ -33,8 +33,8 @@ $ ->
               else 
                 reward_message.innerHTML = "Come back tomorrow for more"
                 timer.innerHTML = -10 
+                window.clearInterval(dailyRewardGivingTimer)
                 setTimeout (->
-                  window.clearInterval(dailyRewardGivingTimer)
                   $(".daily-reward-timer-box").remove()
                 ), 500
         else 
@@ -42,7 +42,7 @@ $ ->
   }
   window.clearInterval(dailyRewardGivingTimer) if typeof window.dailyRewardGivingTimer isnt "undefined"
   if daily_reward_timer.timer
-    window.dailyRewardGivingTimer = setInterval(daily_reward_timer.count_down, 930)
+    window.dailyRewardGivingTimer = setInterval(daily_reward_timer.count_down, 850)
   $(".daily-reward-screen-close").on "click", ->
     document.getElementsByClassName("daily-reward-screen")[0].className = "daily-reward-screen"
     overlay = daily_reward_timer.reward_overlay

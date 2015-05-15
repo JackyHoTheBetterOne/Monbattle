@@ -1161,6 +1161,7 @@ window.singleTargetAbilityAfterActionDisplay = ->
   ), 1000
   setTimeout (->
     availableAbilities()
+    flashEndButton()
   ), 1500
 
 
@@ -2850,17 +2851,16 @@ $ ->
               setTimeout (->
                 availableAbilities()
               ), 3000
-            else
-              $(ability).add(".ap").effect("highlight", {color: "red"}, 100)
-              $(".end-turn").prop("disabled", false)
-              $(".end-turn").css("opacity", "1")
-              hopscotch.startTour(insufficient_ap_tour)
-              setTimeout (->
-                $(".hopscotch-nav-button.next").click()
-              ), 3500
-
-
-
+          else
+            $(ability).add(".ap").effect("highlight", {color: "red"}, 100)
+            $(".end-turn").prop("disabled", false)
+            $(".end-turn").css("opacity", "1")
+            hopscotch.startTour(insufficient_ap_tour)
+            xadBuk()
+            zetBut()
+            setTimeout (->
+              $(".hopscotch-nav-button.next").click()
+            ), 3500
 
 
 

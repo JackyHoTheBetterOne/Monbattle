@@ -3,6 +3,7 @@ class Summoner < ActiveRecord::Base
   belongs_to :summoner_level
 
   validates :user_id, presence: {message: 'Must be entered'}, uniqueness: true
+  validates :facebook_id, uniqueness: true, allow_nil: true
 
   before_save :check_energy
   before_save :generate_code
@@ -16,8 +17,20 @@ class Summoner < ActiveRecord::Base
   has_many :notifications, as: :notificapable, dependent: :destroy
   has_many :scores, as: :scorapable, dependent: :destroy
 
+  has_many :avatars, dependent: :destroy
 
 
+  scope :friend_scores, -> (*names) {
+    includes(:scorapable).where("scorapable_type = 'Summoner'").where(scorapable: {name: names})
+  }
+
+  # scope :friends, -> (facebook_ids) {
+  #   where(:facebook_id => facebook_ids)
+  # }
+
+  scope :friends, -> (facebook_ids) {
+    where(:name => facebook_ids)
+  }
 
 ################################################################################################ Decoration
 

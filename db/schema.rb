@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150509003444) do
+ActiveRecord::Schema.define(version: 20150512002140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,13 @@ ActiveRecord::Schema.define(version: 20150509003444) do
 
   add_index "areas", ["name"], name: "index_areas_on_name", using: :btree
   add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
+
+  create_table "avatars", force: true do |t|
+    t.string   "name"
+    t.text     "image_link"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "backgrounds", force: true do |t|
     t.string   "name"
@@ -674,6 +681,7 @@ ActiveRecord::Schema.define(version: 20150509003444) do
     t.boolean  "daily_reward_given_second",    default: false
     t.datetime "daily_reward_giving_time"
     t.integer  "guild_points",                 default: 0
+    t.text     "facebook_id"
   end
 
   add_index "summoners", ["guild_id"], name: "index_summoners_on_guild_id", using: :btree
@@ -718,13 +726,23 @@ ActiveRecord::Schema.define(version: 20150509003444) do
     t.datetime "updated_at"
   end
 
+  create_table "user_avatars", force: true do |t|
+    t.integer  "avatar_id"
+    t.integer  "summoner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_avatars", ["avatar_id"], name: "index_user_avatars_on_avatar_id", using: :btree
+  add_index "user_avatars", ["summoner_id"], name: "index_user_avatars_on_summoner_id", using: :btree
+
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",                                                                          null: false
-    t.string   "encrypted_password",     default: "",                                                                          null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,                                                                           null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -740,11 +758,10 @@ ActiveRecord::Schema.define(version: 20150509003444) do
     t.text     "raw_oauth_info"
     t.text     "image"
     t.string   "namey"
-    t.text     "invite_ids",             default: [],                                                                                       array: true
-    t.text     "request_ids",            default: [],                                                                                       array: true
+    t.text     "invite_ids",             default: [],                 array: true
+    t.text     "request_ids",            default: [],                 array: true
     t.text     "game_unlock",            default: ""
     t.text     "kon_id",                 default: ""
-    t.text     "avatar",                 default: "https://s3-us-west-2.amazonaws.com/monbattle/images/guild-filler-logo.png"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

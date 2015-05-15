@@ -1,5 +1,4 @@
 window.login = (callback) ->
-  console.log("wtf")
   FB.login(callback, {scope: 'user_friends, email, publish_actions', return_scopes: true})
   return
 
@@ -53,7 +52,8 @@ window.getFriends = (callback) ->
   FB.api '/me/friends', { fields: 'id,name,first_name,picture.width(120).height(120)' }, (response) ->
     if !response.error
       friendCache.friends = response.data
-      callback()
+      callback() if callback
+      return response.data
     else
       console.error '/me/friends', response
     return
@@ -65,7 +65,7 @@ window.getNonPlayers = (callback) ->
       friendCache.invitable_friends = response.data
       callback()
     else
-      console.error '/me/friends', response
+      console.error '/me/invitable_friends', response
     return
   return
 

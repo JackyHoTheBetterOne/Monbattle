@@ -19,7 +19,7 @@ class User::Tracking
   attribute :category, String, default: "design"
   attribute :message, Hash, default: {}
 
-  def user_side_pick
+  def user_side_tracking
     self.message["event_id"] = event_id
     message["user_id"] = user.user_name
     message["session_id"] = session_id

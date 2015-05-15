@@ -10,9 +10,11 @@
         <h2 class='event-name'>#{a.name}</h2>
       " %>
 
-      <%= link_to html.html_safe, guild_levels_path(area_name: a.name), 
+      <%= link_to html.html_safe, 
+      guild_levels_path(area_name: a.name, summoner: {summoner_ids: ['Micky Me', 'Dicky']}), 
         class: "individual-gbattle-listing",
         style: "background: url('#{a.banner}'); background-size: cover;" %>
         
   <% end %>
 </div>
+

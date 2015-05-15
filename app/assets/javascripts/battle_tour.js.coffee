@@ -156,18 +156,6 @@ $ ->
     id: "level-select-guide",
     steps: [
       {
-        title: "Region select",
-        content: "Select a region here!",
-        target: "region-box",
-        placement: "right"
-      },
-      {
-        title: "Area select",
-        content: "Select an area here!",
-        target: "map-image",
-        placement: "right"
-      },
-      {
         title: "Level select",
         content: "Select a level here and to battle you go!",
         target: "new_battle",

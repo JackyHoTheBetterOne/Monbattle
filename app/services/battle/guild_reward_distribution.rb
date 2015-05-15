@@ -11,7 +11,15 @@ class Battle::GuildRewardDistribution
         break if individual_scores[n] == nil
         summoner = individual_scores[n].scorapable
         t.rewards.each do |r|
-          category = r.type == "Ability" ? "ability_present" : "monster_present"
+          case r.type 
+          when "Ability"
+            category = "ability_present"
+          when "Monster"
+            category = "monster_present"
+          when "Avatar"
+            category = "Avatar_present"
+          end
+          
           Notification.create!(title: "Raid Reward",
                                content: "#{area.name} is over! Here is your reward!",
                                sent_by: "Monbattle",

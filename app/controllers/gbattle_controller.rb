@@ -1,5 +1,8 @@
 class GbattleController < ApplicationController
   layout "facebook_landing"
+  before_action :find_area, except: :selection
+
+
   include Checky
 
   def selection
@@ -14,22 +17,26 @@ class GbattleController < ApplicationController
   end
 
   def guild_leadership_board
-    @area = Area.find_by_name(params[:area_name])
     @scores = ScoreDecorator.collection(Score.guild_scores(params[:area_name]))
     @partial = "guild_leadership"
     render "selection"
   end
 
   def individual_leadership_board
-    @area = Area.find_by_name(params[:area_name])
-    @scores = ScoreDecorator.collection(Score.individual_scores(params[:area_name]))
+    p "////////////////////////////////////////////////////////////////////"
+    p params["summoner_names"]
+    p "////////////////////////////////////////////////////////////////////"
+    if params["summoner_names"]
+      @scores = ScoreDecorator.collection(Score.friend_scores(params[:summoner_names], @area.id))
+    else
+      @scores = ScoreDecorator.collection(Score.individual_scores(params[:area_name]))
+    end
     @partial = "gbattle_individual_leadership"
     render "selection"
   end
 
   def guild_battle_area_levels
     @partial = "guild_battle_levels"
-    @area = Area.find_by_name(params[:area_name])
     @levels = @area.battle_levels.order(:order)
     @guild = current_user.summoner.guild
 
@@ -46,6 +53,13 @@ class GbattleController < ApplicationController
 
     render "selection"
   end
+
+  private
+
+  def find_area
+    @area = Area.find_by_name(params[:area_name])
+  end
+
 end
 
 

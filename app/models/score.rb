@@ -25,5 +25,12 @@ class Score < ActiveRecord::Base
     where("scorapable_type = 'Guild' AND area_id = #{area_id} AND scorapable_id = #{guild_id}")
   }
 
+  # scope :friend_scores, -> (*names) {
+  #   includes(:scorapable).where("scorapable_type = 'Summoner'").where(scorapable: {name: names})
+  # }
+
+  def self.friend_scores(names, area_id)
+    Summoner.friends(names).map(&:scores).flatten.select{|s|s.area_id == area_id}
+  end
 
 end
