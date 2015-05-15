@@ -1403,7 +1403,7 @@ window.flashEndButton = ->
     setTimeout (->
       $(".end-turn").trigger("click") 
       return
-    ), 500
+    ), 1500
     return
   else 
     setTimeout (->
@@ -1724,10 +1724,10 @@ window.controlAI = (teamIndex, monIndex, type, abilityDex) ->
           singleTargetAbilityDisplayVariable()
           abilityAnime.css(targetPosition)
           abilityAnime.finish().attr("src", callAbilityImg)
+          action("single")
           imagesLoaded abilityAnime, (instance) ->
             abilityAnime.toggleClass "flipped ability-on"
             hitIt(sound)
-            action("single")
             if targetMon.css("display") isnt "none"
               if enemyHurt.isAlive() is false
                 if teamIndex is 1
@@ -1893,6 +1893,7 @@ window.ai = ->
   setTimeout (->
     feedAiTargets()
     if teamPct() isnt 0
+      console.log("wtf man")
       controlAI(1,1,"regular","")
   ), timer1
   setTimeout (->
@@ -2500,6 +2501,7 @@ $ ->
               ai()
             ), wait
           else 
+            console.log("what's going on man")
             ai()
         $(document).on("mouseover", ".effect", ->
           index = @id
