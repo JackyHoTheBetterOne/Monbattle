@@ -1403,7 +1403,7 @@ window.flashEndButton = ->
     setTimeout (->
       $(".end-turn").trigger("click") 
       return
-    ), 1500
+    ), 1000
     return
   else 
     setTimeout (->
