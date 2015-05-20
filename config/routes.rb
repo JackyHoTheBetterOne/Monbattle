@@ -19,6 +19,7 @@ resources :users
 resources :charges
 
 resources :monsters do
+  get :unique_monster_show, on: :collection
   resources :monster_unlocks, only: [:create, :destroy]
 end
 

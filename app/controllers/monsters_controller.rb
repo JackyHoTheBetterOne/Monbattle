@@ -1,5 +1,5 @@
 class MonstersController < ApplicationController
-  before_action :find_monster, except: [:index, :create]
+  before_action :find_monster, except: [:index, :create, :unique_monster_show]
   before_action :name_check, only: [:update]
   before_action :find_monsters, :new_monster_unlock, :find_rarities, :find_levels, :find_jobs, 
                 :find_elements, :find_personalities, :find_abilities, :find_monster_skins
@@ -66,6 +66,16 @@ class MonstersController < ApplicationController
       end
     end
   end
+
+  def unique_monster_show
+    @unique_monsters = MonsterDecorator.collection(Monster.unique_monsters)
+    @number_owned = current_user.monster_unlocks.count 
+    @total_number = @unique_monsters.count
+    render layout: "facebook_landing"
+  end
+
+
+
 
   private
 

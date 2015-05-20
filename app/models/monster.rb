@@ -56,6 +56,10 @@ class Monster < ActiveRecord::Base
     where(evolved_from_id: 0, rarity_id: @rarity_id)
   }
 
+  scope :unique_monsters, -> {
+    joins(:rarity).where("rarities.name != 'admin' AND rarities.name != 'npc'")
+  }
+
 
   def self.base_mon
     where(evolved_from_id: 0)

@@ -1,0 +1,50 @@
+<div class="ascending enhancing monster-wiki-list">
+  <h3 class="monster-wiki-title">Monguard List</h3>
+  <div class="monster-list">
+    <% @unique_monsters.each do |u| %>
+      <div class="wiki-monster-box"
+        data-name = "<%= u.name %>"
+        data-designer = "<%= u.designer %>"
+        data-rarity = "<%= u.rarity_type %>"
+        data-job = "<%= u.job_type %>"
+        data-skin = "<%= u.skin %>"
+        data-description = "<%= u.description %>"
+        style="<%= u.css_display_difference(current_user) %>">
+        <%= image_tag(u.avatar) %>
+        <p class="monster-number">No. <%= @unique_monsters.index(u) + 1 %></p>
+      </div>
+    <% end %>
+  </div>
+  <h2 class="ownership_ratio">
+    <%= @number_owned %> / <%= @total_number %>
+  </h2>
+  <div class="ascend-monster enhance-monster monster-viewing-box">
+    <h4 class="monster-name">
+      <%= @unique_monsters[0].name %>
+    </h4>
+    <h4 class="monster-rarity-type">
+      <%= @unique_monsters[0].rarity_type %>
+    </h4>
+    <h4 class="monster-job-type">
+      <%= @unique_monsters[0].job_type %>
+    </h4>
+    <%= image_tag(@unique_monsters[0].skin, class: "viewing-monster-skin") %>
+    <p class="monster-description">
+      <%= @unique_monsters[0].description %>
+    </p>
+    <h4 class="designer-title">
+      Designer:
+    </h4>
+    <h4 class="designer-name">
+      Joseph Badcock
+    </h4>
+    <button class="wiki-mon-share" 
+      data-picture=""
+      data-caption=""
+      data-message="">
+      <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/facebook-share.png", 
+        class: "facebook-share-logo", size: "20")%>
+      Share
+    </button>
+  </div>
+</div>
