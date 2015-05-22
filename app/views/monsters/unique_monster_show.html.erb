@@ -1,16 +1,21 @@
 <div class="ascending enhancing monster-wiki-list">
   <h3 class="monster-wiki-title">Monguard List</h3>
+  <input class="mon-wiki-search-field" id="keyword" name="keyword" type="text">
+  <input class="mon-wiki-search-but" name="commit" type="submit" value="Search">
+  <%= 
+    image_tag("remove-member.png", size: "22", class: "clear-wiki-mon-search-but")
+  %>
   <div class="monster-list">
     <% @unique_monsters.each do |u| %>
       <div class="wiki-monster-box"
-        data-name = "<%= u.name %>"
-        data-designer = "<%= u.designer %>"
-        data-rarity = "<%= u.rarity_type %>"
-        data-job = "<%= u.job_type %>"
-        data-skin = "<%= u.skin %>"
-        data-description = "<%= u.description %>"
-        style="<%= u.css_display_difference(current_user) %>">
-        <%= image_tag(u.avatar) %>
+          data-name = "<%= u.name %>"
+          data-designer = "<%= u.designer %>"
+          data-rarity = "<%= u.rarity_type %>"
+          data-job = "<%= u.job_type %>"
+          data-skin = "<%= u.skin %>"
+          data-description = "<%= u.description %>"
+          style="<%= u.css_display_difference(current_user) %>">
+        <%= image_tag(u.avatar, class: "wiki-monster-avatar") %>
         <p class="monster-number">No. <%= @unique_monsters.index(u) + 1 %></p>
       </div>
     <% end %>
@@ -20,17 +25,18 @@
   </h2>
   <div class="ascend-monster enhance-monster monster-viewing-box">
     <h4 class="monster-name">
-      <%= @unique_monsters[0].name %>
+      Monster Name
     </h4>
     <h4 class="monster-rarity-type">
-      <%= @unique_monsters[0].rarity_type %>
+      Rarity
     </h4>
     <h4 class="monster-job-type">
-      <%= @unique_monsters[0].job_type %>
+      Class
     </h4>
-    <%= image_tag(@unique_monsters[0].skin, class: "viewing-monster-skin") %>
+    <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/mon_skins/blue-bubbles-150px.png", 
+      class: "viewing-monster-skin") %>
     <p class="monster-description">
-      <%= @unique_monsters[0].description %>
+      Description
     </p>
     <h4 class="designer-title">
       Designer:
@@ -45,6 +51,9 @@
       <%= image_tag("https://s3-us-west-2.amazonaws.com/monbattle/images/facebook-share.png", 
         class: "facebook-share-logo", size: "20")%>
       Share
+    </button>
+    <button class="designer-filter-click">
+      More of <span class="designer-name-click">Adriana Crustaza</span>'s design     
     </button>
   </div>
 </div>

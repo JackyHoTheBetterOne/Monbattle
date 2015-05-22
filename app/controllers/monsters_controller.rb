@@ -68,9 +68,10 @@ class MonstersController < ApplicationController
   end
 
   def unique_monster_show
-    @unique_monsters = MonsterDecorator.collection(Monster.unique_monsters)
+    ids = MonsterSkin.search_by_designer(params[:designer]) if params[:designer]
+    @unique_monsters = MonsterDecorator.collection(Monster.unique_monsters.search(params[:search]).search_by_skin(ids))
     @number_owned = current_user.monster_unlocks.count 
-    @total_number = @unique_monsters.count
+    @total_number = Monster.unique_monsters.pluck(:id).count
     render layout: "facebook_landing"
   end
 

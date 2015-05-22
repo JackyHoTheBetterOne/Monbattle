@@ -8,6 +8,12 @@ document.addEventListener 'page:change', (event) ->
       description: document.getElementsByClassName("monster-description")[0],
       designer: document.getElementsByClassName("designer-name")[0],
       share_button: document.getElementsByClassName("wiki-mon-share")[0]
+      change_monlist: (response) ->
+        page = document.createElement('div')
+        page.innerHTML = response
+        component = page.getElementsByClassName("monster-list")[0]
+        document.getElementsByClassName("monster-list")[0].innerHTML = component.innerHTML
+        MON_WIKI.attach_viewing_event()
       monster_array: ->
         return document.getElementsByClassName("wiki-monster-box")
       attach_viewing_event: ->
@@ -36,6 +42,7 @@ document.addEventListener 'page:change', (event) ->
               share_button.setAttribute("data-caption", caption)
               message = "I am gaining happiness as I play Monbattle!"
               share_button.setAttribute("data-message", message)
+              document.getElementsByClassName("designer-name-click")[0].innerHTML = selected_mon.getAttribute("data-designer")
           i++
       attach_sharing_event: ->
         document.getElementsByClassName("wiki-mon-share")[0].addEventListener 'click', (event) ->
@@ -44,6 +51,40 @@ document.addEventListener 'page:change', (event) ->
           picture = this.getAttribute("data-picture")
           message = this.getAttribute("data-message")
           monbattleShare(caption, picture, message, showHome)
+      attach_search_event: ->
+        document.getElementsByClassName("mon-wiki-search-but")[0].addEventListener 'click', (event) ->
+          object = {
+            search: document.getElementById("keyword").value,
+          }
+          ajax_object = {
+            url: window.location.origin + "/monsters/unique_monster_show",
+            url_params: solveUrl(object),
+            method: "GET",
+            success_call: (response) ->
+              MON_WIKI.change_monlist(response)
+          }
+          ajax_insane_style(ajax_object)
+      attach_designer_filter: ->
+        document.getElementsByClassName("designer-filter-click")[0].addEventListener 'click', (event) ->
+          element = this
+          object = {
+            designer: MON_WIKI.designer.innerHTML
+          }
+          ajax_object = {
+            url: window.location.origin + "/monsters/unique_monster_show",
+            url_params: solveUrl(object),
+            method: "GET",
+            success_call: (response) ->
+              MON_WIKI.change_monlist(response)
+          }
+          ajax_insane_style(ajax_object)
+      attach_clear_search: ->
+        document.getElementsByClassName("clear-wiki-mon-search-but")[0].addEventListener 'click', (event) ->
+          document.getElementsByClassName("mon-wiki-search-field").value = ""
+          document.getElementsByClassName("mon-wiki-search-but")[0].click()
     }
     MON_WIKI.attach_viewing_event()
     MON_WIKI.attach_sharing_event()
+    MON_WIKI.attach_search_event()
+    MON_WIKI.attach_designer_filter()
+    MON_WIKI.attach_clear_search()

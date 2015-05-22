@@ -85,7 +85,6 @@ document.addEventListener 'page:change', (event) ->
         url_params: solveUrl(object),
         method: "GET",
         success_call: (response) ->
-          console.log(response)
           page = document.createElement('div')
           page.innerHTML = response
           component = page.getElementsByClassName("individual-listing")[0]

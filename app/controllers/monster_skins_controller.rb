@@ -56,7 +56,7 @@ class MonsterSkinsController < ApplicationController
   end
 
   def monster_skin_params
-    params.require(:monster_skin).permit(:avatar, :name, :portrait, :rarity_id, :former_name, {job_ids: []})
+    params.require(:monster_skin).permit(:avatar, :name, :portrait, :rarity_id, :painter, :former_name, {job_ids: []})
   end
 
 end

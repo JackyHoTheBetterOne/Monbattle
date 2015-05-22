@@ -134,6 +134,7 @@ window.onInvite = ->
 window.sendBrag = (caption, picture_url, name, callback) ->
   FB.ui {
     method: 'feed'
+    link: "https://apps.facebook.com/monbattle/"
     caption: caption
     picture: picture_url
     name: name

@@ -26,6 +26,10 @@ class MonsterSkin < ActiveRecord::Base
     where(id: @job_restricted_monster_skin_ids)
   }
 
+  scope :search_by_designer, -> (name) {
+    where(painter: name)
+  }
+
 
   def self.find_monster_skin_ids_through_skin_restriction(job_id)
     SkinRestriction.find_monster_skins_avail_for_job_id(job_id)

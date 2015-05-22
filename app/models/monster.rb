@@ -56,10 +56,15 @@ class Monster < ActiveRecord::Base
     where(evolved_from_id: 0, rarity_id: @rarity_id)
   }
 
-  scope :unique_monsters, -> {
+  scope :unique_monsters, -> () {
     joins(:rarity).where("rarities.name != 'admin' AND rarities.name != 'npc'")
   }
 
+  scope :search_by_skin, -> (ids) {
+    if ids
+      where(default_skin_id: ids)
+    end
+  }
 
   def self.base_mon
     where(evolved_from_id: 0)
@@ -151,10 +156,10 @@ class Monster < ActiveRecord::Base
       level_array << b.name.downcase
     end
     if self.evolved_from != nil
-      self.keywords = [name, description, self.job.name, self.element.name, self.evolved_from.name, self.evolved_from.name]
+      self.keywords = [name, description, self.job.name, self.rarity.name, self.element.name, self.evolved_from.name, self.evolved_from.name]
                         .map(&:downcase).concat([max_hp, summon_cost]).join(" ")
     else
-      self.keywords = [name, description, self.job.name, self.element.name]
+      self.keywords = [name, description, self.job.name, self.rarity.name, self.element.name]
                         .map(&:downcase).concat([max_hp, summon_cost]).join(" ")
     end
     self.keywords += level_array.join(" ")
