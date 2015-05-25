@@ -37,7 +37,7 @@ document.addEventListener 'page:change', (event) ->
                   else
                     viewing_box.innerHTML = selected_mon.getAttribute(attribute_name)
               )
-              share_button.setAttribute("data-picture", selected_mon.getAttribute("data-skin"))
+              share_button.setAttribute("data-picture", selected_mon.getAttribute("data-avatar"))
               caption = "I am looking at " + selected_mon.getAttribute("data-name") + " on Monbattle right now!"
               share_button.setAttribute("data-caption", caption)
               message = "I am gaining happiness as I play Monbattle!"
