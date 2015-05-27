@@ -1018,10 +1018,11 @@ window.outcome = ->
       loser = battle.players[1].username
       endgame_box = ".end-battle-box.winning"
     $(".next-scene").css("top", "10px")
+    seconds = if parseInt(seconds_taken) <= 5 then 300 else parseInt(seconds_taken)
     $.ajax
       url: "/battles/" + battle.id + outcome_url
       method: "get"
-      data: {round_taken: parseInt(battle.round), "muted": muted, time_taken: parseInt(seconds_taken)},
+      data: {round_taken: parseInt(battle.round), "muted": muted, time_taken: seconds},
       success: (response) ->
         setTimeout (->
           $.ajax
@@ -1031,7 +1032,7 @@ window.outcome = ->
               "victor": victor,
               "loser": loser,
               "round_taken": parseInt(battle.round),
-              "time_taken": parseInt(seconds_taken)
+              "time_taken": seconds
             }
         ), 750
         $(".message").html(response)
@@ -1156,12 +1157,10 @@ window.singleTargetAbilityAfterActionDisplay = ->
   turnOnCommandA()
   setTimeout (->
     toggleImg()
-    availableAbilities()
     flashEndButton()
   ), 1000
   setTimeout (->
     availableAbilities()
-    flashEndButton()
   ), 1500
 
 
